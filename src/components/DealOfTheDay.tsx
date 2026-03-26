@@ -1,0 +1,127 @@
+import { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { Zap, ExternalLink, TrendingDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { PLATFORMS } from '../data/platforms';
+
+interface Deal {
+  food: string;
+  icon: string;
+  platformId: string;
+  productName: string;
+  price: number;
+  originalPrice: number;
+  discount: number;
+  unit: string;
+}
+
+// Seeded deals – rotate based on day-of-month so they change daily
+const ALL_DEALS: Deal[] = [
+  { food: 'tomato',    icon: '🍅', platformId: 'zepto',     productName: 'Tomato Hybrid',          price: 38,  originalPrice: 65,  discount: 42, unit: '1 kg' },
+  { food: 'milk',      icon: '🥛', platformId: 'jiomart',   productName: 'Full Cream Milk 1L',      price: 56,  originalPrice: 72,  discount: 22, unit: '1 L'  },
+  { food: 'eggs',      icon: '🥚', platformId: 'bigbasket', productName: 'Fresho Brown Eggs',       price: 58,  originalPrice: 80,  discount: 28, unit: '6 pcs'},
+  { food: 'paneer',    icon: '🧀', platformId: 'blinkit',   productName: 'Amul Fresh Paneer 200g',  price: 72,  originalPrice: 95,  discount: 24, unit: '200g' },
+  { food: 'chicken',   icon: '🍗', platformId: 'zepto',     productName: 'Chicken Boneless 500g',   price: 199, originalPrice: 265, discount: 25, unit: '500g' },
+  { food: 'rice',      icon: '🍚', platformId: 'jiomart',   productName: 'India Gate Classic 1kg',  price: 118, originalPrice: 158, discount: 25, unit: '1 kg' },
+  { food: 'banana',    icon: '🍌', platformId: 'swiggy',    productName: 'Bangalore Banana 6pcs',   price: 28,  originalPrice: 49,  discount: 43, unit: '6 pcs'},
+  { food: 'dal',       icon: '🫘', platformId: 'bigbasket', productName: 'Toor Dal Premium 1kg',    price: 108, originalPrice: 155, discount: 30, unit: '1 kg' },
+  { food: 'bread',     icon: '🍞', platformId: 'zepto',     productName: 'Britannia Atta 400g',     price: 30,  originalPrice: 42,  discount: 29, unit: '400g' },
+  { food: 'butter',    icon: '🧈', platformId: 'blinkit',   productName: 'Amul Butter 100g',        price: 48,  originalPrice: 58,  discount: 17, unit: '100g' },
+  { food: 'apple',     icon: '🍎', platformId: 'jiomart',   productName: 'Shimla Apple 4pcs',       price: 115, originalPrice: 165, discount: 30, unit: '4 pcs'},
+  { food: 'oil',       icon: '🫙', platformId: 'swiggy',    productName: 'Fortune Sunflower 1L',    price: 115, originalPrice: 152, discount: 24, unit: '1 L'  },
+];
+
+const DealOfTheDay = () => {
+  // Rotate 5 deals per day deterministically (changes at midnight)
+  const todayDeals = useMemo(() => {
+    const seed = new Date().getDate(); // 1–31
+    const offset = seed % ALL_DEALS.length;
+    const rotated = [...ALL_DEALS.slice(offset), ...ALL_DEALS.slice(0, offset)];
+    return rotated.slice(0, 5);
+  }, []);
+
+  return (
+    <section className="py-14 bg-gradient-to-b from-forest-900 to-forest-800">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Zap className="w-5 h-5 text-amber-400 animate-pulse" />
+              <span className="text-amber-400 font-bold text-sm uppercase tracking-widest">Today's Best Deals</span>
+            </div>
+            <h2 className="text-3xl font-black text-white font-display">Deal of the Day 🔥</h2>
+            <p className="text-forest-400 text-sm mt-1">Refreshes every day at midnight • Click to compare & buy</p>
+          </div>
+          <Link to="/compare" className="hidden sm:flex items-center gap-1 text-forest-300 hover:text-white text-sm border border-forest-700 hover:border-forest-500 rounded-xl px-4 py-2 transition-all">
+            See all prices →
+          </Link>
+        </div>
+
+        {/* Deal Cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          {todayDeals.map((deal, idx) => {
+            const platform = PLATFORMS.find(p => p.id === deal.platformId);
+            if (!platform) return null;
+            const buyUrl = platform.searchUrl(deal.food);
+
+            return (
+              <motion.div
+                key={deal.food + idx}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="bg-forest-800 hover:bg-forest-750 border border-forest-700 hover:border-forest-500 rounded-2xl p-4 flex flex-col gap-3 group transition-all cursor-pointer"
+              >
+                {/* Discount badge */}
+                <div className="flex items-start justify-between">
+                  <span className="text-3xl">{deal.icon}</span>
+                  <span className="bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-full">
+                    -{deal.discount}%
+                  </span>
+                </div>
+
+                {/* Info */}
+                <div className="flex-1">
+                  <p className="text-white font-bold text-sm leading-tight mb-0.5">{deal.productName}</p>
+                  <p className="text-forest-400 text-xs">{deal.unit}</p>
+                </div>
+
+                {/* Price */}
+                <div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-amber-400 font-black text-xl">₹{deal.price}</span>
+                    <span className="text-forest-500 text-xs line-through">₹{deal.originalPrice}</span>
+                  </div>
+                  <div className="flex items-center gap-1 mt-0.5">
+                    <span className="text-forest-300 text-xs">{platform.logo} {platform.name}</span>
+                    <span className="text-forest-500 text-xs">• {platform.deliveryTime}</span>
+                  </div>
+                </div>
+
+                {/* Buy Button */}
+                <a
+                  href={buyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2 bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                  onClick={e => e.stopPropagation()}
+                >
+                  Buy Now <ExternalLink className="w-3 h-3" />
+                </a>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Savings ticker */}
+        <div className="mt-8 flex items-center justify-center gap-3 text-forest-500 text-xs">
+          <TrendingDown className="w-4 h-4 text-moss-400" />
+          <span>Users saved an average of <strong className="text-moss-400">₹187</strong> this week by comparing prices on Fantastic Food</span>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default DealOfTheDay;

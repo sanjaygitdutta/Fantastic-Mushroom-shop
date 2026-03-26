@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core Pages -->
+  <url><loc>https://fantasticfood.in/</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://fantasticfood.in/compare</loc><lastmod>2026-03-26</lastmod><changefreq>always</changefreq><priority>0.95</priority></url>
+  <url><loc>https://fantasticfood.in/mushroom-shop</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fantasticfood.in/recipes</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fantasticfood.in/about</loc><lastmod>2026-03-26</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://fantasticfood.in/basket</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/meal-calculator</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- ── VEGETABLES ── -->
+  <url><loc>https://fantasticfood.in/food/onion</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fantasticfood.in/food/tomato</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fantasticfood.in/food/potato</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fantasticfood.in/food/spinach</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/food/carrot</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/food/capsicum</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/food/cucumber</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/food/ladyfinger</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/food/brinjal</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/food/mushroom</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+
+  <!-- ── FRUITS ── -->
+  <url><loc>https://fantasticfood.in/food/banana</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.88</priority></url>
+  <url><loc>https://fantasticfood.in/food/apple</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.88</priority></url>
+  <url><loc>https://fantasticfood.in/food/mango</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.88</priority></url>
+  <url><loc>https://fantasticfood.in/food/grapes</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/food/papaya</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.82</priority></url>
+
+  <!-- ── DAIRY & EGGS ── -->
+  <url><loc>https://fantasticfood.in/food/milk</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.92</priority></url>
+  <url><loc>https://fantasticfood.in/food/eggs</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.92</priority></url>
+  <url><loc>https://fantasticfood.in/food/paneer</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fantasticfood.in/food/butter</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.88</priority></url>
+  <url><loc>https://fantasticfood.in/food/curd</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.88</priority></url>
+  <url><loc>https://fantasticfood.in/food/cheese</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+
+  <!-- ── MEAT & SEAFOOD ── -->
+  <url><loc>https://fantasticfood.in/food/chicken</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.92</priority></url>
+  <url><loc>https://fantasticfood.in/food/fish</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.88</priority></url>
+  <url><loc>https://fantasticfood.in/food/prawn</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+
+  <!-- ── GRAINS & PULSES ── -->
+  <url><loc>https://fantasticfood.in/food/rice</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fantasticfood.in/food/dal</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.88</priority></url>
+  <url><loc>https://fantasticfood.in/food/flour</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+
+  <!-- ── BAKERY ── -->
+  <url><loc>https://fantasticfood.in/food/bread</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.88</priority></url>
+
+  <!-- ── PACKAGED FOODS ── -->
+  <url><loc>https://fantasticfood.in/food/pasta</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fantasticfood.in/food/noodles</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://fantasticfood.in/food/chips</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fantasticfood.in/food/oil</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://fantasticfood.in/food/sugar</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fantasticfood.in/food/salt</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.78</priority></url>
+
+  <!-- ── BEVERAGES ── -->
+  <url><loc>https://fantasticfood.in/food/tea</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://fantasticfood.in/food/coffee</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://fantasticfood.in/food/juice</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- ── SWEETS ── -->
+  <url><loc>https://fantasticfood.in/food/chocolate</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fantasticfood.in/food/icecream</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.78</priority></url>
+
+</urlset>

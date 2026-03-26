@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Cart from './components/Cart';
-import AIChatWidget from './components/AIChatWidget';
+import AIAssistant from './components/AIAssistant';
 import VoiceAssistant from './components/VoiceAssistant';
 import Footer from './components/Footer';
 import { WishlistProvider } from './context/WishlistContext';
@@ -12,6 +12,8 @@ import { Mic } from 'lucide-react';
 
 // Lazy load all pages for code splitting
 const Home = lazy(() => import('./pages/Home'));
+const Compare = lazy(() => import('./pages/Compare'));
+const MushroomShop = lazy(() => import('./pages/MushroomShop'));
 const Login = lazy(() => import('./pages/Login'));
 const Signup = lazy(() => import('./pages/Signup'));
 const CreateProfile = lazy(() => import('./pages/CreateProfile'));
@@ -23,16 +25,9 @@ const Subscription = lazy(() => import('./pages/Subscription'));
 const Recipes = lazy(() => import('./pages/Recipes'));
 const RecipeDetails = lazy(() => import('./pages/RecipeDetails'));
 const About = lazy(() => import('./pages/About'));
-
-// Category Pages
-const FreshMushrooms = lazy(() => import('./pages/categories/FreshMushrooms'));
-const DriedMushrooms = lazy(() => import('./pages/categories/DriedMushrooms'));
-const SnacksReadyToEat = lazy(() => import('./pages/categories/SnacksReadyToEat'));
-const ReadyToCook = lazy(() => import('./pages/categories/ReadyToCook'));
-const SpicesSauces = lazy(() => import('./pages/categories/SpicesSauces'));
-const GrowLearn = lazy(() => import('./pages/categories/GrowLearn'));
-const GiftsBundles = lazy(() => import('./pages/categories/GiftsBundles'));
-const MerchFun = lazy(() => import('./pages/categories/MerchFun'));
+const FoodItemPage = lazy(() => import('./pages/FoodItemPage'));
+const BasketCalculator = lazy(() => import('./pages/BasketCalculator'));
+const MealCostCalculator = lazy(() => import('./pages/MealCostCalculator'));
 
 // Admin Pages
 const AdminRoute = lazy(() => import('./pages/admin/AdminRoute'));
@@ -45,10 +40,10 @@ const ManageSubscriptions = lazy(() => import('./pages/admin/ManageSubscriptions
 
 // Loading component
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-mushroom-50">
+  <div className="min-h-screen flex items-center justify-center bg-cream-100">
     <div className="text-center">
       <div className="w-16 h-16 border-4 border-forest-200 border-t-forest-600 rounded-full animate-spin mx-auto mb-4"></div>
-      <p className="text-mushroom-600 font-medium">Loading...</p>
+      <p className="text-forest-600 font-medium">Loading...</p>
     </div>
   </div>
 );
@@ -66,7 +61,10 @@ function App() {
             <div className="flex-grow">
               <Suspense fallback={<PageLoader />}>
                 <Routes>
+                  {/* Public Routes */}
                   <Route path="/" element={<Home />} />
+                  <Route path="/compare" element={<Compare />} />
+                  <Route path="/mushroom-shop" element={<MushroomShop />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/create-profile" element={<CreateProfile />} />
@@ -78,16 +76,9 @@ function App() {
                   <Route path="/recipes" element={<Recipes />} />
                   <Route path="/recipes/:id" element={<RecipeDetails />} />
                   <Route path="/about" element={<About />} />
-
-                  {/* Category Pages */}
-                  <Route path="/category/fresh" element={<FreshMushrooms />} />
-                  <Route path="/category/dried" element={<DriedMushrooms />} />
-                  <Route path="/category/snacks" element={<SnacksReadyToEat />} />
-                  <Route path="/category/ready-to-cook" element={<ReadyToCook />} />
-                  <Route path="/category/spices" element={<SpicesSauces />} />
-                  <Route path="/category/grow-learn" element={<GrowLearn />} />
-                  <Route path="/category/gifts" element={<GiftsBundles />} />
-                  <Route path="/category/merch" element={<MerchFun />} />
+                  <Route path="/food/:item" element={<FoodItemPage />} />
+                  <Route path="/basket" element={<BasketCalculator />} />
+                  <Route path="/meal-calculator" element={<MealCostCalculator />} />
 
                   {/* Admin Routes */}
                   <Route element={<AdminRoute />}>
@@ -104,19 +95,17 @@ function App() {
             </div>
             <Cart />
             <Footer />
-            <AIChatWidget />
+            <AIAssistant />
 
             {/* Alexa-style Voice Assistant Floating Button */}
             <button
               onClick={() => setShowVoiceAssistant(true)}
-              className="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40 group"
-              title="Shroom - AI Voice Assistant"
+              className="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-br from-amber-400 to-amber-500 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40 group border-2 border-white"
+              title="Voice Search"
             >
-              <Mic className="w-8 h-8 text-white" />
+              <Mic className="w-8 h-8 text-forest-900" />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse border-2 border-white"></span>
-
-              {/* Pulsing ring animation */}
-              <span className="absolute inset-0 rounded-full bg-blue-400 opacity-75 animate-ping"></span>
+              <span className="absolute inset-0 rounded-full bg-amber-400 opacity-75 animate-ping"></span>
             </button>
 
             {/* Voice Assistant Modal */}

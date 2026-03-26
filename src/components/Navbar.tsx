@@ -1,209 +1,258 @@
 import { useState } from 'react';
-import { ShoppingBasket, Menu, Search, User, ChevronDown, X, ArrowRight } from 'lucide-react';
+import { Menu, Search, User, ChevronDown, X, ArrowRight, Leaf } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { products } from '../data/products';
+import { ShoppingBasket } from 'lucide-react';
+import { POPULAR_SEARCHES, FOOD_CATEGORIES } from '../data/mockPrices';
 
 const Navbar = () => {
-    const { setIsCartOpen, cartCount } = useCart();
-    const [isShopOpen, setIsShopOpen] = useState(false);
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const navigate = useNavigate();
+  const { setIsCartOpen, cartCount } = useCart();
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
-    // Filter products based on search query
-    const searchResults = searchQuery.length > 1
-        ? products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase()))
-        : [];
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    navigate(`/compare?q=${encodeURIComponent(searchQuery.trim())}`);
+    setIsSearchOpen(false);
+    setSearchQuery('');
+  };
 
-    const handleSearchNavigate = () => {
-        setIsSearchOpen(false);
-        setSearchQuery('');
+  const handleQuickSearch = (q: string) => {
+    navigate(`/compare?q=${encodeURIComponent(q)}`);
+    setIsSearchOpen(false);
+    setIsMobileOpen(false);
+    setSearchQuery('');
+  };
 
-        const element = document.getElementById('products');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            navigate('/');
-            setTimeout(() => {
-                document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
-            }, 500);
-        }
-    };
+  return (
+    <>
+      <nav className="fixed w-full z-50 bg-forest-900/95 backdrop-blur-md border-b border-forest-700/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-18 py-3">
 
-    const categories = [
-        { name: 'Fresh Mushrooms', link: '/category/fresh' },
-        { name: 'Dried Mushrooms', link: '/category/dried' },
-        { name: 'Snacks & Ready-to-Eat', link: '/category/snacks' },
-        { name: 'Ready-to-Cook', link: '/category/ready-to-cook' },
-        { name: 'Spices & Sauces', link: '/category/spices' },
-        { name: 'Grow & Learn', link: '/category/grow-learn' },
-        { name: 'Gifts & Bundles', link: '/category/gifts' },
-        { name: 'Merch & Fun', link: '/category/merch' },
-    ];
+            {/* Logo */}
+            <Link to="/" className="flex-shrink-0 flex items-center gap-2.5">
+              <div className="w-9 h-9 bg-gradient-to-br from-forest-500 to-moss-500 rounded-xl flex items-center justify-center shadow-md">
+                <Leaf className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="text-lg font-black text-white font-display tracking-tight">
+                  Fantastic<span className="text-amber-400">Food</span>
+                </span>
+                <span className="text-[10px] text-forest-400 font-medium tracking-wider uppercase">
+                  fantasticfood.in
+                </span>
+              </div>
+            </Link>
 
-    return (
-        <>
-            <nav className="fixed w-full z-50 bg-mushroom-100/80 backdrop-blur-md border-b border-mushroom-300/30">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-20">
-                        {/* Logo */}
-                        <Link to="/" className="flex-shrink-0 flex items-center cursor-pointer">
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                            >
-                                <span className="text-2xl font-bold text-forest-700 tracking-tight flex items-center gap-2">
-                                    🍄 Fantastic<span className="text-mushroom-500">Mushroom</span>
-                                </span>
-                            </motion.div>
-                        </Link>
-
-                        {/* Desktop Menu */}
-                        <div className="hidden md:flex items-center space-x-8">
-                            {/* Shop Dropdown */}
-                            <div
-                                className="relative group"
-                                onMouseEnter={() => setIsShopOpen(true)}
-                                onMouseLeave={() => setIsShopOpen(false)}
-                            >
-                                <button className="flex items-center text-mushroom-900 hover:text-forest-500 transition-colors font-medium focus:outline-none">
-                                    Shop <ChevronDown className="w-4 h-4 ml-1" />
-                                </button>
-                                <AnimatePresence>
-                                    {isShopOpen && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: 10 }}
-                                            className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-mushroom-100 overflow-hidden py-2"
-                                        >
-                                            {categories.map((cat) => (
-                                                <Link
-                                                    key={cat.name}
-                                                    to={cat.link}
-                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-mushroom-50 hover:text-forest-600"
-                                                >
-                                                    {cat.name}
-                                                </Link>
-                                            ))}
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-
-                            <Link to="/subscription" className="text-mushroom-900 hover:text-forest-500 transition-colors font-medium">
-                                Subscription
-                            </Link>
-                            <Link to="/recipes" className="text-mushroom-900 hover:text-forest-500 transition-colors font-medium">
-                                Recipes
-                            </Link>
-                            <Link to="/b2b" className="text-mushroom-900 hover:text-forest-500 transition-colors font-medium">
-                                B2B / Bulk
-                            </Link>
-                            <Link to="/about" className="text-mushroom-900 hover:text-forest-500 transition-colors font-medium">
-                                About Us
-                            </Link>
-                        </div>
-
-                        {/* Icons */}
-                        <div className="flex items-center space-x-6">
-                            <Link to="/login">
-                                <User className="w-5 h-5 text-mushroom-700 cursor-pointer hover:text-forest-500 transition-colors" />
-                            </Link>
-                            <button onClick={() => setIsSearchOpen(true)} className="focus:outline-none">
-                                <Search className="w-5 h-5 text-mushroom-700 cursor-pointer hover:text-forest-500 transition-colors" />
-                            </button>
-                            <div
-                                className="relative cursor-pointer group"
-                                onClick={() => setIsCartOpen(true)}
-                            >
-                                <ShoppingBasket className="w-6 h-6 text-mushroom-700 group-hover:text-forest-500 transition-colors" />
-                                {cartCount > 0 && (
-                                    <span className="absolute -top-2 -right-2 bg-forest-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                                        {cartCount}
-                                    </span>
-                                )}
-                            </div>
-                            <Menu className="md:hidden w-6 h-6 text-mushroom-700 cursor-pointer" />
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            {/* Search Overlay */}
-            <AnimatePresence>
-                {isSearchOpen && (
+            {/* Desktop nav */}
+            <div className="hidden md:flex items-center gap-1">
+              {/* Categories dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setIsCategoryOpen(true)}
+                onMouseLeave={() => setIsCategoryOpen(false)}
+              >
+                <button className="flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+                  Categories <ChevronDown className={`w-4 h-4 transition-transform ${isCategoryOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {isCategoryOpen && (
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-start justify-center pt-24 px-4"
-                        onClick={() => setIsSearchOpen(false)}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      className="absolute left-0 mt-1 w-72 bg-white rounded-2xl shadow-2xl border border-forest-100 overflow-hidden p-3"
                     >
-                        <motion.div
-                            initial={{ y: -20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -20, opacity: 0 }}
-                            className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden"
-                            onClick={e => e.stopPropagation()}
-                        >
-                            <div className="p-4 border-b border-gray-100 flex items-center gap-3">
-                                <Search className="w-5 h-5 text-gray-400" />
-                                <input
-                                    type="text"
-                                    placeholder="Search for mushrooms, kits, or recipes..."
-                                    className="flex-1 text-lg outline-none text-gray-800 placeholder-gray-400"
-                                    value={searchQuery}
-                                    onChange={e => setSearchQuery(e.target.value)}
-                                    autoFocus
-                                />
-                                <button
-                                    onClick={() => setIsSearchOpen(false)}
-                                    className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-                                >
-                                    <X className="w-5 h-5 text-gray-500" />
-                                </button>
-                            </div>
-
-                            {/* Search Results */}
-                            {searchQuery.length > 1 && (
-                                <div className="max-h-[60vh] overflow-y-auto p-2">
-                                    {searchResults.length > 0 ? (
-                                        <div className="space-y-1">
-                                            {searchResults.map(product => (
-                                                <button
-                                                    key={product.id}
-                                                    onClick={() => handleSearchNavigate()}
-                                                    className="w-full flex items-center gap-4 p-3 hover:bg-mushroom-50 rounded-xl transition-colors text-left group"
-                                                >
-                                                    <img
-                                                        src={product.image}
-                                                        alt={product.name}
-                                                        className="w-12 h-12 rounded-lg object-cover bg-gray-100"
-                                                    />
-                                                    <div className="flex-1">
-                                                        <h4 className="font-medium text-gray-900 group-hover:text-forest-700">{product.name}</h4>
-                                                        <p className="text-sm text-gray-500 capitalize">{product.category}</p>
-                                                    </div>
-                                                    <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-forest-500 opacity-0 group-hover:opacity-100 transition-all" />
-                                                </button>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="p-8 text-center text-gray-500">
-                                            <p>No results found for "{searchQuery}"</p>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </motion.div>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {FOOD_CATEGORIES.map((cat) => (
+                          <button
+                            key={cat.label}
+                            onClick={() => cat.special ? navigate('/mushroom-shop') : handleQuickSearch(cat.query)}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors text-left ${
+                              cat.special
+                                ? 'bg-earth-50 hover:bg-earth-100 text-earth-700 font-semibold'
+                                : 'hover:bg-forest-50 text-forest-700'
+                            }`}
+                          >
+                            <span>{cat.icon}</span>
+                            <span className="truncate">{cat.label}</span>
+                          </button>
+                        ))}
+                      </div>
                     </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <Link to="/compare" className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+                Compare
+              </Link>
+              <Link to="/basket" className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+                🛒 Basket
+              </Link>
+              <Link to="/meal-calculator" className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+                🍳 Meal Cost
+              </Link>
+              <Link to="/mushroom-shop" className="flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+                🍄 Mushroom Shop
+              </Link>
+              <Link to="/recipes" className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+                Recipes
+              </Link>
+            </div>
+
+            {/* Right icons */}
+            <div className="flex items-center gap-2">
+              {/* Search icon */}
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+
+              {/* User */}
+              <Link to="/login" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white">
+                <User className="w-5 h-5" />
+              </Link>
+
+              {/* Cart (mushroom shop only) */}
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white"
+              >
+                <ShoppingBasket className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-amber-500 text-forest-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
                 )}
-            </AnimatePresence>
-        </>
-    );
+              </button>
+
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setIsMobileOpen(!isMobileOpen)}
+                className="md:hidden p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white"
+              >
+                {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Search overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-start justify-center pt-24 px-4"
+            onClick={() => setIsSearchOpen(false)}
+          >
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <form onSubmit={handleSearch} className="p-4 border-b border-gray-100 flex items-center gap-3">
+                <Search className="w-5 h-5 text-forest-500" />
+                <input
+                  type="text"
+                  placeholder="Search any food to compare prices..."
+                  className="flex-1 text-lg outline-none text-forest-900 placeholder-forest-400"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                />
+                {searchQuery && (
+                  <button type="button" onClick={() => setSearchQuery('')} className="p-1 hover:bg-gray-100 rounded-full">
+                    <X className="w-4 h-4 text-gray-400" />
+                  </button>
+                )}
+                <button type="submit" className="btn-forest py-2 px-4 text-sm">
+                  Search
+                </button>
+              </form>
+              <div className="p-4">
+                <p className="text-xs text-forest-500 uppercase font-semibold tracking-wider mb-3">Popular Searches</p>
+                <div className="flex flex-wrap gap-2">
+                  {POPULAR_SEARCHES.map((item) => (
+                    <button
+                      key={item.query}
+                      onClick={() => handleQuickSearch(item.query)}
+                      className="badge-category"
+                    >
+                      {item.icon} {item.label} <ArrowRight className="w-3 h-3" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {isMobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed top-[60px] left-0 right-0 z-40 bg-forest-900 border-b border-forest-700 md:hidden"
+          >
+            <div className="px-4 py-5 space-y-2">
+              <Link to="/" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+                🏠 Home
+              </Link>
+              <Link to="/compare" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+                ⚖️ Compare Prices
+              </Link>
+              <Link to="/basket" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+                🛒 Basket Calculator
+              </Link>
+              <Link to="/meal-calculator" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+                🍳 Meal Cost Calculator
+              </Link>
+              <Link to="/mushroom-shop" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+                🍄 Mushroom Shop
+              </Link>
+              <Link to="/recipes" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+                📖 Recipes
+              </Link>
+              <Link to="/about" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium">
+                ℹ️ About
+              </Link>
+              <div className="pt-4 pb-2">
+                <p className="text-xs text-forest-400 uppercase tracking-wider mb-3">Quick Compare</p>
+                <div className="flex flex-wrap gap-2">
+                  {POPULAR_SEARCHES.slice(0, 6).map((item) => (
+                    <button
+                      key={item.query}
+                      onClick={() => handleQuickSearch(item.query)}
+                      className="text-sm bg-forest-800 text-cream-300 border border-forest-700 px-3 py-1.5 rounded-full hover:bg-forest-700 transition-colors"
+                    >
+                      {item.icon} {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
 };
 
 export default Navbar;

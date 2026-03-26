@@ -1,8 +1,142 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --forest-deep: #0F2419;
+  --forest: #1A3C2B;
+  --forest-mid: #2D9B65;
+  --moss: #52B788;
+  --amber: #D6AD60;
+  --cream: #FEFAE0;
+  --cream-dark: #FDF3C0;
+  --earth: #7F5539;
+  --shadow-green: rgba(26, 60, 43, 0.15);
+}
 
 @layer base {
   body {
-    @apply bg-mushroom-100 text-mushroom-900 font-sans antialiased;
+    @apply bg-cream-100 text-forest-900 font-sans antialiased;
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231A3C2B' fill-opacity='0.025'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  * {
+    scroll-behavior: smooth;
   }
 }
+
+@layer components {
+  /* Glass card - earthy green */
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-sm border border-forest-200/50 rounded-2xl shadow-sm;
+  }
+
+  .glass-card-dark {
+    @apply bg-forest-900/80 backdrop-blur-sm border border-forest-700/40 rounded-2xl shadow-lg;
+  }
+
+  /* Platform price card */
+  .platform-card {
+    @apply bg-white border border-forest-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-forest-300 transition-all duration-300;
+  }
+
+  .platform-card-best {
+    @apply bg-gradient-to-br from-forest-50 to-moss-50 border-2 border-forest-500 rounded-2xl p-5 shadow-md;
+  }
+
+  /* CTA button - amber */
+  .btn-amber {
+    @apply bg-amber-500 hover:bg-amber-600 text-forest-900 font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg active:scale-95;
+  }
+
+  /* CTA button - forest green */
+  .btn-forest {
+    @apply bg-forest-800 hover:bg-forest-700 text-cream-100 font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg active:scale-95;
+  }
+
+  .btn-outline {
+    @apply border-2 border-forest-700 text-forest-800 hover:bg-forest-50 font-semibold px-6 py-3 rounded-full transition-all duration-300;
+  }
+
+  /* Skeleton shimmer loading */
+  .skeleton {
+    @apply rounded-xl;
+    background: linear-gradient(90deg, #e0ede5 25%, #c5dccb 50%, #e0ede5 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Search bar */
+  .search-bar {
+    @apply w-full bg-white border-2 border-forest-200 focus-within:border-forest-500 rounded-2xl shadow-lg transition-all duration-300;
+  }
+
+  /* Badge */
+  .badge-best {
+    @apply inline-flex items-center gap-1 bg-forest-600 text-white text-xs font-bold px-3 py-1 rounded-full;
+  }
+
+  .badge-discount {
+    @apply inline-flex items-center bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-md;
+  }
+
+  .badge-category {
+    @apply inline-flex items-center gap-2 bg-forest-50 border border-forest-200 text-forest-700 text-sm font-medium px-4 py-2 rounded-full hover:bg-forest-100 transition-colors cursor-pointer;
+  }
+
+  /* Section headings */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-forest-900 font-display;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-forest-600 max-w-2xl;
+  }
+
+  /* Navbar */
+  .nav-link {
+    @apply text-forest-800 hover:text-forest-500 transition-colors font-medium text-sm;
+  }
+
+  /* Price tag */
+  .price-current {
+    @apply text-2xl font-bold text-forest-900;
+  }
+
+  .price-original {
+    @apply text-sm text-gray-400 line-through;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t border-forest-100 my-8;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float { animation: float 5s ease-in-out infinite; }
+.animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--moss); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--forest); }
