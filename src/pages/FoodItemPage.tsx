@@ -84,7 +84,14 @@ const FoodItemPage = () => {
 
       {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-4 mb-6">
-        <nav className="text-sm text-forest-500" aria-label="breadcrumb">
+        <nav className="text-sm text-forest-500" aria-label="breadcrumb">to line 10 of
+
+          index.html
+          where it says REPLACE_WITH_YOUR_GOOGLE_SEARCH_CONSOLE_TOKEN, deploy the site to Vercel one more time, and hit "Verify" in Google Console!
+          Once it's verified, you can submit the
+
+          sitemap.xml
+          URL we just created so Google can start indexing all your new food pages right away.
           <Link to="/" className="hover:text-forest-700">Home</Link>
           {' → '}
           <Link to="/compare" className="hover:text-forest-700">Compare Prices</Link>
