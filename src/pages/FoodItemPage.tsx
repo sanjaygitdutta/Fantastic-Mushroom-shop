@@ -135,6 +135,14 @@ const FoodItemPage = () => {
         ) : (
           <p className="text-forest-600">No prices found. Try a different search.</p>
         )}
+
+        {/* Trust Disclaimer */}
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center mt-6">
+          <p className="text-amber-800 text-sm">
+            <span className="font-bold">⚠️ Note:</span> Prices shown above are estimated market averages. 
+            Prices vary rapidly based on your exact location and availability. Click the platform to see the final live price.
+          </p>
+        </div>
       </div>
 
       {/* FAQ Section — high-value SEO content */}
