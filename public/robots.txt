@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fantasticfood.in/sitemap.xml
+# Block dynamic search result pages — these are not real content pages
+Disallow: /compare?q=
+Disallow: /*?q=
+Disallow: /*?category=
+Disallow: /product/
+
+Sitemap: https://www.fantasticfood.in/sitemap.xml

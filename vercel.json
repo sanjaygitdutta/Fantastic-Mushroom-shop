@@ -5,6 +5,11 @@
       "has": [{ "type": "host", "value": "fantasticfood.in" }],
       "destination": "https://www.fantasticfood.in/:path*",
       "permanent": true
+    },
+    {
+      "source": "/product/:slug",
+      "destination": "/mushroom-shop",
+      "permanent": true
     }
   ],
   "rewrites": [
