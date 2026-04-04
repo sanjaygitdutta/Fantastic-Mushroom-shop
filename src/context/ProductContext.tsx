@@ -54,27 +54,31 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, []);
 
   const saveProducts = (newProducts: Product[]) => {
-    // Store images separately so the main JSON never overflows
+    // Store base64 images separately so the main JSON never overflows
     newProducts.forEach(p => {
       if (p.image && p.image.startsWith('data:')) {
         try {
           localStorage.setItem(`product_img_${p.id}`, p.image);
         } catch (e) {
-          console.error('Image too large even for individual key', e);
+          console.error('Image too large:', e);
         }
       }
     });
-    // Save product list without base64 blobs
+
+    // Save slim product list (swap base64 strings for placeholder keys)
     const slim = newProducts.map(p => ({
       ...p,
-      image: p.image.startsWith('data:') ? `__custom__${p.id}` : p.image
+      // Safe null check — prevents crash when image is undefined
+      image: (p.image && p.image.startsWith('data:')) ? `__custom__${p.id}` : (p.image || '')
     }));
+
     try {
       localStorage.setItem('mushroom_products', JSON.stringify(slim));
     } catch (e) {
-      console.error('Failed to save products list:', e);
+      console.error('Failed to save products to localStorage:', e);
     }
-    // Always update React state with full images so UI updates immediately
+
+    // Always update React state immediately — syncs same-tab views
     setProducts(newProducts);
   };
 
