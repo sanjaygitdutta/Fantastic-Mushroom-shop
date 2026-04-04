@@ -16,7 +16,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
     const isLiked = isInWishlist(product.id);
 
-    // Weight Selection State
+    // weight selection & stock detection
+    const isOutOfStock = product.stock === 0; // Only out of stock if EXPLICITLY set to 0 by admin
     const defaultWeight = product.weightOptions && product.weightOptions.length > 0 ? product.weightOptions[0] : undefined;
     const [selectedWeight, setSelectedWeight] = useState<number | undefined>(defaultWeight);
 
@@ -65,6 +66,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         
+        if (isOutOfStock) return;
+
         // Throw confetti from the button's position
         const rect = e.currentTarget.getBoundingClientRect();
         const cx = (rect.left + rect.width / 2) / window.innerWidth;
@@ -104,9 +107,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         src={product.image}
                         alt={product.name}
                         loading="lazy"
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        className={`w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 ${isOutOfStock ? 'grayscale opacity-60' : ''}`}
                     />
                 </Link>
+
+                {/* Out of Stock Overlay */}
+                {isOutOfStock && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <span className="bg-red-600 text-white font-black text-sm px-4 py-2 rounded-full uppercase tracking-widest shadow-lg">
+                            Out of Stock
+                        </span>
+                    </div>
+                )}
+
                 <div className="absolute top-3 right-3 flex gap-2 z-10">
                     <button
                         onClick={toggleWishlist}
@@ -159,10 +172,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
                 <button
                     onClick={handleAddToCart}
-                    className="w-full py-3 bg-mushroom-100 text-mushroom-900 font-semibold rounded-xl hover:bg-forest-900 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn relative overflow-hidden"
+                    disabled={isOutOfStock}
+                    className={`w-full py-3 font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                        isOutOfStock
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        : 'bg-mushroom-100 text-mushroom-900 hover:bg-forest-900 hover:text-white'
+                    }`}
                 >
                     <Plus className="w-4 h-4" />
-                    Add to Cart
+                    {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
                 </button>
             </div>
         </motion.div>
