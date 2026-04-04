@@ -34,12 +34,17 @@ const ProductEditor = ({
         if (!file) return;
 
         setIsUploading(true);
-        // Simulate upload - Replace with Supabase
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const mockUrl = URL.createObjectURL(file);
-        setUploadedImage(mockUrl);
-        onImageUpdate?.(mockUrl);
-        setIsUploading(false);
+        
+        // Convert to Base64 to persist in localStorage without a backend
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const base64String = reader.result as string;
+            setUploadedImage(base64String);
+            setImageUrlInput('Custom Upload'); // To update the text box visual
+            onImageUpdate?.(base64String);
+            setIsUploading(false);
+        };
+        reader.readAsDataURL(file);
     };
 
     const handlePriceSave = () => {
