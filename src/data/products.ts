@@ -21,7 +21,7 @@ export const products: Product[] = [
         name: 'Fresh Paddy Straw Mushrooms',
         description: 'Fresh, organic Paddy Straw mushrooms directly from our farm. Sweet, silky texture and distinct aroma.',
         price: 200, // <-- CHANGE PRICE HERE (e.g. 200 rupees)
-        image: '/paddy-straw.jpg', // <-- CHANGE IMAGE HERE (Upload your real image directly to the "public" folder and write its name here, e.g., "/my-image.jpg")
+        image: 'https://images.unsplash.com/photo-1595123550441-d377e017de6a?auto=format&fit=crop&q=80&w=800',
         category: 'fresh',
         rating: 4.8,
         weightOptions: [300, 500, 750, 1000, 2000], // 300g up to 2kg
@@ -33,7 +33,7 @@ export const products: Product[] = [
         name: 'White Oyster Mushrooms',
         description: 'Delicate and velvety White Oyster mushrooms. Farm fresh and 100% organic.',
         price: 150, // <-- CHANGE PRICE HERE
-        image: '/white-oyster.jpg', // <-- CHANGE IMAGE HERE (Upload your real image to the "public" folder)
+        image: 'https://images.unsplash.com/photo-1552010099-5dc86fcfaa38?q=80&w=1964&auto=format&fit=crop',
         category: 'fresh',
         rating: 4.7,
         weightOptions: [250, 500], // <-- CHANGE QUANTITY OPTIONS HERE
