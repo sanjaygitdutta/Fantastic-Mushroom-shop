@@ -20,15 +20,16 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (stored) {
       try {
         const parsed: Product[] = JSON.parse(stored);
-        // Restore any custom-uploaded images stored in separate keys
         const withImages = parsed.map(p => {
+          // Priority 1: admin-uploaded base64 image (stored separately)
           const customImg = localStorage.getItem(`product_img_${p.id}`);
           if (customImg) return { ...p, image: customImg };
-          // If placeholder, try to resolve from initial data
-          if (p.image === `__custom__${p.id}` || p.image === '') {
-            const initial = initialProducts.find(ip => ip.id === p.id);
-            return { ...p, image: initial?.image || p.image };
-          }
+
+          // Priority 2: Always use the LATEST image URL from products.ts
+          // This ensures any URL changes in the code auto-propagate to all visitors
+          const initial = initialProducts.find(ip => ip.id === p.id);
+          if (initial?.image) return { ...p, image: initial.image };
+
           return p;
         });
         setProducts(withImages);
@@ -37,7 +38,6 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
       }
     } else {
       setProducts(initialProducts);
-      // Save product list keeping original image paths (only base64 is stored separately)
       try { localStorage.setItem('mushroom_products', JSON.stringify(initialProducts)); } catch { /* ignore */ }
     }
   };
