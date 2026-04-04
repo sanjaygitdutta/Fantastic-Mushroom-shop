@@ -29,7 +29,7 @@ const mergeOverrides = (base: Product[], overrides: ProductOverride[]): Product[
       ...p,
       ...(o.stock !== null && o.stock !== undefined ? { stock: o.stock } : {}),
       ...(o.custom_image ? { image: o.custom_image } : {}),
-      ...(o.price !== null && o.price !== undefined ? { price: o.price } : {}),
+      ...(o.price !== null && o.price !== undefined ? { price: Number(o.price) } : {}),
     };
   });
 

@@ -64,23 +64,23 @@ const Products = () => {
                                         <td className="px-6 py-4 text-mushroom-600">{product.category}</td>
                                         <td className="px-6 py-4 font-medium text-mushroom-900">₹{product.price}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${(product.stock || 0) > 10 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${(product.stock ?? 15) > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                                                 }`}>
-                                                {product.stock || 0} in stock
+                                                {(product.stock ?? 15) > 0 ? 'In Stock' : 'Out of Stock'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2">
                                                 <button 
-                                                    onClick={() => toggleAvailability(product.id, product.stock || 0)}
-                                                    title={(product.stock || 0) > 0 ? "Mark Out of Stock" : "Mark Available"}
+                                                    onClick={() => toggleAvailability(product.id, product.stock ?? 15)}
+                                                    title={(product.stock ?? 15) > 0 ? "Mark Out of Stock" : "Mark Available"}
                                                     className={`px-3 py-1 text-xs rounded-lg transition-colors font-semibold border ${
-                                                        (product.stock || 0) > 0 
+                                                        (product.stock ?? 15) > 0 
                                                         ? 'border-orange-200 text-orange-600 hover:bg-orange-50' 
                                                         : 'border-green-200 text-green-600 hover:bg-green-50'
                                                     }`}
                                                 >
-                                                    {(product.stock || 0) > 0 ? 'Make Unavailable' : 'Make Available'}
+                                                    {(product.stock ?? 15) > 0 ? 'Make Unavailable' : 'Make Available'}
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(product.id)}
