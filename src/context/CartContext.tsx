@@ -25,8 +25,10 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Helper function to calculate price based on weight
 const calculateWeightPrice = (product: Product, weight: number): number => {
-    if (product.unit === 'grams' && product.weightOptions) {
-        return (product.price * weight) / 1000; // price per kg * (weight in grams / 1000)
+    if (product.unit === 'grams' && product.weightOptions && product.weightOptions.length > 0) {
+        const baseWeight = product.weightOptions[0]; // The smallest weight is the base for the price
+        const pricePerGram = product.price / baseWeight;
+        return pricePerGram * weight;
     }
     return product.price;
 };

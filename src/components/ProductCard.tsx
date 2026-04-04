@@ -1,3 +1,4 @@
+import React, { useState, useMemo } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Plus, Star, Heart } from 'lucide-react';
 import type { Product } from '../data/products';
@@ -14,6 +15,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const { addToCart } = useCart();
     const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
     const isLiked = isInWishlist(product.id);
+
+    // Weight Selection State
+    const defaultWeight = product.weightOptions && product.weightOptions.length > 0 ? product.weightOptions[0] : undefined;
+    const [selectedWeight, setSelectedWeight] = useState<number | undefined>(defaultWeight);
+
+    // Dynamic price calculation
+    const displayPrice = useMemo(() => {
+        if (product.unit === 'grams' && product.weightOptions && product.weightOptions.length > 0 && selectedWeight) {
+            const baseWeight = product.weightOptions[0];
+            return (product.price / baseWeight) * selectedWeight;
+        }
+        return product.price;
+    }, [product.price, product.unit, product.weightOptions, selectedWeight]);
 
     const toggleWishlist = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -65,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             zIndex: 100
         });
         
-        addToCart(product);
+        addToCart(product, selectedWeight);
     };
 
     return (
@@ -117,13 +131,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                             </h3>
                         </Link>
                         {product.weightOptions && product.weightOptions.length > 0 && (
-                            <div className="text-xs text-forest-700 mt-1.5 font-semibold bg-forest-50 border border-forest-100 px-2 py-1 rounded-md inline-block shadow-sm">
-                                Available in: {product.weightOptions.join(', ')} {product.unit || 'grams'}
+                            <div className="flex flex-wrap gap-1.5 mt-2">
+                                {product.weightOptions.map(weight => (
+                                    <button
+                                        key={weight}
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedWeight(weight); }}
+                                        className={`px-2 py-1 text-xs font-bold rounded-md border transition-all duration-200 ${
+                                            selectedWeight === weight 
+                                            ? 'bg-forest-600 text-white border-forest-600 shadow-sm transform scale-105' 
+                                            : 'bg-forest-50 text-forest-700 border-forest-200 hover:bg-forest-100 hover:border-forest-300'
+                                        }`}
+                                    >
+                                        {weight >= 1000 ? `${weight / 1000}kg` : `${weight}g`}
+                                    </button>
+                                ))}
                             </div>
                         )}
                     </div>
-                    <span className="text-lg font-bold text-forest-900">
-                        ₹{product.price}
+                    <span className="text-lg font-black text-forest-900 mt-1">
+                        ₹{Math.round(displayPrice)}
                     </span>
                 </div>
 

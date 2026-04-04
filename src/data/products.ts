@@ -24,7 +24,7 @@ export const products: Product[] = [
         image: '/paddy-straw.jpg', // <-- CHANGE IMAGE HERE (Upload your real image directly to the "public" folder and write its name here, e.g., "/my-image.jpg")
         category: 'fresh',
         rating: 4.8,
-        weightOptions: [300], // <-- CHANGE QUANTITY OPTIONS HERE (in grams. e.g. [200, 300, 500])
+        weightOptions: [300, 500, 750, 1000, 2000], // 300g up to 2kg
         allowCustomWeight: true,
         unit: 'grams',
     },
