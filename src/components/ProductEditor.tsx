@@ -34,15 +34,30 @@ const ProductEditor = ({
         if (!file) return;
 
         setIsUploading(true);
-        
-        // Convert to Base64 to persist in localStorage without a backend
+
+        // Compress image using canvas before storing in localStorage
         const reader = new FileReader();
         reader.onloadend = () => {
-            const base64String = reader.result as string;
-            setUploadedImage(base64String);
-            setImageUrlInput('Custom Upload'); // To update the text box visual
-            onImageUpdate?.(base64String);
-            setIsUploading(false);
+            const img = new Image();
+            img.onload = () => {
+                // Resize to max 800px width while maintaining aspect ratio
+                const MAX_WIDTH = 800;
+                const scale = Math.min(1, MAX_WIDTH / img.width);
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
+
+                const ctx = canvas.getContext('2d');
+                ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                // Compress to JPEG at 75% quality (~5-10x smaller than original)
+                const compressed = canvas.toDataURL('image/jpeg', 0.75);
+                setUploadedImage(compressed);
+                setImageUrlInput('Custom Upload');
+                onImageUpdate?.(compressed);
+                setIsUploading(false);
+            };
+            img.src = reader.result as string;
         };
         reader.readAsDataURL(file);
     };

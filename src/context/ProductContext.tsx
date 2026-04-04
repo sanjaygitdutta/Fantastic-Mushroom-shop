@@ -15,8 +15,7 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    // Load from local storage or fallback to initial hardcoded list
+  const loadFromStorage = () => {
     const stored = localStorage.getItem('mushroom_products');
     if (stored) {
       try {
@@ -28,6 +27,21 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setProducts(initialProducts);
       localStorage.setItem('mushroom_products', JSON.stringify(initialProducts));
     }
+  };
+
+  useEffect(() => {
+    loadFromStorage();
+
+    // Multi-tab sync: listen for changes made in other browser tabs
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'mushroom_products' && e.newValue) {
+        try {
+          setProducts(JSON.parse(e.newValue));
+        } catch { /* ignore parse errors */ }
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   const saveProducts = (newProducts: Product[]) => {
@@ -68,7 +82,12 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   if (products.length === 0) {
-      return null; // Render nothing during initial load
+    // Show a minimal loader while data hydrates from localStorage
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
+        <div className="w-12 h-12 border-4 border-forest-200 border-t-forest-600 rounded-full animate-spin" />
+      </div>
+    );
   }
 
   return (
