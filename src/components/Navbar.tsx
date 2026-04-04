@@ -3,16 +3,28 @@ import { Menu, Search, User, ChevronDown, X, ArrowRight, Leaf } from 'lucide-rea
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { ShoppingBasket } from 'lucide-react';
 import { POPULAR_SEARCHES, FOOD_CATEGORIES } from '../data/mockPrices';
 
 const Navbar = () => {
   const { setIsCartOpen, cartCount } = useCart();
+  const { isAuthenticated } = useAuth();
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
+  const prefetchRoute = (route: string) => {
+    switch (route) {
+      case '/compare': import('../pages/Compare'); break;
+      case '/basket': import('../pages/BasketCalculator'); break;
+      case '/meal-calculator': import('../pages/MealCostCalculator'); break;
+      case '/mushroom-shop': import('../pages/MushroomShop'); break;
+      case '/recipes': import('../pages/Recipes'); break;
+    }
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,9 +55,6 @@ const Navbar = () => {
               <div className="flex flex-col leading-none">
                 <span className="text-lg font-black text-white font-display tracking-tight">
                   Fantastic<span className="text-amber-400">Food</span>
-                </span>
-                <span className="text-[10px] text-forest-400 font-medium tracking-wider uppercase">
-                  fantasticfood.in
                 </span>
               </div>
             </Link>
@@ -90,19 +99,19 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
 
-              <Link to="/compare" className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              <Link to="/compare" onMouseEnter={() => prefetchRoute('/compare')} className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 Compare
               </Link>
-              <Link to="/basket" className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              <Link to="/basket" onMouseEnter={() => prefetchRoute('/basket')} className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 🛒 Basket
               </Link>
-              <Link to="/meal-calculator" className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              <Link to="/meal-calculator" onMouseEnter={() => prefetchRoute('/meal-calculator')} className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 🍳 Meal Cost
               </Link>
-              <Link to="/mushroom-shop" className="flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              <Link to="/mushroom-shop" onMouseEnter={() => prefetchRoute('/mushroom-shop')} className="flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 🍄 Mushroom Shop
               </Link>
-              <Link to="/recipes" className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              <Link to="/recipes" onMouseEnter={() => prefetchRoute('/recipes')} className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 Recipes
               </Link>
             </div>
@@ -118,9 +127,15 @@ const Navbar = () => {
               </button>
 
               {/* User */}
-              <Link to="/login" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white">
-                <User className="w-5 h-5" />
-              </Link>
+              {isAuthenticated ? (
+                <Link to="/profile" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white" title="My Profile">
+                  <User className="w-5 h-5" />
+                </Link>
+              ) : (
+                <Link to="/login" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white" title="Login">
+                  <User className="w-5 h-5" />
+                </Link>
+              )}
 
               {/* Cart (mushroom shop only) */}
               <button

@@ -8,6 +8,7 @@ import VoiceAssistant from './components/VoiceAssistant';
 import Footer from './components/Footer';
 import { WishlistProvider } from './context/WishlistContext';
 import { AuthProvider } from './context/AuthContext';
+import { ProductProvider } from './context/ProductContext';
 import { Mic } from 'lucide-react';
 
 // Lazy load all pages for code splitting
@@ -37,6 +38,7 @@ const Products = lazy(() => import('./pages/admin/Products'));
 const Orders = lazy(() => import('./pages/admin/Orders'));
 const ManageProducts = lazy(() => import('./pages/admin/ManageProducts'));
 const ManageSubscriptions = lazy(() => import('./pages/admin/ManageSubscriptions'));
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin')); // Isolated admin login
 
 // Loading component
 const PageLoader = () => (
@@ -53,8 +55,9 @@ function App() {
 
   return (
     <Router>
-      <AuthProvider>
-        <WishlistProvider>
+      <ProductProvider>
+        <AuthProvider>
+          <WishlistProvider>
           <div className="min-h-screen flex flex-col">
             <Toaster position="top-center" />
             <Navbar />
@@ -81,6 +84,7 @@ function App() {
                   <Route path="/meal-calculator" element={<MealCostCalculator />} />
 
                   {/* Admin Routes */}
+                  <Route path="/admin/login" element={<AdminLogin />} />
                   <Route element={<AdminRoute />}>
                     <Route path="/admin" element={<AdminLayout />}>
                       <Route index element={<Dashboard />} />
@@ -114,7 +118,8 @@ function App() {
             )}
           </div>
         </WishlistProvider>
-      </AuthProvider>
+       </AuthProvider>
+      </ProductProvider>
     </Router>
   );
 }

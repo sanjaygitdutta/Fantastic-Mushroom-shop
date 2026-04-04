@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { products } from '../../data/products';
+import { useProducts } from '../../context/ProductContext';
 import ProductEditor from '../../components/ProductEditor';
 import { Save, CheckCircle } from 'lucide-react';
 
 const ManageProducts = () => {
+    const { products, updateMultipleProducts } = useProducts();
     const [productUpdates, setProductUpdates] = useState<Record<string, { image?: string; price?: number }>>({});
     const [activeCategory, setActiveCategory] = useState<string>('all');
 
@@ -38,9 +39,9 @@ const ManageProducts = () => {
     };
 
     const handleSaveAll = () => {
-        console.log('Saving all updates:', productUpdates);
-        // Here you would save to Supabase/database
-        alert(`✅ ${Object.keys(productUpdates).length} products updated successfully!`);
+        updateMultipleProducts(productUpdates);
+        setProductUpdates({});
+        alert(`✅ ${Object.keys(productUpdates).length} products updated across the entire website successfully!`);
     };
 
     const hasChanges = Object.keys(productUpdates).length > 0;
@@ -99,6 +100,8 @@ const ManageProducts = () => {
                             productName={product.name}
                             currentImage={product.image}
                             currentPrice={product.price}
+                            currentWeightOptions={product.weightOptions}
+                            unit={product.unit}
                             onImageUpdate={(url) => handleImageUpdate(product.id, url)}
                             onPriceUpdate={(price) => handlePriceUpdate(product.id, price)}
                         />

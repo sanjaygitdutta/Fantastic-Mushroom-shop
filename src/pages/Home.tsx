@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, TrendingDown, Zap, Shield, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PriceSearchBar from '../components/PriceSearchBar';
@@ -55,6 +55,11 @@ const HOW_IT_WORKS = [
 ];
 
 const Home = () => {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 1000], [0, 300]);
+  const y2 = useTransform(scrollY, [0, 1000], [0, -300]);
+  const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
+
   return (
     <div className="min-h-screen">
       <SEO 
@@ -71,11 +76,11 @@ const Home = () => {
           style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='2' fill='%23FEFAE0' fill-opacity='0.4'/%3E%3C/svg%3E\")" }}
         />
 
-        {/* Floating blobs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-moss-500/20 rounded-full blur-3xl -z-10 animate-float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl -z-10 animate-float" style={{ animationDelay: '2s' }} />
+        {/* Floating blobs with Parallax */}
+        <motion.div style={{ y: y1 }} className="absolute top-20 left-10 w-72 h-72 bg-moss-500/20 rounded-full blur-3xl -z-10 animate-float" />
+        <motion.div style={{ y: y2 }} className="absolute bottom-20 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl -z-10 animate-float" />
 
-        <div className="max-w-5xl mx-auto text-center z-10">
+        <motion.div style={{ opacity: opacityText, y: useTransform(scrollY, [0, 400], [0, 100]) }} className="max-w-5xl mx-auto text-center z-10">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -86,16 +91,23 @@ const Home = () => {
             India's Smartest Food Price Comparator
           </motion.div>
 
-          {/* Headline */}
+          {/* Headline with Staggered Typing */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
             className="text-5xl md:text-7xl font-black text-white leading-tight mb-4 font-display"
           >
-            Compare Food Prices
+            <motion.span 
+              initial={{ backgroundPosition: '200% center' }}
+              animate={{ backgroundPosition: '-200% center' }}
+              transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
+              className="bg-clip-text text-transparent bg-gradient-to-r from-white via-cream-200 to-white bg-[length:200%_auto]"
+            >
+              Compare Food Prices
+            </motion.span>
             <br />
-            <span className="text-amber-400">Save More</span>{' '}
+            <span className="text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.3)]">Save More</span>{' '}
             <span className="text-cream-300">Every Day</span>
           </motion.h1>
 
@@ -156,7 +168,7 @@ const Home = () => {
               </div>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Scroll indicator */}
         <motion.div
@@ -203,9 +215,13 @@ const Home = () => {
                 {i < 2 && (
                   <div className="hidden md:block absolute top-10 left-[58%] w-[38%] border-t-2 border-dashed border-forest-200" />
                 )}
-                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-forest-50 to-moss-100 border border-forest-200 text-4xl flex items-center justify-center mx-auto mb-5 shadow-sm">
+                <motion.div 
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.6, type: "spring" }}
+                  className="w-20 h-20 rounded-3xl bg-gradient-to-br from-forest-50 to-moss-100 border border-forest-200 text-4xl flex items-center justify-center mx-auto mb-5 shadow-sm"
+                >
                   {step.icon}
-                </div>
+                </motion.div>
                 <div className="text-xs font-bold text-forest-500 uppercase tracking-widest mb-2">Step {step.step}</div>
                 <h3 className="text-lg font-bold text-forest-900 mb-2 font-display">{step.title}</h3>
                 <p className="text-forest-600 text-sm leading-relaxed">{step.desc}</p>

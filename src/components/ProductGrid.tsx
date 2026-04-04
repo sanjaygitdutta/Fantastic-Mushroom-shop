@@ -1,10 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from './ProductCard';
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 
 const ProductGrid = () => {
     const [searchParams] = useSearchParams();
     const category = searchParams.get('category');
+    const { products } = useProducts();
 
     const filteredProducts = category
         ? products.filter(p => p.category === category)

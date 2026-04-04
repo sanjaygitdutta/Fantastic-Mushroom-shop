@@ -1,40 +1,20 @@
-import { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, Search } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { useState } from 'react';
+import { Plus, Trash2, Search } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useProducts } from '../../context/ProductContext';
 
 const Products = () => {
-    const [products, setProducts] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+    const { products, updateProduct, deleteProduct: deleteContextProduct } = useProducts();
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
-
-    const fetchProducts = async () => {
-        const { data, error } = await supabase
-            .from('products')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (error) {
-            toast.error('Error fetching products');
-        } else {
-            setProducts(data || []);
-        }
-        setLoading(false);
+    const toggleAvailability = (id: string, currentStock: number) => {
+        updateProduct(id, { stock: currentStock > 0 ? 0 : 15 });
+        toast.success(currentStock > 0 ? 'Marked as Out of Stock globally' : 'Marked as Available globally');
     };
 
     const handleDelete = async (id: string) => {
         if (!window.confirm('Are you sure you want to delete this product?')) return;
-
-        const { error } = await supabase.from('products').delete().eq('id', id);
-        if (error) {
-            toast.error('Error deleting product');
-        } else {
-            toast.success('Product deleted');
-            fetchProducts();
-        }
+        deleteContextProduct(id);
+        toast.success('Product deleted from global store');
     };
 
     return (
@@ -71,9 +51,7 @@ const Products = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-mushroom-100">
-                            {loading ? (
-                                <tr><td colSpan={5} className="px-6 py-8 text-center text-mushroom-500">Loading...</td></tr>
-                            ) : products.length === 0 ? (
+                            {products.length === 0 ? (
                                 <tr><td colSpan={5} className="px-6 py-8 text-center text-mushroom-500">No products found</td></tr>
                             ) : (
                                 products.map((product) => (
@@ -87,15 +65,23 @@ const Products = () => {
                                         <td className="px-6 py-4 text-mushroom-600">{product.category}</td>
                                         <td className="px-6 py-4 font-medium text-mushroom-900">₹{product.price}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${product.stock > 10 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${(product.stock || 0) > 10 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
                                                 }`}>
-                                                {product.stock} in stock
+                                                {product.stock || 0} in stock
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2">
-                                                <button className="p-2 text-mushroom-400 hover:text-forest-600 hover:bg-forest-50 rounded-lg transition-colors">
-                                                    <Pencil className="w-4 h-4" />
+                                                <button 
+                                                    onClick={() => toggleAvailability(product.id, product.stock || 0)}
+                                                    title={(product.stock || 0) > 0 ? "Mark Out of Stock" : "Mark Available"}
+                                                    className={`px-3 py-1 text-xs rounded-lg transition-colors font-semibold border ${
+                                                        (product.stock || 0) > 0 
+                                                        ? 'border-orange-200 text-orange-600 hover:bg-orange-50' 
+                                                        : 'border-green-200 text-green-600 hover:bg-green-50'
+                                                    }`}
+                                                >
+                                                    {(product.stock || 0) > 0 ? 'Make Unavailable' : 'Make Available'}
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(product.id)}

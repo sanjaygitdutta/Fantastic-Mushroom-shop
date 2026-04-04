@@ -1,9 +1,10 @@
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Plus, Star, Heart } from 'lucide-react';
 import type { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { Link } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 
 interface ProductCardProps {
     product: Product;
@@ -24,13 +25,64 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         }
     };
 
+    // 3D Tilt Setup
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
+    const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        x.set(mouseX / width - 0.5);
+        y.set(mouseY / height - 0.5);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
+
+    const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        
+        // Throw confetti from the button's position
+        const rect = e.currentTarget.getBoundingClientRect();
+        const cx = (rect.left + rect.width / 2) / window.innerWidth;
+        const cy = (rect.top + rect.height / 2) / window.innerHeight;
+        
+        confetti({
+            particleCount: 60,
+            spread: 70,
+            origin: { x: cx, y: cy },
+            colors: ['#10B981', '#F59E0B', '#166534'],
+            disableForReducedMotion: true,
+            zIndex: 100
+        });
+        
+        addToCart(product);
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            whileHover={{ y: -5 }}
-            className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-mushroom-300/30"
+            whileHover={{ y: -5, scale: 1.02 }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ 
+                rotateX, 
+                rotateY, 
+                transformStyle: "preserve-3d",
+                perspective: "1000px" 
+            }}
+            className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300 border border-mushroom-300/30 will-change-transform"
         >
             <div className="relative aspect-[4/3] overflow-hidden">
                 <Link to={`/product/${product.id}`}>
@@ -64,6 +116,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                                 {product.name}
                             </h3>
                         </Link>
+                        {product.weightOptions && product.weightOptions.length > 0 && (
+                            <div className="text-xs text-forest-700 mt-1.5 font-semibold bg-forest-50 border border-forest-100 px-2 py-1 rounded-md inline-block shadow-sm">
+                                Available in: {product.weightOptions.join(', ')} {product.unit || 'grams'}
+                            </div>
+                        )}
                     </div>
                     <span className="text-lg font-bold text-forest-900">
                         ₹{product.price}
@@ -75,8 +132,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 </p>
 
                 <button
-                    onClick={() => addToCart(product)}
-                    className="w-full py-3 bg-mushroom-100 text-mushroom-900 font-semibold rounded-xl hover:bg-forest-900 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+                    onClick={handleAddToCart}
+                    className="w-full py-3 bg-mushroom-100 text-mushroom-900 font-semibold rounded-xl hover:bg-forest-900 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn relative overflow-hidden"
                 >
                     <Plus className="w-4 h-4" />
                     Add to Cart

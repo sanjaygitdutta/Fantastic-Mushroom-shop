@@ -10,6 +10,7 @@ export interface Product {
     weightOptions?: number[]; // Available weights in grams [250, 500, 750, 1000]
     allowCustomWeight?: boolean; // Allow custom quantity input
     unit?: 'grams' | 'unit'; // Unit type
+    stock?: number;
 }
 
 
@@ -17,25 +18,25 @@ export const products: Product[] = [
     // 1. Fresh Mushrooms
     {
         id: 'fresh-1',
-        name: 'Organic Button Mushrooms (White & Brown)',
-        description: 'Fresh, firm, and versatile. A mix of classic white buttons and earthy creminis. Low calorie, rich in B-vitamins and antioxidants that support energy and immunity. (These are general nutritional benefits; not intended as medical advice or treatment.)',
-        price: 5.99, // Price per kg
-        image: 'https://images.unsplash.com/photo-1504382103100-db7e92322d39?auto=format&fit=crop&q=80&w=800',
+        name: 'Fresh Paddy Straw Mushrooms',
+        description: 'Fresh, organic Paddy Straw mushrooms directly from our farm. Sweet, silky texture and distinct aroma.',
+        price: 200, // <-- CHANGE PRICE HERE (e.g. 200 rupees)
+        image: '/paddy-straw.jpg', // <-- CHANGE IMAGE HERE (Upload your real image directly to the "public" folder and write its name here, e.g., "/my-image.jpg")
         category: 'fresh',
         rating: 4.8,
-        weightOptions: [250, 500, 750, 1000],
+        weightOptions: [300], // <-- CHANGE QUANTITY OPTIONS HERE (in grams. e.g. [200, 300, 500])
         allowCustomWeight: true,
         unit: 'grams',
     },
     {
         id: 'fresh-2',
-        name: 'Assorted Oyster Mushrooms',
-        description: 'A vibrant mix of White, Grey, and Pink Oyster mushrooms. Delicate and velvety. Higher in protein and fiber, may help support heart health and healthy cholesterol levels. (These are general nutritional benefits; not intended as medical advice or treatment.)',
-        price: 12.00,
-        image: 'https://images.unsplash.com/photo-1552010099-5dc86fcfaa38?q=80&w=1964&auto=format&fit=crop',
+        name: 'White Oyster Mushrooms',
+        description: 'Delicate and velvety White Oyster mushrooms. Farm fresh and 100% organic.',
+        price: 150, // <-- CHANGE PRICE HERE
+        image: '/white-oyster.jpg', // <-- CHANGE IMAGE HERE (Upload your real image to the "public" folder)
         category: 'fresh',
         rating: 4.7,
-        weightOptions: [250, 500, 750, 1000],
+        weightOptions: [250, 500], // <-- CHANGE QUANTITY OPTIONS HERE
         allowCustomWeight: true,
         unit: 'grams',
     },
@@ -87,18 +88,7 @@ export const products: Product[] = [
         allowCustomWeight: true,
         unit: 'grams',
     },
-    {
-        id: 'fresh-7',
-        name: 'Fresh Paddy Straw Mushrooms',
-        description: 'Popular in Asian cuisine. Sweet, silky texture and distinct aroma. Easy-to-digest mushroom with protein, fiber and some vitamin C for balanced meals. (These are general nutritional benefits; not intended as medical advice or treatment.)',
-        price: 11.99,
-        image: 'https://images.unsplash.com/photo-1595123550441-d377e017de6a?auto=format&fit=crop&q=80&w=800',
-        category: 'fresh',
-        rating: 4.6,
-        weightOptions: [250, 500, 750, 1000],
-        allowCustomWeight: true,
-        unit: 'grams',
-    },
+
     {
         id: 'fresh-8',
         name: 'Premium White Truffles',

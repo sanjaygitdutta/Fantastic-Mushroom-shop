@@ -54,15 +54,7 @@ const Footer = () => {
                         <h4 className="text-white font-bold mb-6 font-display">Contact Us</h4>
                         <p className="text-forest-400 mb-4 text-sm">Get in touch with us</p>
                         <div className="space-y-4 text-sm">
-                            <div>
-                                <p className="text-forest-500 text-xs mb-1 font-semibold uppercase tracking-wider">Phone</p>
-                                <a href="tel:+917602233220" className="text-forest-300 hover:text-amber-400 transition-colors block mb-1">
-                                    +91 7602233220
-                                </a>
-                                <a href="tel:+919531775665" className="text-forest-300 hover:text-amber-400 transition-colors block">
-                                    +91 9531775665
-                                </a>
-                            </div>
+
                             <div>
                                 <p className="text-forest-500 text-xs mb-1 font-semibold uppercase tracking-wider">Email</p>
                                 <a href="mailto:info@fantasticfood.in" className="text-forest-300 hover:text-amber-400 transition-colors">

@@ -7,6 +7,8 @@ interface ProductEditorProps {
     productName: string;
     currentImage: string;
     currentPrice: number;
+    currentWeightOptions?: number[];
+    unit?: string;
     onImageUpdate?: (url: string) => void;
     onPriceUpdate?: (price: number) => void;
 }
@@ -16,12 +18,15 @@ const ProductEditor = ({
     productName,
     currentImage,
     currentPrice,
+    currentWeightOptions,
+    unit,
     onImageUpdate,
     onPriceUpdate
 }: ProductEditorProps) => {
     const [isEditingPrice, setIsEditingPrice] = useState(false);
     const [newPrice, setNewPrice] = useState(currentPrice.toString());
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+    const [imageUrlInput, setImageUrlInput] = useState(currentImage);
     const [isUploading, setIsUploading] = useState(false);
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +48,11 @@ const ProductEditor = ({
             onPriceUpdate?.(price);
             setIsEditingPrice(false);
         }
+    };
+
+    const handleImageSave = () => {
+        setUploadedImage(imageUrlInput);
+        onImageUpdate?.(imageUrlInput);
     };
 
     const displayImage = uploadedImage || currentImage;
@@ -91,12 +101,38 @@ const ProductEditor = ({
 
             {/* Product Info */}
             <div className="p-4">
-                <h3 className="font-bold text-gray-900 mb-3 text-sm line-clamp-2">
+                <h3 className="font-bold text-gray-900 mb-1 text-sm line-clamp-2">
                     {productName}
                 </h3>
 
+                {currentWeightOptions && currentWeightOptions.length > 0 && (
+                    <div className="text-xs text-gray-500 mb-3 font-semibold bg-gray-100 px-2 py-1 rounded inline-block shadow-sm">
+                        Weights: {currentWeightOptions.join(', ')} {unit || 'grams'}
+                    </div>
+                )}
+
+                {/* Text URL Editor */}
+                <div className="mb-3 space-y-1">
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Image File Name (e.g. /my-image.jpg)</label>
+                    <div className="flex items-center gap-1">
+                        <input
+                            type="text"
+                            value={imageUrlInput}
+                            onChange={(e) => setImageUrlInput(e.target.value)}
+                            className="flex-1 px-2 py-1.5 text-xs rounded border border-gray-300 focus:outline-none focus:border-forest-500 bg-gray-50"
+                        />
+                        <button 
+                            onClick={handleImageSave}
+                            className="bg-forest-600 hover:bg-forest-700 text-white p-1.5 rounded disabled:opacity-50"
+                            disabled={imageUrlInput === (uploadedImage || currentImage)}
+                        >
+                            <Save className="w-3 h-3" />
+                        </button>
+                    </div>
+                </div>
+
                 {/* Price Editor */}
-                <div className="space-y-2">
+                <div className="space-y-2 pt-2 border-t border-gray-100">
                     {isEditingPrice ? (
                         <div className="flex items-center gap-2">
                             <span className="text-lg font-bold text-gray-700">₹</span>

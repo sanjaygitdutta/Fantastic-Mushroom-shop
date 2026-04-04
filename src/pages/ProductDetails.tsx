@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
 import { Plus, Star, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,7 @@ import WeightSelector from '../components/WeightSelector';
 
 const ProductDetails = () => {
     const { id } = useParams();
+    const { products } = useProducts();
     const { addToCart } = useCart();
     const product = products.find(p => p.id === id);
 
