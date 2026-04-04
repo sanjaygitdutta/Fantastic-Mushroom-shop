@@ -19,25 +19,34 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const stored = localStorage.getItem('mushroom_products');
     if (stored) {
       try {
-        setProducts(JSON.parse(stored));
+        const parsed: Product[] = JSON.parse(stored);
+        // Restore any custom-uploaded images stored in separate keys
+        const withImages = parsed.map(p => {
+          const customImg = localStorage.getItem(`product_img_${p.id}`);
+          if (customImg) return { ...p, image: customImg };
+          // If placeholder, try to resolve from initial data
+          if (p.image === `__custom__${p.id}` || p.image === '') {
+            const initial = initialProducts.find(ip => ip.id === p.id);
+            return { ...p, image: initial?.image || p.image };
+          }
+          return p;
+        });
+        setProducts(withImages);
       } catch (e) {
         setProducts(initialProducts);
       }
     } else {
       setProducts(initialProducts);
-      localStorage.setItem('mushroom_products', JSON.stringify(initialProducts));
+      // Save product list keeping original image paths (only base64 is stored separately)
+      try { localStorage.setItem('mushroom_products', JSON.stringify(initialProducts)); } catch { /* ignore */ }
     }
   };
 
   useEffect(() => {
     loadFromStorage();
-
-    // Multi-tab sync: listen for changes made in other browser tabs
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'mushroom_products' && e.newValue) {
-        try {
-          setProducts(JSON.parse(e.newValue));
-        } catch { /* ignore parse errors */ }
+      if (e.key === 'mushroom_products' || (e.key && e.key.startsWith('product_img_'))) {
+        loadFromStorage();
       }
     };
     window.addEventListener('storage', handleStorageChange);
@@ -45,13 +54,28 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, []);
 
   const saveProducts = (newProducts: Product[]) => {
-    setProducts(newProducts);
+    // Store images separately so the main JSON never overflows
+    newProducts.forEach(p => {
+      if (p.image && p.image.startsWith('data:')) {
+        try {
+          localStorage.setItem(`product_img_${p.id}`, p.image);
+        } catch (e) {
+          console.error('Image too large even for individual key', e);
+        }
+      }
+    });
+    // Save product list without base64 blobs
+    const slim = newProducts.map(p => ({
+      ...p,
+      image: p.image.startsWith('data:') ? `__custom__${p.id}` : p.image
+    }));
     try {
-        localStorage.setItem('mushroom_products', JSON.stringify(newProducts));
+      localStorage.setItem('mushroom_products', JSON.stringify(slim));
     } catch (e) {
-        console.error('Failed to save to localStorage:', e);
-        alert('Storage limit exceeded! The image you uploaded is too large for the browser memory. Please use a smaller image under 2MB.');
+      console.error('Failed to save products list:', e);
     }
+    // Always update React state with full images so UI updates immediately
+    setProducts(newProducts);
   };
 
   const updateProduct = (id: string, updates: Partial<Product>) => {
