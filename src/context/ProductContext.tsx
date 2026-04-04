@@ -1,6 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { products as initialProducts } from '../data/products';
 import type { Product } from '../data/products';
+import { supabase } from '../lib/supabase';
+
+// ── Types ──────────────────────────────────────────────────────────────────────
+interface ProductOverride {
+  product_id: string;
+  stock?: number | null;
+  custom_image?: string | null;
+  price?: number | null;
+}
 
 interface ProductContextType {
   products: Product[];
@@ -10,107 +19,101 @@ interface ProductContextType {
   addProduct: (product: Product) => void;
 }
 
+// ── Helpers ────────────────────────────────────────────────────────────────────
+/** Merge Supabase overrides on top of the hardcoded product list */
+const mergeOverrides = (base: Product[], overrides: ProductOverride[]): Product[] =>
+  base.map(p => {
+    const o = overrides.find(ov => ov.product_id === p.id);
+    if (!o) return p;
+    return {
+      ...p,
+      ...(o.stock !== null && o.stock !== undefined ? { stock: o.stock } : {}),
+      ...(o.custom_image ? { image: o.custom_image } : {}),
+      ...(o.price !== null && o.price !== undefined ? { price: o.price } : {}),
+    };
+  });
+
+// ── Context ────────────────────────────────────────────────────────────────────
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const loadFromStorage = () => {
-    const stored = localStorage.getItem('mushroom_products');
-    if (stored) {
-      try {
-        const parsed: Product[] = JSON.parse(stored);
-        const withImages = parsed.map(p => {
-          // Priority 1: admin-uploaded base64 image (stored separately)
-          const customImg = localStorage.getItem(`product_img_${p.id}`);
-          if (customImg) return { ...p, image: customImg };
+  // Fetch all overrides from Supabase and merge with base products
+  const loadProducts = async () => {
+    try {
+      const { data: overrides, error } = await supabase
+        .from('product_overrides')
+        .select('*');
 
-          // Priority 2: Always use the LATEST image URL from products.ts
-          // This ensures any URL changes in the code auto-propagate to all visitors
-          const initial = initialProducts.find(ip => ip.id === p.id);
-          if (initial?.image) return { ...p, image: initial.image };
-
-          return p;
-        });
-        setProducts(withImages);
-      } catch (e) {
-        setProducts(initialProducts);
+      if (error) {
+        console.error('Supabase fetch error:', error);
+        setProducts(initialProducts); // graceful fallback
+      } else {
+        setProducts(mergeOverrides(initialProducts, overrides ?? []));
       }
-    } else {
+    } catch (err) {
+      console.error('Network error loading products:', err);
       setProducts(initialProducts);
-      try { localStorage.setItem('mushroom_products', JSON.stringify(initialProducts)); } catch { /* ignore */ }
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadFromStorage();
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'mushroom_products' || (e.key && e.key.startsWith('product_img_'))) {
-        loadFromStorage();
-      }
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    loadProducts();
+
+    // 🔴 Realtime subscription — all open tabs/browsers update instantly
+    const channel = supabase
+      .channel('product_overrides_changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'product_overrides' },
+        () => loadProducts()
+      )
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
-  const saveProducts = (newProducts: Product[]) => {
-    // Store base64 images separately so the main JSON never overflows
-    newProducts.forEach(p => {
-      if (p.image && p.image.startsWith('data:')) {
-        try {
-          localStorage.setItem(`product_img_${p.id}`, p.image);
-        } catch (e) {
-          console.error('Image too large:', e);
-        }
-      }
-    });
+  // Save a single product's override to Supabase
+  const saveOverride = async (id: string, updates: Partial<Product>) => {
+    const row: Partial<ProductOverride> & { product_id: string } = { product_id: id };
+    if (updates.stock !== undefined) row.stock = updates.stock;
+    if (updates.image !== undefined) row.custom_image = updates.image;
+    if (updates.price !== undefined) row.price = updates.price;
 
-    // Save slim product list (swap base64 strings for placeholder keys)
-    const slim = newProducts.map(p => ({
-      ...p,
-      // Safe null check — prevents crash when image is undefined
-      image: (p.image && p.image.startsWith('data:')) ? `__custom__${p.id}` : (p.image || '')
-    }));
+    const { error } = await supabase
+      .from('product_overrides')
+      .upsert(row, { onConflict: 'product_id' });
 
-    try {
-      localStorage.setItem('mushroom_products', JSON.stringify(slim));
-    } catch (e) {
-      console.error('Failed to save products to localStorage:', e);
-    }
-
-    // Always update React state immediately — syncs same-tab views
-    setProducts(newProducts);
+    if (error) console.error('Supabase upsert error:', error);
   };
 
   const updateProduct = (id: string, updates: Partial<Product>) => {
-    const newProducts = products.map((p) =>
-      p.id === id ? { ...p, ...updates } : p
-    );
-    saveProducts(newProducts);
+    // Instant local state update (no flicker)
+    setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
+    // Persist to Supabase → syncs to ALL customers worldwide
+    saveOverride(id, updates);
   };
 
   const updateMultipleProducts = (updatesMap: Record<string, Partial<Product>>) => {
-    const newProducts = products.map((p) => {
-      if (updatesMap[p.id]) {
-        return { ...p, ...updatesMap[p.id] };
-      }
-      return p;
-    });
-    saveProducts(newProducts);
+    setProducts(prev =>
+      prev.map(p => updatesMap[p.id] ? { ...p, ...updatesMap[p.id] } : p)
+    );
+    Object.entries(updatesMap).forEach(([id, updates]) => saveOverride(id, updates));
   };
 
   const deleteProduct = (id: string) => {
-    const newProducts = products.filter((p) => p.id !== id);
-    saveProducts(newProducts);
+    setProducts(prev => prev.filter(p => p.id !== id));
   };
 
   const addProduct = (product: Product) => {
-    const newProducts = [product, ...products];
-    saveProducts(newProducts);
+    setProducts(prev => [product, ...prev]);
   };
 
-  if (products.length === 0) {
-    // Show a minimal loader while data hydrates from localStorage
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="w-12 h-12 border-4 border-forest-200 border-t-forest-600 rounded-full animate-spin" />
