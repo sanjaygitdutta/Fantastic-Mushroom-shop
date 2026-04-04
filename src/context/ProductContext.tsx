@@ -32,7 +32,12 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const saveProducts = (newProducts: Product[]) => {
     setProducts(newProducts);
-    localStorage.setItem('mushroom_products', JSON.stringify(newProducts));
+    try {
+        localStorage.setItem('mushroom_products', JSON.stringify(newProducts));
+    } catch (e) {
+        console.error('Failed to save to localStorage:', e);
+        alert('Storage limit exceeded! The image you uploaded is too large for the browser memory. Please use a smaller image under 2MB.');
+    }
   };
 
   const updateProduct = (id: string, updates: Partial<Product>) => {
