@@ -33,13 +33,13 @@ const FoodItemPage = () => {
     '@type': 'WebPage',
     name: `${displayName} Price Comparison — Buy ${displayName} Online India`,
     description: `Compare ${displayName} prices on Blinkit, BigBasket, Zepto, Swiggy Instamart, Amazon Fresh, and JioMart. Find the cheapest ${displayName} with home delivery.`,
-    publisher: { '@type': 'Organization', name: 'Fantastic Food', url: 'https://fantasticfood.in' },
+    publisher: { '@type': 'Organization', name: 'Fantastic Food', url: 'https://www.fantasticfood.in' },
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://fantasticfood.in/' },
-        { '@type': 'ListItem', position: 2, name: 'Compare Prices', item: 'https://fantasticfood.in/compare' },
-        { '@type': 'ListItem', position: 3, name: `${displayName} Price`, item: `https://fantasticfood.in/food/${foodItem}` },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.fantasticfood.in/' },
+        { '@type': 'ListItem', position: 2, name: 'Compare Prices', item: 'https://www.fantasticfood.in/compare' },
+        { '@type': 'ListItem', position: 3, name: `${displayName} Price`, item: `https://www.fantasticfood.in/food/${foodItem}` },
       ],
     },
   };
@@ -76,7 +76,7 @@ const FoodItemPage = () => {
         title={`${displayName} Price Today — Compare on Blinkit, Zepto, BigBasket & More`}
         description={`Find the cheapest ${displayName} price today. Compare ${displayName} prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly. Save up to 30% on your grocery order.`}
         keywords={seoKeywords}
-        canonicalUrl={`https://fantasticfood.in/food/${foodItem}`}
+        canonicalUrl={`https://www.fantasticfood.in/food/${foodItem}`}
         structuredData={pageSchema}
       />
       {/* Also inject FAQ schema */}

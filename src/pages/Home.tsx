@@ -65,7 +65,7 @@ const Home = () => {
       <SEO 
         title="India's Smartest Food Price Comparator" 
         description="Search any food item and compare real-time prices across Blinkit, BigBasket, Zepto, Swiggy, Amazon Fresh, and JioMart instantly. Save time and money." 
-        canonicalUrl="https://fantasticfood.in/"
+        canonicalUrl="https://www.fantasticfood.in/"
       />
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-20">

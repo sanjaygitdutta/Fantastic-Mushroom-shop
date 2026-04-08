@@ -59,7 +59,7 @@ const ComparePage = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-16">
-      <SEO title={seoTitle} description={seoDescription} canonicalUrl={`https://fantasticfood.in/compare${query ? `?q=${query}` : ''}`} />
+      <SEO title={seoTitle} description={seoDescription} canonicalUrl={`https://www.fantasticfood.in/compare${query ? `?q=${query}` : ''}`} />
       {/* Header bar */}
       <div className="bg-forest-900 text-white py-6 px-4 mb-8">
         <div className="max-w-6xl mx-auto">

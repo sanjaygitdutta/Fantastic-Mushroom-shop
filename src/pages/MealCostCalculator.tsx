@@ -161,7 +161,7 @@ const MealCostCalculator = () => {
         title="Meal Cost Calculator — How Much Does Cooking at Home Cost?"
         description="Find out the exact cost of cooking popular Indian recipes at home. Compare ingredient prices across Blinkit, Zepto, BigBasket and more."
         keywords="meal cost calculator, recipe ingredient cost India, cooking cost calculator, how much to cook at home"
-        canonicalUrl="https://fantasticfood.in/meal-calculator"
+        canonicalUrl="https://www.fantasticfood.in/meal-calculator"
         structuredData={recipeSchema}
       />
 

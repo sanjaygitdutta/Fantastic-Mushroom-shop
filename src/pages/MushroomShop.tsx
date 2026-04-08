@@ -10,7 +10,7 @@ const MushroomShop = () => {
       <SEO 
         title="Premium Farm Fresh Mushrooms" 
         description="Order premium, organic and farm-fresh mushrooms directly from our cultivators. Get same-day delivery on Oyster, Button, and Shiitake varieties."
-        canonicalUrl="https://fantasticfood.in/mushroom-shop"
+        canonicalUrl="https://www.fantasticfood.in/mushroom-shop"
       />
       {/* Hero banner */}
       <section className="relative overflow-hidden bg-gradient-to-br from-earth-800 via-earth-700 to-forest-800 py-20 px-4">

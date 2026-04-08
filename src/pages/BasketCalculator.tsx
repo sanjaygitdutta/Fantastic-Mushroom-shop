@@ -85,7 +85,7 @@ const BasketCalculator = () => {
         title="Smart Basket Calculator — Find Cheapest Platform for Your Grocery List"
         description="Add multiple grocery items and instantly see which platform (Blinkit, Zepto, BigBasket, Swiggy, Amazon, JioMart) gives you the lowest total price for your entire basket."
         keywords="grocery basket calculator, cheapest grocery platform, compare grocery cart, blinkit vs zepto vs bigbasket total price"
-        canonicalUrl="https://fantasticfood.in/basket"
+        canonicalUrl="https://www.fantasticfood.in/basket"
       />
 
       <div className="max-w-5xl mx-auto px-4">
