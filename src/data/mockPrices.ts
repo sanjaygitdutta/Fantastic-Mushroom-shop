@@ -50,6 +50,7 @@ const p = (
     zepto:     `https://www.zeptonow.com/search?query=${encodeURIComponent(query)}`,
     amazon:    `https://www.amazon.in/s?k=${encodeURIComponent(query)}&i=amazonfresh`,
     jiomart:   `https://www.jiomart.com/search/${encodeURIComponent(query)}`,
+    flipkart:  `https://www.flipkart.com/search?q=${encodeURIComponent(query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`,
   };
   return { platformId, productName, price, originalPrice, discount, unit, inStock, url: urls[platformId] || '#', lastUpdated: new Date().toISOString(), deliveryTime };
 };
@@ -73,6 +74,7 @@ const MOCK_DB: Record<string, CompareResult> = {
     p('zepto',     'Tomato (Hybrid)',        50, 58, 14, '1 kg', 'tomato', false, '10 min'),
     p('amazon',    'Fresh Tomato',          58, 65, 11, '1 kg', 'tomato', true,  '2 hrs'),
     p('jiomart',   'Tomato',                46, 55, 16, '1 kg', 'tomato', true,  '1 day'),
+    p('flipkart',  'Tomato',                44, 55, 20, '1 kg', 'tomato', true,  '15 min'),
   ]},
   potato: { query: 'potato', canonicalName: 'Potato', category: 'Vegetables', icon: '🥔', prices: [
     p('blinkit',   'White Potato',          32, 38, 16, '1 kg', 'potato', true,  '10 min'),
@@ -447,6 +449,7 @@ export const searchPrices = async (query: string, _pincode?: string): Promise<Co
       { platformId: 'zepto',     productName: query, price: vary(basePrice, 0.86, 1.04), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 15, unit: '1 unit', inStock: true,  url: `https://www.zeptonow.com/search?query=${encodeURIComponent(query)}`,   lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
       { platformId: 'amazon',    productName: query, price: vary(basePrice, 1.0,  1.2),  originalPrice: vary(basePrice, 1.15, 1.3), discount: 11, unit: '1 unit', inStock: true,  url: `https://www.amazon.in/s?k=${encodeURIComponent(query)}&i=amazonfresh`,  lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
       { platformId: 'jiomart',   productName: query, price: vary(basePrice, 0.84, 0.98), originalPrice: vary(basePrice, 1.0, 1.12), discount: 14, unit: '1 unit', inStock: true,  url: `https://www.jiomart.com/search/${encodeURIComponent(query)}`,          lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
+      { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: `https://www.flipkart.com/search?q=${encodeURIComponent(query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`, lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
     ],
   };
 };

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Fantastic Food - Price Drop Alerts",
+  "version": "1.0",
+  "description": "Never overpay for groceries again. Automatically compares prices on Blinkit, Zepto, Swiggy, BigBasket, JioMart, and Flipkart.",
+  "icons": {
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.blinkit.com/*",
+        "*://*.zeptonow.com/*",
+        "*://*.bigbasket.com/*",
+        "*://*.swiggy.com/*",
+        "*://*.jiomart.com/*",
+        "*://*.flipkart.com/*"
+      ],
+      "css": ["content.css"],
+      "js": ["content.js"]
+    }
+  ]
+}

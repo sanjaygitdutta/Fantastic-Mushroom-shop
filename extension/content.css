@@ -1,0 +1,109 @@
+/* Fantastic Food Extension Styles */
+
+/* Floating Container */
+.ff-ext-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483647; /* Max z-index to stay on top */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+/* Tooltip that slides in */
+.ff-ext-tooltip {
+  background-color: #2d6a4f;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
+  max-width: 250px;
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: auto;
+  border: 2px solid #52b788;
+}
+
+.ff-ext-tooltip.ff-ext-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ff-ext-tooltip-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.ff-ext-tooltip-desc {
+  font-size: 12px;
+  color: #d8f3dc;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.ff-ext-tooltip-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: #f59e0b; /* Amber 500 */
+  color: #064e3b; /* Fast text */
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ff-ext-tooltip-btn:hover {
+  background-color: #fbbf24; /* Amber 400 */
+}
+
+/* Floating Action Button (FAB) */
+.ff-ext-fab {
+  width: 56px;
+  height: 56px;
+  background-color: #f59e0b;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.2s;
+  border: 3px solid #fff;
+  font-size: 24px;
+}
+
+.ff-ext-fab:hover {
+  transform: scale(1.05);
+}
+
+.ff-ext-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.ff-ext-close:hover {
+  opacity: 1;
+}

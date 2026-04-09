@@ -78,6 +78,17 @@ export const PLATFORMS: Platform[] = [
     deliveryTime: '1 day',
     deliveryLabel: 'Standard',
   },
+  {
+    id: 'flipkart',
+    name: 'Flipkart Minutes',
+    logo: '🛍️',
+    color: '#2874F0',
+    bgColor: '#E3F2FD',
+    baseUrl: 'https://flipkart.com',
+    searchUrl: (q) => `https://www.flipkart.com/search?q=${encodeURIComponent(q)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`,
+    deliveryTime: '15 min',
+    deliveryLabel: 'Minutes',
+  },
 ];
 
 export const getPlatformById = (id: string): Platform | undefined =>
