@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Zap, ExternalLink, TrendingDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PLATFORMS } from '../data/platforms';
+import { getAffiliateUrl } from '../utils/affiliate';
 
 interface Deal {
   food: string;
@@ -101,7 +102,7 @@ const DealOfTheDay = () => {
 
                 {/* Buy Button */}
                 <a
-                  href={buyUrl}
+                  href={getAffiliateUrl(deal.platformId, buyUrl)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-2 bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors"

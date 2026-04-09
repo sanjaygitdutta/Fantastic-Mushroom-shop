@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { ExternalLink, ShoppingCart, TrendingDown, AlertCircle, Clock } from 'lucide-react';
 import type { PlatformPrice } from '../data/mockPrices';
 import { getPlatformById } from '../data/platforms';
+import { getAffiliateUrl } from '../utils/affiliate';
 
 interface PlatformPriceCardProps {
   price: PlatformPrice;
@@ -89,7 +90,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
 
       {/* CTA */}
       <a
-        href={price.url}
+        href={getAffiliateUrl(price.platformId, price.url)}
         target="_blank"
         rel="noopener noreferrer"
         onClick={(e) => !price.inStock && e.preventDefault()}
