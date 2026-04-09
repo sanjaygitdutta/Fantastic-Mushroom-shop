@@ -1,11 +1,44 @@
 import { motion } from 'framer-motion';
-import { Clock, Users, ChefHat, ArrowRight } from 'lucide-react';
+import { Clock, Users, ChefHat, ArrowRight, TrendingDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { recipes } from '../data/recipes';
+import SEO from '../components/SEO';
+
+const INGREDIENT_LINKS = [
+  { label: 'Mushroom price today', slug: 'mushroom' },
+  { label: 'Tomato price today', slug: 'tomato' },
+  { label: 'Paneer price today', slug: 'paneer' },
+  { label: 'Butter price today', slug: 'butter' },
+  { label: 'Coconut milk price', slug: 'coconut milk' },
+  { label: 'Arborio rice price', slug: 'rice' },
+];
+
+const recipeListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Mushroom Recipes by Fantastic Food',
+  description: 'Delicious mushroom recipes with ingredient price comparison across Blinkit, Zepto, BigBasket and more.',
+  url: 'https://www.fantasticfood.in/recipes',
+  numberOfItems: recipes.length,
+  itemListElement: recipes.map((r, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `https://www.fantasticfood.in/recipes/${r.id}`,
+    name: r.title,
+  })),
+};
 
 const Recipes = () => {
     return (
         <div className="min-h-screen pt-20 bg-mushroom-50">
+            <SEO
+              title="Mushroom Recipes | Cook & Compare Ingredient Prices — Fantastic Food"
+              description="Explore delicious mushroom recipes from creamy risotto to spicy masala curry. Compare ingredient prices across Blinkit, Zepto, BigBasket, and more to cook for less."
+              canonicalUrl="https://www.fantasticfood.in/recipes"
+              keywords="mushroom recipes, mushroom curry recipe, mushroom risotto, lion's mane recipe, paddy straw mushroom recipe, ingredients price comparison"
+              structuredData={recipeListSchema}
+            />
+
             {/* Hero */}
             <div className="bg-forest-900 text-white py-20 px-4">
                 <div className="max-w-7xl mx-auto text-center">
@@ -17,7 +50,7 @@ const Recipes = () => {
                         Fungi Kitchen
                     </motion.h1>
                     <p className="text-xl text-mushroom-200 max-w-2xl mx-auto">
-                        Discover delicious ways to cook with our premium mushrooms. From quick snacks to gourmet feasts.
+                        Discover delicious ways to cook with our premium mushrooms. From quick snacks to gourmet feasts — compare ingredient prices before you shop.
                     </p>
                 </div>
             </div>
@@ -76,6 +109,32 @@ const Recipes = () => {
                         </motion.div>
                     ))}
                 </div>
+            </div>
+
+            {/* Compare Ingredients CTA — drives traffic into monetization funnel */}
+            <div className="bg-forest-900 py-14 px-4">
+              <div className="max-w-5xl mx-auto text-center">
+                <div className="flex items-center justify-center gap-2 text-amber-400 font-bold text-sm uppercase tracking-widest mb-3">
+                  <TrendingDown className="w-4 h-4" /> Compare Before You Shop
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black text-white mb-3 font-display">
+                  Find the Cheapest Ingredients Instantly
+                </h2>
+                <p className="text-forest-300 mb-8 max-w-xl mx-auto">
+                  Before you cook, compare ingredient prices across Blinkit, Zepto, BigBasket & more. Save on every recipe.
+                </p>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {INGREDIENT_LINKS.map(({ label, slug }) => (
+                    <Link
+                      key={slug}
+                      to={`/food/${encodeURIComponent(slug)}`}
+                      className="bg-forest-700 hover:bg-forest-600 border border-forest-600 text-cream-200 text-sm px-4 py-2 rounded-full transition-all hover:scale-105"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
         </div>
     );

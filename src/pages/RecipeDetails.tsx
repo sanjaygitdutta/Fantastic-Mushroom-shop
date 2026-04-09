@@ -1,9 +1,10 @@
 import { useParams, Link } from 'react-router-dom';
 import { recipes } from '../data/recipes';
 import { products } from '../data/products';
-import { Clock, Users, ChefHat, ArrowLeft, ShoppingBag } from 'lucide-react';
+import { Clock, Users, ChefHat, ArrowLeft, ShoppingBag, TrendingDown, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-hot-toast';
+import SEO from '../components/SEO';
 
 const RecipeDetails = () => {
     const { id } = useParams();
@@ -25,8 +26,46 @@ const RecipeDetails = () => {
         toast.success(`Added ${product.name} to cart`);
     };
 
+    // Schema.org Recipe structured data — enables Google Rich Results (cook time, ingredient preview in search)
+    const recipeSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Recipe',
+        name: recipe.title,
+        description: recipe.description,
+        image: recipe.image,
+        author: { '@type': 'Organization', name: 'Fantastic Food' },
+        prepTime: `PT${recipe.prepTime.replace(' min', 'M')}`,
+        cookTime: `PT${recipe.cookTime.replace(' min', 'M')}`,
+        recipeYield: `${recipe.servings} servings`,
+        recipeCategory: recipe.tags[0] ?? 'Main Course',
+        recipeCuisine: recipe.tags[1] ?? 'Indian',
+        keywords: `${recipe.title}, mushroom recipe, ${recipe.tags.join(', ')}`,
+        recipeIngredient: recipe.ingredients.map(i => `${i.amount} ${i.item}`),
+        recipeInstructions: recipe.instructions.map((step, i) => ({
+            '@type': 'HowToStep',
+            position: i + 1,
+            text: step,
+        })),
+        url: `https://www.fantasticfood.in/recipes/${recipe.id}`,
+        publisher: {
+            '@type': 'Organization',
+            name: 'Fantastic Food',
+            logo: { '@type': 'ImageObject', url: 'https://www.fantasticfood.in/logo.png' },
+        },
+    };
+
+    const seoDescription = `${recipe.description} Prep time: ${recipe.prepTime}. Cook time: ${recipe.cookTime}. Serves ${recipe.servings}. Compare ingredient prices across Blinkit, Zepto & BigBasket on Fantastic Food.`;
+
     return (
         <div className="min-h-screen pt-24 pb-20 bg-white">
+            <SEO
+              title={`${recipe.title} Recipe — Ingredients & Price Comparison | Fantastic Food`}
+              description={seoDescription}
+              canonicalUrl={`https://www.fantasticfood.in/recipes/${recipe.id}`}
+              keywords={`${recipe.title}, ${recipe.tags.join(', ')}, mushroom recipe, recipe ingredients price`}
+              structuredData={recipeSchema}
+            />
+
             <div className="max-w-4xl mx-auto px-4">
                 <Link to="/recipes" className="inline-flex items-center text-gray-500 hover:text-forest-600 mb-8 transition-colors">
                     <ArrowLeft className="w-4 h-4 mr-2" />
@@ -51,10 +90,11 @@ const RecipeDetails = () => {
                             <span className="font-semibold mr-1">Serves:</span> {recipe.servings}
                         </div>
                         <div className="flex items-center">
-                            <span className={`px-3 py-1 rounded-full text-sm font-bold ${recipe.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
+                            <span className={`px-3 py-1 rounded-full text-sm font-bold ${
+                                recipe.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
                                 recipe.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-red-100 text-red-800'
-                                }`}>
+                                'bg-red-100 text-red-800'
+                            }`}>
                                 {recipe.difficulty}
                             </span>
                         </div>
@@ -65,7 +105,7 @@ const RecipeDetails = () => {
                     {/* Ingredients & Shop */}
                     <div className="md:col-span-1">
                         <h3 className="text-2xl font-bold text-forest-900 mb-6">Ingredients</h3>
-                        <ul className="space-y-4 mb-10">
+                        <ul className="space-y-3 mb-8">
                             {recipe.ingredients.map((ing, i) => (
                                 <li key={i} className="flex justify-between items-center border-b border-gray-50 pb-2">
                                     <span className="text-gray-700">{ing.item}</span>
@@ -73,6 +113,28 @@ const RecipeDetails = () => {
                                 </li>
                             ))}
                         </ul>
+
+                        {/* Compare ingredient prices — monetization funnel */}
+                        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-6">
+                            <div className="flex items-center gap-2 text-amber-700 font-bold text-sm mb-3">
+                                <TrendingDown className="w-4 h-4" /> Compare Ingredient Prices
+                            </div>
+                            <p className="text-amber-800 text-xs mb-3 leading-relaxed">
+                                Find the cheapest price for these ingredients across Blinkit, Zepto, BigBasket &amp; more:
+                            </p>
+                            <div className="flex flex-col gap-2">
+                                {recipe.ingredients.slice(0, 5).map((ing) => (
+                                    <Link
+                                        key={ing.item}
+                                        to={`/food/${encodeURIComponent(ing.item.toLowerCase())}`}
+                                        className="text-xs text-amber-700 hover:text-amber-900 font-medium flex items-center justify-between bg-white border border-amber-100 rounded-lg px-3 py-2 hover:border-amber-300 transition-all"
+                                    >
+                                        <span>Compare {ing.item} price</span>
+                                        <ArrowRight className="w-3 h-3" />
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
 
                         {relatedProducts.length > 0 && (
                             <div className="bg-mushroom-50 p-6 rounded-2xl">
