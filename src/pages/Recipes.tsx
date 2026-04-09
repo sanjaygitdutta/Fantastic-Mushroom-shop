@@ -5,19 +5,25 @@ import { recipes } from '../data/recipes';
 import SEO from '../components/SEO';
 
 const INGREDIENT_LINKS = [
-  { label: 'Mushroom price today', slug: 'mushroom' },
+  { label: 'Chicken price today', slug: 'chicken' },
   { label: 'Tomato price today', slug: 'tomato' },
+  { label: 'Onion price today', slug: 'onion' },
   { label: 'Paneer price today', slug: 'paneer' },
+  { label: 'Rice price today', slug: 'rice' },
   { label: 'Butter price today', slug: 'butter' },
+  { label: 'Mushroom price today', slug: 'mushroom' },
   { label: 'Coconut milk price', slug: 'coconut milk' },
-  { label: 'Arborio rice price', slug: 'rice' },
+  { label: 'Eggs price today', slug: 'eggs' },
+  { label: 'Garlic price today', slug: 'garlic' },
+  { label: 'Ginger price today', slug: 'ginger' },
+  { label: 'Olive oil price', slug: 'olive oil' },
 ];
 
 const recipeListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Mushroom Recipes by Fantastic Food',
-  description: 'Delicious mushroom recipes with ingredient price comparison across Blinkit, Zepto, BigBasket and more.',
+  name: 'World Recipes — Daily AI Cuisine from 20 Countries | Fantastic Food',
+  description: 'Authentic daily recipes from top cuisines worldwide — Italian, Japanese, Indian, Thai, Mexican and more. Compare ingredient prices across Blinkit, Zepto, BigBasket instantly.',
   url: 'https://www.fantasticfood.in/recipes',
   numberOfItems: recipes.length,
   itemListElement: recipes.map((r, i) => ({
@@ -32,10 +38,10 @@ const Recipes = () => {
     return (
         <div className="min-h-screen pt-20 bg-mushroom-50">
             <SEO
-              title="Mushroom Recipes | Cook & Compare Ingredient Prices — Fantastic Food"
-              description="Explore delicious mushroom recipes from creamy risotto to spicy masala curry. Compare ingredient prices across Blinkit, Zepto, BigBasket, and more to cook for less."
+              title="World Recipes — New Recipe Every Day | Cook & Save with Fantastic Food"
+              description="Explore authentic daily recipes from 20 top world cuisines — Italian, Japanese, Indian, Thai, Mexican, Korean, French & more. Compare ingredient prices across Blinkit, Zepto & BigBasket to cook for less."
               canonicalUrl="https://www.fantasticfood.in/recipes"
-              keywords="mushroom recipes, mushroom curry recipe, mushroom risotto, lion's mane recipe, paddy straw mushroom recipe, ingredients price comparison"
+              keywords="world recipes, international recipes, Italian recipe, Japanese recipe, Indian recipe, Thai recipe, Mexican recipe, Korean recipe, daily recipe, ingredients price comparison India"
               structuredData={recipeListSchema}
             />
 

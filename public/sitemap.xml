@@ -5,7 +5,10 @@
   <url><loc>https://www.fantasticfood.in/</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
   <url><loc>https://www.fantasticfood.in/compare</loc><lastmod>2026-03-26</lastmod><changefreq>always</changefreq><priority>0.95</priority></url>
   <url><loc>https://www.fantasticfood.in/mushroom-shop</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.fantasticfood.in/recipes</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipes</loc><lastmod>2026-04-09</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipes/1</loc><lastmod>2026-04-09</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipes/2</loc><lastmod>2026-04-09</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipes/3</loc><lastmod>2026-04-09</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.fantasticfood.in/about</loc><lastmod>2026-03-26</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.fantasticfood.in/basket</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.fantasticfood.in/meal-calculator</loc><lastmod>2026-03-26</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>

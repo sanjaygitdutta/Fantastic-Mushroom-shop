@@ -111,8 +111,8 @@ const Navbar = () => {
               <Link to="/mushroom-shop" onMouseEnter={() => prefetchRoute('/mushroom-shop')} className="flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 🍄 Mushroom Shop
               </Link>
-              <Link to="/recipes" onMouseEnter={() => prefetchRoute('/recipes')} className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
-                Recipes
+              <Link to="/recipes" onMouseEnter={() => prefetchRoute('/recipes')} className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+                🌍 Recipes
               </Link>
             </div>
 
@@ -243,7 +243,7 @@ const Navbar = () => {
                 🍄 Mushroom Shop
               </Link>
               <Link to="/recipes" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
-                📖 Recipes
+                🌍 World Kitchen
               </Link>
               <Link to="/about" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium">
                 ℹ️ About
