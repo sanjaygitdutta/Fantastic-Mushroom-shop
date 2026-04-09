@@ -431,7 +431,25 @@ export const searchPrices = async (query: string, _pincode?: string): Promise<Co
   const match = Object.keys(MOCK_DB).find(
     (k) => k === key || k.includes(key) || key.includes(k)
   );
-  if (match) return { ...MOCK_DB[match] };
+  if (match) {
+    const result = JSON.parse(JSON.stringify(MOCK_DB[match])) as CompareResult; // deep clone to prevent mutating MOCK_DB permanently
+    if (!result.prices.find(p => p.platformId === 'flipkart')) {
+      const basePrice = result.prices[0]?.originalPrice || estimateBasePrice(key);
+      result.prices.push({ 
+        platformId: 'flipkart', 
+        productName: result.canonicalName, 
+        price: vary(basePrice, 0.85, 1.0), 
+        originalPrice: vary(basePrice, 1.08, 1.15), 
+        discount: 12, 
+        unit: result.prices[0]?.unit || '1 unit', 
+        inStock: true, 
+        url: `https://www.flipkart.com/search?q=${encodeURIComponent(result.query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`, 
+        lastUpdated: new Date().toISOString(), 
+        deliveryTime: '15 min' 
+      });
+    }
+    return result;
+  }
 
   // Auto-detect: generate real platform URLs + realistic prices for ANY food item
   const basePrice = estimateBasePrice(key);

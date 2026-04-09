@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Search, User, ChevronDown, X, ArrowRight, Leaf } from 'lucide-react';
+import { Menu, Search, User, ChevronDown, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -49,8 +49,8 @@ const Navbar = () => {
 
             {/* Logo */}
             <Link to="/" className="flex-shrink-0 flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-gradient-to-br from-forest-500 to-moss-500 rounded-xl flex items-center justify-center shadow-md">
-                <Leaf className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 flex items-center justify-center overflow-hidden shadow-md">
+                <img src="/logo.png" alt="Fantastic Food Logo" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col leading-none">
                 <span className="text-lg font-black text-white font-display tracking-tight">
