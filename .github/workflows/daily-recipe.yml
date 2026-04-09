@@ -24,12 +24,23 @@ jobs:
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
+
+      - name: 🔑 Check API key is set
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "❌ ERROR: GEMINI_API_KEY secret is not set!"
+            echo "Go to: Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          fi
+          echo "✅ API key is set (length: ${#GEMINI_API_KEY} chars)"
 
       - name: 🤖 Generate new AI recipe
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node scripts/generate-recipe.mjs
+        run: node --experimental-vm-modules scripts/generate-recipe.mjs
 
       - name: 📝 Commit and push the new recipe
         run: |
