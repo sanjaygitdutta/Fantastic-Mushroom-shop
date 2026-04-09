@@ -42,15 +42,24 @@ const Recipes = () => {
             {/* Hero */}
             <div className="bg-forest-900 text-white py-20 px-4">
                 <div className="max-w-7xl mx-auto text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex flex-wrap justify-center gap-2 mb-6 text-2xl"
+                    >
+                        {['🇮🇹','🇯🇵','🇫🇷','🇲🇽','🇹🇭','🇨🇳','🇮🇳','🇰🇷','🇹🇷','🇪🇸','🇬🇷','🇧🇷','🇻🇳','🇲🇦','🇵🇪','🇮🇩','🇺🇸','🇱🇧','🇵🇰','🇪🇹'].map(f => (
+                            <span key={f}>{f}</span>
+                        ))}
+                    </motion.div>
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-4xl md:text-6xl font-bold mb-6"
                     >
-                        Fungi Kitchen
+                        World Kitchen
                     </motion.h1>
-                    <p className="text-xl text-mushroom-200 max-w-2xl mx-auto">
-                        Discover delicious ways to cook with our premium mushrooms. From quick snacks to gourmet feasts — compare ingredient prices before you shop.
+                    <p className="text-xl text-forest-300 max-w-2xl mx-auto">
+                        A new authentic recipe from a top world cuisine, every single day — powered by AI. Compare ingredient prices before you shop and save money on every dish.
                     </p>
                 </div>
             </div>
