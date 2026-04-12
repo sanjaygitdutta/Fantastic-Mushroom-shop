@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Clock, Users, TrendingDown, Globe, X, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { WORLD_RECIPES, COUNTRIES, CATEGORIES, type WorldRecipe } from '../data/worldRecipes';
+import { WORLD_RECIPES, COUNTRIES, type WorldRecipe } from '../data/worldRecipes';
 
 const DIFFICULTY_COLORS = {
   Easy: 'bg-green-100 text-green-700',
