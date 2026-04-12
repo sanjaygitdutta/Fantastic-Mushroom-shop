@@ -205,6 +205,115 @@
   <url><loc>https://www.fantasticfood.in/recipe/et-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.fantasticfood.in/recipe/et-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
+  <!-- India — More Cities -->
+  <url><loc>https://www.fantasticfood.in/recipe/in-13</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-14</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-15</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-16</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-17</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-18</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-19</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-20</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-21</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-22</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/in-23</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Singapore -->
+  <url><loc>https://www.fantasticfood.in/recipe/sg-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/sg-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/sg-03</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/sg-04</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Malaysia -->
+  <url><loc>https://www.fantasticfood.in/recipe/my-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/my-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/my-03</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Peru -->
+  <url><loc>https://www.fantasticfood.in/recipe/pe-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/pe-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/pe-03</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Portugal -->
+  <url><loc>https://www.fantasticfood.in/recipe/pt-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/pt-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/pt-03</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Canada -->
+  <url><loc>https://www.fantasticfood.in/recipe/ca-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/ca-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/ca-03</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Australia -->
+  <url><loc>https://www.fantasticfood.in/recipe/au-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/au-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/au-03</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Sweden -->
+  <url><loc>https://www.fantasticfood.in/recipe/se-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/se-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Denmark -->
+  <url><loc>https://www.fantasticfood.in/recipe/dk-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/dk-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Netherlands -->
+  <url><loc>https://www.fantasticfood.in/recipe/nl-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/nl-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Belgium -->
+  <url><loc>https://www.fantasticfood.in/recipe/be-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/be-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Poland -->
+  <url><loc>https://www.fantasticfood.in/recipe/pl-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/pl-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Austria -->
+  <url><loc>https://www.fantasticfood.in/recipe/at-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/at-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Czech Republic -->
+  <url><loc>https://www.fantasticfood.in/recipe/cz-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Hungary -->
+  <url><loc>https://www.fantasticfood.in/recipe/hu-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Ukraine -->
+  <url><loc>https://www.fantasticfood.in/recipe/ua-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/ua-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Georgia -->
+  <url><loc>https://www.fantasticfood.in/recipe/ge-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/ge-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Uzbekistan -->
+  <url><loc>https://www.fantasticfood.in/recipe/uz-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Philippines -->
+  <url><loc>https://www.fantasticfood.in/recipe/ph-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/ph-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/ph-03</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Taiwan -->
+  <url><loc>https://www.fantasticfood.in/recipe/tw-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/tw-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/tw-03</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Nigeria -->
+  <url><loc>https://www.fantasticfood.in/recipe/ng-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/ng-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Kenya -->
+  <url><loc>https://www.fantasticfood.in/recipe/ke-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Colombia -->
+  <url><loc>https://www.fantasticfood.in/recipe/co-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/co-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Cuba -->
+  <url><loc>https://www.fantasticfood.in/recipe/cu-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Chile -->
+  <url><loc>https://www.fantasticfood.in/recipe/cl-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- New Zealand -->
+  <url><loc>https://www.fantasticfood.in/recipe/nz-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Israel -->
+  <url><loc>https://www.fantasticfood.in/recipe/il-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/il-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Iran -->
+  <url><loc>https://www.fantasticfood.in/recipe/ir-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/ir-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- South Africa -->
+  <url><loc>https://www.fantasticfood.in/recipe/za-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fantasticfood.in/recipe/za-02</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Cambodia -->
+  <url><loc>https://www.fantasticfood.in/recipe/kh-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Nepal -->
+  <url><loc>https://www.fantasticfood.in/recipe/np-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Bangladesh -->
+  <url><loc>https://www.fantasticfood.in/recipe/bd-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Laos -->
+  <url><loc>https://www.fantasticfood.in/recipe/la-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Myanmar -->
+  <url><loc>https://www.fantasticfood.in/recipe/mm-01</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
   <!-- ── VEGETABLES ── -->
   <url><loc>https://www.fantasticfood.in/food/onion</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.fantasticfood.in/food/tomato</loc><lastmod>2026-03-26</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
