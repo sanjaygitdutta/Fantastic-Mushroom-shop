@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Menu, Search, User, ChevronDown, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ShoppingBasket } from 'lucide-react';
@@ -99,24 +99,71 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
 
-              <Link to="/compare" onMouseEnter={() => prefetchRoute('/compare')} className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              <NavLink
+                to="/compare"
+                onMouseEnter={() => prefetchRoute('/compare')}
+                className={({ isActive }) =>
+                  `nav-link px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  }`
+                }
+              >
                 Compare
-              </Link>
-              <Link to="/recipes" onMouseEnter={() => prefetchRoute('/recipes')} className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              </NavLink>
+              <NavLink
+                to="/recipes"
+                onMouseEnter={() => prefetchRoute('/recipes')}
+                className={({ isActive }) =>
+                  `nav-link px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  }`
+                }
+              >
                 Recipes
-              </Link>
-              <Link to="/coupons" className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-amber-500/20 text-amber-300 hover:text-amber-200 font-semibold">
+              </NavLink>
+              <NavLink
+                to="/coupons"
+                className={({ isActive }) =>
+                  `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  }`
+                }
+              >
                 🎟️ Coupons
-              </Link>
-              <Link to="/basket" onMouseEnter={() => prefetchRoute('/basket')} className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              </NavLink>
+              <NavLink
+                to="/basket"
+                onMouseEnter={() => prefetchRoute('/basket')}
+                className={({ isActive }) =>
+                  `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  }`
+                }
+              >
                 🛒 Basket
-              </Link>
-              <Link to="/meal-calculator" onMouseEnter={() => prefetchRoute('/meal-calculator')} className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              </NavLink>
+              <NavLink
+                to="/meal-calculator"
+                onMouseEnter={() => prefetchRoute('/meal-calculator')}
+                className={({ isActive }) =>
+                  `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  }`
+                }
+              >
                 🍳 Meal Cost
-              </Link>
-              <Link to="/mushroom-shop" onMouseEnter={() => prefetchRoute('/mushroom-shop')} className="flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+              </NavLink>
+              <NavLink
+                to="/mushroom-shop"
+                onMouseEnter={() => prefetchRoute('/mushroom-shop')}
+                className={({ isActive }) =>
+                  `flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  }`
+                }
+              >
                 🍄 Mushroom Shop
-              </Link>
+              </NavLink>
             </div>
 
             {/* Right icons */}
@@ -230,30 +277,38 @@ const Navbar = () => {
             className="fixed top-[60px] left-0 right-0 z-40 bg-forest-900 border-b border-forest-700 md:hidden"
           >
             <div className="px-4 py-5 space-y-2">
-              <Link to="/" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+              <NavLink to="/" end onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 🏠 Home
-              </Link>
-              <Link to="/compare" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+              </NavLink>
+              <NavLink to="/compare" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 ⚖️ Compare Prices
-              </Link>
-              <Link to="/basket" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+              </NavLink>
+              <NavLink to="/basket" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 🛒 Basket Calculator
-              </Link>
-              <Link to="/meal-calculator" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+              </NavLink>
+              <NavLink to="/meal-calculator" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 🍳 Meal Cost Calculator
-              </Link>
-              <Link to="/mushroom-shop" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+              </NavLink>
+              <NavLink to="/mushroom-shop" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 🍄 Mushroom Shop
-              </Link>
-              <Link to="/recipes" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
+              </NavLink>
+              <NavLink to="/recipes" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 📖 Recipes
-              </Link>
-              <Link to="/coupons" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-amber-300 font-bold border-b border-forest-800">
+              </NavLink>
+              <NavLink to="/coupons" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-bold border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 🎟️ Coupon Codes
-              </Link>
-              <Link to="/about" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium">
+              </NavLink>
+              <NavLink to="/about" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 ℹ️ About
-              </Link>
+              </NavLink>
               <div className="pt-4 pb-2">
                 <p className="text-xs text-forest-400 uppercase tracking-wider mb-3">Quick Compare</p>
                 <div className="flex flex-wrap gap-2">
