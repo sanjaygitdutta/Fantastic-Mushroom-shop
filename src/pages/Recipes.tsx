@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Clock, Users, TrendingDown, Globe, X, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { WORLD_RECIPES, COUNTRIES, type WorldRecipe } from '../data/worldRecipes';
+import { WORLD_RECIPES, COUNTRIES, CATEGORIES, type WorldRecipe } from '../data/worldRecipes';
 
 const DIFFICULTY_COLORS = {
   Easy: 'bg-green-100 text-green-700',
@@ -24,6 +24,15 @@ const COUNTRY_EMOJIS: Record<string, string> = {
   Brazil: '🇧🇷', Ethiopia: '🇪🇹', Pakistan: '🇵🇰', Indonesia: '🇮🇩',
   Germany: '🇩🇪', UK: '🇬🇧', Russia: '🇷🇺', Egypt: '🇪🇬', Argentina: '🇦🇷',
   'Sri Lanka': '🇱🇰',
+  // New countries
+  Singapore: '🇸🇬', Malaysia: '🇲🇾', Peru: '🇵🇪', Portugal: '🇵🇹',
+  Canada: '🇨🇦', Australia: '🇦🇺', Sweden: '🇸🇪', Denmark: '🇩🇰',
+  Netherlands: '🇳🇱', Belgium: '🇧🇪', Poland: '🇵🇱', Austria: '🇦🇹',
+  'Czech Republic': '🇨🇿', Hungary: '🇭🇺', Ukraine: '🇺🇦', Georgia: '🇬🇪',
+  Uzbekistan: '🇺🇿', Philippines: '🇵🇭', Taiwan: '🇹🇼', Nigeria: '🇳🇬',
+  Kenya: '🇰🇪', Colombia: '🇨🇴', Cuba: '🇨🇺', Chile: '🇨🇱',
+  'New Zealand': '🇳🇿', Israel: '🇮🇱', Iran: '🇮🇷', 'South Africa': '🇿🇦',
+  Cambodia: '🇰🇭', Nepal: '🇳🇵', Bangladesh: '🇧🇩', Laos: '🇱🇦', Myanmar: '🇲🇲',
 };
 
 const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => (
@@ -75,7 +84,7 @@ export default function Recipes() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
 
-  const categories = ['All', 'Breakfast', 'Main Course', 'Dessert', 'Snack', 'Soup', 'Salad', 'Street Food'];
+  const categories = ['All', ...Array.from(new Set(WORLD_RECIPES.map(r => r.category))).sort()];
   const allCountries = ['All', ...COUNTRIES];
 
   const filtered = useMemo(() => {
@@ -102,8 +111,8 @@ export default function Recipes() {
   return (
     <>
       <SEO
-        title="World Recipes — 250+ Authentic Recipes from 25 Countries | Fantastic Food"
-        description="Discover 250+ authentic recipes from India, Italy, Japan, China, Mexico, France, Thailand, Korea, Turkey and 16 more countries. Full ingredients & step-by-step instructions. Compare ingredient prices before you cook!"
+        title={`World Recipes — ${WORLD_RECIPES.length}+ Authentic Recipes from ${COUNTRIES.length} Countries | Fantastic Food`}
+        description={`Discover ${WORLD_RECIPES.length}+ authentic recipes from ${COUNTRIES.length} countries including India, Italy, Japan, Singapore, Peru, Portugal, Australia and more. Full ingredients & step-by-step cooking instructions.`}
         canonicalUrl="https://www.fantasticfood.in/recipes"
         keywords="world recipes, international cuisine, Indian recipes, Italian recipes, Japanese recipes, Chinese recipes, Mexican recipes, how to cook, recipe ingredients comparison"
       />
@@ -119,10 +128,10 @@ export default function Recipes() {
               ))}
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-3 leading-tight">
-              World Kitchen<br /><span className="text-amber-400">250+ Authentic Recipes</span>
+              World Kitchen<br /><span className="text-amber-400">{WORLD_RECIPES.length}+ Authentic Recipes</span>
             </h1>
             <p className="text-cream-300 text-lg max-w-2xl mx-auto mb-6">
-              From Delhi to Tokyo, Rome to Mexico City — explore authentic recipes from 25 countries with full ingredients & step-by-step instructions.
+              From Delhi to Tokyo, Rome to Mexico City — explore authentic recipes from <strong className="text-amber-400">{COUNTRIES.length} countries</strong> with full ingredients &amp; step-by-step instructions.
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               {[
