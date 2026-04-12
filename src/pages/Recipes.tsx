@@ -120,15 +120,14 @@ const RecipeModal = ({ recipe, onClose }: { recipe: WorldRecipe; onClose: () => 
   </motion.div>
 );
 
-const RecipeCard = ({ recipe, onClick }: { recipe: WorldRecipe; onClick: () => void }) => (
+const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => (
   <motion.div
     layout
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, scale: 0.95 }}
     whileHover={{ y: -4 }}
-    onClick={onClick}
-    className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg transition-all group"
+    className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all group"
   >
     {/* Country stripe */}
     <div className="h-1.5 bg-gradient-to-r from-forest-500 to-amber-400" />
@@ -157,11 +156,11 @@ const RecipeCard = ({ recipe, onClick }: { recipe: WorldRecipe; onClick: () => v
         ))}
       </div>
     </div>
-    <div className="px-5 pb-4">
+    <Link to={`/recipe/${recipe.id}`} className="block px-5 pb-4">
       <div className="flex items-center gap-1 text-forest-600 text-xs font-bold group-hover:text-forest-800">
         <BookOpen className="w-3.5 h-3.5" /> View Recipe & Cook
       </div>
-    </div>
+    </Link>
   </motion.div>
 );
 
@@ -170,7 +169,6 @@ export default function Recipes() {
   const [selectedCountry, setSelectedCountry] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
-  const [selectedRecipe, setSelectedRecipe] = useState<WorldRecipe | null>(null);
 
   const categories = ['All', 'Breakfast', 'Main Course', 'Dessert', 'Snack', 'Soup', 'Salad', 'Street Food'];
   const allCountries = ['All', ...COUNTRIES];
@@ -326,7 +324,7 @@ export default function Recipes() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <AnimatePresence>
                   {recipes.map(recipe => (
-                    <RecipeCard key={recipe.id} recipe={recipe} onClick={() => setSelectedRecipe(recipe)} />
+                    <RecipeCard key={recipe.id} recipe={recipe} />
                   ))}
                 </AnimatePresence>
               </div>
@@ -358,13 +356,6 @@ export default function Recipes() {
           </div>
         </div>
       </div>
-
-      {/* Recipe Detail Modal */}
-      <AnimatePresence>
-        {selectedRecipe && (
-          <RecipeModal recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} />
-        )}
-      </AnimatePresence>
     </>
   );
 }
