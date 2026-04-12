@@ -287,7 +287,7 @@ const MealCostCalculator = () => {
             <ChefHat className="w-4 h-4" /> Smart Meal Planner
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white mb-3">
-            Cook Smarter,<br /><span className="text-amber-400">Spend Less</span>
+            Cook Smarter<br /><span className="text-amber-400">Spend Less</span>
           </h1>
           <p className="text-cream-300 max-w-xl mx-auto text-lg">
             Pick from <strong className="text-amber-400">{RECIPES.length}+ global recipes</strong> — we'll compare the total ingredient cost across all 7 platforms.
