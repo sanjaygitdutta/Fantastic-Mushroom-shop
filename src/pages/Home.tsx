@@ -312,7 +312,7 @@ const Home = () => {
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { icon: Zap, title: 'Real-Time Prices', desc: 'Live prices from 6 platforms, updated continuously' },
+              { icon: Zap, title: 'Real-Time Prices', desc: 'Live prices from 7 platforms, updated continuously' },
               { icon: TrendingDown, title: 'Save Up to 40%', desc: 'Find the cheapest option every time you shop' },
               { icon: Shield, title: 'Trusted Sources', desc: 'Only official platform data — no fake listings' },
               { icon: Star, title: 'All Food Types', desc: 'Everything edible — groceries, meat, sweets & more' },

@@ -98,7 +98,7 @@ const BasketCalculator = () => {
             Find the Cheapest Platform<br />for Your Entire Basket 🛒
           </h1>
           <p className="text-forest-600 max-w-xl mx-auto">
-            Add items to your basket and we'll compare the total across all 6 platforms in real-time.
+            Add items to your basket and we'll compare the total across all 7 platforms in real-time.
           </p>
         </div>
 

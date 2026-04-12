@@ -70,7 +70,7 @@ const ComparePage = () => {
           <div className="flex flex-col lg:flex-row lg:items-center gap-4">
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-forest-200 mb-1 font-display">
-                Comparing prices across 6 platforms
+                Comparing prices across 7 platforms
               </h1>
               {pincode && (
                 <p className="text-forest-400 text-sm">Near pincode: {pincode}</p>
