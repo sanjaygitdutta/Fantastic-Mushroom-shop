@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { RefreshCw, Zap, ShieldCheck, TrendingDown } from 'lucide-react';
+import { RefreshCw, Zap, ShieldCheck, TrendingDown, Clock, X, Flame } from 'lucide-react';
 import PriceSearchBar from '../components/PriceSearchBar';
 import CompareResultsGrid from '../components/CompareResultsGrid';
 import FoodCategoryBrowser from '../components/FoodCategoryBrowser';
@@ -10,8 +10,7 @@ import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
 import SEO from '../components/SEO';
 import { useRecentlyCompared } from '../hooks/useRecentlyCompared';
-import { useNavigate } from 'react-router-dom';
-import { Clock, X } from 'lucide-react';
+import { getDailyDeal } from '../data/compareFeatures';
 
 // Platform logos strip
 const PLATFORMS = [
@@ -51,6 +50,7 @@ const ComparePage = () => {
   const [lastQuery, setLastQuery] = useState('');
   const { recents, addRecent, clearRecents } = useRecentlyCompared();
   const navigate = useNavigate();
+  const dailyDeal = getDailyDeal();
 
   useEffect(() => {
     if (!query || query === lastQuery) return;
@@ -199,6 +199,35 @@ const ComparePage = () => {
                 </div>
               </motion.div>
             )}
+
+            {/* 🔥 Daily Deal Banner */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="mb-6 bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 rounded-2xl p-4 flex items-center justify-between gap-4 cursor-pointer shadow-lg hover:shadow-xl transition-shadow"
+              onClick={() => navigate(`/compare?q=${dailyDeal.query}`)}
+            >
+              <div className="flex items-center gap-3">
+                <div className="bg-white/20 rounded-xl p-2 text-2xl">{dailyDeal.icon}</div>
+                <div className="text-white">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <Flame className="w-3.5 h-3.5" />
+                    <span className="text-xs font-bold uppercase tracking-wide opacity-90">Today's Best Deal</span>
+                  </div>
+                  <p className="font-black text-base">{dailyDeal.label} — {dailyDeal.discount}% off on {dailyDeal.platform}</p>
+                  <p className="text-xs opacity-80">
+                    <span className="line-through">₹{dailyDeal.originalPrice}</span>
+                    <span className="ml-1.5 font-bold text-sm">₹{dailyDeal.currentPrice}</span>
+                    <span className="ml-1.5">· Tap to compare all platforms</span>
+                  </p>
+                </div>
+              </div>
+              <div className="bg-white text-orange-600 font-black text-sm px-4 py-2 rounded-xl whitespace-nowrap hover:bg-orange-50 transition-colors">
+                Compare →
+              </div>
+            </motion.div>
+
             <TrendingSearches />
             <div className="mt-10">
               <h2 className="text-lg font-bold text-forest-900 mb-5 font-display">Browse by Category</h2>

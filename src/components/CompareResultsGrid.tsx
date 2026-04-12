@@ -3,17 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowDownUp, Zap, Tag, PackageCheck, ArrowRight,
   Sparkles, Share2, Bell, BellOff, LayoutList, LayoutGrid,
-  ExternalLink, CheckCircle2, Clock, TrendingDown,
+  ExternalLink, CheckCircle2, Clock, TrendingDown, Scale,
 } from 'lucide-react';
 import type { CompareResult, PlatformPrice } from '../data/mockPrices';
 import { getBestPrice } from '../data/mockPrices';
 import PlatformPriceCard from './PlatformPriceCard';
 import PriceHistoryChart from './PriceHistoryChart';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getPlatformById } from '../data/platforms';
 import { getAffiliateUrl } from '../utils/affiliate';
 import { usePriceWatch } from '../hooks/usePriceWatch';
 import toast from 'react-hot-toast';
+import { getRelatedItems } from '../data/compareFeatures';
+import { getPriceTrendSignal, getBestUnitDeal } from '../utils/unitPrice';
 
 type SortMode = 'price' | 'discount' | 'delivery' | 'availability';
 type ViewMode = 'cards' | 'table';
@@ -95,6 +97,8 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
 
   const { addWatch, removeWatch, isWatching } = usePriceWatch();
 
+  const navigate = useNavigate();
+
   const bestPrice = getBestPrice(result.prices);
   const sortedPrices = sortByMode(result.prices, sortMode);
   const inStockPrices = result.prices.filter((p) => p.inStock);
@@ -104,6 +108,13 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
   const savings = maxPrice - minPrice;
   const savingsPct = maxPrice > 0 ? Math.round((savings / maxPrice) * 100) : 0;
   const watching = isWatching(result.query);
+
+  // Best time to buy signal
+  const trendSignal = minPrice > 0 ? getPriceTrendSignal(result.query, minPrice) : null;
+  // Unit price best deal note
+  const unitDealNote = getBestUnitDeal(result.prices);
+  // People also compare
+  const relatedItems = getRelatedItems(result.query);
 
   // ── WhatsApp Share ──
   const handleShare = () => {
@@ -243,6 +254,25 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         </div>
       </motion.div>
 
+      {/* ── Best Time to Buy + Unit price note ── */}
+      <div className="flex flex-wrap gap-3 mb-5">
+        {trendSignal && (
+          <div className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-xl border bg-white shadow-sm ${
+            trendSignal.signal === 'low' ? 'border-green-200 bg-green-50' :
+            trendSignal.signal === 'high' ? 'border-red-200 bg-red-50' : 'border-blue-200 bg-blue-50'
+          }`}>
+            <span>{trendSignal.emoji}</span>
+            <span className={trendSignal.color}>{trendSignal.label}</span>
+          </div>
+        )}
+        {unitDealNote && (
+          <div className="flex items-center gap-2 text-sm px-4 py-2.5 rounded-xl border border-purple-200 bg-purple-50 text-purple-700 shadow-sm">
+            <Scale className="w-4 h-4 flex-shrink-0" />
+            <span>{unitDealNote}</span>
+          </div>
+        )}
+      </div>
+
       {/* ── Controls row: Sort + View toggle ── */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
         {/* Sort */}
@@ -331,6 +361,30 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           </table>
         </motion.div>
       )}
+
+      {/* ── People Also Compare ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mt-10 pt-8 border-t border-gray-100"
+      >
+        <h3 className="text-base font-bold text-forest-900 mb-4 flex items-center gap-2">
+          🔍 People Also Compare
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {relatedItems.map((item) => (
+            <button
+              key={item.query}
+              onClick={() => navigate(`/compare?q=${item.query}`)}
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-forest-100 hover:border-forest-400 hover:bg-forest-50 rounded-full text-sm font-medium text-forest-800 shadow-sm hover:shadow-md transition-all"
+            >
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </div>
+      </motion.div>
 
       {/* ── Price History ── */}
       <PriceHistoryChart query={result.query} prices={result.prices} />

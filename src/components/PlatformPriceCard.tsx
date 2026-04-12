@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, ShoppingCart, TrendingDown, AlertCircle, Clock } from 'lucide-react';
+import { ExternalLink, ShoppingCart, TrendingDown, AlertCircle, Clock, Tag, Scale } from 'lucide-react';
 import type { PlatformPrice } from '../data/mockPrices';
 import { getPlatformById } from '../data/platforms';
 import { getAffiliateUrl } from '../utils/affiliate';
+import { PLATFORM_COUPONS } from '../data/compareFeatures';
+import { getUnitPrice } from '../utils/unitPrice';
 
 interface PlatformPriceCardProps {
   price: PlatformPrice;
@@ -14,6 +16,10 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
   const platform = getPlatformById(price.platformId);
   if (!platform) return null;
 
+  const coupons = PLATFORM_COUPONS[price.platformId] ?? [];
+  const topCoupon = coupons[0];
+  const unitPrice = getUnitPrice(price.price, price.unit);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -24,9 +30,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
       {/* Best price badge */}
       {isBest && (
         <div className="absolute -top-3 left-4">
-          <span className="badge-best">
-            🏆 Best Price
-          </span>
+          <span className="badge-best">🏆 Best Price</span>
         </div>
       )}
 
@@ -58,9 +62,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
           </div>
         </div>
         {price.discount > 0 && (
-          <span className="badge-discount">
-            -{price.discount}%
-          </span>
+          <span className="badge-discount">-{price.discount}%</span>
         )}
       </div>
 
@@ -68,23 +70,44 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
       <p className="text-sm text-forest-700 mb-3 line-clamp-1">{price.productName}</p>
 
       {/* Price */}
-      <div className="flex items-end gap-2 mb-4">
+      <div className="flex items-end gap-2 mb-1">
         <span className={`text-2xl font-bold ${isBest ? 'text-forest-700' : 'text-forest-900'}`}>
           ₹{price.price}
         </span>
         {price.originalPrice > price.price && (
-          <span className="text-sm text-gray-400 line-through mb-0.5">
-            ₹{price.originalPrice}
-          </span>
+          <span className="text-sm text-gray-400 line-through mb-0.5">₹{price.originalPrice}</span>
         )}
         <span className="text-xs text-forest-600 mb-0.5">/ {price.unit}</span>
       </div>
 
+      {/* Unit price normalizer */}
+      {unitPrice && (
+        <div className="flex items-center gap-1 text-xs text-forest-500 mb-2">
+          <Scale className="w-3 h-3" />
+          <span className="font-medium">{unitPrice}</span>
+          <span className="text-gray-400">effective</span>
+        </div>
+      )}
+
       {/* Savings */}
       {price.discount > 0 && (
-        <div className="flex items-center gap-1 text-xs text-moss-600 mb-4">
+        <div className="flex items-center gap-1 text-xs text-moss-600 mb-3">
           <TrendingDown className="w-3 h-3" />
           Save ₹{price.originalPrice - price.price}
+        </div>
+      )}
+
+      {/* Coupon code hint */}
+      {topCoupon && price.inStock && (
+        <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mb-3">
+          <Tag className="w-3 h-3 text-amber-600 flex-shrink-0" />
+          <div className="min-w-0">
+            <span className="text-xs font-bold text-amber-700 font-mono">{topCoupon.code}</span>
+            <span className="text-xs text-amber-600"> — {topCoupon.description}</span>
+            {topCoupon.isNew && (
+              <span className="ml-1 text-[10px] bg-purple-100 text-purple-700 font-bold px-1 py-0.5 rounded">NEW</span>
+            )}
+          </div>
         </div>
       )}
 
@@ -101,15 +124,9 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
         } ${!price.inStock ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         {isBest ? (
-          <>
-            <ShoppingCart className="w-4 h-4" />
-            Buy at {platform.name}
-          </>
+          <><ShoppingCart className="w-4 h-4" /> Buy at {platform.name}</>
         ) : (
-          <>
-            <ExternalLink className="w-4 h-4" />
-            View on {platform.name}
-          </>
+          <><ExternalLink className="w-4 h-4" /> View on {platform.name}</>
         )}
       </a>
     </motion.div>
