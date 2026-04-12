@@ -4,6 +4,7 @@ import { ChefHat, ExternalLink, ShoppingCart, Plus, Minus, Sparkles, Users } fro
 import SEO from '../components/SEO';
 import { searchPrices } from '../data/mockPrices';
 import { PLATFORMS } from '../data/platforms';
+import { WORLD_RECIPES } from '../data/worldRecipes';
 
 interface RecipeIngredient {
   query: string;
@@ -23,17 +24,50 @@ interface Recipe {
   ingredients: RecipeIngredient[];
 }
 
-const RECIPES: Recipe[] = [
-  { name: 'Dal Makhani', emoji: '🫘', description: 'Creamy slow-cooked black lentils', servings: 4, time: '45 min', difficulty: 'Medium', category: 'North Indian', ingredients: [{ query: 'dal', displayName: 'Urad Dal', icon: '🫘', qty: '250g' }, { query: 'butter', displayName: 'Butter', icon: '🧈', qty: '50g' }, { query: 'tomato', displayName: 'Tomato', icon: '🍅', qty: '2 pcs' }, { query: 'onion', displayName: 'Onion', icon: '🧅', qty: '1 pcs' }, { query: 'cream', displayName: 'Fresh Cream', icon: '🥛', qty: '50ml' }] },
-  { name: 'Chicken Curry', emoji: '🍛', description: 'Spicy Indian home-style chicken curry', servings: 4, time: '40 min', difficulty: 'Medium', category: 'Non-Veg', ingredients: [{ query: 'chicken', displayName: 'Chicken', icon: '🍗', qty: '500g' }, { query: 'onion', displayName: 'Onion', icon: '🧅', qty: '2 pcs' }, { query: 'tomato', displayName: 'Tomato', icon: '🍅', qty: '2 pcs' }, { query: 'oil', displayName: 'Cooking Oil', icon: '🫙', qty: '30ml' }] },
-  { name: 'Palak Paneer', emoji: '🥬', description: 'Cottage cheese in creamy spinach gravy', servings: 4, time: '35 min', difficulty: 'Easy', category: 'North Indian', ingredients: [{ query: 'paneer', displayName: 'Paneer', icon: '🧀', qty: '200g' }, { query: 'spinach', displayName: 'Spinach', icon: '🌿', qty: '300g' }, { query: 'onion', displayName: 'Onion', icon: '🧅', qty: '1 pcs' }, { query: 'tomato', displayName: 'Tomato', icon: '🍅', qty: '1 pcs' }, { query: 'butter', displayName: 'Butter', icon: '🧈', qty: '30g' }] },
-  { name: 'Egg Bhurji', emoji: '🍳', description: 'Spiced scrambled eggs — quick breakfast', servings: 2, time: '15 min', difficulty: 'Easy', category: 'Breakfast', ingredients: [{ query: 'eggs', displayName: 'Eggs', icon: '🥚', qty: '4 pcs' }, { query: 'onion', displayName: 'Onion', icon: '🧅', qty: '1 pcs' }, { query: 'tomato', displayName: 'Tomato', icon: '🍅', qty: '1 pcs' }, { query: 'butter', displayName: 'Butter', icon: '🧈', qty: '20g' }] },
-  { name: 'Banana Smoothie', emoji: '🥤', description: 'Healthy breakfast smoothie', servings: 2, time: '5 min', difficulty: 'Easy', category: 'Breakfast', ingredients: [{ query: 'banana', displayName: 'Banana', icon: '🍌', qty: '2 pcs' }, { query: 'milk', displayName: 'Milk', icon: '🥛', qty: '300ml' }, { query: 'curd', displayName: 'Curd', icon: '🍶', qty: '100g' }] },
-  { name: 'Veg Fried Rice', emoji: '🍚', description: 'Restaurant-style vegetable fried rice', servings: 3, time: '30 min', difficulty: 'Medium', category: 'Chinese', ingredients: [{ query: 'rice', displayName: 'Basmati Rice', icon: '🍚', qty: '1 cup' }, { query: 'carrot', displayName: 'Carrot', icon: '🥕', qty: '1 pcs' }, { query: 'capsicum', displayName: 'Capsicum', icon: '🫑', qty: '1 pcs' }, { query: 'eggs', displayName: 'Eggs', icon: '🥚', qty: '2 pcs' }, { query: 'oil', displayName: 'Oil', icon: '🫙', qty: '20ml' }] },
-  { name: 'Aloo Gobi', emoji: '🥔', description: 'Dry potato and cauliflower sabzi', servings: 3, time: '25 min', difficulty: 'Easy', category: 'North Indian', ingredients: [{ query: 'potato', displayName: 'Potato', icon: '🥔', qty: '3 pcs' }, { query: 'cauliflower', displayName: 'Cauliflower', icon: '🥦', qty: '1 head' }, { query: 'tomato', displayName: 'Tomato', icon: '🍅', qty: '1 pcs' }, { query: 'oil', displayName: 'Oil', icon: '🫙', qty: '20ml' }] },
-  { name: 'Masala Dosa', emoji: '🥞', description: 'Crispy South Indian crepe with potato filling', servings: 2, time: '20 min', difficulty: 'Hard', category: 'South Indian', ingredients: [{ query: 'potato', displayName: 'Potato', icon: '🥔', qty: '2 pcs' }, { query: 'onion', displayName: 'Onion', icon: '🧅', qty: '1 pcs' }, { query: 'oil', displayName: 'Oil', icon: '🫙', qty: '30ml' }, { query: 'curd', displayName: 'Curd', icon: '🍶', qty: '100g' }] },
-  { name: 'Rajma Chawal', emoji: '🍲', description: 'Classic kidney beans curry with rice', servings: 4, time: '50 min', difficulty: 'Medium', category: 'North Indian', ingredients: [{ query: 'rajma', displayName: 'Rajma', icon: '🫘', qty: '200g' }, { query: 'rice', displayName: 'Rice', icon: '🍚', qty: '300g' }, { query: 'tomato', displayName: 'Tomato', icon: '🍅', qty: '2 pcs' }, { query: 'onion', displayName: 'Onion', icon: '🧅', qty: '1 pcs' }, { query: 'ghee', displayName: 'Ghee', icon: '🫙', qty: '20g' }] },
-];
+const parseIngredient = (ingStr: string): RecipeIngredient => {
+  const match = ingStr.match(/^([\d.,\/-]+(?:\s*(?:g|kg|ml|L|tbsp|tsp|cup|cups|pcs|cloves|inch|head|bunch|leaves|slices))?)\s+(.+)$/i);
+  let qty = '1 unit';
+  let name = ingStr;
+  if (match) { qty = match[1]; name = match[2]; }
+  const query = name.toLowerCase()
+    .replace(/\s*\(.*\)\s*/g, '')
+    .replace(/^(fresh|dry|dried|ground|whole|chopped|sliced|minced|diced|cooked|raw)\s+/i, '')
+    .trim();
+  let icon = '🛒';
+  if (query.includes('chicken')) icon = '🍗';
+  else if (query.includes('beef') || query.includes('mutton') || query.includes('pork') || query.includes('lamb')) icon = '🥩';
+  else if (query.includes('onion')) icon = '🧅';
+  else if (query.includes('tomato')) icon = '🍅';
+  else if (query.includes('milk') || query.includes('cream')) icon = '🥛';
+  else if (query.includes('cheese') || query.includes('paneer') || query.includes('ricotta') || query.includes('mascarpone')) icon = '🧀';
+  else if (query.includes('egg')) icon = '🥚';
+  else if (query.includes('potato')) icon = '🥔';
+  else if (query.includes('rice')) icon = '🍚';
+  else if (query.includes('oil') || query.includes('butter') || query.includes('ghee')) icon = '🧈';
+  else if (query.includes('garlic')) icon = '🧄';
+  else if (query.includes('bread')) icon = '🍞';
+  else if (query.includes('pasta') || query.includes('macaroni') || query.includes('spaghetti') || query.includes('noodle')) icon = '🍝';
+  else if (query.includes('fish') || query.includes('prawn') || query.includes('shrimp') || query.includes('clam')) icon = '🐟';
+  else if (query.includes('flour') || query.includes('maida')) icon = '🌾';
+  else if (query.includes('sugar')) icon = '🍬';
+  else if (query.includes('lemon') || query.includes('lime')) icon = '🍋';
+  else if (query.includes('apple')) icon = '🍎';
+  else if (query.includes('banana')) icon = '🍌';
+  else if (query.includes('spinach') || query.includes('basil') || query.includes('herb')) icon = '🌿';
+  else if (query.includes('carrot')) icon = '🥕';
+  return { query, displayName: name.charAt(0).toUpperCase() + name.slice(1), icon, qty };
+};
+
+const RECIPES: Recipe[] = WORLD_RECIPES.map(r => ({
+  name: r.name,
+  emoji: r.emoji,
+  description: `${r.country} • ${r.city} • ${r.tags.slice(0,2).join(', ')}`,
+  servings: r.servings,
+  time: r.time,
+  difficulty: r.difficulty as 'Easy' | 'Medium' | 'Hard',
+  category: r.category,
+  ingredients: r.ingredients.map(parseIngredient),
+}));
 
 const DIFFICULTY_COLORS = { Easy: 'bg-green-100 text-green-700', Medium: 'bg-amber-100 text-amber-700', Hard: 'bg-red-100 text-red-700' };
 
@@ -46,9 +80,21 @@ const MealCostCalculator = () => {
   const [servings, setServings] = useState(4);
   const [activeCategory, setActiveCategory] = useState('All');
 
+  const [searchQuery, setSearchQuery] = useState('');
   const categories = ['All', ...Array.from(new Set(RECIPES.map(r => r.category)))];
 
-  const filteredRecipes = activeCategory === 'All' ? RECIPES : RECIPES.filter(r => r.category === activeCategory);
+  const filteredRecipes = (() => {
+    let list = activeCategory === 'All' ? RECIPES : RECIPES.filter(r => r.category === activeCategory);
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(r =>
+        r.name.toLowerCase().includes(q) ||
+        r.description.toLowerCase().includes(q) ||
+        r.ingredients.some(i => i.query.includes(q) || i.displayName.toLowerCase().includes(q))
+      );
+    }
+    return list;
+  })();
 
   const calculateCosts = async (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -84,9 +130,9 @@ const MealCostCalculator = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-forest-900 to-cream-50 pt-24 pb-16">
       <SEO
-        title="Meal Cost Calculator — How Much Does Cooking at Home Cost? | Fantastic Food"
-        description="Find the exact cost of cooking 9 popular Indian recipes at home. Compare ingredient prices across Blinkit, Zepto, BigBasket and more. Adjust for servings!"
-        keywords="meal cost calculator India, recipe cost, cooking cost calculator, how much to cook dal makhani, palak paneer cost"
+        title="Meal Cost Calculator — 250+ World Recipes Cost Comparison | Fantastic Food"
+        description="Find the exact cost of cooking 250+ recipes from 25 countries at home. Compare ingredient prices across Blinkit, Zepto, BigBasket and more. Adjust for servings!"
+        keywords="meal cost calculator India, recipe cost, cooking cost calculator, world recipes cost, how much to cook biryani, pizza cost India"
         canonicalUrl="https://www.fantasticfood.in/meal-calculator"
       />
 
@@ -100,18 +146,41 @@ const MealCostCalculator = () => {
             Cook Smarter,<br /><span className="text-amber-400">Spend Less</span>
           </h1>
           <p className="text-cream-300 max-w-xl mx-auto text-lg">
-            Pick a recipe — we'll compare the total ingredient cost across all 7 platforms and find the cheapest place to order from.
+            Pick from <strong className="text-amber-400">{RECIPES.length}+ global recipes</strong> — we'll compare the total ingredient cost across all 7 platforms.
           </p>
         </motion.div>
 
-        {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
-          {categories.map(cat => (
-            <button key={cat} onClick={() => setActiveCategory(cat)}
-              className={`text-sm font-semibold px-4 py-2 rounded-full border transition-all ${activeCategory === cat ? 'bg-amber-400 text-forest-900 border-amber-400' : 'bg-white/10 text-cream-200 border-white/20 hover:bg-white/20'}`}
-            >{cat}</button>
-          ))}
+        {/* Search + Category Filter */}
+        <div className="mb-6 space-y-3">
+          <div className="relative max-w-sm mx-auto">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-cream-400">🔍</span>
+            <input
+              type="text"
+              placeholder={`Search ${RECIPES.length}+ recipes by name, country or ingredient…`}
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-cream-400 rounded-xl py-2.5 pl-9 pr-4 outline-none focus:bg-white/20 transition-all text-sm"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-cream-400 hover:text-white">✕</button>
+            )}
+          </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            {categories.map(cat => {
+              const count = cat === 'All' ? RECIPES.length : RECIPES.filter(r => r.category === cat).length;
+              return (
+                <button key={cat} onClick={() => { setActiveCategory(cat); setSearchQuery(''); }}
+                  className={`text-sm font-semibold px-4 py-2 rounded-full border transition-all ${activeCategory === cat && !searchQuery ? 'bg-amber-400 text-forest-900 border-amber-400' : 'bg-white/10 text-cream-200 border-white/20 hover:bg-white/20'}`}
+                >{cat} <span className="opacity-60 text-xs">({count})</span></button>
+              );
+            })}
+          </div>
         </div>
+        {searchQuery && (
+          <p className="text-center text-cream-400 text-sm mb-4">
+            {filteredRecipes.length} result{filteredRecipes.length !== 1 ? 's' : ''} for "<span className="text-amber-300">{searchQuery}</span>"
+          </p>
+        )}
 
         {/* Recipe Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
