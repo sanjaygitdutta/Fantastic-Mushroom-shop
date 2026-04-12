@@ -4,6 +4,7 @@ import { ArrowDownUp, Zap, Tag, ArrowRight } from 'lucide-react';
 import type { CompareResult, PlatformPrice } from '../data/mockPrices';
 import { getBestPrice } from '../data/mockPrices';
 import PlatformPriceCard from './PlatformPriceCard';
+import PriceHistoryChart from './PriceHistoryChart';
 import { Link } from 'react-router-dom';
 
 type SortMode = 'price' | 'discount' | 'delivery';
@@ -44,7 +45,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           <span className="text-4xl">{result.icon}</span>
           <div>
             <h2 className="text-xl font-bold font-display">{result.canonicalName}</h2>
-            <p className="text-forest-300 text-sm">{result.category} · Prices across 6 platforms</p>
+            <p className="text-forest-300 text-sm">{result.category} · Prices across {result.prices.length} platforms</p>
           </div>
         </div>
         <div className="flex gap-6">
@@ -101,6 +102,9 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           />
         ))}
       </div>
+
+      {/* Price History Chart */}
+      <PriceHistoryChart query={result.query} prices={result.prices} />
 
       {/* Mushroom promo if searching mushroom */}
       {result.query.toLowerCase().includes('mushroom') && (
