@@ -30,6 +30,7 @@ const FoodItemPage = lazy(() => import('./pages/FoodItemPage'));
 const BasketCalculator = lazy(() => import('./pages/BasketCalculator'));
 const MealCostCalculator = lazy(() => import('./pages/MealCostCalculator'));
 const Coupons = lazy(() => import('./pages/Coupons'));
+const CityPage = lazy(() => import('./pages/CityPage'));
 
 // Admin Pages
 const AdminRoute = lazy(() => import('./pages/admin/AdminRoute'));
@@ -84,6 +85,7 @@ function App() {
                   <Route path="/basket" element={<BasketCalculator />} />
                   <Route path="/meal-calculator" element={<MealCostCalculator />} />
                   <Route path="/coupons" element={<Coupons />} />
+                  <Route path="/city/:citySlug" element={<CityPage />} />
 
                   {/* Admin Routes */}
                   <Route path="/admin/login" element={<AdminLogin />} />
