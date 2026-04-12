@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDownUp, Zap, Tag, ArrowRight } from 'lucide-react';
+import { ArrowDownUp, Zap, Tag, PackageCheck, ArrowRight, Sparkles } from 'lucide-react';
 import type { CompareResult, PlatformPrice } from '../data/mockPrices';
 import { getBestPrice } from '../data/mockPrices';
 import PlatformPriceCard from './PlatformPriceCard';
 import PriceHistoryChart from './PriceHistoryChart';
 import { Link } from 'react-router-dom';
 
-type SortMode = 'price' | 'discount' | 'delivery';
+type SortMode = 'price' | 'discount' | 'delivery' | 'availability';
 
 interface CompareResultsGridProps {
   result: CompareResult;
@@ -17,9 +17,10 @@ const sortByMode = (prices: PlatformPrice[], mode: SortMode): PlatformPrice[] =>
   const sorted = [...prices];
   if (mode === 'price') return sorted.sort((a, b) => a.price - b.price);
   if (mode === 'discount') return sorted.sort((a, b) => b.discount - a.discount);
+  if (mode === 'availability') return sorted.sort((a, b) => (b.inStock ? 1 : 0) - (a.inStock ? 1 : 0));
   if (mode === 'delivery') {
-    const deliveryOrder: Record<string, number> = { blinkit: 1, zepto: 2, swiggy: 3, bigbasket: 4, amazon: 5, jiomart: 6 };
-    return sorted.sort((a, b) => (deliveryOrder[a.platformId] || 6) - (deliveryOrder[b.platformId] || 6));
+    const deliveryOrder: Record<string, number> = { blinkit: 1, zepto: 2, swiggy: 3, bigbasket: 4, amazon: 5, jiomart: 6, flipkart: 7 };
+    return sorted.sort((a, b) => (deliveryOrder[a.platformId] || 7) - (deliveryOrder[b.platformId] || 7));
   }
   return sorted;
 };
@@ -29,13 +30,38 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
   const bestPrice = getBestPrice(result.prices);
   const sortedPrices = sortByMode(result.prices, sortMode);
 
-  const minPrice = Math.min(...result.prices.filter((p) => p.inStock).map((p) => p.price));
-  const maxPrice = Math.max(...result.prices.filter((p) => p.inStock).map((p) => p.price));
+  const inStockPrices = result.prices.filter((p) => p.inStock);
+  const outOfStock = result.prices.length - inStockPrices.length;
+  const minPrice = inStockPrices.length ? Math.min(...inStockPrices.map((p) => p.price)) : 0;
+  const maxPrice = inStockPrices.length ? Math.max(...inStockPrices.map((p) => p.price)) : 0;
   const savings = maxPrice - minPrice;
+  const savingsPct = maxPrice > 0 ? Math.round((savings / maxPrice) * 100) : 0;
 
   return (
     <div>
-      {/* Summary bar */}
+      {/* ── Hero savings callout ── */}
+      {savings > 0 && bestPrice && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gradient-to-r from-amber-400 to-orange-400 rounded-2xl px-5 py-4 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">💡</span>
+            <div>
+              <p className="text-amber-900 font-black text-base">
+                Save up to ₹{savings} ({savingsPct}% cheaper) by choosing the best platform!
+              </p>
+              <p className="text-amber-800 text-xs">Cheapest: <strong>{bestPrice.platformId.charAt(0).toUpperCase() + bestPrice.platformId.slice(1)}</strong> at ₹{minPrice} vs highest ₹{maxPrice}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 bg-amber-900/20 text-amber-900 text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap">
+            <Sparkles className="w-3.5 h-3.5" /> Best Deal Found
+          </div>
+        </motion.div>
+      )}
+
+      {/* ── Summary bar ── */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -45,7 +71,10 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           <span className="text-4xl">{result.icon}</span>
           <div>
             <h2 className="text-xl font-bold font-display">{result.canonicalName}</h2>
-            <p className="text-forest-300 text-sm">{result.category} · Prices across {result.prices.length} platforms</p>
+            <p className="text-forest-300 text-sm">
+              {result.category} · {inStockPrices.length} in stock
+              {outOfStock > 0 && <span className="text-red-400"> · {outOfStock} unavailable</span>}
+            </p>
           </div>
         </div>
         <div className="flex gap-6">
@@ -66,15 +95,16 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         </div>
       </motion.div>
 
-      {/* Sort controls */}
+      {/* ── Sort controls ── */}
       <div className="flex items-center gap-2 mb-5 flex-wrap">
         <span className="text-sm text-forest-600 font-medium flex items-center gap-1">
           <ArrowDownUp className="w-4 h-4" /> Sort by:
         </span>
         {[
-          { key: 'price' as SortMode, label: 'Lowest Price', icon: Tag },
-          { key: 'discount' as SortMode, label: 'Max Discount', icon: Tag },
-          { key: 'delivery' as SortMode, label: 'Fastest Delivery', icon: Zap },
+          { key: 'price' as SortMode,        label: 'Lowest Price',    icon: Tag },
+          { key: 'discount' as SortMode,     label: 'Max Discount',    icon: Tag },
+          { key: 'delivery' as SortMode,     label: 'Fastest Delivery',icon: Zap },
+          { key: 'availability' as SortMode, label: 'In Stock First',  icon: PackageCheck },
         ].map(({ key, label, icon: Icon }) => (
           <button
             key={key}
@@ -91,7 +121,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         ))}
       </div>
 
-      {/* Price cards grid */}
+      {/* ── Price cards grid ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {sortedPrices.map((price, index) => (
           <PlatformPriceCard
@@ -103,10 +133,10 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         ))}
       </div>
 
-      {/* Price History Chart */}
+      {/* ── Price History Chart ── */}
       <PriceHistoryChart query={result.query} prices={result.prices} />
 
-      {/* Mushroom promo if searching mushroom */}
+      {/* ── Mushroom promo if searching mushroom ── */}
       {result.query.toLowerCase().includes('mushroom') && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
