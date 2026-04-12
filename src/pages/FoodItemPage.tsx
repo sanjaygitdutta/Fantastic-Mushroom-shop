@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import SEO from '../components/SEO';
-import PlatformPriceCard from '../components/PlatformPriceCard';
+import CompareResultsGrid from '../components/CompareResultsGrid';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
 
@@ -120,21 +120,12 @@ const FoodItemPage = () => {
             ))}
           </div>
         ) : result ? (
-          <div className="grid md:grid-cols-3 gap-4">
-            {result.prices.map((price, idx) => (
-              <PlatformPriceCard key={price.platformId} index={idx} price={price} isBest={false} />
-            ))}
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-forest-100 mb-6">
+            <CompareResultsGrid result={result} />
           </div>
         ) : (
           <p className="text-forest-600">No prices found. Try a different search.</p>
         )}
-
-        {/* Trust Disclaimer */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center mt-6">
-          <p className="text-amber-800 text-sm">
-            <span className="font-bold">⚠️ Note:</span> Actual prices vary rapidly based on your exact location and availability. Click the platform to see the final live price.
-          </p>
-        </div>
       </div>
 
       {/* FAQ Section — high-value SEO content */}

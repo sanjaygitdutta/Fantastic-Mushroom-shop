@@ -62,6 +62,10 @@ const categories = {
 // --- Generation Logic ---
 
 let keywords = new Set();
+let citySlugs = [
+  'mumbai', 'delhi', 'bangalore', 'hyderabad', 'chennai', 'pune', 'kolkata', 'ahmedabad',
+  'jaipur', 'lucknow', 'noida', 'gurgaon', 'surat', 'indore', 'chandigarh'
+];
 
 // 1. Add all single items (highly searched)
 [...categories.vegetables, ...categories.fruits, ...categories.dairy, ...categories.staples, 
@@ -141,18 +145,24 @@ if (!existingSitemap.includes(injectionPoint)) {
 }
 
 // Generate the XML blocks
+// Generate the XML blocks for food items
 const xmlGenerations = keywordArray.map(slug => {
   const url = `https://www.fantasticfood.in/food/${encodeURIComponent(slug)}`;
-  // Skip if it's already manually listed in the sitemap so we don't duplicate
   if (existingSitemap.includes(url)) return '';
-  
   return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
+}).join('');
+
+// Generate XML blocks for Cities
+const cityXmlGenerations = citySlugs.map(slug => {
+  const url = `https://www.fantasticfood.in/city/${encodeURIComponent(slug)}`;
+  if (existingSitemap.includes(url)) return '';
+  return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>\n`;
 }).join('');
 
 // Insert into sitemap
 const updatedSitemap = existingSitemap.replace(
   injectionPoint,
-  `\n  <!-- ── PROGRAMMATIC SEO PAGES (${keywordArray.length} auto-generated) ── -->\n${xmlGenerations}${injectionPoint}`
+  `\n  <!-- ── PROGRAMMATIC SEO PAGES (Cities + Food) ── -->\n${cityXmlGenerations}${xmlGenerations}${injectionPoint}`
 );
 
 fs.writeFileSync(sitemapPath, updatedSitemap);

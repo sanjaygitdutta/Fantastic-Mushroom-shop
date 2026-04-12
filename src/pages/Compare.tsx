@@ -78,13 +78,40 @@ const ComparePage = () => {
     ? `Compare prices for ${query} across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Find the cheapest deal instantly.`
     : 'Search any grocery or food item to compare real-time prices across 7 major Indian delivery platforms. Save money on every order.';
 
+  const compareSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Fantastic Food Price Comparison',
+    applicationCategory: 'ShoppingApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    description: seoDescription,
+  };
+
+  const searchActionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    url: 'https://www.fantasticfood.in/',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: 'https://www.fantasticfood.in/compare?q={search_term_string}',
+      'query-input': 'required name=search_term_string'
+    }
+  };
+
   return (
     <div className="min-h-screen pt-20 pb-16 bg-gray-50">
       <SEO
         title={seoTitle}
         description={seoDescription}
         canonicalUrl={`https://www.fantasticfood.in/compare${query ? `?q=${query}` : ''}`}
+        structuredData={compareSchema}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(searchActionSchema) }} />
 
       {/* ── Premium Hero ── */}
       <div className="bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900 text-white pt-8 pb-10 px-4 mb-0 relative overflow-hidden">

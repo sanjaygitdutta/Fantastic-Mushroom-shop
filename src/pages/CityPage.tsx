@@ -71,6 +71,32 @@ export default function CityPage() {
     navigate(`/compare?q=${encodeURIComponent(search.trim())}&city=${city.slug}`);
   };
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: `Which is the cheapest grocery delivery app in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `Prices vary by item and time, but you can compare live deals across ${city.platforms.join(', ')} directly on Fantastic Food.` } },
+      { '@type': 'Question', name: `Does Zepto and Blinkit deliver in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `Yes! You can compare both Zepto and Blinkit along with other apps to find the best delivery option in ${city.name}.` } },
+      { '@type': 'Question', name: `What are the trending grocery items in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `Currently, ${city.trending.slice(0, 3).join(', ')} are highly searched for grocery delivery in ${city.name}.` } },
+    ]
+  };
+
+  const citySchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: `Grocery Prices in ${city.name}`,
+    description: city.description,
+    url: `https://www.fantasticfood.in/city/${city.slug}`,
+    about: {
+      '@type': 'City',
+      name: city.name,
+      containedInPlace: {
+        '@type': 'State',
+        name: city.state
+      }
+    }
+  };
+
   return (
     <>
       <SEO
@@ -78,7 +104,9 @@ export default function CityPage() {
         description={`${city.description} Compare ${city.platforms.join(', ')} instantly. Updated daily for ${city.name}, ${city.state}.`}
         canonicalUrl={`https://www.fantasticfood.in/city/${city.slug}`}
         keywords={`grocery prices ${city.name}, blinkit ${city.name}, zepto ${city.name}, swiggy instamart ${city.name}, bigbasket ${city.name}, cheapest grocery ${city.name}, food price comparison ${city.name}`}
+        structuredData={citySchema}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <div className="min-h-screen bg-gradient-to-b from-forest-900 via-forest-800 to-cream-50 pt-24 pb-20">
 
