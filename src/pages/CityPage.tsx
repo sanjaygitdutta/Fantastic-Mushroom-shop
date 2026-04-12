@@ -76,7 +76,7 @@ export default function CityPage() {
       <SEO
         title={`Grocery Prices in ${city.name} | Blinkit vs Zepto vs Swiggy — Fantastic Food`}
         description={`${city.description} Compare ${city.platforms.join(', ')} instantly. Updated daily for ${city.name}, ${city.state}.`}
-        canonical={`https://www.fantasticfood.in/city/${city.slug}`}
+        canonicalUrl={`https://www.fantasticfood.in/city/${city.slug}`}
         keywords={`grocery prices ${city.name}, blinkit ${city.name}, zepto ${city.name}, swiggy instamart ${city.name}, bigbasket ${city.name}, cheapest grocery ${city.name}, food price comparison ${city.name}`}
       />
 

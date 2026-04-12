@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChefHat, ExternalLink, ShoppingCart, Plus, Minus, Trash2, Sparkles, Users } from 'lucide-react';
+import { ChefHat, ExternalLink, ShoppingCart, Plus, Minus, Sparkles, Users } from 'lucide-react';
 import SEO from '../components/SEO';
 import { searchPrices } from '../data/mockPrices';
 import { PLATFORMS } from '../data/platforms';

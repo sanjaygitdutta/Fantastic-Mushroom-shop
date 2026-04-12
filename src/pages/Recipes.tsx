@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Clock, Users, ChefHat, TrendingDown, Globe, X, BookOpen, ShoppingCart } from 'lucide-react';
+import { Search, Clock, Users, TrendingDown, Globe, X, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { WORLD_RECIPES, COUNTRIES, type WorldRecipe } from '../data/worldRecipes';
@@ -26,100 +26,6 @@ const COUNTRY_EMOJIS: Record<string, string> = {
   'Sri Lanka': '🇱🇰',
 };
 
-const RecipeModal = ({ recipe, onClose }: { recipe: WorldRecipe; onClose: () => void }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
-    onClick={onClose}
-  >
-    <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      onClick={e => e.stopPropagation()}
-      className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-    >
-      {/* Header */}
-      <div className="bg-gradient-to-br from-forest-900 to-forest-800 p-6 rounded-t-3xl relative">
-        <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30">
-          <X className="w-4 h-4" />
-        </button>
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-2xl">{recipe.emoji}</span>
-          <span className="text-cream-300 text-sm font-medium">{recipe.country} · {recipe.city}</span>
-          <span className="text-cream-400 text-sm">· {recipe.category}</span>
-        </div>
-        <h2 className="text-2xl font-black text-white mb-3">{recipe.name}</h2>
-        <div className="flex flex-wrap gap-3 text-sm text-cream-300">
-          <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{recipe.time}</span>
-          <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" />{recipe.servings} servings</span>
-          <span className="flex items-center gap-1"><ChefHat className="w-3.5 h-3.5" />{recipe.difficulty}</span>
-          <span>🔥 {recipe.calories} kcal</span>
-        </div>
-      </div>
-
-      <div className="p-6 space-y-6">
-        {/* Ingredients */}
-        <div>
-          <h3 className="font-black text-gray-800 text-lg mb-3 flex items-center gap-2">
-            🛒 Ingredients
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {recipe.ingredients.map((ing, i) => (
-              <div key={i} className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2">
-                <span className="w-5 h-5 bg-forest-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">{i + 1}</span>
-                <span className="text-sm text-gray-700">{ing}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Steps */}
-        <div>
-          <h3 className="font-black text-gray-800 text-lg mb-3 flex items-center gap-2">
-            📋 How to Cook
-          </h3>
-          <div className="space-y-3">
-            {recipe.steps.map((step, i) => (
-              <div key={i} className="flex gap-3">
-                <div className="w-7 h-7 bg-amber-400 text-forest-900 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0 mt-0.5">{i + 1}</div>
-                <p className="text-gray-600 text-sm leading-relaxed">{step}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2">
-          {recipe.tags.map(tag => (
-            <span key={tag} className="text-xs bg-forest-50 text-forest-600 border border-forest-100 px-3 py-1 rounded-full font-medium">#{tag}</span>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4">
-          <p className="text-sm font-semibold text-amber-800 mb-3 flex items-center gap-2">
-            <TrendingDown className="w-4 h-4" /> Compare ingredient prices before you shop!
-          </p>
-          <div className="flex gap-2 flex-wrap">
-            {recipe.ingredients.slice(0, 3).map((ing) => {
-              const query = ing.split(' ').slice(-1)[0].toLowerCase();
-              return (
-                <Link key={ing} to={`/compare?q=${encodeURIComponent(query)}`} onClick={onClose}
-                  className="flex items-center gap-1 text-xs bg-forest-700 text-white px-3 py-1.5 rounded-full font-medium hover:bg-forest-600 transition-colors">
-                  <ShoppingCart className="w-3 h-3" /> Compare {query}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  </motion.div>
-);
-
 const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => (
   <motion.div
     layout
@@ -129,7 +35,6 @@ const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => (
     whileHover={{ y: -4 }}
     className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all group"
   >
-    {/* Country stripe */}
     <div className="h-1.5 bg-gradient-to-r from-forest-500 to-amber-400" />
     <div className="p-5">
       <div className="flex items-start justify-between mb-3">
@@ -184,7 +89,6 @@ export default function Recipes() {
     });
   }, [search, selectedCountry, selectedCategory, selectedDifficulty]);
 
-  // Group by country
   const groupedByCountry = useMemo(() => {
     if (selectedCountry !== 'All') return { [selectedCountry]: filtered };
     const groups: Record<string, WorldRecipe[]> = {};
@@ -200,7 +104,7 @@ export default function Recipes() {
       <SEO
         title="World Recipes — 250+ Authentic Recipes from 25 Countries | Fantastic Food"
         description="Discover 250+ authentic recipes from India, Italy, Japan, China, Mexico, France, Thailand, Korea, Turkey and 16 more countries. Full ingredients & step-by-step instructions. Compare ingredient prices before you cook!"
-        canonical="https://www.fantasticfood.in/recipes"
+        canonicalUrl="https://www.fantasticfood.in/recipes"
         keywords="world recipes, international cuisine, Indian recipes, Italian recipes, Japanese recipes, Chinese recipes, Mexican recipes, how to cook, recipe ingredients comparison"
       />
 
@@ -220,7 +124,6 @@ export default function Recipes() {
             <p className="text-cream-300 text-lg max-w-2xl mx-auto mb-6">
               From Delhi to Tokyo, Rome to Mexico City — explore authentic recipes from 25 countries with full ingredients & step-by-step instructions.
             </p>
-            {/* Stats */}
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               {[
                 { val: `${WORLD_RECIPES.length}+`, label: 'Recipes' },
@@ -249,13 +152,19 @@ export default function Recipes() {
                 placeholder="Search recipes, countries, cities or ingredients..."
                 className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 outline-none focus:border-forest-400"
               />
-              {search && <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2"><X className="w-4 h-4 text-gray-400" /></button>}
+              {search && (
+                <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <X className="w-4 h-4 text-gray-400" />
+                </button>
+              )}
             </div>
 
-            {/* Country filter - scrollable */}
+            {/* Country filter */}
             <div>
-              <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1"><Globe className="w-3 h-3" /> Country</p>
-              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                <Globe className="w-3 h-3" /> Country
+              </p>
+              <div className="flex gap-2 overflow-x-auto pb-1">
                 {allCountries.map(c => (
                   <button key={c} onClick={() => setSelectedCountry(c)}
                     className={`flex-shrink-0 text-sm font-semibold px-3 py-1.5 rounded-full border transition-all ${selectedCountry === c ? 'bg-forest-700 text-white border-forest-700' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-forest-300'}`}
@@ -297,11 +206,16 @@ export default function Recipes() {
             {/* Results count */}
             <div className="flex items-center justify-between pt-1 border-t border-gray-100">
               <p className="text-sm text-gray-500">
-                Showing <span className="font-bold text-forest-700">{filtered.length}</span> recipes from <span className="font-bold text-forest-700">{Object.keys(groupedByCountry).length}</span> countries
+                Showing <span className="font-bold text-forest-700">{filtered.length}</span> recipes from{' '}
+                <span className="font-bold text-forest-700">{Object.keys(groupedByCountry).length}</span> countries
               </p>
               {(selectedCountry !== 'All' || selectedCategory !== 'All' || selectedDifficulty !== 'All' || search) && (
-                <button onClick={() => { setSearch(''); setSelectedCountry('All'); setSelectedCategory('All'); setSelectedDifficulty('All'); }}
-                  className="text-xs text-forest-600 hover:underline font-medium">Clear filters</button>
+                <button
+                  onClick={() => { setSearch(''); setSelectedCountry('All'); setSelectedCategory('All'); setSelectedDifficulty('All'); }}
+                  className="text-xs text-forest-600 hover:underline font-medium"
+                >
+                  Clear filters
+                </button>
               )}
             </div>
           </div>
@@ -311,7 +225,6 @@ export default function Recipes() {
         <div className="max-w-7xl mx-auto px-4 space-y-12">
           {Object.entries(groupedByCountry).sort(([a], [b]) => a.localeCompare(b)).map(([country, recipes]) => (
             <div key={country}>
-              {/* Country header */}
               <div className="flex items-center gap-3 mb-5">
                 <span className="text-4xl">{COUNTRY_EMOJIS[country] || '🌍'}</span>
                 <div>

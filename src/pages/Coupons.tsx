@@ -164,7 +164,7 @@ export default function Coupons() {
       <SEO
         title="Grocery Coupon Codes Today | Blinkit, Zepto, Swiggy, BigBasket, JioMart, Flipkart"
         description="Get the latest grocery coupon codes and promo offers for Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Updated daily — copy & save instantly!"
-        canonical="https://www.fantasticfood.in/coupons"
+        canonicalUrl="https://www.fantasticfood.in/coupons"
         keywords="blinkit coupon code, zepto promo code, swiggy instamart offer, bigbasket coupon, jiomart coupon today, flipkart minutes discount"
       />
 

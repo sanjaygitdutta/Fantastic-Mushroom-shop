@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Legend, ReferenceLine,
+  ResponsiveContainer, ReferenceLine,
 } from 'recharts';
 import { TrendingUp, TrendingDown, BarChart3, Eye, EyeOff } from 'lucide-react';
 import type { PlatformPrice } from '../data/mockPrices';

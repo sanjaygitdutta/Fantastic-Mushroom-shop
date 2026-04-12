@@ -83,7 +83,7 @@ export default function RecipePage() {
       <SEO
         title={`${recipe.name} Recipe — Authentic ${recipe.country} Cuisine from ${recipe.city}`}
         description={`How to make ${recipe.name}: authentic ${recipe.country} recipe from ${recipe.city}. ${recipe.difficulty} | ${recipe.time} | ${recipe.servings} servings | ${recipe.calories} kcal. Full ingredients & step-by-step instructions. Compare ingredient prices before shopping!`}
-        canonical={`https://www.fantasticfood.in/recipe/${recipe.id}`}
+        canonicalUrl={`https://www.fantasticfood.in/recipe/${recipe.id}`}
         keywords={`${recipe.name} recipe, how to make ${recipe.name}, ${recipe.country} recipe, ${recipe.city} food, ${recipe.tags.join(', ')}, recipe ingredients price India`}
         structuredData={recipeSchema}
       />
