@@ -46,7 +46,7 @@ const RecipeDetails = () => {
             position: i + 1,
             text: step,
         })),
-        url: `https://www.fantasticfood.in/recipes/${recipe.id}`,
+        url: `https://www.fantasticfood.in/recipe/${recipe.id}`,
         publisher: {
             '@type': 'Organization',
             name: 'Fantastic Food',
@@ -61,7 +61,7 @@ const RecipeDetails = () => {
             <SEO
               title={`${recipe.title} Recipe — Ingredients & Price Comparison | Fantastic Food`}
               description={seoDescription}
-              canonicalUrl={`https://www.fantasticfood.in/recipes/${recipe.id}`}
+              canonicalUrl={`https://www.fantasticfood.in/recipe/${recipe.id}`}
               keywords={`${recipe.title}, ${recipe.tags.join(', ')}, mushroom recipe, recipe ingredients price`}
               structuredData={recipeSchema}
             />
