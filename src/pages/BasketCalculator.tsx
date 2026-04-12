@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Plus, Trash2, TrendingDown, ExternalLink, Search, Sparkles, X, Trophy, Zap } from 'lucide-react';
+import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap } from 'lucide-react';
 import SEO from '../components/SEO';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
@@ -24,16 +24,6 @@ const PLATFORM_COLORS: Record<string, string> = {
   amazon: '#FF9900',
   jiomart: '#0070BA',
   flipkart: '#2874F0',
-};
-
-const PLATFORM_BG: Record<string, string> = {
-  blinkit: '#FFFDE7',
-  zepto: '#F3E5FF',
-  swiggy: '#FFF3E0',
-  bigbasket: '#F1F8E9',
-  amazon: '#FFF8EE',
-  jiomart: '#E3F2FD',
-  flipkart: '#E8F0FE',
 };
 
 const QUICK_ADDS = [
