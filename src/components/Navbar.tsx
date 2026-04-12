@@ -102,6 +102,12 @@ const Navbar = () => {
               <Link to="/compare" onMouseEnter={() => prefetchRoute('/compare')} className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 Compare
               </Link>
+              <Link to="/recipes" onMouseEnter={() => prefetchRoute('/recipes')} className="nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
+                Recipes
+              </Link>
+              <Link to="/coupons" className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-amber-500/20 text-amber-300 hover:text-amber-200 font-semibold">
+                🎟️ Coupons
+              </Link>
               <Link to="/basket" onMouseEnter={() => prefetchRoute('/basket')} className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 🛒 Basket
               </Link>
@@ -110,9 +116,6 @@ const Navbar = () => {
               </Link>
               <Link to="/mushroom-shop" onMouseEnter={() => prefetchRoute('/mushroom-shop')} className="flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
                 🍄 Mushroom Shop
-              </Link>
-              <Link to="/recipes" onMouseEnter={() => prefetchRoute('/recipes')} className="flex items-center gap-1 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
-                🌍 Recipes
               </Link>
             </div>
 
@@ -243,7 +246,10 @@ const Navbar = () => {
                 🍄 Mushroom Shop
               </Link>
               <Link to="/recipes" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium border-b border-forest-800">
-                🌍 World Kitchen
+                📖 Recipes
+              </Link>
+              <Link to="/coupons" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-amber-300 font-bold border-b border-forest-800">
+                🎟️ Coupon Codes
               </Link>
               <Link to="/about" onClick={() => setIsMobileOpen(false)} className="block py-2.5 text-cream-200 font-medium">
                 ℹ️ About
