@@ -60,29 +60,31 @@ const MOCK_DB: Record<string, CompareResult> = {
 
   // ── VEGETABLES ─────────────────────────────────────────────────────────────
   onion: { query: 'onion', canonicalName: 'Onion (Red)', category: 'Vegetables', icon: '🧅', prices: [
-    p('blinkit',   'Onion (Red)',           42, 50, 16, '1 kg', 'onion', true, '10 min'),
-    p('bigbasket', 'BB Royal Onion',        39, 45, 13, '1 kg', 'onion', true, '2 hrs'),
-    p('swiggy',    'Fresh Onion',           45, 45, 0,  '1 kg', 'onion', true, '15 min'),
-    p('zepto',     'Onion Red',             38, 48, 21, '1 kg', 'onion', true, '10 min'),
-    p('amazon',    'Fresh Onion (Red)',     44, 50, 12, '1 kg', 'onion', true, '2 hrs'),
-    p('jiomart',   'Onion',                36, 42, 14, '1 kg', 'onion', true, '1 day'),
+    p('blinkit',   'Onion (Red)',           38, 45, 16, '1 kg', 'onion', true, '10 min'),
+    p('bigbasket', 'BB Royal Onion',        34, 40, 15, '1 kg', 'onion', true, '2 hrs'),
+    p('swiggy',    'Fresh Onion',           40, 46, 13, '1 kg', 'onion', true, '15 min'),
+    p('zepto',     'Onion Red',             33, 42, 21, '1 kg', 'onion', true, '10 min'),
+    p('amazon',    'Fresh Onion (Red)',     40, 48, 17, '1 kg', 'onion', true, '2 hrs'),
+    p('jiomart',   'Onion',                30, 38, 21, '1 kg', 'onion', true, '1 day'),
+    p('flipkart',  'Fresh Onion',          32, 40, 20, '1 kg', 'onion', true, '15 min'),
   ]},
   tomato: { query: 'tomato', canonicalName: 'Tomato', category: 'Vegetables', icon: '🍅', prices: [
-    p('blinkit',   'Tomato Fresh',          55, 60, 8,  '1 kg', 'tomato', true,  '10 min'),
-    p('bigbasket', 'Fresho Tomato',         48, 55, 13, '1 kg', 'tomato', true,  '2 hrs'),
-    p('swiggy',    'Tomato',                52, 60, 13, '1 kg', 'tomato', true,  '15 min'),
-    p('zepto',     'Tomato (Hybrid)',        50, 58, 14, '1 kg', 'tomato', false, '10 min'),
-    p('amazon',    'Fresh Tomato',          58, 65, 11, '1 kg', 'tomato', true,  '2 hrs'),
-    p('jiomart',   'Tomato',                46, 55, 16, '1 kg', 'tomato', true,  '1 day'),
-    p('flipkart',  'Tomato',                44, 55, 20, '1 kg', 'tomato', true,  '15 min'),
+    p('blinkit',   'Tomato Fresh',          48, 56, 14, '1 kg', 'tomato', true,  '10 min'),
+    p('bigbasket', 'Fresho Tomato',         40, 50, 20, '1 kg', 'tomato', true,  '2 hrs'),
+    p('swiggy',    'Tomato',                46, 55, 16, '1 kg', 'tomato', true,  '15 min'),
+    p('zepto',     'Tomato (Hybrid)',        42, 52, 19, '1 kg', 'tomato', true,  '10 min'),
+    p('amazon',    'Fresh Tomato',          50, 58, 14, '1 kg', 'tomato', true,  '2 hrs'),
+    p('jiomart',   'Tomato',                36, 46, 22, '1 kg', 'tomato', true,  '1 day'),
+    p('flipkart',  'Tomato',                38, 48, 21, '1 kg', 'tomato', true,  '15 min'),
   ]},
   potato: { query: 'potato', canonicalName: 'Potato', category: 'Vegetables', icon: '🥔', prices: [
-    p('blinkit',   'White Potato',          32, 38, 16, '1 kg', 'potato', true,  '10 min'),
-    p('bigbasket', 'Fresho Potato',         28, 32, 13, '1 kg', 'potato', true,  '2 hrs'),
-    p('swiggy',    'Potato',                34, 38, 11, '1 kg', 'potato', true,  '15 min'),
-    p('zepto',     'Potato',                29, 36, 19, '1 kg', 'potato', true,  '10 min'),
-    p('amazon',    'Fresh Potato',          35, 40, 13, '1 kg', 'potato', true,  '2 hrs'),
-    p('jiomart',   'Potato',                26, 32, 19, '1 kg', 'potato', true,  '1 day'),
+    p('blinkit',   'White Potato',          28, 35, 20, '1 kg', 'potato', true,  '10 min'),
+    p('bigbasket', 'Fresho Potato',         24, 30, 20, '1 kg', 'potato', true,  '2 hrs'),
+    p('swiggy',    'Potato',                30, 36, 17, '1 kg', 'potato', true,  '15 min'),
+    p('zepto',     'Potato',                25, 32, 22, '1 kg', 'potato', true,  '10 min'),
+    p('amazon',    'Fresh Potato',          30, 38, 21, '1 kg', 'potato', true,  '2 hrs'),
+    p('jiomart',   'Potato',                22, 28, 21, '1 kg', 'potato', true,  '1 day'),
+    p('flipkart',  'Fresh Potato',          24, 30, 20, '1 kg', 'potato', true,  '15 min'),
   ]},
   spinach: { query: 'spinach', canonicalName: 'Spinach (Palak)', category: 'Vegetables', icon: '🌿', prices: [
     p('blinkit',   'Spinach (Palak)',       22, 28, 21, '250g', 'spinach', true,  '10 min'),
@@ -401,18 +403,83 @@ const MOCK_DB: Record<string, CompareResult> = {
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-// Estimate a base price for generic items based on common Indian food prices
+// Estimate a base price for generic items based on real 2026 Indian market prices
 const estimateBasePrice = (query: string): number => {
   const q = query.toLowerCase();
-  if (/chicken|mutton|lamb|beef|pork|fish|prawn|crab|lobster/.test(q)) return 250;
-  if (/mango|apple|kiwi|avocado|strawberry|blueberry/.test(q)) return 120;
-  if (/rice|flour|atta|maida|dal|pulse/.test(q)) return 80;
-  if (/milk|curd|paneer|cheese|butter|ghee/.test(q)) return 60;
-  if (/oil|masala|spice|turmeric|coriander/.test(q)) return 90;
-  if (/chocolate|biscuit|chips|candy|sweet|cake/.test(q)) return 50;
-  if (/juice|drink|cola|soda|water/.test(q)) return 40;
-  if (/bread|bun|roti|naan|chapati/.test(q)) return 35;
-  return 55; // generic vegetable/grocery
+  // Meat & Seafood
+  if (/mutton|lamb/.test(q)) return 550;
+  if (/chicken boneless/.test(q)) return 290;
+  if (/chicken/.test(q)) return 220;
+  if (/fish|salmon|tuna|rohu|catla/.test(q)) return 220;
+  if (/prawn|shrimp|crab|lobster/.test(q)) return 350;
+  // Premium fruits
+  if (/avocado/.test(q)) return 160;
+  if (/strawberry|blueberry|kiwi/.test(q)) return 140;
+  if (/mango|alphonso/.test(q)) return 280;
+  if (/apple|shimla/.test(q)) return 180;
+  if (/pomegranate/.test(q)) return 130;
+  if (/watermelon/.test(q)) return 40;
+  if (/banana|papaya|guava/.test(q)) return 55;
+  // Grains & Pulses
+  if (/basmati|india gate|daawat/.test(q)) return 165;
+  if (/rice/.test(q)) return 70;
+  if (/atta|flour|maida/.test(q)) return 65;
+  if (/urad dal|moong dal|chana dal/.test(q)) return 145;
+  if (/toor dal|arhar/.test(q)) return 158;
+  if (/dal|pulse|rajma|chana|lentil/.test(q)) return 120;
+  // Dairy
+  if (/ghee/.test(q)) return 580;
+  if (/paneer/.test(q)) return 95;
+  if (/cheese/.test(q)) return 100;
+  if (/butter/.test(q)) return 58;
+  if (/curd|dahi|yogurt/.test(q)) return 42;
+  if (/milk/.test(q)) return 31;
+  if (/cream/.test(q)) return 75;
+  // Oils & Condiments
+  if (/mustard oil/.test(q)) return 180;
+  if (/olive oil/.test(q)) return 320;
+  if (/ghee|clarified/.test(q)) return 580;
+  if (/oil/.test(q)) return 150;
+  if (/vinegar|sauce|ketchup/.test(q)) return 72;
+  // Spices
+  if (/turmeric|haldi/.test(q)) return 65;
+  if (/cumin|jeera/.test(q)) return 120;
+  if (/coriander|dhania/.test(q)) return 40;
+  if (/chilli|mirchi/.test(q)) return 85;
+  if (/garam masala|biryani masala|curry powder/.test(q)) return 95;
+  if (/masala|spice/.test(q)) return 80;
+  // Packaged foods
+  if (/biscuit|cookie/.test(q)) return 40;
+  if (/chocolate|bar/.test(q)) return 90;
+  if (/chips|namkeen/.test(q)) return 25;
+  if (/noodles|maggi|pasta/.test(q)) return 85;
+  if (/bread/.test(q)) return 45;
+  // Beverages
+  if (/cola|pepsi|coke|soda/.test(q)) return 42;
+  if (/juice/.test(q)) return 75;
+  if (/tea/.test(q)) return 105;
+  if (/coffee/.test(q)) return 130;
+  if (/water/.test(q)) return 25;
+  // Vegetables (more granular)
+  if (/capsicum|bell pepper/.test(q)) return 52;
+  if (/mushroom/.test(q)) return 55;
+  if (/broccoli/.test(q)) return 70;
+  if (/cauliflower|gobi/.test(q)) return 40;
+  if (/cabbage|patta gobi/.test(q)) return 30;
+  if (/peas|matar/.test(q)) return 60;
+  if (/bean|french bean/.test(q)) return 55;
+  if (/corn|maize/.test(q)) return 40;
+  if (/ginger|adrak/.test(q)) return 150;
+  if (/garlic|lahsun/.test(q)) return 200;
+  if (/lemon|nimbu/.test(q)) return 80;
+  // Eggs
+  if (/egg/.test(q)) return 78;
+  // Sweet / Dessert
+  if (/sugar/.test(q)) return 48;
+  if (/jaggery|gur/.test(q)) return 68;
+  if (/ice cream/.test(q)) return 105;
+  // Default grocery
+  return 50;
 };
 
 export const getBestPrice = (prices: PlatformPrice[]): PlatformPrice | null => {
