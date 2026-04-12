@@ -1,10 +1,21 @@
 User-agent: *
 Allow: /
 
-# Block dynamic search result pages — these are not real content pages
-Disallow: /compare?q=
-Disallow: /*?q=
-Disallow: /*?category=
-Disallow: /product/
+# Block admin routes only — these are private
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/products
+Disallow: /admin/orders
+
+# Allow all public content pages (compare, food, city, recipe)
+Allow: /compare
+Allow: /food/
+Allow: /city/
+Allow: /recipe/
+Allow: /recipes
+Allow: /coupons
+Allow: /meal-calculator
+Allow: /basket
+Allow: /mushroom-shop
 
 Sitemap: https://www.fantasticfood.in/sitemap.xml

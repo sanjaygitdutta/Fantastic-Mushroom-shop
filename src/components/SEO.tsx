@@ -1,4 +1,4 @@
-// Enhanced SEO Component with JSON-LD Structured Data
+// Enhanced SEO Component with full OG, Twitter, JSON-LD support
 import { useEffect } from 'react';
 
 interface SEOProps {
@@ -6,43 +6,80 @@ interface SEOProps {
   description: string;
   keywords?: string;
   canonicalUrl?: string;
-  // For product comparison pages
+  ogImage?: string;
+  ogType?: 'website' | 'article';
   structuredData?: object;
 }
 
-const SEO = ({ title, description, keywords, canonicalUrl, structuredData }: SEOProps) => {
+const DEFAULT_OG_IMAGE = 'https://www.fantasticfood.in/og-image.jpg';
+
+const SEO = ({
+  title,
+  description,
+  keywords,
+  canonicalUrl,
+  ogImage = DEFAULT_OG_IMAGE,
+  ogType = 'website',
+  structuredData,
+}: SEOProps) => {
   useEffect(() => {
     const fullTitle = title.includes('Fantastic Food') ? title : `${title} | Fantastic Food`;
     document.title = fullTitle;
 
+    const pageUrl = canonicalUrl || window.location.href;
+
     const setMeta = (attr: string, attrVal: string, content: string) => {
       let el = document.querySelector(`meta[${attr}="${attrVal}"]`);
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, attrVal); document.head.appendChild(el); }
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, attrVal);
+        document.head.appendChild(el);
+      }
       el.setAttribute('content', content);
     };
+
     const setLink = (rel: string, href: string) => {
       let el = document.querySelector(`link[rel="${rel}"]`);
-      if (!el) { el = document.createElement('link'); el.setAttribute('rel', rel); document.head.appendChild(el); }
+      if (!el) {
+        el = document.createElement('link');
+        el.setAttribute('rel', rel);
+        document.head.appendChild(el);
+      }
       el.setAttribute('href', href);
     };
 
+    // ── Core meta ──────────────────────────────────────
     setMeta('name', 'description', description);
+    setMeta('name', 'robots', 'index, follow');
+    setMeta('name', 'author', 'Fantastic Food');
+    setMeta('name', 'language', 'en-IN');
     if (keywords) setMeta('name', 'keywords', keywords);
 
+    // ── Open Graph ─────────────────────────────────────
     setMeta('property', 'og:title',       fullTitle);
     setMeta('property', 'og:description', description);
-    setMeta('property', 'og:type',        'website');
+    setMeta('property', 'og:type',        ogType);
+    setMeta('property', 'og:url',         pageUrl);
+    setMeta('property', 'og:image',       ogImage);
+    setMeta('property', 'og:image:width',  '1200');
+    setMeta('property', 'og:image:height', '630');
     setMeta('property', 'og:site_name',   'Fantastic Food');
-    setMeta('property', 'twitter:title',  fullTitle);
-    setMeta('property', 'twitter:description', description);
-    setMeta('name',     'robots',         'index, follow');
+    setMeta('property', 'og:locale',      'en_IN');
 
+    // ── Twitter Cards ──────────────────────────────────
+    setMeta('name', 'twitter:card',        'summary_large_image');
+    setMeta('name', 'twitter:title',       fullTitle);
+    setMeta('name', 'twitter:description', description);
+    setMeta('name', 'twitter:image',       ogImage);
+    setMeta('name', 'twitter:site',        '@fantasticfoodin');
+
+    // ── Canonical ─────────────────────────────────────
     if (canonicalUrl) setLink('canonical', canonicalUrl);
 
-    // Inject / update JSON-LD structured data
+    // ── JSON-LD Structured Data ────────────────────────
     if (structuredData) {
       const id = 'structured-data-jsonld';
-      let script = document.getElementById(id);
+      let script = document.getElementById(id) as HTMLScriptElement | null;
       if (!script) {
         script = document.createElement('script');
         script.id = id;
@@ -53,12 +90,11 @@ const SEO = ({ title, description, keywords, canonicalUrl, structuredData }: SEO
     }
 
     return () => {
-      // Clean up JSON-LD on unmount
       if (structuredData) {
         document.getElementById('structured-data-jsonld')?.remove();
       }
     };
-  }, [title, description, keywords, canonicalUrl, structuredData]);
+  }, [title, description, keywords, canonicalUrl, ogImage, ogType, structuredData]);
 
   return null;
 };

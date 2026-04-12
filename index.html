@@ -3,66 +3,118 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
+
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#2d6a4f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- Performance: Preconnect to key origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.cuelinks.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
   <!-- Google Search Console verification -->
   <meta name="google-site-verification" content="yCwjAf_s2oqIMDIzlBtIPj671YFoitNF01dM-zP-Zv0" />
-  
-  <!-- PWA Setup -->
-  <link rel="apple-touch-icon" href="/logo.png" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Default SEO (overridden per-page by the SEO component) -->
+  <title>Fantastic Food | India's Smartest Grocery Price Comparator</title>
+  <meta name="description" content="Compare grocery prices across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes instantly. Find the cheapest deal on any food item in seconds." />
+  <meta name="keywords" content="grocery price comparison India, blinkit vs zepto, cheapest grocery app, food price comparison, blinkit zepto swiggy bigbasket prices, fantastic food" />
+  <meta name="author" content="Fantastic Food" />
+  <meta name="language" content="en-IN" />
+  <meta name="robots" content="index, follow" />
+  <meta name="geo.region" content="IN" />
+  <meta name="geo.placename" content="India" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.fantasticfood.in/" />
+  <meta property="og:title" content="Fantastic Food | India's Smartest Grocery Price Comparator" />
+  <meta property="og:description" content="Compare grocery prices across Blinkit, Zepto, Swiggy, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes instantly. Save money on every order." />
+  <meta property="og:image" content="https://www.fantasticfood.in/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Fantastic Food — Compare grocery prices across 7 apps" />
+  <meta property="og:site_name" content="Fantastic Food" />
+  <meta property="og:locale" content="en_IN" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@fantasticfoodin" />
+  <meta name="twitter:url" content="https://www.fantasticfood.in/" />
+  <meta name="twitter:title" content="Fantastic Food | Compare Grocery Prices in India" />
+  <meta name="twitter:description" content="Compare Blinkit, Zepto, Swiggy, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes prices instantly. Find the cheapest grocery deal!" />
+  <meta name="twitter:image" content="https://www.fantasticfood.in/og-image.jpg" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.fantasticfood.in/" />
+
+  <!-- Website + SearchAction JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Fantastic Food",
+    "alternateName": "Fantastic Food India",
     "url": "https://www.fantasticfood.in",
-    "description": "India's smartest food price comparator. Compare grocery and food prices across Blinkit, BigBasket, Zepto, Swiggy Instamart, Amazon Fresh, and JioMart in real-time.",
+    "description": "India's smartest grocery price comparator. Compare prices across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart and Flipkart Minutes in real-time.",
+    "inLanguage": "en-IN",
     "publisher": {
       "@type": "Organization",
       "name": "Fantastic Food",
       "url": "https://www.fantasticfood.in",
-      "logo": { "@type": "ImageObject", "url": "https://www.fantasticfood.in/logo.png" }
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fantasticfood.in/logo.png",
+        "width": 200,
+        "height": 200
+      },
+      "sameAs": [
+        "https://www.instagram.com/fantasticfoodin",
+        "https://twitter.com/fantasticfoodin"
+      ]
     },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://www.fantasticfood.in/compare?q={search_term_string}",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.fantasticfood.in/compare?q={search_term_string}"
+      },
       "query-input": "required name=search_term_string"
     }
   }
   </script>
-  
-  <title>Fantastic Food | India's Smartest Food Price Comparator</title>
-  <meta name="description"
-    content="Compare prices across Blinkit, BigBasket, Zepto, Swiggy, Amazon Fresh, and JioMart instantly. Find the best deals on groceries and order fresh mushrooms directly from our farm." />
-  <meta name="keywords"
-    content="food price comparison, grocery prices india, compare blinkit zepto swiggy, fresh organic mushrooms, fantastic food" />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.fantasticfood.in/" />
-  <meta property="og:title" content="Fantastic Food | India's Smartest Food Price Comparator" />
-  <meta property="og:description"
-    content="Compare real-time grocery prices across 6 major quick-commerce platforms and save money on your daily needs." />
-  <meta property="og:image" content="https://www.fantasticfood.in/og-image.jpg" />
+  <!-- Organization JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Fantastic Food",
+    "url": "https://www.fantasticfood.in",
+    "logo": "https://www.fantasticfood.in/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "availableLanguage": ["English", "Hindi"]
+    },
+    "areaServed": "IN",
+    "description": "Grocery price comparison platform for India covering Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart and Flipkart Minutes."
+  }
+  </script>
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://www.fantasticfood.in/" />
-  <meta property="twitter:title" content="Fantastic Food | India's Smartest Food Price Comparator" />
-  <meta property="twitter:description"
-    content="Compare real-time grocery prices across 6 major quick-commerce platforms and save money on your daily needs." />
-  <meta property="twitter:image" content="https://www.fantasticfood.in/og-image.jpg" />
-
-  <meta name="theme-color" content="#2d6a4f" />
-  <link rel="canonical" href="https://www.fantasticfood.in/" />
-
-  <!-- Cuelinks Dynamic Monetization Scripts -->
-  <!-- Once approved, replace the empty string with your Cuelinks Widget ID. Example: window.cl_pub = '12345'; -->
+  <!-- Cuelinks Affiliate Monetization -->
   <script type="text/javascript">
-    window.cl_pub = ''; // <-- Put your Cuelinks ID here
+    window.cl_pub = ''; // Put your Cuelinks Widget ID here
   </script>
   <script type="text/javascript" src="https://cdn.cuelinks.com/js/cuelinksmacro_v2.js"></script>
 </head>
