@@ -404,7 +404,7 @@ const BasketCalculator = () => {
                 {/* Disclaimer */}
                 <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
                   <p className="text-green-400 text-xs">
-                    ⚠️ Prices are estimated market averages. Actual prices vary by location & availability.
+                    ⚠️ Actual prices vary by location & availability.
                     Click <strong>"Shop"</strong> to see live prices on each platform.
                   </p>
                 </div>

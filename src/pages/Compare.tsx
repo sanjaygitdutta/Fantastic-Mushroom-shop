@@ -136,8 +136,7 @@ const ComparePage = () => {
             <CompareResultsGrid result={result} />
             <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
               <p className="text-amber-800 text-sm">
-                <span className="font-bold">⚠️ Note:</span> Prices shown are estimated market averages for demonstration. 
-                Prices vary rapidly based on your exact location and availability. Click "Buy Now" to see the final live price on the platform.
+                <span className="font-bold">⚠️ Note:</span> Actual prices vary rapidly based on your exact location and availability. Click "Buy Now" to see the final live price on the platform.
               </p>
             </div>
           </>
