@@ -9,6 +9,9 @@ import TrendingSearches from '../components/TrendingSearches';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
 import SEO from '../components/SEO';
+import { useRecentlyCompared } from '../hooks/useRecentlyCompared';
+import { useNavigate } from 'react-router-dom';
+import { Clock, X } from 'lucide-react';
 
 // Platform logos strip
 const PLATFORMS = [
@@ -46,6 +49,8 @@ const ComparePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [lastQuery, setLastQuery] = useState('');
+  const { recents, addRecent, clearRecents } = useRecentlyCompared();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!query || query === lastQuery) return;
@@ -58,6 +63,7 @@ const ComparePage = () => {
       .then((data) => {
         setResult(data);
         setLoading(false);
+        if (data) addRecent(query, data.canonicalName, data.icon);
       })
       .catch(() => {
         setError('Something went wrong. Please try again.');
@@ -167,6 +173,32 @@ const ComparePage = () => {
         {/* Empty — No query */}
         {!query && !loading && (
           <div>
+            {/* Recently Compared */}
+            {recents.length > 0 && (
+              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-forest-500" />
+                    <span className="text-sm font-bold text-forest-700 uppercase tracking-wide">Recently Compared</span>
+                  </div>
+                  <button onClick={clearRecents} className="text-xs text-gray-400 hover:text-red-400 transition-colors flex items-center gap-1">
+                    <X className="w-3 h-3" /> Clear
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {recents.map((item) => (
+                    <button
+                      key={item.query}
+                      onClick={() => navigate(`/compare?q=${item.query}`)}
+                      className="flex items-center gap-2 px-3.5 py-2 bg-white border border-forest-100 hover:border-forest-400 hover:bg-forest-50 rounded-full text-sm font-medium text-forest-800 shadow-sm hover:shadow-md transition-all"
+                    >
+                      <span>{item.icon}</span>
+                      <span>{item.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
             <TrendingSearches />
             <div className="mt-10">
               <h2 className="text-lg font-bold text-forest-900 mb-5 font-display">Browse by Category</h2>
