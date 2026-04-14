@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot, Mic, MicOff, Volume2, Sparkles, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { X, Send, Bot, Mic, MicOff, Volume2 } from 'lucide-react';
 
 type Message = {
   id: string;
@@ -37,7 +36,6 @@ const AIAssistant = () => {
   const [voiceEnabled, setVoiceEnabled] = useState(true);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   // Setup Speech Recognition on mount
   useEffect(() => {
