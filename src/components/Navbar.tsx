@@ -122,6 +122,16 @@ const Navbar = () => {
                 Recipes
               </NavLink>
               <NavLink
+                to="/chef-aika"
+                className={({ isActive }) =>
+                  `flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  }`
+                }
+              >
+                👩‍🍳 Chef Aika
+              </NavLink>
+              <NavLink
                 to="/coupons"
                 className={({ isActive }) =>
                   `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
@@ -300,6 +310,10 @@ const Navbar = () => {
               <NavLink to="/recipes" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 📖 Recipes
+              </NavLink>
+              <NavLink to="/chef-aika" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
+                👩‍🍳 Chef Aika
               </NavLink>
               <NavLink to="/coupons" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-bold border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
