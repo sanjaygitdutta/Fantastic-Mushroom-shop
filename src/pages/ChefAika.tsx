@@ -243,6 +243,26 @@ export default function ChefAikaPage() {
     speakText(text);
   };
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Chef Aika AI Kitchen Assistant",
+    "url": "https://www.fantasticfood.in/chef-aika",
+    "description": "An AI kitchen assistant that scans your fridge, identifies ingredients, and instantly generates personalized recipes.",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "featureList": [
+      "AI Recipe Generation",
+      "AI Fridge Ingredient Scanner",
+      "Voice Chat AI Assistant"
+    ]
+  };
+
   return (
     <>
       <SEO
@@ -250,6 +270,7 @@ export default function ChefAikaPage() {
         description="Let Chef Aika plan your meals! Scan your fridge, add ingredients, and get personalized AI-generated recipes in seconds."
         canonicalUrl="https://www.fantasticfood.in/chef-aika"
         keywords="AI chef, recipe generator, fridge scan, meal planner, Chef Aika, Fantastic Food"
+        structuredData={structuredData}
       />
 
       <div className="min-h-screen pt-16" style={{ background: '#0F2419' }}>
