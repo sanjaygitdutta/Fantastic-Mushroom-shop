@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, ChefHat, Sparkles, Clock, Flame, Users, Lightbulb } from 'lucide-react';
+import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb } from 'lucide-react';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
 
@@ -42,7 +42,7 @@ export default function ChefAikaPage() {
   // Voice
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [voiceEnabled] = useState(true);
   const [isAikaOnline, setIsAikaOnline] = useState(false);
   const recognitionRef = useRef<any>(null);
 
@@ -87,21 +87,6 @@ export default function ChefAikaPage() {
   }, [messages]);
 
   // ── Timer Logic ───────────────────────────────────────────────────────────
-  const startTimer = (seconds: number, label: string) => {
-    clearInterval(timerRef.current);
-    setTimer({ label, remaining: seconds });
-    timerRef.current = setInterval(() => {
-      setTimer(prev => {
-        if (!prev || prev.remaining <= 1) {
-          clearInterval(timerRef.current);
-          speakText(`${label} timer is done!`);
-          return null;
-        }
-        return { ...prev, remaining: prev.remaining - 1 };
-      });
-    }, 1000);
-  };
-
   const formatTime = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
   // ── Speech synthesis ──────────────────────────────────────────────────────
