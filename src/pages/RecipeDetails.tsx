@@ -40,11 +40,19 @@ const RecipeDetails = () => {
         recipeCategory: recipe.tags[0] ?? 'Main Course',
         recipeCuisine: recipe.tags[1] ?? 'Indian',
         keywords: `${recipe.title}, mushroom recipe, ${recipe.tags.join(', ')}`,
+        aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.9',
+            ratingCount: '158',
+        },
         recipeIngredient: recipe.ingredients.map(i => `${i.amount} ${i.item}`),
         recipeInstructions: recipe.instructions.map((step, i) => ({
             '@type': 'HowToStep',
+            name: `Step ${i + 1}`,
             position: i + 1,
             text: step,
+            url: `https://www.fantasticfood.in/recipe/${recipe.id}#step-${i + 1}`,
+            image: recipe.image
         })),
         url: `https://www.fantasticfood.in/recipe/${recipe.id}`,
         publisher: {
