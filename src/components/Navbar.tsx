@@ -129,7 +129,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                👩‍🍳 Chef Aika
+                Chef Aika
               </NavLink>
               <NavLink
                 to="/coupons"
@@ -139,7 +139,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                🎟️ Coupons
+                Coupons
               </NavLink>
               <NavLink
                 to="/basket"
@@ -150,7 +150,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                🛒 Basket
+                Basket
               </NavLink>
               <NavLink
                 to="/meal-calculator"
@@ -161,7 +161,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                🍳 Meal Cost
+                Meal Cost
               </NavLink>
               <NavLink
                 to="/mushroom-shop"
@@ -172,7 +172,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                🍄 Mushroom Shop
+                Mushroom Shop
               </NavLink>
             </div>
 
@@ -289,39 +289,39 @@ const Navbar = () => {
             <div className="px-4 py-5 space-y-2">
               <NavLink to="/" end onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                🏠 Home
+                Home
               </NavLink>
               <NavLink to="/compare" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                ⚖️ Compare Prices
+                Compare Prices
               </NavLink>
               <NavLink to="/basket" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                🛒 Basket Calculator
+                Basket Calculator
               </NavLink>
               <NavLink to="/meal-calculator" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                🍳 Meal Cost Calculator
+                Meal Cost Calculator
               </NavLink>
               <NavLink to="/mushroom-shop" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                🍄 Mushroom Shop
+                Mushroom Shop
               </NavLink>
               <NavLink to="/recipes" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                📖 Recipes
+                Recipes
               </NavLink>
               <NavLink to="/chef-aika" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                👩‍🍳 Chef Aika
+                Chef Aika
               </NavLink>
               <NavLink to="/coupons" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-bold border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                🎟️ Coupon Codes
+                Coupon Codes
               </NavLink>
               <NavLink to="/about" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                ℹ️ About
+                About
               </NavLink>
               <div className="pt-4 pb-2">
                 <p className="text-xs text-forest-400 uppercase tracking-wider mb-3">Quick Compare</p>
