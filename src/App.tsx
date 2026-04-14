@@ -10,6 +10,7 @@ import { WishlistProvider } from './context/WishlistContext';
 import { AuthProvider } from './context/AuthContext';
 import { ProductProvider } from './context/ProductContext';
 import { Mic } from 'lucide-react';
+import ScrollToTop from './components/ScrollToTop';
 
 // Lazy load all pages for code splitting
 const Home = lazy(() => import('./pages/Home'));
@@ -59,6 +60,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <ProductProvider>
         <AuthProvider>
           <WishlistProvider>
