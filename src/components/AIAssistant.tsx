@@ -1,17 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot, Sparkles, ArrowRight } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, Mic, MicOff, Volume2, Sparkles, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 type Message = {
   id: string;
   role: 'assistant' | 'user';
   content: string;
-  actionLink?: {
-    text: string;
-    url: string;
-  };
 };
+
+// Declare SpeechRecognition interfaces for TypeScript
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
 
 const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +23,56 @@ const AIAssistant = () => {
     {
       id: '1',
       role: 'assistant',
-      content: "Hi! I'm your Fantastic Food Assistant 🌱. What are you looking to buy today, or what recipe are you planning?",
+      content: "Hi! I'm Chef Aika. How can I help you cook or shop today?",
     },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  
+  // Voice Input State
+  const [isListening, setIsListening] = useState(false);
+  const [recognition, setRecognition] = useState<any>(null);
+  
+  // Voice Output State
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  // Setup Speech Recognition on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        const _recognition = new SpeechRecognition();
+        _recognition.continuous = false;
+        _recognition.interimResults = false;
+        _recognition.lang = 'en-US';
+
+        _recognition.onstart = () => {
+          setIsListening(true);
+        };
+
+        _recognition.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          setInput(transcript);
+          // Auto-send when voice is recognized
+          handleSendVoice(transcript);
+        };
+
+        _recognition.onerror = (event: any) => {
+          console.error("Speech recognition error", event.error);
+          setIsListening(false);
+        };
+
+        _recognition.onend = () => {
+          setIsListening(false);
+        };
+
+        setRecognition(_recognition);
+      }
+    }
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -35,30 +82,69 @@ const AIAssistant = () => {
     scrollToBottom();
   }, [messages, isTyping]);
 
-  const simulateResponse = (userText: string) => {
-    const text = userText.toLowerCase();
+  const speakText = (text: string) => {
+    if (!voiceEnabled || !('speechSynthesis' in window)) return;
     
-    setTimeout(() => {
-      let response: Message = { id: Date.now().toString(), role: 'assistant', content: '' };
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    // Slightly faster and higher pitched for a more "virtual assistant" feel
+    utterance.rate = 1.1; 
+    utterance.pitch = 1.2;
+    window.speechSynthesis.speak(utterance);
+  };
 
-      if (text.includes('mushroom')) {
-        response.content = "We have the best organic mushrooms in town! We grow them locally on our own farm. Would you like to check out our fresh stock?";
-        response.actionLink = { text: "Shop Fresh Mushrooms", url: "/mushroom-shop" };
-      } else if (text.includes('recipe') || text.includes('cook')) {
-        response.content = "I love cooking! I can suggest some great recipes. Do you want to see our curated list of mushroom recipes?";
-        response.actionLink = { text: "View Recipes", url: "/recipes" };
-      } else if (text.includes('cheap') || text.includes('compare') || text.includes('price')) {
-        response.content = "You're in the right place. I can compare prices across Blinkit, Zepto, Swiggy, and BigBasket. What specific item should I search for?";
-      } else {
-        // Generic food catch-all
-        const searchWord = text.split(' ').find(w => w.length > 2 && !['the','and','for','buy','some','need'].includes(w)) || text;
-        response.content = `I can help you find the best deals on ${searchWord}! Let's compare prices across all platforms so you don't overpay.`;
-        response.actionLink = { text: `Compare prices for "${searchWord}"`, url: `/compare?q=${encodeURIComponent(searchWord)}` };
+  const fetchAIResponse = async (userText: string) => {
+    try {
+      // Map existing messages to API format
+      const chatHistory = messages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+      
+      // Append newest user message
+      chatHistory.push({ role: 'user', content: userText });
+
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+
+      if (!res.ok) {
+        throw new Error('API Error');
       }
 
-      setMessages(prev => [...prev, response]);
+      const data = await res.json();
+      
+      const responseMsg: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: data.response
+      };
+
+      setMessages(prev => [...prev, responseMsg]);
+      speakText(data.response);
+
+    } catch (err) {
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: "I'm having trouble connecting to my brain right now! Please try again later."
+      }]);
+    } finally {
       setIsTyping(false);
-    }, 1200);
+    }
+  };
+
+  const handleSendVoice = (transcript: string) => {
+    if (!transcript.trim()) return;
+    setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', content: transcript }]);
+    setInput('');
+    setIsTyping(true);
+    fetchAIResponse(transcript);
   };
 
   const handleSend = (e: React.FormEvent) => {
@@ -70,12 +156,20 @@ const AIAssistant = () => {
     setInput('');
     setIsTyping(true);
     
-    simulateResponse(userMessage);
+    fetchAIResponse(userMessage);
   };
 
-  const handleActionClick = (url: string) => {
-    setIsOpen(false);
-    navigate(url);
+  const toggleListening = () => {
+    if (!recognition) {
+       alert("Your browser does not support voice input. Please try Chrome or Safari.");
+       return;
+    }
+    
+    if (isListening) {
+      recognition.stop();
+    } else {
+      recognition.start();
+    }
   };
 
   return (
@@ -87,101 +181,144 @@ const AIAssistant = () => {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-16 right-0 w-[350px] sm:w-[380px] h-[500px] bg-cream-50 rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-forest-200"
+              className="absolute bottom-16 right-0 w-[350px] sm:w-[380px] h-[560px] rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-forest-200"
+              style={{ background: '#FEFDF7' }}
             >
-              {/* Header */}
-              <div className="bg-forest-900 text-white p-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-moss-500 flex items-center justify-center">
-                    <Bot className="w-5 h-5 text-white" />
+              {/* Header — deep forest green gradient matching site navbar */}
+              <div className="flex items-center justify-between px-4 py-3" style={{ background: 'linear-gradient(135deg, #0F2419 0%, #1A3C2B 100%)' }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-lg shadow-md" style={{ background: 'linear-gradient(135deg, #F4A23C, #D6AD60)' }}>
+                    🍳
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm tracking-wide">Fantastic Assistant</h3>
-                    <p className="text-[10px] text-forest-300 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 bg-moss-400 rounded-full animate-pulse"></span> Online
+                    <h3 className="font-bold text-sm text-white tracking-wide">Chef Aika</h3>
+                    <p className="text-[10px] flex items-center gap-1.5" style={{ color: '#FAE89A' }}>
+                      <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#52B788' }}></span>
+                      AI-powered · Free
                     </p>
                   </div>
                 </div>
-                <button 
-                  onClick={() => setIsOpen(false)}
-                  className="p-1 hover:bg-forest-800 rounded-lg transition-colors text-forest-300 hover:text-white"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-1">
+                  <button 
+                    onClick={() => setVoiceEnabled(!voiceEnabled)}
+                    title={voiceEnabled ? "Mute Voice" : "Enable Voice"}
+                    className="p-1.5 rounded-lg transition-colors"
+                    style={{ color: voiceEnabled ? '#F4A23C' : '#7EC49A' }}
+                  >
+                    <Volume2 className="w-4 h-4" />
+                  </button>
+                  <button 
+                    onClick={() => setIsOpen(false)}
+                    className="p-1.5 rounded-lg transition-colors hover:bg-white/10 text-white/60 hover:text-white"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
                 {messages.map((msg) => (
-                  <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
+                  <div key={msg.id} className={`flex items-end gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    {msg.role === 'assistant' && (
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mb-0.5 text-xs" style={{ background: '#1A3C2B' }}>
+                        🍳
+                      </div>
+                    )}
+                    <div className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
                       msg.role === 'user' 
-                        ? 'bg-forest-600 text-white rounded-br-sm' 
-                        : 'bg-white text-forest-900 border border-forest-100 rounded-bl-sm shadow-sm'
-                    }`}>
-                      <p className="leading-relaxed">{msg.content}</p>
-                      
-                      {msg.actionLink && (
-                        <button 
-                          onClick={() => handleActionClick(msg.actionLink!.url)}
-                          className="mt-3 flex items-center gap-1.5 text-xs font-bold text-amber-600 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 px-3 py-2 rounded-lg transition-colors w-full justify-center"
-                        >
-                          <Sparkles className="w-3 h-3" />
-                          {msg.actionLink.text}
-                          <ArrowRight className="w-3 h-3" />
-                        </button>
-                      )}
+                        ? 'text-white rounded-br-none shadow-sm' 
+                        : 'text-forest-900 rounded-bl-none shadow-sm border'
+                    }`}
+                    style={msg.role === 'user' 
+                      ? { background: 'linear-gradient(135deg, #1A5E38, #227849)' }
+                      : { background: '#fff', borderColor: '#D9EDE0' }
+                    }>
+                      {msg.content}
                     </div>
                   </div>
                 ))}
                 
                 {isTyping && (
-                  <div className="flex justify-start">
-                    <div className="bg-white border border-forest-100 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm flex items-center gap-1">
-                      <div className="w-1.5 h-1.5 bg-forest-300 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-1.5 h-1.5 bg-forest-300 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-1.5 h-1.5 bg-forest-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="flex items-end gap-2 justify-start">
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs" style={{ background: '#1A3C2B' }}>
+                      🍳
+                    </div>
+                    <div className="bg-white border rounded-2xl rounded-bl-none px-4 py-3 shadow-sm flex items-center gap-1" style={{ borderColor: '#D9EDE0' }}>
+                      <div className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: '#52B788', animationDelay: '0ms' }} />
+                      <div className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: '#52B788', animationDelay: '150ms' }} />
+                      <div className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: '#52B788', animationDelay: '300ms' }} />
                     </div>
                   </div>
                 )}
                 <div ref={messagesEndRef} />
               </div>
 
+              {/* Quick Suggestions */}
+              <div className="px-3 py-2 border-t flex gap-1.5 overflow-x-auto" style={{ borderColor: '#D9EDE0', background: '#FEFAE0' }}>
+                {['Mushroom recipe 🍄', 'Cheapest veggies?', 'Healthy dinner?'].map(s => (
+                  <button key={s} onClick={() => setInput(s)}
+                    className="flex-shrink-0 text-[11px] bg-white border rounded-full px-2.5 py-1 transition-colors font-medium whitespace-nowrap hover:bg-forest-50"
+                    style={{ borderColor: '#B3DBBD', color: '#1A5E38' }}>
+                    {s}
+                  </button>
+                ))}
+              </div>
+
               {/* Input */}
-              <form onSubmit={handleSend} className="p-3 bg-white border-t border-forest-100">
-                <div className="flex items-center gap-2 bg-cream-100 rounded-full pl-4 pr-1.5 py-1.5 border border-forest-100 focus-within:border-forest-300 transition-colors">
-                  <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Ask me anything..."
-                    className="flex-1 bg-transparent border-none outline-none text-sm text-forest-900 placeholder-forest-400"
-                  />
+              <form onSubmit={handleSend} className="p-3 bg-white border-t" style={{ borderColor: '#D9EDE0' }}>
+                <div className="flex items-center gap-2">
                   <button 
-                    type="submit"
-                    disabled={!input.trim()}
-                    className={`p-2 rounded-full transition-colors ${
-                      input.trim() 
-                        ? 'bg-forest-600 text-white hover:bg-forest-700' 
-                        : 'bg-forest-100 text-forest-300'
+                    type="button"
+                    onClick={toggleListening}
+                    className={`p-2.5 rounded-full transition-all flex-shrink-0 border ${
+                      isListening 
+                        ? 'bg-red-500 border-red-400 text-white animate-pulse shadow-md' 
+                        : 'bg-cream-50 border-forest-200 text-forest-700 hover:bg-forest-50'
                     }`}
                   >
-                    <Send className="w-4 h-4" />
+                    {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                   </button>
+
+                  <div className="flex-1 flex items-center gap-2 rounded-full pl-4 pr-1.5 py-1.5 border transition-colors focus-within:border-forest-400"
+                    style={{ background: '#FEFDF7', borderColor: '#B3DBBD' }}>
+                    <input
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      placeholder={isListening ? "🎙️ Listening..." : "Ask Chef Aika..."}
+                      className="flex-1 bg-transparent border-none outline-none text-sm text-forest-900 placeholder-forest-400"
+                    />
+                    <button 
+                      type="submit"
+                      disabled={!input.trim()}
+                      className="p-2 rounded-full transition-all"
+                      style={input.trim() 
+                        ? { background: '#1A5E38', color: 'white' }
+                        : { background: '#D9EDE0', color: '#7EC49A' }
+                      }
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </form>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Toggle Button */}
+        {/* Toggle Button — forest green with amber glow ring */}
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
           onClick={() => setIsOpen(!isOpen)}
-          className="w-14 h-14 bg-forest-600 text-white rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl hover:bg-forest-700 transition-all border-4 border-white"
+          className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-all relative border-[3px]"
+          style={{ background: '#1A3C2B', borderColor: '#F4A23C' }}
         >
-          {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
+          {isOpen ? <X className="w-5 h-5 text-white" /> : <Bot className="w-6 h-6 text-white" />}
+          {!isOpen && (
+            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-white animate-pulse" style={{ background: '#F4A23C' }} />
+          )}
         </motion.button>
       </div>
     </>
