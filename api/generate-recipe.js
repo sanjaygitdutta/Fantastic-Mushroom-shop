@@ -32,7 +32,7 @@ Respond ONLY with valid JSON like this (no markdown, no extra text):
       method: 'POST',
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'llama3-8b-8192',
+        model: 'llama-3.3-70b-versatile',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
