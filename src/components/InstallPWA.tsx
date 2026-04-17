@@ -28,30 +28,42 @@ export default function InstallPWA() {
     };
   }, []);
 
-  const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-    // Show the install prompt
-    deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`User response to the install prompt: ${outcome}`);
-    // We've used the prompt, and can't use it again, throw it away
-    setDeferredPrompt(null);
-    setIsInstallable(false);
-  };
+  const [showInstructions, setShowInstructions] = useState(false);
 
-  if (!isInstallable) return null;
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      // Show the install prompt
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to the install prompt: ${outcome}`);
+      setDeferredPrompt(null);
+      setIsInstallable(false);
+    } else {
+      setShowInstructions(true);
+    }
+  };
 
   return (
     <div className="mt-8 pt-8 border-t border-forest-800/50 flex flex-col items-center">
       <div className="bg-gradient-to-r from-forest-800 to-moss-900 p-6 rounded-2xl border border-forest-700 w-full max-w-md text-center shadow-lg">
         <h4 className="text-white font-bold mb-2 font-display">Get the Fantastic Food App</h4>
         <p className="text-forest-300 text-sm mb-4">Install our app for a faster native experience on your phone.</p>
+        
+        {showInstructions && !isInstallable ? (
+          <div className="bg-forest-900/50 p-4 rounded-xl border border-forest-600/50 text-left mb-4">
+            <p className="text-forest-200 text-xs font-medium mb-2">How to install:</p>
+            <ul className="text-forest-300 text-xs list-disc pl-4 space-y-1">
+              <li><strong>iOS (Safari):</strong> Tap the <strong>Share</strong> button at the bottom, then scroll and tap <strong>Add to Home Screen</strong>.</li>
+              <li><strong>Android/Chrome:</strong> Tap the 3-dot menu and select <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
+            </ul>
+          </div>
+        ) : null}
+
         <button 
           onClick={handleInstallClick}
           className="w-full bg-amber-500 hover:bg-amber-600 text-forest-900 font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
         >
-          <Download className="w-4 h-4" /> Install App to Home Screen
+          <Download className="w-4 h-4" /> {isInstallable ? 'Install App to Home Screen' : 'How to Install App'}
         </button>
       </div>
     </div>
