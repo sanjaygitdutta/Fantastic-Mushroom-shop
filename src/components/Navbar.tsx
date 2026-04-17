@@ -1,29 +1,105 @@
-import { useState } from 'react';
-import { Menu, Search, User, ChevronDown, X, ArrowRight, Bell } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Menu, Search, User, X, ArrowRight, Bell, ChevronDown, Bot, Calculator, Compass, ShoppingBag } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ShoppingBasket } from 'lucide-react';
-import { POPULAR_SEARCHES, FOOD_CATEGORIES } from '../data/mockPrices';
+import { POPULAR_SEARCHES } from '../data/mockPrices';
 
+// ── Mega-menu data ─────────────────────────────────────────────────────────────
+const AI_TOOLS = [
+  { to: '/chef-aika', icon: '👩‍🍳', label: 'Chef Aika', desc: 'AI fridge-to-recipe magic' },
+  { to: '/meal-planner', icon: '🗓️', label: 'Meal Planner', desc: 'Budget 7-day meal plan' },
+  { to: '/festival', icon: '🎊', label: 'Festival Planner', desc: 'Bulk shopping for festivals', soon: true },
+  { to: '/health', icon: '🏥', label: 'Health Mode', desc: 'Nutrition & allergen scanner', soon: true },
+];
+
+const CALCULATORS = [
+  { to: '/basket', icon: '🧺', label: 'Basket Calculator', desc: 'Compare full grocery basket' },
+  { to: '/meal-calculator', icon: '🍲', label: 'Meal Cost', desc: 'Cost per serving calculator' },
+  { to: '/savings', icon: '💰', label: 'FoodScore', desc: 'Your savings dashboard', soon: true },
+  { to: '/basket?group=true', icon: '🤝', label: 'Group Buy', desc: 'Share basket with friends', soon: true },
+];
+
+const DISCOVER = [
+  { to: '/recipes', icon: '📖', label: 'Recipes', desc: 'Global AI-generated recipes' },
+  { to: '/coupons', icon: '🏷️', label: 'Coupons', desc: 'Latest platform coupon codes' },
+  { to: '/seasonal', icon: '🌾', label: 'Seasonal Guide', desc: "What's fresh & cheap now", soon: true },
+  { to: '/saved', icon: '🔔', label: 'My Watchlist', desc: 'Your price drop alerts' },
+];
+
+interface NavGroup {
+  label: string;
+  icon: React.ReactNode;
+  items: typeof AI_TOOLS;
+}
+
+const NAV_GROUPS: NavGroup[] = [
+  { label: 'AI Tools', icon: <Bot className="w-4 h-4" />, items: AI_TOOLS },
+  { label: 'Calculators', icon: <Calculator className="w-4 h-4" />, items: CALCULATORS },
+  { label: 'Discover', icon: <Compass className="w-4 h-4" />, items: DISCOVER },
+];
+
+// ── Mega dropdown panel ────────────────────────────────────────────────────────
+const MegaPanel = ({ items, onClose }: { items: typeof AI_TOOLS; onClose: () => void }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 10 }}
+    transition={{ duration: 0.18 }}
+    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-forest-100 overflow-hidden p-2 z-50"
+  >
+    {items.map((item) => (
+      item.soon ? (
+        <div key={item.to} className="flex items-start gap-3 px-3 py-2.5 rounded-xl opacity-50 cursor-not-allowed">
+          <span className="text-xl flex-shrink-0 mt-0.5">{item.icon}</span>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-forest-800">{item.label}</p>
+              <span className="text-[9px] font-bold bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Soon</span>
+            </div>
+            <p className="text-xs text-forest-500 truncate">{item.desc}</p>
+          </div>
+        </div>
+      ) : (
+        <Link
+          key={item.to}
+          to={item.to}
+          onClick={onClose}
+          className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-forest-50 transition-colors group"
+        >
+          <span className="text-xl flex-shrink-0 mt-0.5">{item.icon}</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-forest-900 group-hover:text-moss-700 transition-colors">{item.label}</p>
+            <p className="text-xs text-forest-500 truncate">{item.desc}</p>
+          </div>
+          <ArrowRight className="w-3.5 h-3.5 text-forest-300 group-hover:text-moss-600 mt-1 opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
+        </Link>
+      )
+    ))}
+  </motion.div>
+);
+
+// ── Main Navbar ────────────────────────────────────────────────────────────────
 const Navbar = () => {
   const { setIsCartOpen, cartCount } = useCart();
   const { isAuthenticated } = useAuth();
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const [mobileOpenGroup, setMobileOpenGroup] = useState<string | null>(null);
   const navigate = useNavigate();
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const prefetchRoute = (route: string) => {
-    switch (route) {
-      case '/compare': import('../pages/Compare'); break;
-      case '/basket': import('../pages/BasketCalculator'); break;
-      case '/meal-calculator': import('../pages/MealCostCalculator'); break;
-      case '/mushroom-shop': import('../pages/MushroomShop'); break;
-      case '/recipes': import('../pages/Recipes'); break;
-    }
+  const handleMouseEnter = (label: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenGroup(label);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimer.current = setTimeout(() => setOpenGroup(null), 120);
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -38,157 +114,86 @@ const Navbar = () => {
     navigate(`/compare?q=${encodeURIComponent(q)}`);
     setIsSearchOpen(false);
     setIsMobileOpen(false);
-    setSearchQuery('');
   };
 
   return (
     <>
       <nav className="fixed w-full z-50 bg-forest-900/95 backdrop-blur-md border-b border-forest-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-18 py-3">
+          <div className="flex justify-between items-center h-16">
 
             {/* Logo */}
             <Link to="/" className="flex-shrink-0 flex items-center gap-2.5">
-              <div className="w-10 h-10 flex items-center justify-center overflow-hidden shadow-md">
+              <div className="w-9 h-9 flex items-center justify-center overflow-hidden shadow-md">
                 <img src="/logo.png" alt="Fantastic Food Logo" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col leading-none">
-                <span className="text-lg font-black text-white font-display tracking-tight">
+                <span className="text-[17px] font-black text-white font-display tracking-tight">
                   Fantastic<span className="text-amber-400">Food</span>
                 </span>
               </div>
             </Link>
 
-            {/* Desktop nav */}
-            <div className="hidden md:flex items-center gap-1">
-              {/* Categories dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setIsCategoryOpen(true)}
-                onMouseLeave={() => setIsCategoryOpen(false)}
-              >
-                <button className="flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg hover:bg-forest-800 text-cream-200 hover:text-white">
-                  Categories <ChevronDown className={`w-4 h-4 transition-transform ${isCategoryOpen ? 'rotate-180' : ''}`} />
-                </button>
-                <AnimatePresence>
-                  {isCategoryOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      className="absolute left-0 mt-1 w-72 bg-white rounded-2xl shadow-2xl border border-forest-100 overflow-hidden p-3"
-                    >
-                      <div className="grid grid-cols-2 gap-1.5">
-                        {FOOD_CATEGORIES.map((cat) => (
-                          <button
-                            key={cat.label}
-                            onClick={() => cat.special ? navigate('/mushroom-shop') : handleQuickSearch(cat.query)}
-                            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors text-left ${
-                              cat.special
-                                ? 'bg-earth-50 hover:bg-earth-100 text-earth-700 font-semibold'
-                                : 'hover:bg-forest-50 text-forest-700'
-                            }`}
-                          >
-                            <span>{cat.icon}</span>
-                            <span className="truncate">{cat.label}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center gap-1">
 
+              {/* Compare — primary CTA */}
               <NavLink
                 to="/compare"
-                onMouseEnter={() => prefetchRoute('/compare')}
                 className={({ isActive }) =>
-                  `nav-link px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  `nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                    isActive ? 'text-amber-400' : 'text-cream-200 hover:text-white hover:bg-forest-800'
                   }`
                 }
               >
-                Compare
+                Compare Prices
               </NavLink>
-              <NavLink
-                to="/recipes"
-                onMouseEnter={() => prefetchRoute('/recipes')}
-                className={({ isActive }) =>
-                  `nav-link px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
-                  }`
-                }
-              >
-                Recipes
-              </NavLink>
-              <NavLink
-                to="/chef-aika"
-                className={({ isActive }) =>
-                  `flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
-                  }`
-                }
-              >
-                Chef Aika
-              </NavLink>
-              <NavLink
-                to="/coupons"
-                className={({ isActive }) =>
-                  `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
-                  }`
-                }
-              >
-                Coupons
-              </NavLink>
-              <NavLink
-                to="/basket"
-                onMouseEnter={() => prefetchRoute('/basket')}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
-                  }`
-                }
-              >
-                Basket
-              </NavLink>
-              <NavLink
-                to="/meal-calculator"
-                onMouseEnter={() => prefetchRoute('/meal-calculator')}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
-                  }`
-                }
-              >
-                Meal Cost
-              </NavLink>
-              <NavLink
-                to="/meal-planner"
-                className={({ isActive }) =>
-                  `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
-                  }`
-                }
-              >
-                Meal Planner
-              </NavLink>
+
+              {/* Grouped Mega Dropdowns */}
+              {NAV_GROUPS.map((group) => (
+                <div
+                  key={group.label}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(group.label)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <button
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      openGroup === group.label
+                        ? 'text-white bg-forest-800'
+                        : 'text-cream-300 hover:text-white hover:bg-forest-800'
+                    }`}
+                  >
+                    {group.icon}
+                    {group.label}
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openGroup === group.label ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {openGroup === group.label && (
+                      <MegaPanel items={group.items} onClose={() => setOpenGroup(null)} />
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+
+              {/* Shop — standalone */}
               <NavLink
                 to="/mushroom-shop"
-                onMouseEnter={() => prefetchRoute('/mushroom-shop')}
                 className={({ isActive }) =>
-                  `flex items-center gap-1.5 nav-link px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  `flex items-center gap-1.5 nav-link px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-300 hover:text-white hover:bg-forest-800'
                   }`
                 }
               >
-                Mushroom Shop
+                <ShoppingBag className="w-4 h-4" /> Shop
               </NavLink>
+
             </div>
 
             {/* Right icons */}
-            <div className="flex items-center gap-2">
-              {/* Search icon */}
+            <div className="flex items-center gap-1.5">
+              {/* Search */}
               <button
                 onClick={() => setIsSearchOpen(true)}
                 className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white"
@@ -196,7 +201,7 @@ const Navbar = () => {
                 <Search className="w-5 h-5" />
               </button>
 
-              {/* User */}
+              {/* Auth */}
               {isAuthenticated ? (
                 <div className="flex gap-1">
                   <Link to="/saved" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-amber-400 hover:text-amber-300" title="Watchlist">
@@ -207,12 +212,12 @@ const Navbar = () => {
                   </Link>
                 </div>
               ) : (
-                <Link to="/login" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white" title="Login">
-                  <User className="w-5 h-5" />
+                <Link to="/login" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold text-sm transition-colors">
+                  Sign In
                 </Link>
               )}
 
-              {/* Cart (mushroom shop only) */}
+              {/* Cart */}
               <button
                 onClick={() => setIsCartOpen(true)}
                 className="relative p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white"
@@ -228,7 +233,7 @@ const Navbar = () => {
               {/* Mobile hamburger */}
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                className="md:hidden p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white"
+                className="lg:hidden p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white"
               >
                 {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -237,7 +242,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Search overlay */}
+      {/* ── Search Overlay ─────────────────────────────────────────────────────── */}
       <AnimatePresence>
         {isSearchOpen && (
           <motion.div
@@ -269,9 +274,7 @@ const Navbar = () => {
                     <X className="w-4 h-4 text-gray-400" />
                   </button>
                 )}
-                <button type="submit" className="btn-forest py-2 px-4 text-sm">
-                  Search
-                </button>
+                <button type="submit" className="btn-forest py-2 px-4 text-sm">Search</button>
               </form>
               <div className="p-4">
                 <p className="text-xs text-forest-500 uppercase font-semibold tracking-wider mb-3">Popular Searches</p>
@@ -292,70 +295,74 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* Mobile menu */}
+      {/* ── Mobile Menu ────────────────────────────────────────────────────────── */}
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed top-[60px] left-0 right-0 z-40 bg-forest-900 border-b border-forest-700 md:hidden"
+            className="fixed top-16 left-0 right-0 z-40 bg-forest-900 border-b border-forest-700 lg:hidden overflow-y-auto max-h-[80vh]"
           >
-            <div className="px-4 py-5 space-y-2">
-              <NavLink to="/" end onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Home
-              </NavLink>
-              <NavLink to="/compare" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Compare Prices
-              </NavLink>
-              <NavLink to="/basket" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Basket Calculator
-              </NavLink>
-              <NavLink to="/meal-calculator" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Meal Cost Calculator
-              </NavLink>
-              <NavLink to="/meal-planner" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Weekly Meal Planner
-              </NavLink>
-              <NavLink to="/mushroom-shop" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Mushroom Shop
-              </NavLink>
-              <NavLink to="/recipes" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Recipes
-              </NavLink>
-              <NavLink to="/chef-aika" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Chef Aika
-              </NavLink>
-              <NavLink to="/coupons" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-bold border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                Coupon Codes
-              </NavLink>
-              <NavLink to="/about" onClick={() => setIsMobileOpen(false)}
-                className={({ isActive }) => `block py-2.5 font-medium ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
-                About
-              </NavLink>
-              <div className="pt-4 pb-2">
-                <p className="text-xs text-forest-400 uppercase tracking-wider mb-3">Quick Compare</p>
-                <div className="flex flex-wrap gap-2">
-                  {POPULAR_SEARCHES.slice(0, 6).map((item) => (
-                    <button
-                      key={item.query}
-                      onClick={() => handleQuickSearch(item.query)}
-                      className="text-sm bg-forest-800 text-cream-300 border border-forest-700 px-3 py-1.5 rounded-full hover:bg-forest-700 transition-colors"
-                    >
-                      {item.icon} {item.label}
-                    </button>
-                  ))}
+            <div className="px-4 py-4 space-y-1">
+              <Link to="/compare" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-2 py-3 px-3 rounded-xl bg-amber-500/10 text-amber-400 font-bold text-sm border border-amber-500/20 mb-3">
+                <Search className="w-4 h-4" /> Compare Prices
+              </Link>
+
+              {NAV_GROUPS.map((group) => (
+                <div key={group.label}>
+                  <button
+                    onClick={() => setMobileOpenGroup(mobileOpenGroup === group.label ? null : group.label)}
+                    className="w-full flex items-center justify-between gap-2 py-2.5 px-3 rounded-xl text-cream-200 font-semibold text-sm hover:bg-forest-800 transition-colors"
+                  >
+                    <span className="flex items-center gap-2">{group.icon} {group.label}</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform text-forest-400 ${mobileOpenGroup === group.label ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {mobileOpenGroup === group.label && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="ml-4 mt-1 space-y-0.5 border-l border-forest-800 pl-3 pb-2">
+                          {group.items.map((item) => (
+                            item.soon ? (
+                              <div key={item.to} className="flex items-center gap-2 py-2 px-2 text-forest-600 text-sm opacity-60">
+                                <span>{item.icon}</span> {item.label}
+                                <span className="text-[9px] font-bold bg-forest-800 text-forest-500 px-1.5 rounded-full">Soon</span>
+                              </div>
+                            ) : (
+                              <Link
+                                key={item.to}
+                                to={item.to}
+                                onClick={() => setIsMobileOpen(false)}
+                                className="flex items-center gap-2 py-2 px-2 rounded-lg text-cream-300 hover:text-white hover:bg-forest-800 text-sm transition-colors"
+                              >
+                                <span>{item.icon}</span> {item.label}
+                              </Link>
+                            )
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </div>
+              ))}
+
+              <Link to="/mushroom-shop" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-cream-200 font-semibold text-sm hover:bg-forest-800 transition-colors">
+                <ShoppingBag className="w-4 h-4" /> Mushroom Shop
+              </Link>
+
+              {!isAuthenticated && (
+                <div className="pt-3 border-t border-forest-800">
+                  <Link to="/login" onClick={() => setIsMobileOpen(false)} className="w-full py-3 bg-amber-500 text-forest-900 font-bold rounded-xl text-center text-sm flex items-center justify-center">
+                    Sign In / Sign Up
+                  </Link>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
