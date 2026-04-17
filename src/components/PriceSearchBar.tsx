@@ -30,6 +30,44 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
 
+  // Restore stored location if any
+  useEffect(() => {
+    const saved = localStorage.getItem('ff_location');
+    if (saved) {
+      setPincode(saved);
+    }
+  }, []);
+
+  const detectLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+    
+    setIsLoading(true);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      try {
+        const { latitude, longitude } = position.coords;
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const data = await res.json();
+        
+        const city = data.address?.city || data.address?.state_district || data.address?.town;
+        if (city) {
+          setPincode(city);
+          localStorage.setItem('ff_location', city);
+          setShowPincode(false);
+        }
+      } catch (err) {
+        console.error("Location error", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }, () => {
+      setIsLoading(false);
+      alert("Unable to retrieve your location. Please check browser permissions.");
+    });
+  };
+
   // Initialize Speech Recognition
   useEffect(() => {
     // @ts-ignore
@@ -202,10 +240,19 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
                 {pincode && (
                   <button
                     type="button"
-                    onClick={() => setPincode('')}
-                    className="text-xs text-forest-500 hover:text-forest-700"
+                    onClick={() => { setPincode(''); localStorage.removeItem('ff_location'); }}
+                    className="text-xs text-forest-500 hover:text-forest-700 font-bold"
                   >
                     Clear
+                  </button>
+                )}
+                {!pincode && (
+                  <button
+                    type="button"
+                    onClick={detectLocation}
+                    className="text-xs bg-moss-100 text-moss-700 px-3 py-1.5 rounded-lg hover:bg-moss-200 transition-colors font-bold whitespace-nowrap"
+                  >
+                    Auto-Detect
                   </button>
                 )}
               </div>

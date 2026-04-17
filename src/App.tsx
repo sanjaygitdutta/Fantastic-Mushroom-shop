@@ -36,6 +36,9 @@ const RecipePage = lazy(() => import('./pages/RecipePage'));
 const ChefAika = lazy(() => import('./pages/ChefAika'));
 const SitemapDirectory = lazy(() => import('./pages/SitemapDirectory'));
 
+const MealPlanner = lazy(() => import('./pages/MealPlanner'));
+const SavedLists = lazy(() => import('./pages/SavedLists'));
+
 // Admin Pages
 const AdminRoute = lazy(() => import('./pages/admin/AdminRoute'));
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
@@ -94,6 +97,8 @@ function App() {
                   <Route path="/recipe/:recipeId" element={<RecipePage />} />
                   <Route path="/chef-aika" element={<ChefAika />} />
                   <Route path="/directory" element={<SitemapDirectory />} />
+                  <Route path="/meal-planner" element={<MealPlanner />} />
+                  <Route path="/saved" element={<SavedLists />} />
 
                   {/* Admin Routes */}
                   <Route path="/admin/login" element={<AdminLogin />} />

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Search, User, ChevronDown, X, ArrowRight } from 'lucide-react';
+import { Menu, Search, User, ChevronDown, X, ArrowRight, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -164,6 +164,16 @@ const Navbar = () => {
                 Meal Cost
               </NavLink>
               <NavLink
+                to="/meal-planner"
+                className={({ isActive }) =>
+                  `flex items-center gap-1 nav-link px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                  }`
+                }
+              >
+                Meal Planner
+              </NavLink>
+              <NavLink
                 to="/mushroom-shop"
                 onMouseEnter={() => prefetchRoute('/mushroom-shop')}
                 className={({ isActive }) =>
@@ -188,9 +198,14 @@ const Navbar = () => {
 
               {/* User */}
               {isAuthenticated ? (
-                <Link to="/profile" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white" title="My Profile">
-                  <User className="w-5 h-5" />
-                </Link>
+                <div className="flex gap-1">
+                  <Link to="/saved" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-amber-400 hover:text-amber-300" title="Watchlist">
+                    <Bell className="w-5 h-5" />
+                  </Link>
+                  <Link to="/profile" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white" title="My Profile">
+                    <User className="w-5 h-5" />
+                  </Link>
+                </div>
               ) : (
                 <Link to="/login" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white" title="Login">
                   <User className="w-5 h-5" />
@@ -302,6 +317,10 @@ const Navbar = () => {
               <NavLink to="/meal-calculator" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
                 Meal Cost Calculator
+              </NavLink>
+              <NavLink to="/meal-planner" onClick={() => setIsMobileOpen(false)}
+                className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>
+                Weekly Meal Planner
               </NavLink>
               <NavLink to="/mushroom-shop" onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) => `block py-2.5 font-medium border-b border-forest-800 ${isActive ? 'text-amber-400' : 'text-cream-200'}`}>

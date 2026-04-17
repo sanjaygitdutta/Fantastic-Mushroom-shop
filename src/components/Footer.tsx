@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Twitter, Facebook, Leaf } from 'lucide-react';
+import InstallPWA from './InstallPWA';
 
 const Footer = () => {
     return (
@@ -65,6 +66,8 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
+
+                <InstallPWA />
 
                 <div className="border-t border-forest-800/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-forest-500">
                     <p>&copy; 2026 Fantastic Food Platform. All rights reserved.</p>
