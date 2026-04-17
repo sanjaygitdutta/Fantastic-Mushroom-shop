@@ -72,6 +72,7 @@ const SitemapDirectory = () => {
                 <Link to="/meal-calculator" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Meal Cost Calculator</Link>
                 <Link to="/coupons" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Daily Coupons & Deals</Link>
                 <Link to="/chef-aika" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Chef Aika — AI Kitchen Assistant</Link>
+                <Link to="/community" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Community Recipe Feed</Link>
                 <Link to="/mushroom-shop" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Premium Mushroom Shop</Link>
                 <Link to="/recipes" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">World Recipe Hub</Link>
             </div>
