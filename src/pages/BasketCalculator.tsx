@@ -1,7 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap, Share2, Bot, Loader2 } from 'lucide-react';
+import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap, Share2, Bot, Loader2, Link2, Gift } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 import SEO from '../components/SEO';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
@@ -57,6 +58,14 @@ const BasketCalculator = () => {
   const [searchParams] = useSearchParams();
   const [aiAdvice, setAiAdvice] = useState<any>(null);
   const [loadingAdvice, setLoadingAdvice] = useState(false);
+
+  // Gamification state
+  const slashHostParam = searchParams.get('slashHost');
+  const [slashClicks, setSlashClicks] = useState(0);
+  const [codeGenerated, setCodeGenerated] = useState<string | null>(null);
+  const [hostInputCode, setHostInputCode] = useState('');
+  const [discountApplied, setDiscountApplied] = useState(false);
+  const DISCOUNT_AMOUNT = 50;
 
   useEffect(() => {
     const prefill = searchParams.get('prefill');
@@ -114,6 +123,36 @@ const BasketCalculator = () => {
     }
   };
 
+  const startTeamSlash = () => {
+    const items = basket.map(b => encodeURIComponent(b.query)).join(',');
+    // Generate a viral string parameter
+    const url = `${window.location.origin}/basket?slashHost=YourFriend&prefill=${items}`;
+    const msg = `Hey! I need your help slicing ₹${DISCOUNT_AMOUNT} off my grocery bill on Fantastic Food! Tap this link and help me slash the price: ${url}`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
+  const handleFriendSlash = () => {
+    setSlashClicks(prev => prev + 1);
+    // Vibrate if mobile
+    if (navigator.vibrate) navigator.vibrate(50);
+    // If they clicked enough times, generate the fake code
+    if (slashClicks >= 9) {
+      const code = `SLASH-${Math.floor(1000 + Math.random() * 9000)}-WIN`;
+      setCodeGenerated(code);
+      confetti({ particleCount: 150, spread: 80, zIndex: 9999, colors: ['#52B788', '#F4A23C', '#2D6A4F'] });
+    }
+  };
+
+  const redeemCode = () => {
+    if (hostInputCode.trim().startsWith('SLASH-') && hostInputCode.trim().endsWith('-WIN')) {
+      setDiscountApplied(true);
+      setHostInputCode('');
+      confetti({ particleCount: 200, spread: 100, origin: { y: 0.8 }, colors: ['#F5D100', '#FC8019'] });
+    } else {
+      alert("Invalid code. Tell your friend to tap harder!");
+    }
+  };
+
   const getAiAdvice = async () => {
     if (basket.length === 0) return;
     setLoadingAdvice(true);
@@ -134,8 +173,64 @@ const BasketCalculator = () => {
 
   const cheapest = platformTotals[0];
   const priciest = platformTotals[platformTotals.length - 1];
-  const savings = basket.length > 0 && cheapest && priciest ? priciest.total - cheapest.total : 0;
-  const savingsPercent = priciest?.total > 0 ? Math.round((savings / priciest.total) * 100) : 0;
+  
+  // Apply discount mathematically to UI if redeemed
+  let finalSavings = basket.length > 0 && cheapest && priciest ? priciest.total - cheapest.total : 0;
+  if (discountApplied && cheapest) {
+    cheapest.total -= DISCOUNT_AMOUNT;
+    finalSavings += DISCOUNT_AMOUNT;
+  }
+  
+  const savingsPercent = priciest?.total > 0 ? Math.round((finalSavings / priciest.total) * 100) : 0;
+
+  // ── FRIEND OVERLAY (Gamification loop) ──
+  if (slashHostParam && !codeGenerated) {
+    return (
+      <div className="min-h-screen bg-forest-900 flex flex-col items-center justify-center p-6 text-center">
+        <SEO title="Help Your Friend Slash Their Bill! | Fantastic Food" description="Gamified price drops" />
+        <h1 className="text-3xl font-black text-white mb-4">Your friend needs help!</h1>
+        <p className="text-green-300 text-lg max-w-sm mb-8">
+          Tap the button 10 times to slash ₹{DISCOUNT_AMOUNT} off their Fantastic Food grocery bill!
+        </p>
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={handleFriendSlash}
+          className="w-48 h-48 rounded-full bg-gradient-to-tr from-amber-400 to-amber-600 text-forest-900 font-black text-4xl shadow-2xl flex flex-col items-center justify-center gap-2 border-4 border-amber-300"
+        >
+          <span>⚔️</span>
+          <span>SLASH IT</span>
+        </motion.button>
+        <div className="mt-8 text-amber-400 font-bold text-xl w-64 h-4 bg-forest-800 rounded-full overflow-hidden">
+          <div className="h-full bg-amber-400 transition-all" style={{ width: `${(slashClicks / 10) * 100}%` }} />
+        </div>
+      </div>
+    );
+  }
+
+  if (slashHostParam && codeGenerated) {
+    return (
+      <div className="min-h-screen bg-forest-900 flex flex-col items-center justify-center p-6 text-center">
+        <h1 className="text-4xl font-black text-amber-400 mb-4">You did it! 🎊</h1>
+        <p className="text-green-300 mb-8 max-w-sm">
+          You successfully slashed ₹{DISCOUNT_AMOUNT} off your friend's cart! Send them this secret code so they can claim it.
+        </p>
+        <div className="bg-forest-800 border-2 border-dashed border-amber-400 rounded-2xl p-6 mb-8 max-w-xs w-full">
+          <p className="text-3xl font-black text-white tracking-wider">{codeGenerated}</p>
+        </div>
+        <button onClick={() => {
+            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(`I slashed your bill! Here is your secret code: ${codeGenerated}`)}`;
+            window.open(url, '_blank');
+          }}
+          className="bg-[#25D366] text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2 text-lg w-full max-w-xs shadow-lg transition-transform active:scale-95"
+        >
+          <Share2 className="w-5 h-5"/> Send Code via WhatsApp
+        </button>
+        <button onClick={() => window.location.href = '/basket'} className="text-green-400 mt-6 underline">
+          Try Fantastic Food Myself
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20 pb-16" style={{ background: 'linear-gradient(135deg, #0f2418 0%, #1b4332 40%, #2d3a1f 100%)' }}>
@@ -313,7 +408,7 @@ const BasketCalculator = () => {
               <div className="space-y-4">
 
                 {/* Savings Banner */}
-                {savings > 0 && (
+                {finalSavings > 0 && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -329,7 +424,7 @@ const BasketCalculator = () => {
                         <div className="flex items-center gap-2 mb-1">
                           <Trophy className="w-5 h-5 text-forest-900" />
                           <span className="font-black text-forest-900 text-lg">
-                            You save ₹{savings} ({savingsPercent}%)!
+                            You save ₹{finalSavings} ({savingsPercent}%)!
                           </span>
                         </div>
                         <p className="text-forest-800 text-sm">
@@ -494,6 +589,47 @@ const BasketCalculator = () => {
                   <button onClick={() => setBasket([])} className="py-3 px-4 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 font-bold transition-colors">
                     Clear
                   </button>
+                </div>
+              )}
+
+              {/* TEAM SLASH HOST UI */}
+              {basket.length > 0 && (
+                <div className="mt-6 bg-gradient-to-br from-amber-400/10 to-amber-600/10 border-2 border-dashed border-amber-500/50 rounded-3xl p-6 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 text-6xl opacity-20 transform rotate-12">⚔️</div>
+                  <h3 className="text-xl font-black text-amber-400 mb-2 flex items-center gap-2">
+                    <Gift className="w-5 h-5"/> Team Slash
+                  </h3>
+                  <p className="text-sm text-green-200 mb-6 max-w-sm">
+                    Have friends on WhatsApp? Click below to send them a special link. If they tap it enough times, you get a secret code to slash ₹{DISCOUNT_AMOUNT} off your bill!
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                    <button onClick={startTeamSlash} className="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 font-bold text-forest-900 shadow-lg transition-transform active:scale-95 flex flex-col items-center justify-center gap-1">
+                      <div className="flex items-center gap-2"><Link2 className="w-4 h-4"/> Invite Friends to Slash</div>
+                    </button>
+                  </div>
+                  
+                  <div className="flex bg-forest-900/50 rounded-xl overflow-hidden border border-amber-500/30">
+                    <input 
+                      type="text" 
+                      placeholder="Paste your friend's secret code here..." 
+                      value={hostInputCode}
+                      onChange={e => setHostInputCode(e.target.value.toUpperCase())}
+                      className="flex-1 bg-transparent px-4 py-3 text-white placeholder-gray-400 outline-none text-sm font-mono"
+                    />
+                    <button 
+                      onClick={redeemCode}
+                      disabled={!hostInputCode.trim() || discountApplied}
+                      className="bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-forest-900 font-bold px-6 border-l border-amber-600 transition-colors"
+                    >
+                      Redeem
+                    </button>
+                  </div>
+                  {discountApplied && (
+                    <div className="mt-3 text-amber-400 text-sm font-bold flex items-center gap-2">
+                      <Sparkles className="w-4 h-4"/> Success! You slashed ₹{DISCOUNT_AMOUNT} off your total!
+                    </div>
+                  )}
                 </div>
               )}
             </div>
