@@ -1,9 +1,10 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap, Share2, Bot, Loader2, Link2, Gift } from 'lucide-react';
+import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap, Share2, Bot, Loader2, Link2, Gift, Users, RefreshCw } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import SEO from '../components/SEO';
+import { supabase } from '../lib/supabase';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
 import { PLATFORMS } from '../data/platforms';
@@ -67,14 +68,59 @@ const BasketCalculator = () => {
   const [discountApplied, setDiscountApplied] = useState(false);
   const DISCOUNT_AMOUNT = 50;
 
+  // Family Carts state
+  const familyIdParam = searchParams.get('familyId');
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [remoteFamilyCart, setRemoteFamilyCart] = useState(false);
+
   useEffect(() => {
+    // 1. Initial Load for Family Cart
+    if (familyIdParam) {
+      setRemoteFamilyCart(true);
+      const fetchInitial = async () => {
+        setIsSyncing(true);
+        const { data } = await supabase.from('family_carts').select('items').eq('id', familyIdParam).single();
+        if (data && (data as any).items) {
+          setBasket((data as any).items);
+        }
+        setIsSyncing(false);
+      };
+      fetchInitial();
+
+      // 2. Subscribe to remote changes
+      const channel = supabase.channel(`public:family_carts:id=eq.${familyIdParam}`)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'family_carts', filter: `id=eq.${familyIdParam}` }, payload => {
+           if (payload.new && (payload.new as any).items) {
+             setBasket((payload.new as any).items);
+           }
+        })
+        .subscribe();
+
+      return () => { supabase.removeChannel(channel); };
+    }
     const prefill = searchParams.get('prefill');
     if (prefill) {
       const itemsToLoad = prefill.split(',').filter(Boolean);
       itemsToLoad.forEach(item => addItem(item));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [familyIdParam, searchParams]);
+
+  const syncToSupabase = async (newBasket: BasketItem[]) => {
+    if (!familyIdParam) return;
+    setIsSyncing(true);
+    try {
+      await supabase.from('family_carts').upsert({ 
+        id: familyIdParam, 
+        items: newBasket,
+        updated_at: new Date().toISOString()
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const addItem = async (query: string) => {
     if (basket.find(b => b.query.toLowerCase() === query.toLowerCase())) return;
@@ -82,13 +128,17 @@ const BasketCalculator = () => {
     setSearchResult(null);
     const result = await searchPrices(query);
     if (result) {
-      setBasket(prev => [...prev, {
-        id: `${query}-${Date.now()}`,
-        query,
-        displayName: result.canonicalName,
-        icon: result.icon,
-        result,
-      }]);
+      setBasket(prev => {
+        const nb = [...prev, {
+          id: `${query}-${Date.now()}`,
+          query,
+          displayName: result.canonicalName,
+          icon: result.icon,
+          result,
+        }];
+        syncToSupabase(nb);
+        return nb;
+      });
     } else {
       setSearchResult(`Couldn't find "${query}" — try a different name.`);
     }
@@ -97,7 +147,16 @@ const BasketCalculator = () => {
   };
 
   const removeItem = (id: string) => {
-    setBasket(prev => prev.filter(b => b.id !== id));
+    setBasket(prev => {
+      const nb = prev.filter(b => b.id !== id);
+      syncToSupabase(nb);
+      return nb;
+    });
+  };
+
+  const clearBasket = () => {
+    setBasket([]);
+    syncToSupabase([]);
   };
 
   const platformTotals = useMemo(() => {
@@ -129,6 +188,21 @@ const BasketCalculator = () => {
     const url = `${window.location.origin}/basket?slashHost=YourFriend&prefill=${items}`;
     const msg = `Hey! I need your help slicing ₹${DISCOUNT_AMOUNT} off my grocery bill on Fantastic Food! Tap this link and help me slash the price: ${url}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
+  const createFamilyCart = async () => {
+    const genId = 'FAM-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+    await supabase.from('family_carts').upsert({ id: genId, items: basket, updated_at: new Date().toISOString() });
+    
+    // Redirect to the family mode
+    const url = `${window.location.origin}/basket?familyId=${genId}`;
+    if (navigator.share) {
+      navigator.share({ title: 'Join my Family Fridge!', text: 'Add groceries to our live synced cart instantly.', url });
+    } else {
+      navigator.clipboard.writeText(url);
+      alert('Live Family Cart link generated and copied to clipboard! Share it with your family to sync instantly.');
+    }
+    window.location.href = url;
   };
 
   const handleFriendSlash = () => {
@@ -248,10 +322,18 @@ const BasketCalculator = () => {
             <Sparkles className="w-4 h-4" /> Smart Basket Calculator
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white mb-3 leading-tight">
-            Find the <span className="text-amber-400">Cheapest Platform</span><br />for Your Entire Basket
+            {remoteFamilyCart ? (
+              <span className="text-blue-400 flex items-center justify-center gap-3">
+                <Users className="w-10 h-10" /> Live Family Fridge
+              </span>
+            ) : (
+              <>Find the <span className="text-amber-400">Cheapest Platform</span><br />for Your Entire Basket</>
+            )}
           </h1>
           <p className="text-green-300 text-lg max-w-xl mx-auto">
-            Add items → We compare totals across all 7 platforms → You save money 💰
+            {remoteFamilyCart 
+              ? "Anyone with the link can add groceries. Watch the total update in real-time! 👨‍👩‍👧‍👦"
+              : "Add items → We compare totals across all 7 platforms → You save money 💰"}
           </p>
 
           {/* Live stat pills */}
@@ -349,14 +431,17 @@ const BasketCalculator = () => {
                 >
                   <div className="flex items-center justify-between mb-3">
                     <h2 className="font-black text-white flex items-center gap-2">
-                      <ShoppingCart className="w-4 h-4 text-amber-400" />
-                      Your Basket
-                      <span className="bg-amber-400 text-forest-900 text-xs font-black px-2 py-0.5 rounded-full">
+                      <ShoppingCart className={`w-4 h-4 ${remoteFamilyCart ? 'text-blue-400' : 'text-amber-400'}`} />
+                      {remoteFamilyCart ? 'Family Basket' : 'Your Basket'}
+                      <span className={`${remoteFamilyCart ? 'bg-blue-400' : 'bg-amber-400'} text-forest-900 text-xs font-black px-2 py-0.5 rounded-full`}>
                         {basket.length}
                       </span>
+                      {isSyncing && (
+                        <RefreshCw className="w-3 h-3 text-blue-300 animate-spin ml-2" />
+                      )}
                     </h2>
                     <button
-                      onClick={() => setBasket([])}
+                      onClick={clearBasket}
                       className="text-xs text-red-400 hover:text-red-300 font-medium flex items-center gap-1 transition-colors"
                     >
                       <X className="w-3 h-3" /> Clear all
@@ -582,13 +667,25 @@ const BasketCalculator = () => {
 
               {/* Action buttons under basket */}
               {basket.length > 0 && (
-                <div className="flex gap-3">
-                  <button onClick={shareBasket} className="flex-1 py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-forest-900 font-bold flex items-center justify-center gap-2 transition-colors">
-                    <Share2 className="w-4 h-4" /> Share Basket
-                  </button>
-                  <button onClick={() => setBasket([])} className="py-3 px-4 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 font-bold transition-colors">
-                    Clear
-                  </button>
+                <div className="flex flex-col gap-3">
+                  <div className="flex gap-3">
+                    <button onClick={shareBasket} className="flex-1 py-3 px-4 rounded-xl border border-amber-500/30 text-amber-500 hover:bg-amber-500/10 font-bold flex items-center justify-center gap-2 transition-colors">
+                      <Share2 className="w-4 h-4" /> Share Snapshot
+                    </button>
+                    {!remoteFamilyCart && (
+                      <button onClick={createFamilyCart} className="flex-1 py-3 px-4 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold flex items-center justify-center gap-2 transition-colors shadow-lg shadow-blue-500/20">
+                        <Users className="w-4 h-4" /> Family Cart
+                      </button>
+                    )}
+                    <button onClick={clearBasket} className="py-3 px-4 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 font-bold transition-colors">
+                      Clear
+                    </button>
+                  </div>
+                  {remoteFamilyCart && (
+                    <div className="text-center text-blue-300 text-xs font-medium flex items-center justify-center gap-2">
+                       <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" /> Live Family Sync Active
+                    </div>
+                  )}
                 </div>
               )}
 
