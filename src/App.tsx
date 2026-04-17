@@ -34,6 +34,7 @@ const Coupons = lazy(() => import('./pages/Coupons'));
 const CityPage = lazy(() => import('./pages/CityPage'));
 const RecipePage = lazy(() => import('./pages/RecipePage'));
 const ChefAika = lazy(() => import('./pages/ChefAika'));
+const SitemapDirectory = lazy(() => import('./pages/SitemapDirectory'));
 
 // Admin Pages
 const AdminRoute = lazy(() => import('./pages/admin/AdminRoute'));
@@ -92,6 +93,7 @@ function App() {
                   <Route path="/city/:citySlug" element={<CityPage />} />
                   <Route path="/recipe/:recipeId" element={<RecipePage />} />
                   <Route path="/chef-aika" element={<ChefAika />} />
+                  <Route path="/directory" element={<SitemapDirectory />} />
 
                   {/* Admin Routes */}
                   <Route path="/admin/login" element={<AdminLogin />} />

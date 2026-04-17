@@ -167,3 +167,9 @@ const updatedSitemap = existingSitemap.replace(
 
 fs.writeFileSync(sitemapPath, updatedSitemap);
 console.log('Successfully updated /public/sitemap.xml!');
+
+// --- JSON Directory Generation ---
+const jsonPath = path.resolve('./src/data/sitemapLinks.json');
+fs.writeFileSync(jsonPath, JSON.stringify({ foodItems: keywordArray, cities: citySlugs }, null, 2));
+console.log('Successfully extracted JSON arrays to /src/data/sitemapLinks.json for React consumption!');
+
