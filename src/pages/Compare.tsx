@@ -11,6 +11,7 @@ import type { CompareResult } from '../data/mockPrices';
 import SEO from '../components/SEO';
 import { useRecentlyCompared } from '../hooks/useRecentlyCompared';
 import { getDailyDeal } from '../data/compareFeatures';
+import { useStreak } from '../components/SavingsStreak';
 
 // Platform logos strip
 const PLATFORMS = [
@@ -49,6 +50,7 @@ const ComparePage = () => {
   const [error, setError] = useState('');
   const [lastQuery, setLastQuery] = useState('');
   const { recents, addRecent, clearRecents } = useRecentlyCompared();
+  const { incrementStreak } = useStreak();
   const navigate = useNavigate();
   const dailyDeal = getDailyDeal();
 
@@ -63,7 +65,33 @@ const ComparePage = () => {
       .then((data) => {
         setResult(data);
         setLoading(false);
-        if (data) addRecent(query, data.canonicalName, data.icon);
+        if (data) {
+          addRecent(query, data.canonicalName, data.icon);
+          incrementStreak();
+          
+          // Log savings
+          const prices = data.prices.filter(p => p.price > 0 && p.inStock);
+          if (prices.length > 1) {
+            const maxP = Math.max(...prices.map(p => p.price));
+            const minP = Math.min(...prices.map(p => p.price));
+            const savings = maxP - minP;
+            const bestPlatform = prices.find(p => p.price === minP)?.platformId || 'Multiple';
+            
+            if (savings > 0) {
+              try {
+                const raw = localStorage.getItem('ff_savings_log');
+                const log = raw ? JSON.parse(raw) : [];
+                log.unshift({
+                  query,
+                  savings,
+                  date: new Date().toLocaleDateString('en-GB'),
+                  platform: bestPlatform
+                });
+                localStorage.setItem('ff_savings_log', JSON.stringify(log.slice(0, 100)));
+              } catch {}
+            }
+          }
+        }
       })
       .catch(() => {
         setError('Something went wrong. Please try again.');

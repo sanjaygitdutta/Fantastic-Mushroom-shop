@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap } from 'lucide-react';
+import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap, Share2, Bot, Loader2 } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
@@ -52,6 +53,19 @@ const BasketCalculator = () => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState<string | null>(null);
+  
+  const [searchParams] = useSearchParams();
+  const [aiAdvice, setAiAdvice] = useState<any>(null);
+  const [loadingAdvice, setLoadingAdvice] = useState(false);
+
+  useEffect(() => {
+    const prefill = searchParams.get('prefill');
+    if (prefill) {
+      const itemsToLoad = prefill.split(',').filter(Boolean);
+      itemsToLoad.forEach(item => addItem(item));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const addItem = async (query: string) => {
     if (basket.find(b => b.query.toLowerCase() === query.toLowerCase())) return;
@@ -85,9 +99,38 @@ const BasketCalculator = () => {
         const p = item.result.prices.find(pr => pr.platformId === pid);
         if (p && p.inStock) { total += p.price; available++; }
       });
-      return { platformId: pid, total, available };
+      return { platformId: pid, total, available, name: PLATFORMS.find(p => p.id === pid)?.name || pid };
     }).filter(pt => pt.available > 0).sort((a, b) => a.total - b.total);
   }, [basket]);
+
+  const shareBasket = async () => {
+    const items = basket.map(b => encodeURIComponent(b.query)).join(',');
+    const url = `${window.location.origin}/basket?prefill=${items}`;
+    if (navigator.share) {
+      navigator.share({ title: 'My Fantastic Food Basket', text: 'Hey, compare prices for our shared basket!', url });
+    } else {
+      navigator.clipboard.writeText(url);
+      alert('Basket shared link copied to clipboard!');
+    }
+  };
+
+  const getAiAdvice = async () => {
+    if (basket.length === 0) return;
+    setLoadingAdvice(true);
+    setAiAdvice(null);
+    try {
+      const items = basket.map(b => b.query);
+      const prices = platformTotals.map(pt => ({ platform: pt.name, total: pt.total }));
+      const res = await fetch('/api/group-buy-advice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items, prices })
+      });
+      const data = await res.json();
+      setAiAdvice(data);
+    } catch {}
+    setLoadingAdvice(false);
+  };
 
   const cheapest = platformTotals[0];
   const priciest = platformTotals[platformTotals.length - 1];
@@ -404,12 +447,56 @@ const BasketCalculator = () => {
                 {/* Disclaimer */}
                 <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
                   <p className="text-green-400 text-xs">
-                    ⚠️ Actual prices vary by location & availability.
-                    Click <strong>"Shop"</strong> to see live prices on each platform.
+                    ⚠️ Actual prices vary by location & availability. Click <strong>"Shop"</strong> to see live prices.
                   </p>
                 </div>
 
-              </div>
+                {/* AI Advice */}
+                <div className="mt-6">
+                  {!aiAdvice ? (
+                    <button onClick={getAiAdvice} disabled={loadingAdvice} className="w-full py-4 bg-forest-800 border border-green-500/30 hover:border-green-500 text-white rounded-2xl font-bold flex flex-col items-center justify-center gap-1 transition-colors">
+                      {loadingAdvice ? (
+                        <><Loader2 className="w-5 h-5 animate-spin text-green-400" /> Analyzing best split...</>
+                      ) : (
+                        <><div className="flex items-center gap-2 text-green-400"><Bot className="w-5 h-5" /> Group Buy Advice</div><span className="text-xs text-forest-300 font-normal">AI will tell you if you should split your order</span></>
+                      )}
+                    </button>
+                  ) : (
+                    <div className="bg-gradient-to-r from-forest-800 to-forest-900 border border-moss-500/50 rounded-2xl p-6">
+                      <div className="flex items-center gap-2 mb-4 text-green-400 font-bold">
+                        <Bot className="w-5 h-5" /> AI Group Buy Advice
+                      </div>
+                      <p className="text-white text-sm mb-5 leading-relaxed">{aiAdvice.recommendationText}</p>
+                      <div className="space-y-3 mb-4">
+                        {aiAdvice.platformSplit?.map((split: any, i: number) => (
+                          <div key={i} className="bg-white/10 rounded-xl p-3 flex items-start gap-3">
+                            <div className="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0" />
+                            <div>
+                              <p className="font-bold text-amber-300 text-sm">{split.platform}: <span className="text-white font-medium">{split.itemsToBuy}</span></p>
+                              <p className="text-xs text-forest-300 mt-0.5">{split.reason}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="bg-amber-400/20 text-amber-300 text-center text-sm font-bold py-2 rounded-lg border border-amber-400/30">
+                        Estimated Extra Savings: {aiAdvice.estimatedSavings}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+              {/* Action buttons under basket */}
+              {basket.length > 0 && (
+                <div className="flex gap-3">
+                  <button onClick={shareBasket} className="flex-1 py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-forest-900 font-bold flex items-center justify-center gap-2 transition-colors">
+                    <Share2 className="w-4 h-4" /> Share Basket
+                  </button>
+                  <button onClick={() => setBasket([])} className="py-3 px-4 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 font-bold transition-colors">
+                    Clear
+                  </button>
+                </div>
+              )}
+            </div>
             )}
           </div>
         </div>

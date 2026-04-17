@@ -38,6 +38,10 @@ const SitemapDirectory = lazy(() => import('./pages/SitemapDirectory'));
 
 const MealPlanner = lazy(() => import('./pages/MealPlanner'));
 const SavedLists = lazy(() => import('./pages/SavedLists'));
+const SeasonalGuide = lazy(() => import('./pages/SeasonalGuide'));
+const FestivalPlanner = lazy(() => import('./pages/FestivalPlanner'));
+const NutritionInfo = lazy(() => import('./pages/NutritionInfo'));
+const FoodScore = lazy(() => import('./pages/FoodScore'));
 
 // Admin Pages
 const AdminRoute = lazy(() => import('./pages/admin/AdminRoute'));
@@ -99,6 +103,10 @@ function App() {
                   <Route path="/directory" element={<SitemapDirectory />} />
                   <Route path="/meal-planner" element={<MealPlanner />} />
                   <Route path="/saved" element={<SavedLists />} />
+                  <Route path="/seasonal" element={<SeasonalGuide />} />
+                  <Route path="/festival" element={<FestivalPlanner />} />
+                  <Route path="/health" element={<NutritionInfo />} />
+                  <Route path="/savings" element={<FoodScore />} />
 
                   {/* Admin Routes */}
                   <Route path="/admin/login" element={<AdminLogin />} />

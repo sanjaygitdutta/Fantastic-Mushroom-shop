@@ -8,31 +8,39 @@ import { ShoppingBasket } from 'lucide-react';
 import { POPULAR_SEARCHES } from '../data/mockPrices';
 
 // ── Mega-menu data ─────────────────────────────────────────────────────────────
-const AI_TOOLS = [
+interface NavItem {
+  to: string;
+  icon: string;
+  label: string;
+  desc: string;
+  soon?: boolean;
+}
+
+const AI_TOOLS: NavItem[] = [
   { to: '/chef-aika', icon: '👩‍🍳', label: 'Chef Aika', desc: 'AI fridge-to-recipe magic' },
   { to: '/meal-planner', icon: '🗓️', label: 'Meal Planner', desc: 'Budget 7-day meal plan' },
-  { to: '/festival', icon: '🎊', label: 'Festival Planner', desc: 'Bulk shopping for festivals', soon: true },
-  { to: '/health', icon: '🏥', label: 'Health Mode', desc: 'Nutrition & allergen scanner', soon: true },
+  { to: '/festival', icon: '🎊', label: 'Festival Planner', desc: 'Bulk shopping for festivals' },
+  { to: '/health', icon: '🏥', label: 'Health Mode', desc: 'Nutrition & allergen scanner' },
 ];
 
-const CALCULATORS = [
+const CALCULATORS: NavItem[] = [
   { to: '/basket', icon: '🧺', label: 'Basket Calculator', desc: 'Compare full grocery basket' },
   { to: '/meal-calculator', icon: '🍲', label: 'Meal Cost', desc: 'Cost per serving calculator' },
-  { to: '/savings', icon: '💰', label: 'FoodScore', desc: 'Your savings dashboard', soon: true },
-  { to: '/basket?group=true', icon: '🤝', label: 'Group Buy', desc: 'Share basket with friends', soon: true },
+  { to: '/savings', icon: '💰', label: 'FoodScore', desc: 'Your savings dashboard' },
+  { to: '/basket?group=true', icon: '🤝', label: 'Group Buy', desc: 'Share basket with friends' },
 ];
 
-const DISCOVER = [
+const DISCOVER: NavItem[] = [
   { to: '/recipes', icon: '📖', label: 'Recipes', desc: 'Global AI-generated recipes' },
   { to: '/coupons', icon: '🏷️', label: 'Coupons', desc: 'Latest platform coupon codes' },
-  { to: '/seasonal', icon: '🌾', label: 'Seasonal Guide', desc: "What's fresh & cheap now", soon: true },
+  { to: '/seasonal', icon: '🌾', label: 'Seasonal Guide', desc: "What's fresh & cheap now" },
   { to: '/saved', icon: '🔔', label: 'My Watchlist', desc: 'Your price drop alerts' },
 ];
 
 interface NavGroup {
   label: string;
   icon: React.ReactNode;
-  items: typeof AI_TOOLS;
+  items: NavItem[];
 }
 
 const NAV_GROUPS: NavGroup[] = [
@@ -42,7 +50,7 @@ const NAV_GROUPS: NavGroup[] = [
 ];
 
 // ── Mega dropdown panel ────────────────────────────────────────────────────────
-const MegaPanel = ({ items, onClose }: { items: typeof AI_TOOLS; onClose: () => void }) => (
+const MegaPanel = ({ items, onClose }: { items: NavItem[]; onClose: () => void }) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
