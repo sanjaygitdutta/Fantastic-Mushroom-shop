@@ -17,5 +17,9 @@ Allow: /coupons
 Allow: /meal-calculator
 Allow: /basket
 Allow: /mushroom-shop
+Allow: /festival
+Allow: /health
+Allow: /savings
+Allow: /seasonal
 
 Sitemap: https://www.fantasticfood.in/sitemap.xml
