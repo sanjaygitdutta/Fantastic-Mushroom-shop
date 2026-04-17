@@ -16,10 +16,16 @@ type Recipe = {
   name: string;
   description: string;
   ingredients_used: string[];
+  missing_ingredients?: string[];
   instructions: string[];
   prep_time: number;
   cook_time: number;
   servings: number;
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fats?: number;
+  health_grade?: string;
   tips?: string;
 };
 
@@ -29,6 +35,8 @@ export default function ChefAikaPage() {
   const [manualInput, setManualInput] = useState('');
   const [servings, setServings] = useState(2);
   const [dietary, setDietary] = useState('');
+  const [calorieLimit, setCalorieLimit] = useState('');
+  const [proteinGoal, setProteinGoal] = useState('');
 
   // Camera
   const [cameraActive, setCameraActive] = useState(false);
@@ -73,8 +81,31 @@ export default function ChefAikaPage() {
     rec.onerror = () => setIsListening(false);
     rec.onend = () => setIsListening(false);
     rec.onresult = async (e: any) => {
-      const transcript = e.results[0][0].transcript;
-      addMessage('user', transcript);
+      const transcript = e.results[0][0].transcript.toLowerCase().trim();
+      addMessage('user', e.results[0][0].transcript);
+
+      // Local Sous-Chef Magic
+      if (recipe && (transcript.includes('next step') || transcript.includes('go to next'))) {
+        const next = (activeStep !== null ? activeStep + 1 : 0);
+        if (next < recipe.instructions.length) {
+          setActiveStep(next);
+          speakText(recipe.instructions[next]);
+        } else {
+          speakText("You've finished all the steps! Enjoy your meal!");
+        }
+        return;
+      }
+      
+      const stepMatch = transcript.match(/(?:go to|read)\s*step\s*(\d+)/);
+      if (recipe && stepMatch && stepMatch[1]) {
+        const d = parseInt(stepMatch[1], 10) - 1;
+        if (d >= 0 && d < recipe.instructions.length) {
+          setActiveStep(d);
+          speakText(recipe.instructions[d]);
+        }
+        return;
+      }
+
       await sendToAi(transcript);
     };
     recognitionRef.current = rec;
@@ -114,6 +145,7 @@ export default function ChefAikaPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          recipeContext: recipe,
           messages: [
             { role: 'system', content: `You are Chef Aika, an AI kitchen assistant for Fantastic Food. ${context} Keep answers short and conversational for voice output.` },
             { role: 'user', content: userText }
@@ -223,7 +255,13 @@ export default function ChefAikaPage() {
       const res = await fetch('/api/generate-recipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ingredients, servings, dietary })
+        body: JSON.stringify({ 
+          ingredients, 
+          servings, 
+          dietary, 
+          calorieLimit: calorieLimit ? parseInt(calorieLimit) : undefined, 
+          proteinGoal: proteinGoal ? parseInt(proteinGoal) : undefined 
+        })
       });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
@@ -449,7 +487,7 @@ export default function ChefAikaPage() {
 
             {/* Transcript */}
             <div className="flex-1 overflow-y-auto px-4 space-y-3 pb-3">
-              {messages.map((msg, i) => (
+               {messages.map((msg, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className="max-w-[85%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed"
@@ -463,6 +501,19 @@ export default function ChefAikaPage() {
               ))}
               <div ref={transcriptEndRef} />
             </div>
+
+            {/* Quick Fixes Menu */}
+            {recipe && messages[messages.length - 1]?.role === 'ai' && (
+              <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar">
+                {['Too salty 🧂', 'Too spicy 🌶️', 'Missing an ingredient?'].map(fix => (
+                  <button key={fix} onClick={() => { addMessage('user', fix); sendToAi(fix); }}
+                    className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all"
+                    style={{ background: '#1A3C2B', color: '#F4A23C', border: '1px solid #2D6A4F' }}>
+                    {fix}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Generate + Options */}
             <div className="p-4 border-t" style={{ borderColor: '#1A3C2B' }}>
@@ -483,6 +534,14 @@ export default function ChefAikaPage() {
                   <option value="vegan">Vegan</option>
                   <option value="gluten-free">Gluten-Free</option>
                 </select>
+              </div>
+              <div className="flex gap-2 mb-3">
+                <input type="number" placeholder="Max Cals (opt)" value={calorieLimit} onChange={e => setCalorieLimit(e.target.value)}
+                  className="flex-1 px-3 py-2 rounded-lg text-sm outline-none placeholder-forest-500"
+                  style={{ background: '#1A3C2B', color: '#FAE89A', border: '1px solid #2D6A4F' }} />
+                <input type="number" placeholder="Min Protein (opt)" value={proteinGoal} onChange={e => setProteinGoal(e.target.value)}
+                  className="flex-1 px-3 py-2 rounded-lg text-sm outline-none placeholder-forest-500"
+                  style={{ background: '#1A3C2B', color: '#FAE89A', border: '1px solid #2D6A4F' }} />
               </div>
               <motion.button
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
@@ -568,6 +627,45 @@ export default function ChefAikaPage() {
                       </ul>
                     </div>
 
+                    {/* Missing Ingredients */}
+                    {recipe.missing_ingredients && recipe.missing_ingredients.length > 0 && (
+                      <div className="mb-4">
+                        <h3 className="font-bold text-sm mb-2 flex items-center gap-2 text-red-400">🛒 Missing Ingredients</h3>
+                        <ul className="space-y-1.5">
+                          {recipe.missing_ingredients.map((ing, i) => (
+                            <li key={i} className="flex items-center gap-2 text-sm text-red-300">
+                              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-red-500" />
+                              {ing}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Nutrition Facts */}
+                    {recipe.calories && (
+                      <div className="mb-4 p-3 rounded-xl border flex justify-between items-center" style={{ background: '#0A1A10', borderColor: '#1A3C2B' }}>
+                        <div>
+                          <h3 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#52B788' }}>Nutrition Facts</h3>
+                          <div className="flex gap-4">
+                            <div className="text-center"><span className="block font-black text-white">{recipe.calories}</span><span className="text-[10px] text-gray-400">CALS</span></div>
+                            <div className="text-center"><span className="block font-black text-white">{recipe.protein}g</span><span className="text-[10px] text-gray-400">PRO</span></div>
+                            <div className="text-center"><span className="block font-black text-white">{recipe.carbs}g</span><span className="text-[10px] text-gray-400">CARB</span></div>
+                            <div className="text-center"><span className="block font-black text-white">{recipe.fats}g</span><span className="text-[10px] text-gray-400">FAT</span></div>
+                          </div>
+                        </div>
+                        {recipe.health_grade && (
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shadow-lg"
+                            style={{ 
+                              background: ['A', 'B'].includes(recipe.health_grade) ? '#52B788' : recipe.health_grade === 'C' ? '#F4A23C' : '#f87171',
+                              color: '#0F2419'
+                            }}>
+                            {recipe.health_grade}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {/* Instructions */}
                     <div className="mb-4">
                       <h3 className="font-bold text-sm mb-3 flex items-center gap-2" style={{ color: '#FAE89A' }}>👩‍🍳 Instructions</h3>
@@ -606,10 +704,12 @@ export default function ChefAikaPage() {
                         {voiceEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
                         Read Aloud
                       </button>
-                      <Link to="/compare"
+                      <Link to={recipe.missing_ingredients && recipe.missing_ingredients.length > 0 
+                          ? `/basket?prefill=${encodeURIComponent(recipe.missing_ingredients.join(','))}` 
+                          : '/compare'}
                         className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all"
                         style={{ background: 'linear-gradient(135deg, #F4A23C, #D6AD60)', color: '#0F2419' }}>
-                        🛒 Price Check
+                        {recipe.missing_ingredients && recipe.missing_ingredients.length > 0 ? "🛒 Buy Missing Items" : "🛒 Price Check"}
                       </Link>
                     </div>
                   </motion.div>

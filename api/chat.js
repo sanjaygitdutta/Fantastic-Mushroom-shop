@@ -9,19 +9,28 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { messages } = req.body;
+    const { messages, recipeContext } = req.body;
     
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: 'Invalid messages payload' });
     }
 
+    let systemPromptContent = `You are Chef Aika, an AI Kitchen Assistant built for the 'Fantastic Food' website. 
+You are helpful, friendly, and enthusiastic about cooking and healthy eating.
+Keep your answers brief, engaging, and highly conversational because your output will be spoken aloud to the user via Text-to-Speech.
+Do not use markdown formatting (like **bold** or asterisks), because those sound robotic when read aloud by the browser voice engine. Use plain English and natural punctuation.`;
+
+    if (recipeContext) {
+      systemPromptContent += `\n\nIMPORTANT CONTEXT: The user is currently cooking this recipe: "${recipeContext.name}". 
+Ingredients: ${recipeContext.ingredients_used.join(', ')}.
+Current instructions: ${recipeContext.instructions.join('. ')}.
+Use this specific recipe context if they ask a question like "how do I fix my dish?" or "what step am I on?".`;
+    }
+
     // System prompt injected purely on the server-side
     const systemPrompt = {
       role: 'system',
-      content: `You are Chef Aika, an AI Kitchen Assistant built for the 'Fantastic Food' website. 
-You are helpful, friendly, and enthusiastic about cooking and healthy eating.
-Keep your answers brief, engaging, and highly conversational because your output will be spoken aloud to the user via Text-to-Speech.
-Do not use markdown formatting (like **bold** or asterisks), because those sound robotic when read aloud by the browser voice engine. Use plain English and natural punctuation.`
+      content: systemPromptContent
     };
 
     // Forward to Groq API

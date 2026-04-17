@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'Missing GROQ_API_KEY' });
 
-  const { ingredients = [], servings = 2, dietary = '' } = req.body;
+  const { ingredients = [], servings = 2, dietary = '', calorieLimit, proteinGoal } = req.body;
 
   if (!ingredients.length) {
     return res.status(400).json({ error: 'No ingredients provided' });
@@ -12,18 +12,30 @@ export default async function handler(req, res) {
 
   const systemPrompt = `You are Chef Aika, a world-class AI chef assistant for the Fantastic Food platform.`;
 
-  const userPrompt = `Create a recipe using these ingredients: ${ingredients.join(', ')}.
-Servings: ${servings}${dietary ? `. Dietary preference: ${dietary}` : ''}.
+  let userPrompt = `Create a recipe using these ingredients: ${ingredients.join(', ')}.
+Servings: ${servings}${dietary ? `. Dietary preference: ${dietary}` : ''}.`;
 
-Respond ONLY with valid JSON like this (no markdown, no extra text):
+  if (calorieLimit) userPrompt += `\nMax calories per serving: ${calorieLimit}.`;
+  if (proteinGoal) userPrompt += `\nMinimum protein per serving: ${proteinGoal}g.`;
+
+  userPrompt += `
+
+Determine what ingredients the user has provided, and what additional ingredients are needed to complete the recipe.
+Respond ONLY with valid JSON exactly matching this structure (no markdown, no extra text):
 {
   "name": "Recipe Name",
   "description": "Short appetizing description (2 sentences max).",
   "ingredients_used": ["200g item with quantity", "2 tbsp item"],
+  "missing_ingredients": ["basmati rice", "salt", "olive oil"],
   "instructions": ["Step 1: ...", "Step 2: ...", "Step 3: ..."],
   "prep_time": 10,
   "cook_time": 20,
   "servings": ${servings},
+  "calories": 450,
+  "protein": 25,
+  "carbs": 40,
+  "fats": 15,
+  "health_grade": "A",
   "tips": "One helpful chef tip."
 }`;
 
