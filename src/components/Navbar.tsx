@@ -31,6 +31,7 @@ const CALCULATORS: NavItem[] = [
 ];
 
 const DISCOVER: NavItem[] = [
+  { to: '/community', icon: '🍳', label: 'Community Feed', desc: 'See what India is cooking!' },
   { to: '/recipes', icon: '📖', label: 'Recipes', desc: 'Global AI-generated recipes' },
   { to: '/coupons', icon: '🏷️', label: 'Coupons', desc: 'Latest platform coupon codes' },
   { to: '/seasonal', icon: '🌾', label: 'Seasonal Guide', desc: "What's fresh & cheap now" },

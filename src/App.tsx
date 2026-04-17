@@ -42,6 +42,7 @@ const SeasonalGuide = lazy(() => import('./pages/SeasonalGuide'));
 const FestivalPlanner = lazy(() => import('./pages/FestivalPlanner'));
 const NutritionInfo = lazy(() => import('./pages/NutritionInfo'));
 const FoodScore = lazy(() => import('./pages/FoodScore'));
+const CommunityFeed = lazy(() => import('./pages/CommunityFeed'));
 
 // Admin Pages
 const AdminRoute = lazy(() => import('./pages/admin/AdminRoute'));
@@ -107,6 +108,7 @@ function App() {
                   <Route path="/festival" element={<FestivalPlanner />} />
                   <Route path="/health" element={<NutritionInfo />} />
                   <Route path="/savings" element={<FoodScore />} />
+                  <Route path="/community" element={<CommunityFeed />} />
 
                   {/* Admin Routes */}
                   <Route path="/admin/login" element={<AdminLogin />} />
