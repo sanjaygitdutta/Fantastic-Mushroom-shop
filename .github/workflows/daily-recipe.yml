@@ -39,6 +39,12 @@ jobs:
           fi
           echo "✅ API key is set (length: ${#GEMINI_API_KEY} chars)"
 
+      - name: 🔍 List valid Gemini models
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          curl -s "https://generativelanguage.googleapis.com/v1beta/models?key=$GEMINI_API_KEY" | grep '"name"'
+
       - name: 🤖 Generate new AI recipe
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
