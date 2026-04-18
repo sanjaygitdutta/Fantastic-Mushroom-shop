@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Heart, Leaf, Users, Award, Zap, BarChart3, Globe } from 'lucide-react';
+import { Heart, Leaf, Users, Award, Zap, Globe } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const About = () => {
@@ -174,9 +174,6 @@ const About = () => {
                 </section>
             </div>
         </>
-    );
 };
-
-export default About;
 
 export default About;
