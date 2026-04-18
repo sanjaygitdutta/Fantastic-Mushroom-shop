@@ -47,10 +47,11 @@ const SitemapDirectory = () => {
           {/* Grocery Items */}
           <div>
             <div className="border-b-2 border-forest-200 pb-2 mb-4">
-              <h2 className="text-2xl font-black font-display text-forest-900">Grocery Items ({foodItems.length})</h2>
+              <h2 className="text-2xl font-black font-display text-forest-900">Top Groceries (500)</h2>
             </div>
+            <p className="text-xs text-forest-500 mb-2">Displaying top 500 trending out of {foodItems.length} live tracked grocery items across India.</p>
             <div className="flex flex-col gap-2 h-96 overflow-y-auto pr-4 custom-scrollbar bg-white p-4 rounded-xl shadow-sm border border-forest-50">
-              {foodItems.map((item) => (
+              {foodItems.slice(0, 500).map((item) => (
                 <Link 
                   key={item} 
                   to={`/food/${encodeURIComponent(item)}`}
