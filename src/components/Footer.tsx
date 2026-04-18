@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase';
 
 const Footer = () => {
     const [visitorCount, setVisitorCount] = useState<number | null>(null);
+    const [msgStatus, setMsgStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
     useEffect(() => {
         const trackVisitor = async () => {
@@ -85,37 +86,46 @@ const Footer = () => {
                     <div>
                         <h4 className="text-white font-bold mb-6 font-display">Contact Us</h4>
                         <p className="text-forest-400 mb-4 text-sm">Get in touch with us</p>
+
                         <div className="space-y-4 text-sm">
-
-                            <div>
-                                <p className="text-forest-500 text-xs mb-1 font-semibold uppercase tracking-wider">Email</p>
-                                <a href="mailto:info@fantasticfood.in" className="text-forest-300 hover:text-amber-400 transition-colors">
-                                    info@fantasticfood.in
-                                </a>
-                            </div>
-
                             <form 
-                                onSubmit={(e) => {
+                                onSubmit={async (e) => {
                                     e.preventDefault();
+                                    setMsgStatus('sending');
                                     const form = e.target as HTMLFormElement;
                                     const msg = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
-                                    window.location.href = `mailto:info@fantasticfood.in?subject=Message from Fantastic Food Website&body=${encodeURIComponent(msg)}`;
-                                    form.reset();
+                                    
+                                    const { error } = await supabase.from('contact_messages').insert([{ message: msg }]);
+                                    
+                                    if (error) {
+                                        setMsgStatus('error');
+                                    } else {
+                                        setMsgStatus('sent');
+                                        form.reset();
+                                        setTimeout(() => setMsgStatus('idle'), 3000);
+                                    }
                                 }} 
-                                className="mt-6 pt-4 border-t border-forest-800/50"
+                                className="mt-2 pt-2"
                             >
                                 <p className="text-forest-500 text-xs mb-2 font-semibold uppercase tracking-wider">Send a Message</p>
                                 <textarea 
                                     name="message" 
                                     placeholder="Tell us what you love or want to see next..." 
                                     required 
-                                    className="w-full bg-forest-950 text-sm text-white rounded-lg p-3 border border-forest-700 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 outline-none resize-none min-h-[80px] mb-2 placeholder-forest-600 transition-all" 
+                                    className="w-full bg-forest-950 text-sm text-white rounded-lg p-3 border border-forest-700/80 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 outline-none resize-none min-h-[80px] mb-2 placeholder-forest-600 transition-all" 
                                 />
                                 <button 
                                     type="submit" 
-                                    className="w-full bg-forest-800 hover:bg-amber-500 hover:text-forest-900 transition-all text-forest-300 text-xs font-bold py-2.5 rounded-lg active:scale-[0.98]"
+                                    disabled={msgStatus === 'sending' || msgStatus === 'sent'}
+                                    className={`w-full transition-all text-xs font-bold py-2.5 rounded-lg active:scale-[0.98] ${
+                                        msgStatus === 'sent' 
+                                            ? 'bg-moss-500 text-white' 
+                                            : msgStatus === 'error'
+                                            ? 'bg-red-500 text-white'
+                                            : 'bg-forest-800 hover:bg-amber-500 hover:text-forest-900 text-forest-300'
+                                    }`}
                                 >
-                                    ↗ Send Message
+                                    {msgStatus === 'sending' ? 'Sending...' : msgStatus === 'sent' ? '✓ Message Sent!' : msgStatus === 'error' ? 'Error. Try again.' : '↗ Send Message'}
                                 </button>
                             </form>
                         </div>
