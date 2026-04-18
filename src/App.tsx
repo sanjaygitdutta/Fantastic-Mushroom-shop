@@ -4,7 +4,6 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Cart from './components/Cart';
 import AIAssistant from './components/AIAssistant';
-import VoiceAssistant from './components/VoiceAssistant';
 import Footer from './components/Footer';
 import { WishlistProvider } from './context/WishlistContext';
 import { AuthProvider } from './context/AuthContext';
@@ -65,8 +64,6 @@ const PageLoader = () => (
 );
 
 function App() {
-  const [showVoiceAssistant, setShowVoiceAssistant] = useState(false);
-
   return (
     <Router>
       <ScrollToTop />
@@ -127,22 +124,6 @@ function App() {
             <Cart />
             <Footer />
             <AIAssistant />
-
-            {/* Alexa-style Voice Assistant Floating Button */}
-            <button
-              onClick={() => setShowVoiceAssistant(true)}
-              className="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-br from-amber-400 to-amber-500 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40 group border-2 border-white"
-              title="Voice Search"
-            >
-              <Mic className="w-8 h-8 text-forest-900" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse border-2 border-white"></span>
-              <span className="absolute inset-0 rounded-full bg-amber-400 opacity-75 animate-ping"></span>
-            </button>
-
-            {/* Voice Assistant Modal */}
-            {showVoiceAssistant && (
-              <VoiceAssistant onClose={() => setShowVoiceAssistant(false)} />
-            )}
           </div>
         </WishlistProvider>
        </AuthProvider>
