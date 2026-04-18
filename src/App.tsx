@@ -35,6 +35,9 @@ const ChefAika = lazy(() => import('./pages/ChefAika'));
 const SitemapDirectory = lazy(() => import('./pages/SitemapDirectory'));
 const BlogDirectory = lazy(() => import('./pages/BlogDirectory'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 
 const MealPlanner = lazy(() => import('./pages/MealPlanner'));
 const SavedLists = lazy(() => import('./pages/SavedLists'));
@@ -102,6 +105,9 @@ function App() {
                   <Route path="/directory" element={<SitemapDirectory />} />
                   <Route path="/blog" element={<BlogDirectory />} />
                   <Route path="/blog/:slug" element={<BlogPost />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/privacy" element={<PrivacyPolicy />} />
+                  <Route path="/terms" element={<TermsOfService />} />
                   <Route path="/meal-planner" element={<MealPlanner />} />
                   <Route path="/saved" element={<SavedLists />} />
                   <Route path="/seasonal" element={<SeasonalGuide />} />
