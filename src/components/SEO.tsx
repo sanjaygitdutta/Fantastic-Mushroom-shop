@@ -7,8 +7,9 @@ interface SEOProps {
   keywords?: string;
   canonicalUrl?: string;
   ogImage?: string;
+  ogImageAlt?: string;
   ogType?: 'website' | 'article';
-  structuredData?: object;
+  structuredData?: object | object[];
 }
 
 const DEFAULT_OG_IMAGE = 'https://www.fantasticfood.in/og-image.jpg';
@@ -19,6 +20,7 @@ const SEO = ({
   keywords,
   canonicalUrl,
   ogImage = DEFAULT_OG_IMAGE,
+  ogImageAlt = 'Fantastic Food — Compare grocery prices across 7 apps in India',
   ogType = 'website',
   structuredData,
 }: SEOProps) => {
@@ -63,6 +65,7 @@ const SEO = ({
     setMeta('property', 'og:image',       ogImage);
     setMeta('property', 'og:image:width',  '1200');
     setMeta('property', 'og:image:height', '630');
+    setMeta('property', 'og:image:alt',    ogImageAlt);
     setMeta('property', 'og:site_name',   'Fantastic Food');
     setMeta('property', 'og:locale',      'en_IN');
 
@@ -77,8 +80,9 @@ const SEO = ({
     if (canonicalUrl) setLink('canonical', canonicalUrl);
 
     // ── JSON-LD Structured Data ────────────────────────
+    // Supports single object OR array — injects as @graph for Google compatibility
     if (structuredData) {
-      const id = 'structured-data-jsonld';
+      const id = 'seo-structured-data-jsonld';
       let script = document.getElementById(id) as HTMLScriptElement | null;
       if (!script) {
         script = document.createElement('script');
@@ -86,15 +90,15 @@ const SEO = ({
         script.setAttribute('type', 'application/ld+json');
         document.head.appendChild(script);
       }
-      script.textContent = JSON.stringify(structuredData);
+      const dataArray = Array.isArray(structuredData) ? structuredData : [structuredData];
+      script.textContent = JSON.stringify({ '@context': 'https://schema.org', '@graph': dataArray });
     }
 
     return () => {
-      if (structuredData) {
-        document.getElementById('structured-data-jsonld')?.remove();
-      }
+      // Clean up on page navigation so stale schema doesn't persist
+      document.getElementById('seo-structured-data-jsonld')?.remove();
     };
-  }, [title, description, keywords, canonicalUrl, ogImage, ogType, structuredData]);
+  }, [title, description, keywords, canonicalUrl, ogImage, ogImageAlt, ogType, structuredData]);
 
   return null;
 };

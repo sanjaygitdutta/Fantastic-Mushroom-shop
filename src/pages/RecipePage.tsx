@@ -42,29 +42,35 @@ export default function RecipePage() {
     );
   }
 
-  // Generic fallback image since WORLD_RECIPES doesn't store individual images yet
-  const fallBackImage = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&q=80&w=2000';
+  // Use branded OG image for social sharing
+  const OG_IMAGE = 'https://www.fantasticfood.in/og-image.jpg';
+
+  // Dynamic datePublished
+  const today = new Date().toISOString().split('T')[0];
 
   // Build JSON-LD Recipe schema (Google Rich Result)
   const recipeSchema = {
-    '@context': 'https://schema.org',
     '@type': 'Recipe',
     name: recipe.name,
-    image: [ fallBackImage ],
+    image: [ OG_IMAGE ],
     description: `Authentic ${recipe.country} recipe for ${recipe.name} from ${recipe.city}. ${recipe.difficulty} difficulty, ready in ${recipe.time}. Serves ${recipe.servings}.`,
-    author: { '@type': 'Organization', name: 'Fantastic Food', url: 'https://www.fantasticfood.in' },
-    datePublished: '2026-04-12',
+    author: {
+      '@type': recipe.country === 'Aika Recipes' ? 'Person' : 'Organization',
+      name: recipe.country === 'Aika Recipes' ? 'Chef Aika (AI)' : 'Fantastic Food',
+      url: 'https://www.fantasticfood.in'
+    },
+    datePublished: today,
     prepTime: `PT${recipe.time.replace(' min', 'M').replace(' hrs', 'H').replace(' hr', 'H')}`,
     cookTime: `PT${recipe.time.replace(' min', 'M').replace(' hrs', 'H').replace(' hr', 'H')}`,
     totalTime: `PT${recipe.time.replace(' min', 'M').replace(' hrs', 'H').replace(' hr', 'H')}`,
     recipeYield: `${recipe.servings} servings`,
-    recipeCuisine: recipe.country,
+    recipeCuisine: recipe.country === 'Aika Recipes' ? 'International' : recipe.country,
     recipeCategory: recipe.category,
     keywords: recipe.tags.join(', '),
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.8',
-      ratingCount: (recipe.id.charCodeAt(0) + recipe.id.charCodeAt(1) + 24).toString(), // Consistent deterministic mock count
+      ratingCount: (recipe.id.charCodeAt(0) + recipe.id.charCodeAt(1) + 24).toString(),
     },
     nutrition: {
       '@type': 'NutritionInformation',
@@ -77,9 +83,19 @@ export default function RecipePage() {
       position: i + 1,
       text: step,
       url: `https://www.fantasticfood.in/recipe/${recipe.id}#step-${i + 1}`,
-      image: fallBackImage
     })),
     url: `https://www.fantasticfood.in/recipe/${recipe.id}`,
+  };
+
+  // BreadcrumbList schema for Google Rich Results
+  const breadcrumbSchema = {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.fantasticfood.in/' },
+      { '@type': 'ListItem', position: 2, name: 'Recipes', item: 'https://www.fantasticfood.in/recipes' },
+      { '@type': 'ListItem', position: 3, name: recipe.country, item: `https://www.fantasticfood.in/recipes?country=${encodeURIComponent(recipe.country)}` },
+      { '@type': 'ListItem', position: 4, name: recipe.name, item: `https://www.fantasticfood.in/recipe/${recipe.id}` },
+    ],
   };
 
   // Extract readable ingredient keywords for compare links
@@ -93,11 +109,13 @@ export default function RecipePage() {
   return (
     <>
       <SEO
-        title={`${recipe.name} Recipe — Authentic ${recipe.country} Cuisine from ${recipe.city}`}
-        description={`How to make ${recipe.name}: authentic ${recipe.country} recipe from ${recipe.city}. ${recipe.difficulty} | ${recipe.time} | ${recipe.servings} servings | ${recipe.calories} kcal. Full ingredients & step-by-step instructions. Compare ingredient prices before shopping!`}
+        title={`${recipe.name} Recipe — Authentic ${recipe.country === 'Aika Recipes' ? 'AI-Generated' : recipe.country} Cuisine`}
+        description={`How to make ${recipe.name}: authentic ${recipe.country === 'Aika Recipes' ? 'AI-generated' : recipe.country} recipe${recipe.country !== 'Aika Recipes' ? ` from ${recipe.city}` : ''}. ${recipe.difficulty} | ${recipe.time} | ${recipe.servings} servings | ${recipe.calories} kcal. Full ingredients & step-by-step instructions. Compare ingredient prices before shopping!`}
         canonicalUrl={`https://www.fantasticfood.in/recipe/${recipe.id}`}
-        keywords={`${recipe.name} recipe, how to make ${recipe.name}, ${recipe.country} recipe, ${recipe.city} food, ${recipe.tags.join(', ')}, recipe ingredients price India`}
-        structuredData={recipeSchema}
+        keywords={`${recipe.name} recipe, how to make ${recipe.name}, ${recipe.country !== 'Aika Recipes' ? `${recipe.country} recipe, ${recipe.city} food,` : 'AI recipe, Chef Aika recipe,'} ${recipe.tags.join(', ')}, recipe ingredients price India`}
+        ogImage={OG_IMAGE}
+        ogImageAlt={`${recipe.name} — ${recipe.country} recipe on Fantastic Food`}
+        structuredData={[recipeSchema, breadcrumbSchema]}
       />
 
       <div className="min-h-screen bg-cream-50 pt-20">

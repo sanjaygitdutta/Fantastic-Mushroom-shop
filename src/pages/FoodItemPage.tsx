@@ -105,11 +105,8 @@ const FoodItemPage = () => {
         description={seoDesc}
         keywords={seoKeywords}
         canonicalUrl={`https://www.fantasticfood.in/food/${foodItem}`}
-        structuredData={productSchema}
+        structuredData={[productSchema, faqSchema, breadcrumbSchema]}
       />
-      {/* Also inject FAQ & Breadcrumb schema */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-4 mb-6">

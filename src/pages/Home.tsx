@@ -64,9 +64,10 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <SEO 
-        title="India's Smartest Food Price Comparator" 
-        description="Search any food item and compare real-time prices across Blinkit, BigBasket, Zepto, Swiggy, Amazon Fresh, and JioMart instantly. Save time and money." 
+        title="Compare Grocery Prices — Blinkit vs Zepto vs BigBasket vs Swiggy" 
+        description="Instantly compare real-time grocery prices across Blinkit, BigBasket, Zepto, Swiggy Instamart, Amazon Fresh & JioMart. Find the cheapest price on any food item and save money every day." 
         canonicalUrl="https://www.fantasticfood.in/"
+        keywords="grocery price comparison India, blinkit vs zepto, blinkit vs swiggy, cheapest grocery app india, food price comparison 2026, bigbasket vs blinkit, amazon fresh prices, jiomart vs blinkit"
       />
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-20">
