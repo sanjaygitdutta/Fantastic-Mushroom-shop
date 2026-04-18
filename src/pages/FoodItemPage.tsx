@@ -1,9 +1,11 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Bell } from 'lucide-react';
 import SEO from '../components/SEO';
 import CompareResultsGrid from '../components/CompareResultsGrid';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
+import { supabase } from '../lib/supabase';
 
 
 // City-food pages for long-tail local SEO
@@ -20,6 +22,34 @@ const FoodItemPage = () => {
 
   const [result, setResult] = useState<CompareResult | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Price Drop Alert States
+  const [alertEmail, setAlertEmail] = useState('');
+  const [alertSubmitting, setAlertSubmitting] = useState(false);
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [alertError, setAlertError] = useState('');
+
+  const handleAlertSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!alertEmail) return;
+    setAlertSubmitting(true);
+    setAlertError('');
+    
+    try {
+      const { error } = await supabase
+        .from('price_alerts')
+        .insert([{ email: alertEmail, product_name: displayName }]);
+        
+      if (error) throw error;
+      setAlertSuccess(true);
+      setAlertEmail('');
+    } catch (err: any) {
+       console.error("Alert error:", err);
+       setAlertError(err.message || 'Failed to set alert.');
+    } finally {
+      setAlertSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     if (!foodItem) return;
@@ -156,11 +186,56 @@ const FoodItemPage = () => {
             ))}
           </div>
         ) : result ? (
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-forest-100 mb-6">
-            <CompareResultsGrid result={result} />
-          </div>
+          <>
+            <div className="bg-white p-6 rounded-3xl shadow-sm border border-forest-100 mb-6">
+              <CompareResultsGrid result={result} />
+            </div>
+
+            {/* Notification / Price Drop Alert Box */}
+            <div className="bg-forest-50 p-6 rounded-2xl border border-forest-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 max-w-3xl mx-auto mt-8">
+              <div className="flex items-start gap-4">
+                <div className="bg-amber-100 p-3 rounded-full text-amber-600 flex-shrink-0">
+                  <Bell className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-forest-900 font-bold mb-1">Set Price Drop Alert</h3>
+                  <p className="text-forest-600 text-sm">We'll email you the moment the price for {displayName} drops across any of our tracked delivery apps.</p>
+                </div>
+              </div>
+              
+              {alertSuccess ? (
+                <div className="w-full md:w-auto bg-green-100 text-green-800 px-4 py-3 rounded-xl font-medium border border-green-200">
+                  ✅ Alert successfully set!
+                </div>
+              ) : (
+                <form onSubmit={handleAlertSubmit} className="w-full md:w-auto flex flex-col gap-2">
+                  <div className="flex gap-2">
+                    <input 
+                      type="email" 
+                      placeholder="Enter your email" 
+                      required
+                      value={alertEmail}
+                      onChange={(e) => setAlertEmail(e.target.value)}
+                      className="px-4 py-2 rounded-xl border border-forest-200 focus:outline-none focus:ring-2 focus:ring-amber-500 w-full md:w-64"
+                    />
+                    <button 
+                      type="submit" 
+                      disabled={alertSubmitting}
+                      className="bg-forest-900 hover:bg-forest-800 text-white font-medium px-4 py-2 rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap"
+                    >
+                      {alertSubmitting ? 'Saving...' : 'Notify Me'}
+                    </button>
+                  </div>
+                  {alertError && <p className="text-red-500 text-xs mt-1">{alertError}</p>}
+                </form>
+              )}
+            </div>
+          </>
         ) : (
-          <p className="text-forest-600">No prices found. Try a different search.</p>
+          <div className="bg-white p-12 text-center rounded-3xl border border-forest-100">
+            <h3 className="text-xl font-bold text-forest-900 mb-2">Item not found</h3>
+            <p className="text-forest-600">We couldn't find live prices for "{foodItem}".</p>
+          </div>
         )}
       </div>
 
