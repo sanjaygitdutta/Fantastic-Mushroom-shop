@@ -1,17 +1,62 @@
+import { createClient } from '@supabase/supabase-js';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'Missing GROQ_API_KEY environment variable.' });
 
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
   const { budget = 1500, dietary = 'None', familySize = 2, days = 7 } = req.body;
 
+  // 1. Calculate user constraints
+  const totalMeals = familySize * days * 3;
+  const budgetPerMeal = budget / totalMeals; // e.g., ₹35 per meal is tight, ₹100 is generous
+
+  // 2. Fetch Live Market Data from our new database
+  let marketContext = "";
+  try {
+    const supabaseUrl = process.env.VITE_SUPABASE_URL;
+    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+    
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      
+      const { data: cheapItems, error } = await supabase
+        .from('live_prices')
+        .select('item_name, price, unit')
+        .eq('in_stock', true)
+        .order('price', { ascending: true })
+        .limit(6);
+        
+      if (!error && cheapItems && cheapItems.length > 0) {
+        const itemString = cheapItems.map(i => `${i.item_name} (₹${i.price}/${i.unit || 'unit'})`).join(', ');
+        
+        marketContext = `\n--- LIVE MARKET DATA ---\nThe absolute cheapest fresh ingredients in the market today are: ${itemString}. `;
+        
+        if (budgetPerMeal <= 40) {
+            marketContext += `The user's budget is EXTREMELY TIGHT (₹${Math.round(budgetPerMeal)} per meal). You MUST forcefully design recipes entirely around these cheap ingredients to keep costs down.`;
+        } else if (budgetPerMeal <= 80) {
+            marketContext += `The user's budget is moderate (₹${Math.round(budgetPerMeal)} per meal). Try to use a few of these cheap ingredients to save them money, but keep the meals varied.`;
+        } else {
+            marketContext += `The user has a generous budget (₹${Math.round(budgetPerMeal)} per meal). You can ignore the cheap ingredients and focus purely on premium, diverse meals.`;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Market context fetch failed, proceeding without live data.", err);
+  }
+
+  // 3. Construct AI Personality and Data
   const systemPrompt = `You are a frugal, highly skilled Indian AI Chef and Grocery Planner. Your job is to create extremely practical, healthy ${days}-day meal plans that strictly fit within a tight Indian grocery budget constraint.`;
 
   const userPrompt = `Create a ${days}-day meal plan for ${familySize} people focusing on ${dietary} dietary preferences. 
-The total weekly grocery budget MUST STAY UNDER ₹${budget} INR.
+The total weekly grocery budget MUST STAY UNDER ₹${budget} INR.${marketContext}
 
-Respond ONLY with valid JSON exactly matching this structure (do not include markdown code block syntax):
+Respond ONLY with valid JSON exactly matching this structure (do not include markdown code block syntax or backticks):
 {
   "estimatedCost": 1200,
   "savingsTip": "Buy whole spices and grind them at home...",
@@ -53,7 +98,7 @@ Respond ONLY with valid JSON exactly matching this structure (do not include mar
     }
 
     let text = data.choices[0].message.content.trim();
-    // Safely strip markdown code blocks if the model hallucinates them despite instructions
+    // Safely strip markdown code blocks
     text = text.replace(/^```json\s*/i, '').replace(/\s*```$/, '');
     
     // Attempt parse
