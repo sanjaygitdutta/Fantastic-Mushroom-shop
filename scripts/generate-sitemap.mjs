@@ -65,7 +65,11 @@ let keywords = new Set();
 let citySlugs = [
   'mumbai', 'delhi', 'bangalore', 'hyderabad', 'chennai', 'pune', 'kolkata', 'ahmedabad',
   'jaipur', 'lucknow', 'noida', 'gurgaon', 'surat', 'indore', 'chandigarh',
-  'kochi', 'nagpur', 'bhopal', 'visakhapatnam', 'coimbatore', 'vadodara', 'bhubaneswar', 'thiruvananthapuram'
+  'kochi', 'nagpur', 'bhopal', 'visakhapatnam', 'coimbatore', 'vadodara', 'bhubaneswar', 'thiruvananthapuram',
+  'patna', 'ranchi', 'agra', 'varanasi', 'meerut', 'faridabad', 'amritsar', 'ludhiana',
+  'jodhpur', 'kota', 'udaipur', 'nashik', 'thane', 'mysuru', 'mangalore', 'madurai',
+  'vijayawada', 'warangal', 'dehradun', 'raipur', 'guwahati', 'kozhikode', 'thrissur',
+  'siliguri', 'jammu', 'guntur', 'hubli', 'tiruchirappalli', 'navi-mumbai'
 ];
 
 // 1. Add all single items (highly searched)
