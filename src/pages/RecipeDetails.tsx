@@ -28,7 +28,6 @@ const RecipeDetails = () => {
 
     // Schema.org Recipe structured data — enables Google Rich Results (cook time, ingredient preview in search)
     const recipeSchema = {
-        '@context': 'https://schema.org',
         '@type': 'Recipe',
         name: recipe.title,
         description: recipe.description,

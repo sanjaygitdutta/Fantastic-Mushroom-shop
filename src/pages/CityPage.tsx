@@ -104,9 +104,8 @@ export default function CityPage() {
         description={`${city.description} Compare ${city.platforms.join(', ')} instantly. Updated daily for ${city.name}, ${city.state}.`}
         canonicalUrl={`https://www.fantasticfood.in/city/${city.slug}`}
         keywords={`grocery prices ${city.name}, blinkit ${city.name}, zepto ${city.name}, swiggy instamart ${city.name}, bigbasket ${city.name}, cheapest grocery ${city.name}, food price comparison ${city.name}`}
-        structuredData={citySchema}
+        structuredData={[citySchema, faqSchema]}
       />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <div className="min-h-screen bg-gradient-to-b from-forest-900 via-forest-800 to-cream-50 pt-24 pb-20">
 
