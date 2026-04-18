@@ -1,10 +1,26 @@
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { WORLD_RECIPES } from '../data/worldRecipes';
+import { ALL_RECIPES } from '../data/worldRecipes';
 import sitemapLinks from '../data/sitemapLinks.json';
+
+// Format slug → Proper City Name (handles 'navi-mumbai' → 'Navi Mumbai')
+const formatCityName = (slug: string): string =>
+  slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
 const SitemapDirectory = () => {
   const { foodItems = [], cities = [] } = sitemapLinks as { foodItems: string[], cities: string[] };
+
+  const directorySchema = {
+    '@type': 'CollectionPage',
+    name: 'Fantastic Food — HTML Sitemap Directory',
+    description: 'Complete index of all grocery price pages, city comparisons, and world recipes on Fantastic Food.',
+    url: 'https://www.fantasticfood.in/directory',
+    hasPart: [
+      { '@type': 'WebPage', name: 'Grocery Price Comparisons', url: 'https://www.fantasticfood.in/compare' },
+      { '@type': 'WebPage', name: 'City Grocery Trends', url: 'https://www.fantasticfood.in/directory' },
+      { '@type': 'WebPage', name: 'World Recipes', url: 'https://www.fantasticfood.in/recipes' },
+    ]
+  };
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
@@ -12,6 +28,7 @@ const SitemapDirectory = () => {
         title="HTML Sitemap Directory — Fantastic Food"
         description="Index of all grocery items, price comparisons, cities, and world recipes available on Fantastic Food."
         canonicalUrl="https://www.fantasticfood.in/directory"
+        structuredData={directorySchema}
       />
 
       <div className="max-w-6xl mx-auto px-4">
@@ -50,14 +67,14 @@ const SitemapDirectory = () => {
             <div className="border-b-2 border-forest-200 pb-2 mb-4">
               <h2 className="text-2xl font-black font-display text-forest-900">City Trends ({cities.length})</h2>
             </div>
-            <div className="flex flex-col gap-2 bg-white p-4 rounded-xl shadow-sm border border-forest-50">
+            <div className="flex flex-col gap-2 bg-white p-4 rounded-xl shadow-sm border border-forest-50 max-h-96 overflow-y-auto custom-scrollbar">
               {cities.map((city) => (
-                <Link 
-                  key={city} 
+                <Link
+                  key={city}
                   to={`/city/${encodeURIComponent(city)}`}
                   className="text-forest-600 hover:text-amber-600 hover:underline capitalize text-sm py-1 border-b border-forest-50 last:border-0"
                 >
-                  Grocery Trends in {city}
+                  Grocery Trends in {formatCityName(city)}
                 </Link>
               ))}
             </div>
@@ -81,10 +98,10 @@ const SitemapDirectory = () => {
           {/* Recipes */}
           <div>
             <div className="border-b-2 border-forest-200 pb-2 mb-4">
-              <h2 className="text-2xl font-black font-display text-forest-900">Recipes ({WORLD_RECIPES.length})</h2>
+            <h2 className="text-2xl font-black font-display text-forest-900">Recipes ({ALL_RECIPES.length})</h2>
             </div>
             <div className="flex flex-col gap-2 h-96 overflow-y-auto pr-4 custom-scrollbar bg-white p-4 rounded-xl shadow-sm border border-forest-50">
-              {WORLD_RECIPES.map((recipe) => (
+              {ALL_RECIPES.map((recipe) => (
                 <Link 
                   key={recipe.id} 
                   to={`/recipe/${recipe.id}`}
