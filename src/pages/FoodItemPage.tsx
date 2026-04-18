@@ -13,7 +13,10 @@ const PLATFORMS = ['Blinkit', 'BigBasket', 'Zepto', 'Swiggy', 'Amazon Fresh', 'J
 const FoodItemPage = () => {
   const { item } = useParams<{ item: string }>();
   const foodItem = item ? decodeURIComponent(item) : '';
-  const displayName = foodItem.charAt(0).toUpperCase() + foodItem.slice(1);
+  const displayName = foodItem
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 
   const [result, setResult] = useState<CompareResult | null>(null);
   const [loading, setLoading] = useState(true);
