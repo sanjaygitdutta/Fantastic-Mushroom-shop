@@ -154,7 +154,13 @@ Strict rules:
 const callGemini = () => new Promise((resolve, reject) => {
   const body = JSON.stringify({
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { temperature: 1.0, maxOutputTokens: 1800 },
+    generationConfig: { 
+      temperature: 0.4, 
+      maxOutputTokens: 3000,
+      max_output_tokens: 3000,
+      response_mime_type: "application/json",
+      responseMimeType: "application/json"
+    },
   });
 
   const options = {
