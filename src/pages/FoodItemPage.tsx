@@ -33,13 +33,20 @@ const FoodItemPage = () => {
     lowestPrice = Math.min(...result.prices.map(p => p.price));
   }
 
-  const seoTitle = lowestPrice > 0 
-    ? `🤑 ${displayName} for ₹${lowestPrice}! Compare live prices | 2026` 
-    : `${displayName} Price Today — Compare on Blinkit, Zepto & More`;
+  // Auto-updating date — refreshes on every page load, every day
+  const todayLabel = new Date().toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }); // e.g. "18 Apr 2026"
 
-  const seoDesc = lowestPrice > 0 
-    ? `🔥 Buy ${displayName} for just ₹${lowestPrice} today! Compare live grocery prices across Blinkit, Zepto, Swiggy Instamart, Amazon Fresh, and JioMart before prices change.`
-    : `Find the cheapest ${displayName} price today. Compare prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly.`;
+  const seoTitle = lowestPrice > 0
+    ? `🤑 ${displayName} for ₹${lowestPrice}! Compare live prices on 7 Apps | ${todayLabel}`
+    : `${displayName} Price Today ${todayLabel} — Compare on Blinkit, Zepto & More`;
+
+  const seoDesc = lowestPrice > 0
+    ? `🔥 Buy ${displayName} for just ₹${lowestPrice} today (${todayLabel})! Compare live grocery prices across Blinkit, Zepto, Swiggy Instamart, Amazon Fresh, and JioMart before prices change.`
+    : `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly.`;
 
   // Build schema for Google Rich Results
   const productSchema = {
