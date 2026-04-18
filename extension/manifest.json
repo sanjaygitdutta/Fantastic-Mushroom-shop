@@ -1,24 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "Fantastic Food - Price Drop Alerts",
-  "version": "1.0",
-  "description": "Never overpay for groceries again. Automatically compares prices on Blinkit, Zepto, Swiggy, BigBasket, JioMart, and Flipkart.",
+  "name": "Fantastic Food - Magical Recipe Scanner",
+  "version": "2.0",
+  "description": "Never overpay for groceries. Scan any recipe blog to instantly generate a cheap Zepto/Blinkit cart.",
   "icons": {
     "48": "assets/icon48.png",
     "128": "assets/icon128.png"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "*://*.blinkit.com/*",
-        "*://*.zeptonow.com/*",
-        "*://*.bigbasket.com/*",
-        "*://*.swiggy.com/*",
-        "*://*.jiomart.com/*",
-        "*://*.flipkart.com/*"
-      ],
-      "css": ["content.css"],
-      "js": ["content.js"]
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
     }
-  ]
+  }
 }
