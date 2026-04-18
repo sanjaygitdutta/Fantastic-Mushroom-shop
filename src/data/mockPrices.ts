@@ -491,11 +491,56 @@ export const getBestPrice = (prices: PlatformPrice[]): PlatformPrice | null => {
 
 // Auto-detect prices: tries MOCK_DB first, then generates realistic platform URLs
 // with randomized-but-realistic price variance for any food query.
+// It then injects real Live Market Data from Supabase if available!
 export const searchPrices = async (query: string, _pincode?: string): Promise<CompareResult | null> => {
   await delay(500 + Math.random() * 400);
   const key = query.toLowerCase().trim();
 
-  // --- Real Live Pricing Check ---
+  // 1. Generate the Base Fallback Array (either from MOCK_DB or Auto-generated)
+  let resultTemplate: CompareResult;
+  const match = Object.keys(MOCK_DB).find(
+    (k) => k === key || k.includes(key) || key.includes(k)
+  );
+
+  if (match) {
+    resultTemplate = JSON.parse(JSON.stringify(MOCK_DB[match])) as CompareResult;
+    if (!resultTemplate.prices.find(p => p.platformId === 'flipkart')) {
+      const basePrice = resultTemplate.prices[0]?.originalPrice || estimateBasePrice(key);
+      resultTemplate.prices.push({ 
+        platformId: 'flipkart', 
+        productName: resultTemplate.canonicalName, 
+        price: vary(basePrice, 0.85, 1.0), 
+        originalPrice: vary(basePrice, 1.08, 1.15), 
+        discount: 12, 
+        unit: resultTemplate.prices[0]?.unit || '1 unit', 
+        inStock: true, 
+        url: `https://www.flipkart.com/search?q=${encodeURIComponent(resultTemplate.query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`, 
+        lastUpdated: new Date().toISOString(), 
+        deliveryTime: '15 min' 
+      });
+    }
+  } else {
+    // Start with all 7 auto-generated
+    const basePrice = estimateBasePrice(key);
+    const icon = '🛒';
+    resultTemplate = {
+        query,
+        canonicalName: query.charAt(0).toUpperCase() + query.slice(1),
+        category: 'Grocery',
+        icon,
+        prices: [
+            { platformId: 'blinkit',   productName: query, price: vary(basePrice, 0.92, 1.08), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: `https://blinkit.com/s/?q=${encodeURIComponent(query)}`,             lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
+            { platformId: 'bigbasket', productName: query, price: vary(basePrice, 0.88, 1.02), originalPrice: vary(basePrice, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: `https://www.bigbasket.com/ps/?q=${encodeURIComponent(query)}`,      lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
+            { platformId: 'swiggy',    productName: query, price: vary(basePrice, 0.95, 1.1),  originalPrice: vary(basePrice, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: `https://swiggy.com/instamart/search?query=${encodeURIComponent(query)}`, lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
+            { platformId: 'zepto',     productName: query, price: vary(basePrice, 0.86, 1.04), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 15, unit: '1 unit', inStock: true,  url: `https://www.zeptonow.com/search?query=${encodeURIComponent(query)}`,   lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
+            { platformId: 'amazon',    productName: query, price: vary(basePrice, 1.0,  1.2),  originalPrice: vary(basePrice, 1.15, 1.3), discount: 11, unit: '1 unit', inStock: true,  url: `https://www.amazon.in/s?k=${encodeURIComponent(query)}&i=amazonfresh`,  lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
+            { platformId: 'jiomart',   productName: query, price: vary(basePrice, 0.84, 0.98), originalPrice: vary(basePrice, 1.0, 1.12), discount: 14, unit: '1 unit', inStock: true,  url: `https://www.jiomart.com/search/${encodeURIComponent(query)}`,          lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
+            { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: `https://www.flipkart.com/search?q=${encodeURIComponent(query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`, lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
+        ]
+    };
+  }
+
+  // 2. Fetch Live Market Data and OVERWRITE the defaults where available
   try {
     const { data: realPrices, error } = await supabase
         .from('live_prices')
@@ -503,81 +548,42 @@ export const searchPrices = async (query: string, _pincode?: string): Promise<Co
         .ilike('item_name', `%${key}%`);
         
     if (!error && realPrices && realPrices.length > 0) {
-        // Group by item_name if there are multiple matches, just take the first robust match
         const exactMatchName = realPrices[0].item_name;
         const matchingPrices = realPrices.filter(p => p.item_name === exactMatchName);
         
-        let platformPrices: PlatformPrice[] = [];
         matchingPrices.forEach(dbRow => {
-            platformPrices.push({
+            const index = resultTemplate.prices.findIndex(p => p.platformId === dbRow.platform_id);
+            const livePriceObj = {
                 platformId: dbRow.platform_id,
                 productName: dbRow.canonical_name,
                 price: dbRow.price,
-                originalPrice: Math.round(dbRow.price * 1.15), // fake original price for styling
+                originalPrice: Math.round(dbRow.price * 1.15),
                 discount: 15,
                 unit: '1 unit',
                 inStock: dbRow.in_stock,
-                url: '#', // The real product URL could be saved in DB later
+                url: resultTemplate.prices[index]?.url || '#', 
                 lastUpdated: dbRow.last_updated,
-                deliveryTime: '15 min'
-            });
+                deliveryTime: dbRow.platform_id === 'swiggy' ? '15 min' : '10 min',
+                live: true
+            };
+            
+            if (index >= 0) {
+                // Safely overwrite the specific platform with LIVE data
+                resultTemplate.prices[index] = livePriceObj as any;
+            } else {
+                resultTemplate.prices.push(livePriceObj as any);
+            }
         });
         
-        return {
-            query: exactMatchName,
-            canonicalName: matchingPrices[0].canonical_name,
-            category: 'Grocery',
-            icon: '🛒',
-            prices: platformPrices
-        };
+        // Update the top-level grouping data
+        resultTemplate.query = exactMatchName;
+        resultTemplate.canonicalName = matchingPrices[0].canonical_name;
     }
   } catch (e) {
-    console.error("Live price fetch failed, falling back to mock", e);
+    console.error("Live price fetch failed, proceeding purely with fallback array", e);
   }
 
-  // --- Fallback Exact or fuzzy match in curated DB ---
-  const match = Object.keys(MOCK_DB).find(
-    (k) => k === key || k.includes(key) || key.includes(k)
-  );
-  if (match) {
-    const result = JSON.parse(JSON.stringify(MOCK_DB[match])) as CompareResult; // deep clone to prevent mutating MOCK_DB permanently
-    if (!result.prices.find(p => p.platformId === 'flipkart')) {
-      const basePrice = result.prices[0]?.originalPrice || estimateBasePrice(key);
-      result.prices.push({ 
-        platformId: 'flipkart', 
-        productName: result.canonicalName, 
-        price: vary(basePrice, 0.85, 1.0), 
-        originalPrice: vary(basePrice, 1.08, 1.15), 
-        discount: 12, 
-        unit: result.prices[0]?.unit || '1 unit', 
-        inStock: true, 
-        url: `https://www.flipkart.com/search?q=${encodeURIComponent(result.query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`, 
-        lastUpdated: new Date().toISOString(), 
-        deliveryTime: '15 min' 
-      });
-    }
-    return result;
-  }
-
-  // Auto-detect: generate real platform URLs + realistic prices for ANY food item
-  const basePrice = estimateBasePrice(key);
-  const icon = '🛒'; // default;
-
-  return {
-    query,
-    canonicalName: query.charAt(0).toUpperCase() + query.slice(1),
-    category: 'Grocery',
-    icon,
-    prices: [
-      { platformId: 'blinkit',   productName: query, price: vary(basePrice, 0.92, 1.08), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: `https://blinkit.com/s/?q=${encodeURIComponent(query)}`,             lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
-      { platformId: 'bigbasket', productName: query, price: vary(basePrice, 0.88, 1.02), originalPrice: vary(basePrice, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: `https://www.bigbasket.com/ps/?q=${encodeURIComponent(query)}`,      lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
-      { platformId: 'swiggy',    productName: query, price: vary(basePrice, 0.95, 1.1),  originalPrice: vary(basePrice, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: `https://swiggy.com/instamart/search?query=${encodeURIComponent(query)}`, lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
-      { platformId: 'zepto',     productName: query, price: vary(basePrice, 0.86, 1.04), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 15, unit: '1 unit', inStock: true,  url: `https://www.zeptonow.com/search?query=${encodeURIComponent(query)}`,   lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
-      { platformId: 'amazon',    productName: query, price: vary(basePrice, 1.0,  1.2),  originalPrice: vary(basePrice, 1.15, 1.3), discount: 11, unit: '1 unit', inStock: true,  url: `https://www.amazon.in/s?k=${encodeURIComponent(query)}&i=amazonfresh`,  lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
-      { platformId: 'jiomart',   productName: query, price: vary(basePrice, 0.84, 0.98), originalPrice: vary(basePrice, 1.0, 1.12), discount: 14, unit: '1 unit', inStock: true,  url: `https://www.jiomart.com/search/${encodeURIComponent(query)}`,          lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
-      { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: `https://www.flipkart.com/search?q=${encodeURIComponent(query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`, lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
-    ],
-  };
+  return resultTemplate;
 };
 
 // ─── POPULAR SEARCHES ──────────────────────────────────────────────────────────
