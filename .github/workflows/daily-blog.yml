@@ -1,0 +1,52 @@
+name: 📰 Daily AI SEO Blog Generator
+
+on:
+  # Runs every day at 10:00 AM IST (04:30 UTC)
+  schedule:
+    - cron: '30 4 * * *'
+
+  # Also allows manual trigger from the GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    permissions:
+      contents: write   # Needed to commit back to the repo
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 🔑 Check API key is set
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "❌ ERROR: GEMINI_API_KEY secret is not set!"
+            exit 1
+          fi
+
+      - name: 🤖 Generate new AI SEO Blog
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node --experimental-vm-modules scripts/generate-blog.mjs
+
+      - name: 📝 Commit and push the new blog
+        run: |
+          git config --local user.email "ai-bot@fantasticfood.in"
+          git config --local user.name "Fantastic Food AI Bot 📰"
+          git add src/data/blogPosts.ts
+          # Only commit if the file actually changed
+          git diff --staged --quiet || git commit -m "📰 Daily AI Blog: $(date -u '+%Y-%m-%d')"
+          git push

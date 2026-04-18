@@ -114,6 +114,27 @@ const SitemapDirectory = () => {
             </div>
           </div>
 
+          {/* Platform Features / Automated Blog */}
+          <div>
+            <div className="border-b-2 border-forest-200 pb-2 mb-4 mt-8 md:mt-0">
+              <h2 className="text-2xl font-black font-display text-forest-900">Platform Features</h2>
+            </div>
+            <div className="flex flex-col gap-2 bg-white p-4 rounded-xl shadow-sm border border-forest-50">
+              <Link 
+                to="/blog"
+                className="text-forest-600 hover:text-amber-600 hover:underline font-bold py-2 border-b border-forest-50 last:border-0"
+              >
+                📰 Daily Deals & Coupons Blog (Auto-SEO)
+              </Link>
+              <Link 
+                to="/compare"
+                className="text-forest-600 hover:text-amber-600 hover:underline font-bold py-2 border-b border-forest-50 last:border-0"
+              >
+                🔍 Live Price Comparison Tool
+              </Link>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

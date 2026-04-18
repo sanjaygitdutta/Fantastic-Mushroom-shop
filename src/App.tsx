@@ -33,6 +33,8 @@ const CityPage = lazy(() => import('./pages/CityPage'));
 const RecipePage = lazy(() => import('./pages/RecipePage'));
 const ChefAika = lazy(() => import('./pages/ChefAika'));
 const SitemapDirectory = lazy(() => import('./pages/SitemapDirectory'));
+const BlogDirectory = lazy(() => import('./pages/BlogDirectory'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
 
 const MealPlanner = lazy(() => import('./pages/MealPlanner'));
 const SavedLists = lazy(() => import('./pages/SavedLists'));
@@ -98,6 +100,8 @@ function App() {
                   <Route path="/recipe/:recipeId" element={<RecipePage />} />
                   <Route path="/chef-aika" element={<ChefAika />} />
                   <Route path="/directory" element={<SitemapDirectory />} />
+                  <Route path="/blog" element={<BlogDirectory />} />
+                  <Route path="/blog/:slug" element={<BlogPost />} />
                   <Route path="/meal-planner" element={<MealPlanner />} />
                   <Route path="/saved" element={<SavedLists />} />
                   <Route path="/seasonal" element={<SeasonalGuide />} />
