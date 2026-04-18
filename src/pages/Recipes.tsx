@@ -4,6 +4,7 @@ import { Search, Clock, Users, TrendingDown, Globe, X, BookOpen } from 'lucide-r
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { WORLD_RECIPES, COUNTRIES, type WorldRecipe } from '../data/worldRecipes';
+import { recipes as aiRecipes } from '../data/recipes';
 
 const DIFFICULTY_COLORS = {
   Easy: 'bg-green-100 text-green-700',
@@ -33,7 +34,29 @@ const COUNTRY_EMOJIS: Record<string, string> = {
   Kenya: '🇰🇪', Colombia: '🇨🇴', Cuba: '🇨🇺', Chile: '🇨🇱',
   'New Zealand': '🇳🇿', Israel: '🇮🇱', Iran: '🇮🇷', 'South Africa': '🇿🇦',
   Cambodia: '🇰🇭', Nepal: '🇳🇵', Bangladesh: '🇧🇩', Laos: '🇱🇦', Myanmar: '🇲🇲',
+  'AI Generated': '🤖',
 };
+
+// Map AI recipes to WorldRecipe format dynamically
+const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
+  id: r.id,
+  name: r.title,
+  country: 'AI Generated',
+  countryCode: 'AI',
+  emoji: '🤖',
+  city: 'Global Kitchen',
+  category: r.tags.includes('Breakfast') ? 'Breakfast' : r.tags.includes('Dessert') ? 'Dessert' : 'Main Course',
+  difficulty: r.difficulty || 'Medium',
+  time: r.cookTime,
+  servings: r.servings || 4,
+  calories: 450, // default fallback
+  tags: r.tags || [],
+  ingredients: r.ingredients.map(i => `${i.amount} ${i.item}`),
+  steps: r.instructions || []
+}));
+
+const ALL_RECIPES = [...WORLD_RECIPES, ...mappedAIRecipes];
+const ALL_COUNTRIES = [...COUNTRIES, 'AI Generated'];
 
 const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => (
   <motion.div
@@ -84,11 +107,11 @@ export default function Recipes() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
 
-  const categories = ['All', ...Array.from(new Set(WORLD_RECIPES.map(r => r.category))).sort()];
-  const allCountries = ['All', ...COUNTRIES];
+  const categories = ['All', ...Array.from(new Set(ALL_RECIPES.map(r => r.category))).sort()];
+  const allCountries = ['All', ...ALL_COUNTRIES];
 
   const filtered = useMemo(() => {
-    return WORLD_RECIPES.filter(r => {
+    return ALL_RECIPES.filter(r => {
       const q = search.toLowerCase();
       const matchSearch = !search || r.name.toLowerCase().includes(q) || r.country.toLowerCase().includes(q) || r.city.toLowerCase().includes(q) || r.tags.some(t => t.includes(q));
       const matchCountry = selectedCountry === 'All' || r.country === selectedCountry;
@@ -111,8 +134,8 @@ export default function Recipes() {
   return (
     <>
       <SEO
-        title={`World Recipes — ${WORLD_RECIPES.length}+ Authentic Recipes from ${COUNTRIES.length} Countries | Fantastic Food`}
-        description={`Discover ${WORLD_RECIPES.length}+ authentic recipes from ${COUNTRIES.length} countries including India, Italy, Japan, Singapore, Peru, Portugal, Australia and more. Full ingredients & step-by-step cooking instructions.`}
+        title={`World Recipes — ${ALL_RECIPES.length}+ Authentic Recipes from ${ALL_COUNTRIES.length} Countries | Fantastic Food`}
+        description={`Discover ${ALL_RECIPES.length}+ authentic recipes from ${ALL_COUNTRIES.length} countries including India, Italy, Japan, Singapore, Peru, Portugal, Australia and more. Full ingredients & step-by-step cooking instructions.`}
         canonicalUrl="https://www.fantasticfood.in/recipes"
         keywords="world recipes, international cuisine, Indian recipes, Italian recipes, Japanese recipes, Chinese recipes, Mexican recipes, how to cook, recipe ingredients comparison"
       />
@@ -128,15 +151,15 @@ export default function Recipes() {
               ))}
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-3 leading-tight">
-              World Kitchen<br /><span className="text-amber-400">{WORLD_RECIPES.length}+ Authentic Recipes</span>
+              World Kitchen<br /><span className="text-amber-400">{ALL_RECIPES.length}+ Authentic Recipes</span>
             </h1>
             <p className="text-cream-300 text-lg max-w-2xl mx-auto mb-6">
-              From Delhi to Tokyo, Rome to Mexico City — explore authentic recipes from <strong className="text-amber-400">{COUNTRIES.length} countries</strong> with full ingredients &amp; step-by-step instructions.
+              From Delhi to Tokyo, Rome to Mexico City — explore authentic recipes from <strong className="text-amber-400">{ALL_COUNTRIES.length} countries</strong> with full ingredients &amp; step-by-step instructions.
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               {[
-                { val: `${WORLD_RECIPES.length}+`, label: 'Recipes' },
-                { val: `${COUNTRIES.length}`, label: 'Countries' },
+                { val: `${ALL_RECIPES.length}+`, label: 'Recipes' },
+                { val: `${ALL_COUNTRIES.length}`, label: 'Countries' },
                 { val: '8', label: 'Categories' },
               ].map(s => (
                 <div key={s.label} className="bg-white/10 border border-white/20 rounded-2xl px-6 py-3 text-center">
