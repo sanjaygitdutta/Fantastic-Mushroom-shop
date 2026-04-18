@@ -7,6 +7,7 @@ import FoodCategoryBrowser from '../components/FoodCategoryBrowser';
 import { POPULAR_SEARCHES } from '../data/mockPrices';
 import SEO from '../components/SEO';
 import DealOfTheDay from '../components/DealOfTheDay';
+import { recipes } from '../data/recipes';
 
 // Animated counter
 const Counter = ({ target, suffix = '' }: { target: number; suffix?: string }) => {
@@ -147,6 +148,33 @@ const Home = () => {
               </div>
             ))}
           </motion.div>
+
+          {/* Daily AI Recipe Widget */}
+          {recipes.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="mb-8 max-w-2xl mx-auto relative z-10"
+            >
+              <Link to={`/recipe/${recipes[recipes.length - 1].id}`} className="block group">
+                <div className="bg-gradient-to-r from-amber-500/90 to-amber-400/90 hover:from-amber-400 hover:to-amber-500 backdrop-blur-md border border-amber-300 rounded-3xl p-5 shadow-[0_0_20px_rgba(251,191,36,0.3)] transition-all transform hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(251,191,36,0.5)] flex items-center justify-between gap-6">
+                  <div className="text-left flex-1 min-w-0">
+                    <p className="text-forest-900 font-black text-xs uppercase tracking-wider mb-1">
+                      🌟 AI Recipe of the Day
+                    </p>
+                    <h3 className="text-forest-900 font-bold text-lg md:text-xl leading-tight group-hover:underline truncate">
+                      {recipes[recipes.length - 1].title}
+                    </h3>
+                  </div>
+                  <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center flex-shrink-0 border border-white/50 text-forest-900 shadow-sm transition-transform group-hover:rotate-12 group-hover:bg-white/40">
+                    <ArrowRight className="w-6 h-6 ml-0.5" />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          )}
+
 
           {/* Stats */}
           <motion.div

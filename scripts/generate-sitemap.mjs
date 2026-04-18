@@ -159,10 +159,19 @@ const cityXmlGenerations = citySlugs.map(slug => {
   return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>\n`;
 }).join('');
 
+// Generate XML blocks for AI Recipes (src/data/recipes.ts)
+const recipesContent = fs.readFileSync(path.resolve('./src/data/recipes.ts'), 'utf-8');
+const recipeMatches = [...recipesContent.matchAll(/id:\s*'([^']+)'/g)];
+const aiRecipeXmlGenerations = recipeMatches.map(m => {
+  const url = `https://www.fantasticfood.in/recipe/${m[1]}`;
+  if (existingSitemap.includes(url)) return '';
+  return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>\n`;
+}).join('');
+
 // Insert into sitemap
 const updatedSitemap = existingSitemap.replace(
   injectionPoint,
-  `\n  <!-- ── PROGRAMMATIC SEO PAGES (Cities + Food) ── -->\n${cityXmlGenerations}${xmlGenerations}${injectionPoint}`
+  `\n  <!-- ── PROGRAMMATIC SEO PAGES (Cities + Food + AI Recipes) ── -->\n${cityXmlGenerations}${xmlGenerations}${aiRecipeXmlGenerations}${injectionPoint}`
 );
 
 fs.writeFileSync(sitemapPath, updatedSitemap);
