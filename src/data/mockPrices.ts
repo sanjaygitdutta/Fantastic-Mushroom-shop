@@ -1,4 +1,5 @@
 // ------------------------------------------------------------------
+import { supabase } from '../lib/supabase';
 // Fantastic Food — Price Data System
 // Phase 1: Rich mock DB covering 50+ frequently ordered food items
 // Phase 2 (Production): Replace searchPrices() with live Supabase
@@ -494,7 +495,47 @@ export const searchPrices = async (query: string, _pincode?: string): Promise<Co
   await delay(500 + Math.random() * 400);
   const key = query.toLowerCase().trim();
 
-  // Exact or fuzzy match in curated DB
+  // --- Real Live Pricing Check ---
+  try {
+    const { data: realPrices, error } = await supabase
+        .from('live_prices')
+        .select('*')
+        .ilike('item_name', `%${key}%`);
+        
+    if (!error && realPrices && realPrices.length > 0) {
+        // Group by item_name if there are multiple matches, just take the first robust match
+        const exactMatchName = realPrices[0].item_name;
+        const matchingPrices = realPrices.filter(p => p.item_name === exactMatchName);
+        
+        let platformPrices: PlatformPrice[] = [];
+        matchingPrices.forEach(dbRow => {
+            platformPrices.push({
+                platformId: dbRow.platform_id,
+                productName: dbRow.canonical_name,
+                price: dbRow.price,
+                originalPrice: Math.round(dbRow.price * 1.15), // fake original price for styling
+                discount: 15,
+                unit: '1 unit',
+                inStock: dbRow.in_stock,
+                url: '#', // The real product URL could be saved in DB later
+                lastUpdated: dbRow.last_updated,
+                deliveryTime: '15 min'
+            });
+        });
+        
+        return {
+            query: exactMatchName,
+            canonicalName: matchingPrices[0].canonical_name,
+            category: 'Grocery',
+            icon: '🛒',
+            prices: platformPrices
+        };
+    }
+  } catch (e) {
+    console.error("Live price fetch failed, falling back to mock", e);
+  }
+
+  // --- Fallback Exact or fuzzy match in curated DB ---
   const match = Object.keys(MOCK_DB).find(
     (k) => k === key || k.includes(key) || key.includes(k)
   );
