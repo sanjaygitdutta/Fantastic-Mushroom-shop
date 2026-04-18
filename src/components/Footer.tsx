@@ -1,8 +1,38 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Twitter, Facebook, Leaf } from 'lucide-react';
+import { Instagram, Twitter, Facebook, Leaf, Users } from 'lucide-react';
 import InstallPWA from './InstallPWA';
+import { supabase } from '../lib/supabase';
 
 const Footer = () => {
+    const [visitorCount, setVisitorCount] = useState<number | null>(null);
+
+    useEffect(() => {
+        const trackVisitor = async () => {
+            try {
+                // To prevent spamming the counter on every page navigation, 
+                // we only increment once per session tab.
+                const hasVisited = sessionStorage.getItem('ff_visited');
+                
+                if (!hasVisited) {
+                    const { data, error } = await supabase.rpc('increment_visitor_count');
+                    if (!error && data !== null) {
+                        setVisitorCount(data);
+                        sessionStorage.setItem('ff_visited', 'true');
+                    }
+                } else {
+                    // Just fetch the current count without incrementing
+                    const { data } = await supabase.from('site_stats').select('visitor_count').eq('id', 1).single();
+                    if (data) setVisitorCount(data.visitor_count);
+                }
+            } catch (err) {
+                console.error("Tracker error", err);
+            }
+        };
+
+        trackVisitor();
+    }, []);
+
     return (
         <footer className="bg-forest-900 border-t border-forest-800 text-cream-100 pt-20 pb-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,6 +101,16 @@ const Footer = () => {
 
                 <div className="border-t border-forest-800/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-forest-500">
                     <p>&copy; 2026 Fantastic Food Platform. All rights reserved.</p>
+                    
+                    {visitorCount !== null && (
+                        <div className="flex items-center gap-2 mt-4 md:mt-0 font-medium bg-forest-800/50 px-3 py-1.5 rounded-full border border-forest-700">
+                            <Users className="w-4 h-4 text-amber-400" />
+                            <span className="text-forest-200">
+                                <span className="text-white font-bold">{visitorCount.toLocaleString()}</span> Savers Joined
+                            </span>
+                        </div>
+                    )}
+
                     <div className="flex space-x-6 mt-4 md:mt-0">
                         <a href="#" className="hover:text-forest-300 transition-colors">Privacy Policy</a>
                         <a href="#" className="hover:text-forest-300 transition-colors">Terms of Service</a>
