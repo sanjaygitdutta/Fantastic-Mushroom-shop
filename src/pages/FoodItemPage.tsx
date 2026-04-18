@@ -62,6 +62,16 @@ const FoodItemPage = () => {
     }
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.fantasticfood.in/' },
+      { '@type': 'ListItem', position: 2, name: 'Compare Prices', item: 'https://www.fantasticfood.in/compare' },
+      { '@type': 'ListItem', position: 3, name: `${displayName} Price`, item: `https://www.fantasticfood.in/food/${foodItem}` },
+    ],
+  };
+
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -97,8 +107,9 @@ const FoodItemPage = () => {
         canonicalUrl={`https://www.fantasticfood.in/food/${foodItem}`}
         structuredData={productSchema}
       />
-      {/* Also inject FAQ schema */}
+      {/* Also inject FAQ & Breadcrumb schema */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-4 mb-6">
