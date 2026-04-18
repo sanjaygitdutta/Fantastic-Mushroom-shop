@@ -107,4 +107,36 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Dinner', 'Indian', 'Spicy']
     }
+,
+    {
+        id: '2026-04-18',
+        title: 'Tabbouleh',
+        description: 'Tabbouleh is the vibrant, herbaceous soul of Lebanese cuisine, a refreshing salad that celebrates the bounty of fresh parsley and mint. This iconic dish perfectly balances the tang of lemon with the subtle chew of fine bulgur, offering a burst of Mediterranean sunshine in every bite.',
+        image: 'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&q=80&w=2058',
+        prepTime: '30 min',
+        cookTime: '30 min',
+        difficulty: 'Easy',
+        servings: 4,
+        ingredients: [
+            { item: 'Fine bulgur (burghul na\'am)', amount: '90g' },
+            { item: 'Fresh flat-leaf parsley', amount: '2 large bunches (approx. 250g)' },
+            { item: 'Fresh mint leaves', amount: '1/2 cup packed (approx. 30g)' },
+            { item: 'Ripe tomatoes', amount: '2 medium (approx. 300g)' },
+            { item: 'Spring onions', amount: '4-5 stalks' },
+            { item: 'Fresh lemon juice', amount: '1/4 cup (approx. 60ml)' },
+            { item: 'Extra virgin olive oil', amount: '1/4 cup (approx. 60ml)' },
+            { item: 'Salt', amount: '1 tsp' },
+            { item: 'Freshly ground black pepper', amount: '1/2 tsp (optional)' }
+        ],
+        instructions: [
+            'Place the fine bulgur in a medium bowl. Rinse it quickly under cold water, then drain thoroughly using a fine-mesh sieve, pressing out excess water. Let it soak in the residual moisture for 20-30 minutes until plump and tender, then fluff with a fork.',
+            'While the bulgur soaks, meticulously wash and thoroughly dry the parsley and mint. Finely chop the parsley, ensuring it\'s almost like a coarse powder, and finely chop the mint leaves. Place them in a large mixing bowl.',
+            'Finely dice the ripe tomatoes, ensuring all excess liquid is drained. Thinly slice the spring onions, using both the white and light green parts. Add the chopped tomatoes and spring onions to the bowl with the herbs.',
+            'Add the fluffed bulgur to the bowl containing the herbs and vegetables.',
+            'Pour the fresh lemon juice and extra virgin olive oil over the mixture. Season with salt and freshly ground black pepper (if using).',
+            'Gently toss all the ingredients together until well combined. Taste and adjust seasoning as needed. For best results, cover the bowl and let the tabbouleh rest in the refrigerator for at least 30 minutes to allow the flavors to meld.',
+            'Serve chilled as a refreshing side dish, appetizer, or part of a mezze platter, often with crisp lettuce leaves for scooping.'
+        ],
+        tags: ['Lebanese', 'Appetizer', 'Vegan']
+    }
 ];
