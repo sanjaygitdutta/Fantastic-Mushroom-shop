@@ -374,10 +374,10 @@ export const CATEGORIES = [...new Set(WORLD_RECIPES.map(r => r.category))];
 export const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
   id: r.id,
   name: r.title,
-  country: 'AI Generated',
+  country: 'Aika Recipes',
   countryCode: 'AI',
-  emoji: '🤖',
-  city: 'Global Kitchen',
+  emoji: '👩‍🍳',
+  city: 'Aika Kitchen',
   category: r.tags.includes('Breakfast') ? 'Breakfast' : r.tags.includes('Dessert') ? 'Dessert' : 'Main Course',
   difficulty: r.difficulty || 'Medium',
   time: r.cookTime,
@@ -389,7 +389,7 @@ export const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
 }));
 
 export const ALL_RECIPES = [...WORLD_RECIPES, ...mappedAIRecipes];
-export const ALL_COUNTRIES = [...COUNTRIES, 'AI Generated'];
+export const ALL_COUNTRIES = [...COUNTRIES, 'Aika Recipes'];
 export const ALL_CATEGORIES = [...new Set(ALL_RECIPES.map(r => r.category))];
 
 export const getRecipesByCountry = (country: string) =>

@@ -33,7 +33,7 @@ const COUNTRY_EMOJIS: Record<string, string> = {
   Kenya: '🇰🇪', Colombia: '🇨🇴', Cuba: '🇨🇺', Chile: '🇨🇱',
   'New Zealand': '🇳🇿', Israel: '🇮🇱', Iran: '🇮🇷', 'South Africa': '🇿🇦',
   Cambodia: '🇰🇭', Nepal: '🇳🇵', Bangladesh: '🇧🇩', Laos: '🇱🇦', Myanmar: '🇲🇲',
-  'AI Generated': '🤖',
+  'Aika Recipes': '👩‍🍳',
 };
 
 const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => (
@@ -234,14 +234,13 @@ export default function Recipes() {
         {/* Recipes by Country */}
         <div className="max-w-7xl mx-auto px-4 space-y-12">
           {Object.entries(groupedByCountry).sort(([a], [b]) => a.localeCompare(b)).map(([country, recipes]) => (
-            <div key={country}>
-              <div className="flex items-center gap-3 mb-5">
+            <div key={country} className="scroll-mt-32">
+              <div className="flex items-center gap-4 mb-6 bg-white/95 backdrop-blur-md px-6 py-4 rounded-3xl shadow-sm border border-gray-100 max-w-fit">
                 <span className="text-4xl">{COUNTRY_EMOJIS[country] || '🌍'}</span>
                 <div>
                   <h2 className="text-2xl font-black text-gray-800">{country}</h2>
-                  <p className="text-gray-400 text-sm">{recipes.length} recipe{recipes.length > 1 ? 's' : ''}</p>
+                  <p className="text-forest-600 font-bold text-sm">{recipes.length} recipe{recipes.length > 1 ? 's' : ''}</p>
                 </div>
-                <div className="ml-auto h-px flex-1 bg-gray-200 max-w-xs hidden sm:block" />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
