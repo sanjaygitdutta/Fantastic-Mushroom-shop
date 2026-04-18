@@ -17,7 +17,9 @@ const CreateProfile = () => {
         email: '',
         building: '',
         state: '',
-        pinCode: ''
+        pinCode: '',
+        dietaryPreference: 'None',
+        familySize: 2
     });
 
     useEffect(() => {
@@ -56,7 +58,9 @@ const CreateProfile = () => {
                 building: formData.building,
                 state: formData.state,
                 pinCode: formData.pinCode
-            }
+            },
+            dietaryPreference: formData.dietaryPreference,
+            familySize: formData.familySize
         };
 
         updateProfile(profile);
@@ -168,6 +172,41 @@ const CreateProfile = () => {
                                         className="w-full px-4 py-2 rounded-lg border border-mushroom-300 focus:ring-2 focus:ring-forest-500 outline-none"
                                         required
                                     />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="border-t border-gray-100 pt-4">
+                        <h3 className="text-lg font-semibold text-mushroom-800 mb-4">Meal Planner Preferences</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-mushroom-700 mb-1">Dietary Preference</label>
+                                <select
+                                    name="dietaryPreference"
+                                    value={formData.dietaryPreference}
+                                    onChange={(e) => setFormData({ ...formData, dietaryPreference: e.target.value })}
+                                    className="w-full px-4 py-2 rounded-lg border border-mushroom-300 focus:ring-2 focus:ring-forest-500 outline-none"
+                                >
+                                    {['None', 'Vegetarian', 'Vegan', 'Jain', 'High Protein', 'Keto', 'Diabetes Friendly'].map(d => (
+                                        <option key={d} value={d}>{d}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-mushroom-700 mb-1">Family Size</label>
+                                <div className="flex items-center gap-4">
+                                    <button 
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, familySize: Math.max(1, formData.familySize - 1) })} 
+                                        className="w-10 h-10 rounded-lg bg-mushroom-100 text-mushroom-800 font-bold hover:bg-mushroom-200"
+                                    >-</button>
+                                    <span className="text-xl font-bold flex-1 text-center">{formData.familySize}</span>
+                                    <button 
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, familySize: formData.familySize + 1 })} 
+                                        className="w-10 h-10 rounded-lg bg-mushroom-100 text-mushroom-800 font-bold hover:bg-mushroom-200"
+                                    >+</button>
                                 </div>
                             </div>
                         </div>

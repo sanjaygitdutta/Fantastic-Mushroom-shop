@@ -13,6 +13,8 @@ export interface UserProfile {
     email?: string;
     phone?: string;
     address: UserAddress;
+    dietaryPreference?: string;
+    familySize?: number;
 }
 
 export interface Order {

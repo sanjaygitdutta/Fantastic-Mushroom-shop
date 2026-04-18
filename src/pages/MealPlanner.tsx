@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChefHat, Wallet, Users, Utensils, ArrowRight, Loader2, IndianRupee, Sparkles, CheckCircle2, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { useAuth } from '../context/AuthContext';
 
 interface Meal {
   name: string;
@@ -26,11 +27,23 @@ interface MealPlanResponse {
 const DIETS = ['None', 'Vegetarian', 'Vegan', 'Jain', 'High Protein', 'Keto', 'Diabetes Friendly'];
 
 const MealPlanner = () => {
+  const { user } = useAuth();
+  
   const [budget, setBudget] = useState(1500);
   const [dietary, setDietary] = useState('Vegetarian');
   const [familySize, setFamilySize] = useState(2);
   const [days] = useState(7);
   
+  // Update from profile when it loads
+  useEffect(() => {
+    if (user?.profile?.dietaryPreference) {
+        setDietary(user.profile.dietaryPreference);
+    }
+    if (user?.profile?.familySize) {
+        setFamilySize(user.profile.familySize);
+    }
+  }, [user]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [plan, setPlan] = useState<MealPlanResponse | null>(null);
