@@ -93,6 +93,31 @@ const Footer = () => {
                                     info@fantasticfood.in
                                 </a>
                             </div>
+
+                            <form 
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    const form = e.target as HTMLFormElement;
+                                    const msg = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
+                                    window.location.href = `mailto:info@fantasticfood.in?subject=Message from Fantastic Food Website&body=${encodeURIComponent(msg)}`;
+                                    form.reset();
+                                }} 
+                                className="mt-6 pt-4 border-t border-forest-800/50"
+                            >
+                                <p className="text-forest-500 text-xs mb-2 font-semibold uppercase tracking-wider">Send a Message</p>
+                                <textarea 
+                                    name="message" 
+                                    placeholder="Tell us what you love or want to see next..." 
+                                    required 
+                                    className="w-full bg-forest-950 text-sm text-white rounded-lg p-3 border border-forest-700 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 outline-none resize-none min-h-[80px] mb-2 placeholder-forest-600 transition-all" 
+                                />
+                                <button 
+                                    type="submit" 
+                                    className="w-full bg-forest-800 hover:bg-amber-500 hover:text-forest-900 transition-all text-forest-300 text-xs font-bold py-2.5 rounded-lg active:scale-[0.98]"
+                                >
+                                    ↗ Send Message
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
