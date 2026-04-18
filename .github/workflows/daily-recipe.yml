@@ -54,7 +54,15 @@ jobs:
         run: |
           git config --local user.email "ai-bot@fantasticfood.in"
           git config --local user.name "Fantastic Food AI Bot 🍄"
-          git add src/data/recipes.ts
+          git add src/data/worldRecipes.ts
           # Only commit if the file actually changed
           git diff --staged --quiet || git commit -m "🍄 Daily AI Recipe: $(date -u '+%Y-%m-%d')"
           git push
+
+      - name: 🐦 Publish to Twitter/X
+        env:
+          TWITTER_APP_KEY: ${{ secrets.TWITTER_APP_KEY }}
+          TWITTER_APP_SECRET: ${{ secrets.TWITTER_APP_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+        run: node scripts/post-to-twitter.mjs
