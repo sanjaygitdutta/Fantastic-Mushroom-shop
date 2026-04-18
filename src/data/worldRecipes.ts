@@ -1,3 +1,5 @@
+import { recipes as aiRecipes } from './recipes';
+
 export interface WorldRecipe {
   id: string;
   name: string;
@@ -368,12 +370,34 @@ export const WORLD_RECIPES: WorldRecipe[] = [
 export const COUNTRIES = [...new Set(WORLD_RECIPES.map(r => r.country))].sort();
 export const CATEGORIES = [...new Set(WORLD_RECIPES.map(r => r.category))];
 
+// Map AI recipes to WorldRecipe format dynamically
+export const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
+  id: r.id,
+  name: r.title,
+  country: 'AI Generated',
+  countryCode: 'AI',
+  emoji: '🤖',
+  city: 'Global Kitchen',
+  category: r.tags.includes('Breakfast') ? 'Breakfast' : r.tags.includes('Dessert') ? 'Dessert' : 'Main Course',
+  difficulty: r.difficulty || 'Medium',
+  time: r.cookTime,
+  servings: r.servings || 4,
+  calories: 450, // default fallback
+  tags: r.tags || [],
+  ingredients: r.ingredients.map(i => `${i.amount} ${i.item}`),
+  steps: r.instructions || []
+}));
+
+export const ALL_RECIPES = [...WORLD_RECIPES, ...mappedAIRecipes];
+export const ALL_COUNTRIES = [...COUNTRIES, 'AI Generated'];
+export const ALL_CATEGORIES = [...new Set(ALL_RECIPES.map(r => r.category))];
+
 export const getRecipesByCountry = (country: string) =>
-  WORLD_RECIPES.filter(r => r.country === country);
+  ALL_RECIPES.filter(r => r.country === country);
 
 export const searchRecipes = (query: string) => {
   const q = query.toLowerCase();
-  return WORLD_RECIPES.filter(r =>
+  return ALL_RECIPES.filter(r =>
     r.name.toLowerCase().includes(q) ||
     r.country.toLowerCase().includes(q) ||
     r.city.toLowerCase().includes(q) ||

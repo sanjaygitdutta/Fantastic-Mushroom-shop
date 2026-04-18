@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Clock, Users, ChefHat, ArrowLeft, ShoppingCart, Globe, Flame, Tag } from 'lucide-react';
 import SEO from '../components/SEO';
-import { WORLD_RECIPES, type WorldRecipe } from '../data/worldRecipes';
+import { ALL_RECIPES, type WorldRecipe } from '../data/worldRecipes';
 
 const DIFFICULTY_COLORS = {
   Easy: 'bg-green-100 text-green-700 border-green-200',
@@ -20,11 +20,11 @@ export default function RecipePage() {
   const { recipeId } = useParams<{ recipeId: string }>();
   const navigate = useNavigate();
 
-  const recipe: WorldRecipe | undefined = WORLD_RECIPES.find(r => r.id === recipeId);
+  const recipe: WorldRecipe | undefined = ALL_RECIPES.find(r => r.id === recipeId);
 
   // Suggest related recipes from same country
   const related = recipe
-    ? WORLD_RECIPES.filter(r => r.country === recipe.country && r.id !== recipe.id).slice(0, 4)
+    ? ALL_RECIPES.filter(r => r.country === recipe.country && r.id !== recipe.id).slice(0, 4)
     : [];
 
   if (!recipe) {

@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Clock, Users, TrendingDown, Globe, X, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { WORLD_RECIPES, COUNTRIES, type WorldRecipe } from '../data/worldRecipes';
-import { recipes as aiRecipes } from '../data/recipes';
+import { ALL_RECIPES, ALL_COUNTRIES, type WorldRecipe } from '../data/worldRecipes';
 
 const DIFFICULTY_COLORS = {
   Easy: 'bg-green-100 text-green-700',
@@ -36,27 +35,6 @@ const COUNTRY_EMOJIS: Record<string, string> = {
   Cambodia: '🇰🇭', Nepal: '🇳🇵', Bangladesh: '🇧🇩', Laos: '🇱🇦', Myanmar: '🇲🇲',
   'AI Generated': '🤖',
 };
-
-// Map AI recipes to WorldRecipe format dynamically
-const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
-  id: r.id,
-  name: r.title,
-  country: 'AI Generated',
-  countryCode: 'AI',
-  emoji: '🤖',
-  city: 'Global Kitchen',
-  category: r.tags.includes('Breakfast') ? 'Breakfast' : r.tags.includes('Dessert') ? 'Dessert' : 'Main Course',
-  difficulty: r.difficulty || 'Medium',
-  time: r.cookTime,
-  servings: r.servings || 4,
-  calories: 450, // default fallback
-  tags: r.tags || [],
-  ingredients: r.ingredients.map(i => `${i.amount} ${i.item}`),
-  steps: r.instructions || []
-}));
-
-const ALL_RECIPES = [...WORLD_RECIPES, ...mappedAIRecipes];
-const ALL_COUNTRIES = [...COUNTRIES, 'AI Generated'];
 
 const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => (
   <motion.div
