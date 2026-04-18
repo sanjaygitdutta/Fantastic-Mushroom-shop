@@ -21,11 +21,14 @@ const categories = {
     'ghee', 'dairy whitener', 'condensed milk', 'flavored milk', 'yogurt'
   ],
   brands: {
-    dairy: ['amul', 'mother dairy', 'nandini', 'nestle', 'brittania', 'epigamia', 'gowardhan', 'aavin'],
-    masala: ['everest', 'mdh', 'catch', 'suhana', 'tata sampann', 'aashirvaad'],
-    oil: ['fortune', 'saffola', 'gemini', 'dhara', 'sunpure', 'patanjali', 'emami'],
-    fmcg: ['surf excel', 'ariel', 'tide', 'rin', 'wheel', 'vim', 'pril', 'colgate', 'pepsodent', 'sensodyne', 'dettol', 'lifebuoy', 'santoor', 'dove', 'pears'],
-    snacks: ['lays', 'kurkure', 'haldiram', 'bikano', 'balaji', 'doritos', 'pringles', 'cheetos']
+    dairy: ['amul', 'mother dairy', 'nandini', 'nestle', 'britannia', 'epigamia', 'gowardhan', 'aavin', 'jersey', 'milky mist'],
+    masala: ['everest', 'mdh', 'catch', 'suhana', 'tata sampann', 'aashirvaad', 'goldiee', 'mtr', 'eastern', 'nilon'],
+    oil: ['fortune', 'saffola', 'gemini', 'dhara', 'sunpure', 'patanjali', 'emami', 'nature fresh', 'sundrop', 'mr gold'],
+    fmcg: ['surf excel', 'ariel', 'tide', 'rin', 'wheel', 'vim', 'pril', 'colgate', 'pepsodent', 'sensodyne', 'dettol', 'lifebuoy', 'santoor', 'dove', 'pears', 'cinthol', 'godrej no 1', 'head and shoulders', 'pantene', 'sunflower', 'clinic plus', 'himalaya', 'nivea', 'vaseline', 'parachute'],
+    snacks: ['lays', 'kurkure', 'haldiram', 'bikano', 'balaji', 'doritos', 'pringles', 'cheetos', 'bingo', 'yellow diamond', 'britannia', 'parle', 'sunfeast', 'priyagold'],
+    staples: ['tata sampann', 'aashirvaad', 'india gate', 'daawat', 'kohinoor', 'fortune', '24 mantra', 'natureland', 'pro nature', 'bb royal', 'rajdhani'],
+    beverages: ['taj mahal', 'red label', 'tata tea', 'nescafe', 'bru', 'coca cola', 'pepsi', 'sprite', 'thums up', 'maaza', 'slice', 'frooty', 'paper boat', 'red bull', 'monster'],
+    meats: ['licious', 'freshtohome', 'zappfresh', 'tender cuts', 'suguna', 'godrej tyson', 'zorabian']
   },
   staples: [
     'rice', 'basmati rice', 'brown rice', 'toor dal', 'moong dal', 'urad dal', 
@@ -79,48 +82,96 @@ let citySlugs = [
 
 // 2. Combine Dairy with Brands + Sizes
 categories.dairy.forEach(item => {
-  categories.brands.dairy.forEach(brand => {
-    keywords.add(`${brand} ${item}`);
+  ['200ml', '500ml', '1l', '200g', '500g', '1kg'].forEach(size => {
+    keywords.add(`${item} ${size}`);
+    categories.brands.dairy.forEach(brand => {
+      keywords.add(`${brand} ${item}`);
+      keywords.add(`${brand} ${item} ${size}`);
+    });
   });
-  keywords.add(`${item} 500ml`);
-  keywords.add(`${item} 1l`);
 });
 
-// 3. Combine Staples/Flours with generic sizes
+// 3. Combine Staples/Flours with Brands + Sizes
 [...categories.staples, ...categories.flours].forEach(item => {
-  ['1kg', '5kg', '10kg'].forEach(size => {
+  ['500g', '1kg', '5kg', '10kg', '25kg'].forEach(size => {
     keywords.add(`${item} ${size}`);
+    categories.brands.staples.forEach(brand => {
+      keywords.add(`${brand} ${item}`);
+      keywords.add(`${brand} ${item} ${size}`);
+    });
   });
 });
 
 // 4. Combine Oils with Brands + Sizes
 categories.oils.forEach(item => {
-  categories.brands.oil.forEach(brand => {
-    keywords.add(`${brand} ${item}`);
-    keywords.add(`${brand} ${item} 1l`);
-    keywords.add(`${brand} ${item} 5l`);
+  ['500ml', '1l', '5l', '15l'].forEach(size => {
+    keywords.add(`${item} ${size}`);
+    categories.brands.oil.forEach(brand => {
+      keywords.add(`${brand} ${item}`);
+      keywords.add(`${brand} ${item} ${size}`);
+    });
   });
-  keywords.add(`${item} 1l`);
-  keywords.add(`${item} 5l`);
 });
 
-// 5. Combine Masalas with Brands
+// 5. Combine Masalas with Brands + Sizes
 categories.masalas.forEach(item => {
-  categories.brands.masala.forEach(brand => {
-    keywords.add(`${brand} ${item}`);
+  ['50g', '100g', '200g', '500g'].forEach(size => {
+    keywords.add(`${item} ${size}`);
+    categories.brands.masala.forEach(brand => {
+      keywords.add(`${brand} ${item}`);
+      keywords.add(`${brand} ${item} ${size}`);
+    });
   });
 });
 
-// 6. Combine Snacks with Brands
+// 6. Combine Snacks with Brands + Sizes
 categories.snacks.forEach(item => {
-  categories.brands.snacks.forEach(brand => {
-    keywords.add(`${brand} ${item}`);
+  ['30g', '50g', '100g', '200g', '400g'].forEach(size => {
+    keywords.add(`${item} ${size}`);
+    categories.brands.snacks.forEach(brand => {
+      keywords.add(`${brand} ${item}`);
+      keywords.add(`${brand} ${item} ${size}`);
+    });
   });
 });
 
-// 7. FMCG (Highest volume grocery app searches)
+// 7. FMCG Categories (Soaps, Shampoos, Detergents)
 categories.brands.fmcg.forEach(brand => {
   keywords.add(brand);
+  ['soap', 'shampoo', 'detergent', 'handwash', 'toothpaste', 'dishwash'].forEach(cat => {
+    keywords.add(`${brand} ${cat}`);
+  });
+});
+
+// 8. Beverages with Brands + Sizes
+categories.beverages.forEach(item => {
+  ['250ml', '500ml', '1l', '1.5l', '2.25l'].forEach(size => {
+    keywords.add(`${item} ${size}`);
+    categories.brands.beverages.forEach(brand => {
+      keywords.add(`${brand} ${item}`);
+      keywords.add(`${brand} ${item} ${size}`);
+    });
+  });
+});
+
+// 9. Vegetables & Fruits with Sizes
+[...categories.vegetables, ...categories.fruits].forEach(item => {
+  ['250g', '500g', '1kg'].forEach(size => {
+    keywords.add(`${item} ${size}`);
+    keywords.add(`fresh ${item}`);
+    keywords.add(`organic ${item}`);
+  });
+});
+
+// 10. Meats with Brands + Sizes
+categories.meats.forEach(item => {
+  ['250g', '500g', '1kg'].forEach(size => {
+    keywords.add(`${item} ${size}`);
+    categories.brands.meats.forEach(brand => {
+      keywords.add(`${brand} ${item}`);
+      keywords.add(`${brand} ${item} ${size}`);
+    });
+  });
 });
 
 // 8. Add top long-tail competitors vs searches randomly to boost
