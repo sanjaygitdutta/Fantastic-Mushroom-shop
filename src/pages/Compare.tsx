@@ -99,11 +99,23 @@ const ComparePage = () => {
       });
   }, [query, pincode]);
 
+  let lowestPrice = 0;
+  if (result && result.prices) {
+    lowestPrice = Math.min(...result.prices.map(p => p.price));
+  }
+
+  const queryCap = query ? query.charAt(0).toUpperCase() + query.slice(1) : '';
+
   const seoTitle = query
-    ? `Compare ${query.charAt(0).toUpperCase() + query.slice(1)} Price — Blinkit vs Zepto vs Swiggy vs BigBasket`
+    ? (lowestPrice > 0 
+        ? `🤑 Compare ${queryCap} Prices — Found for ₹${lowestPrice}! | 2026` 
+        : `Compare ${queryCap} Price — Blinkit vs Zepto vs Swiggy vs BigBasket`)
     : 'Compare Grocery Prices — Blinkit, Zepto, Swiggy, BigBasket & More';
+
   const seoDescription = query
-    ? `Compare prices for ${query} across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Find the cheapest deal instantly.`
+    ? (lowestPrice > 0
+        ? `🔥 Found ${queryCap} for just ₹${lowestPrice}! Compare live prices across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh & JioMart to save money.`
+        : `Compare prices for ${query} across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Find the cheapest deal instantly.`)
     : 'Search any grocery or food item to compare real-time prices across 7 major Indian delivery platforms. Save money on every order.';
 
   const compareSchema = {
