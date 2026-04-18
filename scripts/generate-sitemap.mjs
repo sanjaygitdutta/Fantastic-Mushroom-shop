@@ -64,7 +64,8 @@ const categories = {
 let keywords = new Set();
 let citySlugs = [
   'mumbai', 'delhi', 'bangalore', 'hyderabad', 'chennai', 'pune', 'kolkata', 'ahmedabad',
-  'jaipur', 'lucknow', 'noida', 'gurgaon', 'surat', 'indore', 'chandigarh'
+  'jaipur', 'lucknow', 'noida', 'gurgaon', 'surat', 'indore', 'chandigarh',
+  'kochi', 'nagpur', 'bhopal', 'visakhapatnam', 'coimbatore', 'vadodara', 'bhubaneswar', 'thiruvananthapuram'
 ];
 
 // 1. Add all single items (highly searched)
