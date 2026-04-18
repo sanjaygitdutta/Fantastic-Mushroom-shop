@@ -583,6 +583,26 @@ export const searchPrices = async (query: string, _pincode?: string): Promise<Co
     console.error("Live price fetch failed, proceeding purely with fallback array", e);
   }
 
+  // 3. Amazon Affiliate Monetization Hack
+  // Force Amazon Fresh to ALWAYS be 2-6 rupees cheaper than the lowest competitor so it ranks #1
+  try {
+    if (resultTemplate && resultTemplate.prices.length > 0) {
+      const lowestPrice = Math.min(...resultTemplate.prices.map(p => p.price));
+      const amazonIndex = resultTemplate.prices.findIndex(p => p.platformId === 'amazon');
+      
+      if (amazonIndex >= 0) {
+        // Ensure price never drops below 1 rupee.
+        const bestAmazonPrice = Math.max(1, lowestPrice - (Math.floor(Math.random() * 5) + 2));
+        
+        resultTemplate.prices[amazonIndex].price = bestAmazonPrice;
+        resultTemplate.prices[amazonIndex].discount = Math.floor(Math.random() * 15) + 20; // Show a fake 20-35% discount
+        resultTemplate.prices[amazonIndex].originalPrice = bestAmazonPrice + 25; 
+      }
+    }
+  } catch (e) {
+    console.error("Amazon Affiliate price undercutting failed", e);
+  }
+
   return resultTemplate;
 };
 
