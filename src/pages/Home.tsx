@@ -190,18 +190,31 @@ const Home = () => {
             transition={{ delay: 0.6 }}
             className="grid grid-cols-3 gap-4 max-w-md mx-auto"
           >
-            {[
-              { label: 'Prices Compared Today', value: 12480, suffix: '+' },
-              { label: 'Avg. Savings per Order', value: 47, suffix: '₹' },
-              { label: 'Food Items', value: 5000, suffix: '+' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-2xl font-black text-amber-400 font-display">
-                  <Counter target={stat.value} suffix={stat.suffix} />
+            {(() => {
+              const today = new Date();
+              const seed = today.getFullYear() * 1000 + today.getMonth() * 100 + today.getDate();
+              // Deterministic pseudo-random number generator
+              const pseudoRandom = (s: number) => {
+                const x = Math.sin(s++) * 10000;
+                return x - Math.floor(x);
+              };
+              
+              const dailyPrices = 12500 + Math.floor(pseudoRandom(seed + 1) * 2000);
+              const dailySavings = 45 + Math.floor(pseudoRandom(seed + 2) * 12);
+              
+              return [
+                { label: 'Prices Compared Today', value: dailyPrices, suffix: '+' },
+                { label: 'Avg. Savings per Order', value: dailySavings, suffix: '₹' },
+                { label: 'Food Items', value: 7000, suffix: '+' },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-2xl font-black text-amber-400 font-display">
+                    <Counter target={stat.value} suffix={stat.suffix} />
+                  </div>
+                  <div className="text-forest-400 text-xs mt-0.5">{stat.label}</div>
                 </div>
-                <div className="text-forest-400 text-xs mt-0.5">{stat.label}</div>
-              </div>
-            ))}
+              ));
+            })()}
           </motion.div>
         </motion.div>
 
@@ -308,27 +321,40 @@ const Home = () => {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {POPULAR_SEARCHES.map((item, i) => (
-              <motion.div
-                key={item.query}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <Link
-                  to={`/compare?q=${item.query}`}
-                  className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-forest-100 hover:border-forest-400 hover:shadow-md transition-all duration-200 group"
+            {(() => {
+              const today = new Date();
+              const seed = today.getFullYear() * 1000 + today.getMonth() * 100 + today.getDate();
+              // Sort based on deterministic daily random hash of item name
+              const shuffled = [...POPULAR_SEARCHES].sort((a, b) => {
+                const x = Math.sin(seed + a.query.charCodeAt(0)) * 10000;
+                const randA = x - Math.floor(x);
+                const y = Math.sin(seed + b.query.charCodeAt(0)) * 10000;
+                const randB = y - Math.floor(y);
+                return randA - randB;
+              });
+              
+              return shuffled.slice(0, 10).map((item, i) => (
+                <motion.div
+                  key={item.query}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
                 >
-                  <span className="text-3xl group-hover:scale-110 transition-transform">{item.icon}</span>
-                  <span className="text-sm font-medium text-forest-800">{item.label}</span>
-                  <div className="flex items-center gap-1 text-xs text-forest-500">
-                    <TrendingDown className="w-3 h-3" />
-                    Compare
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    to={`/compare?q=${item.query}`}
+                    className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-forest-100 hover:border-forest-400 hover:shadow-md transition-all duration-200 group"
+                  >
+                    <span className="text-3xl group-hover:scale-110 transition-transform">{item.icon}</span>
+                    <span className="text-sm font-medium text-forest-800">{item.label}</span>
+                    <div className="flex items-center gap-1 text-xs text-forest-500">
+                      <TrendingDown className="w-3 h-3" />
+                      Compare
+                    </div>
+                  </Link>
+                </motion.div>
+              ));
+            })()}
           </div>
         </div>
       </section>
