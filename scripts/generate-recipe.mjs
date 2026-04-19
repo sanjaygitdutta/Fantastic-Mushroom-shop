@@ -151,45 +151,36 @@ Strict rules:
 - Use ingredients that are commonly available in India`;
 
 // ── Call Gemini REST API ──────────────────────────────────────────────────
-const callGemini = () => new Promise((resolve, reject) => {
-  const body = JSON.stringify({
+async function callGemini() {
+  const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { 
       temperature: 0.4, 
       maxOutputTokens: 3000,
       responseMimeType: "application/json"
-    },
-  });
-
-  const options = {
-    hostname: 'generativelanguage.googleapis.com',
-    path: `/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) },
+    }
   };
 
-  const req = https.request(options, (res) => {
-    let data = '';
-    res.on('data', (c) => (data += c));
-    res.on('end', () => {
-      try {
-        const parsed = JSON.parse(data);
-        if (parsed.error) return reject(new Error(`Gemini API error: ${parsed.error.message}`));
-        const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!text) return reject(new Error('Empty response from Gemini'));
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) return reject(new Error(`No JSON in response:\n${text}`));
-        resolve(JSON.parse(jsonMatch[0]));
-      } catch (e) {
-        reject(new Error(`Parse error: ${e.message}\nRaw: ${data.slice(0, 500)}`));
-      }
-    });
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
   });
 
-  req.on('error', reject);
-  req.write(body);
-  req.end();
-});
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Gemini API Error (${response.status}): ${errText}`);
+  }
+
+  const data = await response.json();
+  let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  
+  if (!text) throw new Error("Empty response from Gemini");
+
+  return JSON.parse(text.trim());
+}
 
 // ── Main ──────────────────────────────────────────────────────────────────
 const recipesPath = path.resolve('./src/data/recipes.ts');
