@@ -382,17 +382,17 @@ const Home = () => {
                   <h2 className="text-4xl md:text-5xl font-black font-display mb-4 leading-tight">
                     {aiRecipe.title}
                   </h2>
-                  <p className="text-forest-300 text-lg mb-6 max-w-lg leading-relaxed">
+                  <p className="text-gray-300 text-lg mb-6 max-w-lg leading-relaxed">
                     {aiRecipe.description}
                   </p>
                   <div className="flex flex-wrap gap-3 mb-8">
-                    <span className="flex items-center gap-2 bg-forest-800 text-forest-200 text-sm px-4 py-2 rounded-full border border-forest-700">
+                    <span className="flex items-center gap-2 bg-white/10 text-gray-100 text-sm px-4 py-2 rounded-full border border-white/20">
                       ⏱️ Prep: {aiRecipe.prepTime}
                     </span>
-                    <span className="flex items-center gap-2 bg-forest-800 text-forest-200 text-sm px-4 py-2 rounded-full border border-forest-700">
+                    <span className="flex items-center gap-2 bg-white/10 text-gray-100 text-sm px-4 py-2 rounded-full border border-white/20">
                       🔥 Cook: {aiRecipe.cookTime}
                     </span>
-                    <span className="flex items-center gap-2 bg-forest-800 text-forest-200 text-sm px-4 py-2 rounded-full border border-forest-700">
+                    <span className="flex items-center gap-2 bg-white/10 text-gray-100 text-sm px-4 py-2 rounded-full border border-white/20">
                       👥 Serves: {aiRecipe.servings}
                     </span>
                     <span className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full border font-bold ${
@@ -442,7 +442,7 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="absolute top-4 right-4 bg-amber-500 text-forest-900 font-black text-xs px-3 py-1.5 rounded-full shadow-lg">
-                      🤖 AI Generated Daily
+                      ✨ Fresh Today
                     </div>
                   </div>
                 </motion.div>
