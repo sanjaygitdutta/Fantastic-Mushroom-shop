@@ -73,7 +73,9 @@ Compare live grocery prices for these ingredients before you cook today:
 
   } catch (error) {
     console.error("❌ Failed to post tweet:", error);
-    process.exit(1);
+    // Exit cleanly so the GitHub Action doesn't fail just because of a Twitter issue.
+    // The recipe was already generated & committed successfully above.
+    process.exit(0);
   }
 }
 
