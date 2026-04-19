@@ -193,17 +193,24 @@ const Home = () => {
             {(() => {
               const today = new Date();
               const seed = today.getFullYear() * 1000 + today.getMonth() * 100 + today.getDate();
-              // Deterministic pseudo-random number generator
+              
+              // Steady growth calculation
+              const launchDate = new Date('2026-04-01').getTime();
+              const daysSinceLaunch = Math.max(0, Math.floor((today.getTime() - launchDate) / (1000 * 60 * 60 * 24)));
+              
+              // Deterministic pseudo-random number generator for small daily fluctuations
               const pseudoRandom = (s: number) => {
                 const x = Math.sin(s++) * 10000;
                 return x - Math.floor(x);
               };
               
-              const dailyPrices = 12500 + Math.floor(pseudoRandom(seed + 1) * 2000);
-              const dailySavings = 45 + Math.floor(pseudoRandom(seed + 2) * 12);
+              // Strictly increases every day (adds ~250-350 more comparisons each day to simulate viral growth)
+              const dailyPrices = 12500 + (daysSinceLaunch * 312) + Math.floor(pseudoRandom(seed + 1) * 85);
+              // Fluctuates naturally between 45 and 57
+              const dailySavings = 45 + Math.floor(pseudoRandom(seed + 2) * 13);
               
               return [
-                { label: 'Prices Compared Today', value: dailyPrices, suffix: '+' },
+                { label: 'Total Prices Compared', value: dailyPrices, suffix: '+' },
                 { label: 'Avg. Savings per Order', value: dailySavings, suffix: '₹' },
                 { label: 'Food Items', value: 7000, suffix: '+' },
               ].map((stat) => (
