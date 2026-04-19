@@ -450,7 +450,7 @@ const Home = () => {
                       See Full Recipe <ArrowRight className="w-4 h-4" />
                     </Link>
                     <Link
-                      to={`/basket?prefill=${encodeURIComponent(aiRecipe.ingredients.map(i => i.name).join(','))}`}
+                      to={`/basket?prefill=${encodeURIComponent(aiRecipe.ingredients.map(i => i.item).join(','))}`}
                       className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-800 hover:bg-forest-700 text-white font-bold rounded-2xl border border-forest-700 transition-all"
                     >
                       🛒 Compare Ingredients

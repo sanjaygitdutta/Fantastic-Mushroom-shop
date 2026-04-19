@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { recipes } from '../data/recipes';
 import { products } from '../data/products';
-import { Clock, Users, ChefHat, ArrowLeft, ShoppingBag, TrendingDown, ArrowRight } from 'lucide-react';
+import { Clock, Users, ChefHat, ArrowLeft, ShoppingBag, TrendingDown, ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-hot-toast';
 import SEO from '../components/SEO';
