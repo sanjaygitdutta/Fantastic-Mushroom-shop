@@ -139,4 +139,35 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Lebanese', 'Appetizer', 'Vegan']
     }
+,
+    {
+        id: '2026-04-19',
+        title: 'Pulpo a la Gallega',
+        description: 'This classic Galician dish features tender, perfectly cooked octopus, simply dressed with extra virgin olive oil, smoked paprika, and coarse sea salt. It\'s a quintessential tapa that embodies the rustic elegance of Spanish coastal cuisine.',
+        image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=2071',
+        prepTime: '20 min',
+        cookTime: '40 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Octopus', amount: '1 kg (cleaned, fresh or frozen)' },
+            { item: 'Potatoes', amount: '500g (waxy variety, peeled)' },
+            { item: 'Extra Virgin Olive Oil', amount: '100 ml' },
+            { item: 'Smoked Paprika (Pimentón de la Vera)', amount: '2 teaspoons (dulce or agridulce)' },
+            { item: 'Coarse Sea Salt', amount: '1 teaspoon (plus more for seasoning)' },
+            { item: 'Bay Leaves', amount: '2 large' },
+            { item: 'Onion', amount: '1 medium (peeled, halved)' },
+            { item: 'Garlic', amount: '3 cloves (peeled, smashed)' }
+        ],
+        instructions: [
+            'Step 1: Prepare the octopus. If using fresh octopus, freeze it for at least 24 hours and then thaw completely; this tenderizes the meat. Clean the octopus thoroughly under cold water, removing eyes and beak if not already done.',
+            'Step 2: Bring a large pot of water to a rolling boil. Add the halved onion, bay leaves, and smashed garlic cloves to the water. "Frighten" the octopus by dipping it into the boiling water for 10 seconds, then removing it. Repeat this process three times; this helps to curl the tentacles and tenderize the meat.',
+            'Step 3: After the third dip, submerge the octopus completely in the boiling water. Reduce heat to a gentle simmer, cover, and cook for 30-40 minutes, or until very tender when pierced with a knife at the thickest part of the tentacle. Cooking time varies with the size of the octopus.',
+            'Step 4: While the octopus cooks, peel the potatoes and cut them into 1/2-inch thick slices. About 15 minutes before the octopus is done, add the potato slices to the same pot of simmering water (or cook separately in salted water) until tender but not mushy.',
+            'Step 5: Once cooked, carefully remove the octopus from the water and let it rest on a cutting board for a few minutes. Drain the potatoes. Using kitchen shears or a sharp knife, cut the octopus tentacles into 1/2-inch thick rounds.',
+            'Step 6: Arrange the cooked potato slices on a traditional wooden serving platter or individual plates. Neatly place the sliced octopus on top of the potatoes.',
+            'Step 7: Drizzle generously with extra virgin olive oil. Sprinkle evenly with smoked paprika and a good pinch of coarse sea salt. Serve immediately, traditionally accompanied by a crisp Albariño wine.'
+        ],
+        tags: ['Spanish', 'Dinner', 'Non-Vegetarian']
+    }
 ];
