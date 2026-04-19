@@ -358,6 +358,100 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ── Chef Aika's Recipe of the Day ── */}
+      {(() => {
+        // Get the latest AI-generated recipe (last in array with a date-based id)
+        const aiRecipe = [...recipes]
+          .reverse()
+          .find(r => r.id.match(/^\d{4}-\d{2}-\d{2}$/)) ?? recipes[recipes.length - 1];
+        if (!aiRecipe) return null;
+        return (
+          <section className="py-16 px-4 bg-gradient-to-br from-forest-950 to-forest-900">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex flex-col md:flex-row items-center gap-10">
+                {/* Left: Recipe Info */}
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="flex-1 text-white"
+                >
+                  <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-bold px-4 py-1.5 rounded-full mb-5 tracking-wider uppercase">
+                    👩‍🍳 Chef Aika's Recipe of the Day
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black font-display mb-4 leading-tight">
+                    {aiRecipe.title}
+                  </h2>
+                  <p className="text-forest-300 text-lg mb-6 max-w-lg leading-relaxed">
+                    {aiRecipe.description}
+                  </p>
+                  <div className="flex flex-wrap gap-3 mb-8">
+                    <span className="flex items-center gap-2 bg-forest-800 text-forest-200 text-sm px-4 py-2 rounded-full border border-forest-700">
+                      ⏱️ Prep: {aiRecipe.prepTime}
+                    </span>
+                    <span className="flex items-center gap-2 bg-forest-800 text-forest-200 text-sm px-4 py-2 rounded-full border border-forest-700">
+                      🔥 Cook: {aiRecipe.cookTime}
+                    </span>
+                    <span className="flex items-center gap-2 bg-forest-800 text-forest-200 text-sm px-4 py-2 rounded-full border border-forest-700">
+                      👥 Serves: {aiRecipe.servings}
+                    </span>
+                    <span className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full border font-bold ${
+                      aiRecipe.difficulty === 'Easy' ? 'bg-green-900/40 text-green-400 border-green-800' :
+                      aiRecipe.difficulty === 'Medium' ? 'bg-amber-900/40 text-amber-400 border-amber-800' :
+                      'bg-red-900/40 text-red-400 border-red-800'
+                    }`}>
+                      {aiRecipe.difficulty === 'Easy' ? '✅' : aiRecipe.difficulty === 'Medium' ? '⚡' : '🔥'} {aiRecipe.difficulty}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <Link
+                      to={`/recipe/${aiRecipe.id}`}
+                      className="inline-flex items-center gap-2 px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-forest-900 font-black rounded-2xl transition-all hover:scale-105 shadow-xl shadow-amber-900/30"
+                    >
+                      See Full Recipe <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link
+                      to="/compare"
+                      className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-800 hover:bg-forest-700 text-white font-bold rounded-2xl border border-forest-700 transition-all"
+                    >
+                      🛒 Compare Ingredients
+                    </Link>
+                  </div>
+                </motion.div>
+
+                {/* Right: Recipe Image */}
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="flex-1 max-w-md w-full"
+                >
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                    <img
+                      src={aiRecipe.image}
+                      alt={aiRecipe.title}
+                      className="w-full h-72 object-cover"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-5">
+                      <div className="flex flex-wrap gap-2">
+                        {aiRecipe.tags.map(tag => (
+                          <span key={tag} className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="absolute top-4 right-4 bg-amber-500 text-forest-900 font-black text-xs px-3 py-1.5 rounded-full shadow-lg">
+                      🤖 AI Generated Daily
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
+
       {/* ── Mushroom Shop Spotlight ── */}
       <section className="py-16 px-4 bg-gradient-to-br from-earth-700 to-earth-900">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8">
