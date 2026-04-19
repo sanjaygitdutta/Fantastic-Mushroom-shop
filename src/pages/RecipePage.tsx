@@ -206,18 +206,16 @@ export default function RecipePage() {
 
                 {/* Compare CTA */}
                 <div className="mt-5 pt-4 border-t border-gray-100">
-                  <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-3">💰 Compare Prices</p>
-                  <div className="flex flex-wrap gap-2">
-                    {recipe.ingredients.slice(0, 5).map((ing) => {
-                      const key = getCompareKey(ing);
-                      return key ? (
-                        <Link key={ing} to={`/compare?q=${encodeURIComponent(key)}`}
-                          className="flex items-center gap-1 text-xs bg-forest-700 hover:bg-forest-600 text-white px-2.5 py-1.5 rounded-lg transition-colors font-medium">
-                          <ShoppingCart className="w-2.5 h-2.5" /> {key}
-                        </Link>
-                      ) : null;
-                    })}
-                  </div>
+                  <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-3">💰 Shop Ingredients</p>
+                  <Link
+                    to={`/basket?prefill=${encodeURIComponent(recipe.ingredients.map(ing => getCompareKey(ing)).filter(Boolean).join(','))}`}
+                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-forest-800 to-forest-700 hover:from-forest-700 hover:to-forest-600 shadow-xl shadow-forest-900/10 text-white font-bold py-3 rounded-xl transition-all hover:-translate-y-0.5"
+                  >
+                    <ShoppingCart className="w-5 h-5" /> Compare Total Basket Cost
+                  </Link>
+                  <p className="text-[10px] text-gray-400 text-center mt-2 leading-tight">
+                    Automatically checks Zepto, Blinkit, and Bigbasket for the cheapest total price for this recipe.
+                  </p>
                 </div>
               </motion.div>
             </div>

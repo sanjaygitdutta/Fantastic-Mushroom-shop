@@ -123,24 +123,20 @@ const RecipeDetails = () => {
 
                         {/* Compare ingredient prices — monetization funnel */}
                         <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-6">
-                            <div className="flex items-center gap-2 text-amber-700 font-bold text-sm mb-3">
-                                <TrendingDown className="w-4 h-4" /> Compare Ingredient Prices
+                            <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center gap-2 text-amber-700 font-bold text-sm">
+                                    <TrendingDown className="w-4 h-4" /> Smart Price Compare
+                                </div>
                             </div>
-                            <p className="text-amber-800 text-xs mb-3 leading-relaxed">
-                                Find the cheapest price for these ingredients across Blinkit, Zepto, BigBasket &amp; more:
+                            <p className="text-amber-800 text-xs mb-4 leading-relaxed">
+                                Find the cheapest total cost for this entire recipe across Blinkit, Zepto, BigBasket &amp; Amazon Fresh:
                             </p>
-                            <div className="flex flex-col gap-2">
-                                {recipe.ingredients.slice(0, 5).map((ing) => (
-                                    <Link
-                                        key={ing.item}
-                                        to={`/food/${encodeURIComponent(ing.item.toLowerCase())}`}
-                                        className="text-xs text-amber-700 hover:text-amber-900 font-medium flex items-center justify-between bg-white border border-amber-100 rounded-lg px-3 py-2 hover:border-amber-300 transition-all"
-                                    >
-                                        <span>Compare {ing.item} price</span>
-                                        <ArrowRight className="w-3 h-3" />
-                                    </Link>
-                                ))}
-                            </div>
+                            <Link
+                                to={`/basket?prefill=${encodeURIComponent(recipe.ingredients.map(ing => ing.item).join(','))}`}
+                                className="w-full bg-forest-800 hover:bg-forest-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-transform hover:-translate-y-0.5 shadow-lg shadow-forest-900/20"
+                            >
+                                <ShoppingCart className="w-5 h-5" /> Compare Total Basket Cost
+                            </Link>
                         </div>
 
                         {relatedProducts.length > 0 && (
