@@ -156,7 +156,8 @@ const callGemini = () => new Promise((resolve, reject) => {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { 
       temperature: 0.4, 
-      maxOutputTokens: 3000
+      maxOutputTokens: 3000,
+      responseMimeType: "application/json"
     },
   });
 
