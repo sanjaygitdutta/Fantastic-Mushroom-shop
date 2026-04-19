@@ -4,7 +4,7 @@ import { TwitterApi } from 'twitter-api-v2';
 
 // Ensure working from correct directory
 const __dirname = path.resolve();
-const recipesPath = path.join(__dirname, 'src', 'data', 'worldRecipes.ts');
+const recipesPath = path.join(__dirname, 'src', 'data', 'recipes.ts');
 
 const TWITTER_BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
 const TWITTER_APP_KEY = process.env.TWITTER_APP_KEY;
@@ -27,17 +27,17 @@ async function postToTwitter() {
     // Because we just appended it, let's extract all the `id: '...', title: '...'` using regex to find the last one.
     
     const idMatches = [...content.matchAll(/id:\s*'([^']+)'/g)];
-    const nameMatches = [...content.matchAll(/name:\s*'([^']+)'/g)];
+    const titleMatches = [...content.matchAll(/title:\s*'([^']+)'/g)];
     const countryMatches = [...content.matchAll(/country:\s*'([^']+)'/g)];
     const emojiMatches = [...content.matchAll(/emoji:\s*'([^']+)'/g)];
     
-    if (idMatches.length === 0 || nameMatches.length === 0) {
+    if (idMatches.length === 0 || titleMatches.length === 0) {
       throw new Error("Could not parse latest recipe from file");
     }
 
     // Get the last matched recipe
     const latestId = idMatches[idMatches.length - 1][1];
-    const latestTitle = nameMatches[nameMatches.length - 1][1];
+    const latestTitle = titleMatches[titleMatches.length - 1][1];
     const latestCountry = countryMatches.length >= idMatches.length ? countryMatches[idMatches.length - 1][1] : '';
     const latestEmoji = emojiMatches.length >= idMatches.length ? emojiMatches[idMatches.length - 1][1] : '👨‍🍳';
 

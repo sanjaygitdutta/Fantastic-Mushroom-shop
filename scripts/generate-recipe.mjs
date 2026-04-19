@@ -209,7 +209,7 @@ try {
   const recipe = await callGemini();
 
   // Validate
-  const required = ['title', 'description', 'prepTime', 'cookTime', 'difficulty', 'servings', 'ingredients', 'instructions', 'tags'];
+  const required = ['title', 'description', 'prepTime', 'cookTime', 'difficulty', 'servings', 'ingredients', 'instructions'];
   for (const field of required) {
     if (recipe[field] === undefined || recipe[field] === null) {
       throw new Error(`Missing required field: "${field}"`);
@@ -217,6 +217,9 @@ try {
   }
   if (!['Easy', 'Medium', 'Hard'].includes(recipe.difficulty)) {
     recipe.difficulty = 'Medium'; // safe fallback
+  }
+  if (!recipe.tags || !Array.isArray(recipe.tags)) {
+    recipe.tags = [selectedCuisine.cuisine, 'Dinner']; // safe fallback
   }
 
   const esc = (s) => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
