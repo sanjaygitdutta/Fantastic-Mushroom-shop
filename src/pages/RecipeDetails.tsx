@@ -41,8 +41,8 @@ const RecipeDetails = () => {
         keywords: `${recipe.title}, mushroom recipe, ${recipe.tags.join(', ')}`,
         aggregateRating: {
             '@type': 'AggregateRating',
-            ratingValue: '4.9',
-            ratingCount: '158',
+            ratingValue: 4.9,
+            ratingCount: 158,
         },
         recipeIngredient: recipe.ingredients.map(i => `${i.amount} ${i.item}`),
         recipeInstructions: recipe.instructions.map((step, i) => ({

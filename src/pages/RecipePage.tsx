@@ -70,7 +70,7 @@ export default function RecipePage() {
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.8',
-      ratingCount: (recipe.id.charCodeAt(0) + recipe.id.charCodeAt(1) + 24).toString(),
+      ratingCount: recipe.id.charCodeAt(0) + recipe.id.charCodeAt(1) + 24,
     },
     nutrition: {
       '@type': 'NutritionInformation',
