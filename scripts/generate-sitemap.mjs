@@ -224,10 +224,19 @@ const aiRecipeXmlGenerations = recipeMatches.map(m => {
   return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>\n`;
 }).join('');
 
+// Generate XML blocks for AI Blogs (src/data/blogPosts.ts)
+const blogsContent = fs.readFileSync(path.resolve('./src/data/blogPosts.ts'), 'utf-8');
+const blogMatches = [...blogsContent.matchAll(/slug:\s*'([^']+)'/g)];
+const blogXmlGenerations = blogMatches.map(m => {
+  const url = `https://www.fantasticfood.in/blog/${m[1]}`;
+  if (existingSitemap.includes(url)) return '';
+  return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
+}).join('');
+
 // Insert into sitemap
 const updatedSitemap = existingSitemap.replace(
   injectionPoint,
-  `\n  <!-- ── PROGRAMMATIC SEO PAGES (Cities + Food + AI Recipes) ── -->\n${cityXmlGenerations}${xmlGenerations}${aiRecipeXmlGenerations}${injectionPoint}`
+  `\n  <!-- ── PROGRAMMATIC SEO PAGES (Cities + Food + AI Recipes + Blogs) ── -->\n${cityXmlGenerations}${xmlGenerations}${aiRecipeXmlGenerations}${blogXmlGenerations}${injectionPoint}`
 );
 
 fs.writeFileSync(sitemapPath, updatedSitemap);
