@@ -77,6 +77,7 @@ const Footer = () => {
                             <li><Link to="/mushroom-shop" className="text-forest-400 hover:text-amber-400 transition-colors">Mushroom Shop</Link></li>
                             <li><Link to="/about" className="text-forest-400 hover:text-amber-400 transition-colors">About Us</Link></li>
                             <li><Link to="/recipes" className="text-forest-400 hover:text-amber-400 transition-colors">Fungi Kitchen</Link></li>
+                            <li><Link to="/blog" className="text-forest-400 hover:text-amber-400 transition-colors">Blog & Deals 📰</Link></li>
                             <li><Link to="/directory" className="text-forest-400 hover:text-amber-400 transition-colors">HTML Sitemap</Link></li>
                             <li><Link to="/faq" className="text-forest-400 hover:text-amber-400 transition-colors">FAQ & Support</Link></li>
                         </ul>
