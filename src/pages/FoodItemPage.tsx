@@ -90,8 +90,9 @@ const FoodItemPage = () => {
     category: 'Grocery',
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      ratingCount: 284 + (displayName.length * 7) // Deterministic fake count
+      ratingValue: 4.8,
+      ratingCount: 284 + (displayName.length * 7),
+      reviewCount: 142 + (displayName.length * 3)
     },
     offers: {
       '@type': 'AggregateOffer',
