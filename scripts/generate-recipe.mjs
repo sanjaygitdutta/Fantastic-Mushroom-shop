@@ -161,7 +161,7 @@ async function callGemini() {
     }
   };
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
   
   const response = await fetch(url, {
     method: 'POST',
@@ -188,8 +188,19 @@ async function callGemini() {
     return JSON.parse(text);
   } catch (parseErr) {
     // Log the raw text before failing so we can debug future issues
-    console.error('❌ Raw Gemini output that failed to parse:');
-    console.error(text.slice(0, 500));
+    console.error('\u274c Raw Gemini output that failed to parse:');
+    console.error(text.slice(0, 800));
+
+    // Last-resort: try to extract a JSON object using regex
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      try {
+        return JSON.parse(jsonMatch[0]);
+      } catch (_) {
+        // still failed
+      }
+    }
+
     throw new Error(`JSON parse failed: ${parseErr.message}`);
   }
 }
