@@ -170,4 +170,40 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Spanish', 'Dinner', 'Non-Vegetarian']
     }
+,
+    {
+        id: '2026-04-20',
+        title: 'Pastitsio',
+        description: 'Pastitsio, often called \'Greek lasagna\', is a beloved baked pasta dish featuring layers of seasoned ground meat, tubular pasta, and a rich, creamy béchamel sauce. It\'s a comforting classic from Greece, perfect for family gatherings and special occasions.',
+        image: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&q=80&w=2070',
+        prepTime: '30 min',
+        cookTime: '45 min',
+        difficulty: 'Medium',
+        servings: 6,
+        ingredients: [
+            { item: 'Lean ground beef or lamb', amount: '500g' },
+            { item: 'Bucatini or thick macaroni', amount: '300g' },
+            { item: 'Large onion, finely chopped', amount: '1' },
+            { item: 'Garlic cloves, minced', amount: '3' },
+            { item: 'Crushed tomatoes', amount: '400g can' },
+            { item: 'Dry red wine (optional, or beef broth)', amount: '120ml' },
+            { item: 'Cinnamon stick', amount: '1' },
+            { item: 'Unsalted butter', amount: '100g' },
+            { item: 'All-purpose flour', amount: '100g' },
+            { item: 'Full-fat milk', amount: '1 liter' },
+            { item: 'Large eggs', amount: '2' },
+            { item: 'Parmesan cheese, freshly grated', amount: '100g' }
+        ],
+        instructions: [
+            'Step 1: Prepare the Meat Sauce (Ragu). Heat 2 tbsp olive oil in a large pan over medium-high heat. Sauté the chopped onion until softened, about 5 minutes. Add the minced garlic and cook for another minute until fragrant. Add the ground beef or lamb, breaking it up with a spoon, and brown thoroughly. Drain any excess fat.',
+            'Step 2: Finish the Ragu. Stir in the crushed tomatoes, red wine (if using), cinnamon stick, 1 bay leaf, 1 tsp salt, and 1/2 tsp freshly ground black pepper. Bring to a simmer, then reduce heat to low, cover, and cook for at least 20 minutes, or up to 45 minutes, allowing the flavors to meld. Remove the cinnamon stick and bay leaf before assembly.',
+            'Step 3: Cook the Pasta. While the ragu simmers, cook the bucatini or macaroni in a large pot of generously salted boiling water according to package directions until al dente. Drain well. In a large bowl, toss the hot pasta with 1 beaten egg and 2 tbsp of the grated Parmesan cheese. This helps bind the pasta layer.',
+            'Step 4: Prepare the Béchamel Sauce. In a separate saucepan, melt the unsalted butter over medium heat. Whisk in the all-purpose flour and cook for 1-2 minutes, stirring constantly, to create a roux. Gradually whisk in the full-fat milk, a little at a time, ensuring no lumps form. Continue whisking until the sauce thickens to a creamy consistency, about 5-7 minutes.',
+            'Step 5: Finish the Béchamel. Remove the béchamel from the heat. Whisk in the remaining beaten egg, 50g of the grated Parmesan cheese, 1/2 tsp freshly grated nutmeg, 1/2 tsp salt, and 1/4 tsp black pepper. Stir until smooth and well combined.',
+            'Step 6: Assemble the Pastitsio. Preheat your oven to 180°C (350°F). Lightly grease a 9x13 inch (23x33 cm) baking dish. Spread the prepared pasta evenly over the bottom of the dish. Top with the meat sauce, spreading it out evenly over the pasta layer.',
+            'Step 7: Top and Bake. Pour the creamy béchamel sauce evenly over the meat layer, ensuring it covers the entire surface. Sprinkle the remaining 48g of grated Parmesan cheese over the béchamel. Bake for 35-45 minutes, or until the top is golden brown and bubbly.',
+            'Step 8: Rest and Serve. Remove the Pastitsio from the oven and let it rest for at least 15-20 minutes before slicing and serving. This allows the layers to set, making for cleaner cuts and a more enjoyable texture.'
+        ],
+        tags: ['Greek', 'Dinner', 'Non-Vegetarian']
+    }
 ];
