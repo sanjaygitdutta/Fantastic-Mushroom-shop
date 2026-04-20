@@ -33,7 +33,10 @@ const today = new Date().toISOString().split('T')[0];
 const __dirname = path.resolve();
 const blogPath = path.join(__dirname, 'src', 'data', 'blogPosts.ts');
 
-async function callGemini() {
+async function callGemini(retryCount = 0) {
+  const MAX_RETRIES = 3;
+  const RETRY_DELAYS_MS = [5000, 15000, 45000];
+
   const prompt = `You are a professional SEO writer and market analyst for 'Fantastic Food', a modern Indian grocery price comparison platform.
   
 Write an engaging, SEO-optimized blog post about: "${selectedTopic}".
@@ -51,11 +54,12 @@ Respond ONLY with valid JSON using this exact structure (no markdown fences, no 
   "description": "A 2-sentence meta description optimized for Google search results.",
   "content": "The full markdown content",
   "tags": ["SEO Tag 1", "SEO Tag 2"]
-}`;
+}
+CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double quotes. No trailing commas.`;
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { temperature: 0.7, topK: 40, topP: 0.95 }
+    generationConfig: { temperature: 0.7, topK: 40, topP: 0.95, maxOutputTokens: 4000 }
   };
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -65,6 +69,14 @@ Respond ONLY with valid JSON using this exact structure (no markdown fences, no 
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
+
+  // Handle server overload — retry with backoff
+  if ((response.status === 503 || response.status === 429) && retryCount < MAX_RETRIES) {
+    const waitMs = RETRY_DELAYS_MS[retryCount];
+    console.log(`⏳ Gemini overloaded (${response.status}). Retrying in ${waitMs / 1000}s... (attempt ${retryCount + 1}/${MAX_RETRIES})`);
+    await new Promise(r => setTimeout(r, waitMs));
+    return callGemini(retryCount + 1);
+  }
 
   if (!response.ok) {
     const errText = await response.text();
@@ -76,10 +88,17 @@ Respond ONLY with valid JSON using this exact structure (no markdown fences, no 
   
   if (!text) throw new Error("Empty response from Gemini");
 
-  text = text.replace(/^```json\s*/i, '').replace(/\s*```$/, '').trim();
+  // Sanitize before parsing
+  text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+  // Fix missing commas between properties
+  text = text.replace(/([\d\]"tfn])([ \t]*\n[ \t]*")/g, '$1,$2');
+  // Remove trailing commas
+  text = text.replace(/,(\s*[}\]])/g, '$1');
   
   return JSON.parse(text);
 }
+
+
 
 // ── Write to Data Array ───────────────────────────────────────────────────────
 async function run() {

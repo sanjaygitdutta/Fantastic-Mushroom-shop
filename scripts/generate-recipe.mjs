@@ -152,7 +152,10 @@ Strict rules:
 - CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double quotes. No single quotes anywhere. No trailing commas. No comments.`;
 
 // ── Call Gemini REST API ──────────────────────────────────────────────────
-async function callGemini() {
+async function callGemini(retryCount = 0) {
+  const MAX_RETRIES = 3;
+  const RETRY_DELAYS_MS = [5000, 15000, 45000];
+
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { 
@@ -168,6 +171,14 @@ async function callGemini() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
+
+  // Handle server overload — retry with backoff
+  if ((response.status === 503 || response.status === 429) && retryCount < MAX_RETRIES) {
+    const waitMs = RETRY_DELAYS_MS[retryCount];
+    console.log(`⏳ Gemini overloaded (${response.status}). Retrying in ${waitMs / 1000}s... (attempt ${retryCount + 1}/${MAX_RETRIES})`);
+    await new Promise(r => setTimeout(r, waitMs));
+    return callGemini(retryCount + 1);
+  }
 
   if (!response.ok) {
     const errText = await response.text();
