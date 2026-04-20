@@ -179,7 +179,19 @@ async function callGemini() {
   
   if (!text) throw new Error("Empty response from Gemini");
 
-  return JSON.parse(text.trim());
+  // Strip markdown code fences if Gemini wraps the JSON in ```json ... ```
+  text = text.trim();
+  text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+
+  // Attempt to parse, with detailed error reporting
+  try {
+    return JSON.parse(text);
+  } catch (parseErr) {
+    // Log the raw text before failing so we can debug future issues
+    console.error('❌ Raw Gemini output that failed to parse:');
+    console.error(text.slice(0, 500));
+    throw new Error(`JSON parse failed: ${parseErr.message}`);
+  }
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────
@@ -214,7 +226,14 @@ try {
     recipe.tags = [selectedCuisine.cuisine, 'Dinner']; // safe fallback
   }
 
-  const esc = (s) => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  // Escape all characters that could break a TypeScript single-quoted string
+  const esc = (s) => String(s)
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")           // single quotes
+    .replace(/\r/g, '')              // carriage returns
+    .replace(/\n/g, ' ')             // actual newlines → space
+    .replace(/\t/g, ' ')             // tabs → space
+    .trim();
 
   const recipeTs = `    {
         id: '${today}',
