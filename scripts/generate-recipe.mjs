@@ -180,20 +180,36 @@ async function callGemini() {
   
   if (!text) throw new Error("Empty response from Gemini");
 
-  // Strip markdown code fences if Gemini wraps the JSON in ```json ... ```
-  text = text.trim();
-  text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+  // ── Sanitize the raw text before JSON.parse ─────────────────────────────
+  function sanitizeJson(raw) {
+    let t = raw.trim();
+
+    // 1. Strip markdown code fences  e.g.  ```json ... ```
+    t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+
+    // 2. Add missing commas between properties.
+    //    Gemini sometimes omits the comma after a number before the next key.
+    //    Pattern: a digit (or ] or } or " closing value) followed by a newline then a new key.
+    t = t.replace(/([\d\]"tfn])([ \t]*\n[ \t]*")/g, '$1,$2');
+
+    // 3. Remove trailing commas before } or ] (the reverse mistake)
+    t = t.replace(/,(\s*[}\]])/g, '$1');
+
+    return t;
+  }
+
+  const sanitized = sanitizeJson(text);
 
   // Attempt to parse, with detailed error reporting
   try {
-    return JSON.parse(text);
+    return JSON.parse(sanitized);
   } catch (parseErr) {
     // Log the raw text before failing so we can debug future issues
     console.error('\u274c Raw Gemini output that failed to parse:');
     console.error(text.slice(0, 800));
 
     // Last-resort: try to extract a JSON object using regex
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const jsonMatch = sanitized.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       try {
         return JSON.parse(jsonMatch[0]);
