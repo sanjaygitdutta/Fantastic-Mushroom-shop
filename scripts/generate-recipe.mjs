@@ -148,20 +148,21 @@ Strict rules:
 - servings as a plain number (not a string)
 - prepTime and cookTime as "XX min" strings
 - Make it truly authentic to ${selectedCuisine.country}'s culinary tradition
-- Use ingredients that are commonly available in India`;
+- Use ingredients that are commonly available in India
+- CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double quotes. No single quotes anywhere. No trailing commas. No comments.`;
 
 // ── Call Gemini REST API ──────────────────────────────────────────────────
 async function callGemini() {
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { 
-      temperature: 0.4, 
+      temperature: 0, 
       maxOutputTokens: 3000,
       responseMimeType: "application/json"
     }
   };
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${GEMINI_API_KEY}`;
   
   const response = await fetch(url, {
     method: 'POST',
