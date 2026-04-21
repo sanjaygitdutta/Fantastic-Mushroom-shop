@@ -206,4 +206,38 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Greek', 'Dinner', 'Non-Vegetarian']
     }
+,
+    {
+        id: '2026-04-21',
+        title: 'Merguez Sausages',
+        description: 'These vibrant, spicy lamb sausages are a cornerstone of Moroccan cuisine, bursting with aromatic spices and a fiery kick. Traditionally grilled or pan-fried, they offer a taste of North African culinary heritage in every succulent bite.',
+        image: 'https://images.unsplash.com/photo-1604152135912-04a022e23696?auto=format&fit=crop&q=80&w=2070',
+        prepTime: '30 min',
+        cookTime: '20 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Boneless Lamb Shoulder', amount: '500g (finely minced or ground)' },
+            { item: 'Lamb Fat (or Beef Fat)', amount: '100g (finely minced or ground)' },
+            { item: 'Garlic Cloves', amount: '4 (large, minced)' },
+            { item: 'Kashmiri Red Chili Powder', amount: '2 tbsp' },
+            { item: 'Cumin Powder', amount: '1.5 tsp' },
+            { item: 'Coriander Powder', amount: '1 tsp' },
+            { item: 'Hot Red Chili Powder (or Cayenne)', amount: '1 tsp (adjust to taste)' },
+            { item: 'Salt', amount: '1.5 tsp (or to taste)' },
+            { item: 'Black Pepper', amount: '0.5 tsp (freshly ground)' },
+            { item: 'Cold Water', amount: '2-3 tbsp' },
+            { item: 'Natural Lamb Casings', amount: '2 meters (soaked and rinsed, optional)' }
+        ],
+        instructions: [
+            'Step 1: Prepare the Meat: If not already minced, finely mince the boneless lamb shoulder and lamb fat together. For best texture, use a meat grinder with a medium die, or finely chop by hand.',
+            'Step 2: Combine Spices: In a large bowl, combine the minced lamb and fat with minced garlic, Kashmiri red chili powder, cumin powder, coriander powder, hot red chili powder, salt, and black pepper.',
+            'Step 3: Mix Thoroughly: Add the cold water and mix vigorously by hand for 5-7 minutes until the mixture becomes sticky and well-emulsified. This develops the protein and ensures a good texture.',
+            'Step 4: Rest the Mixture: Cover the bowl and refrigerate the mixture for at least 2 hours, or preferably overnight. This allows the flavors to meld and the meat to firm up.',
+            'Step 5: Stuff the Casings (Optional): If using casings, rinse them thoroughly and thread onto a sausage stuffer. Carefully stuff the lamb mixture into the casings, ensuring no air pockets. Twist or tie into 10-12 cm links. If not using casings, form the mixture into small, thick patties.',
+            'Step 6: Cook the Sausages: Heat a grill pan or heavy-bottomed skillet over medium heat. Lightly oil the pan. Cook the Merguez sausages (or patties) for 8-12 minutes, turning occasionally, until beautifully browned on all sides and cooked through.',
+            'Step 7: Serve: Serve the hot Merguez sausages immediately with crusty bread, a fresh salad, or a dollop of harissa on the side.'
+        ],
+        tags: ['Moroccan', 'Dinner', 'Non-Vegetarian']
+    }
 ];
