@@ -240,4 +240,38 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Moroccan', 'Dinner', 'Non-Vegetarian']
     }
+,
+    {
+        id: '2026-04-22',
+        title: 'Bulgogi',
+        description: 'A quintessential Korean dish, Bulgogi, meaning "fire meat," features thinly sliced marinated beef grilled or pan-fried to tender perfection. Its sweet and savory flavors, often with a hint of fruit, make it a beloved staple of Korean cuisine.',
+        image: 'https://images.unsplash.com/photo-1593826904040-3b79e96a5d8f?auto=format&fit=crop&q=80&w=2070',
+        prepTime: '25 min',
+        cookTime: '15 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Beef Sirloin or Ribeye, thinly sliced against the grain', amount: '500g' },
+            { item: 'Soy Sauce', amount: '1/2 cup' },
+            { item: 'Brown Sugar', amount: '2 tablespoons' },
+            { item: 'Sesame Oil', amount: '2 tablespoons' },
+            { item: 'Garlic, minced', amount: '5 cloves' },
+            { item: 'Ginger, grated', amount: '1 tablespoon' },
+            { item: 'Pear (Bosc or Anjou), grated', amount: '1/2 medium' },
+            { item: 'Yellow Onion, thinly sliced', amount: '1/2 medium' },
+            { item: 'Green Onions, chopped', amount: '3 stalks' },
+            { item: 'Black Pepper, freshly ground', amount: '1/2 teaspoon' },
+            { item: 'Toasted Sesame Seeds', amount: '1 teaspoon' }
+        ],
+        instructions: [
+            'Step 1: Prepare the beef by slicing it very thinly against the grain. For easier slicing, you can partially freeze the beef for about 30 minutes before cutting.',
+            'Step 2: In a large mixing bowl, combine the soy sauce, brown sugar, sesame oil, minced garlic, grated ginger, grated pear, and freshly ground black pepper. Whisk thoroughly until the sugar is dissolved.',
+            'Step 3: Add the thinly sliced beef, sliced yellow onion, and half of the chopped green onions to the marinade. Mix everything well with your hands to ensure every piece of beef is coated. Cover the bowl and refrigerate for at least 1 hour, or preferably 4 hours to overnight for deeper flavor.',
+            'Step 4: Heat a large skillet, cast-iron pan, or grill pan over medium-high heat. A tiny bit of oil can be added if your pan is not non-stick, though the fat from the beef usually suffices.',
+            'Step 5: Add the marinated beef to the hot pan in a single layer, working in batches if necessary to avoid overcrowding. Overcrowding will steam the meat instead of searing it.',
+            'Step 6: Cook the bulgogi for 2-3 minutes per side, until it is beautifully caramelized, tender, and cooked through. Be careful not to overcook, as this can make the beef tough.',
+            'Step 7: Transfer the cooked bulgogi to a serving platter. Garnish generously with the remaining chopped green onions and toasted sesame seeds. Serve immediately with warm steamed rice and your favorite Korean banchan.'
+        ],
+        tags: ['Korean', 'Dinner', 'Non-Vegetarian']
+    }
 ];
