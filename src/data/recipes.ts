@@ -274,4 +274,40 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Korean', 'Dinner', 'Non-Vegetarian']
     }
+,
+    {
+        id: '2026-04-23',
+        title: 'Com Tam (Broken Rice)',
+        description: 'Com Tam is a beloved Vietnamese street food, a vibrant symphony of textures and flavors centered around delicate broken rice. This iconic dish typically features grilled pork, a savory egg meatloaf, and a fried egg, all brought together by a tangy-sweet nuoc cham dipping sauce.',
+        image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=2069',
+        prepTime: '25 min',
+        cookTime: '40 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Broken rice (or short-grain rice)', amount: '500g' },
+            { item: 'Pork shoulder or belly, thinly sliced', amount: '500g' },
+            { item: 'Fish sauce (nuoc mam)', amount: '100ml' },
+            { item: 'Granulated sugar', amount: '50g' },
+            { item: 'Garlic, minced', amount: '6 cloves' },
+            { item: 'Shallots, minced', amount: '2 medium' },
+            { item: 'Lemongrass, finely chopped', amount: '2 stalks' },
+            { item: 'Large eggs', amount: '6' },
+            { item: 'Ground pork', amount: '200g' },
+            { item: 'Dried wood ear mushrooms', amount: '10g' },
+            { item: 'Glass noodles (vermicelli)', amount: '20g' },
+            { item: 'White vinegar', amount: '50ml' }
+        ],
+        instructions: [
+            'Step 1: Prepare the Grilled Pork (Suon Nuong). Slice pork thinly. Marinate with 2 tbsp fish sauce, 1 tbsp sugar, 3 minced garlic cloves, 1 minced shallot, and 1 tbsp finely chopped lemongrass. Mix well and refrigerate for at least 30 minutes, or preferably 2-3 hours.',
+            'Step 2: Make Nuoc Cham (Dipping Sauce). In a bowl, combine 4 tbsp fish sauce, 3 tbsp sugar, 50ml white vinegar, the juice of 1 lime, and 100ml warm water. Add 3 minced garlic cloves and finely chopped bird\'s eye chili (if desired). Stir until the sugar completely dissolves.',
+            'Step 3: Prepare Cha Trung (Steamed Egg Meatloaf). Soak wood ear mushrooms and glass noodles in warm water until soft. Drain and chop finely. In a bowl, combine ground pork, chopped mushrooms, chopped noodles, 2 eggs, 1 tbsp fish sauce, 1 tsp sugar, and a pinch of black pepper. Mix thoroughly. Steam in a greased heatproof dish for 20-25 minutes until firm and cooked through. Let cool slightly, then slice into serving pieces.',
+            'Step 4: Cook the Broken Rice. Rinse the broken rice thoroughly under cold water until the water runs clear. Cook in a rice cooker or pot with a 1:1 water-to-rice ratio (e.g., 500g rice to 500ml water). Once cooked, let it steam for an additional 10-15 minutes to ensure a fluffy texture.',
+            'Step 5: Grill the Pork. Preheat a grill or grill pan to medium-high heat. Grill the marinated pork slices for 3-4 minutes per side, or until beautifully caramelized, tender, and cooked through.',
+            'Step 6: Fry the Eggs. Heat a little vegetable oil in a non-stick pan over medium heat. Fry 4 eggs sunny-side up, ensuring the yolks remain runny for a classic Com Tam presentation.',
+            'Step 7: Assemble the Dish. On each plate, serve a generous portion of the broken rice. Arrange the grilled pork slices, a piece of the steamed egg meatloaf, and a fried egg on top. Garnish with fresh slices of cucumber and tomato.',
+            'Step 8: Serve. Drizzle a spoonful of the prepared Nuoc Cham over the entire dish or serve it on the side for individual dipping. Enjoy this authentic Vietnamese classic immediately.'
+        ],
+        tags: ['Vietnamese', 'Dinner', 'Non-Vegetarian']
+    }
 ];
