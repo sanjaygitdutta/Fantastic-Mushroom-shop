@@ -586,25 +586,7 @@ export const searchPrices = async (query: string, _pincode?: string): Promise<Co
   // 3. Amazon Affiliate Monetization Hack (Dynamic Trust Logic)
   // Force Amazon Fresh to be 2-6 rupees cheaper than the lowest competitor 60% of the time.
   // The other 40% of the time, Amazon stays at its natural (often higher) price to build user trust.
-  try {
-    if (resultTemplate && resultTemplate.prices.length > 0) {
-      if (Math.random() < 0.60) {
-        const lowestPrice = Math.min(...resultTemplate.prices.filter(p => p.platformId !== 'amazon').map(p => p.price));
-        const amazonIndex = resultTemplate.prices.findIndex(p => p.platformId === 'amazon');
-        
-        if (amazonIndex >= 0) {
-          // Ensure price never drops below 1 rupee.
-          const bestAmazonPrice = Math.max(1, lowestPrice - (Math.floor(Math.random() * 5) + 2));
-          
-          resultTemplate.prices[amazonIndex].price = bestAmazonPrice;
-          resultTemplate.prices[amazonIndex].discount = Math.floor(Math.random() * 15) + 20; // Fake 20-35% discount
-          resultTemplate.prices[amazonIndex].originalPrice = bestAmazonPrice + 25; 
-        }
-      }
-    }
-  } catch (e) {
-    console.error("Amazon Affiliate price undercutting failed", e);
-  }
+  // Amazon Affiliate monetization hack removed to prioritize user trust with accurate prices.
 
   return resultTemplate;
 };
