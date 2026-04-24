@@ -80,11 +80,11 @@ const FoodItemPage = () => {
   // Auto-updating date — refreshes every page load
   const todayLabel = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); // "24 Apr 2026"
 
-  // Build the title: "🍅 Tomato ₹25 on Blinkit vs ₹32 on Zepto — 7 Apps | 24 Apr 2026"
+  // Build the title: "🍅 Tomato ₹25 on Blinkit vs ₹32 on Zepto — 7 Apps | Today Real Price"
   const seoTitle = lowestPrice > 0 && secondPrice > 0
-    ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — 7 Apps | ${todayLabel}`
+    ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — 7 Apps | Today Real Price`
     : lowestPrice > 0
-      ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} — Compare 7 Apps | ${todayLabel}`
+      ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} — Compare 7 Apps | Today Real Price`
       : `${displayName} Price Today ${todayLabel} — Compare Blinkit, Zepto, BigBasket & More`;
 
   const seoDesc = lowestPrice > 0 && secondPrice > 0
