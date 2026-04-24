@@ -1,6 +1,7 @@
 const { chromium } = require('playwright');
 const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config({ path: '../.env' }); // Re-use the frontend .env
+require('dotenv').config({ path: '../.env.local' }); // Try local first
+require('dotenv').config({ path: '../.env' }); // Fallback
 
 // Connect to your Fantastic Food Supabase
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
@@ -28,86 +29,100 @@ const CORE_ITEMS = [
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 async function scrapePrices() {
-  console.log("🚀 Starting Daily Price Automated Scrape...");
+  console.log("🚀 Starting Daily Price Automated Scrape (REAL LIVE DATA)...");
   
   const browser = await chromium.launch({ headless: true });
   // Add plausible user agent to prevent instant blocking
   const context = await browser.newContext({
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    viewport: { width: 1280, height: 720 }
   });
   
   const page = await context.newPage();
+  // Block images to speed up scraping
+  await page.route('**/*.{png,jpg,jpeg,webp,gif}', route => route.abort());
   
   for (const item of CORE_ITEMS) {
     console.log(`\n🔍 Scraping item: ${item.query}`);
     let scrapedData = [];
 
-    // 1. Scrape Blinkit (Mock implementation of DOM parsing for robust automation testing)
+    // 1. Scrape Blinkit
     try {
       console.log(` -> Visiting Blinkit for ${item.query}`);
-      // In a real production scenario, you would navigate to the exact search URL:
-      // await page.goto(`https://blinkit.com/s/?q=${item.query}`);
-      // await page.waitForSelector('.ProductList__ProductContainer-sc', { timeout: 5000 });
-      // const priceText = await page.locator('.ProductPrice__Price-sc').first().innerText();
+      await page.goto(`https://blinkit.com/s/?q=${item.query}`, { waitUntil: 'domcontentloaded', timeout: 15000 });
+      // Wait for at least one element with '₹'
+      await page.waitForSelector('text="₹"', { timeout: 10000 });
       
-      // Simulate network request + scrape for the prototype
-      await delay(1000); 
-      
-      // We will generate a realistic dynamic price based on the item type 
-      let basePrice = item.query === 'onion' ? 35 : item.query === 'milk' ? 33 : 50;
-      let fluctuatingPrice = basePrice + Math.floor(Math.random() * 10);
-      
-      scrapedData.push({
-        item_name: item.query,
-        canonical_name: item.targetName,
-        platform_id: 'blinkit',
-        price: fluctuatingPrice,
-        in_stock: true
+      const priceText = await page.evaluate(() => {
+        // Find the first element containing a price like "₹35"
+        const elements = Array.from(document.querySelectorAll('*'));
+        const priceRegex = /₹\s*(\d+)/;
+        for (const el of elements) {
+           if (el.children.length === 0 && priceRegex.test(el.textContent)) {
+              return el.textContent;
+           }
+        }
+        return null;
       });
-      console.log(`   ✅ Blinkit Price: ₹${fluctuatingPrice}`);
+
+      if (priceText) {
+         const match = priceText.match(/₹\s*(\d+)/);
+         if (match) {
+            const price = parseInt(match[1]);
+            scrapedData.push({
+              item_name: item.query,
+              canonical_name: item.targetName,
+              platform_id: 'blinkit',
+              price: price,
+              in_stock: true
+            });
+            console.log(`   ✅ Blinkit Price: ₹${price}`);
+         }
+      } else {
+         throw new Error("Could not find price text on Blinkit");
+      }
     } catch (e) {
-      console.error(`   ❌ Failed to scrape Blinkit for ${item.query}`);
+      console.error(`   ❌ Failed to scrape Blinkit for ${item.query} - ${e.message}`);
     }
 
     // 2. Scrape Zepto
     try {
       console.log(` -> Visiting Zepto for ${item.query}`);
-      await delay(1000); // Simulate Zepto network
-      let basePrice = item.query === 'onion' ? 38 : item.query === 'milk' ? 34 : 48;
-      let fluctuatingPrice = basePrice + Math.floor(Math.random() * 8);
+      await page.goto(`https://www.zeptonow.com/search?query=${item.query}`, { waitUntil: 'domcontentloaded', timeout: 15000 });
+      await page.waitForSelector('text="₹"', { timeout: 10000 });
       
-      scrapedData.push({
-        item_name: item.query,
-        canonical_name: item.targetName,
-        platform_id: 'zepto',
-        price: fluctuatingPrice,
-        in_stock: true
+      const priceText = await page.evaluate(() => {
+        const elements = Array.from(document.querySelectorAll('*'));
+        const priceRegex = /₹\s*(\d+)/;
+        for (const el of elements) {
+           if (el.children.length === 0 && priceRegex.test(el.textContent)) {
+              return el.textContent;
+           }
+        }
+        return null;
       });
-      console.log(`   ✅ Zepto Price: ₹${fluctuatingPrice}`);
+
+      if (priceText) {
+         const match = priceText.match(/₹\s*(\d+)/);
+         if (match) {
+            const price = parseInt(match[1]);
+            scrapedData.push({
+              item_name: item.query,
+              canonical_name: item.targetName,
+              platform_id: 'zepto',
+              price: price,
+              in_stock: true
+            });
+            console.log(`   ✅ Zepto Price: ₹${price}`);
+         }
+      } else {
+         throw new Error("Could not find price text on Zepto");
+      }
     } catch (e) {
-      console.error(`   ❌ Failed to scrape Zepto for ${item.query}`);
+      console.error(`   ❌ Failed to scrape Zepto for ${item.query} - ${e.message}`);
     }
 
-    // 3. Scrape Swiggy Instamart
-    try {
-      console.log(` -> Visiting Swiggy for ${item.query}`);
-      await delay(800);
-      let basePrice = item.query === 'onion' ? 33 : item.query === 'milk' ? 32 : 55;
-      let fluctuatingPrice = basePrice + Math.floor(Math.random() * 15);
-      
-      scrapedData.push({
-        item_name: item.query,
-        canonical_name: item.targetName,
-        platform_id: 'swiggy',
-        price: fluctuatingPrice,
-        in_stock: true
-      });
-      console.log(`   ✅ Swiggy Price: ₹${fluctuatingPrice}`);
-    } catch (e) {
-      console.error(`   ❌ Failed to scrape Swiggy for ${item.query}`);
-    }
-
-    // 4. Upsert to Supabase
+    // 3. Upsert to Supabase
     if (scrapedData.length > 0) {
       // First, delete old entries for this item
       await supabase.from('live_prices').delete().eq('item_name', item.query);
