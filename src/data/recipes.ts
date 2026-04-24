@@ -310,4 +310,37 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Vietnamese', 'Dinner', 'Non-Vegetarian']
     }
+,
+    {
+        id: '2026-04-24',
+        title: 'New England Lobster Roll',
+        description: 'The New England Lobster Roll is a quintessential American summer delight, featuring succulent lobster meat lightly dressed and nestled in a butter-toasted bun. This iconic dish celebrates the pristine flavors of the Atlantic, offering a taste of coastal luxury in every bite.',
+        image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&q=80&w=2072',
+        prepTime: '20 min',
+        cookTime: '20 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Cooked lobster meat', amount: '450g (from 2 x 500-600g lobsters)' },
+            { item: 'Mayonnaise', amount: '1/2 cup (120ml)' },
+            { item: 'Celery', amount: '2 stalks, finely diced' },
+            { item: 'Fresh lemon juice', amount: '1 tbsp (15ml)' },
+            { item: 'Fresh chives', amount: '2 tbsp, finely chopped (or fresh parsley)' },
+            { item: 'Unsalted butter', amount: '4 tbsp (60g), melted' },
+            { item: 'Hot dog buns (top-split preferred)', amount: '4' },
+            { item: 'Salt', amount: '1/2 tsp (or to taste)' },
+            { item: 'Black pepper', amount: '1/4 tsp (freshly ground, or to taste)' },
+            { item: 'Paprika (for garnish, optional)', amount: 'Pinch' }
+        ],
+        instructions: [
+            'Step 1: If using live lobsters, bring a large pot of heavily salted water to a rolling boil. Carefully add the lobsters, headfirst, and boil for 10-12 minutes for 500-600g lobsters, or until bright red. Remove and plunge into an ice bath to stop cooking.',
+            'Step 2: Once the lobsters are cooled, twist off the claws and tail. Crack open the claws and knuckles to extract the meat. Split the tail lengthwise and remove the dark vein, then extract the tail meat. Roughly chop the lobster meat into bite-sized pieces.',
+            'Step 3: In a medium bowl, combine the mayonnaise, finely diced celery, fresh lemon juice, chopped chives (or parsley), salt, and black pepper. Mix well until thoroughly combined.',
+            'Step 4: Gently fold the chopped lobster meat into the mayonnaise mixture. Be careful not to overmix, as you want to preserve the delicate texture of the lobster. Taste and adjust seasoning if necessary.',
+            'Step 5: Heat a large skillet or griddle over medium heat. Brush the outsides of the hot dog buns generously with melted butter. Place the buttered sides down on the skillet and toast for 2-3 minutes per side, or until golden brown and crisp.',
+            'Step 6: Carefully open each toasted bun and fill generously with the prepared lobster salad.',
+            'Step 7: Serve immediately, perhaps with a sprinkle of paprika or an extra chive sprig for garnish, alongside potato chips or a simple green salad for a complete New England experience.'
+        ],
+        tags: ['American', 'Dinner', 'Non-Vegetarian']
+    }
 ];
