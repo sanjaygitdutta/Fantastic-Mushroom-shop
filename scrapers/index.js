@@ -14,15 +14,51 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// The Core Items to scrape daily to maintain accurate pricing
+// The Core Items to scrape daily to maintain accurate pricing and capture long-tail SEO traffic
 const CORE_ITEMS = [
+  // Everyday Staples
   { query: 'onion', targetName: 'Fresh Onion' },
   { query: 'tomato', targetName: 'Fresh Tomato' },
+  { query: 'potato', targetName: 'Fresh Potato' },
   { query: 'milk', targetName: 'Full Cream Milk' },
   { query: 'eggs', targetName: 'Farm Fresh Eggs (6 pcs)' },
-  { query: 'potato', targetName: 'Fresh Potato' },
   { query: 'bread', targetName: 'Whole Wheat Bread' },
-  { query: 'rice', targetName: 'Basmati Rice (1kg)' }
+  
+  // High-Volume Branded Items
+  { query: 'nandini ghee', targetName: 'Nandini Pure Cow Ghee' },
+  { query: 'amul butter', targetName: 'Amul Butter (Salted)' },
+  { query: 'maggi', targetName: 'Maggi 2-Minute Noodles' },
+  { query: 'aashirvaad atta', targetName: 'Aashirvaad Whole Wheat Atta' },
+  { query: 'tata salt', targetName: 'Tata Salt' },
+  { query: 'tata sampann toor dal', targetName: 'Tata Sampann Toor Dal' },
+  { query: 'fortune sunflower oil', targetName: 'Fortune Sunflower Oil' },
+  { query: 'surf excel', targetName: 'Surf Excel Matic' },
+  { query: 'brittania butter', targetName: 'Britannia Butter' },
+  
+  // Spices & Condiments
+  { query: 'turmeric powder', targetName: 'Turmeric (Haldi) Powder' },
+  { query: 'red chilli powder', targetName: 'Red Chilli Powder' },
+  { query: 'cumin seeds', targetName: 'Cumin (Jeera) Seeds' },
+  { query: 'garam masala', targetName: 'Garam Masala' },
+  { query: 'ginger garlic paste', targetName: 'Ginger Garlic Paste' },
+  { query: 'mustard oil', targetName: 'Mustard Oil (Sarson)' },
+  
+  // Exotic Fruits & Premium Veggies
+  { query: 'avocado', targetName: 'Fresh Avocado' },
+  { query: 'kiwi', targetName: 'Green Kiwi' },
+  { query: 'dragon fruit', targetName: 'Dragon Fruit' },
+  { query: 'blueberries', targetName: 'Fresh Blueberries' },
+  { query: 'broccoli', targetName: 'Fresh Broccoli' },
+  { query: 'button mushroom', targetName: 'Button Mushroom' },
+  { query: 'bell pepper', targetName: 'Colored Capsicum (Bell Pepper)' },
+  
+  // Snacks & Beverages
+  { query: 'lays classic', targetName: 'Lays Classic Salted Chips' },
+  { query: 'nescafe classic', targetName: 'Nescafe Classic Coffee' },
+  { query: 'tata tea gold', targetName: 'Tata Tea Gold' },
+  { query: 'red bull', targetName: 'Red Bull Energy Drink' },
+  { query: 'coca cola', targetName: 'Coca-Cola' },
+  { query: 'popcorn', targetName: 'Act II Popcorn' }
 ];
 
 // Helper to simulate human delay and avoid basic bot detection
