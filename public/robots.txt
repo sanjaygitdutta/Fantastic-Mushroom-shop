@@ -1,13 +1,17 @@
 User-agent: *
 Allow: /
 
-# Block admin routes only — these are private
+# Block admin routes — these are private
 Disallow: /admin/
 Disallow: /admin/login
 Disallow: /admin/products
 Disallow: /admin/orders
 
-# Allow all public content pages (compare, food, city, recipe)
+# Block dynamic search-result URLs — they cause "Crawled - not indexed" errors.
+# The canonical /food/item-name pages are the proper SEO landing pages.
+Disallow: /compare?q=
+
+# Allow all public content pages
 Allow: /compare
 Allow: /food/
 Allow: /city/

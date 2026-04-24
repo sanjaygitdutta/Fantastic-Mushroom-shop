@@ -145,6 +145,12 @@ const ComparePage = () => {
 
   return (
     <div className="min-h-screen pt-20 pb-16 bg-gray-50">
+      {query && (
+        // noindex for search-result URLs (/compare?q=...) prevents Google's
+        // "Crawled - currently not indexed" errors. The canonical /food/item
+        // pages serve as the indexable SEO landing pages instead.
+        <meta name="robots" content="noindex, follow" />
+      )}
       <SEO
         title={seoTitle}
         description={seoDescription}
