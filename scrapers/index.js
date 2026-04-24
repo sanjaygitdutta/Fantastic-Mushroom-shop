@@ -16,49 +16,45 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // The Core Items to scrape daily to maintain accurate pricing and capture long-tail SEO traffic
 const CORE_ITEMS = [
-  // Everyday Staples
-  { query: 'onion', targetName: 'Fresh Onion' },
-  { query: 'tomato', targetName: 'Fresh Tomato' },
-  { query: 'potato', targetName: 'Fresh Potato' },
+  { query: 'onion', targetName: 'Onion (Red)' },
+  { query: 'tomato', targetName: 'Tomato' },
+  { query: 'potato', targetName: 'Potato' },
+  { query: 'spinach', targetName: 'Spinach (Palak)' },
+  { query: 'carrot', targetName: 'Carrot (Gajar)' },
+  { query: 'capsicum', targetName: 'Capsicum (Bell Pepper)' },
+  { query: 'cucumber', targetName: 'Cucumber (Kheera)' },
+  { query: 'ladyfinger', targetName: 'Lady Finger (Bhindi)' },
+  { query: 'brinjal', targetName: 'Brinjal (Baingan)' },
+  { query: 'mushroom', targetName: 'Button Mushroom' },
+  { query: 'banana', targetName: 'Banana' },
+  { query: 'apple', targetName: 'Apple (Shimla)' },
+  { query: 'mango', targetName: 'Mango (Alphonso)' },
+  { query: 'grapes', targetName: 'Green Grapes' },
+  { query: 'papaya', targetName: 'Papaya' },
   { query: 'milk', targetName: 'Full Cream Milk' },
-  { query: 'eggs', targetName: 'Farm Fresh Eggs (6 pcs)' },
+  { query: 'butter', targetName: 'Amul Butter' },
+  { query: 'paneer', targetName: 'Fresh Paneer' },
+  { query: 'curd', targetName: 'Fresh Curd (Dahi)' },
+  { query: 'cheese', targetName: 'Processed Cheese' },
+  { query: 'eggs', targetName: 'Farm Fresh Eggs' },
+  { query: 'chicken', targetName: 'Fresh Chicken (Boneless)' },
+  { query: 'fish', targetName: 'Rohu Fish' },
+  { query: 'prawn', targetName: 'Fresh Prawns' },
+  { query: 'rice', targetName: 'Basmati Rice' },
+  { query: 'dal', targetName: 'Toor Dal (Arhar)' },
+  { query: 'flour', targetName: 'Whole Wheat Flour (Atta)' },
   { query: 'bread', targetName: 'Whole Wheat Bread' },
-  
-  // High-Volume Branded Items
-  { query: 'nandini ghee', targetName: 'Nandini Pure Cow Ghee' },
-  { query: 'amul butter', targetName: 'Amul Butter (Salted)' },
-  { query: 'maggi', targetName: 'Maggi 2-Minute Noodles' },
-  { query: 'aashirvaad atta', targetName: 'Aashirvaad Whole Wheat Atta' },
-  { query: 'tata salt', targetName: 'Tata Salt' },
-  { query: 'tata sampann toor dal', targetName: 'Tata Sampann Toor Dal' },
-  { query: 'fortune sunflower oil', targetName: 'Fortune Sunflower Oil' },
-  { query: 'surf excel', targetName: 'Surf Excel Matic' },
-  { query: 'brittania butter', targetName: 'Britannia Butter' },
-  
-  // Spices & Condiments
-  { query: 'turmeric powder', targetName: 'Turmeric (Haldi) Powder' },
-  { query: 'red chilli powder', targetName: 'Red Chilli Powder' },
-  { query: 'cumin seeds', targetName: 'Cumin (Jeera) Seeds' },
-  { query: 'garam masala', targetName: 'Garam Masala' },
-  { query: 'ginger garlic paste', targetName: 'Ginger Garlic Paste' },
-  { query: 'mustard oil', targetName: 'Mustard Oil (Sarson)' },
-  
-  // Exotic Fruits & Premium Veggies
-  { query: 'avocado', targetName: 'Fresh Avocado' },
-  { query: 'kiwi', targetName: 'Green Kiwi' },
-  { query: 'dragon fruit', targetName: 'Dragon Fruit' },
-  { query: 'blueberries', targetName: 'Fresh Blueberries' },
-  { query: 'broccoli', targetName: 'Fresh Broccoli' },
-  { query: 'button mushroom', targetName: 'Button Mushroom' },
-  { query: 'bell pepper', targetName: 'Colored Capsicum (Bell Pepper)' },
-  
-  // Snacks & Beverages
-  { query: 'lays classic', targetName: 'Lays Classic Salted Chips' },
-  { query: 'nescafe classic', targetName: 'Nescafe Classic Coffee' },
-  { query: 'tata tea gold', targetName: 'Tata Tea Gold' },
-  { query: 'red bull', targetName: 'Red Bull Energy Drink' },
-  { query: 'coca cola', targetName: 'Coca-Cola' },
-  { query: 'popcorn', targetName: 'Act II Popcorn' }
+  { query: 'pasta', targetName: 'Durum Wheat Pasta' },
+  { query: 'noodles', targetName: 'Instant Noodles (Maggi)' },
+  { query: 'chips', targetName: 'Potato Chips (Lays)' },
+  { query: 'tea', targetName: 'Assam Tea (CTC)' },
+  { query: 'coffee', targetName: 'Instant Coffee (Nescafe)' },
+  { query: 'juice', targetName: 'Mixed Fruit Juice' },
+  { query: 'chocolate', targetName: 'Dark Chocolate' },
+  { query: 'icecream', targetName: 'Ice Cream' },
+  { query: 'oil', targetName: 'Sunflower Cooking Oil' },
+  { query: 'sugar', targetName: 'White Sugar' },
+  { query: 'salt', targetName: 'Iodized Salt' }
 ];
 
 // Helper to simulate human delay and avoid basic bot detection
