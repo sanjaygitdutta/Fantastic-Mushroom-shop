@@ -34,18 +34,18 @@ const FoodItemPage = () => {
     if (!alertEmail) return;
     setAlertSubmitting(true);
     setAlertError('');
-    
+
     try {
       const { error } = await supabase
         .from('price_alerts')
         .insert([{ email: alertEmail, product_name: displayName }]);
-        
+
       if (error) throw error;
       setAlertSuccess(true);
       setAlertEmail('');
     } catch (err: any) {
-       console.error("Alert error:", err);
-       setAlertError(err.message || 'Failed to set alert.');
+      console.error("Alert error:", err);
+      setAlertError(err.message || 'Failed to set alert.');
     } finally {
       setAlertSubmitting(false);
     }
@@ -78,15 +78,14 @@ const FoodItemPage = () => {
   };
 
   // Auto-updating date — refreshes every page load
-  const monthYear = new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }); // "Apr 2026"
   const todayLabel = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); // "24 Apr 2026"
 
-  // Build the title: "🍅 Tomato ₹25 on Blinkit vs ₹32 on Zepto — 7 Apps | Apr 2026"
+  // Build the title: "🍅 Tomato ₹25 on Blinkit vs ₹32 on Zepto — 7 Apps | 24 Apr 2026"
   const seoTitle = lowestPrice > 0 && secondPrice > 0
-    ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — 7 Apps | ${monthYear}`
+    ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — 7 Apps | ${todayLabel}`
     : lowestPrice > 0
-    ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} — Compare 7 Apps | ${monthYear}`
-    : `${displayName} Price Today ${todayLabel} — Compare Blinkit, Zepto, BigBasket & More`;
+      ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} — Compare 7 Apps | ${todayLabel}`
+      : `${displayName} Price Today ${todayLabel} — Compare Blinkit, Zepto, BigBasket & More`;
 
   const seoDesc = lowestPrice > 0 && secondPrice > 0
     ? `${displayName} price today (${todayLabel}): ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || 'Zepto'}. Compare all 7 apps — Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes — before prices change.`
@@ -214,7 +213,7 @@ const FoodItemPage = () => {
                   <p className="text-forest-600 text-sm">We'll email you the moment the price for {displayName} drops across any of our tracked delivery apps.</p>
                 </div>
               </div>
-              
+
               {alertSuccess ? (
                 <div className="w-full md:w-auto bg-green-100 text-green-800 px-4 py-3 rounded-xl font-medium border border-green-200">
                   ✅ Alert successfully set!
@@ -222,16 +221,16 @@ const FoodItemPage = () => {
               ) : (
                 <form onSubmit={handleAlertSubmit} className="w-full md:w-auto flex flex-col gap-2">
                   <div className="flex gap-2">
-                    <input 
-                      type="email" 
-                      placeholder="Enter your email" 
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
                       required
                       value={alertEmail}
                       onChange={(e) => setAlertEmail(e.target.value)}
                       className="px-4 py-2 rounded-xl border border-forest-200 focus:outline-none focus:ring-2 focus:ring-amber-500 w-full md:w-64"
                     />
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       disabled={alertSubmitting}
                       className="bg-forest-900 hover:bg-forest-800 text-white font-medium px-4 py-2 rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap"
                     >
