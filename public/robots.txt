@@ -10,6 +10,8 @@ Disallow: /admin/orders
 # Block dynamic search-result URLs — they cause "Crawled - not indexed" errors.
 # The canonical /food/item-name pages are the proper SEO landing pages.
 Disallow: /compare?q=
+Disallow: /basket?prefill=
+Disallow: /?category=
 
 # Allow all public content pages
 Allow: /compare
