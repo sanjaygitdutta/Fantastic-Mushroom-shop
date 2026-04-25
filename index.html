@@ -177,6 +177,13 @@
       <p>Fetching live prices...</p>
     </div>
   </div>
+  <script>
+    // Capture the PWA install prompt BEFORE React boots to avoid race conditions
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      window.deferredPrompt = e;
+    });
+  </script>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

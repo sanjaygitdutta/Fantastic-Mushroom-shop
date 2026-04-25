@@ -6,10 +6,18 @@ export default function InstallPWA() {
   const [isInstallable, setIsInstallable] = useState(false);
 
   useEffect(() => {
+    // Check if the event was already captured globally by index.html
+    const existingPrompt = (window as any).deferredPrompt;
+    if (existingPrompt) {
+      setDeferredPrompt(existingPrompt);
+      setIsInstallable(true);
+    }
+
     const handleBeforeInstallPrompt = (e: any) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
+      (window as any).deferredPrompt = e;
       setDeferredPrompt(e);
       setIsInstallable(true);
     };
