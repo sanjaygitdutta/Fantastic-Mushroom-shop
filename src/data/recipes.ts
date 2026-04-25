@@ -343,4 +343,39 @@ export const recipes: Recipe[] = [
         ],
         tags: ['American', 'Dinner', 'Non-Vegetarian']
     }
+,
+    {
+        id: '2026-04-25',
+        title: 'Arroz con Leche',
+        description: 'This creamy, comforting rice pudding is a beloved staple in Peruvian homes, a sweet embrace of cinnamon and citrus that evokes cherished memories. It\'s a simple yet elegant dessert, deeply rooted in the country\'s culinary soul, perfect for any occasion.',
+        image: 'https://images.unsplash.com/photo-1631292784640-2b24be784d5d?auto=format&fit=crop&q=80&w=2069',
+        prepTime: '20 min',
+        cookTime: '40 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Short-grain white rice (e.g., Arborio or Gobindobhog)', amount: '1 cup (200g)' },
+            { item: 'Water', amount: '2 cups (480ml)' },
+            { item: 'Whole milk', amount: '4 cups (960ml)' },
+            { item: 'Sweetened condensed milk', amount: '1 can (397g)' },
+            { item: 'Granulated sugar', amount: '1/2 cup (100g)' },
+            { item: 'Cinnamon sticks', amount: '2 (3-inch)' },
+            { item: 'Whole cloves', amount: '4-5' },
+            { item: 'Lemon zest strip', amount: '1 (from 1/2 lemon)' },
+            { item: 'Vanilla extract', amount: '1 teaspoon' },
+            { item: 'Salt', amount: '1/4 teaspoon' },
+            { item: 'Golden raisins', amount: '1/2 cup (75g)' },
+            { item: 'Ground cinnamon', amount: 'For garnish' }
+        ],
+        instructions: [
+            'Rinse the rice thoroughly under cold water until the water runs clear. In a heavy-bottomed pot, combine the rinsed rice with 2 cups of water, the cinnamon sticks, whole cloves, and lemon zest strip. Bring to a boil over medium-high heat, then reduce heat to low, cover, and simmer for 10-12 minutes, or until most of the water has been absorbed.',
+            'Once the water is mostly absorbed, pour in the whole milk, add the granulated sugar and salt. Stir gently to combine. Increase the heat to medium-low and bring the mixture to a gentle simmer, stirring occasionally to prevent sticking.',
+            'Continue to simmer, stirring frequently (especially towards the bottom of the pot), for 20-25 minutes, or until the rice is tender and the mixture has thickened to a creamy consistency. The rice should be fully cooked but still hold its shape.',
+            'Carefully remove and discard the cinnamon sticks, whole cloves, and lemon zest strip from the pot. Stir in the sweetened condensed milk, vanilla extract, and golden raisins.',
+            'Cook for another 5-7 minutes, stirring constantly, allowing the flavors to meld and the pudding to thicken further. The consistency should be rich and creamy, but it will thicken more as it cools.',
+            'Remove the pot from the heat. Cover and let the Arroz con Leche rest for at least 10-15 minutes. This allows the rice to absorb more liquid and the flavors to deepen.',
+            'Serve warm or chilled in individual bowls. Garnish generously with a dusting of ground cinnamon before serving. For an extra touch, a sprinkle of toasted shredded coconut can also be added.'
+        ],
+        tags: ['Peruvian', 'Dessert', 'Vegetarian']
+    }
 ];
