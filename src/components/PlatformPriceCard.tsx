@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, ShoppingCart, TrendingDown, AlertCircle, Clock, Tag, Scale } from 'lucide-react';
+import { ExternalLink, ShoppingCart, TrendingDown, AlertCircle, Clock, Tag, Scale, CheckCircle2 } from 'lucide-react';
 import type { PlatformPrice } from '../data/mockPrices';
 import { getPlatformById } from '../data/platforms';
 import { getAffiliateUrl } from '../utils/affiliate';
@@ -66,8 +66,24 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
         )}
       </div>
 
-      {/* Product name */}
-      <p className="text-sm text-forest-700 mb-3 line-clamp-1">{price.productName}</p>
+      {/* Product name & Trust Badge */}
+      <div className="flex items-center justify-between gap-2 mb-3">
+        <p className="text-sm text-forest-700 line-clamp-1 flex-1">{price.productName}</p>
+        {price.isVerified ? (
+          <span className="flex items-center gap-1 text-[10px] font-bold bg-green-50 text-green-700 px-1.5 py-0.5 rounded border border-green-200 whitespace-nowrap">
+            <CheckCircle2 className="w-3 h-3" /> Verified Live
+          </span>
+        ) : (
+          <div className="group relative flex items-center">
+            <span className="flex items-center gap-1 text-[10px] font-bold bg-gray-50 text-gray-500 px-1.5 py-0.5 rounded border border-gray-200 whitespace-nowrap cursor-help">
+              ~ Estimated
+            </span>
+            <div className="absolute bottom-full right-0 mb-1 w-48 p-2 bg-gray-900 text-white text-[10px] rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20">
+              Based on historical averages. Final price on app may vary slightly.
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Price */}
       <div className="flex items-end gap-2 mb-1">

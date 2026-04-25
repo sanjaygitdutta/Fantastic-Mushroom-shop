@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowDownUp, Zap, Tag, PackageCheck, ArrowRight,
   Sparkles, Share2, Bell, BellOff, LayoutList, LayoutGrid,
-  ExternalLink, CheckCircle2, Clock, TrendingDown, Scale,
+  ExternalLink, CheckCircle2, Clock, TrendingDown, Scale, AlertCircle
 } from 'lucide-react';
 import type { CompareResult, PlatformPrice } from '../data/mockPrices';
 import { getBestPrice } from '../data/mockPrices';
@@ -48,6 +48,11 @@ const TableRow = ({ price, isBest, rank }: { price: PlatformPrice; isBest: boole
           <span className="text-lg">{platform.logo}</span>
           <span className="font-semibold text-sm text-forest-900">{platform.name}</span>
           {isBest && <span className="text-[10px] bg-amber-400 text-white font-bold px-1.5 py-0.5 rounded-full">BEST</span>}
+          {price.isVerified ? (
+            <span className="text-[10px] bg-green-50 text-green-700 font-bold px-1.5 py-0.5 rounded-full border border-green-200" title="Live Verified Price">✓ Live</span>
+          ) : (
+            <span className="text-[10px] bg-gray-50 text-gray-500 font-bold px-1.5 py-0.5 rounded-full border border-gray-200 cursor-help" title="Based on historical averages">~ Est</span>
+          )}
         </div>
       </td>
       <td className="py-3 px-4">
@@ -249,6 +254,15 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
             >
               {watching ? <BellOff className="w-4 h-4" /> : <Bell className="w-4 h-4" />}
               {watching ? 'Watching' : 'Price Alert'}
+            </button>
+
+            {/* Report Price Feedback */}
+            <button
+              onClick={() => toast.success('Thanks for reporting! Our team will manually verify this item.')}
+              title="Report incorrect price"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white"
+            >
+              <AlertCircle className="w-4 h-4" /> Report
             </button>
           </div>
         </div>

@@ -18,6 +18,7 @@ export interface PlatformPrice {
   lastUpdated: string;
   imageUrl?: string;
   deliveryTime?: string;
+  isVerified?: boolean;
 }
 
 export interface CompareResult {
@@ -564,7 +565,8 @@ export const searchPrices = async (query: string, _pincode?: string): Promise<Co
                 url: resultTemplate.prices[index]?.url || '#', 
                 lastUpdated: dbRow.last_updated,
                 deliveryTime: dbRow.platform_id === 'swiggy' ? '15 min' : '10 min',
-                live: true
+                live: true,
+                isVerified: true
             };
             
             if (index >= 0) {
