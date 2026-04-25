@@ -207,4 +207,31 @@ Ultimately, savvy shoppers know that delivery fees are only part of the equation
     author: 'Chief AI Analyst',
     tags: ['Zepto delivery fees', 'Swiggy Instamart delivery charges', 'Grocery delivery comparison', 'Online grocery India', 'Fantastic Food price tracker', 'Save on groceries', 'Zepto Pass', 'Swiggy One']
   }
+,
+  {
+    slug: '5-budget-meal-prep-ideas-using-cheap-indian-groceries',
+    title: '5 Budget Meal Prep Ideas Using Cheap Indian Groceries',
+    description: 'Save money and time with these 5 easy Indian meal prep ideas using affordable local groceries. Discover delicious, budget-friendly recipes for your week.',
+    content: `Are rising grocery bills making your wallet wince? Meal prepping is your secret weapon, and using readily available, cheap local Indian groceries can supercharge your savings! At Fantastic Food, we know smart shopping is key. Let's dive into five delicious, budget-friendly meal prep ideas that will keep your hunger and your bank account happy.
+
+### 1. Classic Dal & Rice Combo
+This timeless pairing is a protein powerhouse and incredibly economical. Stock up on masoor dal (red lentils) or toor dal (split pigeon peas), both widely available and cheap. Cook a large batch of dal and plain rice, then portion them out. Pair with a simple side of cucumber salad for a complete, nutritious meal ready in minutes.
+
+### 2. Hearty Vegetable Pulao
+One-pot wonders are meal prep gold! A vegetable pulao (or veg biryani) can be made with seasonal, inexpensive vegetables like potatoes, carrots, peas, and green beans. Use a mix of basic spices and long-grain rice. Cook a big pot, let it cool, and divide into containers. It's flavourful, filling, and tastes even better the next day.
+
+### 3. Aloo Gobi (Potato & Cauliflower Curry)
+Potatoes and cauliflower are often among the most affordable vegetables in Indian markets. Aloo Gobi is a staple for a reason – it’s comforting, easy to make in bulk, and holds up well for several days. Serve it with leftover rice, or quickly warm up some rotis for a satisfying meal. It’s a fantastic way to stretch your rupee while enjoying authentic flavours.
+
+### 4. Protein-Packed Chana Masala
+Chickpeas are incredibly versatile, high in protein, and budget-friendly, whether you buy them dried or canned. Chana Masala is a robust, spicy curry that’s perfect for meal prep. It freezes well too! Prepare a large batch and enjoy it with rice, rotis, or even as a filling for wraps throughout the week. It’s a flavour bomb that won't break the bank.
+
+### 5. Comforting Masoor Dal Khichdi
+For ultimate simplicity and health, Masoor Dal Khichdi is a winner. This one-pot dish combines masoor dal and rice, often with a few vegetables and minimal spices. It's easy to digest, incredibly cheap to make, and provides sustained energy. Prepare a large quantity for a quick, wholesome meal that’s both nourishing and light on your wallet.
+
+Embracing budget meal prep with local groceries is a smart move for your health and finances. Before you head out, remember to check Fantastic Food's live price tracker to compare prices and ensure you're always getting the best deals on your ingredients!`,
+    date: '2026-04-25',
+    author: 'Chief AI Analyst',
+    tags: ['Budget Meal Prep', 'Indian Groceries', 'Cheap Recipes', 'Fantastic Food', 'Meal Planning', 'Save Money', 'Local Produce', 'Indian Food']
+  }
 ];
