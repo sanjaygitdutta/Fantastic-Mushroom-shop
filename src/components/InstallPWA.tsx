@@ -39,7 +39,7 @@ export default function InstallPWA() {
       setDeferredPrompt(null);
       setIsInstallable(false);
     } else {
-      setShowInstructions(true);
+      setShowInstructions(!showInstructions);
     }
   };
 
@@ -63,7 +63,8 @@ export default function InstallPWA() {
           onClick={handleInstallClick}
           className="w-full bg-amber-500 hover:bg-amber-600 text-forest-900 font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
         >
-          <Download className="w-4 h-4" /> {isInstallable ? 'Install App to Home Screen' : 'How to Install App'}
+          <Download className="w-4 h-4" /> 
+          {isInstallable ? 'Install App to Home Screen' : showInstructions ? 'Hide Instructions' : 'How to Install App'}
         </button>
       </div>
     </div>
