@@ -68,7 +68,13 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { temperature: 0.7, topK: 40, topP: 0.95, maxOutputTokens: 4000 }
+    generationConfig: { 
+      temperature: 0.7, 
+      topK: 40, 
+      topP: 0.95, 
+      maxOutputTokens: 4000,
+      responseMimeType: "application/json" 
+    }
   };
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
