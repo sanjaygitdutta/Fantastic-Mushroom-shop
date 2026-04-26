@@ -128,7 +128,7 @@ Use EXACTLY this structure:
 {
   "en": {
     "title": "${selectedDish}",
-    "description": "An appetizing 2-sentence description that captures the soul of the dish and its origin.",
+    "description": "An appetizing 1-sentence description.",
     "prepTime": "20 min",
     "cookTime": "40 min",
     "difficulty": "Medium",
@@ -137,8 +137,8 @@ Use EXACTLY this structure:
       { "item": "Ingredient Name", "amount": "250g" }
     ],
     "instructions": [
-      "Step 1: Detailed cooking step.",
-      "Step 2: Continue with next step."
+      "Step 1: Short concise step.",
+      "Step 2: Next concise step."
     ],
     "tags": ["${selectedCuisine.cuisine}", "Dinner", "Non-Vegetarian"]
   },
@@ -151,8 +151,8 @@ Use EXACTLY this structure:
 
 Strict rules:
 - difficulty: EXACTLY one of "Easy", "Medium", or "Hard"
-- 8 to 12 authentic, specific ingredients with precise measurements
-- 6 to 9 detailed, clear cooking steps
+- 5 to 7 authentic ingredients
+- 4 to 6 concise, short cooking steps (maximum 1 sentence per step)
 - 3 tags: [cuisine-name, meal-type, diet-type (Vegetarian/Non-Vegetarian/Vegan)]
 - servings as a plain number (not a string)
 - prepTime and cookTime as "XX min" strings
