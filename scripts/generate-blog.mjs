@@ -72,7 +72,7 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
       temperature: 0.7, 
       topK: 40, 
       topP: 0.95, 
-      maxOutputTokens: 4000,
+      maxOutputTokens: 8192,
       responseMimeType: "application/json" 
     }
   };
@@ -103,13 +103,6 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
   
   if (!text) throw new Error("Empty response from Gemini");
 
-  // Sanitize before parsing
-  text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
-  // Fix missing commas between properties
-  text = text.replace(/([\d\]"tfn])([ \t]*\n[ \t]*")/g, '$1,$2');
-  // Remove trailing commas
-  text = text.replace(/,(\s*[}\]])/g, '$1');
-  
   return JSON.parse(text);
 }
 
