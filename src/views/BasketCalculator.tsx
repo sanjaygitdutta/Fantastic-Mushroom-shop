@@ -59,7 +59,7 @@ const BasketCalculator = () => {
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState<string | null>(null);
   
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const [aiAdvice, setAiAdvice] = useState<any>(null);
   const [loadingAdvice, setLoadingAdvice] = useState(false);

@@ -5,7 +5,7 @@ import ProductCard from './ProductCard';
 import { useProducts } from '../context/ProductContext';
 
 const ProductGrid = () => {
-    const [searchParams] = useSearchParams();
+    const searchParams = useSearchParams();
     const category = searchParams.get('category');
     const { products } = useProducts();
 

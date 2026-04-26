@@ -44,7 +44,7 @@ const SkeletonCard = () => (
 );
 
 const ComparePage = () => {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const pincode = searchParams.get('pincode') || '';
 
