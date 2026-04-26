@@ -72,7 +72,7 @@ const Login = () => {
 
                 <p className="mt-6 text-center text-mushroom-600">
                     Don't have an account?{' '}
-                    <Link to="/signup" className="text-forest-600 font-semibold hover:underline">
+                    <Link href="/signup" className="text-forest-600 font-semibold hover:underline">
                         Sign up
                     </Link>
                 </p>

@@ -58,7 +58,7 @@ const DealOfTheDay = () => {
             <h2 className="text-3xl font-black text-white font-display">{t('deal_of_the_day')}</h2>
             <p className="text-forest-400 text-sm mt-1">{t('deal_refreshes_desc')}</p>
           </div>
-          <Link to="/compare" className="hidden sm:flex items-center gap-1 text-forest-300 hover:text-white text-sm border border-forest-700 hover:border-forest-500 rounded-xl px-4 py-2 transition-all">
+          <Link href="/compare" className="hidden sm:flex items-center gap-1 text-forest-300 hover:text-white text-sm border border-forest-700 hover:border-forest-500 rounded-xl px-4 py-2 transition-all">
             {t('deal_see_all')}
           </Link>
         </div>

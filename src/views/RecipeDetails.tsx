@@ -84,7 +84,7 @@ const RecipeDetails = () => {
             />
 
             <div className="max-w-4xl mx-auto px-4">
-                <Link to="/recipes" className="inline-flex items-center text-gray-500 hover:text-forest-600 mb-8 transition-colors">
+                <Link href="/recipes" className="inline-flex items-center text-gray-500 hover:text-forest-600 mb-8 transition-colors">
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     {t('recipe_back')}
                 </Link>
@@ -141,8 +141,7 @@ const RecipeDetails = () => {
                             <p className="text-amber-800 text-xs mb-4 leading-relaxed">
                                 {t('recipe_cheapest_cost_desc')}
                             </p>
-                            <Link
-                                to={`/basket?prefill=${encodeURIComponent(recipe.ingredients.map(ing => ing.item).join(','))}`}
+                            <Link href={`/basket?prefill=${encodeURIComponent(recipe.ingredients.map(ing => ing.item).join(','))}`}
                                 className="w-full bg-forest-800 hover:bg-forest-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-transform hover:-translate-y-0.5 shadow-lg shadow-forest-900/20"
                             >
                                 <ShoppingCart className="w-5 h-5" /> {t('recipe_compare_basket')}

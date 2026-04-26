@@ -103,7 +103,7 @@ export default function CityPage() {
           <div className="text-6xl mb-4">🏙️</div>
           <h1 className="text-2xl font-bold text-forest-800 mb-2">{t('city_not_found')}</h1>
           <p className="text-gray-500 mb-6">{t('city_no_page')}</p>
-          <Link to="/" className="btn-forest">{t('go_to_homepage')}</Link>
+          <Link href="/" className="btn-forest">{t('go_to_homepage')}</Link>
         </div>
       </div>
     );

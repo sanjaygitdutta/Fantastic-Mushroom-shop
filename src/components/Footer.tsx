@@ -44,7 +44,7 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     {/* Brand */}
                     <div className="col-span-1 md:col-span-1">
-                        <Link to="/" className="flex items-center gap-2 tracking-tight mb-6 block">
+                        <Link href="/" className="flex items-center gap-2 tracking-tight mb-6 block">
                             <div className="w-8 h-8 bg-forest-700 rounded-lg flex items-center justify-center shadow-md">
                                 <Leaf className="w-4 h-4 text-moss-400" />
                             </div>
@@ -66,11 +66,11 @@ const Footer = () => {
                     <div>
                         <h4 className="text-white font-bold mb-6 font-display">{t('footer_compare_prices')}</h4>
                         <ul className="space-y-4 text-sm">
-                            <li><Link to="/compare?q=vegetables" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_fresh_veg')}</Link></li>
-                            <li><Link to="/compare?q=fruits" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_fruits')}</Link></li>
-                            <li><Link to="/compare?q=dairy" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_dairy')}</Link></li>
-                            <li><Link to="/compare?q=meat" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_meat')}</Link></li>
-                            <li><Link to="/compare?q=snacks" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_snacks')}</Link></li>
+                            <li><Link href="/compare?q=vegetables" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_fresh_veg')}</Link></li>
+                            <li><Link href="/compare?q=fruits" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_fruits')}</Link></li>
+                            <li><Link href="/compare?q=dairy" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_dairy')}</Link></li>
+                            <li><Link href="/compare?q=meat" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_meat')}</Link></li>
+                            <li><Link href="/compare?q=snacks" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_snacks')}</Link></li>
                         </ul>
                     </div>
 
@@ -78,12 +78,12 @@ const Footer = () => {
                     <div>
                         <h4 className="text-white font-bold mb-6 font-display">{t('footer_company')}</h4>
                         <ul className="space-y-4 text-sm">
-                            <li><Link to="/mushroom-shop" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_mushroom_shop')}</Link></li>
-                            <li><Link to="/about" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_about')}</Link></li>
-                            <li><Link to="/recipes" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_fungi_kitchen')}</Link></li>
-                            <li><Link to="/blog" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_blog')}</Link></li>
-                            <li><Link to="/directory" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_sitemap')}</Link></li>
-                            <li><Link to="/faq" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_faq')}</Link></li>
+                            <li><Link href="/mushroom-shop" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_mushroom_shop')}</Link></li>
+                            <li><Link href="/about" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_about')}</Link></li>
+                            <li><Link href="/recipes" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_fungi_kitchen')}</Link></li>
+                            <li><Link href="/blog" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_blog')}</Link></li>
+                            <li><Link href="/directory" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_sitemap')}</Link></li>
+                            <li><Link href="/faq" className="text-forest-400 hover:text-amber-400 transition-colors">{t('footer_faq')}</Link></li>
                         </ul>
                     </div>
 
@@ -152,8 +152,8 @@ const Footer = () => {
                     )}
 
                     <div className="flex space-x-6 mt-4 md:mt-0">
-                        <Link to="/privacy" className="hover:text-forest-300 transition-colors">{t('footer_privacy')}</Link>
-                        <Link to="/terms" className="hover:text-forest-300 transition-colors">{t('footer_terms')}</Link>
+                        <Link href="/privacy" className="hover:text-forest-300 transition-colors">{t('footer_privacy')}</Link>
+                        <Link href="/terms" className="hover:text-forest-300 transition-colors">{t('footer_terms')}</Link>
                     </div>
                 </div>
             </div>

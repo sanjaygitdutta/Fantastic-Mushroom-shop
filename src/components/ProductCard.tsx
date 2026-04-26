@@ -104,7 +104,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300 border border-mushroom-300/30 will-change-transform"
         >
             <div className="relative aspect-[4/3] overflow-hidden">
-                <Link to={`/product/${product.id}`}>
+                <Link href={`/product/${product.id}`}>
                     <img
                         src={product.image}
                         alt={product.name}
@@ -140,7 +140,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <div className="flex justify-between items-start mb-2">
                     <div>
                         <p className="text-xs font-bold text-forest-500 uppercase tracking-wider mb-1">{product.category}</p>
-                        <Link to={`/product/${product.id}`}>
+                        <Link href={`/product/${product.id}`}>
                             <h3 className="text-lg font-bold text-mushroom-900 leading-tight group-hover:text-forest-700 transition-colors">
                                 {product.name}
                             </h3>

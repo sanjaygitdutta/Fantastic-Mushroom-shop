@@ -175,9 +175,9 @@ const FoodItemPage = () => {
       {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-4 mb-6">
         <nav className="text-sm text-forest-500" aria-label="breadcrumb">
-          <Link to="/" className="hover:text-forest-700">{t('food_item_home')}</Link>
+          <Link href="/" className="hover:text-forest-700">{t('food_item_home')}</Link>
           {' → '}
-          <Link to="/compare" className="hover:text-forest-700">{t('food_item_compare')}</Link>
+          <Link href="/compare" className="hover:text-forest-700">{t('food_item_compare')}</Link>
           {' → '}
           <span className="text-forest-800 font-medium">{translatedItem} {t('food_item_price_today').replace('today', '')}</span>
         </nav>

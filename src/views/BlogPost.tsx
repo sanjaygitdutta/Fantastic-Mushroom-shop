@@ -60,7 +60,7 @@ const BlogPost = () => {
       <article className="pt-24 pb-16 bg-cream-50 min-h-screen">
         <div className="max-w-3xl mx-auto px-4">
           
-          <Link to="/blog" className="text-forest-500 hover:text-amber-600 font-medium flex items-center gap-2 mb-8">
+          <Link href="/blog" className="text-forest-500 hover:text-amber-600 font-medium flex items-center gap-2 mb-8">
             ← Back to Blog
           </Link>
 
@@ -108,7 +108,7 @@ const BlogPost = () => {
             <div className="mt-12 bg-gradient-to-br from-forest-900 to-forest-800 rounded-2xl p-8 text-center text-white">
               <h3 className="text-2xl font-black font-display mb-3">Stop overpaying for groceries.</h3>
               <p className="text-forest-200 mb-6">Instantly compare live prices across Blinkit, Zepto, and Swiggy Instamart before you buy.</p>
-              <Link to="/compare" className="inline-block bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold px-8 py-4 rounded-xl transition-transform hover:-translate-y-1">
+              <Link href="/compare" className="inline-block bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold px-8 py-4 rounded-xl transition-transform hover:-translate-y-1">
                 Compare Live Prices Now
               </Link>
             </div>

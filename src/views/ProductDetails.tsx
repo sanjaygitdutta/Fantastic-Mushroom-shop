@@ -53,7 +53,7 @@ const ProductDetails = () => {
 
     return (
         <div className="min-h-screen pt-24 px-4 max-w-7xl mx-auto pb-20">
-            <Link to="/" className="inline-flex items-center text-mushroom-600 hover:text-forest-600 mb-8 transition-colors">
+            <Link href="/" className="inline-flex items-center text-mushroom-600 hover:text-forest-600 mb-8 transition-colors">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Shop
             </Link>

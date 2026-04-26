@@ -236,8 +236,7 @@ const CommunityFeed = () => {
                   </div>
 
                   {/* CTA — funnel to basket! */}
-                  <Link
-                    to={`/basket?prefill=${encodeURIComponent(post.recipe_ingredients.join(','))}`}
+                  <Link href={`/basket?prefill=${encodeURIComponent(post.recipe_ingredients.join(','))}`}
                     className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-95"
                     style={{ background: 'linear-gradient(135deg, #F4A23C, #D6AD60)', color: '#0F2419' }}
                   >

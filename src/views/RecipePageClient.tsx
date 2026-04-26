@@ -41,7 +41,7 @@ export default function RecipePage() {
           <div className="text-6xl mb-4">🍽️</div>
           <h1 className="text-2xl font-bold text-gray-800 mb-2">{t('recipe_not_found')}</h1>
           <p className="text-gray-500 mb-6">{t('recipe_removed_desc')}</p>
-          <Link to="/recipes" className="bg-forest-700 text-white font-bold px-6 py-3 rounded-xl hover:bg-forest-600">
+          <Link href="/recipes" className="bg-forest-700 text-white font-bold px-6 py-3 rounded-xl hover:bg-forest-600">
             {t('recipe_back_btn')}
           </Link>
         </div>
@@ -130,11 +130,11 @@ export default function RecipePage() {
           <div className="max-w-4xl mx-auto px-4 py-10">
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-forest-400 text-sm mb-6">
-              <Link to="/" className="hover:text-white transition-colors">{t('recipe_home')}</Link>
+              <Link href="/" className="hover:text-white transition-colors">{t('recipe_home')}</Link>
               <span>/</span>
-              <Link to="/recipes" className="hover:text-white transition-colors">{t('recipe_recipes_breadcrumb')}</Link>
+              <Link href="/recipes" className="hover:text-white transition-colors">{t('recipe_recipes_breadcrumb')}</Link>
               <span>/</span>
-              <Link to="/recipes" className="hover:text-white transition-colors">{recipe.country}</Link>
+              <Link href="/recipes" className="hover:text-white transition-colors">{recipe.country}</Link>
               <span>/</span>
               <span className="text-cream-300">{displayName}</span>
             </div>
@@ -213,8 +213,7 @@ export default function RecipePage() {
                 {/* Compare CTA */}
                 <div className="mt-5 pt-4 border-t border-gray-100">
                   <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-3">{t('recipe_shop_ingredients_emoji')}</p>
-                  <Link
-                    to={`/basket?prefill=${encodeURIComponent(recipe.ingredients.map((ing) => getCompareKey(ing)).filter(Boolean).join(','))}`}
+                  <Link href={`/basket?prefill=${encodeURIComponent(recipe.ingredients.map((ing) => getCompareKey(ing)).filter(Boolean).join(','))}`}
                     className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-forest-800 to-forest-700 hover:from-forest-700 hover:to-forest-600 shadow-xl shadow-forest-900/10 text-white font-bold py-3 rounded-xl transition-all hover:-translate-y-0.5"
                   >
                     <ShoppingCart className="w-5 h-5" /> {t('recipe_compare_basket')}
@@ -255,7 +254,7 @@ export default function RecipePage() {
                 <p className="text-cream-300 text-sm mb-3">
                   {t('recipe_compare_costs_desc')}
                 </p>
-                <Link to="/compare" className="inline-flex items-center gap-2 bg-amber-400 text-forest-900 font-bold px-4 py-2 rounded-xl text-sm hover:bg-amber-500 transition-colors">
+                <Link href="/compare" className="inline-flex items-center gap-2 bg-amber-400 text-forest-900 font-bold px-4 py-2 rounded-xl text-sm hover:bg-amber-500 transition-colors">
                   <ShoppingCart className="w-4 h-4" /> {t('recipe_compare_prices_now')}
                 </Link>
               </motion.div>

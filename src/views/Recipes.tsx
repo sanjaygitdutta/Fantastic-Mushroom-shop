@@ -81,7 +81,7 @@ const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => {
         ))}
       </div>
     </div>
-    <Link to={`/recipe/${recipe.id}`} className="block px-5 pb-4">
+    <Link href={`/recipe/${recipe.id}`} className="block px-5 pb-4">
       <div className="flex items-center gap-1 text-forest-600 text-xs font-bold group-hover:text-forest-800">
         <BookOpen className="w-3.5 h-3.5" /> <Trans i18nKey="recipes_view_cook">View Recipe & Cook</Trans>
       </div>

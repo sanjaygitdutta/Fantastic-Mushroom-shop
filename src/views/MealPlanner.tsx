@@ -211,8 +211,7 @@ const MealPlanner = () => {
                     </h2>
                     <p className="text-forest-600 text-sm mt-1">Found {plan.shoppingList.length} core ingredients required for this week.</p>
                   </div>
-                  <Link 
-                    to="/basket" 
+                  <Link href="/basket" 
                     state={{ prefill: plan.shoppingList.map(s => s.item) }}
                     className="bg-amber-500 hover:bg-amber-600 text-black px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-colors whitespace-nowrap"
                   >

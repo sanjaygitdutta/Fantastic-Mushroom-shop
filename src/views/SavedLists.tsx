@@ -70,7 +70,7 @@ export default function SavedLists() {
             </h1>
             <p className="text-forest-600 text-sm mt-1">Items you are tracking for price drops.</p>
           </div>
-          <Link to="/compare" className="btn-forest flex items-center gap-2 text-sm px-4 py-2">
+          <Link href="/compare" className="btn-forest flex items-center gap-2 text-sm px-4 py-2">
             <Search className="w-4 h-4" /> Add Items
           </Link>
         </div>
@@ -86,7 +86,7 @@ export default function SavedLists() {
             </div>
             <h2 className="text-xl font-bold text-forest-900 mb-2">Your watchlist is empty</h2>
             <p className="text-forest-600 mb-6 max-w-sm mx-auto">Track your favorite groceries to get notified when prices drop across Quick Commerce platforms.</p>
-            <Link to="/compare?q=milk" className="btn-amber inline-flex items-center gap-2">
+            <Link href="/compare?q=milk" className="btn-amber inline-flex items-center gap-2">
               Start Tracking Prices
             </Link>
           </div>
@@ -116,7 +116,7 @@ export default function SavedLists() {
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <Link to={`/compare?q=${encodeURIComponent(alert.item_query)}`} className="bg-forest-100 hover:bg-forest-200 text-forest-800 px-4 py-2 rounded-xl text-sm font-bold transition-colors">
+                    <Link href={`/compare?q=${encodeURIComponent(alert.item_query)}`} className="bg-forest-100 hover:bg-forest-200 text-forest-800 px-4 py-2 rounded-xl text-sm font-bold transition-colors">
                       Check Live Price
                     </Link>
                     <button 

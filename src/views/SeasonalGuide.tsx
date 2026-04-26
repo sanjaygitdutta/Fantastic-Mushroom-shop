@@ -120,8 +120,7 @@ export default function SeasonalGuide() {
               }`}>
                 {item.type === 'vegetable' ? '🥦 Vegetable' : '🍎 Fruit'}
               </span>
-              <Link
-                to={`/compare?q=${encodeURIComponent(item.searchQuery)}`}
+              <Link href={`/compare?q=${encodeURIComponent(item.searchQuery)}`}
                 className="flex items-center justify-center gap-1 w-full py-1.5 rounded-lg bg-forest-50 hover:bg-forest-100 text-forest-700 text-xs font-bold transition-colors"
               >
                 Compare Price <ArrowRight className="w-3 h-3" />
@@ -134,7 +133,7 @@ export default function SeasonalGuide() {
         <div className="mt-12 bg-white rounded-3xl border border-forest-100 p-8 text-center shadow-sm">
           <h3 className="text-2xl font-black font-display text-forest-900 mb-2">Shop seasonal, save more 🌾</h3>
           <p className="text-forest-600 mb-4 max-w-lg mx-auto">In-season produce costs up to 40% less than out-of-season imports. Compare prices across all platforms and get the freshest at cheapest!</p>
-          <Link to="/basket" className="btn-forest inline-flex items-center gap-2 px-6 py-3">
+          <Link href="/basket" className="btn-forest inline-flex items-center gap-2 px-6 py-3">
             Build My Seasonal Basket <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

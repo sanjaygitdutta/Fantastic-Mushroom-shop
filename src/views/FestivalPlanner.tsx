@@ -223,7 +223,7 @@ export default function FestivalPlanner() {
                   <h3 className="font-black text-forest-900 text-lg">Compare All Prices on Platforms</h3>
                   <p className="text-forest-600 text-sm">Find the cheapest version of every item across Blinkit, Zepto & more</p>
                 </div>
-                <Link to={`/basket?prefill=${encodeURIComponent(allItems.map(i => i.item).join(','))}`}
+                <Link href={`/basket?prefill=${encodeURIComponent(allItems.map(i => i.item).join(','))}`}
                   className="bg-amber-500 hover:bg-amber-600 text-forest-900 font-bold px-6 py-3 rounded-xl flex items-center gap-2 whitespace-nowrap transition-colors">
                   <ShoppingCart className="w-4 h-4" /> Compare in Basket <ArrowRight className="w-4 h-4" />
                 </Link>

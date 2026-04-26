@@ -166,7 +166,7 @@ const Home = () => {
                 transition={{ delay: 0.6 }}
                 className="mb-8 max-w-2xl mx-auto relative z-10"
               >
-                <Link to={`/recipe/${todayRecipe.id}`} className="block group">
+                <Link href={`/recipe/${todayRecipe.id}`} className="block group">
                   <div className="bg-gradient-to-r from-amber-500/90 to-amber-400/90 hover:from-amber-400 hover:to-amber-500 backdrop-blur-md border border-amber-300 rounded-3xl p-5 shadow-[0_0_20px_rgba(251,191,36,0.3)] transition-all transform hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(251,191,36,0.5)] flex items-center justify-between gap-6">
                     <div className="text-left flex-1 min-w-0">
                       <p className="text-forest-900 font-black text-xs uppercase tracking-wider mb-1">
@@ -292,7 +292,7 @@ const Home = () => {
       {/* ── New Features Callout ── */}
       <section className="py-12 px-4 bg-cream-100 border-y border-forest-100">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
-          <Link to="/basket" className="group relative bg-white border border-forest-200 hover:border-moss-500 rounded-3xl p-8 overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
+          <Link href="/basket" className="group relative bg-white border border-forest-200 hover:border-moss-500 rounded-3xl p-8 overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
             <div className="absolute top-0 right-0 w-32 h-32 bg-moss-100 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110" />
             <div className="relative z-10">
               <span className="text-4xl mb-4 block">🛒</span>
@@ -304,7 +304,7 @@ const Home = () => {
             </div>
           </Link>
           
-          <Link to="/meal-calculator" className="group relative bg-white border border-forest-200 hover:border-amber-500 rounded-3xl p-8 overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
+          <Link href="/meal-calculator" className="group relative bg-white border border-forest-200 hover:border-amber-500 rounded-3xl p-8 overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-100 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110" />
             <div className="relative z-10">
               <span className="text-4xl mb-4 block">🍳</span>
@@ -326,7 +326,7 @@ const Home = () => {
               <h2 className="section-title">{t('home_popular_now')}</h2>
               <p className="text-forest-600 text-sm mt-1">{t('home_most_compared')}</p>
             </div>
-            <Link to="/compare" className="btn-outline flex items-center gap-2 text-sm">
+            <Link href="/compare" className="btn-outline flex items-center gap-2 text-sm">
               {t('home_see_all')} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -352,7 +352,7 @@ const Home = () => {
                   transition={{ delay: i * 0.05 }}
                 >
                   <Link
-                    to={`/compare?q=${item.query}`}
+                    href={`/compare?q=${item.query}`}
                     className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-forest-100 hover:border-forest-400 hover:shadow-md transition-all duration-200 group"
                   >
                     <span className="text-3xl group-hover:scale-110 transition-transform">{item.icon}</span>
@@ -447,13 +447,13 @@ const Home = () => {
                   </div>
                   <div className="flex flex-wrap gap-3">
                     <Link
-                      to={`/recipe/${aiRecipe.id}`}
+                      href={`/recipe/${aiRecipe.id}`}
                       className="inline-flex items-center gap-2 px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-forest-900 font-black rounded-2xl transition-all hover:scale-105 shadow-xl shadow-amber-900/30"
                     >
                       {t('home_see_full_recipe')} <ArrowRight className="w-4 h-4" />
                     </Link>
                     <Link
-                      to={`/basket?prefill=${encodeURIComponent(aiRecipe.ingredients.map(i => i.item).join(','))}`}
+                      href={`/basket?prefill=${encodeURIComponent(aiRecipe.ingredients.map(i => i.item).join(','))}`}
                       className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-800 hover:bg-forest-700 text-white font-bold rounded-2xl border border-forest-700 transition-all"
                     >
                       {t('home_compare_ingredients')}
@@ -508,10 +508,10 @@ const Home = () => {
               {t('home_mushroom_desc')}
             </p>
             <div className="flex gap-3">
-              <Link to="/mushroom-shop" className="btn-amber flex items-center gap-2">
+              <Link href="/mushroom-shop" className="btn-amber flex items-center gap-2">
                 {t('home_shop_mushrooms')} <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link to="/recipes" className="btn-outline border-earth-400 text-earth-200 hover:bg-earth-700 flex items-center gap-2">
+              <Link href="/recipes" className="btn-outline border-earth-400 text-earth-200 hover:bg-earth-700 flex items-center gap-2">
                 {t('home_view_recipes')}
               </Link>
             </div>

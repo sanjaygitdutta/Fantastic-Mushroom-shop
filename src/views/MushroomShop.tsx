@@ -22,7 +22,7 @@ const MushroomShop = () => {
 
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 relative z-10">
           <div className="flex-1 text-white">
-            <Link to="/" className="inline-flex items-center gap-2 text-earth-300 hover:text-white text-sm mb-6 transition-colors">
+            <Link href="/" className="inline-flex items-center gap-2 text-earth-300 hover:text-white text-sm mb-6 transition-colors">
               ← Back to Price Comparison
             </Link>
             <div className="inline-flex items-center gap-2 bg-earth-600/50 border border-earth-500 text-earth-200 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
@@ -67,7 +67,7 @@ const MushroomShop = () => {
               <h2 className="text-2xl font-black text-forest-900 font-display">Our Products</h2>
               <p className="text-forest-600 text-sm mt-1">Fresh stock updated weekly</p>
             </div>
-            <Link to="/compare?q=mushroom" className="flex items-center gap-2 text-sm text-forest-600 hover:text-forest-800 border border-forest-300 px-4 py-2 rounded-full hover:border-forest-500 transition-all">
+            <Link href="/compare?q=mushroom" className="flex items-center gap-2 text-sm text-forest-600 hover:text-forest-800 border border-forest-300 px-4 py-2 rounded-full hover:border-forest-500 transition-all">
               Compare mushroom prices online <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -85,10 +85,10 @@ const MushroomShop = () => {
               Get fresh mushrooms delivered weekly to your doorstep — and save 15% on every order.
             </p>
             <div className="flex gap-3 justify-center flex-wrap">
-              <Link to="/subscription" className="btn-forest flex items-center gap-2">
+              <Link href="/subscription" className="btn-forest flex items-center gap-2">
                 View Subscription Plans <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link to="/b2b" className="btn-outline flex items-center gap-2">
+              <Link href="/b2b" className="btn-outline flex items-center gap-2">
                 Bulk / B2B Orders
               </Link>
             </div>

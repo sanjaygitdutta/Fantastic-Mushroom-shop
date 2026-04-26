@@ -204,7 +204,7 @@ export default function NutritionInfo() {
                     <h3 className="text-xl font-black mb-1">{data.healthierAlternative.name}</h3>
                     <p className="text-moss-200 text-sm">{data.healthierAlternative.reason}</p>
                   </div>
-                  <Link to={`/compare?q=${encodeURIComponent(data.healthierAlternative.searchQuery)}`}
+                  <Link href={`/compare?q=${encodeURIComponent(data.healthierAlternative.searchQuery)}`}
                     className="bg-amber-400 hover:bg-amber-500 text-forest-900 font-bold px-5 py-3 rounded-xl flex items-center gap-2 whitespace-nowrap transition-colors">
                     Compare Price <ArrowRight className="w-4 h-4" />
                   </Link>

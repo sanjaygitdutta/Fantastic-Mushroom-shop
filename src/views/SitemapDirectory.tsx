@@ -87,14 +87,14 @@ const SitemapDirectory = () => {
               <h2 className="text-2xl font-black font-display text-forest-900">Platform Features</h2>
             </div>
             <div className="flex flex-col gap-2 bg-white p-4 rounded-xl shadow-sm border border-forest-50">
-                <Link to="/compare" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Compare Prices Engine</Link>
-                <Link to="/basket" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Smart Basket Calculator</Link>
-                <Link to="/meal-calculator" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Meal Cost Calculator</Link>
-                <Link to="/coupons" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Daily Coupons & Deals</Link>
-                <Link to="/chef-aika" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Chef Aika — AI Kitchen Assistant</Link>
-                <Link to="/community" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Community Recipe Feed</Link>
-                <Link to="/mushroom-shop" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Premium Mushroom Shop</Link>
-                <Link to="/recipes" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">World Recipe Hub</Link>
+                <Link href="/compare" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Compare Prices Engine</Link>
+                <Link href="/basket" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Smart Basket Calculator</Link>
+                <Link href="/meal-calculator" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Meal Cost Calculator</Link>
+                <Link href="/coupons" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Daily Coupons & Deals</Link>
+                <Link href="/chef-aika" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Chef Aika — AI Kitchen Assistant</Link>
+                <Link href="/community" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Community Recipe Feed</Link>
+                <Link href="/mushroom-shop" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">Premium Mushroom Shop</Link>
+                <Link href="/recipes" className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1">World Recipe Hub</Link>
             </div>
           </div>
 
@@ -122,14 +122,12 @@ const SitemapDirectory = () => {
               <h2 className="text-2xl font-black font-display text-forest-900">Platform Features</h2>
             </div>
             <div className="flex flex-col gap-2 bg-white p-4 rounded-xl shadow-sm border border-forest-50">
-              <Link 
-                to="/blog"
+              <Link href="/blog"
                 className="text-forest-600 hover:text-amber-600 hover:underline font-bold py-2 border-b border-forest-50 last:border-0"
               >
                 📰 Daily Deals & Coupons Blog (Auto-SEO)
               </Link>
-              <Link 
-                to="/compare"
+              <Link href="/compare"
                 className="text-forest-600 hover:text-amber-600 hover:underline font-bold py-2 border-b border-forest-50 last:border-0"
               >
                 🔍 Live Price Comparison Tool

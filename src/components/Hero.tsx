@@ -54,8 +54,7 @@ const Hero = () => {
                             Shop Collection
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </button>
-                        <Link
-                            to="/about"
+                        <Link href="/about"
                             className="px-8 py-4 bg-white text-mushroom-900 border border-mushroom-300 rounded-full font-semibold hover:bg-mushroom-50 transition-colors duration-300 shadow-sm flex items-center justify-center"
                         >
                             Learn More

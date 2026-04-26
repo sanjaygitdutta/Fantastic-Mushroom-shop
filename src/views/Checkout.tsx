@@ -91,8 +91,7 @@ const Checkout = () => {
                     <p className="text-gray-600 mb-8">
                         Thank you for your purchase. Your fresh mushrooms will be on their way soon!
                     </p>
-                    <Link
-                        to="/"
+                    <Link href="/"
                         className="block w-full py-4 bg-forest-600 text-white rounded-xl font-bold hover:bg-forest-700 transition-colors"
                     >
                         Continue Shopping
@@ -106,7 +105,7 @@ const Checkout = () => {
         return (
             <div className="min-h-screen pt-32 px-4 text-center">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
-                <Link to="/" className="text-forest-600 hover:underline">Go back to shop</Link>
+                <Link href="/" className="text-forest-600 hover:underline">Go back to shop</Link>
             </div>
         );
     }

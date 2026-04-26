@@ -116,8 +116,7 @@ const Cart = () => {
                                     <span className="text-mushroom-600">Subtotal</span>
                                     <span className="text-2xl font-bold text-mushroom-900">₹{cartTotal.toFixed(2)}</span>
                                 </div>
-                                <Link
-                                    to="/checkout"
+                                <Link href="/checkout"
                                     onClick={() => setIsCartOpen(false)}
                                     className="block w-full py-4 bg-forest-900 text-white font-bold rounded-xl hover:bg-forest-800 transition-colors shadow-lg shadow-forest-900/20 text-center"
                                 >

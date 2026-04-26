@@ -707,7 +707,7 @@ export default function ChefAikaPage() {
                           {voiceEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
                           Read Aloud
                         </button>
-                        <Link to={recipe.missing_ingredients && recipe.missing_ingredients.length > 0 
+                        <Link href={recipe.missing_ingredients && recipe.missing_ingredients.length > 0 
                             ? `/basket?prefill=${encodeURIComponent(recipe.missing_ingredients.join(','))}` 
                             : '/compare'}
                           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all"
@@ -715,8 +715,7 @@ export default function ChefAikaPage() {
                           {recipe.missing_ingredients && recipe.missing_ingredients.length > 0 ? "🛒 Buy Missing Items" : "🛒 Price Check"}
                         </Link>
                       </div>
-                      <Link
-                        to={`/community`}
+                      <Link href={`/community`}
                         state={{ prefillRecipe: { name: recipe.name, ingredients: recipe.ingredients_used } }}
                         className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all hover:opacity-90"
                         style={{ background: 'linear-gradient(135deg, #7C3AED, #5B21B6)', color: 'white' }}

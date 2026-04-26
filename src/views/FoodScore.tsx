@@ -142,7 +142,7 @@ export default function FoodScore() {
             <p className="text-forest-600 mb-6 max-w-sm mx-auto">
               Every time you compare prices on this platform, your FoodScore grows. Start now!
             </p>
-            <Link to="/compare" className="btn-forest inline-flex items-center gap-2 px-6 py-3">
+            <Link href="/compare" className="btn-forest inline-flex items-center gap-2 px-6 py-3">
               Compare Prices Now <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

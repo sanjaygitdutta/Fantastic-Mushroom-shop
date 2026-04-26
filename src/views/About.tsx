@@ -158,14 +158,12 @@ const About = () => {
                                 Whether you are searching for the lowest price or the freshest organic mushrooms, you've landed in the right place.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-                                <Link
-                                    to="/compare"
+                                <Link href="/compare"
                                     className="px-10 py-5 bg-forest-900 text-white font-black rounded-2xl transition-all transform hover:scale-105 shadow-xl hover:shadow-forest-900/20"
                                 >
                                     Compare Live Prices
                                 </Link>
-                                <Link
-                                    to="/mushroom-shop"
+                                <Link href="/mushroom-shop"
                                     className="px-10 py-5 bg-white text-forest-900 font-black rounded-2xl transition-all transform hover:scale-105 shadow-xl"
                                 >
                                     Shop Mushrooms
