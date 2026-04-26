@@ -3,6 +3,8 @@ import sitemapLinks from '../data/sitemapLinks.json';
 import { ALL_RECIPES } from '../data/worldRecipes';
 import { BLOG_POSTS } from '../data/blogPosts';
 
+export const revalidate = 86400; // Cache for 24 hours
+
 const BASE_URL = 'https://www.fantasticfood.in';
 
 const LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta'];
