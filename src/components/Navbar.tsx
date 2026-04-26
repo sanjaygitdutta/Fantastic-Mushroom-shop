@@ -111,10 +111,18 @@ const Navbar = () => {
   const { i18n } = useTranslation();
 
   const handleLanguageChange = (code: string) => {
-    // We use window.location.href instead of navigate because the Router basename
-    // isolates the app to the current language prefix. A hard reload safely resets the router.
-    const newPath = code === 'en' ? pathname : `/${code}${pathname === '/' ? '' : pathname}`;
-    window.location.href = newPath + '' /* TODO: searchParams */;
+    let cleanPath = pathname;
+    const locales = ['hi', 'bn', 'mr', 'te', 'ta']; // Non-default locales
+    for (const locale of locales) {
+      if (cleanPath === `/${locale}` || cleanPath.startsWith(`/${locale}/`)) {
+        cleanPath = cleanPath.substring(locale.length + 1);
+        break;
+      }
+    }
+    if (cleanPath === '') cleanPath = '/';
+
+    const newPath = code === 'en' ? cleanPath : `/${code}${cleanPath === '/' ? '' : cleanPath}`;
+    window.location.href = newPath + window.location.search + window.location.hash;
   };
 
   const handleMouseEnter = (label: string) => {
