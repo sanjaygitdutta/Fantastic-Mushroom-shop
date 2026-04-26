@@ -9,7 +9,7 @@ import SEO from '../components/SEO';
 import { BLOG_POSTS } from '../data/blogPosts';
 
 const BlogPost = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const post = BLOG_POSTS.find(p => p.slug === slug);
 
@@ -67,7 +67,7 @@ const BlogPost = () => {
         <div className="max-w-3xl mx-auto px-4">
           
           <Link href="/blog" className="text-forest-500 hover:text-amber-600 font-medium flex items-center gap-2 mb-8">
-            ← Back to Blog
+            {t('blog_back', { defaultValue: '← Back to Blog' })}
           </Link>
 
           <header className="mb-12">
@@ -112,10 +112,10 @@ const BlogPost = () => {
             
             {/* Action Card Funnel */}
             <div className="mt-12 bg-gradient-to-br from-forest-900 to-forest-800 rounded-2xl p-8 text-center text-white">
-              <h3 className="text-2xl font-black font-display mb-3">Stop overpaying for groceries.</h3>
-              <p className="text-forest-200 mb-6">Instantly compare live prices across Blinkit, Zepto, and Swiggy Instamart before you buy.</p>
+              <h3 className="text-2xl font-black font-display mb-3">{t('blog_stop_overpaying', { defaultValue: 'Stop overpaying for groceries.' })}</h3>
+              <p className="text-forest-200 mb-6">{t('blog_compare_desc', { defaultValue: 'Instantly compare live prices across Blinkit, Zepto, and Swiggy Instamart before you buy.' })}</p>
               <Link href="/compare" className="inline-block bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold px-8 py-4 rounded-xl transition-transform hover:-translate-y-1">
-                Compare Live Prices Now
+                {t('blog_compare_btn', { defaultValue: 'Compare Live Prices Now' })}
               </Link>
             </div>
           </div>

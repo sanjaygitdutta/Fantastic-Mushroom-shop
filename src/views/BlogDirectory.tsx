@@ -21,10 +21,10 @@ const BlogDirectory = () => {
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h1 className="text-4xl md:text-6xl font-black font-display text-forest-900 mb-6 tracking-tight">
-              Deals & <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-500">Market Insights</span>
+              {t('blog_deals', { defaultValue: 'Deals &' })} <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-500">{t('blog_market_insights', { defaultValue: 'Market Insights' })}</span>
             </h1>
             <p className="text-xl text-forest-600 mb-8 leading-relaxed">
-              Discover the latest grocery coupons, delivery hacks, and data-driven price comparisons to help you save more on every order.
+              {t('blog_directory_desc', { defaultValue: 'Discover the latest grocery coupons, delivery hacks, and data-driven price comparisons to help you save more on every order.' })}
             </p>
           </div>
 
