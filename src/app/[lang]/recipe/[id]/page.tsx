@@ -33,8 +33,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   };
 }
 
-export default function RecipePageServer({ params }: { params: { lang: string; id: string } }) {
+export default async function RecipePageServer({ params }: { params: Promise<{ lang: string; id: string }> }) {
   // The server component simply delegates to the client component.
-  // We've already generated the metadata above.
+  // Params are awaited to satisfy Next.js 15+ async params requirement.
+  await params;
   return <RecipePageClient />;
 }

@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
@@ -12,8 +13,13 @@ const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = BLOG_POSTS.find(p => p.slug === slug);
 
+  const router = useRouter();
+  useEffect(() => {
+    if (!post) router.replace('/blog');
+  }, [post, router]);
+
   if (!post) {
-    return <Navigate to="/blog" replace />;
+    return null;
   }
 
   const lang = i18n.language;

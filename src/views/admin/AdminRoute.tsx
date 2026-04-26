@@ -1,19 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-const AdminRoute = () => {
-    const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+// AdminRoute is now used as a layout wrapper — not a React Router Outlet.
+// It checks localStorage for admin access and redirects to /admin/login if not found.
+const AdminRoute = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
 
-    useEffect(() => {
-        // Independent admin check
-        const hasAdminAccess = localStorage.getItem('mushroom_admin') === 'true';
-        setIsAdmin(hasAdminAccess);
-    }, []);
+  useEffect(() => {
+    const hasAdminAccess = localStorage.getItem('mushroom_admin') === 'true';
+    if (!hasAdminAccess) {
+      router.replace('/admin/login');
+    }
+  }, [router]);
 
-    if (isAdmin === null) return <div className="p-8 text-center text-white bg-gray-900 min-h-screen">Loading secure portal...</div>;
-
-    return isAdmin ? <Outlet /> : <Navigate to="/admin/login" />;
+  // Render children optimistically; the useEffect redirect will fire if not admin
+  return <>{children}</>;
 };
 
 export default AdminRoute;
