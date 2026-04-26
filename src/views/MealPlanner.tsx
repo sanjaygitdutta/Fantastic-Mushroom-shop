@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import SEO from '../components/SEO';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 interface Meal {
   name: string;
@@ -29,6 +30,7 @@ interface MealPlanResponse {
 const DIETS = ['None', 'Vegetarian', 'Vegan', 'Jain', 'High Protein', 'Keto', 'Diabetes Friendly'];
 
 const MealPlanner = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   
   const [budget, setBudget] = useState(1500);
@@ -86,13 +88,13 @@ const MealPlanner = () => {
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-moss-100 text-moss-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4">
-            <Sparkles className="w-4 h-4" /> AI Powered Beta
+            <Sparkles className="w-4 h-4" /> {t('meal_ai_beta')}
           </div>
           <h1 className="text-4xl md:text-5xl font-black font-display text-forest-900 mb-4">
-            Weekly Meal Planner
+            {t('meal_planner_title')}
           </h1>
           <p className="text-forest-600 max-w-2xl mx-auto text-lg">
-            Tell us your budget and dietary preferences. Our AI will craft an exact {days}-day Indian menu and shopping list strictly within your budget limit.
+            {t('meal_planner_desc', { days })}
           </p>
         </div>
 
@@ -104,7 +106,7 @@ const MealPlanner = () => {
               {/* Budget */}
               <div>
                 <label className="flex items-center justify-between text-forest-900 font-bold mb-4">
-                  <span className="flex items-center gap-2"><Wallet className="w-5 h-5 text-amber-500" /> Weekly Grocery Budget</span>
+                  <span className="flex items-center gap-2"><Wallet className="w-5 h-5 text-amber-500" /> {t('meal_budget')}</span>
                   <span className="text-2xl font-black text-amber-500 flex items-center">
                     <IndianRupee className="w-5 h-5" />{budget}
                   </span>
@@ -125,24 +127,27 @@ const MealPlanner = () => {
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <label className="flex items-center gap-2 text-forest-900 font-bold mb-3">
-                    <Utensils className="w-4 h-4 text-moss-500" /> Dietary Preference
+                    <Utensils className="w-4 h-4 text-moss-500" /> {t('meal_dietary')}
                   </label>
                   <select 
                     value={dietary} 
                     onChange={e => setDietary(e.target.value)}
                     className="w-full p-3 rounded-xl border border-forest-200 bg-forest-50 focus:border-moss-500 outline-none"
                   >
-                    {DIETS.map(d => <option key={d} value={d}>{d}</option>)}
+                    {DIETS.map(d => {
+                      const dietKey = 'diet_' + d.toLowerCase().replace(' ', '_');
+                      return <option key={d} value={d}>{t(dietKey, d)}</option>;
+                    })}
                   </select>
                 </div>
 
                 <div>
                   <label className="flex items-center gap-2 text-forest-900 font-bold mb-3">
-                    <Users className="w-4 h-4 text-moss-500" /> Family Size
+                    <Users className="w-4 h-4 text-moss-500" /> {t('meal_family_size')}
                   </label>
                   <div className="flex items-center gap-4">
                     <button onClick={() => setFamilySize(Math.max(1, familySize - 1))} className="w-10 h-10 rounded-xl bg-forest-100 text-forest-800 font-bold hover:bg-forest-200">-</button>
-                    <span className="text-xl font-bold flex-1 text-center">{familySize} {familySize === 1 ? 'Person' : 'People'}</span>
+                    <span className="text-xl font-bold flex-1 text-center">{familySize} {familySize === 1 ? t('meal_person') : t('meal_people')}</span>
                     <button onClick={() => setFamilySize(familySize + 1)} className="w-10 h-10 rounded-xl bg-forest-100 text-forest-800 font-bold hover:bg-forest-200">+</button>
                   </div>
                 </div>
@@ -160,9 +165,9 @@ const MealPlanner = () => {
                 className="w-full py-4 bg-forest-900 hover:bg-forest-800 text-cream-100 rounded-2xl font-bold flex items-center justify-center gap-2 transition-transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {loading ? (
-                  <><Loader2 className="w-5 h-5 animate-spin" /> Crunching Prices...</>
+                  <><Loader2 className="w-5 h-5 animate-spin" /> {t('meal_crunching')}</>
                 ) : (
-                  <><ChefHat className="w-5 h-5" /> Generate Meal Plan</>
+                  <><ChefHat className="w-5 h-5" /> {t('meal_generate_btn')}</>
                 )}
               </button>
 
@@ -179,17 +184,17 @@ const MealPlanner = () => {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-3xl border border-forest-100 shadow-sm col-span-2">
                   <h2 className="text-xl font-black font-display text-forest-900 mb-1 flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-moss-500" /> AI Optimization Complete
+                    <CheckCircle2 className="w-5 h-5 text-moss-500" /> {t('meal_opt_complete')}
                   </h2>
-                  <p className="text-forest-600 text-sm mb-6">Generated {days}-day plan for {familySize} people on a {dietary} diet.</p>
+                  <p className="text-forest-600 text-sm mb-6">{t('meal_generated_summary', { days, familySize, dietary: t('diet_' + dietary.toLowerCase().replace(' ', '_'), dietary) })}</p>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-cream-100 p-4 rounded-2xl">
-                      <p className="text-forest-500 text-xs font-bold uppercase tracking-wider mb-1">Target Budget</p>
+                      <p className="text-forest-500 text-xs font-bold uppercase tracking-wider mb-1">{t('meal_target_budget')}</p>
                       <p className="text-2xl font-black text-forest-900">₹{budget}</p>
                     </div>
                     <div className="bg-amber-100 p-4 rounded-2xl">
-                      <p className="text-amber-800 text-xs font-bold uppercase tracking-wider mb-1">Estimated Cost</p>
+                      <p className="text-amber-800 text-xs font-bold uppercase tracking-wider mb-1">{t('meal_estimated_cost')}</p>
                       <p className="text-2xl font-black text-amber-900">₹{plan.estimatedCost}</p>
                     </div>
                   </div>
@@ -197,7 +202,7 @@ const MealPlanner = () => {
 
                 <div className="bg-moss-900 text-white p-6 rounded-3xl border border-moss-800 shadow-sm flex flex-col justify-center">
                   <Sparkles className="w-8 h-8 text-amber-400 mb-3" />
-                  <h3 className="font-bold text-lg mb-2">Chef Aika's Tip</h3>
+                  <h3 className="font-bold text-lg mb-2">{t('meal_aika_tip')}</h3>
                   <p className="text-moss-200 text-sm italic">"{plan.savingsTip}"</p>
                 </div>
               </div>
@@ -207,15 +212,14 @@ const MealPlanner = () => {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                   <div>
                     <h2 className="text-xl font-black font-display text-forest-900 flex items-center gap-2">
-                      <ShoppingCart className="w-5 h-5 text-amber-500" /> Generated Shopping List
+                      <ShoppingCart className="w-5 h-5 text-amber-500" /> {t('meal_shopping_list')}
                     </h2>
-                    <p className="text-forest-600 text-sm mt-1">Found {plan.shoppingList.length} core ingredients required for this week.</p>
+                    <p className="text-forest-600 text-sm mt-1">{t('meal_shopping_summary', { count: plan.shoppingList.length })}</p>
                   </div>
-                  <Link href="/basket" 
-                    state={{ prefill: plan.shoppingList.map(s => s.item) }}
+                  <Link href={`/basket?prefill=${encodeURIComponent(plan.shoppingList.map(s => s.item).join(','))}`}
                     className="bg-amber-500 hover:bg-amber-600 text-black px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-colors whitespace-nowrap"
                   >
-                    Compare List Prices <ArrowRight className="w-4 h-4" />
+                    {t('meal_compare_prices')} <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
                 
@@ -230,18 +234,20 @@ const MealPlanner = () => {
 
               {/* Calendar grid */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-black font-display text-forest-900">Your {days}-Day Menu</h2>
+                <h2 className="text-2xl font-black font-display text-forest-900">{t('meal_your_menu', { days })}</h2>
                 <div className="grid gap-4">
                   {plan.days.map((day) => (
                     <div key={day.day} className="bg-white p-6 rounded-3xl border border-forest-100 shadow-sm">
-                      <h3 className="text-lg font-black text-forest-800 mb-4 pb-2 border-b border-forest-50">Day {day.day}</h3>
+                      <h3 className="text-lg font-black text-forest-800 mb-4 pb-2 border-b border-forest-50">{t('meal_day', { day: day.day })}</h3>
                       <div className="grid md:grid-cols-3 gap-6">
                         {['breakfast', 'lunch', 'dinner'].map((mealType) => {
                           const meal = day[mealType as keyof DayPlan] as Meal;
                           if (!meal) return null;
                           return (
                             <div key={mealType}>
-                              <p className="text-xs font-bold text-moss-500 uppercase tracking-widest mb-1">{mealType}</p>
+                              <p className="text-xs font-bold text-moss-500 uppercase tracking-widest mb-1">
+                                {t('meal_' + mealType)}
+                              </p>
                               <p className="font-bold text-forest-900 mb-2">{meal.name}</p>
                               <div className="flex flex-wrap gap-1">
                                 {meal.ingredients.slice(0, 3).map((ing, i) => (
@@ -262,7 +268,7 @@ const MealPlanner = () => {
                   onClick={() => setPlan(null)}
                   className="text-forest-600 font-bold hover:text-forest-900 underline"
                 >
-                  Start Over
+                  {t('meal_start_over')}
                 </button>
               </div>
 

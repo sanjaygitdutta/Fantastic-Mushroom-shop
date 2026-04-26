@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Search, Loader2, AlertTriangle, CheckCircle, ArrowRight, Info, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 import SEO from '../components/SEO';
 
@@ -32,6 +33,7 @@ const SCORE_CONFIG: Record<string, { color: string; label: string; bg: string }>
 const POPULAR = ['Paneer', 'Amul Butter', 'Whole Milk', 'Chicken Breast', 'Brown Bread', 'Almonds', 'Maggi Noodles', 'Greek Yogurt'];
 
 export default function NutritionInfo() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -56,6 +58,14 @@ export default function NutritionInfo() {
     }
   };
 
+  const SCORE_CONFIG: Record<string, { color: string; label: string; bg: string }> = {
+    A: { color: 'text-green-600', label: t('nutri_score_excellent'), bg: 'bg-green-500' },
+    B: { color: 'text-lime-600', label: t('nutri_score_good'), bg: 'bg-lime-500' },
+    C: { color: 'text-yellow-600', label: t('nutri_score_ok'), bg: 'bg-yellow-500' },
+    D: { color: 'text-orange-600', label: t('nutri_score_poor'), bg: 'bg-orange-500' },
+    F: { color: 'text-red-600', label: t('nutri_score_bad'), bg: 'bg-red-500' },
+  };
+
   const scoreConf = data ? SCORE_CONFIG[data.healthScore] || SCORE_CONFIG['C'] : null;
 
   return (
@@ -68,10 +78,10 @@ export default function NutritionInfo() {
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4">
-            <Heart className="w-4 h-4" /> Health Mode
+            <Heart className="w-4 h-4" /> {t('nutri_health_mode')}
           </div>
-          <h1 className="text-4xl md:text-5xl font-black font-display text-forest-900 mb-4">Nutrition Scanner</h1>
-          <p className="text-forest-600 max-w-xl mx-auto">Search any food to instantly get its nutrition facts, health score, allergens, and a cheaper healthier alternative.</p>
+          <h1 className="text-4xl md:text-5xl font-black font-display text-forest-900 mb-4">{t('nutri_scanner_title')}</h1>
+          <p className="text-forest-600 max-w-xl mx-auto">{t('nutri_scanner_desc')}</p>
         </div>
 
         {/* Search bar */}
@@ -80,20 +90,20 @@ export default function NutritionInfo() {
             <div className="flex-1 flex items-center gap-3 bg-white border-2 border-forest-200 focus-within:border-moss-500 rounded-2xl px-4 py-3 transition-colors">
               <Search className="w-5 h-5 text-forest-400" />
               <input type="text" value={query} onChange={e => setQuery(e.target.value)}
-                placeholder="e.g. Amul Butter, Maggi, Paneer..."
+                placeholder={t('nutri_search_placeholder')}
                 className="flex-1 outline-none text-forest-900 text-lg placeholder-forest-400 bg-transparent" />
             </div>
             <button type="submit" disabled={loading || !query.trim()}
               className="px-6 py-3 bg-forest-800 text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-forest-700 disabled:opacity-50 transition-colors">
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Zap className="w-5 h-5" />}
-              Scan
+              {t('nutri_scan_btn')}
             </button>
           </form>
           <div className="flex flex-wrap gap-2 mt-3">
             {POPULAR.map(f => (
               <button key={f} onClick={() => { setQuery(f); search(f); }}
                 className="text-xs bg-white border border-forest-200 text-forest-700 px-3 py-1.5 rounded-full hover:bg-forest-50 transition-colors font-medium">
-                {f}
+                {t('nutri_pop_' + f.split(' ')[0].toLowerCase(), f)}
               </button>
             ))}
           </div>
@@ -113,23 +123,23 @@ export default function NutritionInfo() {
                   </div>
                   <div className="flex-1">
                     <h2 className="text-2xl font-black text-forest-900">{data.name}</h2>
-                    <p className="text-forest-500 text-sm mb-2">Per {data.servingSize}</p>
+                    <p className="text-forest-500 text-sm mb-2">{t('nutri_per_serving', { servingSize: data.servingSize })}</p>
                     <p className={`text-sm font-medium ${scoreConf.color}`}>{data.healthScoreReason}</p>
                   </div>
                   <div className="bg-cream-100 rounded-2xl p-4 text-center flex-shrink-0">
                     <p className="text-3xl font-black text-forest-900">{data.calories}</p>
-                    <p className="text-xs text-forest-500 font-bold uppercase tracking-wider">kcal</p>
+                    <p className="text-xs text-forest-500 font-bold uppercase tracking-wider">{t('nutri_kcal')}</p>
                   </div>
                 </div>
 
                 {/* Macros bar */}
                 <div className="px-6 pb-6 grid grid-cols-5 gap-3">
                   {[
-                    { key: 'protein', label: 'Protein', color: 'bg-blue-500', unit: 'g' },
-                    { key: 'carbs', label: 'Carbs', color: 'bg-amber-500', unit: 'g' },
-                    { key: 'fat', label: 'Fat', color: 'bg-red-400', unit: 'g' },
-                    { key: 'fiber', label: 'Fiber', color: 'bg-green-500', unit: 'g' },
-                    { key: 'sugar', label: 'Sugar', color: 'bg-pink-500', unit: 'g' },
+                    { key: 'protein', label: t('nutri_protein'), color: 'bg-blue-500', unit: 'g' },
+                    { key: 'carbs', label: t('nutri_carbs'), color: 'bg-amber-500', unit: 'g' },
+                    { key: 'fat', label: t('nutri_fat'), color: 'bg-red-400', unit: 'g' },
+                    { key: 'fiber', label: t('nutri_fiber'), color: 'bg-green-500', unit: 'g' },
+                    { key: 'sugar', label: t('nutri_sugar'), color: 'bg-pink-500', unit: 'g' },
                   ].map(m => (
                     <div key={m.key} className="text-center">
                       <div className={`${m.color} rounded-xl py-2 px-1 mb-1`}>
@@ -146,13 +156,13 @@ export default function NutritionInfo() {
                 {/* Allergens & Warnings */}
                 <div className="bg-white rounded-2xl border border-red-100 p-5 shadow-sm">
                   <h3 className="font-black text-forest-900 mb-3 flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4 text-red-500" /> Allergens
+                    <AlertTriangle className="w-4 h-4 text-red-500" /> {t('nutri_allergens')}
                   </h3>
                   {data.allergens.length > 0 ? (
                     <div className="flex flex-wrap gap-2 mb-3">
                       {data.allergens.map(a => <span key={a} className="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded-full">{a}</span>)}
                     </div>
-                  ) : <p className="text-sm text-forest-500 mb-3">No common allergens detected</p>}
+                  ) : <p className="text-sm text-forest-500 mb-3">{t('nutri_no_allergens')}</p>}
                   {data.warnings.length > 0 && (
                     <div className="space-y-2">
                       {data.warnings.map((w, i) => (
@@ -167,7 +177,7 @@ export default function NutritionInfo() {
                 {/* Benefits */}
                 <div className="bg-white rounded-2xl border border-green-100 p-5 shadow-sm">
                   <h3 className="font-black text-forest-900 mb-3 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" /> Benefits
+                    <CheckCircle className="w-4 h-4 text-green-500" /> {t('nutri_benefits')}
                   </h3>
                   <div className="space-y-2">
                     {data.benefits.map((b, i) => (
@@ -181,14 +191,14 @@ export default function NutritionInfo() {
                 {/* Diet suitability */}
                 <div className="bg-white rounded-2xl border border-blue-100 p-5 shadow-sm">
                   <h3 className="font-black text-forest-900 mb-3 flex items-center gap-2">
-                    <Info className="w-4 h-4 text-blue-500" /> Suitable For
+                    <Info className="w-4 h-4 text-blue-500" /> {t('nutri_suitable_for')}
                   </h3>
                   <div className="space-y-2">
                     {Object.entries(data.dietarySuitability).map(([key, val]) => (
                       <div key={key} className="flex items-center justify-between">
-                        <span className="text-sm text-forest-700 capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
+                        <span className="text-sm text-forest-700">{t('nutri_suit_' + key)}</span>
                         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${val ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}`}>
-                          {val ? '✓ Yes' : '✗ No'}
+                          {val ? t('nutri_yes') : t('nutri_no')}
                         </span>
                       </div>
                     ))}
@@ -200,13 +210,13 @@ export default function NutritionInfo() {
               {data.healthierAlternative && (
                 <div className="bg-gradient-to-r from-moss-700 to-forest-800 text-white rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
                   <div>
-                    <p className="text-moss-300 text-sm font-bold uppercase tracking-wider mb-1">Healthier Alternative</p>
+                    <p className="text-moss-300 text-sm font-bold uppercase tracking-wider mb-1">{t('nutri_healthier_alt')}</p>
                     <h3 className="text-xl font-black mb-1">{data.healthierAlternative.name}</h3>
                     <p className="text-moss-200 text-sm">{data.healthierAlternative.reason}</p>
                   </div>
                   <Link href={`/compare?q=${encodeURIComponent(data.healthierAlternative.searchQuery)}`}
                     className="bg-amber-400 hover:bg-amber-500 text-forest-900 font-bold px-5 py-3 rounded-xl flex items-center gap-2 whitespace-nowrap transition-colors">
-                    Compare Price <ArrowRight className="w-4 h-4" />
+                    {t('nutri_compare_price')} <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
               )}

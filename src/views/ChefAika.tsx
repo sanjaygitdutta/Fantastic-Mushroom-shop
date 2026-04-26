@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb } from 'lucide-react';
 import SEO from '../components/SEO';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 
 declare global {
@@ -32,6 +33,8 @@ type Recipe = {
 };
 
 export default function ChefAikaPage() {
+  const { t } = useTranslation();
+
   // Ingredients
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [manualInput, setManualInput] = useState('');
@@ -321,13 +324,13 @@ export default function ChefAikaPage() {
             <span className="text-2xl">🍳</span>
             <div>
               <span className="font-bold text-white text-lg">Chef Aika</span>
-              <p className="text-[10px] font-medium tracking-wider" style={{ color: '#F4A23C' }}>YOUR AI KITCHEN COMPANION</p>
+              <p className="text-[10px] font-medium tracking-wider" style={{ color: '#F4A23C' }}>{t('aika_subtitle')}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span className={`w-2 h-2 rounded-full ${isAikaOnline ? 'bg-green-400 animate-pulse' : 'bg-gray-500'}`} />
             <span className="text-sm" style={{ color: isAikaOnline ? '#4ade80' : '#6b7280' }}>
-              {isAikaOnline ? 'Chef Aika is ready' : 'Chef Aika is offline'}
+              {isAikaOnline ? t('aika_ready') : t('aika_offline')}
             </span>
           </div>
         </div>
@@ -339,7 +342,7 @@ export default function ChefAikaPage() {
           <div className="border-r flex flex-col overflow-y-auto" style={{ borderColor: '#1A3C2B', background: '#0D1F16' }}>
             <div className="p-4 border-b" style={{ borderColor: '#1A3C2B' }}>
               <h2 className="font-bold text-lg flex items-center gap-2" style={{ color: '#F4A23C' }}>
-                🥕 Your Fridge
+                {t('aika_fridge_title')}
               </h2>
             </div>
 
@@ -352,7 +355,7 @@ export default function ChefAikaPage() {
                 {!cameraActive && (
                   <div className="text-center">
                     <Camera className="w-10 h-10 mx-auto mb-2" style={{ color: '#1A5E38' }} />
-                    <p className="text-sm" style={{ color: '#52B788' }}>Point at your fridge or ingredients</p>
+                    <p className="text-sm" style={{ color: '#52B788' }}>{t('aika_camera_prompt')}</p>
                   </div>
                 )}
                 {cameraActive && (
@@ -368,12 +371,12 @@ export default function ChefAikaPage() {
               <div className="flex gap-2 mb-2">
                 {!cameraActive ? (
                   <button onClick={startCamera} className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold transition-all" style={{ background: '#1A3C2B', color: '#52B788', border: '1px solid #2D6A4F' }}>
-                    <Camera className="w-4 h-4" /> Open Camera
+                    <Camera className="w-4 h-4" /> {t('aika_open_camera')}
                   </button>
                 ) : (
                   <>
                     <button onClick={captureAndScan} disabled={scanning} className="flex-1 py-2 rounded-lg text-sm font-bold transition-all" style={{ background: '#52B788', color: '#0F2419' }}>
-                      {scanning ? '🔍 Scanning...' : '🔍 Scan'}
+                      {scanning ? t('aika_scanning') : t('aika_scan')}
                     </button>
                     <button onClick={stopCamera} className="px-3 py-2 rounded-lg text-sm" style={{ background: '#1A3C2B', color: '#f87171' }}>
                       <X className="w-4 h-4" />
@@ -381,7 +384,7 @@ export default function ChefAikaPage() {
                   </>
                 )}
                 <label className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all" style={{ background: '#1A3C2B', color: '#F4A23C', border: '1px solid #2D6A4F' }}>
-                  <Upload className="w-4 h-4" /> Upload
+                  <Upload className="w-4 h-4" /> {t('aika_upload')}
                   <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
                 </label>
               </div>
@@ -396,10 +399,10 @@ export default function ChefAikaPage() {
             {/* Ingredient List */}
             <div className="px-4 pb-4 flex-1">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-sm" style={{ color: '#FAE89A' }}>Detected Ingredients</h3>
+                <h3 className="font-bold text-sm" style={{ color: '#FAE89A' }}>{t('aika_detected_ingredients')}</h3>
                 {ingredients.length > 0 && (
                   <button onClick={() => setIngredients([])} className="text-xs px-2 py-1 rounded" style={{ color: '#f87171', background: '#1A3C2B' }}>
-                    Clear All
+                    {t('aika_clear_all')}
                   </button>
                 )}
               </div>
@@ -410,7 +413,7 @@ export default function ChefAikaPage() {
                   value={manualInput}
                   onChange={e => setManualInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && addManual()}
-                  placeholder="Add ingredient manually..."
+                  placeholder={t('aika_manual_input')}
                   className="flex-1 px-3 py-2 rounded-lg text-sm outline-none"
                   style={{ background: '#0A1A10', color: '#fff', border: '1px solid #1A3C2B' }}
                 />
@@ -421,7 +424,7 @@ export default function ChefAikaPage() {
 
               {ingredients.length === 0 ? (
                 <p className="text-sm text-center py-6" style={{ color: '#2D6A4F' }}>
-                  No ingredients yet. Scan your fridge or add manually! 🌿
+                  {t('aika_no_ingredients')}
                 </p>
               ) : (
                 <div className="flex flex-wrap gap-2">
@@ -473,7 +476,7 @@ export default function ChefAikaPage() {
                   : { background: 'linear-gradient(135deg, #F4A23C, #D6AD60)', color: '#0F2419' }
                 }>
                 {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-                {isListening ? 'Listening...' : 'Talk to Chef Aika'}
+                {isListening ? t('aika_listening') : t('aika_talk')}
               </motion.button>
 
               {/* Timer */}
@@ -482,7 +485,7 @@ export default function ChefAikaPage() {
                   className="mt-3 px-5 py-3 rounded-xl text-center" style={{ background: '#1A3C2B', border: '1px solid #2D6A4F' }}>
                   <p className="text-xs mb-1" style={{ color: '#FAE89A' }}>{timer.label}</p>
                   <p className="text-2xl font-black" style={{ color: '#F4A23C' }}>{formatTime(timer.remaining)}</p>
-                  <button onClick={() => { clearInterval(timerRef.current); setTimer(null); }} className="text-xs mt-1" style={{ color: '#f87171' }}>dismiss</button>
+                  <button onClick={() => { clearInterval(timerRef.current); setTimer(null); }} className="text-xs mt-1" style={{ color: '#f87171' }}>{t('aika_dismiss')}</button>
                 </motion.div>
               )}
             </div>
@@ -523,25 +526,25 @@ export default function ChefAikaPage() {
                 <select value={servings} onChange={e => setServings(Number(e.target.value))}
                   className="flex-1 px-3 py-2 rounded-lg text-sm outline-none"
                   style={{ background: '#1A3C2B', color: '#FAE89A', border: '1px solid #2D6A4F' }}>
-                  <option value={1}>1 serving</option>
-                  <option value={2}>2 servings</option>
-                  <option value={4}>4 servings</option>
-                  <option value={6}>6 servings</option>
+                  <option value={1}>{t('aika_serving_1')}</option>
+                  <option value={2}>{t('aika_serving_2')}</option>
+                  <option value={4}>{t('aika_serving_4')}</option>
+                  <option value={6}>{t('aika_serving_6')}</option>
                 </select>
                 <select value={dietary} onChange={e => setDietary(e.target.value)}
                   className="flex-1 px-3 py-2 rounded-lg text-sm outline-none"
                   style={{ background: '#1A3C2B', color: '#FAE89A', border: '1px solid #2D6A4F' }}>
-                  <option value="">No restrictions</option>
-                  <option value="vegetarian">Vegetarian</option>
-                  <option value="vegan">Vegan</option>
-                  <option value="gluten-free">Gluten-Free</option>
+                  <option value="">{t('aika_no_restrictions')}</option>
+                  <option value="vegetarian">{t('aika_vegetarian')}</option>
+                  <option value="vegan">{t('aika_vegan')}</option>
+                  <option value="gluten-free">{t('aika_gluten_free')}</option>
                 </select>
               </div>
               <div className="flex gap-2 mb-3">
-                <input type="number" placeholder="Max Cals (opt)" value={calorieLimit} onChange={e => setCalorieLimit(e.target.value)}
+                <input type="number" placeholder={t('aika_max_cals')} value={calorieLimit} onChange={e => setCalorieLimit(e.target.value)}
                   className="flex-1 px-3 py-2 rounded-lg text-sm outline-none placeholder-forest-500"
                   style={{ background: '#1A3C2B', color: '#FAE89A', border: '1px solid #2D6A4F' }} />
-                <input type="number" placeholder="Min Protein (opt)" value={proteinGoal} onChange={e => setProteinGoal(e.target.value)}
+                <input type="number" placeholder={t('aika_min_protein')} value={proteinGoal} onChange={e => setProteinGoal(e.target.value)}
                   className="flex-1 px-3 py-2 rounded-lg text-sm outline-none placeholder-forest-500"
                   style={{ background: '#1A3C2B', color: '#FAE89A', border: '1px solid #2D6A4F' }} />
               </div>
@@ -557,10 +560,10 @@ export default function ChefAikaPage() {
                 {generatingRecipe ? (
                   <>
                     <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                    Chef Aika is cooking...
+                    {t('aika_cooking')}
                   </>
                 ) : (
-                  <><Sparkles className="w-4 h-4" /> ✨ Generate Recipe from My Fridge</>
+                  <><Sparkles className="w-4 h-4" /> {t('aika_generate')}</>
                 )}
               </motion.button>
             </div>
@@ -570,7 +573,7 @@ export default function ChefAikaPage() {
           <div className="border-l flex flex-col overflow-y-auto" style={{ borderColor: '#1A3C2B', background: '#0D1F16' }}>
             <div className="p-4 border-b" style={{ borderColor: '#1A3C2B' }}>
               <h2 className="font-bold text-lg flex items-center gap-2" style={{ color: '#F4A23C' }}>
-                🍽️ Today's Recipe
+                {t('aika_today_recipe')}
               </h2>
             </div>
 
@@ -580,9 +583,9 @@ export default function ChefAikaPage() {
                   <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                     className="flex flex-col items-center justify-center h-full text-center py-12">
                     <div className="text-6xl mb-4">📖</div>
-                    <p className="mb-2" style={{ color: '#52B788' }}>Your personalized recipe will appear here...</p>
+                    <p className="mb-2" style={{ color: '#52B788' }}>{t('aika_recipe_placeholder')}</p>
                     <p className="text-sm" style={{ color: '#2D6A4F' }}>
-                      Add some ingredients and tap <strong style={{ color: '#F4A23C' }}>Generate Recipe</strong>!
+                      {t('aika_recipe_add_ingredients')}<strong style={{ color: '#F4A23C' }}>{t('aika_recipe_generate_btn')}</strong>!
                     </p>
                   </motion.div>
                 )}
@@ -593,7 +596,7 @@ export default function ChefAikaPage() {
                     <motion.span className="text-5xl mb-4" animate={{ rotate: [0, 15, -15, 0] }} transition={{ repeat: Infinity, duration: 1 }}>
                       🍳
                     </motion.span>
-                    <p style={{ color: '#52B788' }}>Chef Aika is cooking up your recipe...</p>
+                    <p style={{ color: '#52B788' }}>{t('aika_cooking_status')}</p>
                   </motion.div>
                 )}
 
@@ -605,20 +608,20 @@ export default function ChefAikaPage() {
                       <p className="text-sm mb-3" style={{ color: '#B3DBBD' }}>{recipe.description}</p>
                       <div className="flex flex-wrap gap-3">
                         <span className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full" style={{ background: '#0A1A10', color: '#52B788' }}>
-                          <Clock className="w-3 h-3" /> {recipe.prep_time}m prep
+                          <Clock className="w-3 h-3" /> {recipe.prep_time}m {t('aika_prep')}
                         </span>
                         <span className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full" style={{ background: '#0A1A10', color: '#F4A23C' }}>
-                          <Flame className="w-3 h-3" /> {recipe.cook_time}m cook
+                          <Flame className="w-3 h-3" /> {recipe.cook_time}m {t('aika_cook')}
                         </span>
                         <span className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full" style={{ background: '#0A1A10', color: '#7EC49A' }}>
-                          <Users className="w-3 h-3" /> {recipe.servings} servings
+                          <Users className="w-3 h-3" /> {recipe.servings} {t('aika_servings_label')}
                         </span>
                       </div>
                     </div>
 
                     {/* Ingredients */}
                     <div className="mb-4">
-                      <h3 className="font-bold text-sm mb-2 flex items-center gap-2" style={{ color: '#FAE89A' }}>🥗 Ingredients</h3>
+                      <h3 className="font-bold text-sm mb-2 flex items-center gap-2" style={{ color: '#FAE89A' }}>{t('aika_ingredients_title')}</h3>
                       <ul className="space-y-1.5">
                         {recipe.ingredients_used.map((ing, i) => (
                           <li key={i} className="flex items-center gap-2 text-sm" style={{ color: '#B3DBBD' }}>
@@ -632,7 +635,7 @@ export default function ChefAikaPage() {
                     {/* Missing Ingredients */}
                     {recipe.missing_ingredients && recipe.missing_ingredients.length > 0 && (
                       <div className="mb-4">
-                        <h3 className="font-bold text-sm mb-2 flex items-center gap-2 text-red-400">🛒 Missing Ingredients</h3>
+                        <h3 className="font-bold text-sm mb-2 flex items-center gap-2 text-red-400">{t('aika_missing_title')}</h3>
                         <ul className="space-y-1.5">
                           {recipe.missing_ingredients.map((ing, i) => (
                             <li key={i} className="flex items-center gap-2 text-sm text-red-300">
@@ -648,12 +651,12 @@ export default function ChefAikaPage() {
                     {recipe.calories && (
                       <div className="mb-4 p-3 rounded-xl border flex justify-between items-center" style={{ background: '#0A1A10', borderColor: '#1A3C2B' }}>
                         <div>
-                          <h3 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#52B788' }}>Nutrition Facts</h3>
+                          <h3 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#52B788' }}>{t('aika_nutrition_title')}</h3>
                           <div className="flex gap-4">
-                            <div className="text-center"><span className="block font-black text-white">{recipe.calories}</span><span className="text-[10px] text-gray-400">CALS</span></div>
-                            <div className="text-center"><span className="block font-black text-white">{recipe.protein}g</span><span className="text-[10px] text-gray-400">PRO</span></div>
-                            <div className="text-center"><span className="block font-black text-white">{recipe.carbs}g</span><span className="text-[10px] text-gray-400">CARB</span></div>
-                            <div className="text-center"><span className="block font-black text-white">{recipe.fats}g</span><span className="text-[10px] text-gray-400">FAT</span></div>
+                            <div className="text-center"><span className="block font-black text-white">{recipe.calories}</span><span className="text-[10px] text-gray-400">{t('aika_cals')}</span></div>
+                            <div className="text-center"><span className="block font-black text-white">{recipe.protein}g</span><span className="text-[10px] text-gray-400">{t('aika_pro')}</span></div>
+                            <div className="text-center"><span className="block font-black text-white">{recipe.carbs}g</span><span className="text-[10px] text-gray-400">{t('aika_carb')}</span></div>
+                            <div className="text-center"><span className="block font-black text-white">{recipe.fats}g</span><span className="text-[10px] text-gray-400">{t('aika_fat')}</span></div>
                           </div>
                         </div>
                         {recipe.health_grade && (
@@ -670,7 +673,7 @@ export default function ChefAikaPage() {
 
                     {/* Instructions */}
                     <div className="mb-4">
-                      <h3 className="font-bold text-sm mb-3 flex items-center gap-2" style={{ color: '#FAE89A' }}>👩‍🍳 Instructions</h3>
+                      <h3 className="font-bold text-sm mb-3 flex items-center gap-2" style={{ color: '#FAE89A' }}>{t('aika_instructions_title')}</h3>
                       <ol className="space-y-2">
                         {recipe.instructions.map((step, i) => (
                           <motion.li key={i}
@@ -692,7 +695,7 @@ export default function ChefAikaPage() {
                     {recipe.tips && (
                       <div className="mb-4 p-3 rounded-xl" style={{ background: '#1A3C2B', border: '1px solid #2D6A4F' }}>
                         <h3 className="font-bold text-sm mb-1 flex items-center gap-2" style={{ color: '#F4A23C' }}>
-                          <Lightbulb className="w-4 h-4" /> Chef's Tip
+                          <Lightbulb className="w-4 h-4" /> {t('aika_chef_tip')}
                         </h3>
                         <p className="text-sm" style={{ color: '#B3DBBD' }}>{recipe.tips}</p>
                       </div>
@@ -705,22 +708,21 @@ export default function ChefAikaPage() {
                           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all"
                           style={{ background: '#1A3C2B', color: '#52B788', border: '1px solid #2D6A4F' }}>
                           {voiceEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-                          Read Aloud
+                          {t('aika_read_aloud')}
                         </button>
                         <Link href={recipe.missing_ingredients && recipe.missing_ingredients.length > 0 
                             ? `/basket?prefill=${encodeURIComponent(recipe.missing_ingredients.join(','))}` 
                             : '/compare'}
                           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all"
                           style={{ background: 'linear-gradient(135deg, #F4A23C, #D6AD60)', color: '#0F2419' }}>
-                          {recipe.missing_ingredients && recipe.missing_ingredients.length > 0 ? "🛒 Buy Missing Items" : "🛒 Price Check"}
+                          {recipe.missing_ingredients && recipe.missing_ingredients.length > 0 ? t('aika_buy_missing') : t('aika_price_check')}
                         </Link>
                       </div>
-                      <Link href={`/community`}
-                        state={{ prefillRecipe: { name: recipe.name, ingredients: recipe.ingredients_used } }}
+                      <Link href={`/community?recipeName=${encodeURIComponent(recipe.name)}&recipeIngredients=${encodeURIComponent(recipe.ingredients_used.join(','))}`}
                         className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all hover:opacity-90"
                         style={{ background: 'linear-gradient(135deg, #7C3AED, #5B21B6)', color: 'white' }}
                       >
-                        🍳 Share to Community Feed
+                        {t('aika_share_community')}
                       </Link>
                     </div>
                   </motion.div>
