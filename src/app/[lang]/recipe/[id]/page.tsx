@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   }
 
   const lang = resolvedParams.lang || 'en';
-  const tRecipe = recipe.translations?.[lang] ?? {};
+  type RecipeTranslation = { title?: string; description?: string };
+  const tRecipe = (recipe.translations?.[lang] ?? {}) as RecipeTranslation;
   const displayName = tRecipe.title ?? recipe.name;
   
   // Basic translations for SEO title/desc.

@@ -3,8 +3,9 @@ import CompareResultsGrid from '../../../../components/CompareResultsGrid';
 import { searchPrices } from '../../../../data/mockPrices';
 import { getTranslatedItem, getLocalizedSEOTitle, type SupportedLanguage } from '../../../../i18n/dictionary';
 
-// City-food pages for long-tail local SEO
+// City-food pages for long-tail local SEO — used in keywords metadata
 const CITIES = ['Mumbai', 'Delhi', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'];
+// Platform labels for SEO
 const PLATFORMS = ['Blinkit', 'BigBasket', 'Zepto', 'Swiggy', 'Amazon Fresh', 'JioMart'];
 const PLATFORM_LABELS: Record<string, string> = {
   blinkit: 'Blinkit', zepto: 'Zepto', swiggy: 'Swiggy',
@@ -49,9 +50,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       : `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly.`)
     : getLocalizedSEOTitle(translatedItem, currentLang);
 
+  // City-level long-tail keywords: "onion price in Mumbai", "onion price in Delhi", etc.
+  const cityKeywords = CITIES.map(city => `${displayName} price in ${city}`).join(', ');
+
   return {
     title: seoTitle,
     description: seoDesc,
+    keywords: `${displayName} price today, ${displayName} Blinkit, ${displayName} Zepto, ${displayName} BigBasket, cheapest ${displayName} online, ${cityKeywords}`,
     alternates: {
       canonical: `https://www.fantasticfood.in/${currentLang}/food/${foodItem}`,
     }

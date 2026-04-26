@@ -2,7 +2,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap, Share2, Bot, Loader2, Link2, Gift, Users, RefreshCw } from 'lucide-react';
-import { useSearchParams, usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import confetti from 'canvas-confetti';
 import SEO from '../components/SEO';
@@ -60,7 +60,6 @@ const BasketCalculator = () => {
   const [searchResult, setSearchResult] = useState<string | null>(null);
   
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const [aiAdvice, setAiAdvice] = useState<any>(null);
   const [loadingAdvice, setLoadingAdvice] = useState(false);
   const { t } = useTranslation();
@@ -104,16 +103,12 @@ const BasketCalculator = () => {
       return () => { supabase.removeChannel(channel); };
     }
     const prefillQuery = searchParams.get('prefill');
-    const prefillState = location.state?.prefill as string[] | undefined;
-    
     if (prefillQuery) {
       const itemsToLoad = prefillQuery.split(',').filter(Boolean);
       itemsToLoad.forEach(item => addItem(item));
-    } else if (prefillState && Array.isArray(prefillState)) {
-      prefillState.forEach(item => addItem(item));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [familyIdParam, searchParams, location.state]);
+  }, [familyIdParam, searchParams]);
 
   const syncToSupabase = async (newBasket: BasketItem[]) => {
     if (!familyIdParam) return;
