@@ -22,7 +22,7 @@ const CATEGORY_ICONS: Record<string, string> = {
 };
 
 export default function RecipePage() {
-  const { recipeId } = useParams<{ recipeId: string }>();
+  const { id: recipeId } = useParams<{ id: string }>();
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
