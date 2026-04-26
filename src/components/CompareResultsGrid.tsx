@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -9,13 +11,16 @@ import type { CompareResult, PlatformPrice } from '../data/mockPrices';
 import { getBestPrice } from '../data/mockPrices';
 import PlatformPriceCard from './PlatformPriceCard';
 import PriceHistoryChart from './PriceHistoryChart';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 import { getPlatformById } from '../data/platforms';
 import { getAffiliateUrl } from '../utils/affiliate';
 import { usePriceWatch } from '../hooks/usePriceWatch';
 import toast from 'react-hot-toast';
 import { getRelatedItems } from '../data/compareFeatures';
 import { getPriceTrendSignal, getBestUnitDeal } from '../utils/unitPrice';
+import { useTranslation } from 'react-i18next';
 
 type SortMode = 'price' | 'discount' | 'delivery' | 'availability';
 type ViewMode = 'cards' | 'table';
@@ -37,7 +42,7 @@ const sortByMode = (prices: PlatformPrice[], mode: SortMode): PlatformPrice[] =>
 };
 
 // ── Table row ──────────────────────────────────────────────────────────────────
-const TableRow = ({ price, isBest, rank }: { price: PlatformPrice; isBest: boolean; rank: number }) => {
+const TableRow = ({ price, isBest, rank, t }: { price: PlatformPrice; isBest: boolean; rank: number; t: any }) => {
   const platform = getPlatformById(price.platformId);
   if (!platform) return null;
   return (
@@ -47,11 +52,11 @@ const TableRow = ({ price, isBest, rank }: { price: PlatformPrice; isBest: boole
           <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${rank === 1 ? 'bg-amber-400 text-white' : 'bg-gray-100 text-gray-500'}`}>{rank}</span>
           <span className="text-lg">{platform.logo}</span>
           <span className="font-semibold text-sm text-forest-900">{platform.name}</span>
-          {isBest && <span className="text-[10px] bg-amber-400 text-white font-bold px-1.5 py-0.5 rounded-full">BEST</span>}
+          {isBest && <span className="text-[10px] bg-amber-400 text-white font-bold px-1.5 py-0.5 rounded-full">{t('best_badge')}</span>}
           {price.isVerified ? (
-            <span className="text-[10px] bg-green-50 text-green-700 font-bold px-1.5 py-0.5 rounded-full border border-green-200" title="Live Verified Price">✓ Live</span>
+            <span className="text-[10px] bg-green-50 text-green-700 font-bold px-1.5 py-0.5 rounded-full border border-green-200" title="Live Verified Price">✓ {t('live_verified')}</span>
           ) : (
-            <span className="text-[10px] bg-gray-50 text-gray-500 font-bold px-1.5 py-0.5 rounded-full border border-gray-200 cursor-help" title="Based on historical averages">~ Est</span>
+            <span className="text-[10px] bg-gray-50 text-gray-500 font-bold px-1.5 py-0.5 rounded-full border border-gray-200 cursor-help" title="Based on historical averages">~ {t('est_price')}</span>
           )}
         </div>
       </td>
@@ -62,8 +67,8 @@ const TableRow = ({ price, isBest, rank }: { price: PlatformPrice; isBest: boole
       </td>
       <td className="py-3 px-4">
         {price.inStock
-          ? <span className="flex items-center gap-1 text-xs text-green-600 font-medium"><CheckCircle2 className="w-3 h-3" />In Stock</span>
-          : <span className="text-xs text-red-400">Unavailable</span>}
+          ? <span className="flex items-center gap-1 text-xs text-green-600 font-medium"><CheckCircle2 className="w-3 h-3" />{t('in_stock')}</span>
+          : <span className="text-xs text-red-400">{t('unavailable')}</span>}
       </td>
       <td className="py-3 px-4 font-bold text-forest-900">
         ₹{price.price}
@@ -85,7 +90,7 @@ const TableRow = ({ price, isBest, rank }: { price: PlatformPrice; isBest: boole
             isBest ? 'bg-forest-700 text-white hover:bg-forest-800' : 'bg-forest-50 text-forest-700 border border-forest-200 hover:bg-forest-100'
           } ${!price.inStock ? 'opacity-40 pointer-events-none' : ''}`}
         >
-          {isBest ? 'Buy Now' : 'View'} <ExternalLink className="w-3 h-3" />
+          {isBest ? t('buy_now') : t('view')} <ExternalLink className="w-3 h-3" />
         </a>
       </td>
     </tr>
@@ -101,8 +106,9 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
   const [shared, setShared] = useState(false);
 
   const { addWatch, removeWatch, isWatching } = usePriceWatch();
+  const { t } = useTranslation();
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const bestPrice = getBestPrice(result.prices);
   const sortedPrices = sortByMode(result.prices, sortMode);
@@ -147,7 +153,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
   const handleWatch = () => {
     if (watching) {
       removeWatch(result.query);
-      toast.success('Price watch removed!');
+      toast.success(t('toast_watch_removed'));
       return;
     }
     setShowWatchModal(true);
@@ -156,7 +162,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
 
   const confirmWatch = () => {
     const target = parseFloat(watchPrice);
-    if (!target || target <= 0) { toast.error('Enter a valid price'); return; }
+    if (!target || target <= 0) { toast.error(t('toast_enter_valid_price')); return; }
     addWatch({
       query: result.query.toLowerCase(),
       label: result.canonicalName,
@@ -164,7 +170,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
       targetPrice: target,
       currentBest: minPrice,
     });
-    toast.success(`Price watch set! We'll alert you when ${result.canonicalName} drops below ₹${target}`);
+    toast.success(t('toast_watch_set', { name: result.canonicalName, target }));
     setShowWatchModal(false);
   };
 
@@ -181,15 +187,15 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
             <span className="text-3xl">💡</span>
             <div>
               <p className="text-amber-900 font-black text-base">
-                Save up to ₹{savings} ({savingsPct}% cheaper) by choosing the best platform!
+                {t('save_up_to')} ₹{savings} ({savingsPct}% {t('cheaper')}) {t('by_choosing_platform')}
               </p>
               <p className="text-amber-800 text-xs">
-                Cheapest: <strong>{bestPrice.platformId.charAt(0).toUpperCase() + bestPrice.platformId.slice(1)}</strong> at ₹{minPrice} vs highest ₹{maxPrice}
+                {t('cheapest_label')} <strong>{bestPrice.platformId.charAt(0).toUpperCase() + bestPrice.platformId.slice(1)}</strong> {t('at_price')} ₹{minPrice} {t('vs_highest')} ₹{maxPrice}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-1.5 bg-amber-900/20 text-amber-900 text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap">
-            <Sparkles className="w-3.5 h-3.5" /> Best Deal Found
+            <Sparkles className="w-3.5 h-3.5" /> {t('best_deal_found')}
           </div>
         </motion.div>
       )}
@@ -205,8 +211,8 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           <div>
             <h2 className="text-xl font-bold font-display">{result.canonicalName}</h2>
             <p className="text-forest-300 text-sm">
-              {result.category} · {inStockPrices.length} in stock
-              {outOfStock > 0 && <span className="text-red-400"> · {outOfStock} unavailable</span>}
+              {result.category} · {inStockPrices.length} {t('in_stock').toLowerCase()}
+              {outOfStock > 0 && <span className="text-red-400"> · {outOfStock} {t('unavailable').toLowerCase()}</span>}
             </p>
           </div>
         </div>
@@ -216,16 +222,16 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           <div className="flex gap-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-amber-400">₹{minPrice}</div>
-              <div className="text-forest-300 text-xs">Lowest</div>
+              <div className="text-forest-300 text-xs">{t('lowest_price_label')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-cream-300">₹{maxPrice}</div>
-              <div className="text-forest-300 text-xs">Highest</div>
+              <div className="text-forest-300 text-xs">{t('highest_price_label')}</div>
             </div>
             {savings > 0 && (
               <div className="text-center">
                 <div className="text-2xl font-bold text-moss-400">₹{savings}</div>
-                <div className="text-forest-300 text-xs">You save</div>
+                <div className="text-forest-300 text-xs">{t('you_save_label')}</div>
               </div>
             )}
           </div>
@@ -241,7 +247,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
               }`}
             >
               {shared ? <CheckCircle2 className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
-              {shared ? 'Shared!' : 'WhatsApp'}
+              {shared ? t('shared') : t('whatsapp_share')}
             </button>
 
             {/* Price Watch */}
@@ -253,16 +259,16 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
               }`}
             >
               {watching ? <BellOff className="w-4 h-4" /> : <Bell className="w-4 h-4" />}
-              {watching ? 'Watching' : 'Price Alert'}
+              {watching ? t('watching') : t('price_alert')}
             </button>
 
             {/* Report Price Feedback */}
             <button
-              onClick={() => toast.success('Thanks for reporting! Our team will manually verify this item.')}
+              onClick={() => toast.success(t('toast_report_thanks'))}
               title="Report incorrect price"
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 hover:bg-white/20 text-white"
             >
-              <AlertCircle className="w-4 h-4" /> Report
+              <AlertCircle className="w-4 h-4" /> {t('report_price')}
             </button>
           </div>
         </div>
@@ -292,13 +298,13 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         {/* Sort */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-sm text-forest-600 font-medium flex items-center gap-1">
-            <ArrowDownUp className="w-4 h-4" /> Sort:
+            <ArrowDownUp className="w-4 h-4" /> {t('sort_label')}
           </span>
           {[
-            { key: 'price' as SortMode, label: 'Lowest Price', icon: Tag },
-            { key: 'discount' as SortMode, label: 'Max Discount', icon: TrendingDown },
-            { key: 'delivery' as SortMode, label: 'Fastest', icon: Zap },
-            { key: 'availability' as SortMode, label: 'In Stock', icon: PackageCheck },
+            { key: 'price' as SortMode, label: t('sort_lowest_price'), icon: Tag },
+            { key: 'discount' as SortMode, label: t('sort_max_discount'), icon: TrendingDown },
+            { key: 'delivery' as SortMode, label: t('sort_fastest'), icon: Zap },
+            { key: 'availability' as SortMode, label: t('in_stock'), icon: PackageCheck },
           ].map(({ key, label, icon: Icon }) => (
             <button
               key={key}
@@ -357,7 +363,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           <table className="w-full text-sm">
             <thead className="bg-forest-50 border-b border-forest-100">
               <tr>
-                {['Platform', 'Delivery', 'Status', 'Price', 'Discount', 'Action'].map((h) => (
+                {[t('table_platform'), t('table_delivery'), t('table_status'), t('table_price'), t('table_discount'), t('table_action')].map((h) => (
                   <th key={h} className="py-3 px-4 text-left text-xs font-bold text-forest-700 uppercase tracking-wide">{h}</th>
                 ))}
               </tr>
@@ -369,6 +375,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
                   price={price}
                   isBest={price.platformId === bestPrice?.platformId}
                   rank={i + 1}
+                  t={t}
                 />
               ))}
             </tbody>
@@ -384,13 +391,13 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         className="mt-10 pt-8 border-t border-gray-100"
       >
         <h3 className="text-base font-bold text-forest-900 mb-4 flex items-center gap-2">
-          🔍 People Also Compare
+          🔍 {t('people_also_compare')}
         </h3>
         <div className="flex flex-wrap gap-2">
           {relatedItems.map((item) => (
             <button
               key={item.query}
-              onClick={() => navigate(`/compare?q=${item.query}`)}
+              onClick={() => router.push(`/compare?q=${item.query}`)}
               className="flex items-center gap-2 px-4 py-2 bg-white border border-forest-100 hover:border-forest-400 hover:bg-forest-50 rounded-full text-sm font-medium text-forest-800 shadow-sm hover:shadow-md transition-all"
             >
               <span>{item.icon}</span>
@@ -414,12 +421,12 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           <div className="flex items-center gap-4">
             <span className="text-5xl">🍄</span>
             <div className="text-white">
-              <h3 className="text-lg font-bold font-display">Order directly from our Mushroom Farm</h3>
-              <p className="text-earth-200 text-sm">Fresh, organic mushrooms — delivered from our farm to your door</p>
+              <h3 className="text-lg font-bold font-display">{t('mushroom_promo_title')}</h3>
+              <p className="text-earth-200 text-sm">{t('mushroom_promo_desc')}</p>
             </div>
           </div>
-          <Link to="/mushroom-shop" className="btn-amber whitespace-nowrap flex items-center gap-2">
-            Shop Mushrooms <ArrowRight className="w-4 h-4" />
+          <Link href="/mushroom-shop" className="btn-amber whitespace-nowrap flex items-center gap-2">
+            {t('shop_mushrooms')} <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
       )}
@@ -443,15 +450,15 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
             >
               <div className="text-center mb-5">
                 <span className="text-5xl mb-3 block">{result.icon}</span>
-                <h3 className="text-xl font-black text-forest-900">Set Price Alert</h3>
+                <h3 className="text-xl font-black text-forest-900">{t('set_price_alert_modal')}</h3>
                 <p className="text-sm text-forest-600 mt-1">
-                  We'll alert you when <strong>{result.canonicalName}</strong> drops below your target
+                  {t('alert_you_when')} <strong>{result.canonicalName}</strong> {t('drops_below_target')}
                 </p>
               </div>
 
               <div className="mb-2">
                 <label className="text-xs font-bold text-forest-700 uppercase tracking-wide block mb-2">
-                  Alert me when price drops below:
+                  {t('alert_me_below')}
                 </label>
                 <div className="flex items-center border-2 border-forest-200 rounded-xl overflow-hidden focus-within:border-forest-500 transition-colors">
                   <span className="px-4 py-3 bg-forest-50 text-forest-700 font-bold text-lg border-r border-forest-200">₹</span>
@@ -464,7 +471,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
                     autoFocus
                   />
                 </div>
-                <p className="text-xs text-forest-500 mt-1.5">Current best price: ₹{minPrice}</p>
+                <p className="text-xs text-forest-500 mt-1.5">{t('current_best_price')} ₹{minPrice}</p>
               </div>
 
               <div className="flex gap-3 mt-5">
@@ -472,13 +479,13 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
                   onClick={() => setShowWatchModal(false)}
                   className="flex-1 py-3 rounded-xl border border-forest-200 text-forest-700 font-semibold text-sm hover:bg-forest-50 transition-colors"
                 >
-                  Cancel
+                  {t('cancel')}
                 </button>
                 <button
                   onClick={confirmWatch}
                   className="flex-1 py-3 rounded-xl bg-forest-700 text-white font-bold text-sm hover:bg-forest-800 transition-colors flex items-center justify-center gap-2"
                 >
-                  <Bell className="w-4 h-4" /> Set Alert
+                  <Bell className="w-4 h-4" /> {t('set_alert_btn')}
                 </button>
               </div>
             </motion.div>

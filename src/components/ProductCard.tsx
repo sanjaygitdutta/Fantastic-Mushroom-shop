@@ -1,10 +1,12 @@
+'use client';
 import React, { useState, useMemo } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Plus, Star, Heart } from 'lucide-react';
 import type { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import confetti from 'canvas-confetti';
 
 interface ProductCardProps {

@@ -1,7 +1,9 @@
+'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, MicOff, Volume2, X, Package } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+
 import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
 import { toast } from 'react-hot-toast';
@@ -16,7 +18,7 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({ onClose }) => {
     const [response, setResponse] = useState('Hi! I\'m Shroom, your AI mushroom shopping assistant. Try saying "show me fresh mushrooms" or "add shiitake to cart".');
     const [isSpeaking, setIsSpeaking] = useState(false);
     const recognitionRef = useRef<any>(null);
-    const navigate = useNavigate();
+    const router = useRouter();
     const { addToCart, items } = useCart();
 
     useEffect(() => {
@@ -74,29 +76,29 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({ onClose }) => {
         // Navigate commands
         if (lowerCommand.includes('go to') || lowerCommand.includes('show me') || lowerCommand.includes('navigate to')) {
             if (lowerCommand.includes('home')) {
-                navigate('/');
+                router.push('/');
                 speak('Taking you to the home page.');
             } else if (lowerCommand.includes('cart') || lowerCommand.includes('shopping cart')) {
-                navigate('/');
+                router.push('/');
                 speak(`You have ${items.length} items in your cart.`);
             } else if (lowerCommand.includes('checkout')) {
                 if (items.length === 0) {
                     speak('Your cart is empty. Please add some products first.');
                 } else {
-                    navigate('/checkout');
+                    router.push('/checkout');
                     speak('Taking you to checkout.');
                 }
             } else if (lowerCommand.includes('subscription')) {
-                navigate('/subscription');
+                router.push('/subscription');
                 speak('Showing subscription plans.');
             } else if (lowerCommand.includes('fresh mushroom')) {
-                navigate('/category/fresh');
+                router.push('/category/fresh');
                 speak('Showing fresh mushrooms.');
             } else if (lowerCommand.includes('dried mushroom')) {
-                navigate('/category/dried');
+                router.push('/category/dried');
                 speak('Showing dried mushrooms.');
             } else if (lowerCommand.includes('recipe')) {
-                navigate('/recipes');
+                router.push('/recipes');
                 speak('Showing recipes.');
             }
             return;

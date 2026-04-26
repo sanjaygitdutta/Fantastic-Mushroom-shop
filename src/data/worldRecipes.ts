@@ -15,6 +15,12 @@ export interface WorldRecipe {
   tags: string[];
   ingredients: string[];
   steps: string[];
+  translations?: Record<string, {
+    title: string;
+    description: string;
+    ingredients: { item: string; amount: string }[];
+    instructions: string[];
+  }>;
 }
 
 const r = (
@@ -385,7 +391,8 @@ export const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
   calories: 450, // default fallback
   tags: r.tags || [],
   ingredients: r.ingredients.map(i => `${i.amount} ${i.item}`),
-  steps: r.instructions || []
+  steps: r.instructions || [],
+  translations: r.translations
 }));
 
 export const ALL_RECIPES = [...WORLD_RECIPES, ...mappedAIRecipes];

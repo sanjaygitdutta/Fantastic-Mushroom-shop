@@ -1,5 +1,8 @@
-// Enhanced SEO Component with full OG, Twitter, JSON-LD support
+'use client';
+// Enhanced SEO Component with full OG, Twitter, JSON-LD, and Hreflang support
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { SUPPORTED_LANGUAGES } from '../i18n/dictionary';
 
 interface SEOProps {
   title: string;
@@ -24,11 +27,22 @@ const SEO = ({
   ogType = 'website',
   structuredData,
 }: SEOProps) => {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language?.substring(0, 2) || 'en';
+
   useEffect(() => {
+    // ── HTML Lang Attribute ────────────────────────────
+    document.documentElement.lang = `${currentLang}-IN`;
+
     const fullTitle = title.includes('Fantastic Food') ? title : `${title} | Fantastic Food`;
     document.title = fullTitle;
 
-    const pageUrl = canonicalUrl || window.location.href;
+    let pageUrl = canonicalUrl || window.location.href;
+    if (canonicalUrl && currentLang !== 'en') {
+      const urlObj = new URL(canonicalUrl);
+      urlObj.pathname = `/${currentLang}${urlObj.pathname === '/' ? '' : urlObj.pathname}`;
+      pageUrl = urlObj.toString();
+    }
 
     const setMeta = (attr: string, attrVal: string, content: string) => {
       let el = document.querySelector(`meta[${attr}="${attrVal}"]`);
@@ -40,11 +54,12 @@ const SEO = ({
       el.setAttribute('content', content);
     };
 
-    const setLink = (rel: string, href: string) => {
-      let el = document.querySelector(`link[rel="${rel}"]`);
+    const setLink = (rel: string, href: string, hreflang?: string) => {
+      let el = document.querySelector(`link[rel="${rel}"]${hreflang ? `[hreflang="${hreflang}"]` : ':not([hreflang])'}`);
       if (!el) {
         el = document.createElement('link');
         el.setAttribute('rel', rel);
+        if (hreflang) el.setAttribute('hreflang', hreflang);
         document.head.appendChild(el);
       }
       el.setAttribute('href', href);
@@ -54,7 +69,7 @@ const SEO = ({
     setMeta('name', 'description', description);
     setMeta('name', 'robots', 'index, follow');
     setMeta('name', 'author', 'Fantastic Food');
-    setMeta('name', 'language', 'en-IN');
+    setMeta('name', 'language', `${currentLang}-IN`);
     if (keywords) setMeta('name', 'keywords', keywords);
 
     // ── Open Graph ─────────────────────────────────────
@@ -67,7 +82,7 @@ const SEO = ({
     setMeta('property', 'og:image:height', '630');
     setMeta('property', 'og:image:alt',    ogImageAlt);
     setMeta('property', 'og:site_name',   'Fantastic Food');
-    setMeta('property', 'og:locale',      'en_IN');
+    setMeta('property', 'og:locale',      `${currentLang}_IN`);
 
     // ── Twitter Cards ──────────────────────────────────
     setMeta('name', 'twitter:card',        'summary_large_image');
@@ -76,8 +91,26 @@ const SEO = ({
     setMeta('name', 'twitter:image',       ogImage);
     setMeta('name', 'twitter:site',        '@fantasticfoodin');
 
-    // ── Canonical ─────────────────────────────────────
-    if (canonicalUrl) setLink('canonical', canonicalUrl);
+    // ── Canonical & Hreflang ───────────────────────────
+    if (pageUrl) {
+      setLink('canonical', pageUrl);
+      
+      // Inject hreflang tags for ALL supported languages to link their SEO ranking
+      // This is the #1 most important step for scaling regional SEO
+      SUPPORTED_LANGUAGES.forEach(lang => {
+        // Build language specific URL by injecting the language prefix into the pathname
+        const baseUrl = canonicalUrl || window.location.href;
+        const urlObj = new URL(baseUrl);
+        if (lang.code !== 'en') {
+          urlObj.pathname = `/${lang.code}${urlObj.pathname === '/' ? '' : urlObj.pathname}`;
+        }
+        const localizedUrl = urlObj.toString();
+        
+        // Use 'x-default' for english, and standard codes for others
+        const hreflangCode = lang.code === 'en' ? 'x-default' : `${lang.code}-in`;
+        setLink('alternate', localizedUrl, hreflangCode);
+      });
+    }
 
     // ── JSON-LD Structured Data ────────────────────────
     // Supports single object OR array — injects as @graph for Google compatibility
@@ -98,7 +131,7 @@ const SEO = ({
       // Clean up on page navigation so stale schema doesn't persist
       document.getElementById('seo-structured-data-jsonld')?.remove();
     };
-  }, [title, description, keywords, canonicalUrl, ogImage, ogImageAlt, ogType, structuredData]);
+  }, [title, description, keywords, canonicalUrl, ogImage, ogImageAlt, ogType, structuredData, currentLang]);
 
   return null;
 };

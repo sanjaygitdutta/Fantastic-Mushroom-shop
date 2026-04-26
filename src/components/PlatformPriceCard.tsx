@@ -1,3 +1,4 @@
+'use client';
 import { motion } from 'framer-motion';
 import { ExternalLink, ShoppingCart, TrendingDown, AlertCircle, Clock, Tag, Scale, CheckCircle2 } from 'lucide-react';
 import type { PlatformPrice } from '../data/mockPrices';
@@ -5,6 +6,7 @@ import { getPlatformById } from '../data/platforms';
 import { getAffiliateUrl } from '../utils/affiliate';
 import { PLATFORM_COUPONS } from '../data/compareFeatures';
 import { getUnitPrice } from '../utils/unitPrice';
+import { useTranslation } from 'react-i18next';
 
 interface PlatformPriceCardProps {
   price: PlatformPrice;
@@ -19,6 +21,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
   const coupons = PLATFORM_COUPONS[price.platformId] ?? [];
   const topCoupon = coupons[0];
   const unitPrice = getUnitPrice(price.price, price.unit);
+  const { t } = useTranslation();
 
   return (
     <motion.div
@@ -30,7 +33,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
       {/* Best price badge */}
       {isBest && (
         <div className="absolute -top-3 left-4">
-          <span className="badge-best">🏆 Best Price</span>
+          <span className="badge-best">🏆 {t('card_best_price')}</span>
         </div>
       )}
 
@@ -39,7 +42,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
         <div className="absolute inset-0 bg-white/80 backdrop-blur-[1px] rounded-2xl flex items-center justify-center z-10">
           <div className="flex items-center gap-2 text-gray-500 font-semibold">
             <AlertCircle className="w-5 h-5" />
-            Out of Stock
+            {t('card_out_of_stock')}
           </div>
         </div>
       )}
@@ -71,15 +74,15 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
         <p className="text-sm text-forest-700 line-clamp-1 flex-1">{price.productName}</p>
         {price.isVerified ? (
           <span className="flex items-center gap-1 text-[10px] font-bold bg-green-50 text-green-700 px-1.5 py-0.5 rounded border border-green-200 whitespace-nowrap">
-            <CheckCircle2 className="w-3 h-3" /> Verified Live
+            <CheckCircle2 className="w-3 h-3" /> {t('card_verified_live')}
           </span>
         ) : (
           <div className="group relative flex items-center">
             <span className="flex items-center gap-1 text-[10px] font-bold bg-gray-50 text-gray-500 px-1.5 py-0.5 rounded border border-gray-200 whitespace-nowrap cursor-help">
-              ~ Estimated
+              ~ {t('card_estimated')}
             </span>
             <div className="absolute bottom-full right-0 mb-1 w-48 p-2 bg-gray-900 text-white text-[10px] rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20">
-              Based on historical averages. Final price on app may vary slightly.
+              {t('card_estimated_tooltip')}
             </div>
           </div>
         )}
@@ -101,7 +104,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
         <div className="flex items-center gap-1 text-xs text-forest-500 mb-2">
           <Scale className="w-3 h-3" />
           <span className="font-medium">{unitPrice}</span>
-          <span className="text-gray-400">effective</span>
+          <span className="text-gray-400">{t('card_effective')}</span>
         </div>
       )}
 
@@ -109,7 +112,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
       {price.discount > 0 && (
         <div className="flex items-center gap-1 text-xs text-moss-600 mb-3">
           <TrendingDown className="w-3 h-3" />
-          Save ₹{price.originalPrice - price.price}
+          {t('card_save')} ₹{price.originalPrice - price.price}
         </div>
       )}
 
@@ -121,7 +124,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
             <span className="text-xs font-bold text-amber-700 font-mono">{topCoupon.code}</span>
             <span className="text-xs text-amber-600"> — {topCoupon.description}</span>
             {topCoupon.isNew && (
-              <span className="ml-1 text-[10px] bg-purple-100 text-purple-700 font-bold px-1 py-0.5 rounded">NEW</span>
+              <span className="ml-1 text-[10px] bg-purple-100 text-purple-700 font-bold px-1 py-0.5 rounded">{t('card_new')}</span>
             )}
           </div>
         </div>
@@ -140,9 +143,9 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
         } ${!price.inStock ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         {isBest ? (
-          <><ShoppingCart className="w-4 h-4" /> Buy at {platform.name}</>
+          <><ShoppingCart className="w-4 h-4" /> {t('card_buy_at')} {platform.name}</>
         ) : (
-          <><ExternalLink className="w-4 h-4" /> View on {platform.name}</>
+          <><ExternalLink className="w-4 h-4" /> {t('card_view_on')} {platform.name}</>
         )}
       </a>
     </motion.div>

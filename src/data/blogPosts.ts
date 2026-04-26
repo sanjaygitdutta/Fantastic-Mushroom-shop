@@ -6,6 +6,7 @@ export interface BlogPost {
   date: string;
   author: string;
   tags: string[];
+  translations?: Record<string, { title: string; description: string; content: string; }>;
 }
 
 export const BLOG_POSTS: BlogPost[] = [

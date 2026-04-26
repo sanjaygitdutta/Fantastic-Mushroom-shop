@@ -1,5 +1,7 @@
+'use client';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+
 import { FOOD_CATEGORIES } from '../data/mockPrices';
 import { ArrowRight } from 'lucide-react';
 
@@ -8,13 +10,13 @@ interface FoodCategoryBrowserProps {
 }
 
 const FoodCategoryBrowser = ({ compact = false }: FoodCategoryBrowserProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleCategory = (query: string, special?: boolean) => {
     if (special) {
-      navigate('/mushroom-shop');
+      router.push('/mushroom-shop');
     } else {
-      navigate(`/compare?q=${encodeURIComponent(query)}`);
+      router.push(`/compare?q=${encodeURIComponent(query)}`);
     }
   };
 

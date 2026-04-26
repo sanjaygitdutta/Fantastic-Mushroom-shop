@@ -1,11 +1,16 @@
+'use client';
 import { useState, useRef } from 'react';
 import { Menu, Search, User, X, ArrowRight, Bell, ChevronDown, Bot, Calculator, Compass, ShoppingBag } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
+
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { ShoppingBasket } from 'lucide-react';
+import { ShoppingBasket, Globe } from 'lucide-react';
 import { POPULAR_SEARCHES } from '../data/mockPrices';
+import { useTranslation } from 'react-i18next';
+import { SUPPORTED_LANGUAGES } from '../i18n/dictionary';
 
 // ── Mega-menu data ─────────────────────────────────────────────────────────────
 interface NavItem {
@@ -74,7 +79,7 @@ const MegaPanel = ({ items, onClose }: { items: NavItem[]; onClose: () => void }
       ) : (
         <Link
           key={item.to}
-          to={item.to}
+          href={item.to}
           onClick={onClose}
           className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-forest-50 transition-colors group"
         >
@@ -99,8 +104,18 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [mobileOpenGroup, setMobileOpenGroup] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { i18n } = useTranslation();
+
+  const handleLanguageChange = (code: string) => {
+    // We use window.location.href instead of navigate because the Router basename
+    // isolates the app to the current language prefix. A hard reload safely resets the router.
+    const newPath = code === 'en' ? pathname : `/${code}${pathname === '/' ? '' : pathname}`;
+    window.location.href = newPath + '' /* TODO: searchParams */;
+  };
 
   const handleMouseEnter = (label: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -114,13 +129,13 @@ const Navbar = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-    navigate(`/compare?q=${encodeURIComponent(searchQuery.trim())}`);
+    router.push(`/compare?q=${encodeURIComponent(searchQuery.trim())}`);
     setIsSearchOpen(false);
     setSearchQuery('');
   };
 
   const handleQuickSearch = (q: string) => {
-    navigate(`/compare?q=${encodeURIComponent(q)}`);
+    router.push(`/compare?q=${encodeURIComponent(q)}`);
     setIsSearchOpen(false);
     setIsMobileOpen(false);
   };
@@ -132,7 +147,7 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-16">
 
             {/* Logo */}
-            <Link to="/" className="flex-shrink-0 flex items-center gap-2.5">
+            <Link href="/" className="flex-shrink-0 flex items-center gap-2.5">
               <div className="w-9 h-9 flex items-center justify-center overflow-hidden shadow-md">
                 <img src="/logo.png" alt="Fantastic Food Logo" className="w-full h-full object-contain" />
               </div>
@@ -147,16 +162,16 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center gap-1">
 
               {/* Compare — primary CTA */}
-              <NavLink
-                to="/compare"
-                className={({ isActive }) =>
+              <Link
+                href="/compare"
+                className={
                   `nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                    isActive ? 'text-amber-400' : 'text-cream-200 hover:text-white hover:bg-forest-800'
+                    pathname === '/compare' ? 'text-amber-400' : 'text-cream-200 hover:text-white hover:bg-forest-800'
                   }`
                 }
               >
                 Compare Prices
-              </NavLink>
+              </Link>
 
               {/* Grouped Mega Dropdowns */}
               {NAV_GROUPS.map((group) => (
@@ -187,21 +202,53 @@ const Navbar = () => {
               ))}
 
               {/* Shop — standalone */}
-              <NavLink
-                to="/mushroom-shop"
-                className={({ isActive }) =>
+              <Link
+                href="/mushroom-shop"
+                className={
                   `flex items-center gap-1.5 nav-link px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-cream-300 hover:text-white hover:bg-forest-800'
+                    pathname === '/mushroom-shop' ? 'text-amber-400 font-semibold' : 'text-cream-300 hover:text-white hover:bg-forest-800'
                   }`
                 }
               >
                 <ShoppingBag className="w-4 h-4" /> Shop
-              </NavLink>
+              </Link>
 
             </div>
 
             {/* Right icons */}
             <div className="flex items-center gap-1.5">
+              
+              {/* Language Switcher (Desktop) */}
+              <div className="relative hidden lg:block">
+                <button
+                  onClick={() => setIsLangOpen(!isLangOpen)}
+                  className="flex items-center gap-1 p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white uppercase font-bold text-xs"
+                >
+                  <Globe className="w-5 h-5" />
+                  {i18n.language.substring(0,2)}
+                </button>
+                <AnimatePresence>
+                  {isLangOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute right-0 top-full mt-2 w-40 bg-white rounded-xl shadow-2xl border border-forest-100 overflow-hidden z-50 py-1"
+                    >
+                      {SUPPORTED_LANGUAGES.map((lang) => (
+                        <button
+                          key={lang.code}
+                          onClick={() => handleLanguageChange(lang.code)}
+                          className={`w-full text-left px-4 py-2 text-sm font-semibold transition-colors ${i18n.language.startsWith(lang.code) ? 'bg-forest-50 text-forest-700' : 'text-forest-900 hover:bg-gray-50'}`}
+                        >
+                          {lang.nativeName}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {/* Search */}
               <button
                 onClick={() => setIsSearchOpen(true)}
@@ -213,15 +260,15 @@ const Navbar = () => {
               {/* Auth */}
               {isAuthenticated ? (
                 <div className="flex gap-1">
-                  <Link to="/saved" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-amber-400 hover:text-amber-300" title="Watchlist">
+                  <Link href="/saved" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-amber-400 hover:text-amber-300" title="Watchlist">
                     <Bell className="w-5 h-5" />
                   </Link>
-                  <Link to="/profile" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white" title="My Profile">
+                  <Link href="/profile" className="p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white" title="My Profile">
                     <User className="w-5 h-5" />
                   </Link>
                 </div>
               ) : (
-                <Link to="/login" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold text-sm transition-colors">
+                <Link href="/login" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold text-sm transition-colors">
                   Sign In
                 </Link>
               )}
@@ -314,7 +361,7 @@ const Navbar = () => {
             className="fixed top-16 left-0 right-0 z-40 bg-forest-900 border-b border-forest-700 lg:hidden overflow-y-auto max-h-[80vh]"
           >
             <div className="px-4 py-4 space-y-1">
-              <Link to="/compare" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-2 py-3 px-3 rounded-xl bg-amber-500/10 text-amber-400 font-bold text-sm border border-amber-500/20 mb-3">
+              <Link href="/compare" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-2 py-3 px-3 rounded-xl bg-amber-500/10 text-amber-400 font-bold text-sm border border-amber-500/20 mb-3">
                 <Search className="w-4 h-4" /> Compare Prices
               </Link>
 
@@ -346,7 +393,7 @@ const Navbar = () => {
                             ) : (
                               <Link
                                 key={item.to}
-                                to={item.to}
+                                href={item.to}
                                 onClick={() => setIsMobileOpen(false)}
                                 className="flex items-center gap-2 py-2 px-2 rounded-lg text-cream-300 hover:text-white hover:bg-forest-800 text-sm transition-colors"
                               >
@@ -361,15 +408,26 @@ const Navbar = () => {
                 </div>
               ))}
 
-              <Link to="/mushroom-shop" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-cream-200 font-semibold text-sm hover:bg-forest-800 transition-colors">
+              <Link href="/mushroom-shop" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-cream-200 font-semibold text-sm hover:bg-forest-800 transition-colors">
                 <ShoppingBag className="w-4 h-4" /> Mushroom Shop
               </Link>
 
               {!isAuthenticated && (
                 <div className="pt-3 border-t border-forest-800">
-                  <Link to="/login" onClick={() => setIsMobileOpen(false)} className="w-full py-3 bg-amber-500 text-forest-900 font-bold rounded-xl text-center text-sm flex items-center justify-center">
+                  <Link href="/login" onClick={() => setIsMobileOpen(false)} className="w-full py-3 bg-amber-500 text-forest-900 font-bold rounded-xl text-center text-sm flex items-center justify-center mb-3">
                     Sign In / Sign Up
                   </Link>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {SUPPORTED_LANGUAGES.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => handleLanguageChange(lang.code)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors border ${i18n.language.startsWith(lang.code) ? 'bg-forest-700 border-forest-600 text-white' : 'border-forest-700 text-forest-400 hover:text-white hover:bg-forest-800'}`}
+                      >
+                        {lang.nativeName}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

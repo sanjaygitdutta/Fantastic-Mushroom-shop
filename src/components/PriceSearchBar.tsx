@@ -1,20 +1,23 @@
+'use client';
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+
 import { Search, MapPin, X, Loader2, Mic } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { POPULAR_SEARCHES } from '../data/mockPrices';
+import { useTranslation } from 'react-i18next';
 
 interface PriceSearchBarProps {
   variant?: 'hero' | 'page';
   initialQuery?: string;
 }
 
-const PLACEHOLDERS = [
-  'Search "onion" across all platforms...',
-  'Try "chicken breast" — compare instantly...',
-  'Search "amul butter" for best price...',
-  'Find "bread" cheapest near you...',
-  'Compare "basmati rice" prices...',
+const getPlaceholders = (t: any) => [
+  t('search_placeholder_1'),
+  t('search_placeholder_2'),
+  t('search_placeholder_3'),
+  t('search_placeholder_4'),
+  t('search_placeholder_5'),
 ];
 
 const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarProps) => {
@@ -26,9 +29,11 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
   const [isListening, setIsListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(true);
   
-  const navigate = useNavigate();
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
+  const { t } = useTranslation();
+  const PLACEHOLDERS = getPlaceholders(t);
 
   // Restore stored location if any
   useEffect(() => {
@@ -130,7 +135,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
     if (!q) return;
     setIsLoading(true);
     await new Promise((r) => setTimeout(r, 200)); // small UX delay
-    navigate(`/compare?q=${encodeURIComponent(q)}${pincode ? `&pincode=${pincode}` : ''}`);
+    router.push(`/compare?q=${encodeURIComponent(q)}${pincode ? `&pincode=${pincode}` : ''}`);
     setIsLoading(false);
   };
 
@@ -187,7 +192,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
             }`}
           >
             <MapPin className="w-4 h-4" />
-            {pincode || 'Location'}
+            {pincode || t('location')}
           </button>
 
           {/* Mic */}
@@ -200,7 +205,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
                   ? 'bg-amber-100 text-amber-600 hover:bg-amber-200' 
                   : 'text-forest-500 hover:bg-forest-100'
               }`}
-              title={isListening ? "Listening..." : "Search by voice"}
+              title={isListening ? t('listening') : t('search_by_voice')}
             >
               {isListening && (
                 <span className="absolute inset-0 rounded-full animate-ping bg-amber-400 opacity-40"></span>
@@ -214,7 +219,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
             type="submit"
             className={`btn-forest flex-shrink-0 flex items-center gap-2 ${isHero ? 'px-6 py-3 text-base' : 'px-4 py-2 text-sm'}`}
           >
-            {isHero ? 'Compare Prices' : 'Search'}
+            {isHero ? t('compare_prices_btn') : t('search_btn')}
           </button>
         </div>
 
@@ -231,7 +236,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
                 <MapPin className="w-4 h-4 text-forest-500 flex-shrink-0" />
                 <input
                   type="text"
-                  placeholder="Enter your pincode (e.g. 400001)"
+                  placeholder={t('enter_pincode')}
                   value={pincode}
                   onChange={(e) => setPincode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   className="flex-1 bg-transparent text-sm text-forest-900 placeholder-forest-400 outline-none"
@@ -243,7 +248,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
                     onClick={() => { setPincode(''); localStorage.removeItem('ff_location'); }}
                     className="text-xs text-forest-500 hover:text-forest-700 font-bold"
                   >
-                    Clear
+                    {t('clear')}
                   </button>
                 )}
                 {!pincode && (
@@ -252,7 +257,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
                     onClick={detectLocation}
                     className="text-xs bg-moss-100 text-moss-700 px-3 py-1.5 rounded-lg hover:bg-moss-200 transition-colors font-bold whitespace-nowrap"
                   >
-                    Auto-Detect
+                    {t('auto_detect')}
                   </button>
                 )}
               </div>
@@ -264,7 +269,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
       {/* Popular searches (hero only) */}
       {isHero && (
         <div className="flex flex-wrap items-center gap-2 mt-4 pl-1">
-          <span className="text-sm text-forest-600 font-medium">Popular:</span>
+          <span className="text-sm text-forest-600 font-medium">{t('popular_searches_label')}</span>
           {POPULAR_SEARCHES.slice(0, 6).map((item) => (
             <button
               key={item.query}

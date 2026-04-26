@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { Star, User } from 'lucide-react';
 import { supabase } from '../lib/supabase';

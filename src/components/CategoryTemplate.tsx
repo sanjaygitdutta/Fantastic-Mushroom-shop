@@ -1,3 +1,4 @@
+'use client';
 import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
 import type { Product } from '../data/products';

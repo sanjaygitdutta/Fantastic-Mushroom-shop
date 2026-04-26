@@ -120,24 +120,33 @@ console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recip
 // ── Build Gemini prompt ────────────────────────────────────────────────────
 const prompt = `You are a world-renowned chef and food writer. Write an authentic, detailed recipe for "${selectedDish}" — a classic dish from ${selectedCuisine.country}.
 
+CRITICAL INSTRUCTION: You must generate the original recipe in English ('en'), and then provide high-quality translations for the title, description, ingredients, and instructions in Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), and Tamil ('ta').
+
 Return ONLY a valid JSON object with NO markdown, NO code blocks, NO extra text. Just raw JSON.
 
 Use EXACTLY this structure:
 {
-  "title": "${selectedDish}",
-  "description": "An appetizing 2-sentence description that captures the soul of the dish and its origin.",
-  "prepTime": "20 min",
-  "cookTime": "40 min",
-  "difficulty": "Medium",
-  "servings": 4,
-  "ingredients": [
-    { "item": "Ingredient Name", "amount": "250g" }
-  ],
-  "instructions": [
-    "Step 1: Detailed cooking step.",
-    "Step 2: Continue with next step."
-  ],
-  "tags": ["${selectedCuisine.cuisine}", "Dinner", "Non-Vegetarian"]
+  "en": {
+    "title": "${selectedDish}",
+    "description": "An appetizing 2-sentence description that captures the soul of the dish and its origin.",
+    "prepTime": "20 min",
+    "cookTime": "40 min",
+    "difficulty": "Medium",
+    "servings": 4,
+    "ingredients": [
+      { "item": "Ingredient Name", "amount": "250g" }
+    ],
+    "instructions": [
+      "Step 1: Detailed cooking step.",
+      "Step 2: Continue with next step."
+    ],
+    "tags": ["${selectedCuisine.cuisine}", "Dinner", "Non-Vegetarian"]
+  },
+  "hi": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
+  "bn": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
+  "mr": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
+  "te": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
+  "ta": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] }
 }
 
 Strict rules:
@@ -253,15 +262,15 @@ try {
   // Validate
   const required = ['title', 'description', 'prepTime', 'cookTime', 'difficulty', 'servings', 'ingredients', 'instructions'];
   for (const field of required) {
-    if (recipe[field] === undefined || recipe[field] === null) {
-      throw new Error(`Missing required field: "${field}"`);
+    if (recipe.en[field] === undefined || recipe.en[field] === null) {
+      throw new Error(`Missing required field in 'en': "${field}"`);
     }
   }
-  if (!['Easy', 'Medium', 'Hard'].includes(recipe.difficulty)) {
-    recipe.difficulty = 'Medium'; // safe fallback
+  if (!['Easy', 'Medium', 'Hard'].includes(recipe.en.difficulty)) {
+    recipe.en.difficulty = 'Medium'; // safe fallback
   }
-  if (!recipe.tags || !Array.isArray(recipe.tags)) {
-    recipe.tags = [selectedCuisine.cuisine, 'Dinner']; // safe fallback
+  if (!recipe.en.tags || !Array.isArray(recipe.en.tags)) {
+    recipe.en.tags = [selectedCuisine.cuisine, 'Dinner']; // safe fallback
   }
 
   // Escape all characters that could break a TypeScript single-quoted string
@@ -275,20 +284,52 @@ try {
 
   const recipeTs = `    {
         id: '${today}',
-        title: '${esc(recipe.title)}',
-        description: '${esc(recipe.description)}',
+        title: '${esc(recipe.en.title)}',
+        description: '${esc(recipe.en.description)}',
         image: '${imageUrl}',
-        prepTime: '${esc(recipe.prepTime)}',
-        cookTime: '${esc(recipe.cookTime)}',
-        difficulty: '${recipe.difficulty}',
-        servings: ${Number(recipe.servings)},
+        prepTime: '${esc(recipe.en.prepTime)}',
+        cookTime: '${esc(recipe.en.cookTime)}',
+        difficulty: '${recipe.en.difficulty}',
+        servings: ${Number(recipe.en.servings)},
         ingredients: [
-${recipe.ingredients.map((i) => `            { item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(',\n')}
+${recipe.en.ingredients.map((i) => `            { item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(',\n')}
         ],
         instructions: [
-${recipe.instructions.map((s) => `            '${esc(s)}'`).join(',\n')}
+${recipe.en.instructions.map((s) => `            '${esc(s)}'`).join(',\n')}
         ],
-        tags: [${recipe.tags.map((t) => `'${esc(t)}'`).join(', ')}]
+        tags: [${recipe.en.tags.map((t) => `'${esc(t)}'`).join(', ')}],
+        translations: {
+            hi: {
+                title: '${esc(recipe.hi.title)}',
+                description: '${esc(recipe.hi.description)}',
+                ingredients: [${recipe.hi.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${recipe.hi.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+            },
+            bn: {
+                title: '${esc(recipe.bn.title)}',
+                description: '${esc(recipe.bn.description)}',
+                ingredients: [${recipe.bn.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${recipe.bn.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+            },
+            mr: {
+                title: '${esc(recipe.mr.title)}',
+                description: '${esc(recipe.mr.description)}',
+                ingredients: [${recipe.mr.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${recipe.mr.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+            },
+            te: {
+                title: '${esc(recipe.te.title)}',
+                description: '${esc(recipe.te.description)}',
+                ingredients: [${recipe.te.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${recipe.te.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+            },
+            ta: {
+                title: '${esc(recipe.ta.title)}',
+                description: '${esc(recipe.ta.description)}',
+                ingredients: [${recipe.ta.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${recipe.ta.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+            }
+        }
     }`;
 
   if (!existingContent.match(/\];\s*$/)) {
@@ -298,8 +339,8 @@ ${recipe.instructions.map((s) => `            '${esc(s)}'`).join(',\n')}
   const updatedContent = existingContent.replace(/\];\s*$/, `,\n${recipeTs}\n];\n`);
   fs.writeFileSync(recipesPath, updatedContent, 'utf-8');
 
-  console.log(`✅ Added: "${recipe.title}"`);
-  console.log(`   ${selectedCuisine.flag} ${selectedCuisine.country} | ${recipe.difficulty} | Serves ${recipe.servings} | ${today}`);
+  console.log(`✅ Added: "${recipe.en.title}"`);
+  console.log(`   ${selectedCuisine.flag} ${selectedCuisine.country} | ${recipe.en.difficulty} | Serves ${recipe.en.servings} | ${today}`);
 
 } catch (err) {
   console.error('❌ Failed:', err.message);

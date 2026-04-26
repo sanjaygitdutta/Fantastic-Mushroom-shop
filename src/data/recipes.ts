@@ -16,6 +16,12 @@ export interface Recipe {
     ingredients: Ingredient[];
     instructions: string[];
     tags: string[];
+    translations?: Record<string, {
+        title: string;
+        description: string;
+        ingredients: { item: string; amount: string }[];
+        instructions: string[];
+    }>;
 }
 
 export const recipes: Recipe[] = [

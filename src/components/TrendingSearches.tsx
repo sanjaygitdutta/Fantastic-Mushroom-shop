@@ -1,4 +1,6 @@
-import { useNavigate } from 'react-router-dom';
+'use client';
+import { useRouter } from 'next/navigation';
+
 import { TrendingUp, Flame } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -18,7 +20,7 @@ const TRENDING = [
 ];
 
 export default function TrendingSearches() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <motion.div
@@ -39,7 +41,7 @@ export default function TrendingSearches() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.04 }}
-            onClick={() => navigate(`/compare?q=${item.label.toLowerCase()}`)}
+            onClick={() => router.push(`/compare?q=${item.label.toLowerCase()}`)}
             className="group flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-forest-100 hover:border-forest-400 hover:bg-forest-50 shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium text-forest-800"
           >
             <span className="text-base">{item.emoji}</span>

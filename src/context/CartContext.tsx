@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode, FC } from 'react';
 import type { Product } from '../data/products';

@@ -1,6 +1,8 @@
+'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { useCart } from '../context/CartContext';
 
 const Cart = () => {

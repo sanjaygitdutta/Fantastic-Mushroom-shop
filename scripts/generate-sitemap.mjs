@@ -201,18 +201,38 @@ if (!existingSitemap.includes(injectionPoint)) {
 }
 
 // Generate the XML blocks
+const SUPPORTED_LANGUAGES = ['hi', 'bn', 'mr', 'te', 'ta'];
+
+const generateMultiLangBlock = (baseUrl, priority) => {
+  let xml = '';
+  // Default English (use < to ensure exact match)
+  if (!existingSitemap.includes(baseUrl + '<')) {
+    xml += `  <url><loc>${baseUrl}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>${priority}</priority></url>\n`;
+  }
+  
+  // Regional Variants
+  SUPPORTED_LANGUAGES.forEach(lang => {
+    const urlObj = new URL(baseUrl);
+    urlObj.pathname = `/${lang}${urlObj.pathname === '/' ? '' : urlObj.pathname}`;
+    const localizedUrl = urlObj.toString();
+    if (!existingSitemap.includes(localizedUrl)) {
+      xml += `  <url><loc>${localizedUrl}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>${(priority - 0.1).toFixed(1)}</priority></url>\n`;
+    }
+  });
+  
+  return xml;
+};
+
 // Generate the XML blocks for food items
 const xmlGenerations = keywordArray.map(slug => {
   const url = `https://www.fantasticfood.in/food/${encodeURIComponent(slug)}`;
-  if (existingSitemap.includes(url)) return '';
-  return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
+  return generateMultiLangBlock(url, 0.7);
 }).join('');
 
 // Generate XML blocks for Cities
 const cityXmlGenerations = citySlugs.map(slug => {
   const url = `https://www.fantasticfood.in/city/${encodeURIComponent(slug)}`;
-  if (existingSitemap.includes(url)) return '';
-  return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>\n`;
+  return generateMultiLangBlock(url, 0.9);
 }).join('');
 
 // Generate XML blocks for AI Recipes (src/data/recipes.ts)
@@ -220,8 +240,7 @@ const recipesContent = fs.readFileSync(path.resolve('./src/data/recipes.ts'), 'u
 const recipeMatches = [...recipesContent.matchAll(/id:\s*'([^']+)'/g)];
 const aiRecipeXmlGenerations = recipeMatches.map(m => {
   const url = `https://www.fantasticfood.in/recipe/${m[1]}`;
-  if (existingSitemap.includes(url)) return '';
-  return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>\n`;
+  return generateMultiLangBlock(url, 0.8);
 }).join('');
 
 // Generate XML blocks for AI Blogs (src/data/blogPosts.ts)
@@ -229,8 +248,7 @@ const blogsContent = fs.readFileSync(path.resolve('./src/data/blogPosts.ts'), 'u
 const blogMatches = [...blogsContent.matchAll(/slug:\s*'([^']+)'/g)];
 const blogXmlGenerations = blogMatches.map(m => {
   const url = `https://www.fantasticfood.in/blog/${m[1]}`;
-  if (existingSitemap.includes(url)) return '';
-  return `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
+  return generateMultiLangBlock(url, 0.8);
 }).join('');
 
 // Insert into sitemap

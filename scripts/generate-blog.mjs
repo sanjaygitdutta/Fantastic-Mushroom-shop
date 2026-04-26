@@ -48,12 +48,21 @@ Format requirements:
 - Ensure length is around 300-400 words.
 - Conclude by reminding the user to check "Fantastic Food's live price tracker" before buying anything.
 
+CRITICAL INSTRUCTION: You must generate the original post in English ('en'), and then provide high-quality translations for the title, description, and content in Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), and Tamil ('ta').
+
 Respond ONLY with valid JSON using this exact structure (no markdown fences, no other text):
 {
-  "title": "A highly clickable, SEO-optimized title (under 60 chars if possible)",
-  "description": "A 2-sentence meta description optimized for Google search results.",
-  "content": "The full markdown content",
-  "tags": ["SEO Tag 1", "SEO Tag 2"]
+  "en": {
+    "title": "A highly clickable, SEO-optimized title (under 60 chars)",
+    "description": "A 2-sentence meta description optimized for Google search results.",
+    "content": "The full markdown content",
+    "tags": ["SEO Tag 1", "SEO Tag 2"]
+  },
+  "hi": { "title": "...", "description": "...", "content": "..." },
+  "bn": { "title": "...", "description": "...", "content": "..." },
+  "mr": { "title": "...", "description": "...", "content": "..." },
+  "te": { "title": "...", "description": "...", "content": "..." },
+  "ta": { "title": "...", "description": "...", "content": "..." }
 }
 CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double quotes. No trailing commas.`;
 
@@ -114,7 +123,7 @@ async function run() {
     console.log(`🤖 Generating AI blog post about: ${selectedTopic}...`);
     const post = await callGemini();
 
-    const slug = post.title
+    const slug = post.en.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '');
@@ -124,12 +133,19 @@ async function run() {
     // Format new object entry
     const postTs = `  {
     slug: '${slug}',
-    title: '${esc(post.title)}',
-    description: '${esc(post.description)}',
-    content: \`${post.content.replace(/`/g, '\\`')}\`,
+    title: '${esc(post.en.title)}',
+    description: '${esc(post.en.description)}',
+    content: \`${post.en.content.replace(/`/g, '\\`')}\`,
     date: '${today}',
     author: 'Chief AI Analyst',
-    tags: [${post.tags.map((t) => `'${esc(t)}'`).join(', ')}]
+    tags: [${post.en.tags.map((t) => `'${esc(t)}'`).join(', ')}],
+    translations: {
+      hi: { title: '${esc(post.hi.title)}', description: '${esc(post.hi.description)}', content: \`${post.hi.content.replace(/`/g, '\\`')}\` },
+      bn: { title: '${esc(post.bn.title)}', description: '${esc(post.bn.description)}', content: \`${post.bn.content.replace(/`/g, '\\`')}\` },
+      mr: { title: '${esc(post.mr.title)}', description: '${esc(post.mr.description)}', content: \`${post.mr.content.replace(/`/g, '\\`')}\` },
+      te: { title: '${esc(post.te.title)}', description: '${esc(post.te.description)}', content: \`${post.te.content.replace(/`/g, '\\`')}\` },
+      ta: { title: '${esc(post.ta.title)}', description: '${esc(post.ta.description)}', content: \`${post.ta.content.replace(/`/g, '\\`')}\` }
+    }
   }`;
 
     // Append right before the closing bracket ];
@@ -140,7 +156,7 @@ async function run() {
     const updatedContent = existingContent.replace(/\];\s*$/, `,\n${postTs}\n];\n`);
     fs.writeFileSync(blogPath, updatedContent, 'utf-8');
 
-    console.log(`✅ Success! Added blog: "${post.title}"`);
+    console.log(`✅ Success! Added blog: "${post.en.title}"`);
 
   } catch (err) {
     console.error('❌ Failed:', err.message);

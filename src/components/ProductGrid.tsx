@@ -1,4 +1,6 @@
-import { useSearchParams } from 'react-router-dom';
+'use client';
+import { useSearchParams } from 'next/navigation';
+
 import ProductCard from './ProductCard';
 import { useProducts } from '../context/ProductContext';
 

@@ -1,9 +1,12 @@
+'use client';
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, ExternalLink, TrendingDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { PLATFORMS } from '../data/platforms';
 import { getAffiliateUrl } from '../utils/affiliate';
+import { useTranslation } from 'react-i18next';
 
 interface Deal {
   food: string;
@@ -40,6 +43,7 @@ const DealOfTheDay = () => {
     const rotated = [...ALL_DEALS.slice(offset), ...ALL_DEALS.slice(0, offset)];
     return rotated.slice(0, 5);
   }, []);
+  const { t } = useTranslation();
 
   return (
     <section className="py-14 bg-gradient-to-b from-forest-900 to-forest-800">
@@ -49,13 +53,13 @@ const DealOfTheDay = () => {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Zap className="w-5 h-5 text-amber-400 animate-pulse" />
-              <span className="text-amber-400 font-bold text-sm uppercase tracking-widest">Today's Best Deals</span>
+              <span className="text-amber-400 font-bold text-sm uppercase tracking-widest">{t('deal_today_best')}</span>
             </div>
-            <h2 className="text-3xl font-black text-white font-display">Deal of the Day 🔥</h2>
-            <p className="text-forest-400 text-sm mt-1">Refreshes every day at midnight • Click to compare & buy</p>
+            <h2 className="text-3xl font-black text-white font-display">{t('deal_of_the_day')}</h2>
+            <p className="text-forest-400 text-sm mt-1">{t('deal_refreshes_desc')}</p>
           </div>
           <Link to="/compare" className="hidden sm:flex items-center gap-1 text-forest-300 hover:text-white text-sm border border-forest-700 hover:border-forest-500 rounded-xl px-4 py-2 transition-all">
-            See all prices →
+            {t('deal_see_all')}
           </Link>
         </div>
 
@@ -108,7 +112,7 @@ const DealOfTheDay = () => {
                   className="w-full py-2 bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors"
                   onClick={e => e.stopPropagation()}
                 >
-                  Buy Now <ExternalLink className="w-3 h-3" />
+                  {t('deal_buy_now')} <ExternalLink className="w-3 h-3" />
                 </a>
               </motion.div>
             );
@@ -118,7 +122,7 @@ const DealOfTheDay = () => {
         {/* Savings ticker */}
         <div className="mt-8 flex items-center justify-center gap-3 text-forest-500 text-xs">
           <TrendingDown className="w-4 h-4 text-moss-400" />
-          <span>Users saved an average of <strong className="text-moss-400">₹187</strong> this week by comparing prices on Fantastic Food</span>
+          <span>{t('deal_users_saved')}<strong className="text-moss-400">{t('deal_saved_amount')}</strong>{t('deal_saved_desc')}</span>
         </div>
       </div>
     </section>
