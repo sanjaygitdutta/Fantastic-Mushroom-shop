@@ -139,8 +139,12 @@ const Footer = () => {
 
                 <InstallPWA />
 
-                <div className="border-t border-forest-800/50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-forest-500">
-                    <p>{t('footer_copyright')}</p>
+                <div className="border-t border-forest-800/50 pt-8 flex flex-col items-center text-center">
+                    <p className="text-forest-500 text-xs mb-6 max-w-3xl mx-auto">
+                        {t('footer_disclaimer')}
+                    </p>
+                    <div className="w-full flex flex-col md:flex-row justify-between items-center text-sm text-forest-500">
+                        <p>{t('footer_copyright')}</p>
                     
                     {visitorCount !== null && (
                         <div className="flex items-center gap-2 mt-4 md:mt-0 font-medium bg-forest-800/50 px-3 py-1.5 rounded-full border border-forest-700">

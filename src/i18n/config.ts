@@ -6,6 +6,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   en: {
     translation: {
+      "footer_disclaimer": "Fantastic Food is an independent comparison platform and is not affiliated with Blinkit, Zepto, or any other brand mentioned.",
+
       "nutri_health_mode": "Health Mode",
       "nutri_scanner_title": "Nutrition Scanner",
       "nutri_scanner_desc": "Search any food to instantly get its nutrition facts, health score, allergens, and a cheaper healthier alternative.",
@@ -622,6 +624,8 @@ const resources = {
   },
   hi: {
     translation: {
+      "footer_disclaimer": "फैंटास्टिक फूड एक स्वतंत्र तुलना मंच है और ब्लिंकिट, जेप्टो या उल्लिखित किसी अन्य ब्रांड से संबद्ध नहीं है।",
+
       "nutri_health_mode": "स्वास्थ्य मोड",
       "nutri_scanner_title": "पोषण स्कैनर",
       "nutri_scanner_desc": "किसी भी भोजन के पोषण तथ्य, स्वास्थ्य स्कोर, एलर्जी और सस्ता स्वस्थ विकल्प तुरंत प्राप्त करने के लिए खोजें।",
@@ -1238,6 +1242,8 @@ const resources = {
   },
   bn: {
     translation: {
+      "footer_disclaimer": "ফ্যান্টাস্টিক ফুড একটি স্বাধীন তুলনা প্ল্যাটফর্ম এবং ব্লিনকিট, জেপ্টো বা উল্লিখিত অন্য কোনও ব্র্যান্ডের সাথে যুক্ত নয়।",
+
       "nutri_health_mode": "স্বাস্থ্য মোড",
       "nutri_scanner_title": "পুষ্টি স্ক্যানার",
       "nutri_scanner_desc": "তাত্ক্ষণিকভাবে এর পুষ্টির তথ্য, স্বাস্থ্য স্কোর, অ্যালার্জেন এবং একটি সস্তা স্বাস্থ্যকর বিকল্প পেতে যে কোনও খাবার অনুসন্ধান করুন।",
@@ -1854,6 +1860,8 @@ const resources = {
   },
   mr: {
     translation: {
+      "footer_disclaimer": "फॅन्टास्टिक फूड हे एक स्वतंत्र तुलना मंच आहे आणि ब्लिंकिट, झेप्टो किंवा नमूद केलेल्या इतर कोणत्याही ब्रँडशी संबंधित नाही।",
+
       "nutri_health_mode": "आरोग्य मोड",
       "nutri_scanner_title": "पोषण स्कॅनर",
       "nutri_scanner_desc": "कोणत्याही अन्नाचे पोषण तथ्य, आरोग्य स्कोअर, ऍलर्जीन आणि स्वस्त निरोगी पर्याय त्वरित मिळवण्यासाठी शोधा.",
@@ -2470,6 +2478,8 @@ const resources = {
   },
   te: {
     translation: {
+      "footer_disclaimer": "ఫెంటాస్టిక్ ఫుడ్ ఒక స్వతంత్ర పోలిక వేదిక మరియు బ్లింకిట్, జెప్టో లేదా పేర్కొన్న ఇతర బ్రాండ్‌లతో అనుబంధం లేదు।",
+
       "nutri_health_mode": "ఆరోగ్య మోడ్",
       "nutri_scanner_title": "న్యూట్రిషన్ స్కానర్",
       "nutri_scanner_desc": "ఏదైనా ఆహారం యొక్క పోషకాహార వాస్తవాలు, ఆరోగ్య స్కోర్, అలెర్జీ కారకాలు మరియు చౌకైన ఆరోగ్యకరమైన ప్రత్యామ్నాయాన్ని తక్షణమే పొందడానికి శోధించండి.",
@@ -3086,6 +3096,8 @@ const resources = {
   },
   ta: {
     translation: {
+      "footer_disclaimer": "ஃபெண்டாஸ்டிக் ஃபுட் ஒரு சுதந்திரமான ஒப்பீட்டு தளமாகும், மேலும் இது பிளிங்க்கிட், ஜெப்டோ அல்லது குறிப்பிடப்பட்டுள்ள பிற பிராண்டுகளுடன் இணைக்கப்படவில்லை।",
+
       "nutri_health_mode": "சுகாதார முறை",
       "nutri_scanner_title": "ஊட்டச்சத்து ஸ்கேனர்",
       "nutri_scanner_desc": "எந்தவொரு உணவின் ஊட்டச்சத்து உண்மைகள், சுகாதார மதிப்பெண், ஒவ்வாமை மற்றும் மலிவான ஆரோக்கியமான மாற்றீட்டை உடனடியாகப் பெற தேடுங்கள்.",
