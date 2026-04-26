@@ -24,7 +24,8 @@ const routes = {
   'meal-planner': 'MealPlanner',
   'subscription': 'Subscription',
   'b2b': 'B2B',
-  'health': 'NutritionInfo'
+  'health': 'NutritionInfo',
+  'savings': 'FoodScore'
 };
 
 const baseDir = path.join(process.cwd(), 'src', 'app', '[lang]');
