@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
 import sitemapLinks from '../data/sitemapLinks.json';
 import { ALL_RECIPES } from '../data/worldRecipes';
 import { BLOG_POSTS } from '../data/blogPosts';
@@ -16,10 +16,10 @@ export async function generateSitemaps() {
 }
 
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
-  const lang = LANGUAGES[id] || 'en';
+  const langCode = LANGUAGES[id] || 'en';
   
   // Base paths
-  const langBase = lang === 'en' ? BASE_URL : `${BASE_URL}/${lang}`;
+  const langBase = langCode === 'en' ? BASE_URL : `${BASE_URL}/${langCode}`;
   
   const coreRoutes: MetadataRoute.Sitemap = [
     { url: `${langBase}`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },

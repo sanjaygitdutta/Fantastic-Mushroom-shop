@@ -1,8 +1,8 @@
 'use client';
 
 import { Suspense } from 'react';
-import AdminRoute from '../../../../views/admin/AdminRoute';
-import Dashboard from '../../../../views/admin/Dashboard';
+import AdminRoute from '../../../views/admin/AdminRoute';
+import Dashboard from '../../../views/admin/Dashboard';
 
 export default function Page() {
   return (
