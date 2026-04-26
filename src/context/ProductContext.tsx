@@ -35,7 +35,13 @@ const mergeOverrides = (base: Product[], overrides: ProductOverride[]): Product[
   });
 
 // ── Context ────────────────────────────────────────────────────────────────────
-const ProductContext = createContext<ProductContextType | undefined>(undefined);
+const ProductContext = createContext<ProductContextType>({
+    products: [],
+    updateProduct: () => {},
+    updateMultipleProducts: () => {},
+    deleteProduct: () => {},
+    addProduct: () => {},
+});
 
 export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -114,13 +120,6 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setProducts(prev => [product, ...prev]);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-cream-100">
-        <div className="w-12 h-12 border-4 border-forest-200 border-t-forest-600 rounded-full animate-spin" />
-      </div>
-    );
-  }
 
   return (
     <ProductContext.Provider value={{ products, updateProduct, updateMultipleProducts, deleteProduct, addProduct }}>
@@ -130,9 +129,5 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
 };
 
 export const useProducts = () => {
-  const context = useContext(ProductContext);
-  if (context === undefined) {
-    throw new Error('useProducts must be used within a ProductProvider');
-  }
-  return context;
+    return useContext(ProductContext);
 };

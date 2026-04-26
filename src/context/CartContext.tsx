@@ -22,7 +22,17 @@ interface CartContextType {
     cartCount: number;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = createContext<CartContextType>({
+    items: [],
+    addToCart: () => {},
+    removeFromCart: () => {},
+    updateQuantity: () => {},
+    clearCart: () => {},
+    cartTotal: 0,
+    isCartOpen: false,
+    setIsCartOpen: () => {},
+    cartCount: 0,
+});
 
 // Helper function to calculate price based on weight
 const calculateWeightPrice = (product: Product, weight: number): number => {
@@ -115,9 +125,5 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export const useCart = () => {
-    const context = useContext(CartContext);
-    if (context === undefined) {
-        throw new Error('useCart must be used within a CartProvider');
-    }
-    return context;
+    return useContext(CartContext);
 };

@@ -9,13 +9,20 @@ interface WishlistContextType {
     isInWishlist: (productId: string) => boolean;
 }
 
-const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
+const WishlistContext = createContext<WishlistContextType>({
+    wishlist: [],
+    addToWishlist: () => {},
+    removeFromWishlist: () => {},
+    isInWishlist: () => false,
+});
 
 export const WishlistProvider = ({ children }: { children: ReactNode }) => {
-    const [wishlist, setWishlist] = useState<string[]>(() => {
+    const [wishlist, setWishlist] = useState<string[]>([]);
+
+    useEffect(() => {
         const saved = localStorage.getItem('wishlist');
-        return saved ? JSON.parse(saved) : [];
-    });
+        if (saved) setWishlist(JSON.parse(saved));
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('wishlist', JSON.stringify(wishlist));
@@ -45,9 +52,5 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useWishlist = () => {
-    const context = useContext(WishlistContext);
-    if (context === undefined) {
-        throw new Error('useWishlist must be used within a WishlistProvider');
-    }
-    return context;
+    return useContext(WishlistContext);
 };
