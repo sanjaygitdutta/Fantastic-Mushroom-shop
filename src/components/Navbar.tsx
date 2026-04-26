@@ -225,7 +225,7 @@ const Navbar = () => {
                   className="flex items-center gap-1 p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white uppercase font-bold text-xs"
                 >
                   <Globe className="w-5 h-5" />
-                  {i18n.language.substring(0,2)}
+                  {(i18n.language || 'en').substring(0,2)}
                 </button>
                 <AnimatePresence>
                   {isLangOpen && (

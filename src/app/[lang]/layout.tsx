@@ -54,15 +54,16 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }) {
+  const { lang } = await params;
   return (
-    <html lang={`${params.lang}-IN`}>
+    <html lang={`${lang}-IN`}>
       <body>
         {/* Google Analytics GA4 */}
         <Script
