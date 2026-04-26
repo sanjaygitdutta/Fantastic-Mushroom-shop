@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 
 
 export default function ScrollToTop() {
-  const { pathname } = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     // Smoothly scroll to the absolute top of the page on every route change
