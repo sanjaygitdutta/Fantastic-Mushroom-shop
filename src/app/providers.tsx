@@ -3,14 +3,17 @@
 import { AuthProvider } from '../context/AuthContext';
 import { ProductProvider } from '../context/ProductContext';
 import { WishlistProvider } from '../context/WishlistContext';
+import { CartProvider } from '../context/CartContext';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ProductProvider>
       <AuthProvider>
-        <WishlistProvider>
-          {children}
-        </WishlistProvider>
+        <CartProvider>
+          <WishlistProvider>
+            {children}
+          </WishlistProvider>
+        </CartProvider>
       </AuthProvider>
     </ProductProvider>
   );
