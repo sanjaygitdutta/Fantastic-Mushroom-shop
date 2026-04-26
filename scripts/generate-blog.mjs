@@ -45,7 +45,7 @@ Format requirements:
 - Use Markdown. 
 - Use h3 (###) for subsections. 
 - Keep the tone helpful, data-driven, and engaging.
-- Ensure length is around 300-400 words.
+- Ensure length is around 150-200 words (keep it concise and punchy).
 - Conclude by reminding the user to check "Fantastic Food's live price tracker" before buying anything.
 
 CRITICAL INSTRUCTION: You must generate the original post in English ('en'), and then provide high-quality translations for the title, description, and content in Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), and Tamil ('ta').
