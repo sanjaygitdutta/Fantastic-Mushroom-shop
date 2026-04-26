@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { FOOD_CATEGORIES } from '../data/mockPrices';
 import { ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface FoodCategoryBrowserProps {
   compact?: boolean;
@@ -11,6 +12,20 @@ interface FoodCategoryBrowserProps {
 
 const FoodCategoryBrowser = ({ compact = false }: FoodCategoryBrowserProps) => {
   const router = useRouter();
+  const { t } = useTranslation();
+
+  const getCategoryKey = (label: string) => {
+    if (label === 'Dairy & Eggs') return 'cat_dairy_eggs';
+    if (label === 'Meat & Poultry') return 'cat_meat_poultry';
+    if (label === 'Fish & Seafood') return 'cat_fish_seafood';
+    if (label === 'Grains & Pulses') return 'cat_grains_pulses';
+    if (label === 'Cooking Essentials') return 'cat_cooking_essentials';
+    if (label === 'Sweets & Desserts') return 'cat_sweets_desserts';
+    if (label === 'Instant Foods') return 'cat_instant_foods';
+    if (label === 'Organic & Health') return 'cat_organic_health';
+    if (label === 'Mushrooms 🍄') return 'cat_mushrooms';
+    return `cat_${label.toLowerCase()}`;
+  };
 
   const handleCategory = (query: string, special?: boolean) => {
     if (special) {
@@ -30,7 +45,7 @@ const FoodCategoryBrowser = ({ compact = false }: FoodCategoryBrowserProps) => {
             viewport={{ once: true }}
             className="section-title mb-3"
           >
-            All Food Categories
+            {t('cat_all_food_categories')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -39,7 +54,7 @@ const FoodCategoryBrowser = ({ compact = false }: FoodCategoryBrowserProps) => {
             transition={{ delay: 0.1 }}
             className="section-subtitle mx-auto"
           >
-            Compare prices across everything edible — from fresh produce to packaged goods
+            {t('cat_compare_subtitle')}
           </motion.p>
         </div>
       )}
@@ -65,11 +80,11 @@ const FoodCategoryBrowser = ({ compact = false }: FoodCategoryBrowserProps) => {
             <span className={`font-medium text-center leading-tight ${
               compact ? 'text-xs text-forest-800' : 'text-sm text-forest-800'
             }`}>
-              {cat.label}
+              {t(getCategoryKey(cat.label))}
             </span>
             {cat.special && !compact && (
               <span className="text-xs text-earth-600 font-semibold flex items-center gap-0.5">
-                Order Direct <ArrowRight className="w-3 h-3" />
+                {t('cat_order_direct')} <ArrowRight className="w-3 h-3" />
               </span>
             )}
           </motion.button>

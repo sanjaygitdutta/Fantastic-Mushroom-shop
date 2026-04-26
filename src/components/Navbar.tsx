@@ -21,39 +21,11 @@ interface NavItem {
   soon?: boolean;
 }
 
-const AI_TOOLS: NavItem[] = [
-  { to: '/chef-aika', icon: '👩‍🍳', label: 'Chef Aika', desc: 'AI fridge-to-recipe magic' },
-  { to: '/meal-planner', icon: '🗓️', label: 'Meal Planner', desc: 'Budget 7-day meal plan' },
-  { to: '/festival', icon: '🎊', label: 'Festival Planner', desc: 'Bulk shopping for festivals' },
-  { to: '/health', icon: '🏥', label: 'Health Mode', desc: 'Nutrition & allergen scanner' },
-];
-
-const CALCULATORS: NavItem[] = [
-  { to: '/basket', icon: '🧺', label: 'Basket Calculator', desc: 'Compare full grocery basket' },
-  { to: '/meal-calculator', icon: '🍲', label: 'Meal Cost', desc: 'Cost per serving calculator' },
-  { to: '/savings', icon: '💰', label: 'FoodScore', desc: 'Your savings dashboard' },
-  { to: '/basket?group=true', icon: '🤝', label: 'Group Buy', desc: 'Share basket with friends' },
-];
-
-const DISCOVER: NavItem[] = [
-  { to: '/community', icon: '🍳', label: 'Community Feed', desc: 'See what India is cooking!' },
-  { to: '/recipes', icon: '📖', label: 'Recipes', desc: 'Global AI-generated recipes' },
-  { to: '/coupons', icon: '🏷️', label: 'Coupons', desc: 'Latest platform coupon codes' },
-  { to: '/seasonal', icon: '🌾', label: 'Seasonal Guide', desc: "What's fresh & cheap now" },
-  { to: '/saved', icon: '🔔', label: 'My Watchlist', desc: 'Your price drop alerts' },
-];
-
 interface NavGroup {
   label: string;
   icon: React.ReactNode;
   items: NavItem[];
 }
-
-const NAV_GROUPS: NavGroup[] = [
-  { label: 'AI Tools', icon: <Bot className="w-4 h-4" />, items: AI_TOOLS },
-  { label: 'Calculators', icon: <Calculator className="w-4 h-4" />, items: CALCULATORS },
-  { label: 'Discover', icon: <Compass className="w-4 h-4" />, items: DISCOVER },
-];
 
 // ── Mega dropdown panel ────────────────────────────────────────────────────────
 const MegaPanel = ({ items, onClose }: { items: NavItem[]; onClose: () => void }) => (
@@ -108,7 +80,35 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const AI_TOOLS: NavItem[] = [
+    { to: '/chef-aika', icon: '👩‍🍳', label: t('nav_chef_aika'), desc: t('nav_chef_aika_desc') },
+    { to: '/meal-planner', icon: '🗓️', label: t('nav_meal_planner'), desc: t('nav_meal_planner_desc') },
+    { to: '/festival', icon: '🎊', label: t('nav_festival_planner'), desc: t('nav_festival_planner_desc') },
+    { to: '/health', icon: '🏥', label: t('nav_health_mode'), desc: t('nav_health_mode_desc') },
+  ];
+
+  const CALCULATORS: NavItem[] = [
+    { to: '/basket', icon: '🧺', label: t('nav_basket_calculator'), desc: t('nav_basket_calculator_desc') },
+    { to: '/meal-calculator', icon: '🍲', label: t('nav_meal_cost'), desc: t('nav_meal_cost_desc') },
+    { to: '/savings', icon: '💰', label: t('nav_foodscore'), desc: t('nav_foodscore_desc') },
+    { to: '/basket?group=true', icon: '🤝', label: t('nav_group_buy'), desc: t('nav_group_buy_desc') },
+  ];
+
+  const DISCOVER: NavItem[] = [
+    { to: '/community', icon: '🍳', label: t('nav_community_feed'), desc: t('nav_community_feed_desc') },
+    { to: '/recipes', icon: '📖', label: t('nav_recipes'), desc: t('nav_recipes_desc') },
+    { to: '/coupons', icon: '🏷️', label: t('nav_coupons'), desc: t('nav_coupons_desc') },
+    { to: '/seasonal', icon: '🌾', label: t('nav_seasonal_guide'), desc: t('nav_seasonal_guide_desc') },
+    { to: '/saved', icon: '🔔', label: t('nav_my_watchlist'), desc: t('nav_my_watchlist_desc') },
+  ];
+
+  const NAV_GROUPS: NavGroup[] = [
+    { label: t('nav_ai_tools'), icon: <Bot className="w-4 h-4" />, items: AI_TOOLS },
+    { label: t('nav_calculators'), icon: <Calculator className="w-4 h-4" />, items: CALCULATORS },
+    { label: t('nav_discover'), icon: <Compass className="w-4 h-4" />, items: DISCOVER },
+  ];
 
   const handleLanguageChange = (code: string) => {
     let cleanPath = pathname;
@@ -184,7 +184,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                Compare Prices
+                {t('Compare Prices')}
               </Link>
 
               {/* Grouped Mega Dropdowns */}
@@ -224,7 +224,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                <ShoppingBag className="w-4 h-4" /> Shop
+                <ShoppingBag className="w-4 h-4" /> {t('shop_mushrooms')}
               </Link>
 
             </div>
@@ -283,7 +283,7 @@ const Navbar = () => {
                 </div>
               ) : (
                 <Link href="/login" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold text-sm transition-colors">
-                  Sign In
+                  {t('nav_sign_in')}
                 </Link>
               )}
 
@@ -344,10 +344,10 @@ const Navbar = () => {
                     <X className="w-4 h-4 text-gray-400" />
                   </button>
                 )}
-                <button type="submit" className="btn-forest py-2 px-4 text-sm">Search</button>
+                <button type="submit" className="btn-forest py-2 px-4 text-sm">{t('search_btn')}</button>
               </form>
               <div className="p-4">
-                <p className="text-xs text-forest-500 uppercase font-semibold tracking-wider mb-3">Popular Searches</p>
+                <p className="text-xs text-forest-500 uppercase font-semibold tracking-wider mb-3">{t('popular_searches_label')}</p>
                 <div className="flex flex-wrap gap-2">
                   {POPULAR_SEARCHES.map((item) => (
                     <button
@@ -376,7 +376,7 @@ const Navbar = () => {
           >
             <div className="px-4 py-4 space-y-1">
               <Link href="/compare" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-2 py-3 px-3 rounded-xl bg-amber-500/10 text-amber-400 font-bold text-sm border border-amber-500/20 mb-3">
-                <Search className="w-4 h-4" /> Compare Prices
+                <Search className="w-4 h-4" /> {t('compare_prices_btn')}
               </Link>
 
               {NAV_GROUPS.map((group) => (
@@ -423,13 +423,13 @@ const Navbar = () => {
               ))}
 
               <Link href="/mushroom-shop" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-2 py-2.5 px-3 rounded-xl text-cream-200 font-semibold text-sm hover:bg-forest-800 transition-colors">
-                <ShoppingBag className="w-4 h-4" /> Mushroom Shop
+                <ShoppingBag className="w-4 h-4" /> {t('shop_mushrooms')}
               </Link>
 
               {!isAuthenticated && (
                 <div className="pt-3 border-t border-forest-800">
                   <Link href="/login" onClick={() => setIsMobileOpen(false)} className="w-full py-3 bg-amber-500 text-forest-900 font-bold rounded-xl text-center text-sm flex items-center justify-center mb-3">
-                    Sign In / Sign Up
+                    {t('nav_sign_in')}
                   </Link>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {SUPPORTED_LANGUAGES.map((lang) => (
