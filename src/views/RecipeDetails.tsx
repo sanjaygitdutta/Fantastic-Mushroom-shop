@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 const RecipeDetails = () => {
     const { id } = useParams();
     const { addToCart } = useCart();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const recipe = recipes.find(r => r.id === id);
 
     if (!recipe) {
@@ -25,6 +25,13 @@ const RecipeDetails = () => {
         .filter(ing => ing.productId)
         .map(ing => products.find(p => p.id === ing.productId))
         .filter(Boolean);
+
+    const lang = i18n.language;
+    const tRecipe = recipe.translations?.[lang] || {};
+    const displayTitle = tRecipe.title || recipe.title;
+    const displayDescription = tRecipe.description || recipe.description;
+    const displayIngredients = tRecipe.ingredients || recipe.ingredients;
+    const displayInstructions = tRecipe.instructions || recipe.instructions;
 
     const handleAddIngredient = (product: any) => {
         addToCart(product);
@@ -49,8 +56,8 @@ const RecipeDetails = () => {
             ratingValue: 4.9,
             ratingCount: 158,
         },
-        recipeIngredient: recipe.ingredients.map(i => `${i.amount} ${i.item}`),
-        recipeInstructions: recipe.instructions.map((step, i) => ({
+        recipeIngredient: displayIngredients.map(i => `${i.amount} ${i.item}`),
+        recipeInstructions: displayInstructions.map((step, i) => ({
             '@type': 'HowToStep',
             name: `Step ${i + 1}`,
             position: i + 1,
@@ -90,8 +97,8 @@ const RecipeDetails = () => {
                 </Link>
 
                 <div className="mb-10">
-                    <h1 className="text-4xl md:text-5xl font-bold text-forest-900 mb-6">{recipe.title}</h1>
-                    <p className="text-xl text-gray-600 leading-relaxed mb-8">{recipe.description}</p>
+                    <h1 className="text-4xl md:text-5xl font-bold text-forest-900 mb-6">{displayTitle}</h1>
+                    <p className="text-xl text-gray-600 leading-relaxed mb-8">{displayDescription}</p>
 
                     <div className="flex flex-wrap gap-6 text-gray-700 border-y border-gray-100 py-6">
                         <div className="flex items-center">
@@ -123,7 +130,7 @@ const RecipeDetails = () => {
                     <div className="md:col-span-1">
                         <h3 className="text-2xl font-bold text-forest-900 mb-6">{t('recipe_ingredients_title')}</h3>
                         <ul className="space-y-3 mb-8">
-                            {recipe.ingredients.map((ing, i) => (
+                            {displayIngredients.map((ing, i) => (
                                 <li key={i} className="flex justify-between items-center border-b border-gray-50 pb-2">
                                     <span className="text-gray-700">{ing.item}</span>
                                     <span className="text-gray-400 font-medium text-sm">{ing.amount}</span>
@@ -183,7 +190,7 @@ const RecipeDetails = () => {
 
                         <h3 className="text-2xl font-bold text-forest-900 mb-6">{t('recipe_instructions_title')}</h3>
                         <div className="space-y-8">
-                            {recipe.instructions.map((step, i) => (
+                            {displayInstructions.map((step, i) => (
                                 <div key={i} className="flex gap-4">
                                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-forest-900 text-white flex items-center justify-center font-bold">
                                         {i + 1}
