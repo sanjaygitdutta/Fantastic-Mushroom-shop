@@ -122,7 +122,13 @@ const Navbar = () => {
     if (cleanPath === '') cleanPath = '/';
 
     const newPath = code === 'en' ? cleanPath : `/${code}${cleanPath === '/' ? '' : cleanPath}`;
-    window.location.href = newPath + window.location.search + window.location.hash;
+    
+    // Force local storage and i18n state to prevent language detector from falling back
+    // to old cached language when navigating to default English (which has no path prefix)
+    localStorage.setItem('i18nextLng', code);
+    i18n.changeLanguage(code).then(() => {
+      window.location.href = newPath + window.location.search + window.location.hash;
+    });
   };
 
   const handleMouseEnter = (label: string) => {
