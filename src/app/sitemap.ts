@@ -10,7 +10,7 @@ const LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta'];
 export async function generateSitemaps() {
   // We chunk our sitemaps by language to bypass the 50,000 URL limit.
   // Each language will have roughly 7,500 URLs.
-  return LANGUAGES.map((lang, index) => ({
+  return LANGUAGES.map((_, index) => ({
     id: index,
   }));
 }
