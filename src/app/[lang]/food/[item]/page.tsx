@@ -12,14 +12,15 @@ const PLATFORM_LABELS: Record<string, string> = {
   flipkart: 'Flipkart Minutes'
 };
 
-export async function generateMetadata({ params }: { params: { lang: string; item: string } }) {
-  const foodItem = decodeURIComponent(params.item);
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; item: string }> }) {
+  const resolvedParams = await params;
+  const foodItem = decodeURIComponent(resolvedParams.item);
   const displayName = foodItem
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
-  const currentLang = (params.lang || 'en') as SupportedLanguage;
+  const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
   const translatedItem = getTranslatedItem(displayName, currentLang);
   
   const result = await searchPrices(foodItem);
@@ -57,14 +58,15 @@ export async function generateMetadata({ params }: { params: { lang: string; ite
   };
 }
 
-export default async function FoodItemPage({ params }: { params: { lang: string; item: string } }) {
-  const foodItem = decodeURIComponent(params.item);
+export default async function FoodItemPage({ params }: { params: Promise<{ lang: string; item: string }> }) {
+  const resolvedParams = await params;
+  const foodItem = decodeURIComponent(resolvedParams.item);
   const displayName = foodItem
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
-  const currentLang = (params.lang || 'en') as SupportedLanguage;
+  const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
   const translatedItem = getTranslatedItem(displayName, currentLang);
   
   // This runs on the SERVER. No loading spinner. Perfect SEO!

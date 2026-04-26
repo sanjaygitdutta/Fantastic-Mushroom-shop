@@ -1,8 +1,9 @@
 import { ALL_RECIPES } from '../../../../data/worldRecipes';
 import RecipePageClient from '../../../../views/RecipePageClient';
 
-export async function generateMetadata({ params }: { params: { lang: string; id: string } }) {
-  const recipe = ALL_RECIPES.find(r => r.id === params.id);
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; id: string }> }) {
+  const resolvedParams = await params;
+  const recipe = ALL_RECIPES.find(r => r.id === resolvedParams.id);
   
   if (!recipe) {
     return {
@@ -10,7 +11,7 @@ export async function generateMetadata({ params }: { params: { lang: string; id:
     };
   }
 
-  const lang = params.lang || 'en';
+  const lang = resolvedParams.lang || 'en';
   const tRecipe = recipe.translations?.[lang] ?? {};
   const displayName = tRecipe.title ?? recipe.name;
   
