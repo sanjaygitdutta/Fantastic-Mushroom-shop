@@ -271,7 +271,7 @@ export default function RecipePage() {
               </h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {related.map(rel => (
-                  <Link key={rel.id} to={`/recipe/${rel.id}`}
+                  <Link key={rel.id} href={`/recipe/${rel.id}`}
                     className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md hover:-translate-y-1 transition-all">
                     <p className="text-xs text-gray-400 mb-1">{rel.time} · {rel.difficulty}</p>
                     <p className="font-bold text-gray-800 text-sm line-clamp-2">{rel.name}</p>

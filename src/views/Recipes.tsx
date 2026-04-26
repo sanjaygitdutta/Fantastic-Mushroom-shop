@@ -291,7 +291,7 @@ export default function Recipes() {
           <p className="text-cream-300 mb-6 text-sm">{t('recipes_find_cheapest')}</p>
           <div className="flex flex-wrap justify-center gap-2">
             {['chicken', 'tomato', 'rice', 'paneer', 'eggs', 'butter', 'onion', 'garlic'].map(item => (
-              <Link key={item} to={`/compare?q=${item}`}
+              <Link key={item} href={`/compare?q=${item}`}
                 className="text-sm bg-forest-700 hover:bg-forest-600 border border-forest-600 text-cream-200 px-4 py-2 rounded-full transition-all capitalize">
                 🔍 {item} {t('recipes_price_suffix')}
               </Link>

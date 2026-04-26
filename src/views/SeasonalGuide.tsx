@@ -48,7 +48,7 @@ export default function SeasonalGuide() {
               {currentItems.slice(0, 8).map(item => (
                 <Link
                   key={item.name}
-                  to={`/compare?q=${encodeURIComponent(item.searchQuery)}`}
+                  href={`/compare?q=${encodeURIComponent(item.searchQuery)}`}
                   className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
                 >
                   {item.emoji} {item.name}

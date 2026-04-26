@@ -37,7 +37,7 @@ const BlogDirectory = () => {
               return (
               <Link 
                 key={post.slug} 
-                to={`/blog/${post.slug}`}
+                href={`/blog/${post.slug}`}
                 className="bg-white rounded-3xl p-6 border border-forest-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group"
               >
                 <div className="flex items-center gap-2 mb-4">

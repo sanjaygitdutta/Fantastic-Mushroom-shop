@@ -45,7 +45,7 @@ export default function SavedLists() {
     };
 
     fetchAlerts();
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, router]);
 
   const deleteAlert = async (id: string) => {
     try {

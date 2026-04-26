@@ -215,7 +215,7 @@ export default function CityPage() {
               {city.trending.map((item) => (
                 <Link
                   key={item}
-                  to={`/compare?q=${encodeURIComponent(item)}&city=${city.slug}`}
+                  href={`/compare?q=${encodeURIComponent(item)}&city=${city.slug}`}
                   className="flex items-center gap-2 bg-forest-50 hover:bg-forest-100 text-forest-700 border border-forest-100 px-4 py-2.5 rounded-full font-semibold text-sm transition-all hover:shadow-sm group"
                 >
                   {item}
@@ -238,7 +238,7 @@ export default function CityPage() {
                 return (
                   <Link
                     key={label}
-                    to={`/compare?q=tomato&city=${city.slug}`}
+                    href={`/compare?q=tomato&city=${city.slug}`}
                     className="flex items-center justify-between bg-gradient-to-r from-forest-50 to-cream-50 border border-forest-100 rounded-2xl p-4 hover:shadow-md transition-all group"
                   >
                     <div className="flex items-center gap-3">
@@ -265,7 +265,7 @@ export default function CityPage() {
               {Object.values(CITIES).map(c => (
                 <Link
                   key={c.slug}
-                  to={`/city/${c.slug}`}
+                  href={`/city/${c.slug}`}
                   className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                     c.slug === city.slug
                       ? 'bg-amber-400 text-forest-900'

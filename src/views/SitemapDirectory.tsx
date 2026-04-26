@@ -56,7 +56,7 @@ const SitemapDirectory = () => {
               {foodItems.slice(0, 500).map((item) => (
                 <Link 
                   key={item} 
-                  to={`/food/${encodeURIComponent(item)}`}
+                  href={`/food/${encodeURIComponent(item)}`}
                   className="text-forest-600 hover:text-amber-600 hover:underline capitalize text-sm py-1 border-b border-forest-50 last:border-0"
                 >
                   {item.replace(/-/g, ' ')} price
@@ -74,7 +74,7 @@ const SitemapDirectory = () => {
               {cities.map((city) => (
                 <Link
                   key={city}
-                  to={`/city/${encodeURIComponent(city)}`}
+                  href={`/city/${encodeURIComponent(city)}`}
                   className="text-forest-600 hover:text-amber-600 hover:underline capitalize text-sm py-1 border-b border-forest-50 last:border-0"
                 >
                   Grocery Trends in {formatCityName(city)}
@@ -107,7 +107,7 @@ const SitemapDirectory = () => {
               {ALL_RECIPES.map((recipe) => (
                 <Link 
                   key={recipe.id} 
-                  to={`/recipe/${recipe.id}`}
+                  href={`/recipe/${recipe.id}`}
                   className="text-forest-600 hover:text-amber-600 hover:underline text-sm py-1 border-b border-forest-50 last:border-0"
                 >
                   {recipe.emoji} {recipe.name} ({recipe.country})

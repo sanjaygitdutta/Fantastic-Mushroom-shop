@@ -307,7 +307,7 @@ const FoodItemPage = () => {
           {CITIES.map(city => (
             <Link
               key={city}
-              to={`/compare?q=${encodeURIComponent(foodItem)}&city=${city}`}
+              href={`/compare?q=${encodeURIComponent(foodItem)}&city=${city}`}
               className="text-sm bg-white border border-forest-200 text-forest-700 hover:border-forest-500 hover:text-forest-900 px-4 py-2 rounded-full transition-all"
             >
               {translatedItem} {t('food_item_price_in')} {city}
@@ -325,7 +325,7 @@ const FoodItemPage = () => {
             .map(f => {
               const relTranslated = getTranslatedItem(f, currentLang);
               return (
-                <Link key={f} to={`/food/${f}`} className="text-sm bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 px-4 py-2 rounded-full transition-all capitalize">
+                <Link key={f} href={`/food/${f}`} className="text-sm bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 px-4 py-2 rounded-full transition-all capitalize">
                   {relTranslated} {t('food_item_price_today')}
                 </Link>
               )

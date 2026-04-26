@@ -44,7 +44,7 @@ const Profile = () => {
                 familySize: user.profile.familySize || 2
             });
         }
-    }, [isAuthenticated, navigate, user]);
+    }, [isAuthenticated, router, user]);
 
     useEffect(() => {
         if (activeTab === 'cookbook' && user?.profile?.name) {

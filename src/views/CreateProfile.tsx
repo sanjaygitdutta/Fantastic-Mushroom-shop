@@ -36,7 +36,7 @@ const CreateProfile = () => {
         } else {
             setFormData(prev => ({ ...prev, mobile: user.identifier }));
         }
-    }, [user, navigate]);
+    }, [user, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

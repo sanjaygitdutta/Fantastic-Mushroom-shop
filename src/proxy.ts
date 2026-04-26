@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 const SUPPORTED_LANGUAGES = ['hi', 'bn', 'mr', 'te', 'ta'];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Check if there is any supported locale in the pathname
