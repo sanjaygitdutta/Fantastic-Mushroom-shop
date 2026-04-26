@@ -27,7 +27,8 @@ const RecipeDetails = () => {
         .filter(Boolean);
 
     const lang = i18n.language;
-    const tRecipe = recipe.translations?.[lang] || {};
+    type RecipeTranslation = { title?: string; description?: string; ingredients?: { item: string; amount: string }[]; instructions?: string[] };
+    const tRecipe: RecipeTranslation = recipe.translations?.[lang] || {};
     const displayTitle = tRecipe.title || recipe.title;
     const displayDescription = tRecipe.description || recipe.description;
     const displayIngredients = tRecipe.ingredients || recipe.ingredients;
@@ -56,8 +57,8 @@ const RecipeDetails = () => {
             ratingValue: 4.9,
             ratingCount: 158,
         },
-        recipeIngredient: displayIngredients.map(i => `${i.amount} ${i.item}`),
-        recipeInstructions: displayInstructions.map((step, i) => ({
+        recipeIngredient: displayIngredients.map((i: { item: string; amount: string }) => `${i.amount} ${i.item}`),
+        recipeInstructions: displayInstructions.map((step: string, i: number) => ({
             '@type': 'HowToStep',
             name: `Step ${i + 1}`,
             position: i + 1,
@@ -130,7 +131,7 @@ const RecipeDetails = () => {
                     <div className="md:col-span-1">
                         <h3 className="text-2xl font-bold text-forest-900 mb-6">{t('recipe_ingredients_title')}</h3>
                         <ul className="space-y-3 mb-8">
-                            {displayIngredients.map((ing, i) => (
+                            {displayIngredients.map((ing: { item: string; amount: string }, i: number) => (
                                 <li key={i} className="flex justify-between items-center border-b border-gray-50 pb-2">
                                     <span className="text-gray-700">{ing.item}</span>
                                     <span className="text-gray-400 font-medium text-sm">{ing.amount}</span>
@@ -190,7 +191,7 @@ const RecipeDetails = () => {
 
                         <h3 className="text-2xl font-bold text-forest-900 mb-6">{t('recipe_instructions_title')}</h3>
                         <div className="space-y-8">
-                            {displayInstructions.map((step, i) => (
+                            {displayInstructions.map((step: string, i: number) => (
                                 <div key={i} className="flex gap-4">
                                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-forest-900 text-white flex items-center justify-center font-bold">
                                         {i + 1}
