@@ -168,8 +168,9 @@ async function callGemini(retryCount = 0) {
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { 
-      temperature: 0, 
-      maxOutputTokens: 8192
+      temperature: 0.1, 
+      maxOutputTokens: 8192,
+      responseMimeType: "application/json"
     }
   };
 
@@ -199,19 +200,36 @@ async function callGemini(retryCount = 0) {
   
   if (!text) throw new Error("Empty response from Gemini");
 
-  // ── Sanitize the raw text before JSON.parse ─────────────────────────────
+  // ── Sanitize and Repair the raw text before JSON.parse ──────────────────
   function sanitizeJson(raw) {
     let t = raw.trim();
 
-    // 1. Strip markdown code fences  e.g.  ```json ... ```
+    // 1. Strip markdown code fences e.g. ```json ... ```
     t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
 
-    // 2. Add missing commas between properties.
-    //    Gemini sometimes omits the comma after a number before the next key.
-    //    Pattern: a digit (or ] or } or " closing value) followed by a newline then a new key.
-    t = t.replace(/([\d\]"tfn])([ \t]*\n[ \t]*")/g, '$1,$2');
+    // 2. Auto-repair: If the JSON is cut off (unterminated string)
+    // Find the last opening quote and check if it has a closing quote
+    const lastQuote = t.lastIndexOf('"');
+    const lastOpenBrace = t.lastIndexOf('{');
+    const lastOpenBracket = t.lastIndexOf('[');
+    
+    // If the last quote is after the last closing char, it might be open
+    if (lastQuote > t.lastIndexOf('}') && lastQuote > t.lastIndexOf(']')) {
+        // Simple repair: add a closing quote if missing
+        if (t.split('"').length % 2 === 0) { t += '"'; }
+    }
 
-    // 3. Remove trailing commas before } or ] (the reverse mistake)
+    // 3. Auto-repair: Add missing closing braces/brackets
+    let openBraces = (t.match(/\{/g) || []).length;
+    let closedBraces = (t.match(/\}/g) || []).length;
+    let openBuckets = (t.match(/\[/g) || []).length;
+    let closedBuckets = (t.match(/\]/g) || []).length;
+
+    while (openBuckets > closedBuckets) { t += ']'; closedBuckets++; }
+    while (openBraces > closedBraces) { t += '}'; closedBraces++; }
+
+    // 4. Standard cleanups
+    t = t.replace(/([\d\]"tfn])([ \t]*\n[ \t]*")/g, '$1,$2');
     t = t.replace(/,(\s*[}\]])/g, '$1');
 
     return t;
@@ -224,8 +242,9 @@ async function callGemini(retryCount = 0) {
     return JSON.parse(sanitized);
   } catch (parseErr) {
     // Log the raw text before failing so we can debug future issues
-    console.error('\u274c Raw Gemini output that failed to parse:');
-    console.error(text.slice(0, 800));
+    console.error('\u274c JSON Parse Failed. Showing the END of the output (where it likely broke):');
+    console.error('...');
+    console.error(sanitized.slice(-1000));
 
     // Last-resort: try to extract a JSON object using regex
     const jsonMatch = sanitized.match(/\{[\s\S]*\}/);
