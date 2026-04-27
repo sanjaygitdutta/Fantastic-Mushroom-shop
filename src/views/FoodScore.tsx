@@ -16,11 +16,11 @@ interface SavingsLog {
 }
 
 const SCORE_GRADES = [
-  { min: 90, grade: 'S', labelKey: 'foodscore_grade_s', color: 'from-amber-400 to-yellow-300', emoji: '🏆' },
-  { min: 75, grade: 'A', labelKey: 'foodscore_grade_a', color: 'from-green-400 to-emerald-500', emoji: '⭐' },
-  { min: 55, grade: 'B', labelKey: 'foodscore_grade_b', color: 'from-blue-400 to-cyan-500', emoji: '💡' },
-  { min: 35, grade: 'C', labelKey: 'foodscore_grade_c', color: 'from-orange-400 to-amber-500', emoji: '🛒' },
-  { min: 0,  grade: 'D', labelKey: 'foodscore_grade_d', color: 'from-gray-400 to-gray-500', emoji: '🌱' },
+  { min: 90, grade: 'S', label: 'Legendary Saver', labelKey: 'foodscore_grade_s', color: 'from-amber-400 to-yellow-300', emoji: '🏆' },
+  { min: 75, grade: 'A', label: 'Smart Shopper',   labelKey: 'foodscore_grade_a', color: 'from-green-400 to-emerald-500', emoji: '⭐' },
+  { min: 55, grade: 'B', label: 'Bargain Hunter',  labelKey: 'foodscore_grade_b', color: 'from-blue-400 to-cyan-500', emoji: '💡' },
+  { min: 35, grade: 'C', label: 'Casual Buyer',    labelKey: 'foodscore_grade_c', color: 'from-orange-400 to-amber-500', emoji: '🛒' },
+  { min: 0,  grade: 'D', label: 'Getting Started', labelKey: 'foodscore_grade_d', color: 'from-gray-400 to-gray-500', emoji: '🌱' },
 ];
 
 export default function FoodScore() {
