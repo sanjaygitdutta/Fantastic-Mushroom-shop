@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingDown, Star, Flame, Share2, ArrowRight, Trophy } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 import SEO from '../components/SEO';
 import { STREAK_KEY } from '../components/SavingsStreak';
@@ -15,17 +16,18 @@ interface SavingsLog {
 }
 
 const SCORE_GRADES = [
-  { min: 90, grade: 'S', label: 'Legendary Saver', color: 'from-amber-400 to-yellow-300', emoji: '🏆' },
-  { min: 75, grade: 'A', label: 'Smart Shopper', color: 'from-green-400 to-emerald-500', emoji: '⭐' },
-  { min: 55, grade: 'B', label: 'Bargain Hunter', color: 'from-blue-400 to-cyan-500', emoji: '💡' },
-  { min: 35, grade: 'C', label: 'Casual Buyer', color: 'from-orange-400 to-amber-500', emoji: '🛒' },
-  { min: 0,  grade: 'D', label: 'Getting Started', color: 'from-gray-400 to-gray-500', emoji: '🌱' },
+  { min: 90, grade: 'S', labelKey: 'foodscore_grade_s', color: 'from-amber-400 to-yellow-300', emoji: '🏆' },
+  { min: 75, grade: 'A', labelKey: 'foodscore_grade_a', color: 'from-green-400 to-emerald-500', emoji: '⭐' },
+  { min: 55, grade: 'B', labelKey: 'foodscore_grade_b', color: 'from-blue-400 to-cyan-500', emoji: '💡' },
+  { min: 35, grade: 'C', labelKey: 'foodscore_grade_c', color: 'from-orange-400 to-amber-500', emoji: '🛒' },
+  { min: 0,  grade: 'D', labelKey: 'foodscore_grade_d', color: 'from-gray-400 to-gray-500', emoji: '🌱' },
 ];
 
 export default function FoodScore() {
   const [log, setLog] = useState<SavingsLog[]>([]);
   const [streak, setStreak] = useState(0);
   const [score, setScore] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Load savings log
@@ -61,7 +63,7 @@ export default function FoodScore() {
   const offset = circumference - (score / 100) * circumference;
 
   const shareScore = () => {
-    const text = `💰 My FoodScore on Fantastic Food is ${score}/100 — ${grade.label}! I've saved ₹${totalSavings.toFixed(0)} by comparing grocery prices across Blinkit, Zepto & more. Check yours: https://www.fantasticfood.in/savings`;
+    const text = `💰 My FoodScore on Fantastic Food is ${score}/100 — ${t(grade.labelKey)}! I've saved ₹${totalSavings.toFixed(0)} by comparing grocery prices across Blinkit, Zepto & more. Check yours: https://www.fantasticfood.in/savings`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -75,10 +77,10 @@ export default function FoodScore() {
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4">
-            <Star className="w-4 h-4" /> FoodScore Dashboard
+            <Star className="w-4 h-4" /> {t('foodscore_badge')}
           </div>
-          <h1 className="text-4xl md:text-5xl font-black font-display text-forest-900 mb-4">Your Savings Intelligence</h1>
-          <p className="text-forest-600 max-w-lg mx-auto">Track how smart you shop. Every price comparison builds your score.</p>
+          <h1 className="text-4xl md:text-5xl font-black font-display text-forest-900 mb-4">{t('foodscore_title')}</h1>
+          <p className="text-forest-600 max-w-lg mx-auto">{t('foodscore_subtitle')}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -109,20 +111,20 @@ export default function FoodScore() {
               </div>
             </div>
             <span className="text-3xl mb-1">{grade.emoji}</span>
-            <h2 className={`text-xl font-black bg-gradient-to-r ${grade.color} bg-clip-text text-transparent`}>{grade.label}</h2>
-            <p className="text-xs text-forest-500 mt-1">Grade {grade.grade}</p>
+            <h2 className={`text-xl font-black bg-gradient-to-r ${grade.color} bg-clip-text text-transparent`}>{t(grade.labelKey)}</h2>
+            <p className="text-xs text-forest-500 mt-1">{t('foodscore_grade_label')} {grade.grade}</p>
             <button onClick={shareScore} className="mt-4 w-full py-2.5 rounded-xl bg-green-500 text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-green-600 transition-colors">
-              <Share2 className="w-4 h-4" /> Share Score
+              <Share2 className="w-4 h-4" /> {t('foodscore_share')}
             </button>
           </div>
 
           {/* Stats */}
           <div className="md:col-span-2 grid grid-cols-2 gap-4">
             {[
-              { icon: <TrendingDown className="w-6 h-6 text-green-500" />, label: 'Total Saved', value: `₹${totalSavings.toFixed(0)}`, sub: 'vs highest platform price', bg: 'bg-green-50 border-green-100' },
-              { icon: <Star className="w-6 h-6 text-amber-500" />, label: 'Comparisons Made', value: totalComparisons, sub: 'total price checks done', bg: 'bg-amber-50 border-amber-100' },
-              { icon: <Flame className="w-6 h-6 text-orange-500" />, label: 'Day Streak', value: `${streak} 🔥`, sub: 'consecutive days active', bg: 'bg-orange-50 border-orange-100' },
-              { icon: <Trophy className="w-6 h-6 text-purple-500" />, label: 'Best Category', value: log.length > 0 ? log[0].platform : '—', sub: 'most savings found here', bg: 'bg-purple-50 border-purple-100' },
+              { icon: <TrendingDown className="w-6 h-6 text-green-500" />, label: t('foodscore_total_saved'), value: `₹${totalSavings.toFixed(0)}`, sub: t('foodscore_total_saved_sub'), bg: 'bg-green-50 border-green-100' },
+              { icon: <Star className="w-6 h-6 text-amber-500" />, label: t('foodscore_comparisons'), value: totalComparisons, sub: t('foodscore_comparisons_sub'), bg: 'bg-amber-50 border-amber-100' },
+              { icon: <Flame className="w-6 h-6 text-orange-500" />, label: t('foodscore_streak'), value: `${streak} 🔥`, sub: t('foodscore_streak_sub'), bg: 'bg-orange-50 border-orange-100' },
+              { icon: <Trophy className="w-6 h-6 text-purple-500" />, label: t('foodscore_best_category'), value: log.length > 0 ? log[0].platform : '—', sub: t('foodscore_best_category_sub'), bg: 'bg-purple-50 border-purple-100' },
             ].map((stat, i) => (
               <div key={i} className={`${stat.bg} border rounded-2xl p-5`}>
                 {stat.icon}
@@ -138,12 +140,12 @@ export default function FoodScore() {
         {totalComparisons === 0 && (
           <div className="bg-white rounded-3xl border border-forest-100 p-10 text-center shadow-sm">
             <div className="text-5xl mb-4">🛒</div>
-            <h3 className="text-xl font-black text-forest-900 mb-2">Start Comparing to Build Your Score!</h3>
+            <h3 className="text-xl font-black text-forest-900 mb-2">{t('foodscore_empty_title')}</h3>
             <p className="text-forest-600 mb-6 max-w-sm mx-auto">
-              Every time you compare prices on this platform, your FoodScore grows. Start now!
+              {t('foodscore_empty_desc')}
             </p>
             <Link href="/compare" className="btn-forest inline-flex items-center gap-2 px-6 py-3">
-              Compare Prices Now <ArrowRight className="w-4 h-4" />
+              {t('foodscore_compare_btn')} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         )}
@@ -151,13 +153,13 @@ export default function FoodScore() {
         {/* Recent activity */}
         {log.length > 0 && (
           <div className="bg-white rounded-3xl border border-forest-100 p-6 shadow-sm">
-            <h3 className="font-black text-forest-900 text-lg mb-4">Recent Comparisons</h3>
+            <h3 className="font-black text-forest-900 text-lg mb-4">{t('foodscore_recent')}</h3>
             <div className="space-y-3">
               {log.slice(0, 10).map((entry, i) => (
                 <div key={i} className="flex items-center justify-between py-2 border-b border-forest-50 last:border-0">
                   <div>
                     <p className="font-bold text-forest-900 text-sm capitalize">{entry.query}</p>
-                    <p className="text-xs text-forest-500">{entry.date} · Best on {entry.platform}</p>
+                    <p className="text-xs text-forest-500">{entry.date} · {t('foodscore_best_on')} {entry.platform}</p>
                   </div>
                   <span className="text-green-600 font-black text-sm">-₹{entry.savings}</span>
                 </div>
