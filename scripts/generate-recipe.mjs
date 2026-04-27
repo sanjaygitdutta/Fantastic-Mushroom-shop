@@ -319,34 +319,34 @@ ${recipe.en.instructions.map((s) => `            '${esc(s)}'`).join(',\n')}
         tags: [${recipe.en.tags.map((t) => `'${esc(t)}'`).join(', ')}],
         translations: {
             hi: {
-                title: '${esc(recipe.hi.title)}',
-                description: '${esc(recipe.hi.description)}',
-                ingredients: [${recipe.hi.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${recipe.hi.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+                title: '${esc(recipe.hi?.title || '')}',
+                description: '${esc(recipe.hi?.description || '')}',
+                ingredients: [${(recipe.hi?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${(recipe.hi?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
             },
             bn: {
-                title: '${esc(recipe.bn.title)}',
-                description: '${esc(recipe.bn.description)}',
-                ingredients: [${recipe.bn.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${recipe.bn.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+                title: '${esc(recipe.bn?.title || '')}',
+                description: '${esc(recipe.bn?.description || '')}',
+                ingredients: [${(recipe.bn?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${(recipe.bn?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
             },
             mr: {
-                title: '${esc(recipe.mr.title)}',
-                description: '${esc(recipe.mr.description)}',
-                ingredients: [${recipe.mr.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${recipe.mr.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+                title: '${esc(recipe.mr?.title || '')}',
+                description: '${esc(recipe.mr?.description || '')}',
+                ingredients: [${(recipe.mr?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${(recipe.mr?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
             },
             te: {
-                title: '${esc(recipe.te.title)}',
-                description: '${esc(recipe.te.description)}',
-                ingredients: [${recipe.te.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${recipe.te.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+                title: '${esc(recipe.te?.title || '')}',
+                description: '${esc(recipe.te?.description || '')}',
+                ingredients: [${(recipe.te?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${(recipe.te?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
             },
             ta: {
-                title: '${esc(recipe.ta.title)}',
-                description: '${esc(recipe.ta.description)}',
-                ingredients: [${recipe.ta.ingredients.map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${recipe.ta.instructions.map((s) => `'${esc(s)}'`).join(', ')}]
+                title: '${esc(recipe.ta?.title || '')}',
+                description: '${esc(recipe.ta?.description || '')}',
+                ingredients: [${(recipe.ta?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${(recipe.ta?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
             }
         }
     }`;
