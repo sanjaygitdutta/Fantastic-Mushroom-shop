@@ -19,7 +19,7 @@ const TermsOfService = () => {
                         </h1>
                         
                         <div className="text-forest-500 mb-12 font-medium">
-                            Last Updated: April 18, 2026
+                            Last Updated: April 28, 2026
                         </div>
 
                         <div className="prose prose-lg prose-forest max-w-none space-y-12">
@@ -63,7 +63,12 @@ const TermsOfService = () => {
                             </section>
 
                             <section>
-                                <h2 className="text-2xl font-black text-forest-900 mb-4">5. Affiliate Disclosure</h2>
+                                <h2 className="text-2xl font-black text-forest-900 mb-4">5. Affiliate Disclosure & Independence</h2>
+                                <p className="text-forest-700 leading-relaxed mb-4">
+                                    Fantastic Food is an independent comparison platform and is not affiliated with, 
+                                    endorsed by, or sponsored by Blinkit, Zepto, or any other brand mentioned 
+                                    on our platform.
+                                </p>
                                 <p className="text-forest-700 leading-relaxed">
                                     Some of the links on this site are affiliate links. This means that if you click on 
                                     a link and purchase an item from a partner app (e.g., Blinkit or Swiggy), we may 

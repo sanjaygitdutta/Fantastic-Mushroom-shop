@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
                         </h1>
                         
                         <div className="text-forest-500 mb-12 font-medium">
-                            Last Updated: April 18, 2026
+                            Last Updated: April 28, 2026
                         </div>
 
                         <div className="prose prose-lg prose-forest max-w-none space-y-12">
@@ -65,13 +65,18 @@ const PrivacyPolicy = () => {
                             </section>
 
                             <section>
-                                <h2 className="text-2xl font-black text-forest-900 mb-4">4. Affiliate Links & Third Parties</h2>
+                                <h2 className="text-2xl font-black text-forest-900 mb-4">4. Affiliate Links & Independence Disclosure</h2>
                                 <p className="text-forest-700 leading-relaxed">
-                                    As a price comparison platform, we provide links to third-party grocery apps 
-                                    (Blinkit, Zepto, Swiggy, etc.). When you click these links, a "cookie" may be stored 
-                                    on your browser to track the referral for affiliate monetization. These third 
-                                    parties have their own privacy policies, and we are not responsible for their data 
-                                    handling practices once you leave our site.
+                                    Fantastic Food is an independent comparison platform and is not affiliated with, 
+                                    endorsed by, or sponsored by Blinkit, Zepto, Swiggy, or any other brand mentioned 
+                                    on our platform.
+                                </p>
+                                <p className="text-forest-700 leading-relaxed mt-4">
+                                    As a price comparison platform, we provide links to third-party grocery apps. 
+                                    When you click these links, a "cookie" may be stored on your browser to track 
+                                    the referral for affiliate monetization. These third parties have their own 
+                                    privacy policies, and we are not responsible for their data handling practices 
+                                    once you leave our site.
                                 </p>
                             </section>
 
