@@ -118,28 +118,20 @@ const imageUrl = pick(FOOD_IMAGES);
 console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" for ${today}...`);
 
 // ── Build Gemini prompt ────────────────────────────────────────────────────
-const prompt = `You are a world-renowned chef and food writer. Write an authentic, detailed recipe for "${selectedDish}" — a classic dish from ${selectedCuisine.country}.
+const prompt = `You are a world-renowned chef. Write an authentic, detailed recipe for "${selectedDish}" — a classic dish from ${selectedCuisine.country}.
+Provide translations for title, description, ingredients, and instructions in Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), and Tamil ('ta').
 
-CRITICAL INSTRUCTION: You must generate the original recipe in English ('en'), and then provide high-quality translations for the title, description, ingredients, and instructions in Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), and Tamil ('ta').
-
-Return ONLY a valid JSON object with NO markdown, NO code blocks, NO extra text. Just raw JSON.
-
-Use EXACTLY this structure:
+Return ONLY a valid JSON object. Use EXACTLY this structure:
 {
   "en": {
     "title": "${selectedDish}",
-    "description": "An appetizing 1-sentence description.",
+    "description": "Short appetizing description.",
     "prepTime": "20 min",
     "cookTime": "40 min",
     "difficulty": "Medium",
     "servings": 4,
-    "ingredients": [
-      { "item": "Ingredient Name", "amount": "250g" }
-    ],
-    "instructions": [
-      "Step 1: Short concise step.",
-      "Step 2: Next concise step."
-    ],
+    "ingredients": [{ "item": "Name", "amount": "Qty" }],
+    "instructions": ["Step 1", "Step 2"],
     "tags": ["${selectedCuisine.cuisine}", "Dinner", "Non-Vegetarian"]
   },
   "hi": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
@@ -149,16 +141,11 @@ Use EXACTLY this structure:
   "ta": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] }
 }
 
-Strict rules:
-- difficulty: EXACTLY one of "Easy", "Medium", or "Hard"
-- 5 to 7 authentic ingredients
-- 4 to 6 concise, short cooking steps (maximum 1 sentence per step)
-- 3 tags: [cuisine-name, meal-type, diet-type (Vegetarian/Non-Vegetarian/Vegan)]
-- servings as a plain number (not a string)
-- prepTime and cookTime as "XX min" strings
-- Make it truly authentic to ${selectedCuisine.country}'s culinary tradition
-- Use ingredients that are commonly available in India
-- CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double quotes. No single quotes anywhere. No trailing commas. No comments.`;
+Rules:
+- 5 to 7 ingredients max.
+- 4 to 6 SHORT instructions (1 sentence each).
+- Descriptions must be UNDER 15 words.
+- All property names in double quotes. No trailing commas.`;
 
 // ── Call Gemini REST API ──────────────────────────────────────────────────
 async function callGemini(retryCount = 0) {
@@ -169,12 +156,12 @@ async function callGemini(retryCount = 0) {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { 
       temperature: 0.1, 
-      maxOutputTokens: 8192,
+      maxOutputTokens: 2048, // Reduced to prevent excessively long outputs that truncate
       responseMimeType: "application/json"
     }
   };
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
   
   const response = await fetch(url, {
     method: 'POST',
@@ -182,7 +169,6 @@ async function callGemini(retryCount = 0) {
     body: JSON.stringify(payload)
   });
 
-  // Handle server overload — retry with backoff
   if ((response.status === 503 || response.status === 429) && retryCount < MAX_RETRIES) {
     const waitMs = RETRY_DELAYS_MS[retryCount];
     console.log(`⏳ Gemini overloaded (${response.status}). Retrying in ${waitMs / 1000}s... (attempt ${retryCount + 1}/${MAX_RETRIES})`);
@@ -200,62 +186,58 @@ async function callGemini(retryCount = 0) {
   
   if (!text) throw new Error("Empty response from Gemini");
 
-  // ── Sanitize and Repair the raw text before JSON.parse ──────────────────
-  function sanitizeJson(raw) {
+  // ── Robust JSON Repair ──────────────────────────────────────────────────
+  function robustParse(raw) {
     let t = raw.trim();
-
-    // 1. Strip markdown code fences e.g. ```json ... ```
     t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
 
-    // 2. Auto-repair: If the JSON is cut off (unterminated string)
-    // Find the last opening quote and check if it has a closing quote
-    const lastQuote = t.lastIndexOf('"');
-    const lastOpenBrace = t.lastIndexOf('{');
-    const lastOpenBracket = t.lastIndexOf('[');
-    
-    // If the last quote is after the last closing char, it might be open
-    if (lastQuote > t.lastIndexOf('}') && lastQuote > t.lastIndexOf(']')) {
-        // Simple repair: add a closing quote if missing
-        if (t.split('"').length % 2 === 0) { t += '"'; }
+    // Try parsing immediately
+    try { return JSON.parse(t); } catch (e) {}
+
+    console.log("🛠️ Attempting robust repair on truncated JSON...");
+
+    // 1. Backtrack to find the last potential valid ending point
+    // We look for characters that usually precede a new object or closing of a list
+    let current = t;
+    while (current.length > 50) {
+        // Try to close common structures and parse
+        const candidates = [
+            current,
+            current + '"',
+            current + '"}',
+            current + '"]',
+            current + '"}]',
+            current + '"}]}',
+            current + '"}]}}',
+            current + '"}]}}}'
+        ];
+
+        for (const cand of candidates) {
+            try { return JSON.parse(cand); } catch (e) {}
+        }
+
+        // If no candidate works, strip the last character and repeat
+        // Specifically strip back to the last comma or brace if we detect it's garbage
+        const lastComma = current.lastIndexOf(',');
+        const lastBrace = current.lastIndexOf('{');
+        const lastBracket = current.lastIndexOf('[');
+        const stripTo = Math.max(lastComma, lastBrace, lastBracket);
+        
+        if (stripTo > 0 && stripTo < current.length - 1) {
+            current = current.substring(0, stripTo);
+        } else {
+            current = current.substring(0, current.length - 1);
+        }
     }
 
-    // 3. Auto-repair: Add missing closing braces/brackets
-    let openBraces = (t.match(/\{/g) || []).length;
-    let closedBraces = (t.match(/\}/g) || []).length;
-    let openBuckets = (t.match(/\[/g) || []).length;
-    let closedBuckets = (t.match(/\]/g) || []).length;
-
-    while (openBuckets > closedBuckets) { t += ']'; closedBuckets++; }
-    while (openBraces > closedBraces) { t += '}'; closedBraces++; }
-
-    // 4. Standard cleanups
-    t = t.replace(/([\d\]"tfn])([ \t]*\n[ \t]*")/g, '$1,$2');
-    t = t.replace(/,(\s*[}\]])/g, '$1');
-
-    return t;
+    throw new Error("Could not repair JSON even with backtracking.");
   }
 
-  const sanitized = sanitizeJson(text);
-
-  // Attempt to parse, with detailed error reporting
   try {
-    return JSON.parse(sanitized);
+    return robustParse(text);
   } catch (parseErr) {
-    // Log the raw text before failing so we can debug future issues
-    console.error('\u274c JSON Parse Failed. Showing the END of the output (where it likely broke):');
-    console.error('...');
-    console.error(sanitized.slice(-1000));
-
-    // Last-resort: try to extract a JSON object using regex
-    const jsonMatch = sanitized.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      try {
-        return JSON.parse(jsonMatch[0]);
-      } catch (_) {
-        // still failed
-      }
-    }
-
+    console.error('\u274c JSON Parse Failed. Showing raw output snippet:');
+    console.error(text.slice(-500));
     throw new Error(`JSON parse failed: ${parseErr.message}`);
   }
 }
