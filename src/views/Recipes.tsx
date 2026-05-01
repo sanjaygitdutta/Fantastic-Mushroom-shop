@@ -55,15 +55,17 @@ export default function Recipes() {
     });
 
     return results.sort((a, b) => {
-      const isDateA = /^\\d{4}-\\d{2}-\\d{2}$/.test(a.id);
-      const isDateB = /^\\d{4}-\\d{2}-\\d{2}$/.test(b.id);
+      // Date-format IDs (YYYY-MM-DD) are Chef Aika recipes — always first
+      const isDateA = /^\d{4}-\d{2}-\d{2}$/.test(a.id);
+      const isDateB = /^\d{4}-\d{2}-\d{2}$/.test(b.id);
       
       if (isDateA && isDateB) {
+        // Newest date first
         return new Date(b.id).getTime() - new Date(a.id).getTime();
       } else if (isDateA) {
-        return -1;
+        return -1; // a is Aika recipe — comes first
       } else if (isDateB) {
-        return 1;
+        return 1;  // b is Aika recipe — comes first
       }
       return 0;
     });
