@@ -37,12 +37,27 @@ const SEO = ({
     const fullTitle = title.includes('Fantastic Food') ? title : `${title} | Fantastic Food`;
     document.title = fullTitle;
 
-    let pageUrl = canonicalUrl || window.location.href;
-    if (canonicalUrl && currentLang !== 'en') {
-      const urlObj = new URL(canonicalUrl);
-      urlObj.pathname = `/${currentLang}${urlObj.pathname === '/' ? '' : urlObj.pathname}`;
-      pageUrl = urlObj.toString();
+    // ── Canonical URL Construction ─────────────────────
+    // Strip any ?lang= query param that may exist from old links/redirects
+    const rawUrl = canonicalUrl || window.location.href;
+    const urlObj = new URL(rawUrl);
+    urlObj.searchParams.delete('lang'); // kill ?lang=te, ?lang=mr etc.
+
+    // Strip any existing language prefix from path to avoid double-prefixing (/hi/hi/...)
+    const LANG_CODES = ['hi', 'bn', 'mr', 'te', 'ta'];
+    const pathParts = urlObj.pathname.split('/').filter(Boolean);
+    if (LANG_CODES.includes(pathParts[0])) {
+      pathParts.shift(); // remove existing lang prefix
     }
+    const cleanPath = '/' + pathParts.join('/');
+
+    // Now inject correct language prefix for non-English
+    if (currentLang !== 'en') {
+      urlObj.pathname = `/${currentLang}${cleanPath === '/' ? '' : cleanPath}`;
+    } else {
+      urlObj.pathname = cleanPath || '/';
+    }
+    let pageUrl = urlObj.toString();
 
     const setMeta = (attr: string, attrVal: string, content: string) => {
       let el = document.querySelector(`meta[${attr}="${attrVal}"]`);
@@ -98,13 +113,23 @@ const SEO = ({
       // Inject hreflang tags for ALL supported languages to link their SEO ranking
       // This is the #1 most important step for scaling regional SEO
       SUPPORTED_LANGUAGES.forEach(lang => {
-        // Build language specific URL by injecting the language prefix into the pathname
+        // Build hreflang URL — always start from the clean English path
         const baseUrl = canonicalUrl || window.location.href;
-        const urlObj = new URL(baseUrl);
+        const hrefObj = new URL(baseUrl);
+        hrefObj.searchParams.delete('lang'); // strip ?lang= params
+
+        // Strip any existing lang prefix from path
+        const hrefParts = hrefObj.pathname.split('/').filter(Boolean);
+        if (LANG_CODES.includes(hrefParts[0])) hrefParts.shift();
+        const hrefClean = '/' + hrefParts.join('/');
+
+        // Add lang prefix for non-English
         if (lang.code !== 'en') {
-          urlObj.pathname = `/${lang.code}${urlObj.pathname === '/' ? '' : urlObj.pathname}`;
+          hrefObj.pathname = `/${lang.code}${hrefClean === '/' ? '' : hrefClean}`;
+        } else {
+          hrefObj.pathname = hrefClean || '/';
         }
-        const localizedUrl = urlObj.toString();
+        const localizedUrl = hrefObj.toString();
         
         // Use 'x-default' for english, and standard codes for others
         const hreflangCode = lang.code === 'en' ? 'x-default' : `${lang.code}-in`;
