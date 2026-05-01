@@ -10,6 +10,161 @@
       "source": "/product/:slug",
       "destination": "/mushroom-shop",
       "permanent": true
+    },
+    {
+      "source": "/en/:path*",
+      "destination": "/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/food/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "hi" }],
+      "destination": "/hi/food/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/food/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "bn" }],
+      "destination": "/bn/food/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/food/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "mr" }],
+      "destination": "/mr/food/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/food/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "te" }],
+      "destination": "/te/food/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/food/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "ta" }],
+      "destination": "/ta/food/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "hi" }],
+      "destination": "/hi/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "bn" }],
+      "destination": "/bn/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "mr" }],
+      "destination": "/mr/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "te" }],
+      "destination": "/te/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "ta" }],
+      "destination": "/ta/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/city/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "hi" }],
+      "destination": "/hi/city/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/city/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "bn" }],
+      "destination": "/bn/city/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/city/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "mr" }],
+      "destination": "/mr/city/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/city/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "te" }],
+      "destination": "/te/city/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/city/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "ta" }],
+      "destination": "/ta/city/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/compare",
+      "has": [{ "type": "query", "key": "lang", "value": "hi" }],
+      "destination": "/hi/compare",
+      "permanent": true
+    },
+    {
+      "source": "/compare",
+      "has": [{ "type": "query", "key": "lang", "value": "bn" }],
+      "destination": "/bn/compare",
+      "permanent": true
+    },
+    {
+      "source": "/compare",
+      "has": [{ "type": "query", "key": "lang", "value": "mr" }],
+      "destination": "/mr/compare",
+      "permanent": true
+    },
+    {
+      "source": "/compare",
+      "has": [{ "type": "query", "key": "lang", "value": "te" }],
+      "destination": "/te/compare",
+      "permanent": true
+    },
+    {
+      "source": "/compare",
+      "has": [{ "type": "query", "key": "lang", "value": "ta" }],
+      "destination": "/ta/compare",
+      "permanent": true
+    },
+    {
+      "source": "/recipe/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "hi" }],
+      "destination": "/hi/recipe/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/recipe/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "bn" }],
+      "destination": "/bn/recipe/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/recipe/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "mr" }],
+      "destination": "/mr/recipe/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/recipe/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "te" }],
+      "destination": "/te/recipe/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/recipe/:slug",
+      "has": [{ "type": "query", "key": "lang", "value": "ta" }],
+      "destination": "/ta/recipe/:slug",
+      "permanent": true
     }
   ]
 }
