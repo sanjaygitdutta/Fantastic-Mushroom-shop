@@ -15,16 +15,18 @@ import { useRecentlyCompared } from '../hooks/useRecentlyCompared';
 import { getDailyDeal } from '../data/compareFeatures';
 import { useStreak } from '../components/SavingsStreak';
 import { useTranslation } from 'react-i18next';
+import { searchRecipes } from '../data/worldRecipes';
+import RecipeCard from '../components/RecipeCard';
 
 // Platform logos strip
 const PLATFORMS = [
-  { name: 'Blinkit',   logo: '⚡', color: '#f0c029', bg: '#fffbea' },
-  { name: 'Zepto',     logo: '🟣', color: '#8b5cf6', bg: '#f5f3ff' },
-  { name: 'Swiggy',    logo: '🟠', color: '#f97316', bg: '#fff7ed' },
+  { name: 'Blinkit', logo: '⚡', color: '#f0c029', bg: '#fffbea' },
+  { name: 'Zepto', logo: '🟣', color: '#8b5cf6', bg: '#f5f3ff' },
+  { name: 'Swiggy', logo: '🟠', color: '#f97316', bg: '#fff7ed' },
   { name: 'BigBasket', logo: '🟢', color: '#16a34a', bg: '#f0fdf4' },
-  { name: 'Amazon',    logo: '📦', color: '#f59e0b', bg: '#fffbeb' },
-  { name: 'JioMart',   logo: '🔵', color: '#2563eb', bg: '#eff6ff' },
-  { name: 'Flipkart',  logo: '🛒', color: '#1d4ed8', bg: '#dbeafe' },
+  { name: 'Amazon', logo: '📦', color: '#f59e0b', bg: '#fffbeb' },
+  { name: 'JioMart', logo: '🔵', color: '#2563eb', bg: '#eff6ff' },
+  { name: 'Flipkart', logo: '🛒', color: '#1d4ed8', bg: '#dbeafe' },
 ];
 
 // Loading skeleton
@@ -72,7 +74,7 @@ const ComparePage = () => {
         if (data) {
           addRecent(query, data.canonicalName, data.icon);
           incrementStreak();
-          
+
           // Log savings
           const prices = data.prices.filter(p => p.price > 0 && p.inStock);
           if (prices.length > 1) {
@@ -80,7 +82,7 @@ const ComparePage = () => {
             const minP = Math.min(...prices.map(p => p.price));
             const savings = maxP - minP;
             const bestPlatform = prices.find(p => p.price === minP)?.platformId || 'Multiple';
-            
+
             if (savings > 0) {
               try {
                 const raw = localStorage.getItem('ff_savings_log');
@@ -92,7 +94,7 @@ const ComparePage = () => {
                   platform: bestPlatform
                 });
                 localStorage.setItem('ff_savings_log', JSON.stringify(log.slice(0, 100)));
-              } catch {}
+              } catch { }
             }
           }
         }
@@ -111,15 +113,15 @@ const ComparePage = () => {
   const queryCap = query ? query.charAt(0).toUpperCase() + query.slice(1) : '';
 
   const seoTitle = query
-    ? (lowestPrice > 0 
-        ? t('compare_seo_title_found', { query: queryCap, lowestPrice }) 
-        : t('compare_seo_title_query', { query: queryCap }))
+    ? (lowestPrice > 0
+      ? t('compare_seo_title_found', { query: queryCap, lowestPrice })
+      : t('compare_seo_title_query', { query: queryCap }))
     : t('compare_seo_title_default');
 
   const seoDescription = query
     ? (lowestPrice > 0
-        ? t('compare_seo_desc_found', { query: queryCap, lowestPrice })
-        : t('compare_seo_desc_query', { query: queryCap }))
+      ? t('compare_seo_desc_found', { query: queryCap, lowestPrice })
+      : t('compare_seo_desc_query', { query: queryCap }))
     : t('compare_seo_desc_default');
 
   const compareSchema = {
@@ -312,11 +314,31 @@ const ComparePage = () => {
         {result && !loading && (
           <>
             <CompareResultsGrid result={result} />
-            <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
+            <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 text-center mb-10">
               <p className="text-amber-800 text-sm">
                 <span className="font-bold">⚠️ </span> {t('prices_vary_disclaimer')}
               </p>
             </div>
+
+            {/* Suggested Recipes */}
+            {(() => {
+              const suggestedRecipes = searchRecipes(query).slice(0, 3);
+              if (suggestedRecipes.length > 0) {
+                return (
+                  <div className="mt-14 mb-8">
+                    <h3 className="text-xl font-bold text-forest-900 mb-6 font-display flex items-center gap-2">
+                      <Flame className="w-5 h-5 text-amber-500" /> Cooking with {query.charAt(0).toUpperCase() + query.slice(1)}? Try these recipes!
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {suggestedRecipes.map(recipe => (
+                        <RecipeCard key={recipe.id} recipe={recipe} />
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })()}
           </>
         )}
 

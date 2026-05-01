@@ -29,7 +29,7 @@ const BlogDirectory = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {BLOG_POSTS.map((post) => {
+            {[...BLOG_POSTS].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((post) => {
               const tPost = post.translations?.[lang] || post;
               const displayTitle = tPost.title || post.title;
               const displayDescription = tPost.description || post.description;

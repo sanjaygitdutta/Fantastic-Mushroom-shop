@@ -408,7 +408,8 @@ export const searchRecipes = (query: string) => {
     r.name.toLowerCase().includes(q) ||
     r.country.toLowerCase().includes(q) ||
     r.city.toLowerCase().includes(q) ||
-    r.tags.some(t => t.includes(q)) ||
-    r.category.toLowerCase().includes(q)
+    r.tags.some(t => t.toLowerCase().includes(q)) ||
+    r.category.toLowerCase().includes(q) ||
+    r.ingredients.some(i => i.toLowerCase().includes(q))
   );
 };

@@ -203,9 +203,18 @@ export default function RecipePage() {
                 </h2>
                 <ul className="space-y-2.5">
                   {displayIngredients.map((ing: string, i: number) => (
-                    <li key={i} className="flex items-start gap-2.5">
+                    <li key={i} className="flex items-start gap-2.5 group">
                       <span className="w-5 h-5 bg-forest-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</span>
-                      <span className="text-sm text-gray-700 leading-relaxed">{ing}</span>
+                      <div className="flex-1 flex items-start justify-between gap-2">
+                        <span className="text-sm text-gray-700 leading-relaxed">{ing}</span>
+                        <Link 
+                          href={`/compare?q=${encodeURIComponent(getCompareKey(ing))}`}
+                          className="text-[10px] text-amber-600 font-bold border border-amber-200 bg-amber-50 rounded-full px-2 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1"
+                          title={`Compare price for ${getCompareKey(ing)}`}
+                        >
+                          <ShoppingCart className="w-3 h-3" /> Compare
+                        </Link>
+                      </div>
                     </li>
                   ))}
                 </ul>
