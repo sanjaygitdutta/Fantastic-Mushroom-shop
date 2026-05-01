@@ -1,14 +1,14 @@
 'use client';
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Clock, Users, TrendingDown, Globe, X, BookOpen } from 'lucide-react';
+import { Search, TrendingDown, Globe, X } from 'lucide-react';
 import Link from 'next/link';
 
 import SEO from '../components/SEO';
 import { ALL_RECIPES, ALL_COUNTRIES, type WorldRecipe } from '../data/worldRecipes';
 import { useTranslation, Trans } from 'react-i18next';
 
-import RecipeCard from '../components/RecipeCard';
+import RecipeCard, { CATEGORY_ICONS } from '../components/RecipeCard';
 
 const COUNTRY_EMOJIS: Record<string, string> = {
   India: '🇮🇳', Italy: '🇮🇹', Japan: '🇯🇵', China: '🇨🇳', Mexico: '🇲🇽',

@@ -10,7 +10,7 @@ const DIFFICULTY_COLORS: Record<string, string> = {
   Hard: 'bg-red-100 text-red-700',
 };
 
-const CATEGORY_ICONS: Record<string, string> = {
+export const CATEGORY_ICONS: Record<string, string> = {
   'Breakfast': '🌅', 'Main Course': '🍽️', 'Dessert': '🍰',
   'Snack': '🥨', 'Soup': '🍜', 'Salad': '🥗',
   'Street Food': '🛺', 'Drink': '🥤',
