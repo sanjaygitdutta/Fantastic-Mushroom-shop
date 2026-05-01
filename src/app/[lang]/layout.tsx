@@ -42,6 +42,9 @@ export const metadata = {
   },
 };
 
+// Enable ISR (Incremental Static Regeneration) to ensure content is always fresh but fast
+export const revalidate = 60;
+
 // Required for Next.js static generation of dynamic routes
 export async function generateStaticParams() {
   return [
