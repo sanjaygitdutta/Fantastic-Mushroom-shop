@@ -282,7 +282,15 @@ const CommunityFeed = () => {
                       <div className="flex-1"></div>
 
                       {/* Reverse Funnel to Basket */}
-                      <Link href={`/basket?prefill=\${encodeURIComponent(post.recipe_ingredients.join(','))}`}
+                      <Link href={`/basket?prefill=${encodeURIComponent(post.recipe_ingredients.join(','))}`}
+                        onClick={() => {
+                          if (typeof window !== 'undefined' && (window as any).gtag) {
+                            (window as any).gtag('event', 'community_shop_ingredients_click', {
+                              event_category: 'engagement',
+                              event_label: post.recipe_name,
+                            });
+                          }
+                        }}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black transition-all hover:scale-105 active:scale-95 shadow-xl"
                         style={{ background: 'linear-gradient(135deg, #F4A23C, #f59e0b)', color: '#0F2419' }}
                       >
