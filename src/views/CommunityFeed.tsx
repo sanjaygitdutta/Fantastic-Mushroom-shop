@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, ShoppingCart, Camera, X, Flame, ChefHat, Loader2, Globe, Search, TrendingUp, MessageSquare, Camera as CameraIcon } from 'lucide-react';
+import { Heart, ShoppingCart, X, Flame, Loader2, Globe, Search, TrendingUp, MessageSquare, Camera as CameraIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
