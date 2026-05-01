@@ -78,7 +78,7 @@ const CommunityFeed = () => {
           const withSnaps = data.map(d => ({ ...d, cooksnaps: Math.floor(Math.random() * 10) }));
           setPosts([...withSnaps, ...SAMPLE_POSTS]);
         }
-      } catch {}
+      } catch { }
     };
     fetchPosts();
 
@@ -139,14 +139,14 @@ const CommunityFeed = () => {
       };
 
       const { data, error } = await supabase.from('community_posts').insert(newPost).select().single();
-      
+
       if (error) throw error;
 
       if (data) {
-        setPosts(prev => [{...data as CommunityPost, cooksnaps: 0}, ...prev]);
+        setPosts(prev => [{ ...data as CommunityPost, cooksnaps: 0 }, ...prev]);
         toast.success(t('comm_post_success', 'Recipe shared successfully! 🎉'));
       }
-      
+
       setShowPost(false);
       setRecipeName(''); setUserName(''); setCity(''); setIngredients(''); setPhotoPreview(null); setPhotoFile(null);
     } catch (err) {
@@ -175,16 +175,16 @@ const CommunityFeed = () => {
       />
 
       <div className="max-w-6xl mx-auto px-4 lg:flex lg:gap-8 pt-6">
-        
+
         {/* Main Feed Column */}
         <div className="flex-1 max-w-3xl">
-          
+
           {/* Hero Search / Post Prompt (Cookpad Style) */}
           <div className="bg-[#12261c] rounded-3xl p-5 mb-8 shadow-xl border border-forest-800">
             <h1 className="text-2xl font-black text-white mb-4">
               {t('comm_what_cooking', 'What are you cooking today?')}
             </h1>
-            <div 
+            <div
               onClick={() => setShowPost(true)}
               className="bg-[#0a140f] rounded-2xl p-4 flex items-center gap-3 cursor-text border border-forest-800 hover:border-amber-500/50 transition-colors"
             >
@@ -237,8 +237,8 @@ const CommunityFeed = () => {
                       <Image src={post.photo_url} alt={post.recipe_name} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center opacity-80">
-                         <span className="text-8xl mb-4">🍽️</span>
-                         <span className="text-forest-400 font-bold">{post.recipe_name}</span>
+                        <span className="text-8xl mb-4">🍽️</span>
+                        <span className="text-forest-400 font-bold">{post.recipe_name}</span>
                       </div>
                     )}
                   </div>
@@ -246,7 +246,7 @@ const CommunityFeed = () => {
                   {/* Recipe Details */}
                   <div className="p-5 pb-6">
                     <h3 className="font-black text-white text-2xl mb-3">{post.recipe_name}</h3>
-                    
+
                     {/* Cooksnaps / Activity */}
                     {post.cooksnaps !== undefined && post.cooksnaps > 0 && (
                       <div className="flex items-center gap-2 mb-4 bg-forest-900/50 w-fit px-3 py-1.5 rounded-lg border border-forest-800">
@@ -281,7 +281,7 @@ const CommunityFeed = () => {
                         <MessageSquare className="w-6 h-6" />
                         <span className="text-sm font-bold">0</span>
                       </button>
-                      
+
                       <div className="flex-1"></div>
 
                       {/* Reverse Funnel to Basket */}
@@ -297,7 +297,7 @@ const CommunityFeed = () => {
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black transition-all hover:scale-105 active:scale-95 shadow-xl"
                         style={{ background: 'linear-gradient(135deg, #F4A23C, #f59e0b)', color: '#0F2419' }}
                       >
-                        <ShoppingCart className="w-4 h-4" /> 
+                        <ShoppingCart className="w-4 h-4" />
                         <span className="hidden sm:inline">{t('comm_get_ingredients', 'Get Ingredients')}</span>
                         <span className="sm:hidden">{t('Basket', 'Basket')}</span>
                       </Link>
@@ -315,7 +315,7 @@ const CommunityFeed = () => {
             <h3 className="text-lg font-black text-white flex items-center gap-2 mb-5">
               <TrendingUp className="w-5 h-5 text-amber-500" /> {t('comm_trending', 'Trending Now')}
             </h3>
-            
+
             <div className="space-y-4">
               {SAMPLE_POSTS.slice(0, 4).map((post, i) => (
                 <div key={i} className="flex items-center gap-3 group cursor-pointer">
@@ -371,7 +371,7 @@ const CommunityFeed = () => {
                   placeholder={t('comm_recipe_name', 'Recipe Name (e.g. Palak Paneer) *')}
                   value={recipeName} onChange={e => setRecipeName(e.target.value)}
                 />
-                
+
                 <div className="flex gap-4">
                   <input
                     className="flex-1 bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium text-sm"
@@ -386,7 +386,7 @@ const CommunityFeed = () => {
                     {CITIES.map(c => <option key={c} value={c}>{CITY_EMOJIS[c]} {c}</option>)}
                   </select>
                 </div>
-                
+
                 <textarea
                   className="w-full bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium text-sm resize-none"
                   placeholder={t('comm_ingredients_comma', 'Key ingredients, comma separated')}
