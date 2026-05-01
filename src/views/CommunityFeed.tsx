@@ -60,6 +60,7 @@ const CommunityFeed = () => {
   const [city, setCity] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -93,6 +94,7 @@ const CommunityFeed = () => {
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setPhotoFile(file);
     const reader = new FileReader();
     reader.onloadend = () => setPhotoPreview(reader.result as string);
     reader.readAsDataURL(file);
@@ -102,31 +104,51 @@ const CommunityFeed = () => {
     if (!recipeName.trim()) return;
     setUploading(true);
     try {
+      let finalPhotoUrl = photoPreview; // fallback to whatever was there
+
+      // 1. Upload photo to Supabase Storage if a file was selected
+      if (photoFile) {
+        const fileExt = photoFile.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('community_photos')
+          .upload(fileName, photoFile);
+
+        if (uploadError) {
+          console.error('Upload Error:', uploadError);
+          // If storage fails but we want to allow post without photo or fallback
+        } else if (uploadData) {
+          // Get the public URL
+          const { data: { publicUrl } } = supabase.storage
+            .from('community_photos')
+            .getPublicUrl(uploadData.path);
+          finalPhotoUrl = publicUrl;
+        }
+      }
+
+      // 2. Insert into Database
       const newPost: Partial<CommunityPost> = {
         recipe_name: recipeName,
         recipe_ingredients: ingredients.split(',').map(s => s.trim()).filter(Boolean),
         user_name: userName.trim() || 'Anonymous Chef',
         city: city || null,
-        photo_url: photoPreview,
+        photo_url: finalPhotoUrl,
         likes: 0,
       };
-      const { data } = await supabase.from('community_posts').insert(newPost).select().single();
+
+      const { data, error } = await supabase.from('community_posts').insert(newPost).select().single();
+      
+      if (error) throw error;
+
       if (data) {
         setPosts(prev => [{...data as CommunityPost, cooksnaps: 0}, ...prev]);
-      } else {
-        const fallback: CommunityPost = {
-          id: `local-\${Date.now()}`,
-          ...newPost as any,
-          created_at: new Date().toISOString(),
-          likes: 0,
-          cooksnaps: 0
-        };
-        setPosts(prev => [fallback, ...prev]);
       }
+      
       setShowPost(false);
-      setRecipeName(''); setUserName(''); setCity(''); setIngredients(''); setPhotoPreview(null);
-    } catch {
-      alert('Could not post. Please run community-feed.sql in Supabase first!');
+      setRecipeName(''); setUserName(''); setCity(''); setIngredients(''); setPhotoPreview(null); setPhotoFile(null);
+    } catch (err) {
+      console.error(err);
+      alert('Could not post. Please ensure you ran the community_setup.sql script in Supabase!');
     }
     setUploading(false);
   };
