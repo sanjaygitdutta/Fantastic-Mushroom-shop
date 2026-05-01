@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, Check, Tag, Clock, ExternalLink, Star, Zap, TrendingDown } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 
 interface Coupon {
@@ -49,11 +50,20 @@ const COUPONS: Coupon[] = [
   { id: 'f2', platform: 'Flipkart Minutes', platformId: 'flipkart', code: 'FKVEGGIES', discount: '15% OFF', description: '15% off on fresh vegetables', minOrder: 'Min ₹199', expiry: 'Apr 25, 2026', category: 'Vegetables', isHot: false, url: 'https://flipkart.com', bgColor: '#E8F0FE', textColor: '#2874F0', logo: '🛍️' },
 ];
 
-const CATEGORIES = ['All', 'First Order', 'Grocery', 'Vegetables', 'Dairy', 'Delivery'];
-const PLATFORMS = ['All', 'Blinkit', 'Zepto', 'Swiggy Instamart', 'BigBasket', 'Amazon Fresh', 'JioMart', 'Flipkart Minutes'];
+const PLATFORM_IDS = ['All', 'Blinkit', 'Zepto', 'Swiggy Instamart', 'BigBasket', 'Amazon Fresh', 'JioMart', 'Flipkart Minutes'];
+const CATEGORY_KEYS = ['All', 'First Order', 'Grocery', 'Vegetables', 'Dairy', 'Delivery'];
+const CATEGORY_I18N: Record<string, string> = {
+  'All': 'coup_cat_all',
+  'First Order': 'coup_cat_first_order',
+  'Grocery': 'coup_cat_grocery',
+  'Vegetables': 'coup_cat_vegetables',
+  'Dairy': 'coup_cat_dairy',
+  'Delivery': 'coup_cat_delivery',
+};
 
 const CouponCard = ({ coupon }: { coupon: Coupon }) => {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const handleCopy = () => {
     navigator.clipboard.writeText(coupon.code);
@@ -116,7 +126,7 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
             }`}
           >
             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-            {copied ? 'Copied!' : 'Copy'}
+            {copied ? t('coup_copied', { defaultValue: 'Copied!' }) : t('coup_copy', { defaultValue: 'Copy' })}
           </motion.button>
         </div>
 
@@ -128,7 +138,7 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
           </div>
           <div className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            <span>Expires: {coupon.expiry}</span>
+            <span>{t('coup_expires', { defaultValue: 'Expires:' })} {coupon.expiry}</span>
           </div>
           <a
             href={coupon.url}
@@ -136,7 +146,7 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
             rel="noopener noreferrer"
             className="flex items-center gap-1 hover:text-forest-600 transition-colors"
           >
-            Shop <ExternalLink className="w-3 h-3" />
+            {t('coup_shop', { defaultValue: 'Shop' })} <ExternalLink className="w-3 h-3" />
           </a>
         </div>
       </div>
@@ -145,6 +155,7 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
 };
 
 export default function Coupons() {
+  const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPlatform, setSelectedPlatform] = useState('All');
   const [search, setSearch] = useState('');
@@ -175,22 +186,22 @@ export default function Coupons() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 text-sm font-semibold px-4 py-2 rounded-full mb-4 border border-amber-400/30">
-              <Zap className="w-4 h-4" /> Updated Daily
+              <Zap className="w-4 h-4" /> {t('coup_updated_daily', { defaultValue: 'Updated Daily' })}
             </span>
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
-              Grocery Coupon Codes<br />
-              <span className="text-amber-400">Save More Every Day</span>
+              {t('coup_title', { defaultValue: 'Grocery Coupon Codes' })}<br />
+              <span className="text-amber-400">{t('coup_subtitle', { defaultValue: 'Save More Every Day' })}</span>
             </h1>
             <p className="text-cream-300 text-lg max-w-2xl mx-auto">
-              The best promo codes for Blinkit, Zepto, Swiggy, BigBasket, JioMart &amp; Flipkart Minutes — all in one place. Click to copy instantly!
+              {t('coup_desc', { defaultValue: 'The best promo codes for Blinkit, Zepto, Swiggy, BigBasket, JioMart & Flipkart Minutes — all in one place. Click to copy instantly!' })}
             </p>
 
             {/* Stats bar */}
             <div className="flex flex-wrap justify-center gap-6 mt-8">
               {[
-                { label: 'Active Coupons', value: COUPONS.length, icon: '🎟️' },
-                { label: 'Hot Deals Today', value: COUPONS.filter(c => c.isHot).length, icon: '🔥' },
-                { label: 'Platforms Covered', value: 7, icon: '🏪' },
+                { label: t('coup_stat_active', { defaultValue: 'Active Coupons' }), value: COUPONS.length, icon: '🎟️' },
+                { label: t('coup_stat_hot', { defaultValue: 'Hot Deals Today' }), value: COUPONS.filter(c => c.isHot).length, icon: '🔥' },
+                { label: t('coup_stat_platforms', { defaultValue: 'Platforms Covered' }), value: 7, icon: '🏪' },
               ].map((stat) => (
                 <div key={stat.label} className="bg-white/10 backdrop-blur border border-white/20 rounded-2xl px-6 py-4 text-center">
                   <div className="text-3xl mb-1">{stat.icon}</div>
@@ -208,16 +219,16 @@ export default function Coupons() {
             {/* Search */}
             <input
               type="text"
-              placeholder="Search coupons, codes, or platforms..."
+              placeholder={t('coup_search_placeholder', { defaultValue: 'Search coupons, codes, or platforms...' })}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 outline-none focus:border-forest-400 transition-colors"
             />
             {/* Category filter */}
             <div>
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Category</p>
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">{t('coup_category_label', { defaultValue: 'Category' })}</p>
               <div className="flex flex-wrap gap-2">
-                {CATEGORIES.map(cat => (
+                {CATEGORY_KEYS.map(cat => (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
@@ -227,16 +238,16 @@ export default function Coupons() {
                         : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-forest-400'
                     }`}
                   >
-                    {cat}
+                    {t(CATEGORY_I18N[cat], { defaultValue: cat })}
                   </button>
                 ))}
               </div>
             </div>
             {/* Platform filter */}
             <div>
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Platform</p>
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">{t('coup_platform_label', { defaultValue: 'Platform' })}</p>
               <div className="flex flex-wrap gap-2">
-                {PLATFORMS.map(p => (
+                {PLATFORM_IDS.map(p => (
                   <button
                     key={p}
                     onClick={() => setSelectedPlatform(p)}
@@ -246,7 +257,7 @@ export default function Coupons() {
                         : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-amber-300'
                     }`}
                   >
-                    {p}
+                    {p === 'All' ? t('coup_cat_all', { defaultValue: 'All' }) : p}
                   </button>
                 ))}
               </div>
@@ -258,15 +269,15 @@ export default function Coupons() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-5">
             <p className="text-gray-500 text-sm">
-              Showing <span className="font-bold text-forest-700">{filtered.length}</span> coupons
-              {hotCount > 0 && <span className="ml-2 text-red-500 font-medium">🔥 {hotCount} hot deals</span>}
+              {t('coup_showing', { defaultValue: 'Showing' })} <span className="font-bold text-forest-700">{filtered.length}</span> {t('coup_coupons', { defaultValue: 'coupons' })}
+              {hotCount > 0 && <span className="ml-2 text-red-500 font-medium">🔥 {hotCount} {t('coup_hot_deals', { defaultValue: 'hot deals' })}</span>}
             </p>
             {(selectedCategory !== 'All' || selectedPlatform !== 'All' || search) && (
               <button
                 onClick={() => { setSelectedCategory('All'); setSelectedPlatform('All'); setSearch(''); }}
                 className="text-sm text-forest-600 hover:underline font-medium flex items-center gap-1"
               >
-                <Star className="w-3 h-3" /> Show all
+                <Star className="w-3 h-3" /> {t('coup_show_all', { defaultValue: 'Show all' })}
               </button>
             )}
           </div>
@@ -274,8 +285,8 @@ export default function Coupons() {
           {filtered.length === 0 ? (
             <div className="text-center py-20 text-gray-400">
               <div className="text-5xl mb-4">🔍</div>
-              <p className="text-lg font-semibold">No coupons found</p>
-              <p className="text-sm mt-1">Try changing your filters or search term</p>
+              <p className="text-lg font-semibold">{t('coup_no_found', { defaultValue: 'No coupons found' })}</p>
+              <p className="text-sm mt-1">{t('coup_no_found_sub', { defaultValue: 'Try changing your filters or search term' })}</p>
             </div>
           ) : (
             <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
