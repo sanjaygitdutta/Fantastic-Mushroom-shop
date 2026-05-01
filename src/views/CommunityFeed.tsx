@@ -3,7 +3,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ShoppingCart, X, Flame, Loader2, Globe, Search, TrendingUp, MessageSquare, Camera as CameraIcon } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-hot-toast';
 
 import { supabase } from '../lib/supabase';
 import SEO from '../components/SEO';
@@ -142,13 +144,14 @@ const CommunityFeed = () => {
 
       if (data) {
         setPosts(prev => [{...data as CommunityPost, cooksnaps: 0}, ...prev]);
+        toast.success(t('comm_post_success', 'Recipe shared successfully! 🎉'));
       }
       
       setShowPost(false);
       setRecipeName(''); setUserName(''); setCity(''); setIngredients(''); setPhotoPreview(null); setPhotoFile(null);
     } catch (err) {
       console.error(err);
-      alert('Could not post. Please ensure you ran the community_setup.sql script in Supabase!');
+      toast.error('Could not post. Please check your connection or try again.');
     }
     setUploading(false);
   };
@@ -231,7 +234,7 @@ const CommunityFeed = () => {
                   {/* Large Hero Image */}
                   <div className="relative w-full aspect-square sm:aspect-video overflow-hidden bg-[#0a140f]">
                     {post.photo_url ? (
-                      <img src={post.photo_url} alt={post.recipe_name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={post.photo_url} alt={post.recipe_name} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center opacity-80">
                          <span className="text-8xl mb-4">🍽️</span>
@@ -316,7 +319,9 @@ const CommunityFeed = () => {
             <div className="space-y-4">
               {SAMPLE_POSTS.slice(0, 4).map((post, i) => (
                 <div key={i} className="flex items-center gap-3 group cursor-pointer">
-                  <img src={post.photo_url || ''} alt="" className="w-16 h-16 rounded-2xl object-cover group-hover:opacity-80 transition-opacity" />
+                  <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0">
+                    <Image src={post.photo_url || ''} alt="" fill sizes="64px" className="object-cover group-hover:opacity-80 transition-opacity" />
+                  </div>
                   <div>
                     <h4 className="text-white font-bold text-sm leading-tight group-hover:text-amber-400 transition-colors line-clamp-2">{post.recipe_name}</h4>
                     <p className="text-forest-400 text-xs mt-1">{post.user_name}</p>
