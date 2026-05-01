@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, TrendingDown, Zap, Shield, Star } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import PriceSearchBar from '../components/PriceSearchBar';
 import FoodCategoryBrowser from '../components/FoodCategoryBrowser';
@@ -99,9 +100,8 @@ const Home = () => {
 
           {/* Headline with Staggered Typing */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
             className="text-5xl md:text-7xl font-black text-white leading-tight mb-4 font-display"
           >
             <motion.span 
@@ -468,11 +468,14 @@ const Home = () => {
                   viewport={{ once: true }}
                   className="flex-1 max-w-md w-full"
                 >
-                  <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                    <img
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl w-full h-72">
+                    <Image
                       src={aiRecipe.image}
                       alt={aiRecipe.title}
-                      className="w-full h-72 object-cover"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 500px"
+                      priority
+                      className="object-cover"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-5">
                       <div className="flex flex-wrap gap-2">
