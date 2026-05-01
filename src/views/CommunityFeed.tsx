@@ -418,7 +418,7 @@ const CommunityFeed = () => {
                   className="w-full py-4 rounded-2xl font-black text-forest-900 text-lg disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl mt-2"
                   style={{ background: 'linear-gradient(135deg, #F4A23C, #f59e0b)' }}
                 >
-                  {uploading ? <><Loader2 className="w-6 h-6 animate-spin" /> {t('comm_posting', 'Posting...')}</> : `🥘 \${t('comm_post_recipe', 'Post Recipe')}`}
+                  {uploading ? <><Loader2 className="w-6 h-6 animate-spin" /> {t('comm_posting', 'Posting...')}</> : <>🥘 {t('comm_post_recipe', 'Post Recipe')}</>}
                 </motion.button>
               </div>
             </motion.div>
