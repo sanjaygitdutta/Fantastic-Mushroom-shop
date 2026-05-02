@@ -7,40 +7,69 @@ import AIAssistant from '../../components/AIAssistant';
 
 import Script from 'next/script';
 
-export const metadata = {
-  title: 'Fantastic Food | India\'s Smartest Grocery Price Comparator',
-  description: 'Compare grocery prices across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes instantly. Find the cheapest deal on any food item in seconds.',
-  keywords: 'grocery price comparison India, blinkit vs zepto, cheapest grocery app, food price comparison, blinkit zepto swiggy bigbasket prices, fantastic food',
-  openGraph: {
-    title: 'Fantastic Food | India\'s Smartest Grocery Price Comparator',
-    description: 'Compare grocery prices across Blinkit, Zepto, Swiggy, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes instantly. Save money on every order.',
-    url: 'https://www.fantasticfood.in/',
-    siteName: 'Fantastic Food',
-    images: [
-      {
-        url: 'https://www.fantasticfood.in/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Fantastic Food — Compare grocery prices across 7 apps',
-      },
-    ],
-    locale: 'en_IN',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@fantasticfoodin',
-    title: 'Fantastic Food | Compare Grocery Prices in India',
-    description: 'Compare Blinkit, Zepto, Swiggy, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes prices instantly. Find the cheapest grocery deal!',
-    images: ['https://www.fantasticfood.in/og-image.jpg'],
-  },
-  verification: {
-    google: 'yCwjAf_s2oqIMDIzlBtIPj671YFoitNF01dM-zP-Zv0',
-  },
-  alternates: {
-    canonical: 'https://www.fantasticfood.in/',
-  },
+type Props = {
+  params: Promise<{ lang: string }>;
 };
+
+export async function generateMetadata({ params }: Props) {
+  const resolvedParams = await params;
+  const lang = resolvedParams.lang || 'en';
+
+  let title = 'Save ₹500+/Week on Groceries | Compare Blinkit vs Zepto vs BigBasket vs More Live';
+  let description = 'India\'s #1 grocery price comparator. Compare 7,000+ items across Blinkit, Zepto, BigBasket, Swiggy, Amazon Fresh & More in 2 seconds. Find cheaper save more. Free. Check now →';
+
+  if (lang === 'hi') {
+    title = 'किराने पर ₹500+/सप्ताह बचाएं | ब्लिंकिट vs ज़ेप्टो vs बिगबास्केट लाइव कीमतें';
+    description = 'भारत का #1 किराना मूल्य तुलनित्र। 2 सेकंड में ब्लिंकिट, ज़ेप्टो और अधिक पर 7,000+ वस्तुओं की तुलना करें।';
+  } else if (lang === 'bn') {
+    title = 'মুদিতে ₹500+/সপ্তাহ বাঁচান | ব্লিংকিট বনাম জেপ্টো বনাম বিগবাস্কেট লাইভ দাম';
+    description = 'ভারতের #1 মুদি দামের তুলনাকারী। ২ সেকেন্ডে 7,000+ আইটেম তুলনা করুন।';
+  } else if (lang === 'mr') {
+    title = 'किराण्यावर ₹500+/आठवडा वाचवा | ब्लिंकिट वि झेप्टो वि बिगबास्केट लाईव्ह';
+    description = 'भारतातील #1 किराणा भाव तुलना करणारा. २ सेकंदात 7,000+ वस्तूंची तुलना करा.';
+  } else if (lang === 'te') {
+    title = 'కిరాణాపై ₹500+/వారం ఆదా చేయండి | బ్లింకిట్ vs జెప్టో vs బిగ్‌బాస్కెట్ లైవ్';
+    description = 'భారతదేశపు #1 కిరాణా ధరల పోలిక యాప్. 2 సెకన్లలో 7,000+ వస్తువులను సరిపోల్చండి.';
+  } else if (lang === 'ta') {
+    title = 'மளிகையில் ₹500+/வாரம் சேமிக்கவும் | பிளிங்கிட் vs செப்டோ vs பிக்பாஸ்கெட் லைவ்';
+    description = 'இந்தியாவின் #1 மளிகை விலை ஒப்பீட்டாளர். 2 வினாடிகளில் 7,000+ பொருட்களை ஒப்பிடுங்கள்.';
+  }
+
+  return {
+    title,
+    description,
+    keywords: 'grocery price comparison India, blinkit vs zepto, cheapest grocery app, food price comparison, blinkit zepto swiggy bigbasket prices, fantastic food',
+    openGraph: {
+      title,
+      description,
+      url: `https://www.fantasticfood.in/${lang}`,
+      siteName: 'Fantastic Food',
+      images: [
+        {
+          url: 'https://www.fantasticfood.in/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Fantastic Food — Compare grocery prices across 7 apps',
+        },
+      ],
+      locale: lang === 'en' ? 'en_IN' : `${lang}_IN`,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@fantasticfoodin',
+      title,
+      description,
+      images: ['https://www.fantasticfood.in/og-image.jpg'],
+    },
+    verification: {
+      google: 'yCwjAf_s2oqIMDIzlBtIPj671YFoitNF01dM-zP-Zv0',
+    },
+    alternates: {
+      canonical: `https://www.fantasticfood.in/${lang}`,
+    },
+  };
+}
 
 // Enable ISR (Incremental Static Regeneration) to ensure content is always fresh but fast
 export const revalidate = 60;
