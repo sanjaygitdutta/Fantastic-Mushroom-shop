@@ -5,7 +5,8 @@ import { Copy, Check, Tag, Clock, ExternalLink, Star, Zap, TrendingDown } from '
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
-import { Coupon, COUPONS } from '../data/coupons';
+import type { Coupon } from '../data/coupons';
+import { COUPONS } from '../data/coupons';
 
 
 const PLATFORM_IDS = ['All', 'Blinkit', 'Zepto', 'Swiggy Instamart', 'BigBasket', 'Amazon Fresh', 'JioMart', 'Flipkart Minutes'];
