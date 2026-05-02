@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 
 import { motion } from 'framer-motion';
 import { Clock, Users, ChefHat, ArrowLeft, ShoppingCart, Globe, Flame, Tag } from 'lucide-react';
-import SEO from '../components/SEO';
 import { ALL_RECIPES, type WorldRecipe } from '../data/worldRecipes';
 import { useTranslation, Trans } from 'react-i18next';
 
@@ -136,6 +135,15 @@ export default function RecipePage() {
 
   return (
     <>
+      {/* JSON-LD Structured Data — injected so Google can read it */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', ...recipeSchema }) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', ...breadcrumbSchema }) }}
+      />
       <div className="min-h-screen bg-cream-50 pt-20">
         {/* Hero Banner */}
         <div className="bg-gradient-to-br from-forest-900 to-forest-800">
