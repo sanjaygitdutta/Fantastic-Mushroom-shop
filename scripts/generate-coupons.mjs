@@ -61,8 +61,7 @@ async function callGemini(retryCount = 0) {
     contents: [{ parts: [{ text: prompt }] }],
     tools: [{ googleSearch: {} }],
     generationConfig: { 
-      temperature: 0.1, 
-      responseMimeType: "application/json"
+      temperature: 0.1
     }
   };
 
