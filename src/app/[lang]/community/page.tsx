@@ -1,7 +1,8 @@
 import { Suspense } from 'react';
-import CommunityFeed, { CommunityPost } from '../../../views/CommunityFeed';
+import CommunityFeed from '../../../views/CommunityFeed';
+import type { CommunityPost } from '../../../views/CommunityFeed';
 import { supabase } from '../../../lib/supabase';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 type Props = {
   params: { lang: string };
