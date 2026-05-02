@@ -690,7 +690,7 @@ const CommunityFeed = () => {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="w-full max-w-lg rounded-3xl p-6 shadow-2xl bg-[#12261c] border border-forest-800"
+              className="w-full max-w-lg rounded-3xl p-6 shadow-2xl bg-[#12261c] border border-forest-800 max-h-[90vh] overflow-y-auto custom-scrollbar"
             >
               <div className="flex items-center justify-between mb-6">
                 <h2 className="font-black text-white text-2xl flex items-center gap-2">
