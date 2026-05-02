@@ -566,9 +566,9 @@ const CommunityFeed = () => {
                         whileTap={{ scale: 0.8 }}
                         whileHover={{ scale: 1.1 }}
                         onClick={() => handleLike(post)}
-                        className={`flex items-center gap-2 transition-colors \${likedIds.has(post.id) ? 'text-pink-500' : 'text-forest-200 hover:text-pink-400'}`}
+                        className={`flex items-center gap-2 transition-colors ${likedIds.has(post.id) ? 'text-pink-500' : 'text-forest-200 hover:text-pink-400'}`}
                       >
-                        <Heart className={`w-6 h-6 \${likedIds.has(post.id) ? 'fill-current' : ''}`} />
+                        <Heart className={`w-6 h-6 ${likedIds.has(post.id) ? 'fill-current' : ''}`} />
                         <span className="text-sm font-bold">{post.likes}</span>
                       </motion.button>
                       <button 
