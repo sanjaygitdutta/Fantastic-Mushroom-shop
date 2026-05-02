@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 import { motion } from 'framer-motion';
@@ -28,15 +28,14 @@ export default function RecipePage() {
   const lang = i18n.language;
 
   // Show community banner if user arrived via a shared Aika community post link
+  const searchParams = useSearchParams();
   const [showCommunityBanner, setShowCommunityBanner] = useState(false);
+  
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('from') === 'community') {
-        setShowCommunityBanner(true);
-      }
+    if (searchParams.get('from') === 'community') {
+      setShowCommunityBanner(true);
     }
-  }, []);
+  }, [searchParams]);
 
   const recipe: WorldRecipe | undefined = ALL_RECIPES.find(r => r.id === recipeId);
 
