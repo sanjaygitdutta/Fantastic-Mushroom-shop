@@ -1,7 +1,7 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, ShoppingCart, X, Flame, Loader2, Globe, Search, TrendingUp, MessageSquare, Camera as CameraIcon } from 'lucide-react';
+import { Heart, ShoppingCart, X, Flame, Loader2, Globe, Search, TrendingUp, MessageSquare, Camera as CameraIcon, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
@@ -9,11 +9,16 @@ import { toast } from 'react-hot-toast';
 
 import { supabase } from '../lib/supabase';
 import SEO from '../components/SEO';
+import { recipes } from '../data/recipes';
+import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 interface CommunityPost {
   id: string;
   recipe_name: string;
   recipe_ingredients: string[];
+  instructions?: string[];
+  tags?: string[];
   photo_url: string | null;
   user_name: string;
   city: string | null;
@@ -22,20 +27,18 @@ interface CommunityPost {
   created_at: string;
 }
 
+interface CommunityComment {
+  id: string;
+  post_id: string;
+  user_name: string;
+  comment_text: string;
+  created_at: string;
+}
+
 const CITY_EMOJIS: Record<string, string> = {
   'Mumbai': '🌊', 'Delhi': '🏛️', 'Bangalore': '🌿', 'Chennai': '🌴',
   'Kolkata': '🎨', 'Hyderabad': '💎', 'Pune': '🏔️', 'Ahmedabad': '🦁',
 };
-const CITIES = Object.keys(CITY_EMOJIS);
-
-const SAMPLE_POSTS: CommunityPost[] = [
-  { id: 'sample-1', recipe_name: 'Dal Makhani', recipe_ingredients: ['urad dal', 'rajma', 'butter', 'cream', 'tomato', 'spices'], photo_url: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=800&auto=format&fit=crop', user_name: 'Priya K.', city: 'Delhi', likes: 48, cooksnaps: 12, created_at: new Date(Date.now() - 3600000 * 2).toISOString() },
-  { id: 'sample-2', recipe_name: 'Mushroom Masala', recipe_ingredients: ['mushroom', 'onion', 'tomato', 'garlic', 'garam masala'], photo_url: 'https://images.unsplash.com/photo-1585669060258-2dc6a3976d09?q=80&w=800&auto=format&fit=crop', user_name: 'Rahul S.', city: 'Bangalore', likes: 31, cooksnaps: 5, created_at: new Date(Date.now() - 3600000 * 5).toISOString() },
-  { id: 'sample-3', recipe_name: 'Paneer Butter Masala', recipe_ingredients: ['paneer', 'butter', 'cream', 'tomato', 'onion', 'cashews'], photo_url: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?q=80&w=800&auto=format&fit=crop', user_name: 'Deepa M.', city: 'Mumbai', likes: 72, cooksnaps: 24, created_at: new Date(Date.now() - 3600000 * 8).toISOString() },
-  { id: 'sample-4', recipe_name: 'Chicken Biryani', recipe_ingredients: ['chicken', 'basmati rice', 'onion', 'saffron', 'yogurt', 'whole spices'], photo_url: 'https://images.unsplash.com/photo-1589302168068-964664d93cb0?q=80&w=800&auto=format&fit=crop', user_name: 'Ahmed A.', city: 'Hyderabad', likes: 106, cooksnaps: 41, created_at: new Date(Date.now() - 3600000 * 12).toISOString() },
-  { id: 'sample-5', recipe_name: 'Aloo Paratha', recipe_ingredients: ['atta', 'potato', 'green chilli', 'butter', 'coriander'], photo_url: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=800&auto=format&fit=crop', user_name: 'Gurpreet S.', city: 'Delhi', likes: 55, cooksnaps: 8, created_at: new Date(Date.now() - 3600000 * 24).toISOString() },
-  { id: 'sample-6', recipe_name: 'Masoor Dal', recipe_ingredients: ['masoor dal', 'onion', 'tomato', 'turmeric', 'mustard seeds'], photo_url: 'https://images.unsplash.com/photo-1546833998-877b37c2e5c6?q=80&w=800&auto=format&fit=crop', user_name: 'Sunita P.', city: 'Pune', likes: 29, cooksnaps: 2, created_at: new Date(Date.now() - 3600000 * 36).toISOString() },
-];
 
 function timeAgo(isoStr: string) {
   const diff = Math.floor((Date.now() - new Date(isoStr).getTime()) / 1000);
@@ -50,11 +53,80 @@ function getInitials(name: string) {
 }
 
 const CommunityFeed = () => {
-  const { t } = useTranslation();
-  const [posts, setPosts] = useState<CommunityPost[]>(SAMPLE_POSTS);
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'en';
+  const router = useRouter();
+  const { user, isAuthenticated } = useAuth();
+
+  const [supabasePosts, setSupabasePosts] = useState<CommunityPost[]>([]);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [showPost, setShowPost] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(10);
+  
+  // Phase 2 State
+  const [instructionsStr, setInstructionsStr] = useState('');
+  const [expandedCommentsId, setExpandedCommentsId] = useState<string | null>(null);
+  const [comments, setComments] = useState<Record<string, CommunityComment[]>>({});
+  const [newComment, setNewComment] = useState('');
+  
+  // Phase 3 State
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [formTagsStr, setFormTagsStr] = useState('');
+  
+  const TRENDING_FILTERS = [
+    { label: '#Vegan', value: 'Vegan' },
+    { label: '#HighProtein', value: 'HighProtein' },
+    { label: '#Dinner', value: 'Dinner' },
+    { label: '#Under30Mins', value: 'Under30Mins' },
+    { label: '📍 Mumbai', value: 'Mumbai' },
+    { label: '📍 Delhi', value: 'Delhi' }
+  ];
+
+  // Dynamically calculate Chef Aika posts using translated values
+  const chefAikaPosts = useMemo<CommunityPost[]>(() => {
+    return recipes.map((recipe, index) => {
+      const isDate = /^\d{4}-\d{2}-\d{2}$/.test(recipe.id);
+      // Give each post a unique timestamp based on its index
+      const dateStr = isDate ? recipe.id : new Date(Date.now() - index * 86400000).toISOString();
+      const translation = recipe.translations?.[currentLang as keyof typeof recipe.translations];
+      const title = translation?.title || recipe.title;
+      const ingredientsList = translation?.ingredients 
+        ? translation.ingredients.map(i => i.item) 
+        : recipe.ingredients.map(i => i.item);
+      const instructionsList = translation?.instructions || recipe.instructions;
+
+      return {
+        id: `aika-${recipe.id}`,
+        recipe_name: title,
+        recipe_ingredients: ingredientsList,
+        instructions: instructionsList,
+        tags: recipe.tags || [],
+        photo_url: recipe.image,
+        user_name: 'Chef Aika 👩‍🍳',
+        city: 'Fantastic Food Kitchen',
+        likes: 150 + (index * 12),
+        cooksnaps: 30 + index,
+        created_at: new Date(dateStr).toISOString()
+      };
+    });
+  }, [currentLang]);
+
+  // Combine and sort Supabase posts + Chef Aika posts
+  const allPosts = useMemo(() => {
+    const combined = [...supabasePosts, ...chefAikaPosts];
+    combined.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    return combined.map(p => likedIds.has(p.id) ? { ...p, likes: p.likes + 1 } : p);
+  }, [supabasePosts, chefAikaPosts, likedIds]);
+
+  const filteredPosts = useMemo(() => {
+    if (!selectedFilter) return allPosts;
+    return allPosts.filter(p => 
+      p.city === selectedFilter || 
+      (p.tags && p.tags.includes(selectedFilter))
+    );
+  }, [allPosts, selectedFilter]);
 
   // Post form state
   const [recipeName, setRecipeName] = useState('');
@@ -65,20 +137,45 @@ const CommunityFeed = () => {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  const handleOpenPostModal = () => {
+    if (!isAuthenticated || !user?.profile?.name) {
+      toast.error(t('comm_auth_required', 'Please set up your profile first to share a recipe!'));
+      router.push('/profile');
+      return;
+    }
+    setUserName(user.profile.name);
+    if (user.profile.address?.state) {
+      setCity(user.profile.address.state);
+    }
+    setShowPost(true);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 800) {
+        setVisibleCount(prev => Math.min(prev + 5, filteredPosts.length));
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [filteredPosts.length]);
+
   useEffect(() => {
     const fetchPosts = async () => {
+      setIsLoading(true);
       try {
         const { data } = await supabase
           .from('community_posts')
           .select('*')
           .order('created_at', { ascending: false })
-          .limit(30);
+          .limit(100);
         if (data && data.length > 0) {
           // Add simulated cooksnaps for new posts
           const withSnaps = data.map(d => ({ ...d, cooksnaps: Math.floor(Math.random() * 10) }));
-          setPosts([...withSnaps, ...SAMPLE_POSTS]);
+          setSupabasePosts(withSnaps);
         }
       } catch { }
+      setIsLoading(false);
     };
     fetchPosts();
 
@@ -86,7 +183,7 @@ const CommunityFeed = () => {
       .channel('community_posts_feed')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_posts' }, payload => {
         const newPost = { ...payload.new as CommunityPost, cooksnaps: 0 };
-        setPosts(prev => [newPost, ...prev]);
+        setSupabasePosts(prev => [newPost, ...prev]);
       })
       .subscribe();
 
@@ -132,6 +229,8 @@ const CommunityFeed = () => {
       const newPost: Partial<CommunityPost> = {
         recipe_name: recipeName,
         recipe_ingredients: ingredients.split(',').map(s => s.trim()).filter(Boolean),
+        instructions: instructionsStr.split('\n').map(s => s.trim()).filter(Boolean),
+        tags: formTagsStr.split(',').map(t => t.trim().replace(/^#/, '')).filter(Boolean),
         user_name: userName.trim() || 'Anonymous Chef',
         city: city || null,
         photo_url: finalPhotoUrl,
@@ -143,12 +242,12 @@ const CommunityFeed = () => {
       if (error) throw error;
 
       if (data) {
-        setPosts(prev => [{ ...data as CommunityPost, cooksnaps: 0 }, ...prev]);
+        setSupabasePosts(prev => [{ ...data as CommunityPost, cooksnaps: 0 }, ...prev]);
         toast.success(t('comm_post_success', 'Recipe shared successfully! 🎉'));
       }
 
       setShowPost(false);
-      setRecipeName(''); setUserName(''); setCity(''); setIngredients(''); setPhotoPreview(null); setPhotoFile(null);
+      setRecipeName(''); setUserName(''); setCity(''); setIngredients(''); setInstructionsStr(''); setFormTagsStr(''); setPhotoPreview(null); setPhotoFile(null);
     } catch (err) {
       console.error(err);
       toast.error('Could not post. Please check your connection or try again.');
@@ -159,9 +258,76 @@ const CommunityFeed = () => {
   const handleLike = async (post: CommunityPost) => {
     if (likedIds.has(post.id)) return;
     setLikedIds(prev => new Set([...prev, post.id]));
-    setPosts(prev => prev.map(p => p.id === post.id ? { ...p, likes: p.likes + 1 } : p));
-    if (!post.id.startsWith('sample') && !post.id.startsWith('local')) {
+    if (!post.id.startsWith('aika') && !post.id.startsWith('local')) {
       await supabase.from('community_posts').update({ likes: post.likes + 1 }).eq('id', post.id);
+    }
+  };
+
+  const handleToggleComments = async (postId: string) => {
+    if (expandedCommentsId === postId) {
+      setExpandedCommentsId(null);
+      return;
+    }
+    setExpandedCommentsId(postId);
+    if (!comments[postId]) {
+      // Avoid fetching for Aika mock posts or fetch if implemented. For now, fetch all.
+      if (!postId.startsWith('aika')) {
+        const { data } = await supabase
+          .from('community_comments')
+          .select('*')
+          .eq('post_id', postId)
+          .order('created_at', { ascending: true });
+        if (data) setComments(prev => ({ ...prev, [postId]: data as CommunityComment[] }));
+      } else {
+        setComments(prev => ({ ...prev, [postId]: [] }));
+      }
+    }
+  };
+
+  const handlePostComment = async (postId: string) => {
+    if (!isAuthenticated || !user?.profile?.name) {
+      toast.error(t('comm_auth_required', 'Please set up your profile first to comment!'));
+      router.push('/profile');
+      return;
+    }
+    if (!newComment.trim()) return;
+    
+    // Can't save to Aika posts in DB since they don't exist in Supabase, but we can simulate locally
+    const commentData = {
+      post_id: postId,
+      user_name: user.profile.name,
+      comment_text: newComment.trim(),
+    };
+    
+    if (!postId.startsWith('aika')) {
+      const { data, error } = await supabase.from('community_comments').insert(commentData).select().single();
+      if (!error && data) {
+        setComments(prev => ({ ...prev, [postId]: [...(prev[postId] || []), data as CommunityComment] }));
+      }
+    } else {
+      // Simulate comment on Aika post locally
+      const mockComment = { ...commentData, id: `mock-${Date.now()}`, created_at: new Date().toISOString() };
+      setComments(prev => ({ ...prev, [postId]: [...(prev[postId] || []), mockComment] }));
+    }
+    setNewComment('');
+  };
+
+  const handleShare = async (post: CommunityPost) => {
+    const shareData = {
+      title: `${post.recipe_name} by ${post.user_name}`,
+      text: `Check out this amazing recipe for ${post.recipe_name} on Fantastic Food! 🍳🛒`,
+      url: `https://www.fantasticfood.in/community?post=${post.id}`,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+        toast.success(t('comm_link_copied', 'Link copied to clipboard!'));
+      }
+    } catch (err) {
+      console.log('Error sharing:', err);
     }
   };
 
@@ -185,7 +351,7 @@ const CommunityFeed = () => {
               {t('comm_what_cooking', 'What are you cooking today?')}
             </h1>
             <div
-              onClick={() => setShowPost(true)}
+              onClick={handleOpenPostModal}
               className="bg-[#0a140f] rounded-2xl p-4 flex items-center gap-3 cursor-text border border-forest-800 hover:border-amber-500/50 transition-colors"
             >
               <Search className="w-5 h-5 text-forest-400" />
@@ -198,17 +364,58 @@ const CommunityFeed = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <Globe className="w-5 h-5 text-amber-500" /> {t('comm_latest', 'Latest Recipes')}
             </h2>
           </div>
 
+          {/* Filter Bar */}
+          <div className="flex items-center gap-3 overflow-x-auto custom-scrollbar pb-4 mb-4">
+            <button
+              onClick={() => setSelectedFilter(null)}
+              className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-colors \${!selectedFilter ? 'bg-amber-500 text-forest-900' : 'bg-[#12261c] text-forest-300 border border-forest-800 hover:text-white'}`}
+            >
+              All Posts
+            </button>
+            {TRENDING_FILTERS.map(filter => (
+              <button
+                key={filter.value}
+                onClick={() => setSelectedFilter(filter.value)}
+                className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-colors \${selectedFilter === filter.value ? 'bg-amber-500 text-forest-900' : 'bg-[#12261c] text-forest-300 border border-forest-800 hover:text-white'}`}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+
           {/* Feed */}
           <div className="space-y-8">
-            <AnimatePresence>
-              {posts.map((post, i) => (
-                <motion.div
+            {isLoading ? (
+              [...Array(3)].map((_, i) => (
+                <div key={i} className="bg-[#12261c] rounded-[2rem] overflow-hidden border border-forest-800/80 shadow-2xl animate-pulse">
+                  <div className="p-5 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-forest-800" />
+                    <div className="space-y-2 flex-1">
+                      <div className="h-4 bg-forest-800 rounded w-1/3" />
+                      <div className="h-3 bg-forest-800/50 rounded w-1/4" />
+                    </div>
+                  </div>
+                  <div className="w-full aspect-square sm:aspect-video bg-[#0a140f]" />
+                  <div className="p-5 space-y-4">
+                    <div className="h-8 bg-forest-800 rounded w-2/3" />
+                    <div className="h-4 bg-forest-800 rounded w-1/2" />
+                    <div className="flex gap-2">
+                      <div className="h-8 bg-forest-800 rounded-xl w-24" />
+                      <div className="h-8 bg-forest-800 rounded-xl w-24" />
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <AnimatePresence>
+                {filteredPosts.slice(0, visibleCount).map((post, i) => (
+                  <motion.div
                   key={post.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -222,7 +429,9 @@ const CommunityFeed = () => {
                         {getInitials(post.user_name)}
                       </div>
                       <div>
-                        <p className="font-bold text-white text-sm leading-tight">{post.user_name}</p>
+                        <Link href={`/profile`} className="font-bold text-white text-sm leading-tight hover:text-amber-500 transition-colors">
+                          {post.user_name}
+                        </Link>
                         <p className="text-forest-400 text-xs mt-0.5">
                           {post.city && <span className="mr-2">{CITY_EMOJIS[post.city] || '📍'} {post.city}</span>}
                           {timeAgo(post.created_at)}
@@ -257,6 +466,17 @@ const CommunityFeed = () => {
                       </div>
                     )}
 
+                    {/* Tags */}
+                    {post.tags && post.tags.length > 0 && (
+                      <div className="mb-4 flex flex-wrap gap-2">
+                        {post.tags.map((tag, idx) => (
+                          <span key={idx} className="text-xs font-bold text-amber-500 bg-amber-500/10 px-2 py-1 rounded-md">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
                     {/* Ingredients */}
                     <div className="mb-6">
                       <div className="flex flex-wrap gap-1.5">
@@ -268,23 +488,47 @@ const CommunityFeed = () => {
                       </div>
                     </div>
 
+                    {/* Instructions */}
+                    {post.instructions && post.instructions.length > 0 && (
+                      <div className="mb-5 space-y-2">
+                        <h4 className="text-white font-bold text-sm">Instructions</h4>
+                        <ol className="list-decimal list-inside text-sm text-forest-300 space-y-1">
+                          {post.instructions.map((step, idx) => (
+                            <li key={idx} className="leading-relaxed">{step}</li>
+                          ))}
+                        </ol>
+                      </div>
+                    )}
+
                     {/* Actions & Shopping Funnel */}
                     <div className="flex items-center gap-4 border-t border-forest-800/80 pt-5">
-                      <button
+                      <motion.button
+                        whileTap={{ scale: 0.8 }}
+                        whileHover={{ scale: 1.1 }}
                         onClick={() => handleLike(post)}
-                        className={`flex items-center gap-1.5 transition-all \${likedIds.has(post.id) ? 'text-pink-500' : 'text-forest-400 hover:text-pink-400'}`}
+                        className={`flex items-center gap-1.5 transition-colors \${likedIds.has(post.id) ? 'text-pink-500' : 'text-forest-400 hover:text-pink-400'}`}
                       >
                         <Heart className={`w-6 h-6 \${likedIds.has(post.id) ? 'fill-current' : ''}`} />
                         <span className="text-sm font-bold">{post.likes}</span>
-                      </button>
-                      <button className="flex items-center gap-1.5 text-forest-400 hover:text-white transition-colors">
+                      </motion.button>
+                      <button 
+                        onClick={() => handleToggleComments(post.id)}
+                        className="flex items-center gap-1.5 text-forest-400 hover:text-white transition-colors"
+                      >
                         <MessageSquare className="w-6 h-6" />
-                        <span className="text-sm font-bold">0</span>
+                        <span className="text-sm font-bold">{comments[post.id]?.length || 0}</span>
+                      </button>
+                      <button 
+                        onClick={() => handleShare(post)}
+                        className="flex items-center gap-1.5 text-forest-400 hover:text-white transition-colors ml-2"
+                        title="Share Recipe"
+                      >
+                        <Share2 className="w-5 h-5" />
                       </button>
 
                       <div className="flex-1"></div>
 
-                      {/* Reverse Funnel to Basket */}
+                      {/* Buy the Kit - Enhanced Shopping Funnel */}
                       <Link href={`/basket?prefill=${encodeURIComponent(post.recipe_ingredients.join(','))}`}
                         onClick={() => {
                           if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -294,18 +538,58 @@ const CommunityFeed = () => {
                             });
                           }
                         }}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black transition-all hover:scale-105 active:scale-95 shadow-xl"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-black transition-all hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(245,158,11,0.4)]"
                         style={{ background: 'linear-gradient(135deg, #F4A23C, #f59e0b)', color: '#0F2419' }}
                       >
                         <ShoppingCart className="w-4 h-4" />
-                        <span className="hidden sm:inline">{t('comm_get_ingredients', 'Get Ingredients')}</span>
-                        <span className="sm:hidden">{t('Basket', 'Basket')}</span>
+                        <span className="hidden sm:inline">Buy the Kit</span>
+                        <span className="sm:hidden">Buy Kit</span>
                       </Link>
                     </div>
+
+                    {/* Comments Section */}
+                    <AnimatePresence>
+                      {expandedCommentsId === post.id && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="border-t border-forest-800/80 pt-4 mt-4 space-y-4"
+                        >
+                          <div className="space-y-3 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+                            {(comments[post.id] || []).map(c => (
+                              <div key={c.id} className="bg-forest-900/30 rounded-xl p-3 border border-forest-800/50">
+                                <p className="text-xs font-bold text-amber-500 mb-1">{c.user_name}</p>
+                                <p className="text-sm text-forest-200">{c.comment_text}</p>
+                              </div>
+                            ))}
+                            {(!comments[post.id] || comments[post.id].length === 0) && (
+                              <p className="text-sm text-forest-500 italic">No comments yet. Be the first!</p>
+                            )}
+                          </div>
+                          <div className="flex gap-2">
+                            <input
+                              className="flex-1 bg-[#0a140f] border border-forest-700 text-white rounded-xl px-4 py-2 outline-none focus:border-amber-500 text-sm"
+                              placeholder="Write a comment..."
+                              value={newComment}
+                              onChange={e => setNewComment(e.target.value)}
+                              onKeyDown={e => e.key === 'Enter' && handlePostComment(post.id)}
+                            />
+                            <button
+                              onClick={() => handlePostComment(post.id)}
+                              className="bg-amber-500 text-forest-900 px-4 py-2 rounded-xl text-sm font-bold hover:bg-amber-400"
+                            >
+                              Post
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
+            )}
           </div>
         </div>
 
@@ -317,7 +601,7 @@ const CommunityFeed = () => {
             </h3>
 
             <div className="space-y-4">
-              {SAMPLE_POSTS.slice(0, 4).map((post, i) => (
+              {allPosts.slice(0, 4).map((post, i) => (
                 <div key={i} className="flex items-center gap-3 group cursor-pointer">
                   <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0">
                     <Image src={post.photo_url || ''} alt="" fill sizes="64px" className="object-cover group-hover:opacity-80 transition-opacity" />
@@ -372,26 +656,26 @@ const CommunityFeed = () => {
                   value={recipeName} onChange={e => setRecipeName(e.target.value)}
                 />
 
-                <div className="flex gap-4">
-                  <input
-                    className="flex-1 bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium text-sm"
-                    placeholder={t('comm_author_name', 'Your Name (optional)')}
-                    value={userName} onChange={e => setUserName(e.target.value)}
-                  />
-                  <select
-                    className="flex-1 bg-[#0a140f] border border-forest-700 text-white rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors text-sm appearance-none"
-                    value={city} onChange={e => setCity(e.target.value)}
-                  >
-                    <option value="">City (opt)</option>
-                    {CITIES.map(c => <option key={c} value={c}>{CITY_EMOJIS[c]} {c}</option>)}
-                  </select>
-                </div>
+
 
                 <textarea
                   className="w-full bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium text-sm resize-none"
                   placeholder={t('comm_ingredients_comma', 'Key ingredients, comma separated')}
                   rows={2}
                   value={ingredients} onChange={e => setIngredients(e.target.value)}
+                />
+
+                <textarea
+                  className="w-full bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium text-sm resize-none"
+                  placeholder="Instructions (one step per line, optional)"
+                  rows={4}
+                  value={instructionsStr} onChange={e => setInstructionsStr(e.target.value)}
+                />
+
+                <input
+                  className="w-full bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium text-sm"
+                  placeholder="Tags (comma separated, e.g. Vegan, Spicy)"
+                  value={formTagsStr} onChange={e => setFormTagsStr(e.target.value)}
                 />
 
                 <div
