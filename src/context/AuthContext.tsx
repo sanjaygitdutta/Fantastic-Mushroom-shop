@@ -16,6 +16,7 @@ export interface UserProfile {
     address: UserAddress;
     dietaryPreference?: string;
     familySize?: number;
+    avatarUrl?: string;
 }
 
 export interface Order {

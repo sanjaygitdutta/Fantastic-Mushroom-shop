@@ -1,12 +1,13 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
-import { User, Settings, BookOpen, ShoppingBag, LogOut, ArrowRight, Trash2, Loader2, Sparkles, AlertCircle } from 'lucide-react';
+import { User, Settings, BookOpen, ShoppingBag, LogOut, ArrowRight, Trash2, Loader2, Sparkles, AlertCircle, Camera } from 'lucide-react';
 import toast from 'react-hot-toast';
+import imageCompression from 'browser-image-compression';
 import { useTranslation } from 'react-i18next';
 
 type Tab = 'dashboard' | 'cookbook' | 'orders' | 'settings';
@@ -34,6 +35,10 @@ const Profile = () => {
         dietaryPreference: '',
         familySize: 2
     });
+
+    // Avatar upload state
+    const [uploadingAvatar, setUploadingAvatar] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -101,6 +106,49 @@ const Profile = () => {
         router.push('/');
     };
 
+    const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !user?.profile) return;
+
+        setUploadingAvatar(true);
+        try {
+            // Compress the image before uploading
+            const options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 800,
+                useWebWorker: true,
+            };
+            const compressedFile = await imageCompression(file, options);
+
+            const fileExt = compressedFile.name.split('.').pop();
+            const fileName = `avatar-${user.id}-${Date.now()}.${fileExt}`;
+            
+            const { data: uploadData, error: uploadError } = await supabase.storage
+                .from('community_photos') // Reusing the existing bucket
+                .upload(fileName, compressedFile);
+
+            if (uploadError) throw uploadError;
+
+            if (uploadData) {
+                const { data: { publicUrl } } = supabase.storage
+                    .from('community_photos')
+                    .getPublicUrl(uploadData.path);
+                
+                updateProfile({
+                    ...user.profile,
+                    avatarUrl: publicUrl
+                });
+                toast.success(t('profile_avatar_updated', 'Profile photo updated!'));
+            }
+        } catch (err) {
+            console.error('Error uploading avatar:', err);
+            toast.error(t('profile_avatar_error', 'Failed to upload photo'));
+        } finally {
+            setUploadingAvatar(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+        }
+    };
+
     if (!user) return <div className="min-h-screen pt-24 text-center flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-forest-500" /></div>;
 
     const mockSavings = 1450; // Visual motivation
@@ -113,8 +161,31 @@ const Profile = () => {
                 <div className="md:w-64 flex-shrink-0">
                     <div className="bg-white rounded-3xl p-6 shadow-sm border border-forest-100 sticky top-28">
                         <div className="flex items-center gap-4 mb-8">
-                            <div className="w-12 h-12 bg-forest-100 rounded-full flex items-center justify-center text-forest-600 font-bold text-xl">
-                                {user.profile?.name?.[0]?.toUpperCase() || <User className="w-6 h-6" />}
+                            <div className="relative group">
+                                <div className="w-16 h-16 bg-forest-100 rounded-full flex items-center justify-center text-forest-600 font-bold text-2xl overflow-hidden border-2 border-transparent group-hover:border-amber-400 transition-colors">
+                                    {uploadingAvatar ? (
+                                        <Loader2 className="w-6 h-6 animate-spin" />
+                                    ) : user.profile?.avatarUrl ? (
+                                        <img src={user.profile.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                                    ) : (
+                                        user.profile?.name?.[0]?.toUpperCase() || <User className="w-6 h-6" />
+                                    )}
+                                </div>
+                                <button 
+                                    onClick={() => fileInputRef.current?.click()}
+                                    disabled={uploadingAvatar}
+                                    className="absolute bottom-0 right-0 bg-amber-500 text-forest-900 rounded-full p-1.5 shadow-sm border-2 border-white hover:bg-amber-400 transition-colors disabled:opacity-50"
+                                    title="Upload photo"
+                                >
+                                    <Camera className="w-3.5 h-3.5" />
+                                </button>
+                                <input 
+                                    type="file" 
+                                    accept="image/*" 
+                                    className="hidden" 
+                                    ref={fileInputRef} 
+                                    onChange={handleAvatarUpload} 
+                                />
                             </div>
                             <div>
                                 <h3 className="font-bold text-forest-900 leading-tight truncate w-32">{user.profile?.name || 'Hello'}</h3>
