@@ -26,7 +26,7 @@ const PLATFORMS = [
   { name: 'BigBasket', logo: '🟢', color: '#16a34a', bg: '#f0fdf4' },
   { name: 'Amazon', logo: '📦', color: '#f59e0b', bg: '#fffbeb' },
   { name: 'JioMart', logo: '🔵', color: '#2563eb', bg: '#eff6ff' },
-  { name: 'Flipkart', logo: '🛒', color: '#1d4ed8', bg: '#dbeafe' },
+  { name: 'Flipkart Minutes', logo: '🛍️', color: '#1d4ed8', bg: '#dbeafe' },
 ];
 
 // Loading skeleton

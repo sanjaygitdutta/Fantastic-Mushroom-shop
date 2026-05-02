@@ -36,6 +36,7 @@ const PLATFORM_LOGOS = [
   { name: 'Zepto', emoji: '🟣', color: '#9B30D9' },
   { name: 'Amazon Fresh', emoji: '📦', color: '#FF9900' },
   { name: 'JioMart', emoji: '🔵', color: '#0F3CC9' },
+  { name: 'Flipkart Minutes', emoji: '🛍️', color: '#2874F0' },
 ];
 
 const HOW_IT_WORKS = [
