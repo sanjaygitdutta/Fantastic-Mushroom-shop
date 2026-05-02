@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
+import imageCompression from 'browser-image-compression';
 
 import { supabase } from '../lib/supabase';
 import SEO from '../components/SEO';
@@ -86,7 +87,8 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
   const [showPost, setShowPost] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(10);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
   
   // Phase 2 State
   const [instructionsStr, setInstructionsStr] = useState('');
@@ -187,15 +189,43 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
     setShowPost(true);
   };
 
+  // Infinite Scroll Pagination
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 800) {
-        setVisibleCount(prev => Math.min(prev + 5, filteredPosts.length));
+    const handleScroll = async () => {
+      if (
+        window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 800 &&
+        !isFetchingMore &&
+        hasMore &&
+        supabasePosts.length > 0 &&
+        !selectedFilter // Only paginate when viewing 'All Posts' for simplicity
+      ) {
+        setIsFetchingMore(true);
+        const oldestPost = supabasePosts[supabasePosts.length - 1];
+        try {
+          const { data } = await supabase
+            .from('community_posts')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .lt('created_at', oldestPost.created_at)
+            .limit(10);
+
+          if (data && data.length > 0) {
+            const withSnaps = data.map(d => ({ ...d, cooksnaps: 0 })) as CommunityPost[];
+            setSupabasePosts(prev => [...prev, ...withSnaps]);
+          } else {
+            setHasMore(false); // No more posts to load
+          }
+        } catch (err) {
+          console.error("Error fetching more posts:", err);
+        } finally {
+          setIsFetchingMore(false);
+        }
       }
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [filteredPosts.length]);
+  }, [supabasePosts, isFetchingMore, hasMore, selectedFilter]);
 
   useEffect(() => {
     // Only fetch if we don't have initial posts (fallback) or if we want to ensure fresh data
@@ -255,14 +285,23 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // First, set a preview immediately so user sees the image
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const dataUrl = reader.result as string;
-
-      // Run NSFW scan
+    try {
       setIsScanning(true);
-      try {
+      // Compress the image before uploading/scanning
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+      
+      const compressedFile = await imageCompression(file, options);
+
+      // Set a preview immediately so user sees the compressed image
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const dataUrl = reader.result as string;
+
+        try {
         const img = new window.Image();
         img.src = dataUrl;
         await new Promise(res => { img.onload = res; });
@@ -281,18 +320,23 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
           return;
         }
 
-        // Image is safe - proceed
-        setPhotoFile(file);
-        setPhotoPreview(dataUrl);
-      } catch (err) {
-        // If model fails to load, allow upload (fail open) but log
-        console.warn('NSFW check failed, proceeding:', err);
-        setPhotoFile(file);
-        setPhotoPreview(dataUrl);
-      }
+          // Image is safe - proceed
+          setPhotoFile(compressedFile);
+          setPhotoPreview(dataUrl);
+        } catch (err) {
+          // If model fails to load, allow upload (fail open) but log
+          console.warn('NSFW check failed, proceeding:', err);
+          setPhotoFile(compressedFile);
+          setPhotoPreview(dataUrl);
+        }
+        setIsScanning(false);
+      };
+      reader.readAsDataURL(compressedFile);
+    } catch (err) {
+      console.error('Error compressing image:', err);
       setIsScanning(false);
-    };
-    reader.readAsDataURL(file);
+      toast.error('Failed to process image. Please try another one.');
+    }
   };
 
   const handleSubmitPost = async () => {
@@ -518,7 +562,7 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
               ))
             ) : (
               <AnimatePresence>
-                {filteredPosts.slice(0, visibleCount).map((post, i) => (
+                {filteredPosts.map((post, i) => (
                   <div key={post.id}>
                     <script
                       type="application/ld+json"
@@ -710,6 +754,11 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
                 </motion.div>
               </div>
             ))}
+            {isFetchingMore && (
+              <div className="flex justify-center py-4">
+                <div className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
             </AnimatePresence>
             )}
           </div>

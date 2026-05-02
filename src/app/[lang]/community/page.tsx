@@ -44,7 +44,7 @@ export default async function Page() {
     .from('community_posts')
     .select('*')
     .order('created_at', { ascending: false })
-    .limit(100);
+    .limit(10);
 
   // Parse cooksnaps just like client does so HTML matches
   const safeInitialPosts = (initialPosts || []).map(d => ({

@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import sitemapLinks from '../data/sitemapLinks.json';
 import { ALL_RECIPES } from '../data/worldRecipes';
 import { BLOG_POSTS } from '../data/blogPosts';
+import { supabase } from '../lib/supabase';
 
 export const revalidate = 86400; // Cache for 24 hours
 
@@ -67,5 +68,24 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
     priority: 0.8,
   }));
 
-  return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes];
+  // Community Feed Posts (Dynamic from Supabase)
+  let communityRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const { data: posts } = await supabase
+      .from('community_posts')
+      .select('id, created_at');
+    
+    if (posts) {
+      communityRoutes = posts.map(post => ({
+        url: `${langBase}/community?post=${post.id}`,
+        lastModified: new Date(post.created_at),
+        changeFrequency: 'monthly',
+        priority: 0.85,
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching community posts for sitemap:', error);
+  }
+
+  return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes, ...communityRoutes];
 }
