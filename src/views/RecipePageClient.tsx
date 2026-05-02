@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 import { motion } from 'framer-motion';
 import { Clock, Users, ChefHat, ArrowLeft, ShoppingCart, Globe, Flame, Tag } from 'lucide-react';
@@ -26,6 +27,17 @@ export default function RecipePage() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
+
+  // Show community banner if user arrived via a shared Aika community post link
+  const [showCommunityBanner, setShowCommunityBanner] = useState(false);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('from') === 'community') {
+        setShowCommunityBanner(true);
+      }
+    }
+  }, []);
 
   const recipe: WorldRecipe | undefined = ALL_RECIPES.find(r => r.id === recipeId);
 
@@ -300,6 +312,33 @@ export default function RecipePage() {
           </div>
         </div>
       </div>
+      {/* Floating Community Banner - shown only when user arrived via a shared Aika post */}
+      {showCommunityBanner && (
+        <div className="fixed bottom-6 left-4 right-4 z-50 flex justify-center pointer-events-none">
+          <div className="bg-[#0f2419] border border-amber-500/50 rounded-2xl shadow-2xl px-5 py-4 flex items-center gap-4 max-w-md w-full pointer-events-auto">
+            <span className="text-3xl">🍳</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-white font-bold text-sm leading-tight">Join our Community!</p>
+              <p className="text-forest-300 text-xs mt-0.5 leading-tight">Share your own recipes &amp; connect with home chefs across India.</p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <Link
+                href="/community"
+                className="bg-amber-500 hover:bg-amber-400 text-forest-900 font-black text-xs px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
+              >
+                Join Now
+              </Link>
+              <button
+                onClick={() => setShowCommunityBanner(false)}
+                className="text-forest-500 hover:text-white transition-colors text-lg leading-none"
+                aria-label="Dismiss"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

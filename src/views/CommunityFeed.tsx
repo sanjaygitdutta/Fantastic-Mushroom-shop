@@ -464,7 +464,11 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
     const shareData = {
       title: `${post.recipe_name} by ${post.user_name}`,
       text: `Check out this amazing recipe for ${post.recipe_name} on Fantastic Food! 🍳🛒`,
-      url: `https://www.fantasticfood.in/community?post=${post.id}`,
+      // For Chef Aika posts: share the real /recipe page to avoid duplicate content for Google.
+      // For real user posts: share the community deep link so others can discover the feed.
+      url: post.id.startsWith('aika')
+        ? `https://www.fantasticfood.in/recipe/${post.id.replace('aika-', '')}?from=community`
+        : `https://www.fantasticfood.in/community?post=${post.id}`,
     };
 
     try {
