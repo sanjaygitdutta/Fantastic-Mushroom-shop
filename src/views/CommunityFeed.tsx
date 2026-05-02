@@ -14,7 +14,7 @@ import { recipes } from '../data/recipes';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
 
-interface CommunityPost {
+export interface CommunityPost {
   id: string;
   recipe_name: string;
   recipe_ingredients: string[];
@@ -62,13 +62,26 @@ function getInitials(name: string) {
   return name.substring(0, 2).toUpperCase();
 }
 
-const CommunityFeed = () => {
+interface CommunityFeedProps {
+  initialPosts?: CommunityPost[];
+}
+
+const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || 'en';
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
 
-  const [supabasePosts, setSupabasePosts] = useState<CommunityPost[]>([]);
+  const [deepLinkPostId, setDeepLinkPostId] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const postParam = urlParams.get('post');
+      if (postParam) setDeepLinkPostId(postParam);
+    }
+  }, []);
+
+  const [supabasePosts, setSupabasePosts] = useState<CommunityPost[]>(initialPosts);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [showPost, setShowPost] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -185,7 +198,9 @@ const CommunityFeed = () => {
   }, [filteredPosts.length]);
 
   useEffect(() => {
+    // Only fetch if we don't have initial posts (fallback) or if we want to ensure fresh data
     const fetchPosts = async () => {
+      if (initialPosts.length > 0) return; // Skip if server-rendered
       setIsLoading(true);
       try {
         const { data } = await supabase
@@ -209,10 +224,32 @@ const CommunityFeed = () => {
         const newPost = { ...payload.new as CommunityPost, cooksnaps: 0 };
         setSupabasePosts(prev => [newPost, ...prev]);
       })
+      // Listen for updates (likes/comments changes)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'community_posts' }, payload => {
+        const updatedPost = payload.new as CommunityPost;
+        setSupabasePosts(prev => prev.map(p => p.id === updatedPost.id ? { ...p, ...updatedPost } : p));
+      })
       .subscribe();
 
     return () => { supabase.removeChannel(channel); };
-  }, []);
+  }, [initialPosts.length]);
+
+  // Deep Link Auto-Scroll
+  useEffect(() => {
+    if (deepLinkPostId && filteredPosts.length > 0) {
+      setTimeout(() => {
+        const element = document.getElementById(`post-${deepLinkPostId}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Highlight effect
+          element.style.transition = 'box-shadow 0.5s ease';
+          element.style.boxShadow = '0 0 20px 5px rgba(244, 162, 60, 0.5)';
+          setTimeout(() => { element.style.boxShadow = 'none'; }, 2000);
+          setDeepLinkPostId(null);
+        }
+      }, 500);
+    }
+  }, [deepLinkPostId, filteredPosts]);
 
   const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -482,14 +519,37 @@ const CommunityFeed = () => {
             ) : (
               <AnimatePresence>
                 {filteredPosts.slice(0, visibleCount).map((post, i) => (
-                  <motion.div
-                  key={post.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="bg-[#12261c] rounded-[2rem] overflow-hidden border border-forest-800/80 shadow-2xl group"
-                >
-                  {/* Author Header */}
+                  <div key={post.id}>
+                    <script
+                      type="application/ld+json"
+                      dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                          "@context": "https://schema.org",
+                          "@type": "Recipe",
+                          "name": post.recipe_name,
+                          "image": post.photo_url || getFallbackImage(post.id),
+                          "author": {
+                            "@type": "Person",
+                            "name": post.user_name
+                          },
+                          "datePublished": post.created_at,
+                          "description": `A delicious ${post.recipe_name} recipe shared by ${post.user_name} on Fantastic Food.`,
+                          "recipeIngredient": post.recipe_ingredients || [],
+                          "recipeInstructions": (post.instructions || []).map(step => ({
+                            "@type": "HowToStep",
+                            "text": step
+                          }))
+                        })
+                      }}
+                    />
+                    <motion.div
+                      id={`post-${post.id}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="bg-[#12261c] rounded-[2rem] overflow-hidden border border-forest-800/80 shadow-2xl group"
+                    >
+                      {/* Author Header */}
                   <div className="p-5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 to-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
@@ -648,7 +708,8 @@ const CommunityFeed = () => {
                     </AnimatePresence>
                   </div>
                 </motion.div>
-              ))}
+              </div>
+            ))}
             </AnimatePresence>
             )}
           </div>
