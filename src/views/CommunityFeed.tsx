@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef, useMemo } from 'react';
+import * as nsfwjs from 'nsfwjs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ShoppingCart, X, Flame, Loader2, Globe, Search, TrendingUp, MessageSquare, Camera as CameraIcon, Share2 } from 'lucide-react';
 import Link from 'next/link';
@@ -40,12 +41,21 @@ const CITY_EMOJIS: Record<string, string> = {
   'Kolkata': '🎨', 'Hyderabad': '💎', 'Pune': '🏔️', 'Ahmedabad': '🦁',
 };
 
-function timeAgo(isoStr: string) {
-  const diff = Math.floor((Date.now() - new Date(isoStr).getTime()) / 1000);
-  if (diff < 60) return `\${diff}s ago`;
-  if (diff < 3600) return `\${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400) return `\${Math.floor(diff / 3600)}h ago`;
-  return `\${Math.floor(diff / 86400)}d ago`;
+const DEFAULT_IMAGES = [
+  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1495195134817-a1a28078aca2?auto=format&fit=crop&q=80&w=1000'
+];
+
+function getFallbackImage(id: string) {
+  const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return DEFAULT_IMAGES[hash % DEFAULT_IMAGES.length];
+}
+
+function formatDate(isoStr: string) {
+  const d = new Date(isoStr);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
 
 function getInitials(name: string) {
@@ -88,8 +98,8 @@ const CommunityFeed = () => {
   const chefAikaPosts = useMemo<CommunityPost[]>(() => {
     return recipes.map((recipe, index) => {
       const isDate = /^\d{4}-\d{2}-\d{2}$/.test(recipe.id);
-      // Give each post a unique timestamp based on its index
-      const dateStr = isDate ? recipe.id : new Date(Date.now() - index * 86400000).toISOString();
+      // Give each post a unique timestamp based on its index (starting 1 hour ago)
+      const dateStr = isDate ? recipe.id : new Date(Date.now() - 3600000 - index * 86400000).toISOString();
       const translation = recipe.translations?.[currentLang as keyof typeof recipe.translations];
       const title = translation?.title || recipe.title;
       const ingredientsList = translation?.ingredients 
@@ -136,6 +146,18 @@ const CommunityFeed = () => {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  
+  // NSFW moderation state
+  const [isScanning, setIsScanning] = useState(false);
+  const nsfwModelRef = useRef<nsfwjs.NSFWJS | null>(null);
+
+  // Lazily load the NSFW model
+  const getNsfwModel = async () => {
+    if (!nsfwModelRef.current) {
+      nsfwModelRef.current = await nsfwjs.load();
+    }
+    return nsfwModelRef.current;
+  };
 
   const handleOpenPostModal = () => {
     if (!isAuthenticated || !user?.profile?.name) {
@@ -190,12 +212,47 @@ const CommunityFeed = () => {
     return () => { supabase.removeChannel(channel); };
   }, []);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setPhotoFile(file);
+
+    // First, set a preview immediately so user sees the image
     const reader = new FileReader();
-    reader.onloadend = () => setPhotoPreview(reader.result as string);
+    reader.onloadend = async () => {
+      const dataUrl = reader.result as string;
+
+      // Run NSFW scan
+      setIsScanning(true);
+      try {
+        const img = new window.Image();
+        img.src = dataUrl;
+        await new Promise(res => { img.onload = res; });
+
+        const model = await getNsfwModel();
+        const predictions = await model.classify(img);
+
+        // Sum up all explicit categories
+        const explicit = predictions.filter(p => ['Porn', 'Sexy', 'Hentai'].includes(p.className));
+        const totalExplicitScore = explicit.reduce((sum, p) => sum + p.probability, 0);
+
+        if (totalExplicitScore > 0.4) {
+          toast.error('⚠️ This image was flagged as inappropriate and cannot be uploaded. Please use a food-related photo.');
+          if (fileRef.current) fileRef.current.value = '';
+          setIsScanning(false);
+          return;
+        }
+
+        // Image is safe - proceed
+        setPhotoFile(file);
+        setPhotoPreview(dataUrl);
+      } catch (err) {
+        // If model fails to load, allow upload (fail open) but log
+        console.warn('NSFW check failed, proceeding:', err);
+        setPhotoFile(file);
+        setPhotoPreview(dataUrl);
+      }
+      setIsScanning(false);
+    };
     reader.readAsDataURL(file);
   };
 
@@ -434,7 +491,7 @@ const CommunityFeed = () => {
                         </Link>
                         <p className="text-forest-400 text-xs mt-0.5">
                           {post.city && <span className="mr-2">{CITY_EMOJIS[post.city] || '📍'} {post.city}</span>}
-                          {timeAgo(post.created_at)}
+                          {formatDate(post.created_at)}
                         </p>
                       </div>
                     </div>
@@ -442,14 +499,7 @@ const CommunityFeed = () => {
 
                   {/* Large Hero Image */}
                   <div className="relative w-full aspect-square sm:aspect-video overflow-hidden bg-[#0a140f]">
-                    {post.photo_url ? (
-                      <Image src={post.photo_url} alt={post.recipe_name} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center opacity-80">
-                        <span className="text-8xl mb-4">🍽️</span>
-                        <span className="text-forest-400 font-bold">{post.recipe_name}</span>
-                      </div>
-                    )}
+                    <Image src={post.photo_url || getFallbackImage(post.id)} alt={post.recipe_name} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
 
                   {/* Recipe Details */}
@@ -604,7 +654,7 @@ const CommunityFeed = () => {
               {allPosts.slice(0, 4).map((post, i) => (
                 <div key={i} className="flex items-center gap-3 group cursor-pointer">
                   <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0">
-                    <Image src={post.photo_url || ''} alt="" fill sizes="64px" className="object-cover group-hover:opacity-80 transition-opacity" />
+                    <Image src={post.photo_url || getFallbackImage(post.id)} alt="" fill sizes="64px" className="object-cover group-hover:opacity-80 transition-opacity" />
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-sm leading-tight group-hover:text-amber-400 transition-colors line-clamp-2">{post.recipe_name}</h4>
@@ -679,10 +729,16 @@ const CommunityFeed = () => {
                 />
 
                 <div
-                  onClick={() => fileRef.current?.click()}
-                  className="border-2 border-dashed border-forest-700 bg-[#0a140f] rounded-2xl p-6 text-center cursor-pointer hover:border-amber-500/50 transition-colors group"
+                  onClick={() => !isScanning && fileRef.current?.click()}
+                  className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-colors group ${isScanning ? 'border-amber-500 bg-amber-500/5 cursor-wait' : 'border-forest-700 bg-[#0a140f] hover:border-amber-500/50'}`}
                 >
-                  {photoPreview ? (
+                  {isScanning ? (
+                    <div className="py-4 flex flex-col items-center gap-3">
+                      <Loader2 className="w-10 h-10 text-amber-500 animate-spin" />
+                      <p className="text-amber-500 font-bold text-sm">🛡️ Scanning image for safety...</p>
+                      <p className="text-forest-500 text-xs">Our AI is checking your photo</p>
+                    </div>
+                  ) : photoPreview ? (
                     <img src={photoPreview} alt="preview" className="w-full h-48 object-cover rounded-xl" />
                   ) : (
                     <div className="py-4">
@@ -690,6 +746,7 @@ const CommunityFeed = () => {
                         <CameraIcon className="w-8 h-8 text-forest-400 group-hover:text-amber-500 transition-colors" />
                       </div>
                       <p className="text-forest-400 font-medium">{t('comm_add_photo', 'Add a photo of your dish')}</p>
+                      <p className="text-forest-600 text-xs mt-1">🛡️ All images are AI-moderated for safety</p>
                     </div>
                   )}
                   <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
@@ -698,7 +755,7 @@ const CommunityFeed = () => {
                 <motion.button
                   whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                   onClick={handleSubmitPost}
-                  disabled={!recipeName.trim() || uploading}
+                  disabled={!recipeName.trim() || uploading || isScanning}
                   className="w-full py-4 rounded-2xl font-black text-forest-900 text-lg disabled:opacity-50 flex items-center justify-center gap-2 shadow-xl mt-2"
                   style={{ background: 'linear-gradient(135deg, #F4A23C, #f59e0b)' }}
                 >
