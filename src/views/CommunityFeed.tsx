@@ -151,6 +151,8 @@ const CommunityFeed = () => {
   const [isScanning, setIsScanning] = useState(false);
   const nsfwModelRef = useRef<nsfwjs.NSFWJS | null>(null);
 
+  const [shareCounts, setShareCounts] = useState<Record<string, number>>({});
+
   // Lazily load the NSFW model
   const getNsfwModel = async () => {
     if (!nsfwModelRef.current) {
@@ -370,6 +372,14 @@ const CommunityFeed = () => {
   };
 
   const handleShare = async (post: CommunityPost) => {
+    // Increment local share count
+    setShareCounts(prev => ({ ...prev, [post.id]: (prev[post.id] || 0) + 1 }));
+    
+    // NOTE: To store shares in Supabase, you must add a 'shares' INT column to the community_posts table.
+    // if (!post.id.startsWith('aika')) {
+    //   await supabase.rpc('increment_share', { post_id: post.id });
+    // }
+
     const shareData = {
       title: `${post.recipe_name} by ${post.user_name}`,
       text: `Check out this amazing recipe for ${post.recipe_name} on Fantastic Food! 🍳🛒`,
@@ -551,29 +561,30 @@ const CommunityFeed = () => {
                     )}
 
                     {/* Actions & Shopping Funnel */}
-                    <div className="flex items-center gap-4 border-t border-forest-800/80 pt-5">
+                    <div className="flex items-center gap-6 border-t border-forest-800/80 pt-5">
                       <motion.button
                         whileTap={{ scale: 0.8 }}
                         whileHover={{ scale: 1.1 }}
                         onClick={() => handleLike(post)}
-                        className={`flex items-center gap-1.5 transition-colors \${likedIds.has(post.id) ? 'text-pink-500' : 'text-forest-400 hover:text-pink-400'}`}
+                        className={`flex items-center gap-2 transition-colors \${likedIds.has(post.id) ? 'text-pink-500' : 'text-forest-200 hover:text-pink-400'}`}
                       >
                         <Heart className={`w-6 h-6 \${likedIds.has(post.id) ? 'fill-current' : ''}`} />
                         <span className="text-sm font-bold">{post.likes}</span>
                       </motion.button>
                       <button 
                         onClick={() => handleToggleComments(post.id)}
-                        className="flex items-center gap-1.5 text-forest-400 hover:text-white transition-colors"
+                        className="flex items-center gap-2 text-forest-200 hover:text-white transition-colors"
                       >
                         <MessageSquare className="w-6 h-6" />
                         <span className="text-sm font-bold">{comments[post.id]?.length || 0}</span>
                       </button>
                       <button 
                         onClick={() => handleShare(post)}
-                        className="flex items-center gap-1.5 text-forest-400 hover:text-white transition-colors ml-2"
+                        className="flex items-center gap-2 text-forest-200 hover:text-amber-500 transition-colors"
                         title="Share Recipe"
                       >
                         <Share2 className="w-5 h-5" />
+                        <span className="text-sm font-bold">{shareCounts[post.id] || 0}</span>
                       </button>
 
                       <div className="flex-1"></div>
