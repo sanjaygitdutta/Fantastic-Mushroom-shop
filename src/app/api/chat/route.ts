@@ -69,7 +69,7 @@ Use this specific recipe context if they ask a question like "how do I fix my di
 
     return NextResponse.json({ response: data.choices[0].message.content }, { status: 200 });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Groq API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
