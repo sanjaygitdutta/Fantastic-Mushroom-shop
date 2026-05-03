@@ -2,14 +2,14 @@ chrome.runtime.onInstalled.addListener(() => {
   // Create context menu for highlighted text
   chrome.contextMenus.create({
     id: "aika-text",
-    title: "Find these ingredients on Fantastic Food",
+    title: "👩‍🍳 Ask Chef Aika to find these on Fantastic Food",
     contexts: ["selection"]
   });
 
   // Create context menu for right-clicking images
   chrome.contextMenus.create({
     id: "aika-image",
-    title: "Ask Chef Aika to analyze this image",
+    title: "👩‍🍳 Ask Chef Aika to analyze this food image",
     contexts: ["image"]
   });
 });
