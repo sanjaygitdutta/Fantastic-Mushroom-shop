@@ -4,7 +4,6 @@ import * as nsfwjs from 'nsfwjs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ShoppingCart, X, Flame, Loader2, Globe, Search, TrendingUp, MessageSquare, Camera as CameraIcon, Share2 } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
 import imageCompression from 'browser-image-compression';
