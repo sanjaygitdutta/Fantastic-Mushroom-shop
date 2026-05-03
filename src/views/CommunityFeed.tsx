@@ -64,18 +64,20 @@ function handleImgError(e: React.SyntheticEvent<HTMLImageElement>, fallback: str
   }
 }
 
-// Reduce quality/size of Unsplash URLs on-the-fly for faster loading
+// Reduce quality/size of image URLs on-the-fly for faster loading
 function optimizeImageUrl(url: string | null): string | null {
   if (!url) return null;
+  // Local AI-generated images (Gemini Imagen) — already at 72% quality, pass through
+  if (url.startsWith('/recipe-images/')) return url;
+  // Unsplash: cap width at 800px, quality 65, serve as WebP
   if (url.includes('images.unsplash.com')) {
-    // Cap width at 800px and quality at 65 — good enough for a feed thumbnail
     return url
       .replace(/w=\d+/, 'w=800')
       .replace(/q=\d+/, 'q=65')
       .replace(/&auto=format/, '&auto=format&fm=webp');
   }
+  // TheMealDB: /preview suffix gives a smaller JPEG (~320px)
   if (url.includes('themealdb.com') && !url.endsWith('/preview')) {
-    // TheMealDB: /preview suffix gives a smaller JPEG
     return `${url}/preview`;
   }
   return url;

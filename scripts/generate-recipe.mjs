@@ -185,6 +185,54 @@ async function getRealDishImage(dishName) {
   return null;
 }
 
+// ── Generate AI food photo using Gemini Imagen API ──────────────────────────
+async function generateAIImage(dishName, cuisine, date) {
+  try {
+    const prompt = `Professional food photography of ${dishName}, authentic ${cuisine} cuisine. Close-up overhead shot, beautiful plating, natural warm lighting, restaurant quality, vibrant colors, appetizing presentation.`;
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-fast-generate-001:predict?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          instances: [{ prompt }],
+          parameters: {
+            sampleCount: 1,
+            aspectRatio: '16:9',
+            outputOptions: { mimeType: 'image/jpeg', compressionQuality: 72 }
+          }
+        })
+      }
+    );
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.warn(`⚠️  Imagen API error (${res.status}): ${errText.slice(0, 200)}`);
+      return null;
+    }
+
+    const data = await res.json();
+    const b64 = data.predictions?.[0]?.bytesBase64Encoded;
+    if (!b64) {
+      console.warn('⚠️  Imagen returned no image data.');
+      return null;
+    }
+
+    // Save to public/recipe-images/{date}.jpg — served as /recipe-images/{date}.jpg
+    const imgDir = path.resolve('./public/recipe-images');
+    fs.mkdirSync(imgDir, { recursive: true });
+    const imgPath = path.join(imgDir, `${date}.jpg`);
+    fs.writeFileSync(imgPath, Buffer.from(b64, 'base64'));
+    console.log(`🎨 AI image generated and saved: public/recipe-images/${date}.jpg`);
+    return `/recipe-images/${date}.jpg`;
+
+  } catch (e) {
+    console.warn(`⚠️  Imagen generation failed: ${e.message}`);
+    return null;
+  }
+}
+
 console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" for ${today}...`);
 
 // ── Build Gemini prompt ────────────────────────────────────────────────────
@@ -328,13 +376,15 @@ if (existingContent.includes(`id: '${today}'`)) {
 }
 
 try {
-  // ── Resolve real dish image (TheMealDB → curated fallback) ────────────────
-  const realImage = await getRealDishImage(selectedDish);
-  const imageUrl = realImage || fallbackImageUrl;
-  console.log(realImage
-    ? `📸 Using real TheMealDB image for "${selectedDish}"`
-    : `🖼️  Using curated fallback image for "${selectedDish}"`
-  );
+  // ── Resolve dish image: Imagen AI → TheMealDB → curated fallback ─────────
+  console.log(`🖼️  Attempting AI image generation via Gemini Imagen...`);
+  const aiImage    = await generateAIImage(selectedDish, selectedCuisine.cuisine, today);
+  const mealDbImage = aiImage ? null : await getRealDishImage(selectedDish);
+  const imageUrl   = aiImage || mealDbImage || fallbackImageUrl;
+
+  if (aiImage)      console.log(`✅ Using AI-generated image: ${imageUrl}`);
+  else if (mealDbImage) console.log(`📸 Using TheMealDB image: ${imageUrl}`);
+  else              console.log(`🖼️  Using curated fallback image.`);
 
   const recipe = await callGemini();
 

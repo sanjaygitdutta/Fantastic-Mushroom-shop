@@ -53,12 +53,14 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node --experimental-vm-modules scripts/generate-recipe.mjs
 
-      - name: 📝 Commit and push the new recipe
+      - name: 📝 Commit and push the new recipe + image
         run: |
           git config --local user.email "ai-bot@fantasticfood.in"
           git config --local user.name "Fantastic Food AI Bot 🍄"
           git add src/data/recipes.ts
-          # Only commit if the file actually changed
+          # Also stage any newly generated AI recipe images
+          git add public/recipe-images/ 2>/dev/null || true
+          # Only commit if something actually changed
           git diff --staged --quiet || git commit -m "🍄 Daily AI Recipe: $(date -u '+%Y-%m-%d')"
           git push
 

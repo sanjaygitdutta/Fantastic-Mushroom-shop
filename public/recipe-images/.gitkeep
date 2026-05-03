@@ -1,0 +1,2 @@
+# AI-generated recipe images are stored here daily by the GitHub Actions workflow.
+# Each file is named {YYYY-MM-DD}.jpg and served at /recipe-images/{YYYY-MM-DD}.jpg
