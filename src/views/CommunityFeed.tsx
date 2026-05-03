@@ -42,16 +42,27 @@ const CITY_EMOJIS: Record<string, string> = {
   'Kolkata': '🎨', 'Hyderabad': '💎', 'Pune': '🏔️', 'Ahmedabad': '🦁',
 };
 
+// Reliable fallback images from Picsum Photos — a free CDN that never rate-limits
 const DEFAULT_IMAGES = [
-  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=1000',
-  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=1000',
-  'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=1000',
-  'https://images.unsplash.com/photo-1495195134817-a1a28078aca2?auto=format&fit=crop&q=80&w=1000'
+  'https://picsum.photos/seed/food1/800/600',
+  'https://picsum.photos/seed/food2/800/600',
+  'https://picsum.photos/seed/food3/800/600',
+  'https://picsum.photos/seed/food4/800/600',
+  'https://picsum.photos/seed/food5/800/600',
+  'https://picsum.photos/seed/food6/800/600',
 ];
 
 function getFallbackImage(id: string) {
   const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   return DEFAULT_IMAGES[hash % DEFAULT_IMAGES.length];
+}
+
+// Helper: swap to fallback if primary image URL fails to load
+function handleImgError(e: React.SyntheticEvent<HTMLImageElement>, fallback: string) {
+  const img = e.currentTarget;
+  if (img.src !== fallback) {
+    img.src = fallback;
+  }
 }
 
 function formatDate(isoStr: string) {
@@ -635,7 +646,13 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
 
                   {/* Large Hero Image */}
                   <div className="relative w-full aspect-square sm:aspect-video overflow-hidden bg-[#0a140f]">
-                    <Image src={post.photo_url || getFallbackImage(post.id)} alt={post.recipe_name} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={post.photo_url || getFallbackImage(post.id)}
+                      alt={post.recipe_name}
+                      onError={(e) => handleImgError(e, getFallbackImage(post.id))}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   </div>
 
                   {/* Recipe Details */}
@@ -797,7 +814,13 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
               {allPosts.slice(0, 4).map((post, i) => (
                 <div key={i} className="flex items-center gap-3 group cursor-pointer">
                   <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0">
-                    <Image src={post.photo_url || getFallbackImage(post.id)} alt="" fill sizes="64px" className="object-cover group-hover:opacity-80 transition-opacity" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={post.photo_url || getFallbackImage(post.id)}
+                      alt=""
+                      onError={(e) => handleImgError(e, getFallbackImage(post.id))}
+                      className="w-16 h-16 object-cover group-hover:opacity-80 transition-opacity"
+                    />
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-sm leading-tight group-hover:text-amber-400 transition-colors line-clamp-2">{post.recipe_name}</h4>
