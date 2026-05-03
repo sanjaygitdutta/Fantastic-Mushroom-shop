@@ -363,32 +363,29 @@ if (existingContent.includes(`id: '${today}'`)) {
 
 try {
   // ── Resolve dish image ────────────────────────────────────────────────────
-  // Priority: TheMealDB (free, real photos) → Imagen AI (paid, set USE_IMAGEN=true) → curated fallback
+  // Priority: Imagen AI (primary) → TheMealDB (fallback) → curated fallback
   let imageUrl = fallbackImageUrl;
 
-  // 1️⃣ TheMealDB — free real food photos (primary)
-  const mealDbImage = await getRealDishImage(selectedDish);
-  if (mealDbImage) {
-    imageUrl = mealDbImage;
-    console.log(`📸 Using TheMealDB real photo: ${imageUrl}`);
-  }
+  // 1️⃣ Gemini Imagen — High quality AI-generated food photos
+  console.log(`🎨 Attempting AI image generation via Gemini Imagen 3 Fast...`);
+  const aiImage = await generateAIImage(selectedDish, selectedCuisine.cuisine, today);
 
-  // 2️⃣ Gemini Imagen — only if USE_IMAGEN=true AND TheMealDB didn't find this dish
-  // Set secret USE_IMAGEN=true in GitHub Actions → Settings → Secrets to enable
-  else if (process.env.USE_IMAGEN === 'true') {
-    console.log(`🎨 TheMealDB miss — trying Gemini Imagen (paid)...`);
-    const aiImage = await generateAIImage(selectedDish, selectedCuisine.cuisine, today);
-    if (aiImage) {
-      imageUrl = aiImage;
-      console.log(`✅ Using AI-generated image: ${imageUrl}`);
-    } else {
-      console.log(`🖼️  Imagen failed — using curated fallback.`);
-    }
-  }
-
-  // 3️⃣ Curated Unsplash fallback
+  if (aiImage) {
+    imageUrl = aiImage;
+    console.log(`✅ Using AI-generated image: ${imageUrl}`);
+  } 
+  // 2️⃣ TheMealDB — free real food photos (fallback if AI fails)
   else {
-    console.log(`🖼️  TheMealDB miss — using curated fallback image.`);
+    console.log(`📸 Imagen failed or unavailable — trying TheMealDB...`);
+    const mealDbImage = await getRealDishImage(selectedDish);
+    if (mealDbImage) {
+      imageUrl = mealDbImage;
+      console.log(`📸 Using TheMealDB real photo: ${imageUrl}`);
+    } 
+    // 3️⃣ Curated Unsplash fallback
+    else {
+      console.log(`🖼️  TheMealDB miss — using curated fallback image.`);
+    }
   }
 
   const recipe = await callGemini();
