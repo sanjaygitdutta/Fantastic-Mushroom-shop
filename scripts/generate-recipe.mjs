@@ -82,9 +82,7 @@ const WORLD_CUISINES = [
   { country: 'Indonesia', cuisine: 'Indonesian', flag: '🇮🇩', dishes: ['Nasi Goreng', 'Rendang', 'Satay (Sate)', 'Gado-Gado', 'Soto Ayam', 'Mie Goreng', 'Bakso (Meatball Soup)', 'Opor Ayam', 'Pecel', 'Rawon'] },
 ];
 
-// Curated Unsplash food photo pool — 60 images picked deterministically by day
-// so the same image is never repeated on consecutive days and broken hotlinks
-// are spread across different days (not always the same one).
+// Reduce width from 1600 to 800 for faster loading
 const FOOD_IMAGES = [
   // Batch 1 — original 20
   'https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=1600',
@@ -160,8 +158,32 @@ const today = istTime.toISOString().split('T')[0];
 const dayOfYear = Math.floor((istTime - new Date(istTime.getFullYear(), 0, 0)) / 86400000);
 const selectedCuisine = WORLD_CUISINES[dayOfYear % WORLD_CUISINES.length];
 const selectedDish = selectedCuisine.dishes[Math.floor(dayOfYear / WORLD_CUISINES.length) % selectedCuisine.dishes.length];
-// Pick image deterministically (offset by a prime to avoid aligning with cuisine cycle)
-const imageUrl = FOOD_IMAGES[(dayOfYear * 7 + 13) % FOOD_IMAGES.length];
+// Pick fallback image deterministically (offset by prime to avoid aligning with cuisine cycle)
+const fallbackImageUrl = FOOD_IMAGES[(dayOfYear * 7 + 13) % FOOD_IMAGES.length];
+
+// ── Fetch real dish image from TheMealDB (free, no API key) ─────────────────
+async function getRealDishImage(dishName) {
+  try {
+    const query = encodeURIComponent(dishName);
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`, {
+      headers: { 'User-Agent': 'FantasticFood/1.0' }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const meal = data?.meals?.[0];
+    if (meal?.strMealThumb) {
+      // TheMealDB images are high quality JPEGs — append /preview for smaller size
+      const thumbUrl = meal.strMealThumb.endsWith('/preview')
+        ? meal.strMealThumb
+        : `${meal.strMealThumb}/preview`;
+      console.log(`📸 Found real image for "${dishName}" on TheMealDB!`);
+      return thumbUrl;
+    }
+  } catch (e) {
+    console.warn(`⚠️  TheMealDB lookup failed: ${e.message}`);
+  }
+  return null;
+}
 
 console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" for ${today}...`);
 
@@ -306,6 +328,14 @@ if (existingContent.includes(`id: '${today}'`)) {
 }
 
 try {
+  // ── Resolve real dish image (TheMealDB → curated fallback) ────────────────
+  const realImage = await getRealDishImage(selectedDish);
+  const imageUrl = realImage || fallbackImageUrl;
+  console.log(realImage
+    ? `📸 Using real TheMealDB image for "${selectedDish}"`
+    : `🖼️  Using curated fallback image for "${selectedDish}"`
+  );
+
   const recipe = await callGemini();
 
   // Validate

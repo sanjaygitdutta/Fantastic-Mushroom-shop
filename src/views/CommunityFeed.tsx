@@ -64,6 +64,23 @@ function handleImgError(e: React.SyntheticEvent<HTMLImageElement>, fallback: str
   }
 }
 
+// Reduce quality/size of Unsplash URLs on-the-fly for faster loading
+function optimizeImageUrl(url: string | null): string | null {
+  if (!url) return null;
+  if (url.includes('images.unsplash.com')) {
+    // Cap width at 800px and quality at 65 — good enough for a feed thumbnail
+    return url
+      .replace(/w=\d+/, 'w=800')
+      .replace(/q=\d+/, 'q=65')
+      .replace(/&auto=format/, '&auto=format&fm=webp');
+  }
+  if (url.includes('themealdb.com') && !url.endsWith('/preview')) {
+    // TheMealDB: /preview suffix gives a smaller JPEG
+    return `${url}/preview`;
+  }
+  return url;
+}
+
 function formatDate(isoStr: string) {
   const d = new Date(isoStr);
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
@@ -647,8 +664,9 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
                   <div className="relative w-full aspect-square sm:aspect-video overflow-hidden bg-[#0a140f]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={post.photo_url || getFallbackImage(post.id)}
+                      src={optimizeImageUrl(post.photo_url) || getFallbackImage(post.id)}
                       alt={post.recipe_name}
+                      loading="lazy"
                       onError={(e) => handleImgError(e, getFallbackImage(post.id))}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -815,8 +833,9 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
                   <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={post.photo_url || getFallbackImage(post.id)}
+                      src={optimizeImageUrl(post.photo_url) || getFallbackImage(post.id)}
                       alt=""
+                      loading="lazy"
                       onError={(e) => handleImgError(e, getFallbackImage(post.id))}
                       className="w-16 h-16 object-cover group-hover:opacity-80 transition-opacity"
                     />
