@@ -41,14 +41,18 @@ const CITY_EMOJIS: Record<string, string> = {
   'Kolkata': '🎨', 'Hyderabad': '💎', 'Pune': '🏔️', 'Ahmedabad': '🦁',
 };
 
-// Reliable fallback images from Picsum Photos — a free CDN that never rate-limits
+// Verified Unsplash food photos — confirmed to show actual food dishes
 const DEFAULT_IMAGES = [
-  'https://picsum.photos/seed/food1/800/600',
-  'https://picsum.photos/seed/food2/800/600',
-  'https://picsum.photos/seed/food3/800/600',
-  'https://picsum.photos/seed/food4/800/600',
-  'https://picsum.photos/seed/food5/800/600',
-  'https://picsum.photos/seed/food6/800/600',
+  'https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=70&w=800', // Indian curry
+  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=70&w=800', // grilled food
+  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=70&w=800',   // salad bowl
+  'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=70&w=800',   // BBQ/grilled
+  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=70&w=800', // pizza
+  'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&q=70&w=800', // fried rice
+  'https://images.unsplash.com/photo-1516100882582-96c3a05fe590?auto=format&fit=crop&q=70&w=800', // sushi rolls
+  'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=70&w=800', // pasta/Italian
+  'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&q=70&w=800', // eggs/breakfast
+  'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=70&w=800',   // food bowl
 ];
 
 function getFallbackImage(id: string) {
