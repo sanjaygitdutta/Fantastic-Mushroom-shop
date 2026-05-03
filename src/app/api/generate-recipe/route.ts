@@ -91,7 +91,7 @@ Respond ONLY with valid JSON exactly matching this structure (no markdown, no ex
     const recipe = JSON.parse(text);
     return NextResponse.json(recipe, { status: 200 });
 
-  } catch (err) {
+  } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
