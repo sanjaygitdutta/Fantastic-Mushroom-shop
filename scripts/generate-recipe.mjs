@@ -247,8 +247,8 @@ Return ONLY a valid JSON object. Use EXACTLY this structure:
 
 Rules:
 - 5 to 7 ingredients max.
-- 4 to 6 SHORT instructions (1 sentence each).
-- Descriptions must be UNDER 15 words.
+- 4 to 6 DETAILED instructions (2-3 sentences each). Explain exactly what to do so a beginner can easily follow along. Include helpful cooking cues (like "until golden brown" or "until it smells fragrant").
+- Descriptions should be 3-4 sentences, punchy and highly appetizing.
 - All property names in double quotes. No trailing commas.`;
 
 // ── Call Gemini REST API ──────────────────────────────────────────────────
