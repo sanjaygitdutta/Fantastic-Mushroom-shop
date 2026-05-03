@@ -56,7 +56,7 @@ if (isRecipePage()) {
       </style>
       <div style="display: flex; justify-content: space-between; align-items: start;">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 20px;">🍄</span>
+          <img src="https://www.fantasticfood.in/logo.png" style="width: 24px; height: 24px; border-radius: 4px; object-fit: contain; background: #0F2419; padding: 2px;" alt="Fantastic Food Logo" />
           <span style="color: white; font-weight: 800; font-size: 14px;">Fantastic Food</span>
         </div>
         <button id="fantastic-food-close" style="background: none; border: none; color: #f87171; cursor: pointer; font-size: 18px; padding: 0; line-height: 1;">&times;</button>
