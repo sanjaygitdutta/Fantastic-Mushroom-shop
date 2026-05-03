@@ -258,15 +258,15 @@ async function callGemini(retryCount = 0) {
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { 
-      temperature: 0.1, 
+    generationConfig: {
+      temperature: 0.1,
       maxOutputTokens: 8192,
       responseMimeType: "application/json"
     }
   };
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-  
+
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -287,7 +287,7 @@ async function callGemini(retryCount = 0) {
 
   const data = await response.json();
   let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  
+
   if (!text) throw new Error("Empty response from Gemini");
 
   // ── Robust JSON Repair ──────────────────────────────────────────────────
@@ -296,7 +296,7 @@ async function callGemini(retryCount = 0) {
     t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
 
     // Try parsing immediately
-    try { return JSON.parse(t); } catch (e) {}
+    try { return JSON.parse(t); } catch (e) { }
 
     console.log("🛠️ Attempting robust repair on truncated JSON...");
 
@@ -304,34 +304,34 @@ async function callGemini(retryCount = 0) {
     // We look for characters that usually precede a new object or closing of a list
     let current = t;
     while (current.length > 50) {
-        // Try to close common structures and parse
-        const candidates = [
-            current,
-            current + '"',
-            current + '"}',
-            current + '"]',
-            current + '"}]',
-            current + '"}]}',
-            current + '"}]}}',
-            current + '"}]}}}'
-        ];
+      // Try to close common structures and parse
+      const candidates = [
+        current,
+        current + '"',
+        current + '"}',
+        current + '"]',
+        current + '"}]',
+        current + '"}]}',
+        current + '"}]}}',
+        current + '"}]}}}'
+      ];
 
-        for (const cand of candidates) {
-            try { return JSON.parse(cand); } catch (e) {}
-        }
+      for (const cand of candidates) {
+        try { return JSON.parse(cand); } catch (e) { }
+      }
 
-        // If no candidate works, strip the last character and repeat
-        // Specifically strip back to the last comma or brace if we detect it's garbage
-        const lastComma = current.lastIndexOf(',');
-        const lastBrace = current.lastIndexOf('{');
-        const lastBracket = current.lastIndexOf('[');
-        const stripTo = Math.max(lastComma, lastBrace, lastBracket);
-        
-        if (stripTo > 0 && stripTo < current.length - 1) {
-            current = current.substring(0, stripTo);
-        } else {
-            current = current.substring(0, current.length - 1);
-        }
+      // If no candidate works, strip the last character and repeat
+      // Specifically strip back to the last comma or brace if we detect it's garbage
+      const lastComma = current.lastIndexOf(',');
+      const lastBrace = current.lastIndexOf('{');
+      const lastBracket = current.lastIndexOf('[');
+      const stripTo = Math.max(lastComma, lastBrace, lastBracket);
+
+      if (stripTo > 0 && stripTo < current.length - 1) {
+        current = current.substring(0, stripTo);
+      } else {
+        current = current.substring(0, current.length - 1);
+      }
     }
 
     throw new Error("Could not repair JSON even with backtracking.");
@@ -373,7 +373,7 @@ try {
   if (aiImage) {
     imageUrl = aiImage;
     console.log(`✅ Using AI-generated image: ${imageUrl}`);
-  } 
+  }
   // 2️⃣ TheMealDB — free real food photos (fallback if AI fails)
   else {
     console.log(`📸 Imagen failed or unavailable — trying TheMealDB...`);
@@ -381,7 +381,7 @@ try {
     if (mealDbImage) {
       imageUrl = mealDbImage;
       console.log(`📸 Using TheMealDB real photo: ${imageUrl}`);
-    } 
+    }
     // 3️⃣ Curated Unsplash fallback
     else {
       console.log(`🖼️  TheMealDB miss — using curated fallback image.`);
