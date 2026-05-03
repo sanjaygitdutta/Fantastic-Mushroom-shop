@@ -109,8 +109,10 @@ const FOOD_IMAGES = [
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 // ── Pick today's cuisine deterministically (cycles through all) ────────────
-const today = new Date().toISOString().split('T')[0];
-const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+const now = new Date();
+const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
+const today = istTime.toISOString().split('T')[0];
+const dayOfYear = Math.floor((istTime - new Date(istTime.getFullYear(), 0, 0)) / 86400000);
 const selectedCuisine = WORLD_CUISINES[dayOfYear % WORLD_CUISINES.length];
 const selectedDish = selectedCuisine.dishes[Math.floor(dayOfYear / WORLD_CUISINES.length) % selectedCuisine.dishes.length];
 const imageUrl = pick(FOOD_IMAGES);

@@ -28,7 +28,10 @@ const TOPICS = [
 ];
 
 const selectedTopic = TOPICS[Math.floor(Math.random() * TOPICS.length)];
-const today = new Date().toISOString().split('T')[0];
+// Get IST date by adding 5.5 hours to UTC
+const now = new Date();
+const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
+const today = istTime.toISOString().split('T')[0];
 
 const __dirname = path.resolve();
 const blogPath = path.join(__dirname, 'src', 'data', 'blogPosts.ts');
@@ -103,10 +106,22 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
   
   if (!text) throw new Error("Empty response from Gemini");
 
-  return JSON.parse(text);
+  // Robustly parse JSON, stripping markdown fences if they exist
+  let cleanJson = text;
+  if (text.includes('```')) {
+    const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (match && match[1]) {
+      cleanJson = match[1];
+    }
+  }
+
+  try {
+    return JSON.parse(cleanJson);
+  } catch (e) {
+    console.error("❌ Failed to parse JSON:", text);
+    throw new Error("Invalid JSON from Gemini: " + e.message);
+  }
 }
-
-
 
 // ── Write to Data Array ───────────────────────────────────────────────────────
 async function run() {
