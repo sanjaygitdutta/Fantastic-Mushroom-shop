@@ -3,48 +3,63 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   
 
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) return NextResponse.json({ error: 'Missing GROQ_API_KEY' }, { status: 500 });
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return NextResponse.json({ error: 'Missing GEMINI_API_KEY' }, { status: 500 });
+
+  // 🛑 ZERO BILL GLOBAL CAP
+  // We use the global object to track daily scans across the server
+  const MAX_DAILY_SCANS = 1450; // Just below the 1500 free tier limit
+  const today = new Date().toDateString();
+  if (!(global as any).scanStats || (global as any).scanStats.date !== today) {
+    (global as any).scanStats = { date: today, count: 0 };
+  }
+  if ((global as any).scanStats.count >= MAX_DAILY_SCANS) {
+    return NextResponse.json({ error: 'Chef Aika has cooked enough meals today! Come back tomorrow.' }, { status: 429 });
+  }
 
   const { imageBase64 } = (await req.json());
   if (!imageBase64) return NextResponse.json({ error: 'No image provided' }, { status: 400 });
 
+  // Increment the global counter
+  (global as any).scanStats.count++;
+
   try {
-    // Use llama-3.2-11b-vision-preview for image analysis
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    // Strip the "data:image/jpeg;base64," prefix if it exists because Gemini only wants the raw base64 string
+    const rawBase64 = imageBase64.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
+
+    // Use gemini-2.5-flash for highly accurate and fast vision processing
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'llama-3.2-11b-vision-preview',
-        messages: [{
-          role: 'user',
-          content: [
+        contents: [{
+          parts: [
+            { text: 'Look at this image and list ONLY the food ingredients and grocery items you can see. Return ONLY a JSON array of ingredient names as simple strings, nothing else. Example: ["eggs", "tomatoes", "onion", "milk"]. Be concise.' },
             {
-              type: 'text',
-              text: 'Look at this image and list ONLY the food ingredients and grocery items you can see. Return ONLY a JSON array of ingredient names as simple strings, nothing else. Example: ["eggs", "tomatoes", "onion", "milk"]. Be concise.'
-            },
-            {
-              type: 'image_url',
-              image_url: {
-                url: imageBase64.startsWith('data:') ? imageBase64 : `data:image/jpeg;base64,${imageBase64}`
+              inlineData: {
+                mimeType: "image/jpeg",
+                data: rawBase64
               }
             }
           ]
         }],
-        temperature: 0.3,
-        max_tokens: 200
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 200,
+          responseMimeType: "application/json"
+        }
       })
     });
 
     const data = await response.json();
     if (!response.ok) throw new Error(data.error?.message || 'Vision API error');
 
-    let text = data.choices[0].message.content.trim();
-    text = text.replace(/^```json\s*/i, '').replace(/\s*```$/, '').replace(/^```\s*/i, '');
+    let text = data.candidates[0].content.parts[0].text.trim();
+    // Gemini returns valid JSON array since we specified responseMimeType
     const ingredients = JSON.parse(text);
     return NextResponse.json({ ingredients }, { status: 200 });
 
-  } catch (err) {
+  } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

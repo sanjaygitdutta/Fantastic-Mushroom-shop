@@ -8,12 +8,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Missing GROQ_API_KEY environment variable. Please configure it in your Vercel project.' }, { status: 500 });
   }
 
+  // 🛑 ZERO BILL GLOBAL CAP
+  const MAX_DAILY_CHATS = 3000; // Chat is cheaper/faster, allow more
+  const today = new Date().toDateString();
+  if (!(global as any).chatStats || (global as any).chatStats.date !== today) {
+    (global as any).chatStats = { date: today, count: 0 };
+  }
+  if ((global as any).chatStats.count >= MAX_DAILY_CHATS) {
+    return NextResponse.json({ error: "I'm a little tired from cooking all day! Let's chat again tomorrow." }, { status: 429 });
+  }
+
   try {
     const { messages, recipeContext } = (await req.json());
     
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: 'Invalid messages payload' }, { status: 400 });
     }
+
+    // Increment the global counter
+    (global as any).chatStats.count++;
 
     let systemPromptContent = `You are Chef Aika, an AI Kitchen Assistant built for the 'Fantastic Food' website. 
 You are helpful, friendly, and enthusiastic about cooking and healthy eating.

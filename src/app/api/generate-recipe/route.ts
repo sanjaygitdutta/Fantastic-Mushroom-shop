@@ -6,11 +6,24 @@ export async function POST(req: Request) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return NextResponse.json({ error: 'Missing GROQ_API_KEY' }, { status: 500 });
 
+  // 🛑 ZERO BILL GLOBAL CAP
+  const MAX_DAILY_GENERATIONS = 1450;
+  const today = new Date().toDateString();
+  if (!(global as any).recipeStats || (global as any).recipeStats.date !== today) {
+    (global as any).recipeStats = { date: today, count: 0 };
+  }
+  if ((global as any).recipeStats.count >= MAX_DAILY_GENERATIONS) {
+    return NextResponse.json({ error: 'Chef Aika has cooked enough meals today! Come back tomorrow.' }, { status: 429 });
+  }
+
   const { ingredients = [], servings = 2, dietary = '', calorieLimit, proteinGoal } = (await req.json());
 
   if (!ingredients.length) {
     return NextResponse.json({ error: 'No ingredients provided' }, { status: 400 });
   }
+
+  // Increment the global counter
+  (global as any).recipeStats.count++;
 
   const systemPrompt = `You are Chef Aika, a world-class AI chef assistant for the Fantastic Food platform.`;
 
@@ -46,12 +59,13 @@ Respond ONLY with valid JSON exactly matching this structure (no markdown, no ex
       method: 'POST',
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'llama-3.1-8b-instant',
+        response_format: { type: 'json_object' },
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        temperature: 0.8,
+        temperature: 0.7,
         max_tokens: 600
       })
     });
