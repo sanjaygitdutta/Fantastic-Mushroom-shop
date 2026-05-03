@@ -139,6 +139,24 @@ export default function Coupons() {
         keywords="blinkit coupon code, zepto promo code, swiggy instamart offer, bigbasket coupon, jiomart coupon today, flipkart minutes discount"
       />
 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: COUPONS.slice(0, 5).map(coupon => ({
+              '@type': 'Question',
+              name: `What is the latest coupon code for ${coupon.platform}?`,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: `The latest offer is "${coupon.description}". Use code ${coupon.code} to get ${coupon.discount}. ${coupon.minOrder ? `Minimum order: ${coupon.minOrder}.` : ''}`
+              }
+            }))
+          })
+        }}
+      />
+
       <div className="min-h-screen bg-gradient-to-b from-forest-900 via-forest-800 to-cream-50 pt-24 pb-16">
 
         {/* Hero */}

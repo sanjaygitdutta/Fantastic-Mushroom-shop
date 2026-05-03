@@ -149,6 +149,30 @@ const ComparePage = () => {
     }
   };
 
+  let productSchema = null;
+  if (query && result && result.prices) {
+    const inStockPrices = result.prices.filter(p => p.inStock && p.price > 0);
+    if (inStockPrices.length > 0) {
+      const minP = Math.min(...inStockPrices.map(p => p.price));
+      const maxP = Math.max(...inStockPrices.map(p => p.price));
+      const bestPlatform = inStockPrices.find(p => p.price === minP)?.platformId || 'Multiple';
+      productSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: queryCap,
+        description: `Compare prices for ${queryCap} across 7 quick-commerce apps. Lowest price found: ₹${minP} on ${bestPlatform}.`,
+        image: 'https://www.fantasticfood.in/og-image.jpg',
+        offers: {
+          '@type': 'AggregateOffer',
+          offerCount: inStockPrices.length,
+          lowPrice: minP,
+          highPrice: maxP,
+          priceCurrency: 'INR'
+        }
+      };
+    }
+  }
+
   return (
     <div className="min-h-screen pt-20 pb-16 bg-gray-50">
 
@@ -159,6 +183,9 @@ const ComparePage = () => {
         structuredData={compareSchema}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(searchActionSchema) }} />
+      {productSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+      )}
 
       {/* ── Premium Hero ── */}
       <div className="bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900 text-white pt-8 pb-10 px-4 mb-0 relative overflow-hidden">
