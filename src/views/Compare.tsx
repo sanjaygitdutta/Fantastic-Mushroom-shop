@@ -106,23 +106,33 @@ const ComparePage = () => {
   }, [query, pincode, t]);
 
   let lowestPrice = 0;
+  let bestPlatform = 'Blinkit';
+  let secondBestPlatform = 'Zepto';
+  
   if (result && result.prices) {
-    lowestPrice = Math.min(...result.prices.map(p => p.price));
+    const inStock = result.prices.filter(p => p.price > 0 && p.inStock).sort((a, b) => a.price - b.price);
+    if (inStock.length > 0) {
+      lowestPrice = inStock[0].price;
+      bestPlatform = inStock[0].platformId || 'Blinkit';
+      if (inStock.length > 1) {
+        secondBestPlatform = inStock[1].platformId || 'Zepto';
+      }
+    }
   }
 
   const queryCap = query ? query.charAt(0).toUpperCase() + query.slice(1) : '';
 
   const seoTitle = query
     ? (lowestPrice > 0
-      ? t('compare_seo_title_found', { query: queryCap, lowestPrice })
-      : t('compare_seo_title_query', { query: queryCap }))
-    : t('compare_seo_title_default');
+      ? `🧅 Compare ${queryCap} Prices: ₹${lowestPrice} on ${bestPlatform} vs ${secondBestPlatform} (Live Today)`
+      : `🧅 Compare ${queryCap} Prices: Check Live Cost Across 7 Apps Today`)
+    : `🛒 Compare Grocery Prices: Blinkit vs Zepto vs Swiggy (Live Today)`;
 
   const seoDescription = query
     ? (lowestPrice > 0
-      ? t('compare_seo_desc_found', { query: queryCap, lowestPrice })
-      : t('compare_seo_desc_query', { query: queryCap }))
-    : t('compare_seo_desc_default');
+      ? `🔥 Found ${queryCap} for just ₹${lowestPrice} on ${bestPlatform}! Compare live prices across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh & JioMart to save money.`
+      : `Compare prices for ${queryCap} across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Find the cheapest deal instantly.`)
+    : `Search any grocery or food item to compare real-time prices across 7 major Indian delivery platforms. Save money on every order.`;
 
   const compareSchema = {
     '@context': 'https://schema.org',

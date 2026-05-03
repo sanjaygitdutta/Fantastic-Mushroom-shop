@@ -17,10 +17,12 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const displayName = tRecipe.title ?? recipe.name;
   
   // Basic translations for SEO title/desc.
-  // In a real app, we'd use a server-side translation dictionary for these templates.
+  // Generate a deterministic estimated cost for the power-word title
+  const estimatedCost = (recipe.ingredients.length * 18) + (recipe.servings * 12);
+  
   const title = lang === 'en' 
-    ? `${displayName} Recipe | Authentic ${recipe.country} Food`
-    : `${displayName} रेसिपी | ${recipe.country}`;
+    ? `Authentic ${displayName} Recipe: ₹${estimatedCost} Total Cost (${recipe.time.replace(' min', ' Min').replace(' hrs', ' Hrs')} Prep)`
+    : `${displayName} रेसिपी: ₹${estimatedCost} में बनाएं (${recipe.time} में तैयार)`;
 
   const description = tRecipe.description ?? 
     `Authentic ${recipe.country} recipe for ${displayName} from ${recipe.city}. ${recipe.difficulty} difficulty, ready in ${recipe.time}.`;
