@@ -164,7 +164,7 @@ async function getRealDishImage(dishName) {
 // ── Generate AI food photo using Gemini Imagen API ──────────────────────────
 async function generateAIImage(dishName, cuisine, date) {
   try {
-    const prompt = `Professional food photography of ${dishName}, authentic ${cuisine} cuisine. Close-up overhead shot, beautiful plating, natural warm lighting, restaurant quality, vibrant colors, appetizing presentation.`;
+    const prompt = `Hyper-realistic food photography of a real dish: ${dishName}, authentic ${cuisine} cuisine. Shot on 35mm lens, sharp focus, natural daylight, depth of field, rustic dining table setting. Appetizing but realistic, no artificial gloss, no plastic look, 8k resolution, true-to-life culinary photo.`;
 
     // Try imagen-3.0-fast first, then fall back to earlier model
     const models = [
