@@ -130,13 +130,16 @@ export default function Coupons() {
 
   const hotCount = filtered.filter(c => c.isHot).length;
 
+  const currentMonthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  const couponCount = COUPONS.length;
+
   return (
     <>
       <SEO
-        title="Grocery Coupon Codes Today | Blinkit, Zepto, Swiggy, BigBasket, JioMart, Flipkart"
-        description="Get the latest grocery coupon codes and promo offers for Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Updated daily — copy & save instantly!"
+        title={`${couponCount}+ Active Grocery Coupons for ${currentMonthYear} (Updated Daily)`}
+        description={`Get the latest grocery coupon codes for ${currentMonthYear}. Verified promo offers for Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Updated daily!`}
         canonicalUrl="https://www.fantasticfood.in/coupons"
-        keywords="blinkit coupon code, zepto promo code, swiggy instamart offer, bigbasket coupon, jiomart coupon today, flipkart minutes discount"
+        keywords={`blinkit coupon code ${currentMonthYear}, zepto promo code, swiggy instamart offer, bigbasket coupon, jiomart coupon today, flipkart minutes discount`}
       />
 
       <script
