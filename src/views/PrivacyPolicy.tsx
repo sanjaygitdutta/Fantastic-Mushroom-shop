@@ -97,7 +97,7 @@ const PrivacyPolicy = () => {
                                 </p>
                                 <div className="mt-4 p-6 bg-forest-50 rounded-2xl border border-forest-100">
                                     <p className="font-bold text-forest-900">Fantastic Food Support</p>
-                                    <p className="text-forest-600">Email: support@fantasticfood.in</p>
+                                    <p className="text-forest-600">Email: sanjoydutta1200@gmail.com</p>
                                 </div>
                             </section>
                         </div>

@@ -109,7 +109,7 @@ const FAQ = () => {
                             </div>
                             <h3 className="text-xl font-black mb-2">Email Us</h3>
                             <p className="text-forest-500 mb-6 font-medium">For corporate inquiries, B2B, or marketing partnerships.</p>
-                            <a href="mailto:support@fantasticfood.in" className="text-amber-600 font-black hover:underline">support@fantasticfood.in</a>
+                            <a href="mailto:sanjoydutta1200@gmail.com" className="text-amber-600 font-black hover:underline">sanjoydutta1200@gmail.com</a>
                         </div>
                     </div>
 
