@@ -21,6 +21,7 @@ export interface WorldRecipe {
     ingredients: { item: string; amount: string }[];
     instructions: string[];
   }>;
+  image?: string;
 }
 
 const r = (
@@ -392,7 +393,8 @@ export const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
   tags: r.tags || [],
   ingredients: r.ingredients.map(i => `${i.amount} ${i.item}`),
   steps: r.instructions || [],
-  translations: r.translations
+  translations: r.translations,
+  image: r.image
 }));
 
 export const ALL_RECIPES = [...WORLD_RECIPES, ...mappedAIRecipes];
