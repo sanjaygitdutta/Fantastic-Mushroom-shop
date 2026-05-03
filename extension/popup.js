@@ -35,12 +35,7 @@ document.getElementById('scan-btn').addEventListener('click', async () => {
       status.innerText = "AI analyzing ingredients...";
   
       // 3. Send the text to the Fantastic Food Backend API
-      // Since this is a local project right now, we assume Vercel creates the domain or localhost
-      // In production you would hardcode this to 'https://yourdomain.com/api/parse-ingredients'
-      // We will assume 'http://localhost:5173/api/parse-ingredients' temporarily OR assume absolute domain if deployed
-      // Let's use the actual vercel/Vite api route technique. If built via Vercel, /api works from root URL. 
-      // We need absolute URL for extension. We'll use localhost for testing.
-      const API_URL = 'http://localhost:5173/api/parse-ingredients'; 
+      const API_URL = 'https://www.fantasticfood.in/api/parse-ingredients'; 
   
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -64,7 +59,7 @@ document.getElementById('scan-btn').addEventListener('click', async () => {
   
       // 4. Build the Deep Link
       const ingredientsString = data.ingredients.map(i => encodeURIComponent(i)).join(',');
-      const targetUrl = `http://localhost:5173/basket?prefill=${ingredientsString}`;
+      const targetUrl = `https://www.fantasticfood.in/basket?prefill=${ingredientsString}`;
   
       // 5. Open fantastic food in a new tab
       setTimeout(() => {

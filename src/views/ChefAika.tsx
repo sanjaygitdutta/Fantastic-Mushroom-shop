@@ -122,6 +122,16 @@ export default function ChefAikaPage() {
     transcriptEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // ── Handle Chrome Extension Deep Links ────────────────────────────────────
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const extImgUrl = params.get('imgUrl');
+    if (extImgUrl && !scanning && ingredients.length === 0) {
+      // Small timeout to allow UI to mount before starting heavy scan
+      setTimeout(() => scanImage(extImgUrl), 1000);
+    }
+  }, []);
+
   // ── Timer Logic ───────────────────────────────────────────────────────────
   const formatTime = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 

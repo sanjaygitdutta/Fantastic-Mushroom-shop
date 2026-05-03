@@ -9,8 +9,29 @@
   },
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "contextMenus"
   ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["recipe-widget.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "*://*.blinkit.com/*",
+        "*://*.zeptonow.com/*",
+        "*://*.swiggy.com/*",
+        "*://*.bigbasket.com/*"
+      ],
+      "js": ["cart-hijacker.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
