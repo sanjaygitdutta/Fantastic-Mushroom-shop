@@ -111,10 +111,28 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
 
   // Dynamically calculate Chef Aika posts using translated values
   const chefAikaPosts = useMemo<CommunityPost[]>(() => {
+    const now = Date.now();
     return recipes.map((recipe, index) => {
       const isDate = /^\d{4}-\d{2}-\d{2}$/.test(recipe.id);
-      // Give each post a unique timestamp based on its index (starting 1 hour ago)
-      const dateStr = isDate ? recipe.id : new Date(Date.now() - 3600000 - index * 86400000).toISOString();
+      
+      let postTime: number;
+      if (isDate) {
+        // Parse the recipe date and compare to today's IST date
+        const istNow = new Date(now + (5.5 * 60 * 60 * 1000));
+        const todayIST = istNow.toISOString().split('T')[0];
+        
+        if (recipe.id === todayIST) {
+          // Today's AI recipe: use NOW so it always sorts to the top
+          postTime = now;
+        } else {
+          // Older AI recipes: use their date at a reasonable time (noon IST)
+          postTime = new Date(`${recipe.id}T06:30:00.000Z`).getTime(); // 06:30 UTC = 12:00 IST
+        }
+      } else {
+        // Legacy static recipes (id: '1', '2', '3'): place them oldest
+        postTime = now - 3600000 - index * 86400000;
+      }
+      
       const translation = recipe.translations?.[currentLang as keyof typeof recipe.translations];
       const title = translation?.title || recipe.title;
       const ingredientsList = translation?.ingredients 
@@ -133,7 +151,7 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
         city: 'Fantastic Food Kitchen',
         likes: 150 + (index * 12),
         cooksnaps: 30 + index,
-        created_at: new Date(dateStr).toISOString()
+        created_at: new Date(postTime).toISOString()
       };
     });
   }, [currentLang]);
