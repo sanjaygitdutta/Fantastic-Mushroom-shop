@@ -229,7 +229,7 @@ Return ONLY a valid JSON object. Use EXACTLY this structure:
 {
   "en": {
     "title": "${selectedDish}",
-    "description": "Short appetizing description.",
+    "description": "Write a punchy, mouth-watering 3-4 sentence description that makes the user crave this dish. End with an exciting hook to make them want to cook it today!",
     "prepTime": "20 min",
     "cookTime": "40 min",
     "difficulty": "Medium",
