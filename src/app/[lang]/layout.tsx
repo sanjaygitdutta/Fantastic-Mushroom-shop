@@ -97,6 +97,24 @@ export default async function RootLayout({
   return (
     <html lang={`${lang}-IN`}>
       <body>
+        {/* Force Unregister Old Vite PWA Service Workers */}
+        <Script id="unregister-sw" strategy="beforeInteractive">
+          {`
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                  registration.unregister().then(function(success) {
+                    if (success) {
+                      console.log('Successfully unregistered old service worker. Forcing reload for fresh content.');
+                      window.location.reload(true);
+                    }
+                  });
+                }
+              });
+            }
+          `}
+        </Script>
+
         {/* Google Analytics GA4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-QLDLDN52KB"
