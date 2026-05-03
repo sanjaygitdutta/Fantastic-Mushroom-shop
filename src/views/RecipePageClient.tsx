@@ -5,7 +5,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 import { motion } from 'framer-motion';
-import { Clock, Users, ChefHat, ArrowLeft, ShoppingCart, Globe, Flame, Tag } from 'lucide-react';
+import { Clock, Users, ChefHat, ArrowLeft, ShoppingCart, Globe, Flame, Tag, Share2, Twitter, Facebook, MessageCircle } from 'lucide-react';
 import { ALL_RECIPES, type WorldRecipe } from '../data/worldRecipes';
 import { useTranslation, Trans } from 'react-i18next';
 
@@ -132,6 +132,10 @@ export default function RecipePage() {
     return clean || ingredient.split(' ')[0];
   };
 
+  const shareUrl = `https://www.fantasticfood.in/recipe/${recipe.id}`;
+  const shareTitle = `Look at this incredible ${displayName} recipe! You have to try making this 🤤`;
+
+
   return (
     <>
       {/* JSON-LD Structured Data — injected so Google can read it */}
@@ -203,12 +207,70 @@ export default function RecipePage() {
                   </span>
                 ))}
               </div>
+
+              {/* Description */}
+              {tRecipe.description && (
+                <p className="mt-6 text-cream-100 text-lg leading-relaxed max-w-3xl">
+                  {tRecipe.description}
+                </p>
+              )}
+
+              {/* Viral Share Bar */}
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <span className="text-cream-300 text-sm font-bold uppercase tracking-wider mr-2 flex items-center gap-2">
+                  <Share2 className="w-4 h-4" /> Share Recipe
+                </span>
+                
+                {/* WhatsApp (Primary Viral Loop) */}
+                <a 
+                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(shareTitle + ' ' + shareUrl)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-4 py-2 rounded-xl font-bold transition-all hover:-translate-y-0.5 shadow-lg shadow-[#25D366]/20"
+                >
+                  <MessageCircle className="w-4 h-4" /> WhatsApp
+                </a>
+                
+                {/* Twitter */}
+                <a 
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(shareUrl)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-[#1DA1F2] hover:bg-[#1a91da] text-white px-4 py-2 rounded-xl font-bold transition-all hover:-translate-y-0.5 shadow-lg shadow-[#1DA1F2]/20"
+                >
+                  <Twitter className="w-4 h-4" /> Twitter
+                </a>
+
+                {/* Facebook */}
+                <a 
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-[#1877F2] hover:bg-[#166fe5] text-white px-4 py-2 rounded-xl font-bold transition-all hover:-translate-y-0.5 shadow-lg shadow-[#1877F2]/20"
+                >
+                  <Facebook className="w-4 h-4" /> Facebook
+                </a>
+              </div>
             </motion.div>
           </div>
         </div>
 
         {/* Main Content */}
         <div className="max-w-4xl mx-auto px-4 py-10">
+          {/* AI Recipe Image */}
+          {recipe.image && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10 rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-white relative">
+              <img 
+                src={recipe.image} 
+                alt={displayName} 
+                className="w-full h-[400px] object-cover"
+                loading="lazy"
+              />
+              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg border border-white/20">
+                <p className="text-xs font-black text-gray-800 flex items-center gap-1">
+                  📸 AI Food Photography
+                </p>
+              </div>
+            </motion.div>
+          )}
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
             {/* Ingredients Sidebar */}

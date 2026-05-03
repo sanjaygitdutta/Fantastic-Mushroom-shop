@@ -27,12 +27,37 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const description = tRecipe.description ?? 
     `Authentic ${recipe.country} recipe for ${displayName} from ${recipe.city}. ${recipe.difficulty} difficulty, ready in ${recipe.time}.`;
 
+  const defaultImage = 'https://www.fantasticfood.in/og-image.jpg';
+  const ogImage = recipe.image ? `https://www.fantasticfood.in${recipe.image}`.replace('https://www.fantasticfood.inhttps://', 'https://') : defaultImage;
+
   return {
     title,
     description,
     alternates: {
       canonical: `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}`,
-    }
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}`,
+      siteName: 'Fantastic Food',
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale: lang === 'en' ? 'en_US' : `${lang}_IN`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
