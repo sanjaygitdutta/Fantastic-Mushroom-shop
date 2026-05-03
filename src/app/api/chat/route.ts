@@ -18,6 +18,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "I'm a little tired from cooking all day! Let's chat again tomorrow." }, { status: 429 });
   }
 
+  // 🛡️ PER-USER RATE LIMIT (Max 5 per day to allow a small conversation)
+  const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown_ip';
+  const MAX_PER_USER_CHAT = 5;
+  if (!(global as any).userChatStats || (global as any).userChatStats.date !== today) {
+    (global as any).userChatStats = { date: today, ips: {} };
+  }
+  const userChats = (global as any).userChatStats.ips[ip] || 0;
+  if (userChats >= MAX_PER_USER_CHAT) {
+    return NextResponse.json({ error: "We've had a great chat! Please come back tomorrow so everyone gets a turn to talk to me." }, { status: 429 });
+  }
+
   try {
     const { messages, recipeContext } = (await req.json());
     
@@ -25,8 +36,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid messages payload' }, { status: 400 });
     }
 
-    // Increment the global counter
+    // Increment the counters
     (global as any).chatStats.count++;
+    (global as any).userChatStats.ips[ip] = userChats + 1;
 
     let systemPromptContent = `You are Chef Aika, an AI Kitchen Assistant built for the 'Fantastic Food' website. 
 You are helpful, friendly, and enthusiastic about cooking and healthy eating.

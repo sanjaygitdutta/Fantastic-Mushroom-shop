@@ -16,14 +16,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Chef Aika has cooked enough meals today! Come back tomorrow.' }, { status: 429 });
   }
 
+  // 🛡️ PER-USER RATE LIMIT (Max 3 per day)
+  const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown_ip';
+  const MAX_PER_USER = 3;
+  if (!(global as any).userRecipeStats || (global as any).userRecipeStats.date !== today) {
+    (global as any).userRecipeStats = { date: today, ips: {} };
+  }
+  const userGens = (global as any).userRecipeStats.ips[ip] || 0;
+  if (userGens >= MAX_PER_USER) {
+    return NextResponse.json({ error: 'You have reached your daily limit of 3 recipes. Please come back tomorrow so everyone gets a turn!' }, { status: 429 });
+  }
+
   const { ingredients = [], servings = 2, dietary = '', calorieLimit, proteinGoal } = (await req.json());
 
   if (!ingredients.length) {
     return NextResponse.json({ error: 'No ingredients provided' }, { status: 400 });
   }
 
-  // Increment the global counter
+  // Increment the counters
   (global as any).recipeStats.count++;
+  (global as any).userRecipeStats.ips[ip] = userGens + 1;
 
   const systemPrompt = `You are Chef Aika, a world-class AI chef assistant for the Fantastic Food platform.`;
 

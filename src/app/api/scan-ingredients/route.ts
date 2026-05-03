@@ -17,11 +17,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Chef Aika has cooked enough meals today! Come back tomorrow.' }, { status: 429 });
   }
 
+  // 🛡️ PER-USER RATE LIMIT (Max 3 per day)
+  const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown_ip';
+  const MAX_PER_USER = 3;
+  if (!(global as any).userScanStats || (global as any).userScanStats.date !== today) {
+    (global as any).userScanStats = { date: today, ips: {} };
+  }
+  const userScans = (global as any).userScanStats.ips[ip] || 0;
+  if (userScans >= MAX_PER_USER) {
+    return NextResponse.json({ error: 'You have reached your daily limit of 3 scans. Please come back tomorrow so everyone gets a turn!' }, { status: 429 });
+  }
+
   const { imageBase64 } = (await req.json());
   if (!imageBase64) return NextResponse.json({ error: 'No image provided' }, { status: 400 });
 
-  // Increment the global counter
+  // Increment the counters
   (global as any).scanStats.count++;
+  (global as any).userScanStats.ips[ip] = userScans + 1;
 
   try {
     // Strip the "data:image/jpeg;base64," prefix if it exists because Gemini only wants the raw base64 string
