@@ -190,42 +190,52 @@ async function generateAIImage(dishName, cuisine, date) {
   try {
     const prompt = `Professional food photography of ${dishName}, authentic ${cuisine} cuisine. Close-up overhead shot, beautiful plating, natural warm lighting, restaurant quality, vibrant colors, appetizing presentation.`;
 
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-fast-generate-001:predict?key=${GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          instances: [{ prompt }],
-          parameters: {
-            sampleCount: 1,
-            aspectRatio: '16:9',
-            outputOptions: { mimeType: 'image/jpeg', compressionQuality: 72 }
-          }
-        })
+    // Try imagen-3.0-fast first, then fall back to earlier model
+    const models = [
+      'imagen-3.0-fast-generate-001',
+      'imagen-3.0-generate-001',
+    ];
+
+    for (const model of models) {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:predict?key=${GEMINI_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            instances: [{ prompt }],
+            parameters: {
+              sampleCount: 1,
+              aspectRatio: '16:9',
+            }
+          })
+        }
+      );
+
+      if (!res.ok) {
+        const errText = await res.text();
+        console.warn(`⚠️  Imagen model ${model} error (${res.status}): ${errText.slice(0, 300)}`);
+        continue; // try next model
       }
-    );
 
-    if (!res.ok) {
-      const errText = await res.text();
-      console.warn(`⚠️  Imagen API error (${res.status}): ${errText.slice(0, 200)}`);
-      return null;
+      const data = await res.json();
+      const b64 = data.predictions?.[0]?.bytesBase64Encoded;
+      if (!b64) {
+        console.warn(`⚠️  Imagen model ${model} returned no image data.`);
+        continue;
+      }
+
+      // Save to public/recipe-images/{date}.jpg — served as /recipe-images/{date}.jpg
+      const imgDir = path.resolve('./public/recipe-images');
+      fs.mkdirSync(imgDir, { recursive: true });
+      const imgPath = path.join(imgDir, `${date}.jpg`);
+      fs.writeFileSync(imgPath, Buffer.from(b64, 'base64'));
+      const sizeKB = Math.round(fs.statSync(imgPath).size / 1024);
+      console.log(`🎨 AI image saved: public/recipe-images/${date}.jpg (${sizeKB}KB) via ${model}`);
+      return `/recipe-images/${date}.jpg`;
     }
 
-    const data = await res.json();
-    const b64 = data.predictions?.[0]?.bytesBase64Encoded;
-    if (!b64) {
-      console.warn('⚠️  Imagen returned no image data.');
-      return null;
-    }
-
-    // Save to public/recipe-images/{date}.jpg — served as /recipe-images/{date}.jpg
-    const imgDir = path.resolve('./public/recipe-images');
-    fs.mkdirSync(imgDir, { recursive: true });
-    const imgPath = path.join(imgDir, `${date}.jpg`);
-    fs.writeFileSync(imgPath, Buffer.from(b64, 'base64'));
-    console.log(`🎨 AI image generated and saved: public/recipe-images/${date}.jpg`);
-    return `/recipe-images/${date}.jpg`;
+    return null; // all models failed
 
   } catch (e) {
     console.warn(`⚠️  Imagen generation failed: ${e.message}`);
