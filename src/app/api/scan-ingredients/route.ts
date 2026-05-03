@@ -36,8 +36,12 @@ export async function POST(req: Request) {
   (global as any).userScanStats.ips[ip] = userScans + 1;
 
   try {
-    // Strip the "data:image/jpeg;base64," prefix if it exists because Gemini only wants the raw base64 string
-    const rawBase64 = imageBase64.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
+    // Dynamically extract the exact mime type and pure base64 data
+    const mimeMatch = imageBase64.match(/^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,/);
+    const mimeType = mimeMatch ? mimeMatch[1] : "image/jpeg";
+    
+    // Safely strip the entire data URI prefix regardless of image format
+    const rawBase64 = imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64;
 
     // Use gemini-2.5-flash for highly accurate and fast vision processing
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
@@ -49,7 +53,7 @@ export async function POST(req: Request) {
             { text: 'Look at this image and list ONLY the food ingredients and grocery items you can see. Return ONLY a JSON array of ingredient names as simple strings, nothing else. Example: ["eggs", "tomatoes", "onion", "milk"]. Be concise.' },
             {
               inlineData: {
-                mimeType: "image/jpeg",
+                mimeType: mimeType,
                 data: rawBase64
               }
             }
@@ -66,12 +70,20 @@ export async function POST(req: Request) {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error?.message || 'Vision API error');
 
+    if (!data.candidates || !data.candidates[0]?.content?.parts?.[0]?.text) {
+      throw new Error('No ingredients detected or request blocked by safety filters.');
+    }
+
     let text = data.candidates[0].content.parts[0].text.trim();
-    // Gemini returns valid JSON array since we specified responseMimeType
+    
+    // Robustly strip any accidental markdown formatting from the Gemini response
+    text = text.replace(/^```json\s*/i, '').replace(/\s*```$/, '').replace(/^```\s*/i, '');
+    
     const ingredients = JSON.parse(text);
     return NextResponse.json({ ingredients }, { status: 200 });
 
   } catch (err: any) {
+    console.error("Scanner Error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
