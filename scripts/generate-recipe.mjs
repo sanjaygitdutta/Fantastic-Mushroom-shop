@@ -132,8 +132,20 @@ const now = new Date();
 const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
 const today = istTime.toISOString().split('T')[0];
 const dayOfYear = Math.floor((istTime - new Date(istTime.getFullYear(), 0, 0)) / 86400000);
-const selectedCuisine = WORLD_CUISINES[dayOfYear % WORLD_CUISINES.length];
-const selectedDish = selectedCuisine.dishes[Math.floor(dayOfYear / WORLD_CUISINES.length) % selectedCuisine.dishes.length];
+const dayOfWeek = istTime.getDay(); // 0 is Sunday, 1 is Monday, etc.
+
+let selectedCuisine;
+let selectedDish;
+
+// Prioritize Singaporean recipes 3 times a week (Monday, Wednesday, Friday)
+if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {
+  const singaporeCuisine = { country: 'Singapore', cuisine: 'Singaporean', flag: '🇸🇬', dishes: ['Hainanese Chicken Rice', 'Laksa', 'Char Kway Teow', 'Chilli Crab', 'Nasi Lemak', 'Mee Rebus', 'Roti Prata', 'Hokkien Mee', 'Bak Kut Teh', 'Fish Head Curry', 'Prawn Noodles', 'Oyster Omelette', 'Kaya Toast', 'Murtabak'] };
+  selectedCuisine = singaporeCuisine;
+  selectedDish = singaporeCuisine.dishes[dayOfYear % singaporeCuisine.dishes.length];
+} else {
+  selectedCuisine = WORLD_CUISINES[dayOfYear % WORLD_CUISINES.length];
+  selectedDish = selectedCuisine.dishes[Math.floor(dayOfYear / WORLD_CUISINES.length) % selectedCuisine.dishes.length];
+}
 // Pick fallback image deterministically (offset by prime to avoid aligning with cuisine cycle)
 const fallbackImageUrl = FOOD_IMAGES[(dayOfYear * 7 + 13) % FOOD_IMAGES.length];
 

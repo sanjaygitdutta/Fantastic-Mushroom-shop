@@ -104,12 +104,34 @@ const freshTopics = ALL_TOPICS.filter(topic => {
 
 // Fall back to full list if all topics have been used
 const topicPool = freshTopics.length > 0 ? freshTopics : ALL_TOPICS;
-const selectedTopic = topicPool[Math.floor(Math.random() * topicPool.length)];
 
 // Get IST date by adding 5.5 hours to UTC
 const now = new Date();
 const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
 const today = istTime.toISOString().split('T')[0];
+const dayOfWeek = istTime.getDay();
+
+const SINGAPORE_TOPICS = [
+  "Why Hainanese Chicken Rice is Singapore's ultimate comfort food",
+  "The secret to achieving Wok Hei at home for Char Kway Teow",
+  "Singapore Laksa: How to recreate the rich coconut broth",
+  "Top 5 must-have ingredients for authentic Singaporean cooking",
+  "A beginner's guide to Singapore's famous hawker culture",
+  "How to make Nasi Lemak and authentic sambal at home",
+  "Why Paddy Straw Mushrooms are essential in Southeast Asian soups",
+  "Chilli Crab at home: Cracking the secret sauce",
+  "Singaporean Zi Char recipes you can cook in 20 minutes",
+  "The history and evolution of Singaporean street food"
+];
+
+let selectedTopic;
+
+// Prioritize Singaporean blog posts 3 times a week (Tuesday, Thursday, Saturday)
+if (dayOfWeek === 2 || dayOfWeek === 4 || dayOfWeek === 6) {
+  selectedTopic = SINGAPORE_TOPICS[Math.floor(Math.random() * SINGAPORE_TOPICS.length)];
+} else {
+  selectedTopic = topicPool[Math.floor(Math.random() * topicPool.length)];
+}
 
 
 
