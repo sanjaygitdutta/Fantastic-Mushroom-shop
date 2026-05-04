@@ -71,7 +71,7 @@ const TermsOfService = () => {
                                 </p>
                                 <p className="text-forest-700 leading-relaxed">
                                     Some of the links on this site are affiliate links. This means that if you click on 
-                                    a link and purchase an item from a partner app (e.g., Blinkit or Swiggy), we may 
+                                    a link and purchase an item from a partner app (Amazon Fresh), we may 
                                     receive an affiliate commission at no extra cost to you. This helps support 
                                     the free use of our price engine.
                                 </p>
