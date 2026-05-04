@@ -256,9 +256,10 @@ Return ONLY a valid JSON object. Use EXACTLY this structure:
 }
 
 Rules:
-- 5 to 15 ingredients max.
-- 4 to 6 DETAILED instructions (2-3 sentences each). Explain exactly what to do so a beginner can easily follow along. Include helpful cooking cues (like "until golden brown" or "until it smells fragrant").
-- Descriptions should be 3-4 sentences, punchy and highly appetizing.
+- 5 to 10 ingredients max.
+- 3 to 4 CONCISE instructions (1-2 lines each max). Do not make them too detailed, keep them extremely brief to prevent generation failure.
+- Descriptions should be 1-2 sentences, punchy and highly appetizing.
+- You MUST provide the FULL 'ingredients' and 'instructions' arrays for EVERY single language ('hi', 'bn', 'mr', 'te', 'ta'). DO NOT leave them empty or return [].
 - All property names in double quotes. No trailing commas.`;
 
 // ── Call Gemini REST API ──────────────────────────────────────────────────
