@@ -211,12 +211,7 @@ export default function RecipePage() {
                 ))}
               </div>
 
-              {/* Description */}
-              {tRecipe.description && (
-                <p className="mt-6 text-cream-100 text-lg leading-relaxed max-w-3xl">
-                  {tRecipe.description}
-                </p>
-              )}
+
 
               {/* Viral Share Bar */}
               <div className="mt-8 flex flex-wrap items-center gap-3">
