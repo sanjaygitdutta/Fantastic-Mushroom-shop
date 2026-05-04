@@ -15,26 +15,103 @@ if (!GEMINI_API_KEY) {
   process.exit(1);
 }
 
-// ── SEO Topic Seeds ───────────────────────────────────────────────────────────
-const TOPICS = [
-  "Blinkit coupon codes and hidden discounts",
+// ── SEO Topic Seeds (50+ unique topics to prevent duplicates) ────────────────
+const ALL_TOPICS = [
+  // Grocery Delivery Comparisons
+  "Blinkit vs Zepto: Which is faster and cheaper in 2026?",
   "Zepto vs Swiggy Instamart delivery fee comparison",
-  "How to get free delivery on Amazon Fresh",
-  "Top 5 budget meal prep ideas using cheap local groceries",
-  "Why onion and tomato prices fluctuate in India",
+  "BigBasket vs Blinkit: Which has better quality?",
+  "JioMart vs Amazon Fresh: Best for monthly grocery shopping",
+  "Dunzo vs Blinkit: 10-minute delivery showdown",
+  "Which grocery app gives the best discounts in India?",
+  "Swiggy Instamart vs Zepto: Best for late night grocery",
+
+  // Savings & Cashback
+  "Blinkit coupon codes and hidden discounts this month",
   "Best credit cards for maximizing grocery cashback on JioMart",
-  "BigBasket BB Star membership: Is it worth it?",
-  "How to compare prices and stop overpaying for daily milk"
+  "How to get free delivery on Amazon Fresh every order",
+  "HDFC vs Axis vs SBI: Best card for grocery savings in India",
+  "Top 10 ways to save money on Blinkit every week",
+  "How to stack coupons on BigBasket for maximum savings",
+  "Zepto Gold membership: Is it worth the annual fee?",
+  "BigBasket BB Star vs Blinkit Pass: Which saves more money?",
+  "How to use Google Pay rewards for grocery cashback",
+  "PhonePe grocery vouchers: How to get and use them",
+
+  // Price Tracking
+  "Why onion and tomato prices fluctuate so much in India",
+  "How to compare prices and stop overpaying for daily milk",
+  "Eggs price comparison across Blinkit, Zepto and BigBasket",
+  "Atta (wheat flour) price war: Which brand is cheapest?",
+  "Rice prices in India 2026: Basmati vs regular comparison",
+  "Cooking oil price comparison: Sunflower vs mustard vs refined",
+  "Chicken price tracker: Which app has cheapest fresh chicken?",
+  "Paneer prices: Homemade vs branded vs store-bought comparison",
+  "Dal price guide: Toor, Moong, Masoor — where to buy cheapest",
+
+  // Smart Shopping
+  "Top 5 budget meal prep ideas using cheap local groceries",
+  "How to plan a week of meals under ₹500 per person",
+  "Best time of day to order groceries for fastest delivery",
+  "How to avoid impulse buying on grocery apps",
+  "Hidden subscription traps in grocery app memberships",
+  "Buying groceries in bulk: When it saves vs wastes money",
+  "How to read grocery app fine print to avoid fake discounts",
+  "Best local markets vs online apps: When to choose which",
+
+  // Seasonal & Trending
+  "Mango season price guide: Where to buy the cheapest Alphonso",
+  "Monsoon grocery tips: How to avoid price hikes on vegetables",
+  "Diwali grocery deals: Best apps for festive season shopping",
+  "Summer grocery essentials and where to get them cheapest",
+  "Winter vegetables in India: Price and freshness comparison",
+
+  // Recipes & Ingredients
+  "Cheapest ingredients for making Biryani at home in 2026",
+  "Butter Chicken on a budget: Where to buy cheapest chicken",
+  "Healthy breakfast ideas using cheapest grocery app products",
+  "5 high-protein meals under ₹100 using Indian groceries",
+  "How to make curd at home vs buying from apps: Cost comparison",
+
+  // Platforms & Features
+  "Blinkit hidden features most users don't know about",
+  "How Zepto's AI-powered pricing works and how to beat it",
+  "BigBasket Express vs Next-Day delivery: Pros and cons",
+  "JioMart Groceries vs JioMart Plus: Key differences explained",
+  "Amazon Fresh vs Amazon Pantry: Which one should you use?",
+  "How Fantastic Food's price scanner can save you ₹500/month"
 ];
 
-const selectedTopic = TOPICS[Math.floor(Math.random() * TOPICS.length)];
+// ── Pick a topic not used in the last 30 posts ─────────────────────────────
+const __dirname = path.resolve();
+const blogPath = path.join(__dirname, 'src', 'data', 'blogPosts.ts');
+
+const existingContent = fs.readFileSync(blogPath, 'utf-8');
+
+// Extract last 30 used topics by scanning existing slugs and titles
+const usedTitles = [];
+const titleMatches = existingContent.matchAll(/title: '([^']+)'/g);
+for (const m of titleMatches) usedTitles.push(m[1].toLowerCase());
+
+// Filter out topics whose keywords appear in recent titles
+const freshTopics = ALL_TOPICS.filter(topic => {
+  const topicWords = topic.toLowerCase().split(/\W+/).filter(w => w.length > 4);
+  const usedRecent = usedTitles.slice(-30);
+  return !usedRecent.some(title =>
+    topicWords.filter(w => title.includes(w)).length >= 2
+  );
+});
+
+// Fall back to full list if all topics have been used
+const topicPool = freshTopics.length > 0 ? freshTopics : ALL_TOPICS;
+const selectedTopic = topicPool[Math.floor(Math.random() * topicPool.length)];
+
 // Get IST date by adding 5.5 hours to UTC
 const now = new Date();
 const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
 const today = istTime.toISOString().split('T')[0];
 
-const __dirname = path.resolve();
-const blogPath = path.join(__dirname, 'src', 'data', 'blogPosts.ts');
+
 
 async function callGemini(retryCount = 0) {
   const MAX_RETRIES = 3;
@@ -125,7 +202,6 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
 
 // ── Write to Data Array ───────────────────────────────────────────────────────
 async function run() {
-  const existingContent = fs.readFileSync(blogPath, 'utf-8');
 
   // Prevent same day duplicate runs
   if (existingContent.includes(`date: '${today}'`)) {
@@ -137,10 +213,12 @@ async function run() {
     console.log(`🤖 Generating AI blog post about: ${selectedTopic}...`);
     const post = await callGemini();
 
-    const slug = post.en.title
+    // Add date prefix to slug to guarantee uniqueness even if same title is reused
+    const titleSlug = post.en.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '');
+    const slug = `${today}-${titleSlug}`;
 
     const esc = (s) => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 
