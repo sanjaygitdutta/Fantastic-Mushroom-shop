@@ -117,9 +117,16 @@ async function callGemini(retryCount = 0) {
   const MAX_RETRIES = 3;
   const RETRY_DELAYS_MS = [5000, 15000, 45000];
 
+  const recentTitlesList = usedTitles.slice(-10).map(t => `- ${t}`).join('\n');
+
   const prompt = `You are a professional SEO writer and market analyst for 'Fantastic Food', a modern Indian grocery price comparison platform.
   
-Write an engaging, SEO-optimized blog post about: "${selectedTopic}".
+Today's topic to write about is: "${selectedTopic}".
+
+IMPORTANT SEO REQUIREMENT:
+To avoid Google duplicate content penalties, this post MUST have a 100% unique angle, fresh phrasing, and a completely original title and meta description. 
+Here are our recent blog post titles (DO NOT reuse these titles or exact angles):
+${recentTitlesList}
 
 Format requirements:
 - Use Markdown. 
