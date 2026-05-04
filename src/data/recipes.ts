@@ -866,4 +866,73 @@ export const recipes: Recipe[] = [
             }
         }
     }
+,
+    {
+        id: '2026-05-04',
+        title: 'Khao Pad (Fried Rice)',
+        description: 'Experience the vibrant symphony of flavors in this classic Thai Khao Pad! Perfectly wok-tossed rice, infused with savory sauces, tender protein, and crisp vegetables, creates an irresistible harmony of sweet, salty, and umami. Each spoonful is a journey to the bustling streets of Bangkok, promising a truly authentic taste sensation. Don\'t just dream about it – bring the magic of Thailand to your kitchen tonight!',
+        image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=75&w=800',
+        prepTime: '20 min',
+        cookTime: '15 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Cooked Jasmine Rice (day-old, chilled)', amount: '4 cups' },
+            { item: 'Chicken breast (or shrimp), thinly sliced', amount: '1 lb (approx 450g)' },
+            { item: 'Large eggs', amount: '2' },
+            { item: 'Garlic, minced', amount: '4 cloves' },
+            { item: 'Shallots, thinly sliced', amount: '2 medium' },
+            { item: 'Fish Sauce', amount: '3 tbsp' },
+            { item: 'Oyster Sauce', amount: '2 tbsp' },
+            { item: 'Soy Sauce (light)', amount: '1 tbsp' },
+            { item: 'Sugar (palm or granulated)', amount: '1 tsp' },
+            { item: 'White pepper', amount: '1/2 tsp' },
+            { item: 'Vegetable oil', amount: '3 tbsp' },
+            { item: 'Onion, diced', amount: '1/2 medium' },
+            { item: 'Tomato, wedged', amount: '1 medium' },
+            { item: 'Scallions, chopped', amount: '1/4 cup' },
+            { item: 'Cucumber slices, lime wedges, fresh cilantro (for garnish)', amount: 'As needed' }
+        ],
+        instructions: [
+            'Prepare the Sauce: In a small bowl, whisk together the fish sauce, oyster sauce, light soy sauce, sugar, and white pepper. Set aside. Ensure your day-old jasmine rice is broken up and free of clumps, as this prevents stickiness and ensures even frying.',
+            'Cook Protein and Eggs: Heat 1 tablespoon of vegetable oil in a large wok or skillet over medium-high heat. Add the chicken (or shrimp) and stir-fry until cooked through and lightly browned, about 3-4 minutes. Push the protein to one side, add the remaining 2 tablespoons of oil, and crack in the eggs. Scramble the eggs until just set, then break them into smaller pieces and mix with the protein.',
+            'Aromatics and Vegetables: Add the minced garlic and sliced shallots to the wok and stir-fry for about 1 minute until fragrant. Next, add the diced onion and stir-fry for another 2-3 minutes until softened. The aroma should be incredibly inviting at this stage.',
+            'Combine and Fry: Add the chilled jasmine rice to the wok. Pour the prepared sauce mixture evenly over the rice. Using a spatula, continuously stir and toss the rice, breaking up any clumps and ensuring every grain is coated with the sauce and mixed with the other ingredients. Continue frying for 3-5 minutes until the rice is heated through and slightly toasted.',
+            'Final Touches: Gently fold in the tomato wedges and chopped scallions, stirring just until they are heated through but still retain some freshness and bite. Avoid overcooking them to maintain their vibrant color and texture.',
+            'Serve: Transfer the Khao Pad to serving plates. Garnish generously with fresh cucumber slices, lime wedges, and a sprinkle of fresh cilantro. Serve immediately and enjoy the authentic taste of Thailand!'
+        ],
+        tags: ['Thai', 'Dinner', 'Non-Vegetarian'],
+        translations: {
+            hi: {
+                title: 'खाओ पैड (फ्राइड राइस)',
+                description: 'इस क्लासिक थाई खाओ पैड में स्वादों की जीवंत सिम्फनी का अनुभव करें! पूरी तरह से वोक-टॉस्ड चावल, स्वादिष्ट सॉस, नरम प्रोटीन और कुरकुरी सब्जियों से भरपूर, मीठे, नमकीन और उमामी का एक अनूठा सामंजस्य बनाता है। हर निवाला बैंकॉक की हलचल भरी सड़कों की यात्रा है, जो वास्तव में प्रामाणिक स्वाद का वादा करता है। इसके बारे में सिर्फ सपने न देखें - आज रात थाईलैंड का जादू अपनी रसोई में लाएँ!',
+                ingredients: [{ item: 'पके हुए जैस्मीन चावल (एक दिन पुराने, ठंडे)', amount: '4 कप' }, { item: 'चिकन ब्रेस्ट (या झींगा), पतले कटे हुए', amount: '1 पौंड (लगभग 450 ग्राम)' }, { item: 'बड़े अंडे', amount: '2' }, { item: 'लहसुन, बारीक कटा हुआ', amount: '4 कलियाँ' }, { item: 'शैलट्स, पतले कटे हुए', amount: '2 मध्यम' }, { item: 'फिश सॉस', amount: '3 बड़े चम्मच' }, { item: 'ऑयस्टर सॉस', amount: '2 बड़े चम्मच' }, { item: 'सोया सॉस (हल्का)', amount: '1 बड़ा चम्मच' }, { item: 'चीनी (पाम या दानेदार)', amount: '1 छोटा चम्मच' }, { item: 'सफेद मिर्च', amount: '1/2 छोटा चम्मच' }, { item: 'वनस्पति तेल', amount: '3 बड़े चम्मच' }, { item: 'प्याज, कटा हुआ', amount: '1/2 मध्यम' }, { item: 'टमाटर, फांकों में कटा हुआ', amount: '1 मध्यम' }, { item: 'स्प्रिंग अनियन, कटा हुआ', amount: '1/4 कप' }, { item: 'खीरे के टुकड़े, नींबू के फांक', amount: 'undefined' }],
+                instructions: []
+            },
+            bn: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            mr: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            te: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            ta: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            }
+        }
+    }
 ];
