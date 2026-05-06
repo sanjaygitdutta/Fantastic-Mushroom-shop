@@ -54,10 +54,15 @@ export function proxy(request: NextRequest) {
   const hasLangPrefix = ALL_LANGUAGES.includes(parts[0]);
 
   if (!hasLangPrefix) {
-    // If it's the root or a segment like /food/apple, rewrite to /en internally
-    return NextResponse.rewrite(
-      new URL(`/en${pathname === '/' ? '' : pathname}${request.nextUrl.search}`, request.url)
-    );
+    // Detect user preference from cookie
+    const cookieLang = request.cookies.get('i18next')?.value || request.cookies.get('NEXT_LOCALE')?.value;
+    const targetLang = (cookieLang && ALL_LANGUAGES.includes(cookieLang)) ? cookieLang : 'en';
+
+    // 301 Redirect to the language-prefixed URL
+    // e.g. /basket -> /en/basket or /hi/basket
+    const url = request.nextUrl.clone();
+    url.pathname = `/${targetLang}${pathname === '/' ? '' : pathname}`;
+    return NextResponse.redirect(url, { status: 301 });
   }
 
   return NextResponse.next();

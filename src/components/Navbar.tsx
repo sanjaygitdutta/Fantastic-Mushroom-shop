@@ -123,9 +123,11 @@ const Navbar = () => {
 
     const newPath = code === 'en' ? cleanPath : `/${code}${cleanPath === '/' ? '' : cleanPath}`;
     
-    // Force local storage and i18n state to prevent language detector from falling back
-    // to old cached language when navigating to default English (which has no path prefix)
+    // Force local storage and cookies to prevent language detector from falling back
     localStorage.setItem('i18nextLng', code);
+    document.cookie = `NEXT_LOCALE=${code}; path=/; max-age=31536000; SameSite=Lax`;
+    document.cookie = `i18next=${code}; path=/; max-age=31536000; SameSite=Lax`;
+
     i18n.changeLanguage(code).then(() => {
       window.location.href = newPath + window.location.search + window.location.hash;
     });
