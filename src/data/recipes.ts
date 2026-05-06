@@ -1059,4 +1059,66 @@ export const recipes: Recipe[] = [
             }
         }
     }
+,
+    {
+        id: '2026-05-07',
+        title: 'Manti Dumplings',
+        description: 'Experience the exquisite taste of Turkish Manti, tiny, delicate dumplings filled with spiced ground meat. Bathed in a creamy garlic yogurt sauce and drizzled with sizzling, aromatic butter infused with red pepper and mint, each bite is a symphony of textures and flavors. Prepare to be captivated by this culinary masterpiece – your journey to Turkish delight begins today!',
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=75&w=800',
+        prepTime: '60 min',
+        cookTime: '20 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'All-purpose Flour', amount: '3 cups' },
+            { item: 'Egg', amount: '1 large' },
+            { item: 'Water', amount: '1/2 cup' },
+            { item: 'Ground Beef/Lamb', amount: '300g' },
+            { item: 'Onion', amount: '1 small, finely grated' },
+            { item: 'Plain Yogurt', amount: '2 cups' },
+            { item: 'Garlic', amount: '3 cloves, minced' },
+            { item: 'Unsalted Butter', amount: '4 tbsp' },
+            { item: 'Red Pepper Flakes (Pul Biber)', amount: '1 tsp' },
+            { item: 'Dried Mint', amount: '1 tsp' }
+        ],
+        instructions: [
+            'Prepare Dough & Filling: Combine flour, egg, water, and a pinch of salt to form a firm dough. Knead, rest. Mix ground meat, grated onion, salt, and pepper for filling.',
+            'Shape Manti: Roll dough thinly, cut into small squares (approx. 1.5 cm). Place a tiny amount of filling in the center of each square and pinch all four corners together to form a small parcel.',
+            'Cook Manti: Bring a large pot of salted water to a boil. Gently drop the manti into the boiling water and cook for 8-10 minutes until they float and are tender.',
+            'Prepare Sauces & Serve: Whisk yogurt with minced garlic and a pinch of salt. Melt butter, add red pepper flakes and dried mint; heat until fragrant. Drain manti, arrange on plates, top with garlic yogurt, and drizzle generously with the hot spiced butter.'
+        ],
+        tags: ['Turkish', 'Dinner', 'Non-Vegetarian'],
+        translations: {
+            hi: {
+                title: 'मंती पकौड़ी',
+                description: 'तुर्की मंती के उत्कृष्ट स्वाद का अनुभव करें, छोटे, नाजुक पकौड़े जो मसालेदार कीमा से भरे होते हैं। मलाईदार लहसुन दही सॉस में डूबे हुए और लाल मिर्च और पुदीने से युक्त सुगंधित मक्खन के साथ परोसे जाने पर, हर निवाला बनावट और स्वाद का एक अद्भुत संगम है।',
+                ingredients: [{ item: 'मैदा', amount: '3 कप' }, { item: 'अंडा', amount: '1 बड़ा' }, { item: 'पानी', amount: '1/2 कप' }, { item: 'कीमा बनाया हुआ मांस (बीफ/भेड़ का)', amount: '300 ग्राम' }, { item: 'प्याज', amount: '1 छोटा, बारीक कसा हुआ' }, { item: 'सादा दही', amount: '2 कप' }, { item: 'लहसुन', amount: '3 कलियाँ' }],
+                instructions: []
+            },
+            bn: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            mr: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            te: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            ta: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            }
+        }
+    }
 ];
