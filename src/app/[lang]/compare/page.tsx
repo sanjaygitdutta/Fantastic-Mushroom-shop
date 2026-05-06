@@ -1,21 +1,33 @@
 import { Suspense } from 'react';
 import Compare from '../../../views/Compare';
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+export async function generateMetadata({ 
+  params,
+  searchParams 
+}: { 
+  params: Promise<{ lang: string }>,
+  searchParams: Promise<{ q?: string }>
+}) {
   const { lang } = await params;
+  const { q } = await searchParams;
+  
+  const canonicalUrl = q 
+    ? `https://www.fantasticfood.in/${lang}/compare?q=${encodeURIComponent(q)}`
+    : `https://www.fantasticfood.in/${lang}/compare`;
+
   return {
-    title: 'Live Grocery Price Comparison — 7 Apps | Fantastic Food',
+    title: q ? `${q.charAt(0).toUpperCase() + q.slice(1)} Prices — Compare Blinkit, Zepto & More | Fantastic Food` : 'Live Grocery Price Comparison — 7 Apps | Fantastic Food',
     description: 'Compare real-time prices for 7,000+ grocery items across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart and Flipkart Minutes.',
     alternates: {
-      canonical: `https://www.fantasticfood.in/${lang}/compare`,
+      canonical: canonicalUrl,
       languages: {
-        'en': `https://www.fantasticfood.in/en/compare`,
-        'hi': `https://www.fantasticfood.in/hi/compare`,
-        'bn': `https://www.fantasticfood.in/bn/compare`,
-        'mr': `https://www.fantasticfood.in/mr/compare`,
-        'te': `https://www.fantasticfood.in/te/compare`,
-        'ta': `https://www.fantasticfood.in/ta/compare`,
-        'x-default': `https://www.fantasticfood.in/en/compare`,
+        'en': `https://www.fantasticfood.in/en/compare${q ? `?q=${encodeURIComponent(q)}` : ''}`,
+        'hi': `https://www.fantasticfood.in/hi/compare${q ? `?q=${encodeURIComponent(q)}` : ''}`,
+        'bn': `https://www.fantasticfood.in/bn/compare${q ? `?q=${encodeURIComponent(q)}` : ''}`,
+        'mr': `https://www.fantasticfood.in/mr/compare${q ? `?q=${encodeURIComponent(q)}` : ''}`,
+        'te': `https://www.fantasticfood.in/te/compare${q ? `?q=${encodeURIComponent(q)}` : ''}`,
+        'ta': `https://www.fantasticfood.in/ta/compare${q ? `?q=${encodeURIComponent(q)}` : ''}`,
+        'x-default': `https://www.fantasticfood.in/en/compare${q ? `?q=${encodeURIComponent(q)}` : ''}`,
       },
     },
   };

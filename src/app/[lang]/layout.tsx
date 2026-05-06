@@ -35,6 +35,11 @@ export async function generateMetadata({ params }: Props) {
     description = 'இந்தியாவின் #1 மளிகை விலை ஒப்பீட்டாளர். 2 வினாடிகளில் 7,000+ பொருட்களை ஒப்பிடுங்கள்.';
   }
 
+  // We are currently in layout.tsx, but Next.js metadata doesn't have easy access 
+  // to the path here. However, for the ROOT layout, it's safer to not have a 
+  // conflicting canonical if child pages (like food/[item]) provide their own.
+  // We will keep the home page canonical ONLY for the home page.
+  
   return {
     title,
     description,
@@ -65,8 +70,10 @@ export async function generateMetadata({ params }: Props) {
     verification: {
       google: 'yCwjAf_s2oqIMDIzlBtIPj671YFoitNF01dM-zP-Zv0',
     },
+    // IMPORTANT: Removing the hardcoded global canonical from Root Layout.
+    // Each page component (Home, Food, City, Blog) MUST provide its own 
+    // specific canonical to avoid the "Duplicate without user-selected canonical" error.
     alternates: {
-      canonical: `https://www.fantasticfood.in/${lang}`,
       languages: {
         'en': `https://www.fantasticfood.in/en`,
         'hi': `https://www.fantasticfood.in/hi`,
