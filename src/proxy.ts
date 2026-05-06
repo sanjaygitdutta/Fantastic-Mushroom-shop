@@ -57,20 +57,15 @@ export function proxy(request: NextRequest) {
     const cookieLang = request.cookies.get('i18next')?.value || request.cookies.get('NEXT_LOCALE')?.value;
     const targetLang = (cookieLang && ALL_LANGUAGES.includes(cookieLang)) ? cookieLang : 'en';
 
-    // A. For the ROOT homepage (/) -> Use REWRITE to avoid loop and keep it clean
+    // A. For the ROOT homepage (/) -> Use REWRITE to avoid loop
     if (pathname === '/') {
       return NextResponse.rewrite(new URL(`/${targetLang}`, request.url));
     }
 
-    // B. For main segments (/basket, /food, etc.) -> Use REDIRECT (301) for SEO
-    if (parts.length > 0 && LANG_SEGMENTS.has(parts[0])) {
-      const url = request.nextUrl.clone();
-      url.pathname = `/${targetLang}${pathname}`;
-      return NextResponse.redirect(url, { status: 301 });
-    }
-
-    // C. Fallback for other paths -> internal rewrite to default
-    return NextResponse.rewrite(new URL(`/en${pathname}`, request.url));
+    // B. For all other segments -> Use REWRITE to avoid loop
+    // This serves the correct language content without changing the browser URL,
+    // which stops the "Too Many Redirects" error.
+    return NextResponse.rewrite(new URL(`/${targetLang}${pathname}${request.nextUrl.search}`, request.url));
   }
 
   return NextResponse.next();
