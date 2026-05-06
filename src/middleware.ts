@@ -13,8 +13,9 @@ export function middleware(request: NextRequest) {
   const langParam = request.nextUrl.searchParams.get('lang');
 
   // 1. Skip static files and internal Next.js paths
+  const isStaticFile = pathname.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff|woff2|ttf|eot|otf|map|json|txt|xml|pdf)$/i);
   if (
-    pathname.match(/\.(.*)$/) ||
+    isStaticFile ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/_next')
   ) {
