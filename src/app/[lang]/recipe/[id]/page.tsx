@@ -90,7 +90,7 @@ export default async function RecipePageServer({ params }: { params: Promise<{ l
     "name": displayName,
     "image": recipe.image ? [`https://www.fantasticfood.in${recipe.image}`.replace('https://www.fantasticfood.inhttps://', 'https://')] : [],
     "description": tRecipe.description ?? recipe.name,
-    "keywords": `${recipe.name}, ${recipe.cuisine} cuisine, ${recipe.country} food`,
+    "keywords": `${recipe.name}, ${recipe.country} cuisine`,
     "author": {
       "@type": "Organization",
       "name": "Fantastic Food"
@@ -99,10 +99,10 @@ export default async function RecipePageServer({ params }: { params: Promise<{ l
     "cookTime": "PT20M",
     "totalTime": `PT${recipe.time.includes('min') ? (parseInt(recipe.time.split(' ')[0]) + 20) : '50'}M`,
     "recipeCategory": recipe.category || "Main Dish",
-    "recipeCuisine": recipe.cuisine,
+    "recipeCuisine": recipe.country,
     "recipeYield": `${recipe.servings} servings`,
-    "recipeIngredient": recipe.ingredients.map(i => i.item),
-    "recipeInstructions": recipe.instructions.map((step, idx) => ({
+    "recipeIngredient": recipe.ingredients, // Already a string array
+    "recipeInstructions": recipe.steps.map((step: string, idx: number) => ({
       "@type": "HowToStep",
       "name": `Step ${idx + 1}`,
       "text": step,
