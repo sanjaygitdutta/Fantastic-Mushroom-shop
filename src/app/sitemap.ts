@@ -2,7 +2,6 @@ import type { MetadataRoute } from 'next';
 import sitemapLinks from '../data/sitemapLinks.json';
 import { ALL_RECIPES } from '../data/worldRecipes';
 import { BLOG_POSTS } from '../data/blogPosts';
-import { supabase } from '../lib/supabase';
 
 export const revalidate = 86400; // Cache for 24 hours
 
