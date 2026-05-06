@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import CompareResultsGrid from '../../../../components/CompareResultsGrid';
 import { searchPrices } from '../../../../data/mockPrices';
@@ -17,10 +16,10 @@ const PLATFORM_LABELS: Record<string, string> = {
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; item: string }> }) {
   const resolvedParams = await params;
   const foodItem = decodeURIComponent(resolvedParams.item);
-  const result = await searchPrices(foodItem);
   
-  // If product is NOT found, don't generate metadata (let it redirect)
-  if (!result) return { title: 'Searching...' };
+  // Dynamic Product Generation: We ALWAYS generate a result now
+  const result = await searchPrices(foodItem);
+  if (!result) return { title: 'Food Prices Today' };
 
   const displayName = foodItem
     .split('-')
@@ -30,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
   const translatedItem = getTranslatedItem(displayName, currentLang);
   
-  const sortedPrices = result?.prices
+  const sortedPrices = result.prices
     ? [...result.prices].filter(p => p.price > 0 && p.inStock).sort((a, b) => a.price - b.price)
     : [];
 
@@ -43,11 +42,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
   const seoTitle = currentLang === 'en'
     ? (lowestPrice > 0 && secondPrice > 0
-      ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — 7 Apps | Today Real Price`
-      : lowestPrice > 0
-        ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} — Compare 7 Apps | Today Real Price`
-        : `${displayName} Price Today ${todayLabel} — Compare Blinkit, Zepto, BigBasket & More`)
-    : `${result?.icon || '🛒'} ${getLocalizedSEOTitle(translatedItem, currentLang)}`;
+      ? `${result.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — 7 Apps | Today Real Price`
+      : `${result.icon || '🛒'} ${displayName} Price Today — Compare Blinkit, Zepto & More`)
+    : `${result.icon || '🛒'} ${getLocalizedSEOTitle(translatedItem, currentLang)}`;
 
   const seoDesc = currentLang === 'en'
     ? (lowestPrice > 0 && secondPrice > 0
@@ -81,12 +78,8 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
   const foodItem = decodeURIComponent(resolvedParams.item);
   const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
   
+  // This now ALWAYS returns a valid comparison object via the auto-generator
   const result = await searchPrices(foodItem);
-
-  // SMART REDIRECT: If product not found, redirect to search results for that item
-  if (!result) {
-    redirect(`/${currentLang}/compare?q=${foodItem}`);
-  }
 
   const displayName = foodItem
     .split('-')
@@ -115,7 +108,7 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
             {currentLang === 'en' ? `${displayName} Price Today in India` : getLocalizedSEOTitle(translatedItem, currentLang)}
           </h1>
           <p className="text-forest-300 text-lg mb-4">
-            Compare prices instantly
+            Compare prices instantly from 7 delivery apps
           </p>
           <div className="flex flex-wrap gap-2">
             {PLATFORMS.map(pl => (
@@ -128,9 +121,16 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
       {/* Price Cards */}
       <div className="max-w-6xl mx-auto px-4 mb-14">
         <h2 className="text-xl font-bold text-forest-900 mb-6">Live Compare — {translatedItem}</h2>
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-forest-100 mb-6">
-          <CompareResultsGrid result={result} />
-        </div>
+        {result && (
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-forest-100 mb-6">
+            <CompareResultsGrid result={result} />
+          </div>
+        )}
+        {!result && (
+           <div className="bg-white p-12 text-center rounded-3xl border border-forest-100">
+             <p className="text-forest-600">Loading live prices for {displayName}...</p>
+           </div>
+        )}
       </div>
     </div>
   );
