@@ -1,15 +1,14 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const SUPPORTED_LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta'];
-const ALL_LANGUAGES = new Set(['en', 'hi', 'bn', 'mr', 'te', 'ta']);
-const LANG_SEGMENTS = new Set(['food', 'city', 'blog', 'compare', 'recipe', 'recipes']);
+const ALL_LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta'];
+const LANG_SEGMENTS = new Set(['food', 'city', 'blog', 'compare', 'recipe', 'recipes', 'directory']);
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const langParam = request.nextUrl.searchParams.get('lang');
 
-  // Avoid processing static files, images, api routes, _next internals
+  // 1. Skip static files and internal Next.js paths
   if (
     pathname.match(/\.(.*)$/) ||
     pathname.startsWith('/api') ||
@@ -20,14 +19,13 @@ export function proxy(request: NextRequest) {
 
   const parts = pathname.split('/').filter(Boolean);
 
-  // ── Fix 1: Root path with ?lang=xx query param ─────────────────────────────
-  // e.g. /food/butter-chicken?lang=hi  →  301 redirect to /hi/food/butter-chicken
-  // e.g. /city/mumbai?lang=mr          →  301 redirect to /mr/city/mumbai
+  // 2. Redirect ?lang=xx to the proper path prefix
+  // e.g. /food/apple?lang=hi -> /hi/food/apple
   if (
     parts.length >= 1 &&
     LANG_SEGMENTS.has(parts[0]) &&
     langParam &&
-    ALL_LANGUAGES.has(langParam)
+    ALL_LANGUAGES.includes(langParam)
   ) {
     const url = request.nextUrl.clone();
     url.pathname = `/${langParam}/${parts.join('/')}`;
@@ -35,26 +33,24 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url, { status: 301 });
   }
 
-  // ── Fix 2: Correct /{lang}/path but still has ?lang= query param ──────────
-  // e.g. /hi/food/butter-chicken?lang=hi  →  301 redirect /hi/food/butter-chicken
+  // 3. Cleanup ?lang= if already in the correct path
+  // e.g. /hi/food/apple?lang=hi -> /hi/food/apple
   if (
     parts.length >= 2 &&
-    ALL_LANGUAGES.has(parts[0]) &&
-    langParam
+    ALL_LANGUAGES.includes(parts[0]) &&
+    langParam === parts[0]
   ) {
     const url = request.nextUrl.clone();
     url.searchParams.delete('lang');
     return NextResponse.redirect(url, { status: 301 });
   }
 
-  // ── Original logic: rewrite missing locale paths to /en/ internally ────────
-  // e.g. /food/butter-chicken (no lang) → internally served as /en/food/butter-chicken
-  // This preserves the existing URL-rewrite behavior for the browser/app.
-  const pathnameIsMissingLocale = SUPPORTED_LANGUAGES.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  );
+  // 4. Handle paths missing a language prefix
+  // Check if the first part of the path is already a supported language
+  const hasLangPrefix = ALL_LANGUAGES.includes(parts[0]);
 
-  if (pathnameIsMissingLocale) {
+  if (!hasLangPrefix) {
+    // If it's the root or a segment like /food/apple, rewrite to /en internally
     return NextResponse.rewrite(
       new URL(`/en${pathname === '/' ? '' : pathname}${request.nextUrl.search}`, request.url)
     );
