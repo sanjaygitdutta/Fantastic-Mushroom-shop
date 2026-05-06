@@ -88,6 +88,18 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
 
   const translatedItem = getTranslatedItem(displayName, currentLang);
   
+  // Re-calculate price details for Schema inside this scope
+  const sortedPrices = result?.prices
+    ? [...result.prices].filter(p => p.price > 0 && p.inStock).sort((a, b) => a.price - b.price)
+    : [];
+
+  const lowestPrice = sortedPrices[0]?.price || 0;
+  const todayLabel = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  
+  const seoDesc = currentLang === 'en'
+    ? `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly.`
+    : getLocalizedSEOTitle(translatedItem, currentLang);
+
   // Generate JSON-LD for Google Product Schema
   const jsonLd = {
     "@context": "https://schema.org/",
@@ -97,14 +109,14 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
     "description": seoDesc,
     "brand": {
       "@type": "Brand",
-      "name": displayName.split(' ')[0] // Guessing brand from first word
+      "name": displayName.split(' ')[0]
     },
     "offers": {
       "@type": "AggregateOffer",
       "priceCurrency": "INR",
       "lowPrice": lowestPrice,
-      "highPrice": result.prices?.reduce((max, p) => Math.max(max, p.price), 0) || lowestPrice,
-      "offerCount": result.prices?.length || 0,
+      "highPrice": result?.prices?.reduce((max, p) => Math.max(max, p.price), 0) || lowestPrice,
+      "offerCount": result?.prices?.length || 0,
       "availability": "https://schema.org/InStock"
     }
   };
