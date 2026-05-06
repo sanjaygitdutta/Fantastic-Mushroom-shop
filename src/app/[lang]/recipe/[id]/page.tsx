@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 import { ALL_RECIPES } from '../../../../data/worldRecipes';
 import RecipePageClient from '../../../../views/RecipePageClient';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; id: string }> }) {
   const resolvedParams = await params;
   const recipe = ALL_RECIPES.find(r => r.id === resolvedParams.id);

@@ -8,7 +8,7 @@ const LANG_SEGMENTS = new Set([
   'meal-calculator', 'savings', 'community', 'coupons', 'seasonal', 'saved'
 ]);
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const langParam = request.nextUrl.searchParams.get('lang');
 

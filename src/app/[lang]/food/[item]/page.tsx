@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import CompareResultsGrid from '../../../../components/CompareResultsGrid';
+
+export const dynamic = 'force-dynamic';
 import { searchPrices } from '../../../../data/mockPrices';
 import { getTranslatedItem, getLocalizedSEOTitle, type SupportedLanguage } from '../../../../i18n/dictionary';
 
