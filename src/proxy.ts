@@ -2,7 +2,11 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const ALL_LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta'];
-const LANG_SEGMENTS = new Set(['food', 'city', 'blog', 'compare', 'recipe', 'recipes', 'directory']);
+const LANG_SEGMENTS = new Set([
+  'food', 'city', 'blog', 'compare', 'recipe', 'recipes', 'directory', 
+  'basket', 'chef-aika', 'meal-planner', 'festival', 'health', 
+  'meal-calculator', 'savings', 'community', 'coupons', 'seasonal', 'saved'
+]);
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
