@@ -21,8 +21,9 @@ export async function generateSitemaps() {
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
   const langCode = LANGUAGES[id] || 'en';
   
-  // Base paths
-  const langBase = langCode === 'en' ? BASE_URL : `${BASE_URL}/${langCode}`;
+  // Base paths - always include langCode prefix, even for 'en'
+  // to match the canonical and hreflang tags 100%
+  const langBase = `${BASE_URL}/${langCode}`;
   
   const coreRoutes: MetadataRoute.Sitemap = [
     { url: `${langBase}`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
