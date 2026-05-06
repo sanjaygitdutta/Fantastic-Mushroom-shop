@@ -67,6 +67,15 @@ export async function generateMetadata({ params }: Props) {
     },
     alternates: {
       canonical: `https://www.fantasticfood.in/${lang}`,
+      languages: {
+        'en': `https://www.fantasticfood.in/en`,
+        'hi': `https://www.fantasticfood.in/hi`,
+        'bn': `https://www.fantasticfood.in/bn`,
+        'mr': `https://www.fantasticfood.in/mr`,
+        'te': `https://www.fantasticfood.in/te`,
+        'ta': `https://www.fantasticfood.in/ta`,
+        'x-default': `https://www.fantasticfood.in/en`,
+      },
     },
   };
 }

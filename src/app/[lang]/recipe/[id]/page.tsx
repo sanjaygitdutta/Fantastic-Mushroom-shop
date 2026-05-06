@@ -35,6 +35,15 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     description,
     alternates: {
       canonical: `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}`,
+      languages: {
+        'en': `https://www.fantasticfood.in/en/recipe/${recipe.id}`,
+        'hi': `https://www.fantasticfood.in/hi/recipe/${recipe.id}`,
+        'bn': `https://www.fantasticfood.in/bn/recipe/${recipe.id}`,
+        'mr': `https://www.fantasticfood.in/mr/recipe/${recipe.id}`,
+        'te': `https://www.fantasticfood.in/te/recipe/${recipe.id}`,
+        'ta': `https://www.fantasticfood.in/ta/recipe/${recipe.id}`,
+        'x-default': `https://www.fantasticfood.in/en/recipe/${recipe.id}`,
+      },
     },
     openGraph: {
       title,

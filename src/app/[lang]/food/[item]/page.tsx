@@ -59,6 +59,15 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     keywords: `${displayName} price today, ${displayName} Blinkit, ${displayName} Zepto, ${displayName} BigBasket, cheapest ${displayName} online, ${cityKeywords}`,
     alternates: {
       canonical: `https://www.fantasticfood.in/${currentLang}/food/${foodItem}`,
+      languages: {
+        'en': `https://www.fantasticfood.in/en/food/${foodItem}`,
+        'hi': `https://www.fantasticfood.in/hi/food/${foodItem}`,
+        'bn': `https://www.fantasticfood.in/bn/food/${foodItem}`,
+        'mr': `https://www.fantasticfood.in/mr/food/${foodItem}`,
+        'te': `https://www.fantasticfood.in/te/food/${foodItem}`,
+        'ta': `https://www.fantasticfood.in/ta/food/${foodItem}`,
+        'x-default': `https://www.fantasticfood.in/en/food/${foodItem}`,
+      },
     }
   };
 }
