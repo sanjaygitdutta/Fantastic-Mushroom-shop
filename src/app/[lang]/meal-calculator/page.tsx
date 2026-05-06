@@ -1,12 +1,30 @@
-'use client';
-
 import { Suspense } from 'react';
-import MealCostCalculator from '../../../views/MealCostCalculator';
+import MealCalculator from '../../../views/MealCalculator';
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  return {
+    title: 'Meal Price Calculator — Calculate Your Recipe Cost | Fantastic Food',
+    description: 'Enter your recipe ingredients and find out exactly how much your meal costs. Compare ingredient prices across Blinkit, Zepto, and BigBasket automatically.',
+    alternates: {
+      canonical: `https://www.fantasticfood.in/${lang}/meal-calculator`,
+      languages: {
+        'en': `https://www.fantasticfood.in/en/meal-calculator`,
+        'hi': `https://www.fantasticfood.in/hi/meal-calculator`,
+        'bn': `https://www.fantasticfood.in/bn/meal-calculator`,
+        'mr': `https://www.fantasticfood.in/mr/meal-calculator`,
+        'te': `https://www.fantasticfood.in/te/meal-calculator`,
+        'ta': `https://www.fantasticfood.in/ta/meal-calculator`,
+        'x-default': `https://www.fantasticfood.in/en/meal-calculator`,
+      },
+    },
+  };
+}
 
 export default function Page() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-4 border-forest-200 border-t-forest-600 rounded-full animate-spin" /></div>}>
-      <MealCostCalculator />
+      <MealCalculator />
     </Suspense>
   );
 }
