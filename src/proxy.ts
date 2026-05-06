@@ -37,19 +37,21 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url, { status: 301 });
   }
 
-  // 3. Cleanup ?lang= if already in the correct path
-  // e.g. /hi/food/apple?lang=hi -> /hi/food/apple
-  if (
-    parts.length >= 2 &&
-    ALL_LANGUAGES.includes(parts[0]) &&
-    langParam === parts[0]
-  ) {
+  // 1. If ?lang=XX is present, ALWAYS redirect to the clean path version /XX/path
+  if (langParam && ALL_LANGUAGES.includes(langParam)) {
+    // Determine the clean path (remove any existing language prefix from the path first)
+    let cleanPath = pathname;
+    if (ALL_LANGUAGES.includes(parts[0])) {
+      cleanPath = '/' + parts.slice(1).join('/');
+    }
+    
     const url = request.nextUrl.clone();
-    url.searchParams.delete('lang');
+    url.pathname = `/${langParam}${cleanPath === '/' ? '' : cleanPath}`;
+    url.searchParams.delete('lang'); // Erase the query param
     return NextResponse.redirect(url, { status: 301 });
   }
 
-  // 4. Handle paths missing a language prefix
+  // 2. Handle paths missing a language prefix
   const hasLangPrefix = ALL_LANGUAGES.includes(parts[0]);
 
   if (!hasLangPrefix) {
@@ -62,9 +64,7 @@ export function proxy(request: NextRequest) {
       return NextResponse.rewrite(new URL(`/${targetLang}`, request.url));
     }
 
-    // B. For all other segments -> Use REWRITE to avoid loop
-    // This serves the correct language content without changing the browser URL,
-    // which stops the "Too Many Redirects" error.
+    // B. For all other segments -> Use REWRITE to serve content but keep canonical signals
     return NextResponse.rewrite(new URL(`/${targetLang}${pathname}${request.nextUrl.search}`, request.url));
   }
 
