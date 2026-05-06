@@ -1,7 +1,25 @@
-'use client';
-
 import { Suspense } from 'react';
 import Recipes from '../../../views/Recipes';
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  return {
+    title: 'World Recipes — Discover 200+ Professional Cuisines | Fantastic Food',
+    description: 'Explore Michelin-star quality recipes from around the world. Step-by-step instructions for authentic dishes across 20 global cuisines.',
+    alternates: {
+      canonical: `https://www.fantasticfood.in/${lang}/recipes`,
+      languages: {
+        'en': `https://www.fantasticfood.in/en/recipes`,
+        'hi': `https://www.fantasticfood.in/hi/recipes`,
+        'bn': `https://www.fantasticfood.in/bn/recipes`,
+        'mr': `https://www.fantasticfood.in/mr/recipes`,
+        'te': `https://www.fantasticfood.in/te/recipes`,
+        'ta': `https://www.fantasticfood.in/ta/recipes`,
+        'x-default': `https://www.fantasticfood.in/en/recipes`,
+      },
+    },
+  };
+}
 
 export default function Page() {
   return (
