@@ -50,7 +50,6 @@ export function proxy(request: NextRequest) {
   }
 
   // 4. Handle paths missing a language prefix
-  // Check if the first part of the path is already a supported language
   const hasLangPrefix = ALL_LANGUAGES.includes(parts[0]);
 
   if (!hasLangPrefix) {
@@ -58,11 +57,20 @@ export function proxy(request: NextRequest) {
     const cookieLang = request.cookies.get('i18next')?.value || request.cookies.get('NEXT_LOCALE')?.value;
     const targetLang = (cookieLang && ALL_LANGUAGES.includes(cookieLang)) ? cookieLang : 'en';
 
-    // 301 Redirect to the language-prefixed URL
-    // e.g. /basket -> /en/basket or /hi/basket
-    const url = request.nextUrl.clone();
-    url.pathname = `/${targetLang}${pathname === '/' ? '' : pathname}`;
-    return NextResponse.redirect(url, { status: 301 });
+    // A. For the ROOT homepage (/) -> Use REWRITE to avoid loop and keep it clean
+    if (pathname === '/') {
+      return NextResponse.rewrite(new URL(`/${targetLang}`, request.url));
+    }
+
+    // B. For main segments (/basket, /food, etc.) -> Use REDIRECT (301) for SEO
+    if (parts.length > 0 && LANG_SEGMENTS.has(parts[0])) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${targetLang}${pathname}`;
+      return NextResponse.redirect(url, { status: 301 });
+    }
+
+    // C. Fallback for other paths -> internal rewrite to default
+    return NextResponse.rewrite(new URL(`/en${pathname}`, request.url));
   }
 
   return NextResponse.next();
