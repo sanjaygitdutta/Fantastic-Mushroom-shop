@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import CompareResultsGrid from '../../../../components/CompareResultsGrid';
 import { searchPrices } from '../../../../data/mockPrices';
@@ -16,6 +17,11 @@ const PLATFORM_LABELS: Record<string, string> = {
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; item: string }> }) {
   const resolvedParams = await params;
   const foodItem = decodeURIComponent(resolvedParams.item);
+  const result = await searchPrices(foodItem);
+  
+  // If product is NOT found, don't generate metadata (let it redirect)
+  if (!result) return { title: 'Searching...' };
+
   const displayName = foodItem
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -24,7 +30,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
   const translatedItem = getTranslatedItem(displayName, currentLang);
   
-  const result = await searchPrices(foodItem);
   const sortedPrices = result?.prices
     ? [...result.prices].filter(p => p.price > 0 && p.inStock).sort((a, b) => a.price - b.price)
     : [];
@@ -50,7 +55,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       : `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly.`)
     : getLocalizedSEOTitle(translatedItem, currentLang);
 
-  // City-level long-tail keywords: "onion price in Mumbai", "onion price in Delhi", etc.
   const cityKeywords = CITIES.map(city => `${displayName} price in ${city}`).join(', ');
 
   return {
@@ -75,17 +79,22 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export default async function FoodItemPage({ params }: { params: Promise<{ lang: string; item: string }> }) {
   const resolvedParams = await params;
   const foodItem = decodeURIComponent(resolvedParams.item);
+  const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
+  
+  const result = await searchPrices(foodItem);
+
+  // SMART REDIRECT: If product not found, redirect to search results for that item
+  if (!result) {
+    redirect(`/${currentLang}/compare?q=${foodItem}`);
+  }
+
   const displayName = foodItem
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
-  const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
   const translatedItem = getTranslatedItem(displayName, currentLang);
   
-  // This runs on the SERVER. No loading spinner. Perfect SEO!
-  const result = await searchPrices(foodItem);
-
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
       {/* Breadcrumb */}
@@ -119,16 +128,9 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
       {/* Price Cards */}
       <div className="max-w-6xl mx-auto px-4 mb-14">
         <h2 className="text-xl font-bold text-forest-900 mb-6">Live Compare — {translatedItem}</h2>
-        {result ? (
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-forest-100 mb-6">
-            <CompareResultsGrid result={result} />
-          </div>
-        ) : (
-          <div className="bg-white p-12 text-center rounded-3xl border border-forest-100">
-            <h3 className="text-xl font-bold text-forest-900 mb-2">Not Found</h3>
-            <p className="text-forest-600">We couldn't find prices for {foodItem}</p>
-          </div>
-        )}
+        <div className="bg-white p-6 rounded-3xl shadow-sm border border-forest-100 mb-6">
+          <CompareResultsGrid result={result} />
+        </div>
       </div>
     </div>
   );
