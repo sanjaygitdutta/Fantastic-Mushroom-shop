@@ -25,68 +25,77 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   // to match the canonical and hreflang tags 100%
   const langBase = `${BASE_URL}/${langCode}`;
   
-  const coreRoutes: MetadataRoute.Sitemap = [
-    { url: `${langBase}`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
-    { url: `${langBase}/compare`, lastModified: new Date(), changeFrequency: 'always', priority: 0.95 },
-    { url: `${langBase}/mushroom-shop`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
-    { url: `${langBase}/recipes`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.85 },
-    { url: `${langBase}/basket`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
-    { url: `${langBase}/meal-calculator`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
-    { url: `${langBase}/coupons`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
-    { url: `${langBase}/savings`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
-    { url: `${langBase}/community`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
-  ];
+  // Helper to generate alternates for a path
+  const getAlternates = (path: string) => {
+    return LANGUAGES.reduce((acc, l) => {
+      acc[l] = `${BASE_URL}/${l}/${path}`;
+      return acc;
+    }, {} as Record<string, string>);
+  };
 
-  // Cities (50+)
-  const cityRoutes: MetadataRoute.Sitemap = sitemapLinks.cities.map((city: string) => ({
+  const coreRoutes = [
+    '',
+    'compare',
+    'mushroom-shop',
+    'recipes',
+    'basket',
+    'meal-calculator',
+    'coupons',
+    'savings',
+    'community'
+  ].map(path => ({
+    url: `${langBase}${path ? `/${path}` : ''}`,
+    lastModified: new Date(),
+    changeFrequency: 'daily' as const,
+    priority: path === '' ? 1.0 : 0.9,
+    alternates: {
+      languages: getAlternates(path)
+    }
+  }));
+
+  // Cities
+  const cityRoutes = sitemapLinks.cities.map((city: string) => ({
     url: `${langBase}/city/${city}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: 0.85,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+    alternates: {
+      languages: getAlternates(`city/${city}`)
+    }
   }));
 
-  // Food Items (7300+)
-  const foodRoutes: MetadataRoute.Sitemap = sitemapLinks.foodItems.map((food: string) => ({
+  // Food Items
+  const foodRoutes = sitemapLinks.foodItems.map((food: string) => ({
     url: `${langBase}/food/${food}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly',
+    changeFrequency: 'weekly' as const,
     priority: 0.7,
+    alternates: {
+      languages: getAlternates(`food/${food}`)
+    }
   }));
 
-  // AI Recipes (250+)
-  const recipeRoutes: MetadataRoute.Sitemap = ALL_RECIPES.map((recipe) => ({
+  // AI Recipes
+  const recipeRoutes = ALL_RECIPES.map((recipe) => ({
     url: `${langBase}/recipe/${recipe.id}`,
     lastModified: new Date(),
-    changeFrequency: 'monthly',
+    changeFrequency: 'monthly' as const,
     priority: 0.8,
+    alternates: {
+      languages: getAlternates(`recipe/${recipe.id}`)
+    }
   }));
 
   // AI Blogs
-  const blogRoutes: MetadataRoute.Sitemap = BLOG_POSTS.map((blog) => ({
+  const blogRoutes = BLOG_POSTS.map((blog) => ({
     url: `${langBase}/blog/${blog.slug}`,
     lastModified: new Date(),
-    changeFrequency: 'monthly',
+    changeFrequency: 'monthly' as const,
     priority: 0.8,
+    alternates: {
+      languages: getAlternates(`blog/${blog.slug}`)
+    }
   }));
 
-  // Community Feed Posts (Dynamic from Supabase)
-  let communityRoutes: MetadataRoute.Sitemap = [];
-  try {
-    const { data: posts } = await supabase
-      .from('community_posts')
-      .select('id, created_at');
-    
-    if (posts) {
-      communityRoutes = posts.map(post => ({
-        url: `${langBase}/community?post=${post.id}`,
-        lastModified: new Date(post.created_at),
-        changeFrequency: 'monthly',
-        priority: 0.85,
-      }));
-    }
-  } catch (error) {
-    console.error('Error fetching community posts for sitemap:', error);
-  }
-
-  return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes, ...communityRoutes];
+  return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes];
 }
