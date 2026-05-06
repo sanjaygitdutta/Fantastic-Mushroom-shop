@@ -79,5 +79,44 @@ export default async function RecipePageServer({ params }: { params: Promise<{ l
     redirect(`/${lang}/recipes`);
   }
 
-  return <RecipePageClient />;
+  type RecipeTranslation = { title?: string; description?: string };
+  const tRecipe = (recipe.translations?.[lang] ?? {}) as RecipeTranslation;
+  const displayName = tRecipe.title ?? recipe.name;
+
+  // Generate JSON-LD for Recipe Schema
+  const jsonLd = {
+    "@context": "https://schema.org/",
+    "@type": "Recipe",
+    "name": displayName,
+    "image": recipe.image ? [`https://www.fantasticfood.in${recipe.image}`.replace('https://www.fantasticfood.inhttps://', 'https://')] : [],
+    "description": tRecipe.description ?? recipe.name,
+    "keywords": `${recipe.name}, ${recipe.cuisine} cuisine, ${recipe.country} food`,
+    "author": {
+      "@type": "Organization",
+      "name": "Fantastic Food"
+    },
+    "prepTime": `PT${recipe.time.includes('min') ? recipe.time.split(' ')[0] : '30'}M`,
+    "cookTime": "PT20M",
+    "totalTime": `PT${recipe.time.includes('min') ? (parseInt(recipe.time.split(' ')[0]) + 20) : '50'}M`,
+    "recipeCategory": recipe.category || "Main Dish",
+    "recipeCuisine": recipe.cuisine,
+    "recipeYield": `${recipe.servings} servings`,
+    "recipeIngredient": recipe.ingredients.map(i => i.item),
+    "recipeInstructions": recipe.instructions.map((step, idx) => ({
+      "@type": "HowToStep",
+      "name": `Step ${idx + 1}`,
+      "text": step,
+      "url": `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}#step-${idx + 1}`
+    }))
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <RecipePageClient />
+    </>
+  );
 }

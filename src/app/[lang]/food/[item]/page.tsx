@@ -88,8 +88,35 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
 
   const translatedItem = getTranslatedItem(displayName, currentLang);
   
+  // Generate JSON-LD for Google Product Schema
+  const jsonLd = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": displayName,
+    "image": `https://www.fantasticfood.in/api/og?title=${encodeURIComponent(displayName)}`,
+    "description": seoDesc,
+    "brand": {
+      "@type": "Brand",
+      "name": displayName.split(' ')[0] // Guessing brand from first word
+    },
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "INR",
+      "lowPrice": lowestPrice,
+      "highPrice": result.prices?.reduce((max, p) => Math.max(max, p.price), 0) || lowestPrice,
+      "offerCount": result.prices?.length || 0,
+      "availability": "https://schema.org/InStock"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      
       {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-4 mb-6">
         <nav className="text-sm text-forest-500" aria-label="breadcrumb">
