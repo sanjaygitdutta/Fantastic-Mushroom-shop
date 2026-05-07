@@ -8,21 +8,17 @@ export async function POST(req: Request) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return NextResponse.json({ error: 'Missing GROQ_API_KEY environment variable.' }, { status: 500 });
 
-  // Add CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-
   const { budget = 1500, dietary = 'None', familySize = 2, days = 7 } = (await req.json());
 
   // 1. Calculate user constraints
   const totalMeals = familySize * days * 3;
-  const budgetPerMeal = budget / totalMeals; // e.g., ₹35 per meal is tight, ₹100 is generous
+  const budgetPerMeal = budget / totalMeals;
 
   // 2. Fetch Live Market Data from our new database
   let marketContext = "";
   try {
-    const supabaseUrl = process.env.VITE_SUPABASE_URL;
-    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
     
     if (supabaseUrl && supabaseKey) {
       const supabase = createClient(supabaseUrl, supabaseKey);
@@ -108,8 +104,8 @@ Respond ONLY with valid JSON exactly matching this structure (do not include mar
 
     return NextResponse.json(mealPlan, { status: 200 });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Groq Meal Planner Error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
   }
 }
