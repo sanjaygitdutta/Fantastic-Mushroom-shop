@@ -1,5 +1,6 @@
 // ------------------------------------------------------------------
 import { supabase } from '../lib/supabase';
+import { unstable_cache } from 'next/cache';
 // Fantastic Food — Price Data System
 // Phase 1: Rich mock DB covering 50+ frequently ordered food items
 // Phase 2 (Production): Replace searchPrices() with live Supabase
@@ -493,7 +494,8 @@ export const getBestPrice = (prices: PlatformPrice[]): PlatformPrice | null => {
 // Auto-detect prices: tries MOCK_DB first, then generates realistic platform URLs
 // with randomized-but-realistic price variance for any food query.
 // It then injects real Live Market Data from Supabase if available!
-export const searchPrices = async (query: string, _pincode?: string): Promise<CompareResult | null> => {
+// 4. Internal implementation (uncached)
+const searchPricesInternal = async (query: string, _pincode?: string): Promise<CompareResult | null> => {
   await delay(500 + Math.random() * 400);
   const key = query.toLowerCase().trim();
 
@@ -632,3 +634,11 @@ export const FOOD_CATEGORIES = [
   { label: 'Organic & Health', icon: '🌱',  query: 'organic food'},
   { label: 'Mushrooms 🍄',     icon: '🍄',  query: 'mushroom', special: true },
 ];
+
+// 5. CACHED EXPORT: This protects your Vercel CPU limits!
+// Caches results for 24 hours (86400 seconds)
+export const searchPrices = unstable_cache(
+  async (query: string) => searchPricesInternal(query),
+  ['food-prices'],
+  { revalidate: 86400, tags: ['prices'] }
+);
