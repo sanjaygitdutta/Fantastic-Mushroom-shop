@@ -4029,11 +4029,9 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
       dbProduct = pData;
       productId = pData.id;
     } else {
-      // If not in DB, aggressively check MOCK_DB properties
+      // If not in DB, cautiously check MOCK_DB properties
       const match = Object.keys(MOCK_DB).find((k) => 
         k === key || 
-        k.includes(key) || 
-        key.includes(k) || 
         MOCK_DB[k as keyof typeof MOCK_DB].query.toLowerCase() === key ||
         MOCK_DB[k as keyof typeof MOCK_DB].canonicalName.toLowerCase().includes(key)
       );
