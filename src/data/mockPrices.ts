@@ -2115,7 +2115,1815 @@ export const MOCK_DB: Record<string, CompareResult> = {
   amul_lassi_1l_family: { query: 'lassi 1l', canonicalName: 'Amul Lassi (1L Family Pack)', category: 'Beverages', icon: '🥛', prices: [
     p('blinkit',   'Amul Lassi 1L Tetra',   75, 85, 12, '1 L', 'beverages', true, '10 min'),
   ]},
+  davidoff_coffee_rich_aroma: { query: 'davidoff coffee', canonicalName: 'Davidoff Rich Aroma (100g)', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Davidoff Rich 100g',    545, 650, 16, '100g', 'coffee', true, '10 min'),
+  ]},
+  davidoff_coffee_fine_aroma: { query: 'davidoff fine', canonicalName: 'Davidoff Fine Aroma (100g)', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Davidoff Fine 100g',    545, 650, 16, '100g', 'coffee', true, '10 min'),
+  ]},
+  twinings_english_breakfast: { query: 'twinings tea', canonicalName: 'Twinings English Breakfast', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Twinings 25 bags',      345, 420, 17, '25 bags', 'tea', true, '10 min'),
+  ]},
+  organic_india_tulsi_green: { query: 'tulsi green tea', canonicalName: 'Organic India Tulsi Green', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Organic India 25 bags', 175, 210, 16, '25 bags', 'tea', true, '10 min'),
+  ]},
+  paper_boat_aamras_1l: { query: 'paper boat aamras', canonicalName: 'Paper Boat Aamras (1L)', category: 'Beverages', icon: '🥭', prices: [
+    p('blinkit',   'Paper Boat Aamras 1L',  125, 150, 16, '1 L', 'beverages', true, '10 min'),
+  ]},
+  paper_boat_jaljeera_1l: { query: 'paper boat jaljeera', canonicalName: 'Paper Boat Jaljeera (1L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Paper Boat Jaljeera 1L', 95, 115, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  mountain_dew_1_25l: { query: 'mountain dew', canonicalName: 'Mountain Dew (1.25 L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Dew 1.25L Bottle',      65, 65, 0, '1.25 L', 'soft drink', true, '10 min'),
+  ]},
+  seven_up_1_25l: { query: '7up', canonicalName: '7Up (1.25 L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   '7Up 1.25L Bottle',      65, 65, 0, '1.25 L', 'soft drink', true, '10 min'),
+  ]},
+  mirinda_1_25l: { query: 'mirinda', canonicalName: 'Mirinda (1.25 L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Mirinda 1.25L Bottle',  65, 65, 0, '1.25 L', 'soft drink', true, '10 min'),
+  ]},
+  oreo_family_pack_original: { query: 'oreo family pack', canonicalName: 'Oreo Original (Family Pack)', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Oreo Family 300g',      85, 100, 15, '300g', 'biscuits', true, '10 min'),
+  ]},
+  dark_fantasy_choco_fills_mega: { query: 'dark fantasy mega', canonicalName: 'Dark Fantasy Choco Fills (Mega)', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Dark Fantasy 600g',     185, 225, 17, '600g', 'biscuits', true, '10 min'),
+  ]},
+  good_day_cashew_family: { query: 'good day family', canonicalName: 'Good Day Cashew (Family Pack)', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Good Day 600g',         145, 175, 17, '600g', 'biscuits', true, '10 min'),
+  ]},
+  toor_dal_2kg_bulk: { query: 'toor dal 2kg', canonicalName: 'Toor Dal (2kg Bulk)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Toor 2kg',      285, 330, 14, '2 kg', 'pulses', true, '10 min'),
+  ]},
+  moong_dal_2kg_bulk: { query: 'moong dal 2kg', canonicalName: 'Moong Dal (2kg Bulk)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Moong 2kg',     265, 310, 14, '2 kg', 'pulses', true, '10 min'),
+  ]},
+  soya_chunks_1kg_bulk: { query: 'soya chunks 1kg', canonicalName: 'Soya Chunks (1kg Mega)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Soya 1kg',      125, 150, 16, '1 kg', 'soya', true, '10 min'),
+  ]},
+  kelloggs_muesli_fruit_nut_750g: { query: 'muesli 750g', canonicalName: 'Kellogg’s Muesli (750g)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Kelloggs Fruit & Nut',  345, 420, 17, '750g', 'cereal', true, '10 min'),
+  ]},
+  saffola_gold_1l_bottle: { query: 'saffola gold 1l', canonicalName: 'Saffola Gold (1L Bottle)', category: 'Packaged Foods', icon: '🛢️', prices: [
+    p('blinkit',   'Saffola Gold 1L',       185, 210, 12, '1 L', 'oil', true, '10 min'),
+  ]},
+  fortune_soyabean_1l_bottle: { query: 'soyabean oil 1l', canonicalName: 'Fortune Soyabean (1L)', category: 'Packaged Foods', icon: '🛢️', prices: [
+    p('blinkit',   'Fortune Soyabean 1L',   125, 155, 19, '1 L', 'oil', true, '10 min'),
+  ]},
+  amul_cow_ghee_1l: { query: 'amul cow ghee', canonicalName: 'Amul Cow Ghee (1L)', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Amul Cow Ghee 1L',      585, 650, 10, '1 L', 'ghee', true, '10 min'),
+  ]},
+  patanjali_honey_1kg: { query: 'patanjali honey', canonicalName: 'Patanjali Honey (1kg)', category: 'Packaged Foods', icon: '🍯', prices: [
+    p('blinkit',   'Patanjali Honey 1kg',   325, 380, 14, '1 kg', 'honey', true, '10 min'),
+  ]},
+  dabur_chyawanprash_1kg: { query: 'chyawanprash 1kg', canonicalName: 'Dabur Chyawanprash (1kg)', category: 'Packaged Foods', icon: '🏺', prices: [
+    p('blinkit',   'Dabur Chyawanprash',    345, 395, 12, '1 kg', 'health', true, '10 min'),
+  ]},
+  sugar_free_gold_pellets: { query: 'sugar free gold', canonicalName: 'Sugar Free Gold (500 tabs)', category: 'Packaged Foods', icon: '💊', prices: [
+    p('blinkit',   'Sugar Free Gold 500',   285, 320, 11, '500 tabs', 'sugar free', true, '10 min'),
+  ]},
+  stevia_natural_sweetener: { query: 'stevia', canonicalName: 'Stevia Natural (100 sachets)', category: 'Packaged Foods', icon: '🌿', prices: [
+    p('blinkit',   'Sugar Free Green 100',  185, 210, 12, '100 sachets', 'sugar free', true, '10 min'),
+  ]},
+  peanut_butter_unsweetened: { query: 'unsweetened peanut butter', canonicalName: 'Peanut Butter (Unsweetened)', category: 'Packaged Foods', icon: '🥜', prices: [
+    p('blinkit',   'Pintola Unsweetened',   185, 220, 16, '350g', 'peanut butter', true, '10 min'),
+  ]},
+  almond_butter_premium: { query: 'almond butter', canonicalName: 'Premium Almond Butter', category: 'Packaged Foods', icon: '🥜', prices: [
+    p('blinkit',   'Urban Platter Almond',  485, 550, 12, '200g', 'peanut butter', true, '10 min'),
+  ]},
+  quinoa_tri_color: { query: 'tricolor quinoa', canonicalName: 'Quinoa (Tri-Color)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Urban Platter Quinoa',  325, 380, 14, '500g', 'quinoa', true, '10 min'),
+  ]},
+  chia_seeds_premium_500g: { query: 'chia seeds 500g', canonicalName: 'Chia Seeds (500g Mega)', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Urban Platter Chia',    325, 380, 14, '500g', 'health food', true, '10 min'),
+  ]},
+  flax_seeds_roasted: { query: 'flax seeds', canonicalName: 'Roasted Flax Seeds', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Urban Platter Flax',    145, 175, 17, '250g', 'health food', true, '10 min'),
+  ]},
+  pumpkin_seeds_raw: { query: 'raw pumpkin seeds', canonicalName: 'Raw Pumpkin Seeds', category: 'Packaged Foods', icon: '🎃', prices: [
+    p('blinkit',   'Urban Platter Pumpkin', 285, 350, 18, '250g', 'health food', true, '10 min'),
+  ]},
+  sunflower_seeds_raw: { query: 'sunflower seeds', canonicalName: 'Raw Sunflower Seeds', category: 'Packaged Foods', icon: '🌻', prices: [
+    p('blinkit',   'Urban Platter Sun',     185, 220, 16, '250g', 'health food', true, '10 min'),
+  ]},
+  goji_berries_dried: { query: 'goji berries', canonicalName: 'Dried Goji Berries', category: 'Snacks', icon: '🍒', prices: [
+    p('blinkit',   'Urban Platter Goji',    425, 500, 15, '200g', 'dry fruits', true, '10 min'),
+  ]},
+  cranberries_dried: { query: 'cranberries', canonicalName: 'Dried Cranberries', category: 'Snacks', icon: '🍒', prices: [
+    p('blinkit',   'Urban Platter Cran',    325, 380, 14, '250g', 'dry fruits', true, '10 min'),
+  ]},
+  blueberries_dried: { query: 'dried blueberries', canonicalName: 'Dried Blueberries', category: 'Snacks', icon: '🫐', prices: [
+    p('blinkit',   'Urban Platter Blue',    485, 550, 12, '200g', 'dry fruits', true, '10 min'),
+  ]},
+  walnut_kernels_premium_500g: { query: 'walnuts 500g', canonicalName: 'Walnut Kernels (500g)', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Premium Akhrot 500g',   645, 750, 14, '500g', 'dry fruits', true, '10 min'),
+  ]},
+  pistachios_roasted_salted_500g: { query: 'pista 500g', canonicalName: 'Pistachios (500g Mega)', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Happilo Pista 500g',    845, 950, 11, '500g', 'dry fruits', true, '10 min'),
+  ]},
+  cashew_whole_premium_1kg: { query: 'kaju 1kg', canonicalName: 'Premium Cashews (1kg Mega)', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Happilo Kaju 1kg',      945, 1100, 14, '1 kg', 'dry fruits', true, '10 min'),
+  ]},
+  almonds_premium_1kg: { query: 'badam 1kg', canonicalName: 'Premium Almonds (1kg Mega)', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Happilo Badam 1kg',     845, 950, 11, '1 kg', 'dry fruits', true, '10 min'),
+  ]},
+  mixed_nuts_mega_pack: { query: 'mixed nuts', canonicalName: 'Mixed Nuts (Party Pack)', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Happilo Party Mix',     485, 550, 12, '500g', 'dry fruits', true, '10 min'),
+  ]},
+  tata_sampann_chana_dal: { query: 'tata chana dal', canonicalName: 'Tata Sampann Chana Dal', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Chana Dal 1kg',    125, 145, 14, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_kabuli_chana: { query: 'tata kabuli chana', canonicalName: 'Tata Sampann Kabuli Chana', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Kabuli 1kg',       185, 210, 12, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_kala_chana: { query: 'tata kala chana', canonicalName: 'Tata Sampann Kala Chana', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Kala Chana 1kg',   115, 135, 14, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  fortune_maida_1kg: { query: 'maida 1kg', canonicalName: 'Fortune Maida (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Fortune Maida 1kg',     45, 55, 18, '1 kg', 'flour', true, '10 min'),
+  ]},
+  fortune_suji_1kg: { query: 'suji 1kg', canonicalName: 'Fortune Suji (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Fortune Suji 1kg',      55, 65, 15, '1 kg', 'flour', true, '10 min'),
+  ]},
+  fortune_besan_1kg_premium: { query: 'besan 1kg', canonicalName: 'Fortune Besan (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Fortune Besan 1kg',     105, 125, 16, '1 kg', 'flour', true, '10 min'),
+  ]},
+  maaza_600ml_bottle: { query: 'maaza 600ml', canonicalName: 'Maaza Mango Drink (600ml)', category: 'Beverages', icon: '🥭', prices: [
+    p('blinkit',   'Maaza 600ml Bottle',    40, 40, 0, '600ml', 'beverages', true, '10 min'),
+  ]},
+  sprite_zero_750ml: { query: 'sprite zero', canonicalName: 'Sprite Zero (750ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Sprite Zero 750ml',     45, 45, 0, '750ml', 'soft drink', true, '10 min'),
+  ]},
+  kurkure_chilli_chatka: { query: 'chilli chatka', canonicalName: 'Kurkure Chilli Chatka', category: 'Snacks', icon: '🍟', prices: [
+    p('blinkit',   'Kurkure Chilli 90g',    20, 20, 0, '90g', 'snacks', true, '10 min'),
+  ]},
+  bingo_tedhe_medhe_masala: { query: 'tedhe medhe', canonicalName: 'Bingo! Tedhe Medhe', category: 'Snacks', icon: '🍟', prices: [
+    p('blinkit',   'Tedhe Medhe 100g',      20, 20, 0, '100g', 'snacks', true, '10 min'),
+  ]},
+  lays_cream_onion_50g: { query: 'lays cream onion', canonicalName: 'Lays Cream & Onion', category: 'Snacks', icon: '🍟', prices: [
+    p('blinkit',   'Lays Onion 50g',        20, 20, 0, '50g', 'chips', true, '10 min'),
+  ]},
+  lays_tomato_50g: { query: 'lays tomato', canonicalName: 'Lays Spanish Tomato', category: 'Snacks', icon: '🍟', prices: [
+    p('blinkit',   'Lays Tomato 50g',       20, 20, 0, '50g', 'chips', true, '10 min'),
+  ]},
+  tetley_ginger_lemon_honey: { query: 'tetley ginger', canonicalName: 'Tetley Ginger Lemon Honey', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Tetley Ginger 25 bags', 185, 220, 16, '25 bags', 'tea', true, '10 min'),
+  ]},
+  twining_pure_green_tea: { query: 'twining green tea', canonicalName: 'Twinings Pure Green Tea', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Twinings Green 25 bags', 385, 450, 14, '25 bags', 'tea', true, '10 min'),
+  ]},
+  sesame_oil_1l_premium: { query: 'sesame oil', canonicalName: 'Premium Sesame Oil (1L)', category: 'Packaged Foods', icon: '🫙', prices: [
+    p('blinkit',   'Idhayam Sesame 1L',     385, 450, 14, '1 L', 'oil', true, '10 min'),
+  ]},
+  rice_flour_1kg_pack: { query: 'rice flour', canonicalName: 'Rice Flour (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Organic Rice Flour',    85, 110, 22, '1 kg', 'flour', true, '10 min'),
+  ]},
+  kala_jeera_seeds: { query: 'kala jeera', canonicalName: 'Black Cumin (Kala Jeera)', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Catch Kala Jeera',      125, 150, 17, '50g', 'spices', true, '10 min'),
+  ]},
+  star_anise_spices: { query: 'star anise', canonicalName: 'Star Anise (Chakra Phool)', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Catch Star Anise',      85, 110, 22, '50g', 'spices', true, '10 min'),
+  ]},
+  mace_javitri_spices: { query: 'javitri', canonicalName: 'Mace (Javitri)', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Catch Javitri 50g',     185, 220, 16, '50g', 'spices', true, '10 min'),
+  ]},
+  nutmeg_jaiphal_spices: { query: 'jaiphal', canonicalName: 'Nutmeg (Jaiphal)', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Catch Nutmeg 2 pcs',    45, 55, 18, '2 pcs', 'spices', true, '10 min'),
+  ]},
+  white_pepper_seeds: { query: 'white pepper', canonicalName: 'White Pepper Whole', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Catch White Pepper',    125, 155, 19, '50g', 'spices', true, '10 min'),
+  ]},
+  fennel_seeds_thick: { query: 'thick saunf', canonicalName: 'Fennel Seeds (Thick)', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Catch Thick Saunf',     45, 60, 25, '100g', 'spices', true, '10 min'),
+  ]},
+  mustard_seeds_yellow: { query: 'yellow sarson', canonicalName: 'Yellow Mustard Seeds', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Catch Yellow Sarson',   35, 45, 22, '100g', 'spices', true, '10 min'),
+  ]},
+  mozzarella_cheese_200g: { query: 'mozzarella cheese', canonicalName: 'Mozzarella Cheese (200g)', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Mozzarella',       115, 125, 8, '200g', 'cheese', true, '10 min'),
+  ]},
+  gouda_cheese_200g: { query: 'gouda cheese', canonicalName: 'Gouda Cheese (200g)', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Gouda Cheese',     185, 210, 12, '200g', 'cheese', true, '10 min'),
+  ]},
+  cheddar_cheese_200g: { query: 'cheddar cheese', canonicalName: 'Cheddar Cheese (200g)', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Britannia Cheddar',     195, 220, 11, '200g', 'cheese', true, '10 min'),
+  ]},
+  feta_cheese_200g: { query: 'feta cheese', canonicalName: 'Feta Cheese (200g)', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Urban Platter Feta',    385, 450, 14, '200g', 'cheese', true, '10 min'),
+  ]},
+  parmesan_cheese_100g: { query: 'parmesan cheese', canonicalName: 'Parmesan Cheese (100g)', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Urban Platter Parm',    485, 550, 12, '100g', 'cheese', true, '10 min'),
+  ]},
+  haldiram_moong_dal_200g: { query: 'moong dal snack', canonicalName: 'Haldiram Moong Dal (Snack)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Moong Dal 200g',        55, 65, 15, '200g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_navratan_mix_400g: { query: 'navratan mix', canonicalName: 'Haldiram Navratan Mix', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Navratan Mix 400g',     105, 125, 16, '400g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_khatta_meetha_400g: { query: 'khatta meetha', canonicalName: 'Haldiram Khatta Meetha', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Khatta Meetha 400g',    105, 125, 16, '400g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_cornflakes_mix_400g: { query: 'cornflakes mix', canonicalName: 'Haldiram Cornflakes Mix', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Cornflakes Mix 400g',   105, 125, 16, '400g', 'snacks', true, '10 min'),
+  ]},
+  oreo_strawberry_120g: { query: 'oreo strawberry', canonicalName: 'Oreo Strawberry Cream', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Oreo Strawberry 120g',  35, 35, 0, '120g', 'biscuits', true, '10 min'),
+  ]},
+  oreo_vanilla_120g: { query: 'oreo vanilla', canonicalName: 'Oreo Vanilla Cream', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Oreo Vanilla 120g',     35, 35, 0, '120g', 'biscuits', true, '10 min'),
+  ]},
+  britannia_50_50_biscuits: { query: '50-50 biscuits', canonicalName: 'Britannia 50-50 Maska', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   '50-50 Maska 200g',      35, 40, 12, '200g', 'biscuits', true, '10 min'),
+  ]},
+  britannia_monaco_biscuits: { query: 'monaco biscuits', canonicalName: 'Britannia Monaco Classic', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Monaco Classic 200g',   35, 40, 12, '200g', 'biscuits', true, '10 min'),
+  ]},
+  paper_boat_lychee_1l: { query: 'paper boat lychee', canonicalName: 'Paper Boat Lychee (1L)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Paper Boat Lychee 1L',  125, 150, 16, '1 L', 'beverages', true, '10 min'),
+  ]},
+  paper_boat_santra_1l: { query: 'paper boat santra', canonicalName: 'Paper Boat Santra (1L)', category: 'Beverages', icon: '🍊', prices: [
+    p('blinkit',   'Paper Boat Santra 1L',  95, 115, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  b_natural_mango_1l: { query: 'b natural mango', canonicalName: 'B Natural Mango (1L)', category: 'Beverages', icon: '🥭', prices: [
+    p('blinkit',   'B Natural Mango 1L',    115, 130, 11, '1 L', 'beverages', true, '10 min'),
+  ]},
+  b_natural_orange_1l: { query: 'b natural orange', canonicalName: 'B Natural Orange (1L)', category: 'Beverages', icon: '🍊', prices: [
+    p('blinkit',   'B Natural Orange 1L',   115, 130, 11, '1 L', 'beverages', true, '10 min'),
+  ]},
+  green_moong_whole_1kg: { query: 'moong whole 1kg', canonicalName: 'Green Moong Whole (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Moong 1kg',     185, 210, 12, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  black_urad_whole_1kg: { query: 'urad whole 1kg', canonicalName: 'Black Urad Whole (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Urad 1kg',      185, 210, 12, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  horse_gram_500g_pack: { query: 'horse gram', canonicalName: 'Horse Gram (Kulthi)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic Horse Gram',    85, 110, 22, '500g', 'pulses', true, '10 min'),
+  ]},
+  soya_beans_1kg_pack: { query: 'soya beans', canonicalName: 'Soya Beans (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic Soya Beans',    125, 155, 19, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  lobia_white_1kg_pack: { query: 'lobia 1kg', canonicalName: 'White Lobia (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Lobia 1kg',     115, 135, 14, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  mccain_potato_cheese_shotz_400g: { query: 'mccain shotz', canonicalName: 'McCain Potato Cheese Shotz', category: 'Frozen Foods', icon: '🧊', prices: [
+    p('blinkit',   'McCain Shotz 400g',     165, 195, 15, '400g', 'frozen', true, '10 min'),
+  ]},
+  mccain_chilli_garlic_bites_400g: { query: 'mccain bites', canonicalName: 'McCain Chilli Garlic Bites', category: 'Frozen Foods', icon: '🧊', prices: [
+    p('blinkit',   'McCain Bites 400g',     125, 155, 19, '400g', 'frozen', true, '10 min'),
+  ]},
+  mccain_veggie_patty_12pcs: { query: 'mccain patty', canonicalName: 'McCain Veggie Burger Patty', category: 'Frozen Foods', icon: '🧊', prices: [
+    p('blinkit',   'McCain Patty 12 pcs',   245, 290, 15, '12 pcs', 'frozen', true, '10 min'),
+  ]},
+  yummiez_chicken_nuggets_500g: { query: 'yummiez nuggets', canonicalName: 'Godrej Yummiez Nuggets', category: 'Frozen Foods', icon: '🧊', prices: [
+    p('blinkit',   'Yummiez Chicken 500g',  285, 330, 14, '500g', 'frozen', true, '10 min'),
+  ]},
+  amul_gold_1l_tetra: { query: 'amul gold 1l', canonicalName: 'Amul Gold (1L Tetra)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Gold 1L',          72, 72, 0, '1 L', 'milk', true, '10 min'),
+  ]},
+  amul_taaza_1l_tetra: { query: 'amul taaza 1l', canonicalName: 'Amul Taaza (1L Tetra)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Taaza 1L',         68, 68, 0, '1 L', 'milk', true, '10 min'),
+  ]},
+  amul_slim_trim_1l_tetra: { query: 'amul slim 1l', canonicalName: 'Amul Slim N Trim (1L)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Slim 1L',          64, 64, 0, '1 L', 'milk', true, '10 min'),
+  ]},
+  britannia_bourbon_150g: { query: 'bourbon biscuits', canonicalName: 'Britannia Bourbon', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Bourbon 150g',          30, 35, 14, '150g', 'biscuits', true, '10 min'),
+  ]},
+  britannia_little_hearts: { query: 'little hearts', canonicalName: 'Britannia Little Hearts', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Little Hearts 75g',     25, 25, 0, '75g', 'biscuits', true, '10 min'),
+  ]},
+  sunfeast_moms_magic_cashew: { query: 'moms magic cashew', canonicalName: 'Mom’s Magic Cashew', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Moms Magic 200g',       45, 50, 10, '200g', 'biscuits', true, '10 min'),
+  ]},
+  real_pineapple_juice_1l: { query: 'real pineapple', canonicalName: 'Real Pineapple Juice (1L)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Pineapple 1L',     115, 130, 11, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_litchi_juice_1l: { query: 'real litchi', canonicalName: 'Real Litchi Juice (1L)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Litchi 1L',        115, 130, 11, '1 L', 'beverages', true, '10 min'),
+  ]},
+  fanta_600ml_bottle: { query: 'fanta 600ml', canonicalName: 'Fanta Orange (600ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Fanta 600ml Bottle',    40, 40, 0, '600ml', 'beverages', true, '10 min'),
+  ]},
+  limca_600ml_bottle: { query: 'limca 600ml', canonicalName: 'Limca (600ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Limca 600ml Bottle',    40, 40, 0, '600ml', 'beverages', true, '10 min'),
+  ]},
+  thums_up_600ml_bottle: { query: 'thums up 600ml', canonicalName: 'Thums Up (600ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Thums Up 600ml Bottle', 40, 40, 0, '600ml', 'beverages', true, '10 min'),
+  ]},
+  corn_flour_500g_pack: { query: 'corn flour', canonicalName: 'Corn Flour (Maize)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Weikfield Corn Flour',  45, 55, 18, '500g', 'flour', true, '10 min'),
+  ]},
+  haldiram_bhujia_sev_1kg: { query: 'bhujia 1kg', canonicalName: 'Haldiram Bhujia Sev (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Bhujia Sev 1kg',        245, 280, 12, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  haldiram_aloo_bhujia_1kg: { query: 'aloo bhujia 1kg', canonicalName: 'Haldiram Aloo Bhujia (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Aloo Bhujia 1kg',       245, 280, 12, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  haldiram_mixture_1kg: { query: 'mixture 1kg', canonicalName: 'Haldiram Mixture (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Mixture 1kg Pack',      245, 280, 12, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  mother_dairy_ghee_1l: { query: 'mother dairy ghee', canonicalName: 'Mother Dairy Ghee (1L)', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Mother Dairy Ghee 1L',  575, 640, 10, '1 L', 'ghee', true, '10 min'),
+  ]},
+  coke_zero_600ml: { query: 'coke zero 600ml', canonicalName: 'Coke Zero (600ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke Zero 600ml',       40, 40, 0, '600ml', 'soft drink', true, '10 min'),
+  ]},
+  pepsi_black_600ml: { query: 'pepsi black 600ml', canonicalName: 'Pepsi Black (600ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Pepsi Black 600ml',     40, 40, 0, '600ml', 'soft drink', true, '10 min'),
+  ]},
+  sprite_zero_600ml: { query: 'sprite zero 600ml', canonicalName: 'Sprite Zero (600ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Sprite Zero 600ml',     40, 40, 0, '600ml', 'soft drink', true, '10 min'),
+  ]},
+  top_ramen_curry_70g: { query: 'top ramen curry', canonicalName: 'Top Ramen Curry Noodles', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Top Ramen Curry 70g',   25, 25, 0, '70g', 'noodles', true, '10 min'),
+  ]},
+  top_ramen_masala_70g: { query: 'top ramen masala', canonicalName: 'Top Ramen Masala', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Top Ramen Masala 70g',  20, 20, 0, '70g', 'noodles', true, '10 min'),
+  ]},
+  wai_wai_ready_noodles: { query: 'wai wai noodles', canonicalName: 'Wai Wai Ready-to-Eat', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Wai Wai Veg 70g',       20, 20, 0, '70g', 'noodles', true, '10 min'),
+  ]},
+  chings_hakka_noodles_150g: { query: 'chings hakka', canonicalName: 'Chings Hakka Noodles', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Chings Hakka 150g',     45, 50, 10, '150g', 'noodles', true, '10 min'),
+  ]},
+  paper_boat_aam_panna_200ml: { query: 'aam panna', canonicalName: 'Paper Boat Aam Panna', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Paper Boat Aam Panna',  20, 20, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  paper_boat_anardana_200ml: { query: 'anardana', canonicalName: 'Paper Boat Anardana', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Paper Boat Anardana',   20, 20, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  britannia_bourbon_family: { query: 'bourbon family', canonicalName: 'Britannia Bourbon (Family Pack)', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Bourbon 400g Pack',     85, 100, 15, '400g', 'biscuits', true, '10 min'),
+  ]},
+  alphonso_mango_2pc: { query: 'alphonso mango', canonicalName: 'Alphonso Mango (2 pcs)', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Alphonso Grade A',      245, 350, 30, '2 pcs', 'fruits', true, '10 min'),
+  ]},
+  badami_mango_1kg: { query: 'badami mango', canonicalName: 'Badami Mango (1kg)', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Fresh Badami Mango',    145, 185, 21, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  kesar_mango_1kg: { query: 'kesar mango', canonicalName: 'Kesar Mango (1kg)', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Premium Kesar Mango',   185, 240, 23, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  strawberry_fresh_200g: { query: 'strawberry', canonicalName: 'Fresh Strawberries (200g)', category: 'Fruits', icon: '🍓', prices: [
+    p('blinkit',   'Mahabaleshwar Berries', 125, 165, 24, '200g', 'fruits', true, '10 min'),
+  ]},
+  blueberry_fresh_125g: { query: 'blueberry', canonicalName: 'Fresh Blueberries (125g)', category: 'Fruits', icon: '🫐', prices: [
+    p('blinkit',   'Imported Blueberries',  285, 350, 18, '125g', 'fruits', true, '10 min'),
+  ]},
+  raspberry_fresh_125g: { query: 'raspberry', canonicalName: 'Fresh Raspberries (125g)', category: 'Fruits', icon: '🍓', prices: [
+    p('blinkit',   'Imported Raspberries',  345, 450, 23, '125g', 'fruits', true, '10 min'),
+  ]},
+  pineapple_fresh_1pc: { query: 'pineapple', canonicalName: 'Fresh Pineapple (Queen)', category: 'Fruits', icon: '🍍', prices: [
+    p('blinkit',   'Queen Pineapple 1pc',   85, 125, 32, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  pomegranate_fresh_2pc: { query: 'pomegranate', canonicalName: 'Pomegranate (2 pcs)', category: 'Fruits', icon: '🍎', prices: [
+    p('blinkit',   'Bhagwa Anar 2 pcs',     145, 195, 25, '2 pcs', 'fruits', true, '10 min'),
+  ]},
+  maggi_pazzta_cheese_macaroni: { query: 'maggi pazzta', canonicalName: 'Maggi Pazzta (Cheese)', category: 'Packaged Foods', icon: '🍝', prices: [
+    p('blinkit',   'Pazzta Cheese 70g',     25, 28, 10, '70g', 'pasta', true, '10 min'),
+  ]},
+  maggi_pazzta_masala_penne: { query: 'maggi penne', canonicalName: 'Maggi Pazzta (Masala)', category: 'Packaged Foods', icon: '🍝', prices: [
+    p('blinkit',   'Pazzta Masala 70g',     25, 28, 10, '70g', 'pasta', true, '10 min'),
+  ]},
+  maaza_family_1_2l: { query: 'maaza 1.2l', canonicalName: 'Maaza Mango (1.2L Bottle)', category: 'Beverages', icon: '🥭', prices: [
+    p('blinkit',   'Maaza 1.2L Bottle',     65, 75, 13, '1.2 L', 'beverages', true, '10 min'),
+  ]},
+  slice_family_1_2l: { query: 'slice 1.2l', canonicalName: 'Slice Mango (1.2L Bottle)', category: 'Beverages', icon: '🥭', prices: [
+    p('blinkit',   'Slice 1.2L Bottle',     65, 75, 13, '1.2 L', 'beverages', true, '10 min'),
+  ]},
+  frooti_family_1_2l: { query: 'frooti 1.2l', canonicalName: 'Frooti Mango (1.2L Bottle)', category: 'Beverages', icon: '🥭', prices: [
+    p('blinkit',   'Frooti 1.2L Bottle',    60, 70, 14, '1.2 L', 'beverages', true, '10 min'),
+  ]},
+  bingo_mad_angles_achaari: { query: 'achaari masti', canonicalName: 'Bingo! Mad Angles Achaari', category: 'Snacks', icon: '🍟', prices: [
+    p('blinkit',   'Mad Angles Achaari',    20, 20, 0, '80g', 'snacks', true, '10 min'),
+  ]},
+  kurkure_puffcorn_cheese: { query: 'puffcorn cheese', canonicalName: 'Kurkure Puffcorn (Cheese)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Puffcorn Yummy Cheese', 20, 20, 0, '60g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_gulab_jamun_tin: { query: 'gulab jamun tin', canonicalName: 'Haldiram Gulab Jamun (Tin)', category: 'Snacks', icon: '🍯', prices: [
+    p('blinkit',   'Gulab Jamun 1kg Tin',   225, 250, 10, '1 kg', 'sweets', true, '10 min'),
+  ]},
+  haldiram_rasgulla_tin: { query: 'rasgulla tin', canonicalName: 'Haldiram Rasgulla (Tin)', category: 'Snacks', icon: '🍯', prices: [
+    p('blinkit',   'Rasgulla 1kg Tin',      225, 250, 10, '1 kg', 'sweets', true, '10 min'),
+  ]},
+  haldiram_soan_papdi_250g: { query: 'soan papdi', canonicalName: 'Haldiram Soan Papdi', category: 'Snacks', icon: '🍮', prices: [
+    p('blinkit',   'Soan Papdi 250g',       75, 90, 16, '250g', 'sweets', true, '10 min'),
+  ]},
+  paper_boat_thandai_180ml: { query: 'paper boat thandai', canonicalName: 'Paper Boat Thandai', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Thandai 180ml Bottle',  35, 40, 12, '180ml', 'beverages', true, '10 min'),
+  ]},
+  paper_boat_badam_milk_180ml: { query: 'paper boat badam milk', canonicalName: 'Paper Boat Badam Milk', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Badam Milk 180ml',      35, 40, 12, '180ml', 'beverages', true, '10 min'),
+  ]},
+  paper_boat_rose_milk_180ml: { query: 'paper boat rose milk', canonicalName: 'Paper Boat Rose Milk', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Rose Milk 180ml',       35, 40, 12, '180ml', 'beverages', true, '10 min'),
+  ]},
+  rajma_chitra_1kg_pack: { query: 'rajma chitra', canonicalName: 'Rajma Chitra (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Rajma Chitra',  165, 195, 15, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  rajma_jammu_1kg_pack: { query: 'rajma jammu', canonicalName: 'Rajma Jammu (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Rajma Jammu',   185, 220, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  kabuli_chana_small_1kg: { query: 'kabuli chana small', canonicalName: 'Kabuli Chana (Small)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Kabuli 1kg',    155, 185, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  green_peas_dried_1kg: { query: 'green peas dried', canonicalName: 'Dried Green Peas', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic Green Peas',    95, 125, 24, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  white_peas_dried_1kg: { query: 'white peas dried', canonicalName: 'Dried White Peas', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic White Peas',    85, 115, 26, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  haldiram_mini_samosa_200g: { query: 'mini samosa', canonicalName: 'Haldiram Mini Samosa', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Mini Samosa 200g',      65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_kachori_200g: { query: 'kachori snack', canonicalName: 'Haldiram Kachori (Snack)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Kachori 200g Pack',     65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  amul_gold_200ml_6pack: { query: 'amul gold 6 pack', canonicalName: 'Amul Gold (200ml x 6)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Gold 6-Pack',      120, 120, 0, '1.2 L', 'milk', true, '10 min'),
+  ]},
+  amul_taaza_200ml_6pack: { query: 'amul taaza 6 pack', canonicalName: 'Amul Taaza (200ml x 6)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Taaza 6-Pack',     108, 108, 0, '1.2 L', 'milk', true, '10 min'),
+  ]},
+  gowardhan_ghee_1l: { query: 'gowardhan ghee', canonicalName: 'Gowardhan Pure Ghee (1L)', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Gowardhan Ghee 1L',     585, 650, 10, '1 L', 'ghee', true, '10 min'),
+  ]},
+  milk_food_ghee_1l: { query: 'milk food ghee', canonicalName: 'Milk Food Pure Ghee (1L)', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Milk Food Ghee 1L',     565, 620, 9, '1 L', 'ghee', true, '10 min'),
+  ]},
+  heritage_cow_ghee_1l: { query: 'heritage ghee', canonicalName: 'Heritage Cow Ghee (1L)', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Heritage Ghee 1L',      595, 660, 10, '1 L', 'ghee', true, '10 min'),
+  ]},
+  coke_1l_bottle: { query: 'coke 1l', canonicalName: 'Coca Cola (1L Bottle)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke 1L Bottle',        60, 60, 0, '1 L', 'soft drink', true, '10 min'),
+  ]},
+  pepsi_1l_bottle: { query: 'pepsi 1l', canonicalName: 'Pepsi (1L Bottle)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Pepsi 1L Bottle',       60, 60, 0, '1 L', 'soft drink', true, '10 min'),
+  ]},
+  sprite_1l_bottle: { query: 'sprite 1l', canonicalName: 'Sprite (1L Bottle)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Sprite 1L Bottle',      60, 60, 0, '1 L', 'soft drink', true, '10 min'),
+  ]},
+  thums_up_1l_bottle: { query: 'thums up 1l', canonicalName: 'Thums Up (1L Bottle)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Thums Up 1L Bottle',    60, 60, 0, '1 L', 'soft drink', true, '10 min'),
+  ]},
+  haldiram_murukku_200g: { query: 'murukku', canonicalName: 'Haldiram Murukku', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Murukku 200g Pack',     65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_banana_chips_200g: { query: 'banana chips', canonicalName: 'Haldiram Banana Chips', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Banana Chips 200g',     75, 90, 16, '200g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_tapioca_chips_200g: { query: 'tapioca chips', canonicalName: 'Haldiram Tapioca Chips', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Tapioca Chips 200g',    75, 90, 16, '200g', 'snacks', true, '10 min'),
+  ]},
+  mccain_aloo_tikki_1_5kg: { query: 'aloo tikki 1.5kg', canonicalName: 'McCain Aloo Tikki (Mega)', category: 'Frozen Foods', icon: '🧊', prices: [
+    p('blinkit',   'McCain Tikki 1.5kg',    385, 450, 14, '1.5 kg', 'frozen', true, '10 min'),
+  ]},
+  mccain_peri_peri_fries_420g: { query: 'peri peri fries', canonicalName: 'McCain Peri Peri Fries', category: 'Frozen Foods', icon: '🧊', prices: [
+    p('blinkit',   'McCain Peri Peri 420g', 165, 195, 15, '420g', 'frozen', true, '10 min'),
+  ]},
+  masoor_whole_1kg_pack: { query: 'masoor whole', canonicalName: 'Masoor Whole (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Masoor 1kg',    125, 155, 19, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  chana_whole_1kg_pack: { query: 'chana whole', canonicalName: 'Chana Whole (Brown)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Chana 1kg',     115, 145, 20, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  sting_energy_drink_250ml: { query: 'sting drink', canonicalName: 'Sting Energy Drink (250ml)', category: 'Beverages', icon: '⚡', prices: [
+    p('blinkit',   'Sting Energy 250ml',    20, 20, 0, '250ml', 'beverages', true, '10 min'),
+  ]},
+  monster_energy_drink_350ml: { query: 'monster drink', canonicalName: 'Monster Energy (350ml)', category: 'Beverages', icon: '⚡', prices: [
+    p('blinkit',   'Monster Energy 350ml',  110, 110, 0, '350ml', 'beverages', true, '10 min'),
+  ]},
+  red_bull_sugarfree_250ml: { query: 'red bull sugarfree', canonicalName: 'Red Bull Sugarfree', category: 'Beverages', icon: '⚡', prices: [
+    p('blinkit',   'Red Bull SF 250ml',     125, 125, 0, '250ml', 'beverages', true, '10 min'),
+  ]},
+  real_activ_orange_1l: { query: 'real activ orange', canonicalName: 'Real Activ Orange (1L)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Orange 1L',  125, 145, 14, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_activ_apple_1l: { query: 'real activ apple', canonicalName: 'Real Activ Apple (1L)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Apple 1L',   125, 145, 14, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_activ_mixed_fruit_1l: { query: 'real activ mixed', canonicalName: 'Real Activ Mixed Fruit', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Mixed 1L',   125, 145, 14, '1 L', 'beverages', true, '10 min'),
+  ]},
+  haldiram_diet_mix_200g: { query: 'diet mix', canonicalName: 'Haldiram Diet Mix', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Diet Mix 200g Pack',    65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_lite_chiwda_200g: { query: 'lite chiwda', canonicalName: 'Haldiram Lite Chiwda', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Lite Chiwda 200g',      65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_mini_bhakarwadi_200g: { query: 'bhakarwadi', canonicalName: 'Haldiram Mini Bhakarwadi', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Mini Bhakarwadi 200g',  65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  kelloggs_cornflakes_almond_honey: { query: 'cornflakes almond', canonicalName: 'Corn Flakes (Almond Honey)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Kelloggs Almond Honey', 185, 210, 12, '300g', 'cereal', true, '10 min'),
+  ]},
+  kelloggs_cornflakes_strawberry: { query: 'cornflakes strawberry', canonicalName: 'Corn Flakes (Strawberry)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Kelloggs Strawberry',   175, 195, 10, '300g', 'cereal', true, '10 min'),
+  ]},
+  arhar_dal_1kg_premium: { query: 'arhar dal 1kg', canonicalName: 'Premium Arhar Dal (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Arhar 1kg',     175, 210, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  masoor_dal_wash_1kg: { query: 'masoor dal wash', canonicalName: 'Masoor Dal Wash (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Masoor Wash',   135, 165, 18, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  moong_chilka_dal_1kg: { query: 'moong chilka 1kg', canonicalName: 'Moong Chilka Dal (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Moong Chilka',  165, 195, 15, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  nescafe_sunrise_200g: { query: 'nescafe sunrise', canonicalName: 'Nescafe Sunrise (200g)', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Nescafe Sunrise 200g',  385, 450, 14, '200g', 'coffee', true, '10 min'),
+  ]},
+  continental_xtra_200g: { query: 'continental coffee', canonicalName: 'Continental Xtra Coffee', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Continental Xtra 200g', 345, 400, 13, '200g', 'coffee', true, '10 min'),
+  ]},
+  davidoff_espresso_57: { query: 'davidoff espresso', canonicalName: 'Davidoff Espresso 57', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Davidoff Espresso 100g', 545, 650, 16, '100g', 'coffee', true, '10 min'),
+  ]},
+  pringles_original_107g: { query: 'pringles original', canonicalName: 'Pringles Original', category: 'Snacks', icon: '🍟', prices: [
+    p('blinkit',   'Pringles Original',     105, 105, 0, '107g', 'chips', true, '10 min'),
+  ]},
+  pringles_sour_cream_107g: { query: 'pringles sour cream', canonicalName: 'Pringles Sour Cream', category: 'Snacks', icon: '🍟', prices: [
+    p('blinkit',   'Pringles Sour Cream',   105, 105, 0, '107g', 'chips', true, '10 min'),
+  ]},
+  pringles_desi_masala_107g: { query: 'pringles masala', canonicalName: 'Pringles Desi Masala', category: 'Snacks', icon: '🍟', prices: [
+    p('blinkit',   'Pringles Desi Masala',  105, 105, 0, '107g', 'chips', true, '10 min'),
+  ]},
+  epigamia_greek_natural: { query: 'epigamia natural', canonicalName: 'Epigamia Greek Yogurt (Natural)', category: 'Dairy', icon: '🍨', prices: [
+    p('blinkit',   'Epigamia Natural 90g',  45, 50, 10, '90g', 'yogurt', true, '10 min'),
+  ]},
+  epigamia_greek_blueberry: { query: 'epigamia blueberry', canonicalName: 'Epigamia Greek (Blueberry)', category: 'Dairy', icon: '🍨', prices: [
+    p('blinkit',   'Epigamia Blueberry 90g', 60, 65, 7, '90g', 'yogurt', true, '10 min'),
+  ]},
+  coke_can_250ml: { query: 'coke can 250ml', canonicalName: 'Coke (250ml Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke Can 250ml',        35, 35, 0, '250ml', 'soft drink', true, '10 min'),
+  ]},
+  pepsi_can_250ml: { query: 'pepsi can 250ml', canonicalName: 'Pepsi (250ml Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Pepsi Can 250ml',       35, 35, 0, '250ml', 'soft drink', true, '10 min'),
+  ]},
+  paper_boat_kokum_200ml: { query: 'kokum drink', canonicalName: 'Paper Boat Kokum', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Paper Boat Kokum',      20, 20, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  bajra_atta_1kg_pack: { query: 'bajra atta', canonicalName: 'Bajra Atta (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Organic Bajra Atta',    85, 110, 22, '1 kg', 'flour', true, '10 min'),
+  ]},
+  jowar_atta_1kg_pack: { query: 'jowar atta', canonicalName: 'Jowar Atta (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Organic Jowar Atta',    95, 125, 24, '1 kg', 'flour', true, '10 min'),
+  ]},
+  ragi_atta_1kg_pack: { query: 'ragi atta', canonicalName: 'Ragi Atta (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Organic Ragi Atta',     95, 125, 24, '1 kg', 'flour', true, '10 min'),
+  ]},
+  makka_atta_1kg_pack: { query: 'makka atta', canonicalName: 'Maize Atta (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Fortune Makka Atta',    65, 80, 18, '1 kg', 'flour', true, '10 min'),
+  ]},
+  haldiram_navratan_mix_1kg: { query: 'navratan 1kg', canonicalName: 'Haldiram Navratan (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Navratan 1kg Mega',     245, 280, 12, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  haldiram_khatta_meetha_1kg: { query: 'khatta meetha 1kg', canonicalName: 'Haldiram Khatta Meetha (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Khatta Meetha 1kg',     245, 280, 12, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  real_activ_fiber_orange: { query: 'activ fiber orange', canonicalName: 'Real Activ Fiber + Orange', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Fiber 1L',   145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_activ_fiber_mango: { query: 'activ fiber mango', canonicalName: 'Real Activ Fiber + Mango', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Fiber 1L',   145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  green_moong_split_1kg: { query: 'moong split 1kg', canonicalName: 'Green Moong Split (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Moong Split',   175, 210, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  black_urad_split_1kg: { query: 'urad split 1kg', canonicalName: 'Black Urad Split (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Urad Split',    175, 210, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  rajma_red_1kg_pack: { query: 'rajma red', canonicalName: 'Rajma Red (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Rajma Red',     185, 220, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  kabuli_chana_large_1kg: { query: 'kabuli chana large', canonicalName: 'Kabuli Chana (Large)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Fortune Kabuli Large',  195, 240, 19, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  mother_dairy_paneer_400g: { query: 'mother dairy paneer 400g', canonicalName: 'Mother Dairy Paneer (400g)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Mother Dairy 400g',     185, 210, 12, '400g', 'paneer', true, '10 min'),
+  ]},
+  amul_malai_paneer_400g: { query: 'amul paneer 400g', canonicalName: 'Amul Malai Paneer (400g)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Malai 400g',       195, 220, 11, '400g', 'paneer', true, '10 min'),
+  ]},
+  milky_mist_paneer_400g: { query: 'milky mist paneer 400g', canonicalName: 'Milky Mist Paneer (400g)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Milky Mist 400g',       185, 210, 12, '400g', 'paneer', true, '10 min'),
+  ]},
+  coke_300ml_bottle: { query: 'coke 300ml', canonicalName: 'Coca Cola (300ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke 300ml Bottle',     25, 25, 0, '300ml', 'soft drink', true, '10 min'),
+  ]},
+  pepsi_300ml_bottle: { query: 'pepsi 300ml', canonicalName: 'Pepsi (300ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Pepsi 300ml Bottle',    25, 25, 0, '300ml', 'soft drink', true, '10 min'),
+  ]},
+  sprite_300ml_bottle: { query: 'sprite 300ml', canonicalName: 'Sprite (300ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Sprite 300ml Bottle',   25, 25, 0, '300ml', 'soft drink', true, '10 min'),
+  ]},
+  seven_up_2l_family: { query: '7up 2l', canonicalName: '7Up (2.25L Family Pack)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   '7Up 2.25L Bottle',      95, 95, 0, '2.25 L', 'soft drink', true, '10 min'),
+  ]},
+  mountain_dew_2l_family: { query: 'mountain dew 2l', canonicalName: 'Mountain Dew (2.25L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Dew 2.25L Bottle',      95, 95, 0, '2.25 L', 'soft drink', true, '10 min'),
+  ]},
+  mirinda_2l_family: { query: 'mirinda 2l', canonicalName: 'Mirinda (2.25L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Mirinda 2.25L Bottle',  95, 95, 0, '2.25 L', 'soft drink', true, '10 min'),
+  ]},
+  mccain_french_fries_1_5kg: { query: 'french fries 1.5kg', canonicalName: 'McCain Fries (Mega Pack)', category: 'Frozen Foods', icon: '🧊', prices: [
+    p('blinkit',   'McCain Fries 1.5kg',    345, 395, 12, '1.5 kg', 'frozen', true, '10 min'),
+  ]},
+  mccain_veggie_fingers_1kg: { query: 'veggie fingers 1kg', canonicalName: 'McCain Fingers (1kg)', category: 'Frozen Foods', icon: '🧊', prices: [
+    p('blinkit',   'McCain Fingers 1kg',    285, 330, 14, '1 kg', 'frozen', true, '10 min'),
+  ]},
+  haldiram_bhakarwadi_1kg: { query: 'bhakarwadi 1kg', canonicalName: 'Haldiram Bhakarwadi (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Bhakarwadi 1kg Mega',   245, 280, 12, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  haldiram_diet_mix_1kg: { query: 'diet mix 1kg', canonicalName: 'Haldiram Diet Mix (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Diet Mix 1kg Mega',     245, 280, 12, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  real_activ_fiber_mixed: { query: 'activ fiber mixed', canonicalName: 'Real Activ Fiber + Mixed', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Fiber 1L',   145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_activ_fiber_apple: { query: 'activ fiber apple', canonicalName: 'Real Activ Fiber + Apple', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Fiber 1L',   145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  tata_sampann_moong_dal_1kg: { query: 'tata moong dal', canonicalName: 'Tata Sampann Moong Dal', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Moong Dal 1kg',    165, 195, 15, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_toor_dal_1kg: { query: 'tata toor dal', canonicalName: 'Tata Sampann Toor Dal', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Toor Dal 1kg',     175, 210, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_urad_dal_1kg: { query: 'tata urad dal', canonicalName: 'Tata Sampann Urad Dal', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Urad Dal 1kg',     175, 210, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  maggi_oats_noodles: { query: 'maggi oats', canonicalName: 'Maggi Nutrilicious Oats', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Maggi Oats 4-Pack',     95, 110, 13, '280g', 'noodles', true, '10 min'),
+  ]},
+  lipton_iced_tea_lemon: { query: 'iced tea lemon', canonicalName: 'Lipton Iced Tea (Lemon)', category: 'Beverages', icon: '🍹', prices: [
+    p('blinkit',   'Lipton Lemon 250ml',    35, 35, 0, '250ml', 'beverages', true, '10 min'),
+  ]},
+  lipton_iced_tea_peach: { query: 'iced tea peach', canonicalName: 'Lipton Iced Tea (Peach)', category: 'Beverages', icon: '🍹', prices: [
+    p('blinkit',   'Lipton Peach 250ml',    35, 35, 0, '250ml', 'beverages', true, '10 min'),
+  ]},
+  lipton_iced_tea_berry: { query: 'iced tea berry', canonicalName: 'Lipton Iced Tea (Berry)', category: 'Beverages', icon: '🍹', prices: [
+    p('blinkit',   'Lipton Berry 250ml',    35, 35, 0, '250ml', 'beverages', true, '10 min'),
+  ]},
+  real_activ_fiber_pomegranate: { query: 'activ fiber pomegranate', canonicalName: 'Real Activ Fiber + Pome', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Pome 1L',    145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_activ_fiber_peach: { query: 'activ fiber peach', canonicalName: 'Real Activ Fiber + Peach', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Peach 1L',   145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  britannia_maska_chaska: { query: 'maska chaska', canonicalName: 'Britannia 50-50 Maska Chaska', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Maska Chaska 200g',     35, 40, 12, '200g', 'biscuits', true, '10 min'),
+  ]},
+  britannia_monaco_pizza: { query: 'monaco pizza', canonicalName: 'Britannia Monaco Pizza', category: 'Snacks', icon: '🍪', prices: [
+    p('blinkit',   'Monaco Pizza 200g',     35, 40, 12, '200g', 'biscuits', true, '10 min'),
+  ]},
+  nestle_a_plus_curd_1kg: { query: 'nestle curd', canonicalName: 'Nestle A+ Curd (1kg)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Nestle A+ Curd 1kg',    95, 110, 13, '1 kg', 'curd', true, '10 min'),
+  ]},
+  saffola_masala_oats_peppy_400g: { query: 'peppy tomato oats 400g', canonicalName: 'Saffola Masala Oats (Peppy)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Saffola Peppy 400g',    165, 195, 15, '400g', 'oats', true, '10 min'),
+  ]},
+  saffola_masala_oats_classic_400g: { query: 'classic masala oats 400g', canonicalName: 'Saffola Masala Oats (Classic)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Saffola Classic 400g',  165, 195, 15, '400g', 'oats', true, '10 min'),
+  ]},
+  saffola_masala_oats_veggie_400g: { query: 'veggie twist oats 400g', canonicalName: 'Saffola Masala Oats (Veggie)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Saffola Veggie 400g',   165, 195, 15, '400g', 'oats', true, '10 min'),
+  ]},
+  coke_mini_can_150ml: { query: 'coke mini can', canonicalName: 'Coke (150ml Mini Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke Mini 150ml',       20, 20, 0, '150ml', 'soft drink', true, '10 min'),
+  ]},
+  kelloggs_chocos_moons: { query: 'chocos moons', canonicalName: 'Chocos (Moons & Stars)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Chocos Moons 300g',     185, 210, 12, '300g', 'cereal', true, '10 min'),
+  ]},
+  kelloggs_chocos_fills: { query: 'chocos fills', canonicalName: 'Chocos Fills (300g)', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Chocos Fills 300g',     195, 220, 11, '300g', 'cereal', true, '10 min'),
+  ]},
+  real_activ_fiber_grape: { query: 'activ fiber grape', canonicalName: 'Real Activ Fiber + Grape', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Grape 1L',   145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_activ_fiber_apricot: { query: 'activ fiber apricot', canonicalName: 'Real Activ Fiber + Apricot', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ Apricot 1L', 145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  amul_whipping_cream_250ml: { query: 'whipping cream', canonicalName: 'Amul Whipping Cream', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Whipping 250ml',   125, 140, 10, '250ml', 'cream', true, '10 min'),
+  ]},
+  milky_mist_greek_natural: { query: 'milky mist greek', canonicalName: 'Milky Mist Greek Yogurt', category: 'Dairy', icon: '🍨', prices: [
+    p('blinkit',   'Milky Mist Greek 100g', 55, 60, 8, '100g', 'yogurt', true, '10 min'),
+  ]},
+  tata_sampann_toor_dal_2kg: { query: 'tata toor dal 2kg', canonicalName: 'Tata Sampann Toor (2kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Toor Dal 2kg',     345, 410, 15, '2 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_moong_dal_2kg: { query: 'tata moong dal 2kg', canonicalName: 'Tata Sampann Moong (2kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Moong Dal 2kg',    325, 390, 16, '2 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_urad_dal_2kg: { query: 'tata urad dal 2kg', canonicalName: 'Tata Sampann Urad (2kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Urad Dal 2kg',     345, 410, 15, '2 kg', 'pulses', true, '10 min'),
+  ]},
+  coke_1_75l_family: { query: 'coke 1.75l', canonicalName: 'Coca Cola (1.75L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke 1.75L Bottle',     80, 80, 0, '1.75 L', 'soft drink', true, '10 min'),
+  ]},
+  pepsi_1_75l_family: { query: 'pepsi 1.75l', canonicalName: 'Pepsi (1.75L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Pepsi 1.75L Bottle',    80, 80, 0, '1.75 L', 'soft drink', true, '10 min'),
+  ]},
+  haldiram_moong_dal_1kg_mega: { query: 'moong dal 1kg snack', canonicalName: 'Haldiram Moong Dal (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Moong Dal 1kg Mega',    225, 260, 13, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  amul_lassi_rose_250ml: { query: 'amul rose lassi', canonicalName: 'Amul Lassi (Rose)', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Amul Rose Lassi',       25, 25, 0, '250ml', 'beverages', true, '10 min'),
+  ]},
+  amul_lassi_mango_250ml: { query: 'amul mango lassi', canonicalName: 'Amul Lassi (Mango)', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Amul Mango Lassi',      25, 25, 0, '250ml', 'beverages', true, '10 min'),
+  ]},
+  mother_dairy_masala_chach: { query: 'masala chach', canonicalName: 'Mother Dairy Masala Chach', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Masala Chach 200ml',    15, 15, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  mother_dairy_tadka_chach: { query: 'tadka chach', canonicalName: 'Mother Dairy Tadka Chach', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Tadka Chach 200ml',     15, 15, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  coke_zero_can_300ml: { query: 'coke zero can', canonicalName: 'Coke Zero (300ml Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke Zero 300ml Can',   40, 40, 0, '300ml', 'soft drink', true, '10 min'),
+  ]},
+  pepsi_black_can_300ml: { query: 'pepsi black can', canonicalName: 'Pepsi Black (300ml Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Pepsi Black 300ml Can', 40, 40, 0, '300ml', 'soft drink', true, '10 min'),
+  ]},
+  real_activ_fiber_peach_200ml: { query: 'activ fiber peach 200ml', canonicalName: 'Real Activ Fiber (Peach)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Activ Peach 200ml',     30, 30, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  real_activ_fiber_apple_200ml: { query: 'activ fiber apple 200ml', canonicalName: 'Real Activ Fiber (Apple)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Activ Apple 200ml',     30, 30, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  tata_sampann_toor_dal_5kg: { query: 'tata toor dal 5kg', canonicalName: 'Tata Sampann Toor (5kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Toor Dal 5kg',     825, 950, 13, '5 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_moong_dal_5kg: { query: 'tata moong dal 5kg', canonicalName: 'Tata Sampann Moong (5kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Moong Dal 5kg',    785, 900, 12, '5 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_urad_dal_5kg: { query: 'tata urad dal 5kg', canonicalName: 'Tata Sampann Urad (5kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Urad Dal 5kg',     825, 950, 13, '5 kg', 'pulses', true, '10 min'),
+  ]},
+  amul_butter_500g_pack: { query: 'amul butter 500g', canonicalName: 'Amul Butter (500g)', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Amul Butter 500g',      255, 275, 7, '500g', 'butter', true, '10 min'),
+  ]},
+  amul_butter_100g_pack: { query: 'amul butter 100g', canonicalName: 'Amul Butter (100g)', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Amul Butter 100g',      56, 60, 6, '100g', 'butter', true, '10 min'),
+  ]},
+  amul_garlic_herbs_butter: { query: 'garlic butter', canonicalName: 'Amul Garlic & Herbs', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Garlic Butter 100g',    65, 70, 7, '100g', 'butter', true, '10 min'),
+  ]},
+  nescafe_classic_glass_jar: { query: 'nescafe classic jar', canonicalName: 'Nescafe Classic (Jar)', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Nescafe Jar 100g',      345, 380, 9, '100g', 'coffee', true, '10 min'),
+  ]},
+  bru_instant_glass_jar: { query: 'bru instant jar', canonicalName: 'Bru Instant (Jar)', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Bru Instant Jar 100g',  285, 320, 10, '100g', 'coffee', true, '10 min'),
+  ]},
+  knorr_hot_sour_soup: { query: 'knorr hot sour', canonicalName: 'Knorr Hot & Sour Soup', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Knorr Hot Sour 45g',    55, 65, 15, '45g', 'soup', true, '10 min'),
+  ]},
+  knorr_sweet_corn_soup: { query: 'knorr sweet corn', canonicalName: 'Knorr Sweet Corn Soup', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Knorr Sweet Corn 45g',  55, 65, 15, '45g', 'soup', true, '10 min'),
+  ]},
+  tata_sampann_masoor_dal: { query: 'tata masoor dal', canonicalName: 'Tata Sampann Masoor', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Masoor 1kg',       145, 175, 17, '1 kg', 'pulses', true, '10 min'),
+  ]},
+
+  sprite_bottle_250ml: { query: 'sprite 250ml bottle', canonicalName: 'Sprite (250ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Sprite 250ml Bottle',   20, 20, 0, '250ml', 'soft drink', true, '10 min'),
+  ]},
+  thums_up_bottle_250ml: { query: 'thums up 250ml bottle', canonicalName: 'Thums Up (250ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Thums Up 250ml Bottle', 20, 20, 0, '250ml', 'soft drink', true, '10 min'),
+  ]},
+  haldiram_soan_papdi_500g: { query: 'soan papdi 500g', canonicalName: 'Haldiram Soan Papdi (Large)', category: 'Snacks', icon: '🍮', prices: [
+    p('blinkit',   'Soan Papdi 500g Pack',  145, 175, 17, '500g', 'sweets', true, '10 min'),
+  ]},
+
+  b_natural_guava_1l: { query: 'b natural guava', canonicalName: 'B Natural Guava (1L)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'B Natural Guava 1L',    115, 130, 11, '1 L', 'beverages', true, '10 min'),
+  ]},
+  amul_cheese_slices_5pc: { query: 'cheese slices 100g', canonicalName: 'Amul Cheese Slices (5pc)', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Slices 100g',      75, 85, 11, '100g', 'cheese', true, '10 min'),
+  ]},
+  amul_cheese_slices_10pc: { query: 'cheese slices 200g', canonicalName: 'Amul Cheese Slices (10pc)', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Slices 200g',      145, 160, 9, '200g', 'cheese', true, '10 min'),
+  ]},
+  amul_cheese_slices_20pc: { query: 'cheese slices 400g', canonicalName: 'Amul Cheese Slices (20pc)', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Slices 400g',      285, 310, 8, '400g', 'cheese', true, '10 min'),
+  ]},
+  knorr_manchow_soup: { query: 'knorr manchow', canonicalName: 'Knorr Manchow Soup', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Knorr Manchow 45g',     55, 65, 15, '45g', 'soup', true, '10 min'),
+  ]},
+  knorr_tomato_soup: { query: 'knorr tomato soup', canonicalName: 'Knorr Tomato Soup', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Knorr Tomato 45g',      55, 65, 15, '45g', 'soup', true, '10 min'),
+  ]},
+  tata_sampann_rajma_1kg: { query: 'tata rajma', canonicalName: 'Tata Sampann Rajma', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Rajma 1kg',        195, 230, 15, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_lobia_1kg: { query: 'tata lobia', canonicalName: 'Tata Sampann Lobia', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Lobia 1kg',        145, 175, 17, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  haldiram_chai_puri_200g: { query: 'chai puri', canonicalName: 'Haldiram Chai Puri', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Chai Puri 200g',        65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_methi_puri_200g: { query: 'methi puri', canonicalName: 'Haldiram Methi Puri', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Methi Puri 200g',       65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  real_activ_100_orange_1l: { query: 'activ 100 orange', canonicalName: 'Real Activ 100% Orange', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ 100% 1L',    155, 180, 13, '1 L', 'beverages', true, '10 min'),
+  ]},
+  limca_family_2l: { query: 'limca 2l family', canonicalName: 'Limca (2.25L Family)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Limca 2.25L Bottle',    95, 95, 0, '2.25 L', 'soft drink', true, '10 min'),
+  ]},
+  fanta_family_2l: { query: 'fanta 2l family', canonicalName: 'Fanta (2.25L Family)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Fanta 2.25L Bottle',    95, 95, 0, '2.25 L', 'soft drink', true, '10 min'),
+  ]},
+  nescafe_classic_can_50g: { query: 'nescafe classic 50g can', canonicalName: 'Nescafe Classic (50g)', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Nescafe Can 50g',       185, 210, 12, '50g', 'coffee', true, '10 min'),
+  ]},
+
+  lipton_green_tea_25: { query: 'green tea 25 bags', canonicalName: 'Lipton Green Tea (25)', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Lipton Green 25ct',     155, 175, 11, '25 bags', 'tea', true, '10 min'),
+  ]},
+  tata_sampann_suji_500g: { query: 'tata suji', canonicalName: 'Tata Sampann Suji', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Tata Suji 500g',        45, 55, 18, '500g', 'staples', true, '10 min'),
+  ]},
+  tata_sampann_besan_500g: { query: 'tata besan', canonicalName: 'Tata Sampann Besan', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Tata Besan 500g',       75, 90, 16, '500g', 'staples', true, '10 min'),
+  ]},
+  tata_sampann_maida_500g: { query: 'tata maida', canonicalName: 'Tata Sampann Maida', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Tata Maida 500g',       45, 55, 18, '500g', 'staples', true, '10 min'),
+  ]},
+  haldiram_roasted_cashews: { query: 'roasted cashews', canonicalName: 'Haldiram Cashews (35g)', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Roasted Cashews 35g',   85, 95, 10, '35g', 'nuts', true, '10 min'),
+  ]},
+  haldiram_roasted_almonds: { query: 'roasted almonds', canonicalName: 'Haldiram Almonds (35g)', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Roasted Almonds 35g',   85, 95, 10, '35g', 'nuts', true, '10 min'),
+  ]},
+  maggi_pazzta_mushroom: { query: 'maggi mushroom pazzta', canonicalName: 'Maggi Pazzta (Mushroom)', category: 'Packaged Foods', icon: '🍝', prices: [
+    p('blinkit',   'Pazzta Mushroom 70g',   25, 28, 10, '70g', 'pasta', true, '10 min'),
+  ]},
+  bisleri_5l_jar: { query: 'bisleri 5l jar', canonicalName: 'Bisleri (5L Jar)', category: 'Beverages', icon: '💧', prices: [
+    p('blinkit',   'Bisleri 5L Jar',        65, 75, 13, '5 L', 'water', true, '10 min'),
+  ]},
+  bisleri_1l_case_12: { query: 'bisleri 1l case', canonicalName: 'Bisleri (1L x 12)', category: 'Beverages', icon: '💧', prices: [
+    p('blinkit',   'Bisleri 1L Case',       225, 240, 6, '12 L', 'water', true, '10 min'),
+  ]},
+  real_activ_100_grape_1l: { query: 'activ 100 grape', canonicalName: 'Real Activ 100% Grape', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ 100% 1L',    155, 180, 13, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_activ_100_pome_1l: { query: 'activ 100 pomegranate', canonicalName: 'Real Activ 100% Pome', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Activ 100% 1L',    155, 180, 13, '1 L', 'beverages', true, '10 min'),
+  ]},
+  lipton_iced_tea_lemon_1_25l: { query: 'iced tea lemon 1.25l', canonicalName: 'Lipton Lemon (1.25L)', category: 'Beverages', icon: '🍹', prices: [
+    p('blinkit',   'Lipton Lemon 1.25L',    115, 130, 11, '1.25 L', 'beverages', true, '10 min'),
+  ]},
+  lipton_iced_tea_peach_1_25l: { query: 'iced tea peach 1.25l', canonicalName: 'Lipton Peach (1.25L)', category: 'Beverages', icon: '🍹', prices: [
+    p('blinkit',   'Lipton Peach 1.25L',    115, 130, 11, '1.25 L', 'beverages', true, '10 min'),
+  ]},
+  red_bull_4pack: { query: 'red bull 4 pack', canonicalName: 'Red Bull (4 x 250ml)', category: 'Beverages', icon: '⚡', prices: [
+    p('blinkit',   'Red Bull 4-Pack',       450, 500, 10, '1 L', 'beverages', true, '10 min'),
+  ]},
+  red_bull_sf_4pack: { query: 'red bull sf 4 pack', canonicalName: 'Red Bull SF (4 x 250ml)', category: 'Beverages', icon: '⚡', prices: [
+    p('blinkit',   'Red Bull SF 4-Pack',    450, 500, 10, '1 L', 'beverages', true, '10 min'),
+  ]},
+  chings_egg_hakka_150g: { query: 'chings egg hakka', canonicalName: 'Chings Egg Hakka', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Chings Egg Hakka',      55, 60, 8, '150g', 'noodles', true, '10 min'),
+  ]},
+  chings_schezwan_noodle_60g: { query: 'schezwan noodles', canonicalName: 'Chings Schezwan Noodle', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Schezwan Noodle 60g',   20, 20, 0, '60g', 'noodles', true, '10 min'),
+  ]},
+  mother_dairy_cream_250ml: { query: 'mother dairy cream 250ml', canonicalName: 'Mother Dairy Cream', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Fresh Cream 250ml',     65, 75, 13, '250ml', 'cream', true, '10 min'),
+  ]},
+  mother_dairy_cream_500ml: { query: 'mother dairy cream 500ml', canonicalName: 'Mother Dairy Cream', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Fresh Cream 500ml',     120, 140, 14, '500ml', 'cream', true, '10 min'),
+  ]},
+  tata_sampann_urad_whole: { query: 'tata urad whole', canonicalName: 'Tata Sampann Urad Whole', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Urad Whole 1kg',   175, 210, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  tata_sampann_moong_whole: { query: 'tata moong whole', canonicalName: 'Tata Sampann Moong Whole', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Moong Whole 1kg',  175, 210, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  haldiram_mini_samosa_1kg: { query: 'mini samosa 1kg', canonicalName: 'Mini Samosa (Mega Pack)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Mini Samosa 1kg Mega',  285, 350, 18, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  mother_dairy_curd_cup_200g: { query: 'curd cup 200g', canonicalName: 'Mother Dairy Curd Cup', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Curd Cup 200g',         30, 30, 0, '200g', 'curd', true, '10 min'),
+  ]},
+  mother_dairy_curd_cup_400g: { query: 'curd cup 400g', canonicalName: 'Mother Dairy Curd Cup', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Curd Cup 400g',         55, 60, 8, '400g', 'curd', true, '10 min'),
+  ]},
+  amul_gouda_cheese_250g: { query: 'gouda cheese', canonicalName: 'Amul Gouda Cheese', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Gouda 250g',       225, 250, 10, '250g', 'cheese', true, '10 min'),
+  ]},
+  amul_emmental_cheese_250g: { query: 'emmental cheese', canonicalName: 'Amul Emmental Cheese', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Emmental 250g',    245, 275, 11, '250g', 'cheese', true, '10 min'),
+  ]},
+  haldiram_kaju_katli_250g: { query: 'kaju katli', canonicalName: 'Haldiram Kaju Katli', category: 'Snacks', icon: '🍬', prices: [
+    p('blinkit',   'Kaju Katli 250g',       245, 280, 12, '250g', 'sweets', true, '10 min'),
+  ]},
+  haldiram_kaju_katli_500g: { query: 'kaju katli 500g', canonicalName: 'Haldiram Kaju Katli', category: 'Snacks', icon: '🍬', prices: [
+    p('blinkit',   'Kaju Katli 500g',       485, 550, 12, '500g', 'sweets', true, '10 min'),
+  ]},
+  maggi_cup_noodles_masala: { query: 'maggi masala cup', canonicalName: 'Maggi Masala Cup', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Maggi Masala 70g',      45, 50, 10, '70g', 'noodles', true, '10 min'),
+  ]},
+  maggi_cup_noodles_chilli: { query: 'maggi chilli cup', canonicalName: 'Maggi Chilli Chow', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Maggi Chilli 70g',      45, 50, 10, '70g', 'noodles', true, '10 min'),
+  ]},
+  tata_sampann_poha_500g: { query: 'tata poha', canonicalName: 'Tata Sampann Poha', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Tata Poha 500g',        55, 65, 15, '500g', 'staples', true, '10 min'),
+  ]},
+  tata_sampann_daliya_500g: { query: 'tata daliya', canonicalName: 'Tata Sampann Daliya', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Tata Daliya 500g',      55, 65, 15, '500g', 'staples', true, '10 min'),
+  ]},
+  lipton_green_tea_tulsi_50: { query: 'green tea tulsi', canonicalName: 'Lipton Green Tulsi', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Lipton Tulsi 50ct',     285, 330, 14, '50 bags', 'tea', true, '10 min'),
+  ]},
+  real_activ_100_pome_200ml: { query: 'activ pome 200ml', canonicalName: 'Real Activ Pome (200ml)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Activ Pome 200ml',      35, 35, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  coke_can_330ml: { query: 'coke can 330ml', canonicalName: 'Coke (330ml Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke Can 330ml',        40, 40, 0, '330ml', 'soft drink', true, '10 min'),
+  ]},
+  pepsi_can_330ml: { query: 'pepsi can 330ml', canonicalName: 'Pepsi (330ml Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Pepsi Can 330ml',       40, 40, 0, '330ml', 'soft drink', true, '10 min'),
+  ]},
+  amul_masti_curd_cup_200g: { query: 'amul curd 200g', canonicalName: 'Amul Masti Dahi Cup', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Dahi 200g',        30, 30, 0, '200g', 'curd', true, '10 min'),
+  ]},
+  amul_masti_curd_cup_400g: { query: 'amul curd 400g', canonicalName: 'Amul Masti Dahi Cup', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Dahi 400g',        55, 60, 8, '400g', 'curd', true, '10 min'),
+  ]},
+  haldiram_peanut_chikki: { query: 'peanut chikki', canonicalName: 'Haldiram Peanut Chikki', category: 'Snacks', icon: '🍬', prices: [
+    p('blinkit',   'Peanut Chikki 100g',    45, 50, 10, '100g', 'sweets', true, '10 min'),
+  ]},
+  haldiram_til_chikki: { query: 'til chikki', canonicalName: 'Haldiram Til Chikki', category: 'Snacks', icon: '🍬', prices: [
+    p('blinkit',   'Til Chikki 100g',       55, 65, 15, '100g', 'sweets', true, '10 min'),
+  ]},
+  mother_dairy_lassi_sweet: { query: 'sweet lassi bottle', canonicalName: 'Mother Dairy Lassi', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Sweet Lassi 200ml',     25, 25, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  mother_dairy_lassi_mango: { query: 'mango lassi bottle', canonicalName: 'Mother Dairy Lassi', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Mango Lassi 200ml',     25, 25, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  tata_sampann_rajma_chitra: { query: 'tata rajma chitra', canonicalName: 'Tata Rajma Chitra', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Tata Rajma Chitra 1kg', 215, 250, 14, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  limca_can_330ml: { query: 'limca can 330ml', canonicalName: 'Limca (330ml Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Limca Can 330ml',       40, 40, 0, '330ml', 'soft drink', true, '10 min'),
+  ]},
+  fanta_can_330ml: { query: 'fanta can 330ml', canonicalName: 'Fanta (330ml Can)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Fanta Can 330ml',       40, 40, 0, '330ml', 'soft drink', true, '10 min'),
+  ]},
+  b_natural_orange_200ml: { query: 'b natural orange 200ml', canonicalName: 'B Natural Orange', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'B Natural Orange',      20, 20, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  knorr_lemon_coriander_soup: { query: 'lemon coriander soup', canonicalName: 'Knorr Lemon Coriander', category: 'Packaged Foods', icon: '🥣', prices: [
+    p('blinkit',   'Knorr Lemon Cor 45g',   55, 65, 15, '45g', 'soup', true, '10 min'),
+  ]},
+  lipton_green_tea_10: { query: 'green tea 10 bags', canonicalName: 'Lipton Green Tea (10)', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Lipton Green 10ct',     65, 75, 13, '10 bags', 'tea', true, '10 min'),
+  ]},
+  amul_cheese_block_500g: { query: 'cheese block 500g', canonicalName: 'Amul Cheese Block', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Block 500g',       285, 310, 8, '500g', 'cheese', true, '10 min'),
+  ]},
+
+  kinley_soda_750ml: { query: 'kinley soda 750ml', canonicalName: 'Kinley Soda (750ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Kinley Soda 750ml',     20, 20, 0, '750ml', 'soft drink', true, '10 min'),
+  ]},
+  kinley_soda_2l: { query: 'kinley soda 2l', canonicalName: 'Kinley Soda (2L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Kinley Soda 2L Bottle', 40, 40, 0, '2 L', 'soft drink', true, '10 min'),
+  ]},
+  tata_sampann_poha_1kg: { query: 'tata poha 1kg', canonicalName: 'Tata Sampann Poha (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Tata Poha 1kg',         105, 125, 16, '1 kg', 'staples', true, '10 min'),
+  ]},
+  tata_sampann_daliya_1kg: { query: 'tata daliya 1kg', canonicalName: 'Tata Sampann Daliya (1kg)', category: 'Grains & Pulses', icon: '🌾', prices: [
+    p('blinkit',   'Tata Daliya 1kg',       105, 125, 16, '1 kg', 'staples', true, '10 min'),
+  ]},
+  amul_gold_1l_poly: { query: 'amul gold poly 1l', canonicalName: 'Amul Gold (1L Poly)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Gold 1L Poly',     68, 68, 0, '1 L', 'milk', true, '10 min'),
+  ]},
+  amul_taaza_1l_poly: { query: 'amul taaza poly 1l', canonicalName: 'Amul Taaza (1L Poly)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Taaza 1L Poly',    56, 56, 0, '1 L', 'milk', true, '10 min'),
+  ]},
+  chings_manchurian_noodle_60g: { query: 'manchurian noodles', canonicalName: 'Chings Manchurian Noodle', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Manchurian Noodle 60g', 20, 20, 0, '60g', 'noodles', true, '10 min'),
+  ]},
+  chings_hot_garlic_noodle_60g: { query: 'hot garlic noodles', canonicalName: 'Chings Hot Garlic Noodle', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Hot Garlic Noodle 60g', 20, 20, 0, '60g', 'noodles', true, '10 min'),
+  ]},
+  tata_sampann_salt_1kg: { query: 'tata salt 1kg', canonicalName: 'Tata Sampann Salt', category: 'Grains & Pulses', icon: '🧂', prices: [
+    p('blinkit',   'Tata Salt 1kg',         25, 28, 10, '1 kg', 'staples', true, '10 min'),
+  ]},
+  tata_sampann_rock_salt: { query: 'rock salt 1kg', canonicalName: 'Tata Sampann Rock Salt', category: 'Grains & Pulses', icon: '🧂', prices: [
+    p('blinkit',   'Tata Rock Salt 1kg',    95, 110, 13, '1 kg', 'staples', true, '10 min'),
+  ]},
+  tata_sampann_black_salt: { query: 'black salt', canonicalName: 'Tata Sampann Black Salt', category: 'Grains & Pulses', icon: '🧂', prices: [
+    p('blinkit',   'Black Salt 100g',       35, 40, 12, '100g', 'staples', true, '10 min'),
+  ]},
+  top_ramen_fiery_chilli: { query: 'top ramen fiery', canonicalName: 'Top Ramen Fiery Chilli', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Fiery Chilli 70g',      20, 20, 0, '70g', 'noodles', true, '10 min'),
+  ]},
+  top_ramen_curry: { query: 'top ramen curry', canonicalName: 'Top Ramen Curry', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Top Ramen Curry 70g',   20, 20, 0, '70g', 'noodles', true, '10 min'),
+  ]},
+  milky_mist_paneer_500g: { query: 'milky mist paneer 500g', canonicalName: 'Milky Mist Paneer (500g)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Milky Mist 500g',       225, 250, 10, '500g', 'paneer', true, '10 min'),
+  ]},
+  milky_mist_paneer_1kg: { query: 'milky mist paneer 1kg', canonicalName: 'Milky Mist Paneer (1kg)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Milky Mist 1kg',        445, 480, 7, '1 kg', 'paneer', true, '10 min'),
+  ]},
+  sprite_1_25l_bottle: { query: 'sprite 1.25l', canonicalName: 'Sprite (1.25L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Sprite 1.25L Bottle',   65, 65, 0, '1.25 L', 'soft drink', true, '10 min'),
+  ]},
+  mother_dairy_lassi_sweet_1l: { query: 'sweet lassi 1l', canonicalName: 'Mother Dairy Lassi (1L)', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Sweet Lassi 1L Bottle', 95, 110, 13, '1 L', 'beverages', true, '10 min'),
+  ]},
+  mother_dairy_lassi_mango_1l: { query: 'mango lassi 1l', canonicalName: 'Mother Dairy Lassi (1L)', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Mango Lassi 1L Bottle', 95, 110, 13, '1 L', 'beverages', true, '10 min'),
+  ]},
+  haldiram_ratlami_sev_200g: { query: 'ratlami sev', canonicalName: 'Haldiram Ratlami Sev', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Ratlami Sev 200g',      65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  organic_toor_dal_1kg: { query: 'organic toor dal', canonicalName: 'Organic Toor Dal (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic Toor 1kg',      245, 280, 12, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  organic_moong_dal_1kg: { query: 'organic moong dal', canonicalName: 'Organic Moong Dal (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic Moong 1kg',     225, 260, 13, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  real_nectar_mango_1l: { query: 'real nectar mango', canonicalName: 'Real Nectar Mango (1L)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Mango Nectar',     115, 130, 11, '1 L', 'beverages', true, '10 min'),
+  ]},
+  real_nectar_guava_1l: { query: 'real nectar guava', canonicalName: 'Real Nectar Guava (1L)', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Guava Nectar',     115, 130, 11, '1 L', 'beverages', true, '10 min'),
+  ]},
+  haldiram_bhujia_1kg_mega: { query: 'bhujia 1kg', canonicalName: 'Haldiram Bhujia (1kg)', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Bhujia 1kg Mega Pack',  245, 280, 12, '1 kg', 'snacks', true, '10 min'),
+  ]},
+  kinley_water_500ml: { query: 'kinley 500ml', canonicalName: 'Kinley Water (500ml)', category: 'Beverages', icon: '💧', prices: [
+    p('blinkit',   'Kinley 500ml Bottle',   10, 10, 0, '500ml', 'water', true, '10 min'),
+  ]},
+  kinley_water_1l: { query: 'kinley 1l', canonicalName: 'Kinley Water (1L)', category: 'Beverages', icon: '💧', prices: [
+    p('blinkit',   'Kinley 1L Bottle',      20, 20, 0, '1 L', 'water', true, '10 min'),
+  ]},
+
+  nescafe_classic_stick_10: { query: 'nescafe stick 10', canonicalName: 'Nescafe Stick (10pc)', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Nescafe Stick 10ct',    20, 20, 0, '15g', 'coffee', true, '10 min'),
+  ]},
+  knorr_soupy_noodles: { query: 'knorr soupy noodles', canonicalName: 'Knorr Soupy Noodles', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Soupy Noodles 300g',    95, 110, 13, '300g', 'noodles', true, '10 min'),
+  ]},
+  amul_cheese_cubes_200g: { query: 'amul cheese cubes', canonicalName: 'Amul Cheese Cubes', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Cubes 200g',       125, 140, 10, '200g', 'cheese', true, '10 min'),
+  ]},
+  amul_cheese_spread_garlic: { query: 'cheese spread garlic', canonicalName: 'Amul Garlic Spread', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Garlic Spread 200g',    95, 110, 13, '200g', 'cheese', true, '10 min'),
+  ]},
+
+  milky_mist_greek_blueberry: { query: 'greek yogurt blueberry', canonicalName: 'Milky Mist Blueberry', category: 'Dairy', icon: '🍨', prices: [
+    p('blinkit',   'Blueberry Greek 100g',  65, 75, 13, '100g', 'yogurt', true, '10 min'),
+  ]},
+  tata_sampann_organic_moong: { query: 'organic moong dal tata', canonicalName: 'Tata Organic Moong', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic Moong 1kg',     245, 280, 12, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  haldiram_khakhra_plain: { query: 'plain khakhra', canonicalName: 'Haldiram Khakhra', category: 'Snacks', icon: '🍘', prices: [
+    p('blinkit',   'Plain Khakhra 200g',    85, 100, 15, '200g', 'snacks', true, '10 min'),
+  ]},
+  coke_zero_2l_bottle: { query: 'coke zero 2l', canonicalName: 'Coke Zero (2L)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Coke Zero 2L Bottle',   95, 95, 0, '2 L', 'soft drink', true, '10 min'),
+  ]},
+  real_activ_coconut_water_1l: { query: 'coconut water 1l', canonicalName: 'Real Coconut Water', category: 'Beverages', icon: '🥥', prices: [
+    p('blinkit',   'Coconut Water 1L',      145, 175, 17, '1 L', 'beverages', true, '10 min'),
+  ]},
+  nescafe_gold_jar_100g: { query: 'nescafe gold 100g', canonicalName: 'Nescafe Gold (Jar)', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Nescafe Gold 100g',     545, 600, 9, '100g', 'coffee', true, '10 min'),
+  ]},
+  amul_dark_chocolate_150g: { query: 'amul dark chocolate', canonicalName: 'Amul Dark Chocolate', category: 'Snacks', icon: '🍫', prices: [
+    p('blinkit',   'Dark Chocolate 150g',   125, 150, 16, '150g', 'chocolate', true, '10 min'),
+  ]},
+  paper_boat_aam_panna: { query: 'aam panna pouch', canonicalName: 'Paper Boat Aam Panna', category: 'Beverages', icon: '🍹', prices: [
+    p('blinkit',   'Aam Panna 250ml',       35, 40, 12, '250ml', 'beverages', true, '10 min'),
+  ]},
+  mother_dairy_fruit_yogurt_blue: { query: 'fruit yogurt blueberry', canonicalName: 'Mother Dairy Blueberry', category: 'Dairy', icon: '🍨', prices: [
+    p('blinkit',   'Blueberry Yogurt 100g', 35, 40, 12, '100g', 'yogurt', true, '10 min'),
+  ]},
+  real_activ_100_cranberry_1l: { query: 'activ 100 cranberry', canonicalName: 'Real Activ Cranberry', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Real Cranberry 1L',     185, 210, 12, '1 L', 'beverages', true, '10 min'),
+  ]},
+  schweppes_tonic_water_300ml: { query: 'schweppes tonic', canonicalName: 'Schweppes Tonic Water', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Schweppes Tonic 300ml', 65, 75, 13, '300ml', 'beverages', true, '10 min'),
+  ]},
+  organic_chana_dal_1kg: { query: 'organic chana dal', canonicalName: 'Organic Chana Dal (1kg)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic Chana 1kg',     195, 230, 15, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  chings_veg_hakka_1kg: { query: 'chings hakka 1kg', canonicalName: 'Chings Hakka (Mega)', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Chings Hakka 1kg Mega', 185, 220, 16, '1 kg', 'noodles', true, '10 min'),
+  ]},
+  haldiram_cashews_peppery: { query: 'peppery cashews', canonicalName: 'Haldiram Peppery Cashews', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Peppery Cashews 35g',   85, 95, 10, '35g', 'nuts', true, '10 min'),
+  ]},
+  amul_lassi_sweet_1l: { query: 'amul sweet lassi 1l', canonicalName: 'Amul Lassi (1L)', category: 'Beverages', icon: '🥛', prices: [
+    p('blinkit',   'Amul Lassi 1L Bottle',  85, 100, 15, '1 L', 'beverages', true, '10 min'),
+  ]},
+  lipton_green_tea_pure_100: { query: 'green tea pure 100', canonicalName: 'Lipton Green (Pure)', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Lipton Pure 100ct',     455, 520, 12, '100 bags', 'tea', true, '10 min'),
+  ]},
+  lipton_green_tea_pure_10: { query: 'green tea pure 10 bags', canonicalName: 'Lipton Green (Pure)', category: 'Beverages', icon: '🍵', prices: [
+    p('blinkit',   'Lipton Pure 10ct',      65, 75, 13, '10 bags', 'tea', true, '10 min'),
+  ]},
+  tata_sampann_organic_masoor: { query: 'organic masoor tata', canonicalName: 'Tata Organic Masoor', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Organic Masoor 1kg',    195, 230, 15, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  top_ramen_curry_family: { query: 'top ramen curry family', canonicalName: 'Top Ramen Curry (FP)', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Top Ramen Curry 280g',  85, 100, 15, '280g', 'noodles', true, '10 min'),
+  ]},
+  haldiram_punjabi_tadka_40g: { query: 'punjabi tadka 40g', canonicalName: 'Haldiram Tadka', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Punjabi Tadka 40g',     10, 10, 0, '40g', 'snacks', true, '10 min'),
+  ]},
+  thums_up_zero_can: { query: 'thums up zero can', canonicalName: 'Thums Up Zero (300ml)', category: 'Beverages', icon: '🥤', prices: [
+    p('blinkit',   'Thums Up Zero Can',     40, 40, 0, '300ml', 'soft drink', true, '10 min'),
+  ]},
+  amul_cheese_block_100g: { query: 'cheese block 100g', canonicalName: 'Amul Cheese Block', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Amul Block 100g',       75, 85, 11, '100g', 'cheese', true, '10 min'),
+  ]},
+  b_natural_mixed_fruit_200ml: { query: 'b natural mixed 200ml', canonicalName: 'B Natural Mixed', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'B Natural Mixed',       20, 20, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  tata_sampann_black_pepper: { query: 'black pepper 50g', canonicalName: 'Tata Black Pepper', category: 'Grains & Pulses', icon: '🧂', prices: [
+    p('blinkit',   'Black Pepper 50g',      85, 95, 10, '50g', 'spices', true, '10 min'),
+  ]},
+  tata_sampann_turmeric: { query: 'turmeric 100g', canonicalName: 'Tata Turmeric', category: 'Grains & Pulses', icon: '🧂', prices: [
+    p('blinkit',   'Turmeric 100g',         35, 40, 12, '100g', 'spices', true, '10 min'),
+  ]},
+  top_ramen_fiery_family: { query: 'top ramen fiery family', canonicalName: 'Top Ramen Fiery (FP)', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Fiery Family 280g',     85, 100, 15, '280g', 'noodles', true, '10 min'),
+  ]},
+  real_activ_cranberry_200ml: { query: 'activ cranberry 200ml', canonicalName: 'Real Activ Cranberry', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'Activ Cran 200ml',      45, 45, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  amul_gold_200ml_tetra: { query: 'amul gold tetra 200ml', canonicalName: 'Amul Gold (200ml)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Amul Gold 200ml',       25, 25, 0, '200ml', 'milk', true, '10 min'),
+  ]},
+  bisleri_250ml_bottle: { query: 'bisleri 250ml', canonicalName: 'Bisleri (250ml)', category: 'Beverages', icon: '💧', prices: [
+    p('blinkit',   'Bisleri 250ml Bottle',  10, 10, 0, '250ml', 'water', true, '10 min'),
+  ]},
+  haldiram_gathiya_200g: { query: 'haldiram gathiya', canonicalName: 'Haldiram Gathiya', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Gathiya 200g Pack',     65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  haldiram_bhavnagari_sev: { query: 'bhavnagari sev', canonicalName: 'Bhavnagari Sev', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Bhavnagari Sev 200g',   65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  b_natural_litchi_200ml: { query: 'b natural litchi 200ml', canonicalName: 'B Natural Litchi', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'B Natural Litchi',      20, 20, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  b_natural_apple_200ml: { query: 'b natural apple 200ml', canonicalName: 'B Natural Apple', category: 'Beverages', icon: '🧃', prices: [
+    p('blinkit',   'B Natural Apple',       20, 20, 0, '200ml', 'beverages', true, '10 min'),
+  ]},
+  bisleri_glass_bottle: { query: 'bisleri glass bottle', canonicalName: 'Bisleri (300ml Glass)', category: 'Beverages', icon: '💧', prices: [
+    p('blinkit',   'Bisleri Glass 300ml',   45, 45, 0, '300ml', 'water', true, '10 min'),
+  ]},
+  tata_sampann_black_salt_500g: { query: 'black salt 500g', canonicalName: 'Tata Black Salt', category: 'Grains & Pulses', icon: '🧂', prices: [
+    p('blinkit',   'Black Salt 500g',       145, 175, 17, '500g', 'staples', true, '10 min'),
+  ]},
+  tata_sampann_rock_salt_500g: { query: 'rock salt 500g', canonicalName: 'Tata Rock Salt', category: 'Grains & Pulses', icon: '🧂', prices: [
+    p('blinkit',   'Rock Salt 500g',        145, 175, 17, '500g', 'staples', true, '10 min'),
+  ]},
+  top_ramen_curry_sachet: { query: 'top ramen sachet', canonicalName: 'Top Ramen Curry (S)', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Top Ramen Sachet',      5, 5, 0, '15g', 'noodles', true, '10 min'),
+  ]},
+  top_ramen_fiery_sachet: { query: 'top ramen fiery sachet', canonicalName: 'Top Ramen Fiery (S)', category: 'Packaged Foods', icon: '🍜', prices: [
+    p('blinkit',   'Fiery Chilli Sachet',   5, 5, 0, '15g', 'noodles', true, '10 min'),
+  ]},
+  mother_dairy_full_cream_200ml: { query: 'mother dairy tetra 200ml', canonicalName: 'Mother Dairy (200ml)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Full Cream 200ml',      25, 25, 0, '200ml', 'milk', true, '10 min'),
+  ]},
+  amul_garlic_herbs_spread: { query: 'garlic herbs spread', canonicalName: 'Amul Garlic & Herbs', category: 'Dairy', icon: '🧀', prices: [
+    p('blinkit',   'Garlic Spread 200g',    95, 110, 13, '200g', 'cheese', true, '10 min'),
+  ]},
+  mother_dairy_diet_milk: { query: 'diet milk poly', canonicalName: 'Mother Dairy (Diet)', category: 'Dairy', icon: '🥛', prices: [
+    p('blinkit',   'Diet Milk 500ml',       25, 25, 0, '500ml', 'milk', true, '10 min'),
+  ]},
+  haldiram_masala_peanuts: { query: 'masala peanuts', canonicalName: 'Haldiram Masala Peanuts', category: 'Snacks', icon: '🥜', prices: [
+    p('blinkit',   'Masala Peanuts 200g',   65, 80, 18, '200g', 'snacks', true, '10 min'),
+  ]},
+  amul_sugarfree_dark_chocolate_150g: { query: 'sugarfree dark chocolate', canonicalName: 'Amul Sugarfree Dark', category: 'Snacks', icon: '🍫', prices: [
+    p('blinkit',   'Sugarfree Dark 150g',   145, 160, 9, '150g', 'chocolate', true, '10 min'),
+  ]},
+  real_activ_tender_coconut_water: { query: 'tender coconut water', canonicalName: 'Real Activ Coconut', category: 'Beverages', icon: '🥥', prices: [
+    p('blinkit',   'Coconut Water 200ml',   45, 50, 10, '200ml', 'beverages', true, '10 min'),
+  ]},
+  tata_sampann_unpolished_tur_dal: { query: 'unpolished tur dal', canonicalName: 'Tata Unpolished Tur', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Unpolished Tur 1kg',    185, 220, 16, '1 kg', 'pulses', true, '10 min'),
+  ]},
+  mother_dairy_fruit_yogurt_mango: { query: 'mango yogurt cup', canonicalName: 'Mother Dairy Mango', category: 'Dairy', icon: '🍨', prices: [
+    p('blinkit',   'Mango Yogurt 100g',     35, 40, 12, '100g', 'yogurt', true, '10 min'),
+  ]},
+  nescafe_gold_decaf_100g: { query: 'decaf coffee jar', canonicalName: 'Nescafe Gold Decaf', category: 'Beverages', icon: '☕', prices: [
+    p('blinkit',   'Gold Decaf 100g',       585, 650, 10, '100g', 'coffee', true, '10 min'),
+  ]},
+  haldiram_baked_bhujia_200g: { query: 'baked bhujia', canonicalName: 'Haldiram Baked Bhujia', category: 'Snacks', icon: '🍿', prices: [
+    p('blinkit',   'Baked Bhujia 200g',     85, 100, 15, '200g', 'snacks', true, '10 min'),
+  ]},
+  papaya_large_regular: { query: 'papaya', canonicalName: 'Papaya (Large Regular)', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Papaya (Large Regular)', 91, 102, 10, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  papaya_organic_small: { query: 'papaya', canonicalName: 'Papaya (Organic Small)', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Papaya (Organic Small)', 73, 86, 15, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  guava_pink_1kg: { query: 'guava', canonicalName: 'Guava (Pink) 1kg', category: 'Fruits', icon: '🍐', prices: [
+    p('blinkit',   'Guava (Pink) 1kg', 114, 133, 14, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  guava_white_1kg: { query: 'guava', canonicalName: 'Guava (White) 1kg', category: 'Fruits', icon: '🍐', prices: [
+    p('blinkit',   'Guava (White) 1kg', 96, 118, 18, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  pomegranate_peeled_200g: { query: 'pomegranate', canonicalName: 'Pomegranate (Peeled)', category: 'Fruits', icon: '🍎', prices: [
+    p('blinkit',   'Pomegranate (Peeled)', 185, 207, 10, '200g', 'fruits', true, '10 min'),
+  ]},
+  pineapple_peeled_chunks_200g: { query: 'pineapple', canonicalName: 'Pineapple (Peeled Chunks)', category: 'Fruits', icon: '🍍', prices: [
+    p('blinkit',   'Pineapple (Peeled Chunks)', 141, 158, 10, '200g', 'fruits', true, '10 min'),
+  ]},
+  muskmelon_regular_1pc: { query: 'muskmelon', canonicalName: 'Muskmelon Regular', category: 'Fruits', icon: '🍈', prices: [
+    p('blinkit',   'Muskmelon Regular', 66, 78, 15, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  sunmelon_premium_1pc: { query: 'sunmelon', canonicalName: 'Sunmelon (Premium)', category: 'Fruits', icon: '🍈', prices: [
+    p('blinkit',   'Sunmelon (Premium)', 98, 108, 9, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  watermelon_half_cut: { query: 'watermelon', canonicalName: 'Watermelon (Half Cut)', category: 'Fruits', icon: '🍉', prices: [
+    p('blinkit',   'Watermelon (Half Cut)', 60, 69, 13, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  watermelon_small_2kg: { query: 'watermelon', canonicalName: 'Watermelon (Small 2kg)', category: 'Fruits', icon: '🍉', prices: [
+    p('blinkit',   'Watermelon (Small 2kg)', 83, 94, 11, '2 kg', 'fruits', true, '10 min'),
+  ]},
+  grapes_green_1kg_value: { query: 'grapes', canonicalName: 'Grapes (Green) Value Pack', category: 'Fruits', icon: '🍇', prices: [
+    p('blinkit',   'Grapes (Green) Value Pack', 214, 262, 18, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  grapes_sonaka_500g: { query: 'grapes', canonicalName: 'Grapes (Sonaka)', category: 'Fruits', icon: '🍇', prices: [
+    p('blinkit',   'Grapes (Sonaka)', 113, 144, 21, '500g', 'fruits', true, '10 min'),
+  ]},
+  banana_robusta_12pc: { query: 'banana', canonicalName: 'Banana (Robusta) 12pc', category: 'Fruits', icon: '🍌', prices: [
+    p('blinkit',   'Banana (Robusta) 12pc', 78, 87, 10, '12 pc', 'fruits', true, '10 min'),
+  ]},
+  banana_elaichi_500g: { query: 'banana', canonicalName: 'Banana (Elaichi)', category: 'Fruits', icon: '🍌', prices: [
+    p('blinkit',   'Banana (Elaichi)', 67, 75, 10, '500g', 'fruits', true, '10 min'),
+  ]},
+  banana_red_3pc: { query: 'banana', canonicalName: 'Banana (Red) 3pc', category: 'Fruits', icon: '🍌', prices: [
+    p('blinkit',   'Banana (Red) 3pc', 48, 61, 21, '3 pc', 'fruits', true, '10 min'),
+  ]},
+  orange_valencia_imported_1kg: { query: 'orange', canonicalName: 'Orange (Valencia Imported)', category: 'Fruits', icon: '🍊', prices: [
+    p('blinkit',   'Orange (Valencia Imported)', 193, 212, 8, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  mandarin_premium_500g: { query: 'mandarin', canonicalName: 'Mandarin (Premium)', category: 'Fruits', icon: '🍊', prices: [
+    p('blinkit',   'Mandarin (Premium)', 159, 206, 22, '500g', 'fruits', true, '10 min'),
+  ]},
+  citrus_kinnu_1kg: { query: 'kinnu', canonicalName: 'Citrus (Kinnu) 1kg', category: 'Fruits', icon: '🍊', prices: [
+    p('blinkit',   'Citrus (Kinnu) 1kg', 109, 139, 21, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  pomelo_large_1pc: { query: 'pomelo', canonicalName: 'Pomelo (Large)', category: 'Fruits', icon: '🍊', prices: [
+    p('blinkit',   'Pomelo (Large)', 183, 236, 22, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  custard_apple_500g: { query: 'custard apple', canonicalName: 'Custard Apple (Sitaphal)', category: 'Fruits', icon: '🍏', prices: [
+    p('blinkit',   'Custard Apple (Sitaphal)', 112, 139, 19, '500g', 'fruits', true, '10 min'),
+  ]},
+  pear_green_imported_500g: { query: 'pear', canonicalName: 'Pear (Green Imported)', category: 'Fruits', icon: '🍐', prices: [
+    p('blinkit',   'Pear (Green Imported)', 215, 252, 14, '500g', 'fruits', true, '10 min'),
+  ]},
+  plum_imported_250g: { query: 'plum', canonicalName: 'Plum (Imported)', category: 'Fruits', icon: '🍑', prices: [
+    p('blinkit',   'Plum (Imported)', 173, 214, 19, '250g', 'fruits', true, '10 min'),
+  ]},
+  peach_fresh_250g: { query: 'peach', canonicalName: 'Peach (Fresh)', category: 'Fruits', icon: '🍑', prices: [
+    p('blinkit',   'Peach (Fresh)', 145, 164, 11, '250g', 'fruits', true, '10 min'),
+  ]},
+  apricot_imported_200g: { query: 'apricot', canonicalName: 'Apricot (Imported)', category: 'Fruits', icon: '🍑', prices: [
+    p('blinkit',   'Apricot (Imported)', 195, 229, 14, '200g', 'fruits', true, '10 min'),
+  ]},
+  potato_new_crop_2kg: { query: 'potato', canonicalName: 'Potato (New Crop) 2kg', category: 'Vegetables', icon: '🥔', prices: [
+    p('blinkit',   'Potato (New Crop) 2kg', 83, 94, 11, '2 kg', 'vegetables', true, '10 min'),
+  ]},
+  potato_jyoti_1kg: { query: 'potato', canonicalName: 'Potato (Jyoti)', category: 'Vegetables', icon: '🥔', prices: [
+    p('blinkit',   'Potato (Jyoti)', 39, 48, 18, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  potato_pahadi_1kg: { query: 'potato', canonicalName: 'Potato (Pahadi)', category: 'Vegetables', icon: '🥔', prices: [
+    p('blinkit',   'Potato (Pahadi)', 45, 53, 15, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  onion_white_500g: { query: 'onion', canonicalName: 'Onion (White)', category: 'Vegetables', icon: '🧅', prices: [
+    p('blinkit',   'Onion (White)', 47, 54, 12, '500g', 'vegetables', true, '10 min'),
+  ]},
+  onion_sambhar_250g: { query: 'onion', canonicalName: 'Onion (Sambhar)', category: 'Vegetables', icon: '🧅', prices: [
+    p('blinkit',   'Onion (Sambhar)', 35, 42, 16, '250g', 'vegetables', true, '10 min'),
+  ]},
+  tomato_hybrid_2kg_value: { query: 'tomato', canonicalName: 'Tomato (Hybrid) 2kg', category: 'Vegetables', icon: '🍅', prices: [
+    p('blinkit',   'Tomato (Hybrid) 2kg', 109, 126, 13, '2 kg', 'vegetables', true, '10 min'),
+  ]},
+  tomato_local_desi_1kg: { query: 'tomato', canonicalName: 'Tomato (Local Desi)', category: 'Vegetables', icon: '🍅', prices: [
+    p('blinkit',   'Tomato (Local Desi)', 57, 74, 22, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  tomato_plum_imported_250g: { query: 'tomato', canonicalName: 'Tomato (Plum Imported)', category: 'Vegetables', icon: '🍅', prices: [
+    p('blinkit',   'Tomato (Plum Imported)', 98, 120, 18, '250g', 'vegetables', true, '10 min'),
+  ]},
+  spinach_bunch_large: { query: 'spinach', canonicalName: 'Spinach (Large Bunch)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Spinach (Large Bunch)', 38, 48, 20, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  methi_bunch_large: { query: 'methi', canonicalName: 'Methi (Large Bunch)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Methi (Large Bunch)', 44, 51, 13, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  amaranth_leaves_bunch: { query: 'amaranth', canonicalName: 'Amaranth Leaves', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Amaranth Leaves', 28, 31, 9, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  coriander_leaves_value_pack: { query: 'coriander', canonicalName: 'Coriander (Value Pack)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Coriander (Value Pack)', 45, 50, 10, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  mint_leaves_value_pack: { query: 'mint', canonicalName: 'Mint (Value Pack)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Mint (Value Pack)', 45, 50, 10, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  curry_leaves_pouch: { query: 'curry leaves', canonicalName: 'Curry Leaves (Pouch)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Curry Leaves (Pouch)', 19, 21, 9, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  mustard_greens_sarson_bunch: { query: 'mustard greens', canonicalName: 'Mustard Greens (Sarson)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Mustard Greens (Sarson)', 60, 73, 17, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  bathua_greens_bunch: { query: 'bathua', canonicalName: 'Bathua Greens', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Bathua Greens', 40, 45, 11, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  bottle_gourd_large_1pc: { query: 'bottle gourd', canonicalName: 'Bottle Gourd (Large)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Bottle Gourd (Large)', 46, 57, 19, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  bitter_gourd_small_250g: { query: 'bitter gourd', canonicalName: 'Bitter Gourd (Small)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Bitter Gourd (Small)', 44, 57, 22, '250g', 'vegetables', true, '10 min'),
+  ]},
+  ridge_gourd_500g: { query: 'ridge gourd', canonicalName: 'Ridge Gourd', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Ridge Gourd', 60, 70, 14, '500g', 'vegetables', true, '10 min'),
+  ]},
+  snake_gourd_1pc: { query: 'snake gourd', canonicalName: 'Snake Gourd', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Snake Gourd', 44, 55, 20, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  sponge_gourd_500g: { query: 'sponge gourd', canonicalName: 'Sponge Gourd', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Sponge Gourd', 59, 68, 13, '500g', 'vegetables', true, '10 min'),
+  ]},
+  ivy_gourd_tindora_500g: { query: 'ivy gourd', canonicalName: 'Ivy Gourd (Tindora)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Ivy Gourd (Tindora)', 59, 66, 10, '500g', 'vegetables', true, '10 min'),
+  ]},
+  ash_gourd_cut_500g: { query: 'ash gourd', canonicalName: 'Ash Gourd (Cut)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Ash Gourd (Cut)', 37, 41, 9, '500g', 'vegetables', true, '10 min'),
+  ]},
+  pumpkin_yellow_cut_500g: { query: 'pumpkin', canonicalName: 'Pumpkin Yellow (Cut)', category: 'Vegetables', icon: '🎃', prices: [
+    p('blinkit',   'Pumpkin Yellow (Cut)', 43, 54, 20, '500g', 'vegetables', true, '10 min'),
+  ]},
+  carrot_orange_1kg: { query: 'carrot', canonicalName: 'Carrot (Orange) 1kg', category: 'Vegetables', icon: '🥕', prices: [
+    p('blinkit',   'Carrot (Orange) 1kg', 95, 111, 14, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  carrot_red_desi_1kg: { query: 'carrot', canonicalName: 'Carrot (Red Desi) 1kg', category: 'Vegetables', icon: '🥕', prices: [
+    p('blinkit',   'Carrot (Red Desi) 1kg', 76, 92, 17, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  radish_white_mooli_2pc: { query: 'radish', canonicalName: 'Radish White (Mooli)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Radish White (Mooli)', 39, 46, 15, '2 pc', 'vegetables', true, '10 min'),
+  ]},
+  radish_red_round_250g: { query: 'radish', canonicalName: 'Radish Red (Round)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Radish Red (Round)', 53, 64, 17, '250g', 'vegetables', true, '10 min'),
+  ]},
+  beetroot_1kg_value: { query: 'beetroot', canonicalName: 'Beetroot (Value Pack)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Beetroot (Value Pack)', 94, 110, 14, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  turnip_shalgam_500g: { query: 'turnip', canonicalName: 'Turnip (Shalgam)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Turnip (Shalgam)', 55, 69, 20, '500g', 'vegetables', true, '10 min'),
+  ]},
+  elephant_yam_suran_500g: { query: 'yam', canonicalName: 'Elephant Yam (Suran)', category: 'Vegetables', icon: '🥔', prices: [
+    p('blinkit',   'Elephant Yam (Suran)', 55, 60, 8, '500g', 'vegetables', true, '10 min'),
+  ]},
+  colocasia_arbi_500g: { query: 'arbi', canonicalName: 'Colocasia (Arbi)', category: 'Vegetables', icon: '🥔', prices: [
+    p('blinkit',   'Colocasia (Arbi)', 63, 76, 17, '500g', 'vegetables', true, '10 min'),
+  ]},
+  cabbage_small_regular: { query: 'cabbage', canonicalName: 'Cabbage (Small Regular)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Cabbage (Small Regular)', 39, 49, 20, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  cauliflower_medium_1pc: { query: 'cauliflower', canonicalName: 'Cauliflower (Medium)', category: 'Vegetables', icon: '🥦', prices: [
+    p('blinkit',   'Cauliflower (Medium)', 66, 78, 15, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  broccoli_purple_1pc: { query: 'broccoli', canonicalName: 'Broccoli (Purple)', category: 'Vegetables', icon: '🥦', prices: [
+    p('blinkit',   'Broccoli (Purple)', 107, 120, 10, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  brussels_sprouts_200g: { query: 'brussels sprouts', canonicalName: 'Brussels Sprouts', category: 'Vegetables', icon: '🥦', prices: [
+    p('blinkit',   'Brussels Sprouts', 182, 202, 9, '200g', 'vegetables', true, '10 min'),
+  ]},
+  green_peas_shelled_200g: { query: 'green peas', canonicalName: 'Green Peas (Shelled)', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Green Peas (Shelled)', 98, 118, 16, '200g', 'vegetables', true, '10 min'),
+  ]},
+  french_beans_regular_250g: { query: 'french beans', canonicalName: 'French Beans', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'French Beans', 56, 64, 12, '250g', 'vegetables', true, '10 min'),
+  ]},
+  cluster_beans_gawar_250g: { query: 'cluster beans', canonicalName: 'Cluster Beans (Gawar)', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Cluster Beans (Gawar)', 43, 48, 10, '250g', 'vegetables', true, '10 min'),
+  ]},
+  cowpea_chawli_beans_250g: { query: 'cowpea', canonicalName: 'Cowpea (Chawli) Beans', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Cowpea (Chawli) Beans', 47, 60, 21, '250g', 'vegetables', true, '10 min'),
+  ]},
+  flat_beans_sem_250g: { query: 'flat beans', canonicalName: 'Flat Beans (Sem)', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Flat Beans (Sem)', 54, 62, 12, '250g', 'vegetables', true, '10 min'),
+  ]},
+  broad_beans_papdi_250g: { query: 'broad beans', canonicalName: 'Broad Beans (Papdi)', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Broad Beans (Papdi)', 58, 70, 17, '250g', 'vegetables', true, '10 min'),
+  ]},
+  green_chilli_thick_100g: { query: 'green chilli', canonicalName: 'Green Chilli (Thick)', category: 'Vegetables', icon: '🌶️', prices: [
+    p('blinkit',   'Green Chilli (Thick)', 30, 34, 11, '100g', 'vegetables', true, '10 min'),
+  ]},
+  bhavnagri_chilli_200g: { query: 'bhavnagri chilli', canonicalName: 'Bhavnagri Chilli', category: 'Vegetables', icon: '🌶️', prices: [
+    p('blinkit',   'Bhavnagri Chilli', 40, 47, 14, '200g', 'vegetables', true, '10 min'),
+  ]},
+  capsicum_red_yellow_twin_pack: { query: 'capsicum', canonicalName: 'Capsicum (Red & Yellow)', category: 'Vegetables', icon: '🫑', prices: [
+    p('blinkit',   'Capsicum (Red & Yellow)', 177, 208, 14, '1 pack', 'vegetables', true, '10 min'),
+  ]},
+  capsicum_orange_1pc: { query: 'capsicum', canonicalName: 'Capsicum (Orange)', category: 'Vegetables', icon: '🫑', prices: [
+    p('blinkit',   'Capsicum (Orange)', 100, 111, 9, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  okra_ladies_finger_1kg_value: { query: 'okra', canonicalName: 'Okra (Ladies Finger) 1kg', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Okra (Ladies Finger) 1kg', 96, 107, 10, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  brinjal_long_purple_500g: { query: 'brinjal', canonicalName: 'Brinjal (Long Purple)', category: 'Vegetables', icon: '🍆', prices: [
+    p('blinkit',   'Brinjal (Long Purple)', 54, 67, 19, '500g', 'vegetables', true, '10 min'),
+  ]},
+  brinjal_round_green_500g: { query: 'brinjal', canonicalName: 'Brinjal (Round Green)', category: 'Vegetables', icon: '🍆', prices: [
+    p('blinkit',   'Brinjal (Round Green)', 48, 56, 14, '500g', 'vegetables', true, '10 min'),
+  ]},
+  brinjal_small_kateri_250g: { query: 'brinjal', canonicalName: 'Brinjal (Small Kateri)', category: 'Vegetables', icon: '🍆', prices: [
+    p('blinkit',   'Brinjal (Small Kateri)', 43, 49, 12, '250g', 'vegetables', true, '10 min'),
+  ]},
+  drumstick_3pc_pack: { query: 'drumstick', canonicalName: 'Drumstick (3pc Pack)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Drumstick (3pc Pack)', 38, 46, 17, '1 pack', 'vegetables', true, '10 min'),
+  ]},
+  cucumber_english_long_2pc: { query: 'cucumber', canonicalName: 'Cucumber (English Long)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Cucumber (English Long)', 78, 86, 9, '2 pc', 'vegetables', true, '10 min'),
+  ]},
+  cucumber_desi_regular_500g: { query: 'cucumber', canonicalName: 'Cucumber (Desi Regular)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Cucumber (Desi Regular)', 36, 43, 16, '500g', 'vegetables', true, '10 min'),
+  ]},
+  lemon_seedless_large_3pc: { query: 'lemon', canonicalName: 'Lemon (Seedless Large)', category: 'Vegetables', icon: '🍋', prices: [
+    p('blinkit',   'Lemon (Seedless Large)', 38, 45, 15, '3 pc', 'vegetables', true, '10 min'),
+  ]},
+  ginger_fresh_250g_value: { query: 'ginger', canonicalName: 'Ginger (Fresh Value Pack)', category: 'Vegetables', icon: '🫚', prices: [
+    p('blinkit',   'Ginger (Fresh Value Pack)', 101, 120, 15, '250g', 'vegetables', true, '10 min'),
+  ]},
+  garlic_peeled_100g_pouch: { query: 'garlic', canonicalName: 'Garlic (Peeled Pouch)', category: 'Vegetables', icon: '🧄', prices: [
+    p('blinkit',   'Garlic (Peeled Pouch)', 95, 111, 14, '100g', 'vegetables', true, '10 min'),
+  ]},
+  sweet_potato_shakarkandi_1kg: { query: 'sweet potato', canonicalName: 'Sweet Potato (1kg)', category: 'Vegetables', icon: '🍠', prices: [
+    p('blinkit',   'Sweet Potato (1kg)', 103, 123, 16, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  sweet_corn_cob_2pc: { query: 'sweet corn', canonicalName: 'Sweet Corn (Cob)', category: 'Vegetables', icon: '🌽', prices: [
+    p('blinkit',   'Sweet Corn (Cob)', 48, 53, 9, '2 pc', 'vegetables', true, '10 min'),
+  ]},
+  baby_corn_peeled_200g_pack: { query: 'baby corn', canonicalName: 'Baby Corn (Peeled)', category: 'Vegetables', icon: '🌽', prices: [
+    p('blinkit',   'Baby Corn (Peeled)', 85, 93, 8, '200g', 'vegetables', true, '10 min'),
+  ]},
+  mushroom_oyster_200g: { query: 'mushroom', canonicalName: 'Mushroom (Oyster)', category: 'Vegetables', icon: '🍄', prices: [
+    p('blinkit',   'Mushroom (Oyster)', 174, 208, 16, '200g', 'vegetables', true, '10 min'),
+  ]},
+  mushroom_shiitake_100g: { query: 'mushroom', canonicalName: 'Mushroom (Shiitake)', category: 'Vegetables', icon: '🍄', prices: [
+    p('blinkit',   'Mushroom (Shiitake)', 291, 370, 21, '100g', 'vegetables', true, '10 min'),
+  ]},
+  mushroom_portobello_2pc: { query: 'mushroom', canonicalName: 'Mushroom (Portobello)', category: 'Vegetables', icon: '🍄', prices: [
+    p('blinkit',   'Mushroom (Portobello)', 217, 268, 19, '2 pc', 'vegetables', true, '10 min'),
+  ]},
+  celery_imported_1pc: { query: 'celery', canonicalName: 'Celery (Imported)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Celery (Imported)', 98, 115, 14, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  parsley_curly_50g: { query: 'parsley', canonicalName: 'Parsley (Curly)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Parsley (Curly)', 60, 75, 20, '50g', 'vegetables', true, '10 min'),
+  ]},
+  basil_italian_50g: { query: 'basil', canonicalName: 'Basil (Italian)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Basil (Italian)', 55, 70, 21, '50g', 'vegetables', true, '10 min'),
+  ]},
+  rosemary_fresh_20g: { query: 'rosemary', canonicalName: 'Rosemary (Fresh)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Rosemary (Fresh)', 39, 46, 15, '20g', 'vegetables', true, '10 min'),
+  ]},
+  thyme_fresh_20g: { query: 'thyme', canonicalName: 'Thyme (Fresh)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Thyme (Fresh)', 36, 41, 12, '20g', 'vegetables', true, '10 min'),
+  ]},
+  oregano_fresh_20g: { query: 'oregano', canonicalName: 'Oregano (Fresh)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Oregano (Fresh)', 39, 48, 18, '20g', 'vegetables', true, '10 min'),
+  ]},
+  avocado_local_indian_1pc: { query: 'avocado', canonicalName: 'Avocado (Local Indian)', category: 'Fruits', icon: '🥑', prices: [
+    p('blinkit',   'Avocado (Local Indian)', 116, 128, 9, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  kiwi_imported_box_3pc: { query: 'kiwi', canonicalName: 'Kiwi (Imported Box)', category: 'Fruits', icon: '🥝', prices: [
+    p('blinkit',   'Kiwi (Imported Box)', 149, 178, 16, '3 pc', 'fruits', true, '10 min'),
+  ]},
+  dragon_fruit_white_1pc: { query: 'dragon fruit', canonicalName: 'Dragon Fruit (White)', category: 'Fruits', icon: '🐉', prices: [
+    p('blinkit',   'Dragon Fruit (White)', 114, 131, 12, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  passion_fruit_imported_2pc: { query: 'passion fruit', canonicalName: 'Passion Fruit (Imported)', category: 'Fruits', icon: '🍇', prices: [
+    p('blinkit',   'Passion Fruit (Imported)', 236, 268, 11, '2 pc', 'fruits', true, '10 min'),
+  ]},
+  mangosteen_imported_250g: { query: 'mangosteen', canonicalName: 'Mangosteen (Imported)', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Mangosteen (Imported)', 444, 531, 16, '250g', 'fruits', true, '10 min'),
+  ]},
+  rambutan_imported_250g: { query: 'rambutan', canonicalName: 'Rambutan (Imported)', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Rambutan (Imported)', 293, 343, 14, '250g', 'fruits', true, '10 min'),
+  ]},
+  longan_imported_250g: { query: 'longan', canonicalName: 'Longan (Imported)', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Longan (Imported)', 364, 450, 19, '250g', 'fruits', true, '10 min'),
+  ]},
+  custard_apple_premium_1kg: { query: 'custard apple', canonicalName: 'Custard Apple (Premium)', category: 'Fruits', icon: '🍏', prices: [
+    p('blinkit',   'Custard Apple (Premium)', 208, 246, 15, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  sapota_chikoo_1kg_value: { query: 'chikoo', canonicalName: 'Sapota (Chikoo) Value Pack', category: 'Fruits', icon: '🥔', prices: [
+    p('blinkit',   'Sapota (Chikoo) Value Pack', 103, 127, 18, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  guava_allahabad_safeda_1kg: { query: 'guava', canonicalName: 'Guava (Allahabad Safeda)', category: 'Fruits', icon: '🍐', prices: [
+    p('blinkit',   'Guava (Allahabad Safeda)', 115, 132, 12, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  apple_fuji_imported_4pc: { query: 'apple', canonicalName: 'Apple Fuji (Imported)', category: 'Fruits', icon: '🍎', prices: [
+    p('blinkit',   'Apple Fuji (Imported)', 329, 381, 13, '4 pc', 'fruits', true, '10 min'),
+  ]},
+  apple_granny_smith_4pc: { query: 'apple', canonicalName: 'Apple Granny Smith', category: 'Fruits', icon: '🍏', prices: [
+    p('blinkit',   'Apple Granny Smith', 287, 354, 18, '4 pc', 'fruits', true, '10 min'),
+  ]},
+  apple_shimla_large_1kg: { query: 'apple', canonicalName: 'Apple Shimla (Large)', category: 'Fruits', icon: '🍎', prices: [
+    p('blinkit',   'Apple Shimla (Large)', 209, 251, 16, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  pear_nashi_imported_2pc: { query: 'pear', canonicalName: 'Pear Nashi (Imported)', category: 'Fruits', icon: '🍐', prices: [
+    p('blinkit',   'Pear Nashi (Imported)', 243, 296, 17, '2 pc', 'fruits', true, '10 min'),
+  ]},
+  pear_regular_1kg_value: { query: 'pear', canonicalName: 'Pear (Regular Value Pack)', category: 'Fruits', icon: '🍐', prices: [
+    p('blinkit',   'Pear (Regular Value Pack)', 151, 182, 17, '1 kg', 'fruits', true, '10 min'),
+  ]},
+  plum_indian_500g: { query: 'plum', canonicalName: 'Plum (Indian)', category: 'Fruits', icon: '🍑', prices: [
+    p('blinkit',   'Plum (Indian)', 109, 122, 10, '500g', 'fruits', true, '10 min'),
+  ]},
+  peach_fuzz_free_250g: { query: 'peach', canonicalName: 'Peach (Fuzz Free)', category: 'Fruits', icon: '🍑', prices: [
+    p('blinkit',   'Peach (Fuzz Free)', 178, 200, 11, '250g', 'fruits', true, '10 min'),
+  ]},
+  apricot_fresh_indian_250g: { query: 'apricot', canonicalName: 'Apricot (Fresh Indian)', category: 'Fruits', icon: '🍑', prices: [
+    p('blinkit',   'Apricot (Fresh Indian)', 126, 144, 12, '250g', 'fruits', true, '10 min'),
+  ]},
+  grapes_red_seedless_500g: { query: 'grapes', canonicalName: 'Grapes (Red Seedless)', category: 'Fruits', icon: '🍇', prices: [
+    p('blinkit',   'Grapes (Red Seedless)', 145, 163, 11, '500g', 'fruits', true, '10 min'),
+  ]},
+  grapes_bangalore_blue_500g: { query: 'grapes', canonicalName: 'Grapes (Bangalore Blue)', category: 'Fruits', icon: '🍇', prices: [
+    p('blinkit',   'Grapes (Bangalore Blue)', 94, 117, 19, '500g', 'fruits', true, '10 min'),
+  ]},
+  pomegranate_premium_large_2pc: { query: 'pomegranate', canonicalName: 'Pomegranate (Premium Large)', category: 'Fruits', icon: '🍎', prices: [
+    p('blinkit',   'Pomegranate (Premium Large)', 227, 266, 14, '2 pc', 'fruits', true, '10 min'),
+  ]},
+  pineapple_queen_small_1pc: { query: 'pineapple', canonicalName: 'Pineapple Queen (Small)', category: 'Fruits', icon: '🍍', prices: [
+    p('blinkit',   'Pineapple Queen (Small)', 89, 107, 16, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  papaya_honey_gold_1pc: { query: 'papaya', canonicalName: 'Papaya Honey Gold', category: 'Fruits', icon: '🥭', prices: [
+    p('blinkit',   'Papaya Honey Gold', 127, 151, 15, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  melon_cantaloupe_1pc: { query: 'melon', canonicalName: 'Melon Cantaloupe', category: 'Fruits', icon: '🍈', prices: [
+    p('blinkit',   'Melon Cantaloupe', 103, 125, 17, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  watermelon_black_box_1pc: { query: 'watermelon', canonicalName: 'Watermelon (Black Box)', category: 'Fruits', icon: '🍉', prices: [
+    p('blinkit',   'Watermelon (Black Box)', 169, 186, 9, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  berries_mixed_pack_200g: { query: 'berries', canonicalName: 'Berries (Mixed Pack)', category: 'Fruits', icon: '🍒', prices: [
+    p('blinkit',   'Berries (Mixed Pack)', 403, 490, 17, '200g', 'fruits', true, '10 min'),
+  ]},
+  strawberry_mahabaleshwar_250g: { query: 'strawberry', canonicalName: 'Strawberry (Mahabaleshwar)', category: 'Fruits', icon: '🍓', prices: [
+    p('blinkit',   'Strawberry (Mahabaleshwar)', 136, 150, 9, '250g', 'fruits', true, '10 min'),
+  ]},
+  blueberry_imported_125g: { query: 'blueberry', canonicalName: 'Blueberry (Imported)', category: 'Fruits', icon: '🫐', prices: [
+    p('blinkit',   'Blueberry (Imported)', 423, 467, 9, '125g', 'fruits', true, '10 min'),
+  ]},
+  raspberry_imported_125g: { query: 'raspberry', canonicalName: 'Raspberry (Imported)', category: 'Fruits', icon: '🍒', prices: [
+    p('blinkit',   'Raspberry (Imported)', 425, 524, 18, '125g', 'fruits', true, '10 min'),
+  ]},
+  blackberry_imported_125g: { query: 'blackberry', canonicalName: 'Blackberry (Imported)', category: 'Fruits', icon: '🫐', prices: [
+    p('blinkit',   'Blackberry (Imported)', 472, 572, 17, '125g', 'fruits', true, '10 min'),
+  ]},
+  mulberry_fresh_200g: { query: 'mulberry', canonicalName: 'Mulberry (Fresh)', category: 'Fruits', icon: '🫐', prices: [
+    p('blinkit',   'Mulberry (Fresh)', 132, 170, 22, '200g', 'fruits', true, '10 min'),
+  ]},
+  jamun_fresh_250g: { query: 'jamun', canonicalName: 'Jamun (Fresh)', category: 'Fruits', icon: '🍇', prices: [
+    p('blinkit',   'Jamun (Fresh)', 228, 280, 18, '250g', 'fruits', true, '10 min'),
+  ]},
+  cherry_imported_250g: { query: 'cherry', canonicalName: 'Cherry (Imported)', category: 'Fruits', icon: '🍒', prices: [
+    p('blinkit',   'Cherry (Imported)', 554, 673, 17, '250g', 'fruits', true, '10 min'),
+  ]},
+  fig_fresh_anjeer_250g: { query: 'fig', canonicalName: 'Fig (Fresh Anjeer)', category: 'Fruits', icon: '🍯', prices: [
+    p('blinkit',   'Fig (Fresh Anjeer)', 243, 286, 15, '250g', 'fruits', true, '10 min'),
+  ]},
+  dates_kimia_regular_500g: { query: 'dates', canonicalName: 'Dates (Kimia Regular)', category: 'Fruits', icon: '🌴', prices: [
+    p('blinkit',   'Dates (Kimia Regular)', 236, 284, 16, '500g', 'fruits', true, '10 min'),
+  ]},
+  dates_medjool_premium_250g: { query: 'dates', canonicalName: 'Dates (Medjool Premium)', category: 'Fruits', icon: '🌴', prices: [
+    p('blinkit',   'Dates (Medjool Premium)', 621, 799, 22, '250g', 'fruits', true, '10 min'),
+  ]},
+  coconut_tender_with_straw: { query: 'tender coconut', canonicalName: 'Coconut Tender (With Straw)', category: 'Fruits', icon: '🥥', prices: [
+    p('blinkit',   'Coconut Tender (With Straw)', 65, 82, 20, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  coconut_mature_whole_1pc: { query: 'coconut', canonicalName: 'Coconut Mature (Whole)', category: 'Fruits', icon: '🥥', prices: [
+    p('blinkit',   'Coconut Mature (Whole)', 55, 62, 11, '1 pc', 'fruits', true, '10 min'),
+  ]},
+  coconut_grated_200g_pouch: { query: 'coconut', canonicalName: 'Coconut (Grated Pouch)', category: 'Fruits', icon: '🥥', prices: [
+    p('blinkit',   'Coconut (Grated Pouch)', 109, 129, 15, '200g', 'fruits', true, '10 min'),
+  ]},
+  water_chestnut_singhara_500g: { query: 'singhara', canonicalName: 'Water Chestnut (Singhara)', category: 'Vegetables', icon: '🥔', prices: [
+    p('blinkit',   'Water Chestnut (Singhara)', 86, 100, 14, '500g', 'vegetables', true, '10 min'),
+  ]},
+  lotus_stem_kamal_kakdi_250g: { query: 'lotus stem', canonicalName: 'Lotus Stem (Kamal Kakdi)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Lotus Stem (Kamal Kakdi)', 114, 128, 10, '250g', 'vegetables', true, '10 min'),
+  ]},
+  yam_regular_jimikand_500g: { query: 'yam', canonicalName: 'Yam Regular (Jimikand)', category: 'Vegetables', icon: '🥔', prices: [
+    p('blinkit',   'Yam Regular (Jimikand)', 83, 106, 21, '500g', 'vegetables', true, '10 min'),
+  ]},
+  sweet_potato_purple_500g: { query: 'sweet potato', canonicalName: 'Sweet Potato (Purple)', category: 'Vegetables', icon: '🍠', prices: [
+    p('blinkit',   'Sweet Potato (Purple)', 146, 171, 14, '500g', 'vegetables', true, '10 min'),
+  ]},
+  turmeric_raw_fresh_100g: { query: 'turmeric', canonicalName: 'Turmeric (Raw Fresh)', category: 'Vegetables', icon: '🫚', prices: [
+    p('blinkit',   'Turmeric (Raw Fresh)', 50, 60, 16, '100g', 'vegetables', true, '10 min'),
+  ]},
+  galangal_thai_ginger_100g: { query: 'galangal', canonicalName: 'Galangal (Thai Ginger)', category: 'Vegetables', icon: '🫚', prices: [
+    p('blinkit',   'Galangal (Thai Ginger)', 139, 160, 13, '100g', 'vegetables', true, '10 min'),
+  ]},
+  lemongrass_fresh_1bunch: { query: 'lemongrass', canonicalName: 'Lemongrass', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Lemongrass', 35, 39, 10, '1 bunch', 'vegetables', true, '10 min'),
+  ]},
+  kaffir_lime_leaves_10g: { query: 'lime leaves', canonicalName: 'Kaffir Lime Leaves', category: 'Vegetables', icon: '🍃', prices: [
+    p('blinkit',   'Kaffir Lime Leaves', 47, 52, 9, '10g', 'vegetables', true, '10 min'),
+  ]},
+  banana_flower_vazhaipoo_1pc: { query: 'banana flower', canonicalName: 'Banana Flower (Vazhaipoo)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Banana Flower (Vazhaipoo)', 51, 61, 16, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  banana_stem_vazhaithandu_1pc: { query: 'banana stem', canonicalName: 'Banana Stem (Vazhaithandu)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Banana Stem (Vazhaithandu)', 48, 55, 12, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  raw_banana_green_3pc: { query: 'raw banana', canonicalName: 'Raw Banana (Green)', category: 'Vegetables', icon: '🍌', prices: [
+    p('blinkit',   'Raw Banana (Green)', 42, 52, 19, '3 pc', 'vegetables', true, '10 min'),
+  ]},
+  raw_mango_totapuri_1kg: { query: 'raw mango', canonicalName: 'Raw Mango (Totapuri)', category: 'Vegetables', icon: '🥭', prices: [
+    p('blinkit',   'Raw Mango (Totapuri)', 106, 127, 16, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  raw_mango_regular_500g: { query: 'raw mango', canonicalName: 'Raw Mango (Regular)', category: 'Vegetables', icon: '🥭', prices: [
+    p('blinkit',   'Raw Mango (Regular)', 56, 72, 22, '500g', 'vegetables', true, '10 min'),
+  ]},
+  spinach_baby_leaves_100g: { query: 'spinach', canonicalName: 'Spinach (Baby Leaves)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Spinach (Baby Leaves)', 79, 98, 19, '100g', 'vegetables', true, '10 min'),
+  ]},
+  lettuce_lollo_rosso_1pc: { query: 'lettuce', canonicalName: 'Lettuce Lollo Rosso', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Lettuce Lollo Rosso', 117, 130, 10, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  lettuce_butterhead_1pc: { query: 'lettuce', canonicalName: 'Lettuce Butterhead', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Lettuce Butterhead', 123, 159, 22, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  kale_curly_leaves_100g: { query: 'kale', canonicalName: 'Kale (Curly Leaves)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Kale (Curly Leaves)', 154, 191, 19, '100g', 'vegetables', true, '10 min'),
+  ]},
+  arugula_rocket_leaves_100g: { query: 'arugula', canonicalName: 'Arugula (Rocket Leaves)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Arugula (Rocket Leaves)', 174, 202, 13, '100g', 'vegetables', true, '10 min'),
+  ]},
+  bok_choy_chinese_cabbage_1pc: { query: 'bok choy', canonicalName: 'Bok Choy', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Bok Choy', 109, 128, 14, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  pak_choi_medium_1pc: { query: 'pak choi', canonicalName: 'Pak Choi', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Pak Choi', 102, 118, 13, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  red_cabbage_small_1pc: { query: 'red cabbage', canonicalName: 'Red Cabbage (Small)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Red Cabbage (Small)', 48, 55, 12, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  chinese_cabbage_large_1pc: { query: 'chinese cabbage', canonicalName: 'Chinese Cabbage', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Chinese Cabbage', 105, 132, 20, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  zucchini_yellow_imported_1pc: { query: 'zucchini', canonicalName: 'Zucchini (Yellow Imported)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Zucchini (Yellow Imported)', 130, 157, 17, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  zucchini_green_regular_500g: { query: 'zucchini', canonicalName: 'Zucchini (Green Regular)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Zucchini (Green Regular)', 70, 79, 11, '500g', 'vegetables', true, '10 min'),
+  ]},
+  pumpkin_green_desi_1kg: { query: 'pumpkin', canonicalName: 'Pumpkin Green (Desi)', category: 'Vegetables', icon: '🎃', prices: [
+    p('blinkit',   'Pumpkin Green (Desi)', 48, 57, 15, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  bottle_gourd_round_1pc: { query: 'bottle gourd', canonicalName: 'Bottle Gourd (Round)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Bottle Gourd (Round)', 45, 58, 22, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  bitter_gourd_dark_green_500g: { query: 'bitter gourd', canonicalName: 'Bitter Gourd (Dark Green)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Bitter Gourd (Dark Green)', 65, 81, 19, '500g', 'vegetables', true, '10 min'),
+  ]},
+  ivy_gourd_baby_tindora_250g: { query: 'ivy gourd', canonicalName: 'Ivy Gourd (Baby Tindora)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Ivy Gourd (Baby Tindora)', 51, 58, 12, '250g', 'vegetables', true, '10 min'),
+  ]},
+  snake_gourd_small_pack: { query: 'snake gourd', canonicalName: 'Snake Gourd (Small)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Snake Gourd (Small)', 60, 67, 10, '1 pack', 'vegetables', true, '10 min'),
+  ]},
+  parwal_pointed_gourd_250g: { query: 'parwal', canonicalName: 'Parwal (Pointed Gourd)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Parwal (Pointed Gourd)', 50, 57, 12, '250g', 'vegetables', true, '10 min'),
+  ]},
+  kundru_ivy_gourd_500g: { query: 'kundru', canonicalName: 'Kundru (Ivy Gourd)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Kundru (Ivy Gourd)', 59, 72, 18, '500g', 'vegetables', true, '10 min'),
+  ]},
+  kantola_spiny_gourd_250g: { query: 'kantola', canonicalName: 'Kantola (Spiny Gourd)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Kantola (Spiny Gourd)', 89, 104, 14, '250g', 'vegetables', true, '10 min'),
+  ]},
+  tinda_apple_gourd_500g: { query: 'tinda', canonicalName: 'Tinda (Apple Gourd)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Tinda (Apple Gourd)', 72, 88, 18, '500g', 'vegetables', true, '10 min'),
+  ]},
+  okra_organic_premium_500g: { query: 'okra', canonicalName: 'Okra (Organic Premium)', category: 'Vegetables', icon: '🥒', prices: [
+    p('blinkit',   'Okra (Organic Premium)', 108, 136, 20, '500g', 'vegetables', true, '10 min'),
+  ]},
+  beans_long_lobia_250g: { query: 'long beans', canonicalName: 'Beans (Long Lobia)', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Beans (Long Lobia)', 44, 50, 12, '250g', 'vegetables', true, '10 min'),
+  ]},
+  beans_soya_fresh_250g: { query: 'soya beans', canonicalName: 'Beans (Soya Fresh)', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Beans (Soya Fresh)', 48, 61, 21, '250g', 'vegetables', true, '10 min'),
+  ]},
+  beans_lima_val_250g: { query: 'lima beans', canonicalName: 'Beans (Lima Val)', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Beans (Lima Val)', 78, 89, 12, '250g', 'vegetables', true, '10 min'),
+  ]},
+  peas_frozen_premium_1kg: { query: 'peas', canonicalName: 'Peas (Frozen Premium) 1kg', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Peas (Frozen Premium) 1kg', 225, 251, 10, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  corn_frozen_sweet_1kg: { query: 'corn', canonicalName: 'Corn (Frozen Sweet) 1kg', category: 'Vegetables', icon: '🌽', prices: [
+    p('blinkit',   'Corn (Frozen Sweet) 1kg', 194, 221, 12, '1 kg', 'vegetables', true, '10 min'),
+  ]},
+  mushroom_button_value_400g: { query: 'mushroom', canonicalName: 'Mushroom (Button Value)', category: 'Vegetables', icon: '🍄', prices: [
+    p('blinkit',   'Mushroom (Button Value)', 163, 203, 19, '400g', 'vegetables', true, '10 min'),
+  ]},
+  mushroom_milky_white_200g: { query: 'mushroom', canonicalName: 'Mushroom (Milky White)', category: 'Vegetables', icon: '🍄', prices: [
+    p('blinkit',   'Mushroom (Milky White)', 138, 179, 22, '200g', 'vegetables', true, '10 min'),
+  ]},
+  broccoli_florets_cleaned_200g: { query: 'broccoli', canonicalName: 'Broccoli Florets (Cleaned)', category: 'Vegetables', icon: '🥦', prices: [
+    p('blinkit',   'Broccoli Florets (Cleaned)', 107, 130, 17, '200g', 'vegetables', true, '10 min'),
+  ]},
+  cauliflower_florets_cleaned_300g: { query: 'cauliflower', canonicalName: 'Cauliflower Florets (Cleaned)', category: 'Vegetables', icon: '🥦', prices: [
+    p('blinkit',   'Cauliflower Florets (Cleaned)', 90, 115, 21, '300g', 'vegetables', true, '10 min'),
+  ]},
+  cabbage_shredded_cleaned_200g: { query: 'cabbage', canonicalName: 'Cabbage Shredded (Cleaned)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Cabbage Shredded (Cleaned)', 75, 88, 14, '200g', 'vegetables', true, '10 min'),
+  ]},
+  salad_mix_garden_fresh_200g: { query: 'salad', canonicalName: 'Salad Mix (Garden Fresh)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Salad Mix (Garden Fresh)', 127, 150, 15, '200g', 'vegetables', true, '10 min'),
+  ]},
+  sprouts_mixed_value_pack: { query: 'sprouts', canonicalName: 'Sprouts (Mixed Value Pack)', category: 'Vegetables', icon: '🌱', prices: [
+    p('blinkit',   'Sprouts (Mixed Value Pack)', 72, 86, 16, '1 pack', 'vegetables', true, '10 min'),
+  ]},
+  sprouts_moong_200g_pack: { query: 'sprouts', canonicalName: 'Sprouts (Moong)', category: 'Vegetables', icon: '🌱', prices: [
+    p('blinkit',   'Sprouts (Moong)', 45, 51, 11, '200g', 'vegetables', true, '10 min'),
+  ]},
+  sprouts_chana_200g_pack: { query: 'sprouts', canonicalName: 'Sprouts (Chana)', category: 'Vegetables', icon: '🌱', prices: [
+    p('blinkit',   'Sprouts (Chana)', 40, 51, 21, '200g', 'vegetables', true, '10 min'),
+  ]},
+  sprouts_methi_100g_pack: { query: 'sprouts', canonicalName: 'Sprouts (Methi)', category: 'Vegetables', icon: '🌱', prices: [
+    p('blinkit',   'Sprouts (Methi)', 53, 61, 13, '100g', 'vegetables', true, '10 min'),
+  ]},
+  microgreens_sunflower_50g: { query: 'microgreens', canonicalName: 'Microgreens (Sunflower)', category: 'Vegetables', icon: '🌱', prices: [
+    p('blinkit',   'Microgreens (Sunflower)', 227, 255, 10, '50g', 'vegetables', true, '10 min'),
+  ]},
+  microgreens_radish_50g: { query: 'microgreens', canonicalName: 'Microgreens (Radish)', category: 'Vegetables', icon: '🌱', prices: [
+    p('blinkit',   'Microgreens (Radish)', 201, 259, 22, '50g', 'vegetables', true, '10 min'),
+  ]},
+  microgreens_broccoli_50g: { query: 'microgreens', canonicalName: 'Microgreens (Broccoli)', category: 'Vegetables', icon: '🌱', prices: [
+    p('blinkit',   'Microgreens (Broccoli)', 189, 215, 12, '50g', 'vegetables', true, '10 min'),
+  ]},
+  edible_flowers_mixed_20g: { query: 'edible flowers', canonicalName: 'Edible Flowers (Mixed)', category: 'Vegetables', icon: '🌸', prices: [
+    p('blinkit',   'Edible Flowers (Mixed)', 424, 466, 9, '20g', 'vegetables', true, '10 min'),
+  ]},
+  watercress_fresh_50g: { query: 'watercress', canonicalName: 'Watercress', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Watercress', 146, 166, 12, '50g', 'vegetables', true, '10 min'),
+  ]},
+  sorrel_leaves_fresh_50g: { query: 'sorrel', canonicalName: 'Sorrel Leaves', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Sorrel Leaves', 152, 168, 9, '50g', 'vegetables', true, '10 min'),
+  ]},
+  dill_leaves_shepu_1bunch: { query: 'dill', canonicalName: 'Dill Leaves (Shepu)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Dill Leaves (Shepu)', 36, 45, 20, '1 bunch', 'vegetables', true, '10 min'),
+  ]},
+  spring_onion_with_greens_250g: { query: 'spring onion', canonicalName: 'Spring Onion (With Greens)', category: 'Vegetables', icon: '🧅', prices: [
+    p('blinkit',   'Spring Onion (With Greens)', 60, 68, 11, '250g', 'vegetables', true, '10 min'),
+  ]},
+  leeks_fresh_imported_1pc: { query: 'leeks', canonicalName: 'Leeks (Imported)', category: 'Vegetables', icon: '🥬', prices: [
+    p('blinkit',   'Leeks (Imported)', 147, 175, 16, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  scallions_fresh_1bunch: { query: 'scallions', canonicalName: 'Scallions', category: 'Vegetables', icon: '🧅', prices: [
+    p('blinkit',   'Scallions', 74, 94, 21, '1 bunch', 'vegetables', true, '10 min'),
+  ]},
+  shallots_small_onions_250g: { query: 'shallots', canonicalName: 'Shallots (Small Onions)', category: 'Vegetables', icon: '🧅', prices: [
+    p('blinkit',   'Shallots (Small Onions)', 99, 120, 17, '250g', 'vegetables', true, '10 min'),
+  ]},
+  garlic_regular_indian_250g: { query: 'garlic', canonicalName: 'Garlic (Regular Indian)', category: 'Vegetables', icon: '🧄', prices: [
+    p('blinkit',   'Garlic (Regular Indian)', 169, 188, 10, '250g', 'vegetables', true, '10 min'),
+  ]},
+  garlic_single_clove_pearl_100g: { query: 'garlic', canonicalName: 'Garlic (Single Clove Pearl)', category: 'Vegetables', icon: '🧄', prices: [
+    p('blinkit',   'Garlic (Single Clove Pearl)', 288, 324, 11, '100g', 'vegetables', true, '10 min'),
+  ]},
+  ginger_regular_indian_500g: { query: 'ginger', canonicalName: 'Ginger (Regular Indian)', category: 'Vegetables', icon: '🫚', prices: [
+    p('blinkit',   'Ginger (Regular Indian)', 236, 269, 12, '500g', 'vegetables', true, '10 min'),
+  ]},
+  chilies_green_birds_eye_50g: { query: 'green chilli', canonicalName: 'Chilies Green (Birds Eye)', category: 'Vegetables', icon: '🌶️', prices: [
+    p('blinkit',   'Chilies Green (Birds Eye)', 65, 81, 19, '50g', 'vegetables', true, '10 min'),
+  ]},
+  chilies_red_fresh_100g: { query: 'red chilli', canonicalName: 'Chilies Red (Fresh)', category: 'Vegetables', icon: '🌶️', prices: [
+    p('blinkit',   'Chilies Red (Fresh)', 56, 72, 22, '100g', 'vegetables', true, '10 min'),
+  ]},
+  chilies_pickling_mota_200g: { query: 'green chilli', canonicalName: 'Chilies (Pickling Mota)', category: 'Vegetables', icon: '🌶️', prices: [
+    p('blinkit',   'Chilies (Pickling Mota)', 60, 67, 10, '200g', 'vegetables', true, '10 min'),
+  ]},
+  aloe_vera_leaf_fresh_1pc: { query: 'aloe vera', canonicalName: 'Aloe Vera Leaf', category: 'Vegetables', icon: '🌵', prices: [
+    p('blinkit',   'Aloe Vera Leaf', 48, 54, 11, '1 pc', 'vegetables', true, '10 min'),
+  ]},
+  wheatgrass_fresh_1tray: { query: 'wheatgrass', canonicalName: 'Wheatgrass (Fresh Tray)', category: 'Vegetables', icon: '🌱', prices: [
+    p('blinkit',   'Wheatgrass (Fresh Tray)', 195, 247, 21, '1 tray', 'vegetables', true, '10 min'),
+  ]},
+  betel_leaves_paan_10pc: { query: 'betel leaves', canonicalName: 'Betel Leaves (Paan)', category: 'Vegetables', icon: '🍃', prices: [
+    p('blinkit',   'Betel Leaves (Paan)', 26, 32, 18, '10 pc', 'vegetables', true, '10 min'),
+  ]},
 };
+
+
 
 // ─── PRICE DETECTION SYSTEM ────────────────────────────────────────────────────
 // This system auto-generates real platform search URLs for any food item,
