@@ -11,8 +11,7 @@ import {
 import { supabase } from '../../lib/supabase';
 import { MOCK_DB } from '../../data/mockPrices';
 
-const CATEGORIES = ['All', 'Vegetables', 'Fruits', 'Dairy & Eggs', 'Meat & Poultry', 'Fish & Seafood', 'Bakery', 'Snacks', 'Beverages', 'Grocery'];
-
+const CATEGORIES = ['All', 'Pending', 'Vegetables', 'Fruits', 'Dairy & Eggs', 'Meat & Poultry', 'Fish & Seafood', 'Bakery', 'Snacks', 'Beverages', 'Grocery'];
 const PLATFORMS = [
   { id: 'blinkit', name: 'Blinkit' },
   { id: 'zepto', name: 'Zepto' },
@@ -87,7 +86,14 @@ const ManageGroceryPrices = () => {
   const filteredItems = masterProducts.filter(item => {
     const matchesSearch = item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          item.query.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
+    
+    // Check if it has ANY live prices
+    const hasLivePrices = liveData.some(ld => ld.item_name === item.query && ld.price > 0);
+    
+    const matchesCategory = activeCategory === 'All' ? true : 
+                          activeCategory === 'Pending' ? !hasLivePrices :
+                          item.category === activeCategory;
+
     return matchesSearch && matchesCategory;
   });
 
@@ -191,9 +197,23 @@ const ManageGroceryPrices = () => {
               {paginatedItems.map(item => (
                 <div key={item.query} className="bg-white rounded-3xl shadow-sm border border-forest-100 overflow-hidden">
                   <div className="bg-forest-900 p-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <span className="text-3xl bg-white/10 p-2 rounded-xl">{item.icon}</span>
-                      <h2 className="text-xl font-bold text-white">{item.label}</h2>
+                      <div>
+                        <h2 className="text-xl font-bold text-white">{item.label}</h2>
+                        {/* Status Badge */}
+                        <div className="mt-1">
+                          {liveData.some(ld => ld.item_name === item.query && ld.price > 0) ? (
+                            <span className="inline-flex items-center gap-1 text-[9px] font-black bg-emerald-400/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-400/30 uppercase tracking-tighter">
+                              <CheckCircle className="w-2 h-2" /> Verified
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-[9px] font-black bg-amber-400/20 text-amber-400 px-2 py-0.5 rounded border border-amber-400/30 uppercase tracking-tighter">
+                              <AlertCircle className="w-2 h-2" /> Pending
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </div>
                     <span className="text-forest-300 text-xs font-mono uppercase tracking-widest">{item.query}</span>
                   </div>
