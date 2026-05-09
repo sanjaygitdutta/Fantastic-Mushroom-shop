@@ -4010,45 +4010,56 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
   await delay(400 + Math.random() * 300);
   const key = query.toLowerCase().trim();
 
-  // 1. Try to fetch from Supabase 'products' table first (Database-First)
+  // 1. Identify the Product ID (Match either Supabase ID or MOCK_DB Key)
+  let productId = key;
+  let dbProduct = null;
+
   try {
-    const { data: dbProduct, error: pError } = await supabase
+    const { data: pData, error: pError } = await supabase
       .from('products')
       .select('*')
       .or(`id.eq.${key},canonical_name.ilike.%${key}%`)
       .limit(1)
       .single();
+    
+    if (!pError && pData) {
+      dbProduct = pData;
+      productId = pData.id;
+    } else {
+      // If not in DB, check if the key matches a MOCK_DB entry
+      const match = Object.keys(MOCK_DB).find((k) => k === key || k.includes(key) || key.includes(k));
+      if (match) productId = match;
+    }
 
-    if (!pError && dbProduct) {
-      const { data: dbPrices, error: prError } = await supabase
-        .from('live_prices')
-        .select('*')
-        .eq('item_name', dbProduct.id);
+    // 2. NOW fetch Live Prices for this specific ID
+    const { data: dbPrices, error: prError } = await supabase
+      .from('live_prices')
+      .select('*')
+      .eq('item_name', productId);
 
-      if (!prError && dbPrices && dbPrices.length > 0) {
-        return {
-          query: dbProduct.id,
-          canonicalName: dbProduct.canonical_name,
-          category: dbProduct.category,
-          icon: dbProduct.icon || '🛒',
-          prices: dbPrices.map(p => ({
-            platformId: p.platform_id,
-            productName: p.canonical_name || dbProduct.canonical_name,
-            price: p.price,
-            originalPrice: Math.round(p.price * 1.15),
-            discount: 15,
-            unit: '1 unit',
-            inStock: p.in_stock,
-            url: `https://${p.platform_id}.com/s/?q=${encodeURIComponent(dbProduct.canonical_name)}`,
-            lastUpdated: p.last_updated,
-            deliveryTime: p.platform_id === 'swiggy' ? '15 min' : '10 min',
-            isVerified: true
-          }))
-        };
-      }
+    if (!prError && dbPrices && dbPrices.length > 0) {
+      return {
+        query: productId,
+        canonicalName: dbProduct?.canonical_name || MOCK_DB[productId]?.canonicalName || productId.toUpperCase(),
+        category: dbProduct?.category || MOCK_DB[productId]?.category || 'Grocery',
+        icon: dbProduct?.icon || MOCK_DB[productId]?.icon || '🛒',
+        prices: dbPrices.map(p => ({
+          platformId: p.platform_id,
+          productName: p.canonical_name || dbProduct?.canonical_name || productId,
+          price: p.price,
+          originalPrice: Math.round(p.price * 1.15),
+          discount: 15,
+          unit: '1 unit',
+          inStock: p.in_stock,
+          url: `https://${p.platform_id}.com/s/?q=${encodeURIComponent(productId)}`,
+          lastUpdated: p.last_updated,
+          deliveryTime: p.platform_id === 'swiggy' ? '15 min' : '10 min',
+          isVerified: true
+        }))
+      };
     }
   } catch (e) {
-    console.error("DB search failed, falling back to MOCK_DB", e);
+    console.error("Database search sequence failed", e);
   }
 
   // 2. Fallback to MOCK_DB / Auto-generation logic
