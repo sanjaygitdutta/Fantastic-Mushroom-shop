@@ -4015,10 +4015,13 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
   let dbProduct: any = null;
 
   try {
+    // Make search fuzzy by replacing spaces with wildcards (e.g., '7 up' -> '%7%up%')
+    const fuzzyKey = key.replace(/\s+/g, '%');
+    
     const { data: pData, error: pError } = await supabase
       .from('products')
       .select('*')
-      .or(`id.eq.${key},canonical_name.ilike.%${key}%`)
+      .or(`id.eq.${key},canonical_name.ilike.%${fuzzyKey}%`)
       .limit(1)
       .single();
     
@@ -4026,8 +4029,14 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
       dbProduct = pData;
       productId = pData.id;
     } else {
-      // If not in DB, check if the key matches a MOCK_DB entry
-      const match = Object.keys(MOCK_DB).find((k) => k === key || k.includes(key) || key.includes(k));
+      // If not in DB, aggressively check MOCK_DB properties
+      const match = Object.keys(MOCK_DB).find((k) => 
+        k === key || 
+        k.includes(key) || 
+        key.includes(k) || 
+        MOCK_DB[k as keyof typeof MOCK_DB].query.toLowerCase() === key ||
+        MOCK_DB[k as keyof typeof MOCK_DB].canonicalName.toLowerCase().includes(key)
+      );
       if (match) productId = match;
     }
 
