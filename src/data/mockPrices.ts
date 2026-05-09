@@ -1,6 +1,5 @@
 // ------------------------------------------------------------------
 import { supabase } from '../lib/supabase';
-import { unstable_cache } from 'next/cache';
 // Fantastic Food — Price Data System
 // Phase 1: Rich mock DB covering 50+ frequently ordered food items
 // Phase 2 (Production): Replace searchPrices() with live Supabase
@@ -4152,9 +4151,7 @@ export const FOOD_CATEGORIES = [
   { label: 'Mushrooms 🍄',     icon: '🍄',  query: 'mushroom', special: true },
 ];
 
-// 5. CACHED EXPORT
-export const searchPrices = unstable_cache(
-  async (query: string) => searchPricesInternal(query),
-  ['food-prices'],
-  { revalidate: 60, tags: ['prices'] }
-);
+// 5. EXPORT (Live Data - No Cache)
+export const searchPrices = async (query: string) => {
+  return searchPricesInternal(query);
+};
