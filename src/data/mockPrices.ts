@@ -1551,7 +1551,7 @@ export const MOCK_DB: Record<string, CompareResult> = {
   sona_masuri_rice: { query: 'sona masuri', canonicalName: 'Sona Masuri Rice', category: 'Grains & Pulses', icon: '🌾', prices: [
     p('blinkit',   'Fortune Sona Masuri',   385, 450, 14, '5 kg', 'rice', true, '10 min'),
   ]},
-  kolam_rice: { query: 'kolam rice', canonicalName: 'Kolam Rice', category: 'Grains & Pulses', icon: '🌾', prices: [
+  fortune_kolam_rice: { query: 'kolam rice', canonicalName: 'Kolam Rice', category: 'Grains & Pulses', icon: '🌾', prices: [
     p('blinkit',   'Fortune Kolam Rice',    425, 480, 11, '5 kg', 'rice', true, '10 min'),
   ]},
   gobindobhog_rice: { query: 'gobindobhog', canonicalName: 'Gobindobhog Rice', category: 'Grains & Pulses', icon: '🌾', prices: [
@@ -1584,7 +1584,7 @@ export const MOCK_DB: Record<string, CompareResult> = {
   orange_nagpur: { query: 'orange', canonicalName: 'Nagpur Orange', category: 'Fruits', icon: '🍊', prices: [
     p('blinkit',   'Fresh Nagpur Orange',   95, 125, 24, '1 kg', 'fruits', true, '10 min'),
   ]},
-  mayo_eggless: { query: 'eggless mayo', canonicalName: 'Eggless Mayonnaise', category: 'Packaged Foods', icon: '🥫', prices: [
+  veeba_eggless_mayo: { query: 'eggless mayo', canonicalName: 'Eggless Mayonnaise', category: 'Packaged Foods', icon: '🥫', prices: [
     p('blinkit',   'Veeba Eggless Mayo',    145, 165, 12, '250g', 'sauce', true, '10 min'),
   ]},
   mccain_aloo_tikki: { query: 'aloo tikki', canonicalName: 'McCain Aloo Tikki', category: 'Frozen Foods', icon: '🧊', prices: [
@@ -1776,7 +1776,7 @@ export const MOCK_DB: Record<string, CompareResult> = {
   kissan_jam_1kg: { query: 'kissan jam 1kg', canonicalName: 'Kissan Mixed Fruit Jam (1kg)', category: 'Packaged Foods', icon: '🍯', prices: [
     p('blinkit',   'Kissan Jam 1kg',        285, 325, 12, '1 kg', 'jam', true, '10 min'),
   ]},
-  sweet_potato_fresh: { query: 'shakarkandi', canonicalName: 'Sweet Potato (Shakarkandi)', category: 'Vegetables', icon: '🍠', prices: [
+  shakarkandi_fresh_root: { query: 'shakarkandi', canonicalName: 'Sweet Potato (Shakarkandi)', category: 'Vegetables', icon: '🍠', prices: [
     p('blinkit',   'Fresh Shakarkandi',     45, 60, 25, '500g', 'vegetables', true, '10 min'),
   ]},
   radish_fresh_mooli: { query: 'mooli', canonicalName: 'Radish (Mooli)', category: 'Vegetables', icon: '🥒', prices: [
