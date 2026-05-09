@@ -615,15 +615,6 @@ export const MOCK_DB: Record<string, CompareResult> = {
   sunflower_oil: { query: 'sunflower oil', canonicalName: 'Sunflower Oil', category: 'Packaged Foods', icon: '🫙', prices: [
     p('blinkit',   'Fortune Sunflower',     135, 165, 18, '1 L', 'oil', true, '10 min'),
   ]},
-  carrot: { query: 'carrot', canonicalName: 'Carrot (Gajar)', category: 'Vegetables', icon: '🥕', prices: [
-    p('blinkit',   'Red Gajar',             35, 45, 22, '500g', 'carrot', true, '10 min'),
-  ]},
-  cucumber: { query: 'cucumber', canonicalName: 'Cucumber (Kheera)', category: 'Vegetables', icon: '🥒', prices: [
-    p('blinkit',   'Kheera (Cucumber)',     25, 35, 28, '500g', 'cucumber', true, '10 min'),
-  ]},
-  spinach: { query: 'spinach', canonicalName: 'Spinach (Palak)', category: 'Vegetables', icon: '🥬', prices: [
-    p('blinkit',   'Palak Bunch',           18, 25, 28, '250g', 'spinach', true, '10 min'),
-  ]},
   beetroot: { query: 'beetroot', canonicalName: 'Beetroot', category: 'Vegetables', icon: '🥗', prices: [
     p('blinkit',   'Beetroot Fresh',        35, 45, 22, '500g', 'beetroot', true, '10 min'),
   ]},
@@ -657,9 +648,6 @@ export const MOCK_DB: Record<string, CompareResult> = {
   quinoa: { query: 'quinoa', canonicalName: 'Quinoa', category: 'Packaged Foods', icon: '🥣', prices: [
     p('blinkit',   'True Elements Quinoa',  245, 280, 12, '500g', 'quinoa', true, '10 min'),
   ]},
-  coffee: { query: 'coffee', canonicalName: 'Instant Coffee', category: 'Beverages', icon: '☕', prices: [
-    p('blinkit',   'Nescafe Classic',       325, 360, 10, '100g', 'coffee', true, '10 min'),
-  ]},
   tea_bags: { query: 'tea', canonicalName: 'Tea Bags (Green Tea)', category: 'Beverages', icon: '🍵', prices: [
     p('blinkit',   'Tetley Green Tea',      165, 190, 13, '25 bags', 'tea', true, '10 min'),
   ]},
@@ -689,9 +677,6 @@ export const MOCK_DB: Record<string, CompareResult> = {
   ]},
   ajwain: { query: 'ajwain', canonicalName: 'Carom Seeds (Ajwain)', category: 'Packaged Foods', icon: '🧂', prices: [
     p('blinkit',   'Ajwain',                45, 55, 18, '100g', 'spices', true, '10 min'),
-  ]},
-  pomegranate: { query: 'pomegranate', canonicalName: 'Pomegranate (Anar)', category: 'Fruits', icon: '🍎', prices: [
-    p('blinkit',   'Fresh Anar',            185, 220, 16, '1 kg', 'pomegranate', true, '10 min'),
   ]},
   guava: { query: 'guava', canonicalName: 'Guava (Amrud)', category: 'Fruits', icon: '🍐', prices: [
     p('blinkit',   'Fresh Amrud',           65, 85, 23, '1 kg', 'guava', true, '10 min'),
