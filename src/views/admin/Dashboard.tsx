@@ -48,9 +48,37 @@ const Dashboard = () => {
                 />
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-mushroom-200 shadow-sm">
-                <h2 className="text-lg font-bold text-mushroom-900 mb-4">Recent Activity</h2>
-                <p className="text-mushroom-500 italic">No recent activity to show.</p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div className="bg-white p-6 rounded-2xl border border-mushroom-200 shadow-sm">
+                    <h2 className="text-lg font-bold text-mushroom-900 mb-4">Quick Actions</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a 
+                            href="./admin/prices"
+                            className="flex items-center gap-3 p-4 bg-forest-900 text-white rounded-xl hover:bg-black transition-all hover:scale-105"
+                        >
+                            <DollarSign className="w-6 h-6" />
+                            <div className="text-left">
+                                <div className="font-bold">Price Manager</div>
+                                <div className="text-xs text-forest-300">Update Live Grocery Prices</div>
+                            </div>
+                        </a>
+                        <a 
+                            href="./admin/products"
+                            className="flex items-center gap-3 p-4 bg-orange-100 text-orange-900 rounded-xl hover:bg-orange-200 transition-all hover:scale-105 border border-orange-200"
+                        >
+                            <Package className="w-6 h-6" />
+                            <div className="text-left">
+                                <div className="font-bold">Mushroom Shop</div>
+                                <div className="text-xs text-orange-600">Edit Shop Inventory</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl border border-mushroom-200 shadow-sm">
+                    <h2 className="text-lg font-bold text-mushroom-900 mb-4">Recent Activity</h2>
+                    <p className="text-mushroom-500 italic">No recent activity to show.</p>
+                </div>
             </div>
         </div>
     );
