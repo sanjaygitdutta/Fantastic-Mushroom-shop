@@ -4012,7 +4012,7 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
 
   // 1. Identify the Product ID (Match either Supabase ID or MOCK_DB Key)
   let productId = key;
-  let dbProduct = null;
+  let dbProduct: any = null;
 
   try {
     const { data: pData, error: pError } = await supabase
