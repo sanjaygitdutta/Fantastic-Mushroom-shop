@@ -7,4 +7,10 @@ if (!supabaseKey) {
   console.warn("Supabase Anon Key is missing! Check your .env.local file.");
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  global: {
+    fetch: (url, options) => {
+      return fetch(url, { ...options, cache: 'no-store' });
+    }
+  }
+});
