@@ -133,10 +133,14 @@ const ManageGroceryPrices = () => {
       <div className="max-w-7xl mx-auto px-4">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h1 className="text-3xl font-black text-forest-900">Global Price Manager 🌍</h1>
-            <p className="text-forest-600">Update real-time prices for all {masterProducts.length} products</p>
+            <h1 className="text-4xl font-black text-forest-900 mb-2 flex items-center gap-3">
+              Global Price Manager <span className="text-2xl animate-pulse">🌍</span>
+            </h1>
+            <p className="text-forest-600 text-lg">
+              Update real-time prices for all <span className="font-bold text-forest-900">{masterProducts.length}</span> items
+            </p>
           </div>
           
           <div className="relative">
