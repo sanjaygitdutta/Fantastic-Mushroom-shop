@@ -45,7 +45,8 @@ const ManageGroceryPrices = () => {
     const { data: products, error: pError } = await supabase
       .from('products')
       .select('*')
-      .order('canonical_name', { ascending: true });
+      .order('canonical_name', { ascending: true })
+      .range(0, 9999);
     
     if (!pError && products && products.length > 0) {
       setMasterProducts(products.map(p => ({
@@ -68,7 +69,8 @@ const ManageGroceryPrices = () => {
     // Fetch Live Prices
     const { data: prices, error: lError } = await supabase
       .from('live_prices')
-      .select('*');
+      .select('*')
+      .range(0, 9999);
     
     if (!lError && prices) {
       setLiveData(prices);
