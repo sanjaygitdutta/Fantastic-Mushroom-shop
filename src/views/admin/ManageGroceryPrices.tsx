@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase';
 import { POPULAR_SEARCHES, MOCK_DB } from '../../data/mockPrices';
 import { Save, Search, RefreshCw, AlertCircle, CheckCircle, TrendingDown, Filter } from 'lucide-react';
 
-const CATEGORIES = ['All', 'Vegetables', 'Fruits', 'Dairy', 'Meat & Poultry', 'Seafood', 'Grains & Pulses', 'Bakery', 'Packaged Foods', 'Beverages', 'Snacks', 'Sweets & Desserts', 'Personal Care', 'Cleaning'];
+const CATEGORIES = ['All', 'Vegetables', 'Fruits', 'Dairy', 'Meat & Poultry', 'Seafood', 'Grains & Pulses', 'Bakery', 'Packaged Foods', 'Beverages', 'Snacks', 'Sweets & Desserts'];
 
 const PLATFORMS = [
   { id: 'blinkit', name: 'Blinkit' },
