@@ -1,10 +1,17 @@
-'use client';
 import { useState, useEffect } from 'react';
+import { 
+  Save, 
+  Search, 
+  RefreshCw, 
+  CheckCircle, 
+  AlertCircle, 
+  TrendingDown, 
+  Filter
+} from 'lucide-react';
 import { supabase } from '../../lib/supabase';
-import { POPULAR_SEARCHES, MOCK_DB } from '../../data/mockPrices';
-import { Save, Search, RefreshCw, AlertCircle, CheckCircle, TrendingDown, Filter } from 'lucide-react';
+import { MOCK_DB } from '../../data/mockPrices';
 
-const CATEGORIES = ['All', 'Vegetables', 'Fruits', 'Dairy', 'Meat & Poultry', 'Seafood', 'Grains & Pulses', 'Bakery', 'Packaged Foods', 'Beverages', 'Snacks', 'Sweets & Desserts'];
+const CATEGORIES = ['All', 'Vegetables', 'Fruits', 'Dairy & Eggs', 'Meat & Poultry', 'Fish & Seafood', 'Bakery', 'Snacks', 'Beverages', 'Grocery'];
 
 const PLATFORMS = [
   { id: 'blinkit', name: 'Blinkit' },
@@ -22,103 +29,100 @@ const ManageGroceryPrices = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [liveData, setLiveData] = useState<any[]>([]);
+  const [masterProducts, setMasterProducts] = useState<any[]>([]);
   const [updates, setUpdates] = useState<Record<string, any>>({});
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null; msg: string }>({ type: null, msg: '' });
+  
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 51; // 3 per row * 17 rows
 
-  // 1. Fetch current live prices from Supabase
-  const fetchPrices = async () => {
+  // 1. Fetch current live prices AND product master from Supabase
+  const fetchData = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    
+    // Fetch Master Products
+    const { data: products, error: pError } = await supabase
+      .from('products')
+      .select('*')
+      .order('canonical_name', { ascending: true });
+    
+    if (!pError && products && products.length > 0) {
+      setMasterProducts(products.map(p => ({
+        label: p.canonical_name,
+        query: p.id,
+        icon: p.icon,
+        category: p.category
+      })));
+    } else {
+      // Fallback to MOCK_DB if table is empty or missing
+      const mockList = Object.keys(MOCK_DB).map(key => ({
+        label: MOCK_DB[key].canonicalName,
+        query: key,
+        icon: MOCK_DB[key].icon,
+        category: MOCK_DB[key].category
+      }));
+      setMasterProducts(mockList);
+    }
+
+    // Fetch Live Prices
+    const { data: prices, error: lError } = await supabase
       .from('live_prices')
       .select('*');
     
-    if (!error && data) {
-      setLiveData(data);
+    if (!lError && prices) {
+      setLiveData(prices);
     }
+    
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchPrices();
+    fetchData();
   }, []);
 
-  // 2. Build the Full List from MOCK_DB + POPULAR_SEARCHES
-  const allItems = Object.keys(MOCK_DB).map(key => ({
-    label: MOCK_DB[key].canonicalName,
-    query: key,
-    icon: MOCK_DB[key].icon,
-    category: MOCK_DB[key].category
-  }));
-
-  // Add any popular searches that might not be in MOCK_DB keys
-  POPULAR_SEARCHES.forEach(ps => {
-    if (!allItems.find(a => a.query === ps.query)) {
-      allItems.push({ ...ps, category: 'Grocery' });
-    }
-  });
-
-  // 3. Filter products based on search AND category
-  const filteredItems = allItems.filter(item => {
+  // 2. Filter products based on search AND category
+  const filteredItems = masterProducts.filter(item => {
     const matchesSearch = item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          item.query.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
+  // Calculate Paginated View
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const paginatedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   // 4. Handle local price changes
   const handlePriceChange = (itemKey: string, platformId: string, price: string, canonicalName: string) => {
-    // Allow empty string so the user can delete numbers
-    if (price === '') {
-      setUpdates(prev => ({
-        ...prev,
-        [`${itemKey}_${platformId}`]: {
-          item_name: itemKey,
-          canonical_name: canonicalName,
-          platform_id: platformId,
-          price: 0,
-          in_stock: false, // Setting to 0 marks it out of stock
-          last_updated: new Date().toISOString()
-        }
-      }));
-      return;
-    }
-
-    const numericPrice = parseFloat(price);
-    if (isNaN(numericPrice)) return;
-
     setUpdates(prev => ({
       ...prev,
       [`${itemKey}_${platformId}`]: {
         item_name: itemKey,
-        canonical_name: canonicalName,
         platform_id: platformId,
-        price: numericPrice,
-        in_stock: numericPrice > 0,
-        last_updated: new Date().toISOString()
+        canonical_name: canonicalName,
+        price: price === '' ? 0 : parseFloat(price),
+        last_updated: new Date().toISOString(),
+        in_stock: true
       }
     }));
   };
 
-  // 5. Save to Supabase
+  // 5. Save updates to Supabase
   const handleSave = async () => {
     setSaving(true);
-    const rowsToUpsert = Object.values(updates);
-
-    if (rowsToUpsert.length === 0) {
-      setSaving(false);
-      return;
-    }
-
+    const rowsToUpsert = Object.values(updates).filter(u => u.price > 0);
+    
     const { error } = await supabase
       .from('live_prices')
       .upsert(rowsToUpsert, { onConflict: 'item_name,platform_id' });
 
     if (error) {
-      setStatus({ type: 'error', msg: `Save failed: ${error.message}` });
+      setStatus({ type: 'error', msg: `Failed to save: ${error.message}` });
     } else {
       setStatus({ type: 'success', msg: `Successfully updated ${rowsToUpsert.length} prices!` });
       setUpdates({});
-      fetchPrices();
+      fetchData();
       setTimeout(() => setStatus({ type: null, msg: '' }), 3000);
     }
     setSaving(false);
@@ -132,7 +136,7 @@ const ManageGroceryPrices = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
             <h1 className="text-3xl font-black text-forest-900">Global Price Manager 🌍</h1>
-            <p className="text-forest-600">Update real-time prices for all {allItems.length} products</p>
+            <p className="text-forest-600">Update real-time prices for all {masterProducts.length} products</p>
           </div>
           
           <div className="relative">
@@ -142,7 +146,7 @@ const ManageGroceryPrices = () => {
               placeholder="Search product (Onion, Milk...)"
               className="pl-10 pr-4 py-3 rounded-2xl border-2 border-forest-100 focus:border-moss-500 outline-none w-full md:w-80 shadow-sm"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
             />
           </div>
         </div>
@@ -153,7 +157,7 @@ const ManageGroceryPrices = () => {
           {CATEGORIES.map(cat => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => { setActiveCategory(cat); setCurrentPage(1); }}
               className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeCategory === cat ? 'bg-forest-900 text-white shadow-lg' : 'bg-forest-50 text-forest-600 hover:bg-forest-100'}`}
             >
               {cat}
@@ -169,7 +173,7 @@ const ManageGroceryPrices = () => {
           </div>
         )}
 
-        {/* Product List */}
+        {/* Product Grid */}
         <div className="space-y-6">
           {loading ? (
             <div className="text-center py-20">
@@ -177,46 +181,79 @@ const ManageGroceryPrices = () => {
               <p className="text-forest-500 font-medium">Syncing with Market Data...</p>
             </div>
           ) : (
-            filteredItems.map(item => (
-              <div key={item.query} className="bg-white rounded-3xl shadow-sm border border-forest-100 overflow-hidden">
-                <div className="bg-forest-900 p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl bg-white/10 p-2 rounded-xl">{item.icon}</span>
-                    <h2 className="text-xl font-bold text-white">{item.label}</h2>
+            <>
+              {paginatedItems.map(item => (
+                <div key={item.query} className="bg-white rounded-3xl shadow-sm border border-forest-100 overflow-hidden">
+                  <div className="bg-forest-900 p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl bg-white/10 p-2 rounded-xl">{item.icon}</span>
+                      <h2 className="text-xl font-bold text-white">{item.label}</h2>
+                    </div>
+                    <span className="text-forest-300 text-xs font-mono uppercase tracking-widest">{item.query}</span>
                   </div>
-                  <span className="text-forest-300 text-xs font-mono uppercase tracking-widest">{item.query}</span>
-                </div>
-                
-                <div className="p-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
-                  {PLATFORMS.map(platform => {
-                    const currentLive = liveData.find(ld => ld.item_name === item.query && ld.platform_id === platform.id);
-                    const isModified = updates[`${item.query}_${platform.id}`];
-                    
-                    return (
-                      <div key={platform.id} className={`p-3 rounded-2xl border-2 transition-all ${isModified ? 'border-amber-400 bg-amber-50' : 'border-gray-50 bg-gray-50'}`}>
-                        <label className="text-[10px] font-black uppercase text-gray-400 block mb-1">{platform.name}</label>
-                        <div className="relative">
-                          <span className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₹</span>
-                          <input 
-                            type="number"
-                            placeholder={currentLive ? currentLive.price.toString() : "0"}
-                            className="w-full bg-transparent pl-4 pr-1 font-bold text-forest-900 outline-none text-lg"
-                            onChange={(e) => handlePriceChange(item.query, platform.id, e.target.value, item.label)}
-                            value={isModified ? (isModified.price === 0 ? '' : isModified.price) : (currentLive ? currentLive.price : '')}
-                          />
-                        </div>
-                        {currentLive && !isModified && (
-                          <div className="mt-1 flex items-center gap-1 text-[10px] text-green-600 font-bold">
-                            <TrendingDown className="w-3 h-3" />
-                            Live
+                  
+                  <div className="p-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
+                    {PLATFORMS.map(platform => {
+                      const currentLive = liveData.find(ld => ld.item_name === item.query && ld.platform_id === platform.id);
+                      const isModified = updates[`${item.query}_${platform.id}`];
+                      
+                      return (
+                        <div key={platform.id} className={`p-3 rounded-2xl border-2 transition-all ${isModified ? 'border-amber-400 bg-amber-50' : 'border-gray-50 bg-gray-50'}`}>
+                          <label className="text-[10px] font-black uppercase text-gray-400 block mb-1">{platform.name}</label>
+                          <div className="relative">
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₹</span>
+                            <input 
+                              type="number"
+                              placeholder={currentLive ? currentLive.price.toString() : "0"}
+                              className="w-full bg-transparent pl-4 pr-1 font-bold text-forest-900 outline-none text-lg"
+                              onChange={(e) => handlePriceChange(item.query, platform.id, e.target.value, item.label)}
+                              value={isModified ? (isModified.price === 0 ? '' : isModified.price) : (currentLive ? currentLive.price : '')}
+                            />
                           </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                          {currentLive && !isModified && (
+                            <div className="mt-1 flex items-center gap-1 text-[10px] text-green-600 font-bold">
+                              <TrendingDown className="w-3 h-3" />
+                              Live
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+              
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="mt-12 flex justify-center items-center gap-4">
+                  <button
+                    onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo(0, 0); }}
+                    disabled={currentPage === 1}
+                    className="px-6 py-2 rounded-xl bg-forest-900 text-white disabled:opacity-30 hover:bg-black transition-all font-bold"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-forest-600 font-bold">
+                    Page <span className="text-forest-900 bg-forest-50 px-3 py-1 rounded-lg border border-forest-100">{currentPage}</span> of {totalPages}
+                  </span>
+                  <button
+                    onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo(0, 0); }}
+                    disabled={currentPage === totalPages}
+                    className="px-6 py-2 rounded-xl bg-forest-900 text-white disabled:opacity-30 hover:bg-black transition-all font-bold"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+          {filteredItems.length === 0 && !loading && (
+            <div className="text-center py-20 bg-white rounded-3xl border border-forest-100 shadow-sm">
+              <div className="text-4xl mb-4">🔍</div>
+              <h3 className="text-xl font-bold text-forest-900 mb-2">No items found</h3>
+              <p className="text-forest-500">Try adjusting your search or category filter</p>
+            </div>
           )}
         </div>
 
@@ -226,7 +263,7 @@ const ManageGroceryPrices = () => {
             <button 
               onClick={handleSave}
               disabled={saving}
-              className="bg-forest-900 text-white px-10 py-5 rounded-full shadow-2xl flex items-center gap-3 font-black text-xl hover:scale-105 transition-all hover:bg-black disabled:opacity-50"
+              className="bg-forest-900 text-white px-10 py-5 rounded-full shadow-2xl flex items-center gap-3 font-black text-xl hover:scale-105 transition-all hover:bg-black disabled:opacity-50 border-4 border-white"
             >
               {saving ? <RefreshCw className="w-6 h-6 animate-spin" /> : <Save className="w-6 h-6" />}
               Update {Object.keys(updates).length} Live Prices

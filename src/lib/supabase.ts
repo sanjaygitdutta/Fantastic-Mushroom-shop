@@ -1,6 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://imqwmcgeokxnydovxwha.supabase.co';
-const supabaseKey = 'sb_publishable_4-RH2_Xk2j19YRzA_0nXmw_Wh5mGUvO';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://imqwmcgeokxnydovxwha.supabase.co';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+
+if (!supabaseKey) {
+  console.warn("Supabase Anon Key is missing! Check your .env.local file.");
+}
 
 export const supabase = createClient(supabaseUrl, supabaseKey);

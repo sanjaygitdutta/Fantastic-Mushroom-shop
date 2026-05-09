@@ -115,7 +115,7 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
         "@type": "AggregateOffer",
         "priceCurrency": "INR",
         "lowPrice": lowestPrice || 50,
-        "highPrice": result?.prices?.reduce((max, p) => Math.max(max, p.price), 0) || 100,
+        "highPrice": result?.prices?.reduce((max: number, p: any) => Math.max(max, p.price), 0) || 100,
         "offerCount": result?.prices?.length || 7,
         "availability": "https://schema.org/InStock"
       },
@@ -201,7 +201,7 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
         <div className="max-w-6xl mx-auto px-4 pt-10 border-t border-forest-100">
           <h2 className="text-xl font-bold text-forest-900 mb-6">Top Comparisons Today</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {POPULAR_SEARCHES.slice(0, 12).map((item) => (
+            {POPULAR_SEARCHES.slice(0, 12).map((item: any) => (
               <Link 
                 key={item.query}
                 href={`/${currentLang}/food/${item.query}`}

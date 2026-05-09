@@ -3909,39 +3909,65 @@ export const MOCK_DB: Record<string, CompareResult> = {
   chilies_red_fresh_100g: { query: 'red chilli', canonicalName: 'Chilies Red (Fresh)', category: 'Vegetables', icon: '🌶️', prices: [
     p('blinkit',   'Chilies Red (Fresh)', 56, 72, 22, '100g', 'vegetables', true, '10 min'),
   ]},
-  chilies_pickling_mota_200g: { query: 'green chilli', canonicalName: 'Chilies (Pickling Mota)', category: 'Vegetables', icon: '🌶️', prices: [
-    p('blinkit',   'Chilies (Pickling Mota)', 60, 67, 10, '200g', 'vegetables', true, '10 min'),
+
+  // ─── FISH & SEAFOOD SECTION ──────────────────────────────────────────────────
+  rohu_fish_large_1kg: { query: 'rohu fish', canonicalName: 'Rohu Fish (Large - Cut)', category: 'Fish & Seafood', icon: '🐟', prices: [
+    p('blinkit',   'Rohu Fish (Large - Cut)', 240, 280, 14, '1 kg', 'seafood', true, '15 min'),
   ]},
-  aloe_vera_leaf_fresh_1pc: { query: 'aloe vera', canonicalName: 'Aloe Vera Leaf', category: 'Vegetables', icon: '🌵', prices: [
-    p('blinkit',   'Aloe Vera Leaf', 48, 54, 11, '1 pc', 'vegetables', true, '10 min'),
+  catla_fish_medium_1kg: { query: 'catla fish', canonicalName: 'Catla Fish (Medium)', category: 'Fish & Seafood', icon: '🐟', prices: [
+    p('blinkit',   'Catla Fish (Medium)', 220, 260, 15, '1 kg', 'seafood', true, '15 min'),
   ]},
-  wheatgrass_fresh_1tray: { query: 'wheatgrass', canonicalName: 'Wheatgrass (Fresh Tray)', category: 'Vegetables', icon: '🌱', prices: [
-    p('blinkit',   'Wheatgrass (Fresh Tray)', 195, 247, 21, '1 tray', 'vegetables', true, '10 min'),
+  prawns_medium_cleaned_500g: { query: 'prawns', canonicalName: 'Prawns (Medium - Cleaned)', category: 'Fish & Seafood', icon: '🦐', prices: [
+    p('blinkit',   'Prawns (Medium - Cleaned)', 380, 450, 15, '500g', 'seafood', true, '15 min'),
   ]},
-  betel_leaves_paan_10pc: { query: 'betel leaves', canonicalName: 'Betel Leaves (Paan)', category: 'Vegetables', icon: '🍃', prices: [
-    p('blinkit',   'Betel Leaves (Paan)', 26, 32, 18, '10 pc', 'vegetables', true, '10 min'),
+  tiger_prawns_large_500g: { query: 'prawns', canonicalName: 'Tiger Prawns (Large)', category: 'Fish & Seafood', icon: '🦐', prices: [
+    p('blinkit',   'Tiger Prawns (Large)', 550, 620, 11, '500g', 'seafood', true, '15 min'),
+  ]},
+  hilsa_fish_ilish_1kg: { query: 'hilsa fish', canonicalName: 'Hilsa Fish (Ilish)', category: 'Fish & Seafood', icon: '🐟', prices: [
+    p('blinkit',   'Hilsa Fish (Ilish)', 1200, 1450, 17, '1 kg', 'seafood', true, '20 min'),
+  ]},
+  pomfret_silver_medium_500g: { query: 'pomfret', canonicalName: 'Pomfret (Silver - Medium)', category: 'Fish & Seafood', icon: '🐟', prices: [
+    p('blinkit',   'Pomfret (Silver - Medium)', 450, 520, 13, '500g', 'seafood', true, '15 min'),
+  ]},
+  surmai_king_fish_steaks_500g: { query: 'surmai', canonicalName: 'Surmai (King Fish Steaks)', category: 'Fish & Seafood', icon: '🐟', prices: [
+    p('blinkit',   'Surmai (King Fish Steaks)', 480, 550, 12, '500g', 'seafood', true, '15 min'),
+  ]},
+  salmon_fillet_premium_250g: { query: 'salmon', canonicalName: 'Salmon Fillet (Premium)', category: 'Fish & Seafood', icon: '🍣', prices: [
+    p('blinkit',   'Salmon Fillet (Premium)', 650, 750, 13, '250g', 'seafood', true, '15 min'),
+  ]},
+  basa_fillet_platinum_1kg: { query: 'basa fish', canonicalName: 'Basa Fillet (Platinum)', category: 'Fish & Seafood', icon: '🐟', prices: [
+    p('blinkit',   'Basa Fillet (Platinum)', 320, 380, 15, '1 kg', 'seafood', true, '15 min'),
+  ]},
+  crabs_blue_swimmer_500g: { query: 'crab', canonicalName: 'Crabs (Blue Swimmer)', category: 'Fish & Seafood', icon: '🦀', prices: [
+    p('blinkit',   'Crabs (Blue Swimmer)', 340, 400, 15, '500g', 'seafood', true, '15 min'),
+  ]},
+  squid_rings_cleaned_250g: { query: 'squid', canonicalName: 'Squid Rings (Cleaned)', category: 'Fish & Seafood', icon: '🦑', prices: [
+    p('blinkit',   'Squid Rings (Cleaned)', 210, 250, 16, '250g', 'seafood', true, '15 min'),
+  ]},
+  mackerel_bangda_small_500g: { query: 'mackerel', canonicalName: 'Mackerel (Bangda)', category: 'Fish & Seafood', icon: '🐟', prices: [
+    p('blinkit',   'Mackerel (Bangda)', 180, 210, 14, '500g', 'seafood', true, '15 min'),
+  ]},
+  singhara_fish_steaks_500g: { query: 'singhara', canonicalName: 'Singhara Fish (Steaks)', category: 'Fish & Seafood', icon: '🐟', prices: [
+    p('blinkit',   'Singhara Fish (Steaks)', 260, 310, 16, '500g', 'seafood', true, '15 min'),
+  ]},
+  lobster_whole_fresh_1pc: { query: 'lobster', canonicalName: 'Lobster (Whole Fresh)', category: 'Fish & Seafood', icon: '🦞', prices: [
+    p('blinkit',   'Lobster (Whole Fresh)', 850, 990, 14, '1 pc', 'seafood', true, '20 min'),
+  ]},
+  tuna_canned_chunks_185g: { query: 'tuna', canonicalName: 'Tuna (Canned Chunks)', category: 'Fish & Seafood', icon: '🥫', prices: [
+    p('blinkit',   'Tuna (Canned Chunks)', 145, 175, 17, '185g', 'seafood', true, '10 min'),
   ]},
 };
 
-
-
 // ─── PRICE DETECTION SYSTEM ────────────────────────────────────────────────────
-// This system auto-generates real platform search URLs for any food item,
-// even if it's not in the MOCK_DB. Production upgrade → replace with real
-// scraping API (e.g., foodspark.io) in the Edge Function.
-
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-// Estimate a base price for generic items based on real 2026 Indian market prices
 const estimateBasePrice = (query: string): number => {
   const q = query.toLowerCase();
-  // Meat & Seafood
   if (/mutton|lamb/.test(q)) return 550;
   if (/chicken boneless/.test(q)) return 290;
   if (/chicken/.test(q)) return 220;
   if (/fish|salmon|tuna|rohu|catla/.test(q)) return 220;
   if (/prawn|shrimp|crab|lobster/.test(q)) return 350;
-  // Premium fruits
   if (/avocado/.test(q)) return 160;
   if (/strawberry|blueberry|kiwi/.test(q)) return 140;
   if (/mango|alphonso/.test(q)) return 280;
@@ -3949,65 +3975,29 @@ const estimateBasePrice = (query: string): number => {
   if (/pomegranate/.test(q)) return 130;
   if (/watermelon/.test(q)) return 40;
   if (/banana|papaya|guava/.test(q)) return 55;
-  // Grains & Pulses
   if (/basmati|india gate|daawat/.test(q)) return 165;
   if (/rice/.test(q)) return 70;
   if (/atta|flour|maida/.test(q)) return 65;
-  if (/urad dal|moong dal|chana dal/.test(q)) return 145;
-  if (/toor dal|arhar/.test(q)) return 158;
   if (/dal|pulse|rajma|chana|lentil/.test(q)) return 120;
-  // Dairy
   if (/ghee/.test(q)) return 580;
   if (/paneer/.test(q)) return 95;
   if (/cheese/.test(q)) return 100;
   if (/butter/.test(q)) return 58;
   if (/curd|dahi|yogurt/.test(q)) return 42;
   if (/milk/.test(q)) return 31;
-  if (/cream/.test(q)) return 75;
-  // Oils & Condiments
   if (/mustard oil/.test(q)) return 180;
-  if (/olive oil/.test(q)) return 320;
-  if (/ghee|clarified/.test(q)) return 580;
   if (/oil/.test(q)) return 150;
-  if (/vinegar|sauce|ketchup/.test(q)) return 72;
-  // Spices
-  if (/turmeric|haldi/.test(q)) return 65;
-  if (/cumin|jeera/.test(q)) return 120;
-  if (/coriander|dhania/.test(q)) return 40;
-  if (/chilli|mirchi/.test(q)) return 85;
-  if (/garam masala|biryani masala|curry powder/.test(q)) return 95;
-  if (/masala|spice/.test(q)) return 80;
-  // Packaged foods
   if (/biscuit|cookie/.test(q)) return 40;
   if (/chocolate|bar/.test(q)) return 90;
   if (/chips|namkeen/.test(q)) return 25;
   if (/noodles|maggi|pasta/.test(q)) return 85;
   if (/bread/.test(q)) return 45;
-  // Beverages
   if (/cola|pepsi|coke|soda/.test(q)) return 42;
   if (/juice/.test(q)) return 75;
   if (/tea/.test(q)) return 105;
   if (/coffee/.test(q)) return 130;
-  if (/water/.test(q)) return 25;
-  // Vegetables (more granular)
-  if (/capsicum|bell pepper/.test(q)) return 52;
   if (/mushroom/.test(q)) return 55;
-  if (/broccoli/.test(q)) return 70;
-  if (/cauliflower|gobi/.test(q)) return 40;
-  if (/cabbage|patta gobi/.test(q)) return 30;
-  if (/peas|matar/.test(q)) return 60;
-  if (/bean|french bean/.test(q)) return 55;
-  if (/corn|maize/.test(q)) return 40;
-  if (/ginger|adrak/.test(q)) return 150;
-  if (/garlic|lahsun/.test(q)) return 200;
-  if (/lemon|nimbu/.test(q)) return 80;
-  // Eggs
   if (/egg/.test(q)) return 78;
-  // Sweet / Dessert
-  if (/sugar/.test(q)) return 48;
-  if (/jaggery|gur/.test(q)) return 68;
-  if (/ice cream/.test(q)) return 105;
-  // Default grocery
   return 50;
 };
 
@@ -4017,108 +4007,109 @@ export const getBestPrice = (prices: PlatformPrice[]): PlatformPrice | null => {
   return inStock.reduce((best, curr) => (curr.price < best.price ? curr : best), inStock[0]);
 };
 
-// Auto-detect prices: tries MOCK_DB first, then generates realistic platform URLs
-// with randomized-but-realistic price variance for any food query.
-// It then injects real Live Market Data from Supabase if available!
-// 4. Internal implementation (uncached)
 const searchPricesInternal = async (query: string, _pincode?: string): Promise<CompareResult | null> => {
-  await delay(500 + Math.random() * 400);
+  await delay(400 + Math.random() * 300);
   const key = query.toLowerCase().trim();
 
-  // 1. Generate the Base Fallback Array (either from MOCK_DB or Auto-generated)
+  // 1. Try to fetch from Supabase 'products' table first (Database-First)
+  try {
+    const { data: dbProduct, error: pError } = await supabase
+      .from('products')
+      .select('*')
+      .or(`id.eq.${key},canonical_name.ilike.%${key}%`)
+      .limit(1)
+      .single();
+
+    if (!pError && dbProduct) {
+      const { data: dbPrices, error: prError } = await supabase
+        .from('live_prices')
+        .select('*')
+        .eq('item_name', dbProduct.id);
+
+      if (!prError && dbPrices && dbPrices.length > 0) {
+        return {
+          query: dbProduct.id,
+          canonicalName: dbProduct.canonical_name,
+          category: dbProduct.category,
+          icon: dbProduct.icon || '🛒',
+          prices: dbPrices.map(p => ({
+            platformId: p.platform_id,
+            productName: p.canonical_name || dbProduct.canonical_name,
+            price: p.price,
+            originalPrice: Math.round(p.price * 1.15),
+            discount: 15,
+            unit: '1 unit',
+            inStock: p.in_stock,
+            url: `https://${p.platform_id}.com/s/?q=${encodeURIComponent(dbProduct.canonical_name)}`,
+            lastUpdated: p.last_updated,
+            deliveryTime: p.platform_id === 'swiggy' ? '15 min' : '10 min',
+            isVerified: true
+          }))
+        };
+      }
+    }
+  } catch (e) {
+    console.error("DB search failed, falling back to MOCK_DB", e);
+  }
+
+  // 2. Fallback to MOCK_DB / Auto-generation logic
   let resultTemplate: CompareResult;
-  const match = Object.keys(MOCK_DB).find(
-    (k) => k === key || k.includes(key) || key.includes(k)
-  );
+  const match = Object.keys(MOCK_DB).find((k) => k === key || k.includes(key) || key.includes(k));
 
   if (match) {
     resultTemplate = JSON.parse(JSON.stringify(MOCK_DB[match])) as CompareResult;
-    if (!resultTemplate.prices.find(p => p.platformId === 'flipkart')) {
-      const basePrice = resultTemplate.prices[0]?.originalPrice || estimateBasePrice(key);
-      resultTemplate.prices.push({ 
-        platformId: 'flipkart', 
-        productName: resultTemplate.canonicalName, 
-        price: vary(basePrice, 0.85, 1.0), 
-        originalPrice: vary(basePrice, 1.08, 1.15), 
-        discount: 12, 
-        unit: resultTemplate.prices[0]?.unit || '1 unit', 
-        inStock: true, 
-        url: `https://www.flipkart.com/search?q=${encodeURIComponent(resultTemplate.query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`, 
-        lastUpdated: new Date().toISOString(), 
-        deliveryTime: '15 min' 
-      });
-    }
+    const platformIds = ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart'];
+    const basePrice = resultTemplate.prices[0]?.originalPrice || estimateBasePrice(key);
+    
+    platformIds.forEach(pId => {
+      if (!resultTemplate.prices.find(p => p.platformId === pId)) {
+        const deliveryTime = pId === 'swiggy' ? '15 min' : (pId === 'jiomart' ? '1 day' : (['bigbasket', 'amazon'].includes(pId) ? '2 hrs' : '10 min'));
+        resultTemplate.prices.push({ 
+          platformId: pId, 
+          productName: resultTemplate.canonicalName, 
+          price: vary(basePrice, 0.85, 1.1), 
+          originalPrice: vary(basePrice, 1.1, 1.25), 
+          discount: 15, 
+          unit: '1 unit', 
+          inStock: true, 
+          url: '#', 
+          lastUpdated: new Date().toISOString(), 
+          deliveryTime 
+        });
+      }
+    });
   } else {
-    // Start with all 7 auto-generated
     const basePrice = estimateBasePrice(key);
-    const icon = '🛒';
     resultTemplate = {
         query,
         canonicalName: query.charAt(0).toUpperCase() + query.slice(1),
         category: 'Grocery',
-        icon,
+        icon: '🛒',
         prices: [
-            { platformId: 'blinkit',   productName: query, price: vary(basePrice, 0.92, 1.08), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: `https://blinkit.com/s/?q=${encodeURIComponent(query)}`,             lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
-            { platformId: 'bigbasket', productName: query, price: vary(basePrice, 0.88, 1.02), originalPrice: vary(basePrice, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: `https://www.bigbasket.com/ps/?q=${encodeURIComponent(query)}`,      lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
-            { platformId: 'swiggy',    productName: query, price: vary(basePrice, 0.95, 1.1),  originalPrice: vary(basePrice, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: `https://swiggy.com/instamart/search?query=${encodeURIComponent(query)}`, lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
-            { platformId: 'zepto',     productName: query, price: vary(basePrice, 0.86, 1.04), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 15, unit: '1 unit', inStock: true,  url: `https://www.zeptonow.com/search?query=${encodeURIComponent(query)}`,   lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
-            { platformId: 'amazon',    productName: query, price: vary(basePrice, 1.0,  1.2),  originalPrice: vary(basePrice, 1.15, 1.3), discount: 11, unit: '1 unit', inStock: true,  url: `https://www.amazon.in/s?k=${encodeURIComponent(query)}&i=amazonfresh`,  lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
-            { platformId: 'jiomart',   productName: query, price: vary(basePrice, 0.84, 0.98), originalPrice: vary(basePrice, 1.0, 1.12), discount: 14, unit: '1 unit', inStock: true,  url: `https://www.jiomart.com/search/${encodeURIComponent(query)}`,          lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
-            { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: `https://www.flipkart.com/search?q=${encodeURIComponent(query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`, lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
+            { platformId: 'blinkit',   productName: query, price: vary(basePrice, 0.92, 1.08), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
+            { platformId: 'bigbasket', productName: query, price: vary(basePrice, 0.88, 1.02), originalPrice: vary(basePrice, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
+            { platformId: 'swiggy',    productName: query, price: vary(basePrice, 0.95, 1.1),  originalPrice: vary(basePrice, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
+            { platformId: 'zepto',     productName: query, price: vary(basePrice, 0.86, 1.04), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 15, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
+            { platformId: 'amazon',    productName: query, price: vary(basePrice, 1.0,  1.2),  originalPrice: vary(basePrice, 1.15, 1.3), discount: 11, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
+            { platformId: 'jiomart',   productName: query, price: vary(basePrice, 0.84, 0.98), originalPrice: vary(basePrice, 1.0, 1.12), discount: 14, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
+            { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
         ]
     };
   }
-
-  // 2. Fetch Live Market Data and OVERWRITE the defaults where available
-  try {
-    const { data: realPrices, error } = await supabase
-        .from('live_prices')
-        .select('*')
-        .ilike('item_name', `%${key}%`);
-        
-    if (!error && realPrices && realPrices.length > 0) {
-        const exactMatchName = realPrices[0].item_name;
-        const matchingPrices = realPrices.filter(p => p.item_name === exactMatchName);
-        
-        matchingPrices.forEach(dbRow => {
-            const index = resultTemplate.prices.findIndex(p => p.platformId === dbRow.platform_id);
-            const livePriceObj = {
-                platformId: dbRow.platform_id,
-                productName: dbRow.canonical_name,
-                price: dbRow.price,
-                originalPrice: Math.round(dbRow.price * 1.15),
-                discount: 15,
-                unit: '1 unit',
-                inStock: dbRow.in_stock,
-                url: resultTemplate.prices[index]?.url || '#', 
-                lastUpdated: dbRow.last_updated,
-                deliveryTime: dbRow.platform_id === 'swiggy' ? '15 min' : '10 min',
-                live: true,
-                isVerified: true
-            };
-            
-            if (index >= 0) {
-                // Safely overwrite the specific platform with LIVE data
-                resultTemplate.prices[index] = livePriceObj as any;
-            } else {
-                resultTemplate.prices.push(livePriceObj as any);
-            }
-        });
-        
-        // Update the top-level grouping data
-        resultTemplate.query = exactMatchName;
-        resultTemplate.canonicalName = matchingPrices[0].canonical_name;
+    // 2.5 Log a background Scrape Request for new items (Scrape-on-Demand)
+    try {
+        // Only request if it's not a known item in MOCK_DB (to save bot capacity)
+        if (!match) {
+            await supabase.from('scrape_requests').upsert({ 
+                query: key,
+                status: 'pending'
+            }, { onConflict: 'query' });
+        }
+    } catch (e) {
+        console.warn("Could not log scrape request", e);
     }
-  } catch (e) {
-    console.error("Live price fetch failed, proceeding purely with fallback array", e);
-  }
 
-  // 3. Amazon Affiliate Monetization Hack (Dynamic Trust Logic)
-  // Force Amazon Fresh to be 2-6 rupees cheaper than the lowest competitor 60% of the time.
-  // The other 40% of the time, Amazon stays at its natural (often higher) price to build user trust.
-  // Amazon Affiliate monetization hack removed to prioritize user trust with accurate prices.
-
-  return resultTemplate;
+    return resultTemplate;
 };
 
 // ─── POPULAR SEARCHES ──────────────────────────────────────────────────────────
@@ -4161,8 +4152,7 @@ export const FOOD_CATEGORIES = [
   { label: 'Mushrooms 🍄',     icon: '🍄',  query: 'mushroom', special: true },
 ];
 
-// 5. CACHED EXPORT: This protects your Vercel CPU limits!
-// Caches results for 24 hours (86400 seconds)
+// 5. CACHED EXPORT
 export const searchPrices = unstable_cache(
   async (query: string) => searchPricesInternal(query),
   ['food-prices'],
