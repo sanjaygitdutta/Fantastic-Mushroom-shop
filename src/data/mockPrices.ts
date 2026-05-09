@@ -4156,5 +4156,5 @@ export const FOOD_CATEGORIES = [
 export const searchPrices = unstable_cache(
   async (query: string) => searchPricesInternal(query),
   ['food-prices'],
-  { revalidate: 86400, tags: ['prices'] }
+  { revalidate: 60, tags: ['prices'] }
 );
