@@ -145,6 +145,41 @@ export const MOCK_DB: Record<string, CompareResult> = {
     p('amazon',    'Fresh Button Mushroom', 60, 72, 17, '200g', 'mushroom', true,  '2 hrs'),
     p('jiomart',   'Mushroom',              45, 55, 18, '200g', 'mushroom', true,  '1 day'),
   ]},
+  cauliflower: { query: 'cauliflower', canonicalName: 'Cauliflower (Gobi)', category: 'Vegetables', icon: '🥦', prices: [
+    p('blinkit',   'Cauliflower',           38, 45, 15, '1 pc', 'cauliflower', true, '10 min'),
+    p('bigbasket', 'Fresho Gobi',           32, 40, 20, '1 pc', 'cauliflower', true, '2 hrs'),
+    p('swiggy',    'Cauliflower Fresh',     40, 48, 17, '1 pc', 'cauliflower', true, '15 min'),
+  ]},
+  ginger: { query: 'ginger', canonicalName: 'Ginger (Adrak)', category: 'Vegetables', icon: '🫚', prices: [
+    p('blinkit',   'Ginger',                35, 45, 22, '250g', 'ginger', true, '10 min'),
+    p('bigbasket', 'Fresho Adrak',          30, 40, 25, '250g', 'ginger', true, '2 hrs'),
+    p('zepto',     'Ginger Fresh',          32, 42, 24, '250g', 'ginger', true, '10 min'),
+  ]},
+  garlic: { query: 'garlic', canonicalName: 'Garlic (Lahsun)', category: 'Vegetables', icon: '🧄', prices: [
+    p('blinkit',   'Garlic',                45, 55, 18, '250g', 'garlic', true, '10 min'),
+    p('bigbasket', 'Fresho Garlic',         40, 50, 20, '250g', 'garlic', true, '2 hrs'),
+    p('zepto',     'Garlic (Ooty)',         42, 52, 19, '250g', 'garlic', true, '10 min'),
+  ]},
+  lemon: { query: 'lemon', canonicalName: 'Lemon (Nimbu)', category: 'Vegetables', icon: '🍋', prices: [
+    p('blinkit',   'Lemon (Nimbu)',         25, 30, 16, '4 pcs', 'lemon', true, '10 min'),
+    p('bigbasket', 'Fresho Lemon',          20, 25, 20, '4 pcs', 'lemon', true, '2 hrs'),
+    p('swiggy',    'Nimbu Fresh',           28, 32, 12, '4 pcs', 'lemon', true, '15 min'),
+  ]},
+  chilli: { query: 'chilli', canonicalName: 'Green Chilli', category: 'Vegetables', icon: '🌶️', prices: [
+    p('blinkit',   'Green Chilli',          18, 22, 18, '100g', 'chilli', true, '10 min'),
+    p('bigbasket', 'Fresho Green Chilli',   15, 20, 25, '100g', 'chilli', true, '2 hrs'),
+    p('zepto',     'Chilli Green',          16, 20, 20, '100g', 'chilli', true, '10 min'),
+  ]},
+  coriander: { query: 'coriander', canonicalName: 'Coriander (Dhania)', category: 'Vegetables', icon: '🌿', prices: [
+    p('blinkit',   'Coriander Bundle',      15, 20, 25, '100g', 'coriander', true, '10 min'),
+    p('bigbasket', 'Fresho Dhania',         12, 18, 33, '100g', 'coriander', true, '2 hrs'),
+    p('swiggy',    'Dhania Fresh',          18, 22, 18, '100g', 'coriander', true, '15 min'),
+  ]},
+  peas: { query: 'peas', canonicalName: 'Green Peas (Matar)', category: 'Vegetables', icon: '🫛', prices: [
+    p('blinkit',   'Green Peas',            45, 55, 18, '500g', 'peas', true, '10 min'),
+    p('bigbasket', 'Fresho Matar',          40, 50, 20, '500g', 'peas', true, '2 hrs'),
+    p('zepto',     'Peas Green',            42, 52, 19, '500g', 'peas', true, '10 min'),
+  ]},
 
   // ── FRUITS ─────────────────────────────────────────────────────────────────
   banana: { query: 'banana', canonicalName: 'Banana', category: 'Fruits', icon: '🍌', prices: [
@@ -187,6 +222,21 @@ export const MOCK_DB: Record<string, CompareResult> = {
     p('amazon',    'Papaya',                62, 72, 14, '1 kg', 'papaya', true,  '2 hrs'),
     p('jiomart',   'Papaya',                44, 55, 20, '1 kg', 'papaya', true,  '1 day'),
   ]},
+  orange: { query: 'orange', canonicalName: 'Orange (Nagpur)', category: 'Fruits', icon: '🍊', prices: [
+    p('blinkit',   'Nagpur Orange',         85, 100, 15, '1 kg', 'orange', true, '10 min'),
+    p('bigbasket', 'Fresho Orange',         78, 90, 13, '1 kg', 'orange', true, '2 hrs'),
+    p('zepto',     'Orange (Kinnow)',       80, 95, 16, '1 kg', 'orange', true, '10 min'),
+  ]},
+  watermelon: { query: 'watermelon', canonicalName: 'Watermelon', category: 'Fruits', icon: '🍉', prices: [
+    p('blinkit',   'Watermelon',            45, 55, 18, '1 pc', 'watermelon', true, '10 min'),
+    p('bigbasket', 'Fresho Watermelon',     38, 48, 21, '1 pc', 'watermelon', true, '2 hrs'),
+    p('swiggy',    'Kiran Watermelon',      48, 58, 17, '1 pc', 'watermelon', true, '15 min'),
+  ]},
+  pomegranate: { query: 'pomegranate', canonicalName: 'Pomegranate (Anaar)', category: 'Fruits', icon: '🍎', prices: [
+    p('blinkit',   'Anaar (Pomegranate)',   185, 220, 16, '1 kg', 'pomegranate', true, '10 min'),
+    p('bigbasket', 'BB Royal Anaar',        175, 210, 17, '1 kg', 'pomegranate', true, '2 hrs'),
+    p('zepto',     'Pomegranate Fresh',     180, 215, 16, '1 kg', 'pomegranate', true, '10 min'),
+  ]},
 
   // ── DAIRY ──────────────────────────────────────────────────────────────────
   milk: { query: 'milk', canonicalName: 'Full Cream Milk', category: 'Dairy', icon: '🥛', prices: [
@@ -196,6 +246,11 @@ export const MOCK_DB: Record<string, CompareResult> = {
     p('zepto',     'Mother Dairy FC',       31, 33, 6, '500 ml', 'milk', true,  '10 min'),
     p('amazon',    'Amul Gold',             31, 31, 0, '500 ml', 'milk', true,  '2 hrs'),
     p('jiomart',   'JioMart FC Milk',       29, 31, 6, '500 ml', 'milk', true,  '1 day'),
+  ]},
+  ghee: { query: 'ghee', canonicalName: 'Desi Ghee (Cow)', category: 'Dairy', icon: '🧈', prices: [
+    p('blinkit',   'Amul Cow Ghee',         585, 620, 6, '1 L', 'ghee', true, '10 min'),
+    p('bigbasket', 'Aashirvaad Ghee',       575, 610, 6, '1 L', 'ghee', true, '2 hrs'),
+    p('zepto',     'Amul Pure Ghee',        580, 620, 6, '1 L', 'ghee', true, '10 min'),
   ]},
   butter: { query: 'butter', canonicalName: 'Amul Butter', category: 'Dairy', icon: '🧈', prices: [
     p('blinkit',   'Amul Butter (Salted)',  58, 60, 3,  '100g', 'butter', true,  '10 min'),
@@ -282,6 +337,31 @@ export const MOCK_DB: Record<string, CompareResult> = {
     p('zepto',     'Arhar Dal',             145, 168, 14, '1 kg', 'toor dal', true,  '10 min'),
     p('amazon',    'Toor Dal Premium',      162, 185, 12, '1 kg', 'toor dal', true,  '2 hrs'),
     p('jiomart',   'Toor Dal',              140, 162, 14, '1 kg', 'toor dal', true,  '1 day'),
+  ]},
+  moong_dal: { query: 'moong dal', canonicalName: 'Moong Dal (Yellow)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Moong Dal',             135, 150, 10, '1 kg', 'moong dal', true, '10 min'),
+    p('bigbasket', 'Fresho Moong Dal',      128, 145, 12, '1 kg', 'moong dal', true, '2 hrs'),
+    p('zepto',     'Moong Dal Yellow',      130, 148, 12, '1 kg', 'moong dal', true, '10 min'),
+  ]},
+  chana_dal: { query: 'chana dal', canonicalName: 'Chana Dal', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Chana Dal',             95, 110, 14, '1 kg', 'chana dal', true, '10 min'),
+    p('bigbasket', 'BB Popular Chana Dal',  88, 100, 12, '1 kg', 'chana dal', true, '2 hrs'),
+  ]},
+  rajma: { query: 'rajma', canonicalName: 'Rajma (Chitra)', category: 'Grains & Pulses', icon: '🫘', prices: [
+    p('blinkit',   'Rajma Chitra',          165, 185, 11, '1 kg', 'rajma', true, '10 min'),
+    p('bigbasket', 'Fresho Rajma',          155, 180, 14, '1 kg', 'rajma', true, '2 hrs'),
+  ]},
+  turmeric: { query: 'turmeric', canonicalName: 'Turmeric Powder (Haldi)', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Tata Sampann Haldi',    65, 75, 13, '200g', 'turmeric', true, '10 min'),
+    p('bigbasket', 'Everest Haldi',         58, 68, 15, '200g', 'turmeric', true, '2 hrs'),
+  ]},
+  cumin: { query: 'cumin', canonicalName: 'Cumin Seeds (Jeera)', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Jeera (Cumin)',         125, 150, 17, '200g', 'cumin', true, '10 min'),
+    p('bigbasket', 'Catch Jeera',           115, 140, 18, '200g', 'cumin', true, '2 hrs'),
+  ]},
+  masala: { query: 'garam masala', canonicalName: 'Garam Masala', category: 'Packaged Foods', icon: '🧂', prices: [
+    p('blinkit',   'Everest Garam Masala',  95, 110, 14, '100g', 'garam masala', true, '10 min'),
+    p('bigbasket', 'Catch Garam Masala',    88, 105, 16, '100g', 'garam masala', true, '2 hrs'),
   ]},
   flour: { query: 'flour', canonicalName: 'Whole Wheat Flour (Atta)', category: 'Grains & Pulses', icon: '🌾', prices: [
     p('blinkit',   'Aashirvaad Atta',       62, 72, 14, '1 kg', 'whole wheat atta', true,  '10 min'),
@@ -396,6 +476,31 @@ export const MOCK_DB: Record<string, CompareResult> = {
     p('zepto',     'Tata Lite Salt',        28, 32, 13, '1 kg', 'salt', true, '10 min'),
     p('amazon',    'Himalayan Pink Salt',   95, 110, 14, '1 kg', 'himalayan salt', true, '2 hrs'),
     p('jiomart',   'Salt',                  16, 20, 20, '1 kg', 'salt', true, '1 day'),
+  ]},
+  soap: { query: 'soap', canonicalName: 'Bathing Soap', category: 'Personal Care', icon: '🧼', prices: [
+    p('blinkit',   'Dettol Soap 125g',      55, 60, 8, '125g', 'soap', true, '10 min'),
+    p('bigbasket', 'Dove Bar 125g',         75, 85, 12, '125g', 'soap', true, '2 hrs'),
+    p('zepto',     'Lifebuoy Soap',         42, 50, 16, '125g', 'soap', true, '10 min'),
+  ]},
+  shampoo: { query: 'shampoo', canonicalName: 'Hair Shampoo', category: 'Personal Care', icon: '🧴', prices: [
+    p('blinkit',   'Dove Shampoo 180ml',    185, 210, 12, '180ml', 'shampoo', true, '10 min'),
+    p('bigbasket', 'Sunsilk 180ml',         145, 170, 15, '180ml', 'shampoo', true, '2 hrs'),
+  ]},
+  toothpaste: { query: 'toothpaste', canonicalName: 'Toothpaste', category: 'Personal Care', icon: '🪥', prices: [
+    p('blinkit',   'Colgate MaxFresh',      92, 110, 16, '150g', 'toothpaste', true, '10 min'),
+    p('bigbasket', 'Sensodyne Fresh',       185, 215, 14, '150g', 'toothpaste', true, '2 hrs'),
+  ]},
+  detergent: { query: 'detergent', canonicalName: 'Washing Powder', category: 'Cleaning', icon: '🧺', prices: [
+    p('blinkit',   'Surf Excel Matic',      155, 180, 14, '1 kg', 'detergent', true, '10 min'),
+    p('bigbasket', 'Ariel Matic',           148, 175, 15, '1 kg', 'detergent', true, '2 hrs'),
+  ]},
+  dishwash: { query: 'dishwash', canonicalName: 'Dishwash Bar/Gel', category: 'Cleaning', icon: '🧽', prices: [
+    p('blinkit',   'Vim Bar',               28, 32, 13, '200g', 'dishwash', true, '10 min'),
+    p('bigbasket', 'Vim Liquid 500ml',      99, 115, 14, '500ml', 'dishwash', true, '2 hrs'),
+  ]},
+  honey: { query: 'honey', canonicalName: 'Pure Honey', category: 'Packaged Foods', icon: '🍯', prices: [
+    p('blinkit',   'Dabur Honey 250g',      105, 125, 16, '250g', 'honey', true, '10 min'),
+    p('bigbasket', 'Saffola Honey',         95, 115, 17, '250g', 'honey', true, '2 hrs'),
   ]},
 };
 
