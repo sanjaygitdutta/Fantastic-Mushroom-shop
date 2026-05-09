@@ -1,8 +1,10 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { POPULAR_SEARCHES } from '../../data/mockPrices';
-import { Save, Search, RefreshCw, AlertCircle, CheckCircle, TrendingDown } from 'lucide-react';
+import { POPULAR_SEARCHES, MOCK_DB } from '../../data/mockPrices';
+import { Save, Search, RefreshCw, AlertCircle, CheckCircle, TrendingDown, Filter } from 'lucide-react';
+
+const CATEGORIES = ['All', 'Vegetables', 'Fruits', 'Dairy', 'Poultry', 'Seafood', 'Grains & Pulses', 'Bakery', 'Packaged Foods', 'Beverages', 'Snacks', 'Sweets & Desserts'];
 
 const PLATFORMS = [
   { id: 'blinkit', name: 'Blinkit' },
@@ -16,6 +18,7 @@ const PLATFORMS = [
 
 const ManageGroceryPrices = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [liveData, setLiveData] = useState<any[]>([]);
@@ -39,13 +42,30 @@ const ManageGroceryPrices = () => {
     fetchPrices();
   }, []);
 
-  // 2. Filter products based on search
-  const filteredItems = POPULAR_SEARCHES.filter(item => 
-    item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.query.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // 2. Build the Full List from MOCK_DB + POPULAR_SEARCHES
+  const allItems = Object.keys(MOCK_DB).map(key => ({
+    label: MOCK_DB[key].canonicalName,
+    query: key,
+    icon: MOCK_DB[key].icon,
+    category: MOCK_DB[key].category
+  }));
 
-  // 3. Handle local price changes
+  // Add any popular searches that might not be in MOCK_DB keys
+  POPULAR_SEARCHES.forEach(ps => {
+    if (!allItems.find(a => a.query === ps.query)) {
+      allItems.push({ ...ps, category: 'Grocery' });
+    }
+  });
+
+  // 3. Filter products based on search AND category
+  const filteredItems = allItems.filter(item => {
+    const matchesSearch = item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         item.query.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  // 4. Handle local price changes
   const handlePriceChange = (itemKey: string, platformId: string, price: string) => {
     const numericPrice = parseFloat(price);
     if (isNaN(numericPrice)) return;
@@ -62,7 +82,7 @@ const ManageGroceryPrices = () => {
     }));
   };
 
-  // 4. Save to Supabase
+  // 5. Save to Supabase
   const handleSave = async () => {
     setSaving(true);
     const rowsToUpsert = Object.values(updates);
@@ -95,7 +115,7 @@ const ManageGroceryPrices = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
             <h1 className="text-3xl font-black text-forest-900">Global Price Manager 🌍</h1>
-            <p className="text-forest-600">Update real-time prices for all 7 delivery apps</p>
+            <p className="text-forest-600">Update real-time prices for all {allItems.length} products</p>
           </div>
           
           <div className="relative">
@@ -108,6 +128,20 @@ const ManageGroceryPrices = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+        </div>
+
+        {/* Category Filter UI */}
+        <div className="flex flex-wrap gap-2 mb-8 bg-white p-4 rounded-3xl border border-forest-50 shadow-sm">
+          <Filter className="w-5 h-5 text-forest-300 self-center mr-2" />
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeCategory === cat ? 'bg-forest-900 text-white shadow-lg' : 'bg-forest-50 text-forest-600 hover:bg-forest-100'}`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
         {/* Status Bar */}

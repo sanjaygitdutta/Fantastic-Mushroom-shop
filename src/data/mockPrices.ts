@@ -59,7 +59,7 @@ const p = (
 };
 
 // ─── COMPLETE FOOD DATABASE ────────────────────────────────────────────────────
-const MOCK_DB: Record<string, CompareResult> = {
+export const MOCK_DB: Record<string, CompareResult> = {
 
   // ── VEGETABLES ─────────────────────────────────────────────────────────────
   onion: { query: 'onion', canonicalName: 'Onion (Red)', category: 'Vegetables', icon: '🧅', prices: [
