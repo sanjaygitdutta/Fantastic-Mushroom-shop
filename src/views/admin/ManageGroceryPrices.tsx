@@ -66,13 +66,14 @@ const ManageGroceryPrices = () => {
   });
 
   // 4. Handle local price changes
-  const handlePriceChange = (itemKey: string, platformId: string, price: string) => {
+  const handlePriceChange = (itemKey: string, platformId: string, price: string, canonicalName: string) => {
     // Allow empty string so the user can delete numbers
     if (price === '') {
       setUpdates(prev => ({
         ...prev,
         [`${itemKey}_${platformId}`]: {
           item_name: itemKey,
+          canonical_name: canonicalName,
           platform_id: platformId,
           price: 0,
           in_stock: false, // Setting to 0 marks it out of stock
@@ -89,6 +90,7 @@ const ManageGroceryPrices = () => {
       ...prev,
       [`${itemKey}_${platformId}`]: {
         item_name: itemKey,
+        canonical_name: canonicalName,
         platform_id: platformId,
         price: numericPrice,
         in_stock: numericPrice > 0,
@@ -199,7 +201,7 @@ const ManageGroceryPrices = () => {
                             type="number"
                             placeholder={currentLive ? currentLive.price.toString() : "0"}
                             className="w-full bg-transparent pl-4 pr-1 font-bold text-forest-900 outline-none text-lg"
-                            onChange={(e) => handlePriceChange(item.query, platform.id, e.target.value)}
+                            onChange={(e) => handlePriceChange(item.query, platform.id, e.target.value, item.label)}
                             value={isModified ? (isModified.price === 0 ? '' : isModified.price) : (currentLive ? currentLive.price : '')}
                           />
                         </div>
