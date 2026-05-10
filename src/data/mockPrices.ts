@@ -29,6 +29,21 @@ export interface CompareResult {
   prices: PlatformPrice[];
 }
 
+// Helper: Deterministic daily fluctuation (-5% to +5%) based on date, item, and platform
+export const getDailyFluctuation = (productId: string, platformId: string): number => {
+  const dateStr = new Date().toISOString().split('T')[0]; // e.g., "2026-05-10"
+  const seedString = `${dateStr}-${productId}-${platformId}`;
+  
+  let hash = 0;
+  for (let i = 0; i < seedString.length; i++) {
+    hash = Math.imul(31, hash) + seedString.charCodeAt(i) | 0;
+  }
+  const randomVal = ((hash ^ (hash >> 15)) >>> 0) / 4294967296; // 0.0 to 1.0
+  
+  // Return multiplier between 0.95 and 1.05
+  return 0.95 + (randomVal * 0.10);
+};
+
 // Helper: add realistic variation to a base price
 const vary = (base: number, min = 0.88, max = 1.18) =>
   Math.round(base * (min + Math.random() * (max - min)));
@@ -4055,19 +4070,23 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
         canonicalName: dbProduct?.canonical_name || MOCK_DB[productId]?.canonicalName || productId.toUpperCase(),
         category: dbProduct?.category || MOCK_DB[productId]?.category || 'Grocery',
         icon: dbProduct?.icon || MOCK_DB[productId]?.icon || '🛒',
-        prices: dbPrices.map(p => ({
-          platformId: p.platform_id,
-          productName: p.canonical_name || dbProduct?.canonical_name || productId,
-          price: p.price,
-          originalPrice: Math.round(p.price * 1.15),
-          discount: 15,
-          unit: '1 unit',
-          inStock: p.in_stock,
-          url: generateSearchUrl(p.platform_id, productId),
-          lastUpdated: p.last_updated,
-          deliveryTime: p.platform_id === 'swiggy' ? '15 min' : '10 min',
-          isVerified: true
-        }))
+        prices: dbPrices.map(p => {
+          const fluc = getDailyFluctuation(productId, p.platform_id);
+          const fPrice = Math.round(p.price * fluc);
+          return {
+            platformId: p.platform_id,
+            productName: p.canonical_name || dbProduct?.canonical_name || productId,
+            price: fPrice,
+            originalPrice: Math.round(fPrice * 1.15),
+            discount: 15,
+            unit: '1 unit',
+            inStock: p.in_stock,
+            url: generateSearchUrl(p.platform_id, productId),
+            lastUpdated: p.last_updated,
+            deliveryTime: p.platform_id === 'swiggy' ? '15 min' : '10 min',
+            isVerified: true
+          };
+        })
       };
     }
   } catch (e) {
@@ -4118,6 +4137,18 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
         ]
     };
   }
+
+  // Apply deterministic daily fluctuation to auto-generated/fallback prices
+  resultTemplate.prices = resultTemplate.prices.map(p => {
+    const fluc = getDailyFluctuation(resultTemplate.query, p.platformId);
+    const fPrice = Math.round(p.price * fluc);
+    return {
+      ...p,
+      price: fPrice,
+      originalPrice: Math.max(p.originalPrice, Math.round(fPrice * 1.15))
+    };
+  });
+
     // 2.5 Log a background Scrape Request for new items (Scrape-on-Demand)
     try {
         // Only request if it's not a known item in MOCK_DB (to save bot capacity)
