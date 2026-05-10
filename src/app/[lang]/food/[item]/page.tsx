@@ -3,7 +3,7 @@ import CompareResultsGrid from '../../../../components/CompareResultsGrid';
 
 export const dynamic = 'force-dynamic';
 import { searchPrices, POPULAR_SEARCHES } from '../../../../data/mockPrices';
-import { getTranslatedItem, getLocalizedSEOTitle, type SupportedLanguage } from '../../../../i18n/dictionary';
+import { getTranslatedItem, getEnglishQuery, getLocalizedSEOTitle, type SupportedLanguage } from '../../../../i18n/dictionary';
 
 // City-food pages for long-tail local SEO — used in keywords metadata
 const CITIES = ['Mumbai', 'Delhi', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'];
@@ -19,17 +19,20 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const resolvedParams = await params;
   const foodItem = decodeURIComponent(resolvedParams.item);
   
-  // Dynamic Product Generation: We ALWAYS generate a result now
-  const result = await searchPrices(foodItem);
+  // Convert foreign language query back to English DB key
+  const englishQuery = getEnglishQuery(foodItem);
+  
+  // Dynamic Product Generation: We ALWAYS generate a result now using the English query
+  const result = await searchPrices(englishQuery);
   if (!result) return { title: 'Food Prices Today' };
 
-  const displayName = foodItem
+  const displayName = englishQuery
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
   const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
-  const translatedItem = getTranslatedItem(displayName, currentLang);
+  const translatedItem = getTranslatedItem(englishQuery, currentLang);
   
   const sortedPrices = result.prices
     ? [...result.prices].filter(p => p.price > 0 && p.inStock).sort((a, b) => a.price - b.price)
@@ -81,14 +84,16 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
   const currentLang = (resolvedParams.lang || 'en') as SupportedLanguage;
   
   try {
-    const result = await searchPrices(foodItem);
+    const englishQuery = getEnglishQuery(foodItem);
+    const result = await searchPrices(englishQuery);
     
-    const displayName = foodItem
+    // We base the display name on the English query so translations work correctly
+    const displayName = englishQuery
       .split('-')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
 
-    const translatedItem = getTranslatedItem(displayName, currentLang);
+    const translatedItem = getTranslatedItem(englishQuery, currentLang);
     
     const sortedPrices = result?.prices
       ? [...result.prices].filter(p => p.price > 0 && p.inStock).sort((a, b) => a.price - b.price)

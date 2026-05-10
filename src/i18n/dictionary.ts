@@ -65,6 +65,20 @@ export const getTranslatedItem = (canonicalName: string, lang: SupportedLanguage
   return canonicalName; // fallback to whatever was passed
 };
 
+// Reverse lookup: Translate a non-English search query back to its English database key
+export const getEnglishQuery = (foreignQuery: string): string => {
+  const query = foreignQuery.toLowerCase().trim();
+  
+  for (const [englishKey, translations] of Object.entries(FOOD_DICTIONARY)) {
+    // Check if the query matches any of the translations
+    if (Object.values(translations).some(val => val.toLowerCase() === query)) {
+      return englishKey; // Return the exact English key used in the database
+    }
+  }
+  
+  return foreignQuery; // Fallback to original if no translation found
+};
+
 // Helper function to generate SEO title
 export const getLocalizedSEOTitle = (item: string, lang: SupportedLanguage): string => {
   const template = SEO_TEMPLATES[lang] || SEO_TEMPLATES['en'];
