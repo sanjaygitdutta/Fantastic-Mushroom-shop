@@ -33,6 +33,20 @@ export interface CompareResult {
 const vary = (base: number, min = 0.88, max = 1.18) =>
   Math.round(base * (min + Math.random() * (max - min)));
 
+// Helper: build platform-specific search URL
+export const generateSearchUrl = (platformId: string, query: string) => {
+  const urls: Record<string, string> = {
+    blinkit:   `https://blinkit.com/s/?q=${encodeURIComponent(query)}`,
+    bigbasket: `https://www.bigbasket.com/ps/?q=${encodeURIComponent(query)}`,
+    swiggy:    `https://swiggy.com/instamart/search?query=${encodeURIComponent(query)}`,
+    zepto:     `https://www.zeptonow.com/search?query=${encodeURIComponent(query)}`,
+    amazon:    `https://www.amazon.in/s?k=${encodeURIComponent(query)}&i=amazonfresh`,
+    jiomart:   `https://www.jiomart.com/search/${encodeURIComponent(query)}`,
+    flipkart:  `https://www.flipkart.com/search?q=${encodeURIComponent(query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`,
+  };
+  return urls[platformId] || `https://${platformId}.com/s/?q=${encodeURIComponent(query)}`;
+};
+
 // Helper: build platform price entry
 const p = (
   platformId: string,
@@ -45,16 +59,7 @@ const p = (
   inStock = true,
   deliveryTime?: string
 ): PlatformPrice => {
-  const urls: Record<string, string> = {
-    blinkit:   `https://blinkit.com/s/?q=${encodeURIComponent(query)}`,
-    bigbasket: `https://www.bigbasket.com/ps/?q=${encodeURIComponent(query)}`,
-    swiggy:    `https://swiggy.com/instamart/search?query=${encodeURIComponent(query)}`,
-    zepto:     `https://www.zeptonow.com/search?query=${encodeURIComponent(query)}`,
-    amazon:    `https://www.amazon.in/s?k=${encodeURIComponent(query)}&i=amazonfresh`,
-    jiomart:   `https://www.jiomart.com/search/${encodeURIComponent(query)}`,
-    flipkart:  `https://www.flipkart.com/search?q=${encodeURIComponent(query)}&p%5B%5D=facets.fulfillment_id%255B%255D%3DFlipkart%2BMinutes`,
-  };
-  return { platformId, productName, price, originalPrice, discount, unit, inStock, url: urls[platformId] || '#', lastUpdated: new Date().toISOString(), deliveryTime };
+  return { platformId, productName, price, originalPrice, discount, unit, inStock, url: generateSearchUrl(platformId, query), lastUpdated: new Date().toISOString(), deliveryTime };
 };
 
 // ─── COMPLETE FOOD DATABASE ────────────────────────────────────────────────────
@@ -4058,7 +4063,7 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
           discount: 15,
           unit: '1 unit',
           inStock: p.in_stock,
-          url: `https://${p.platform_id}.com/s/?q=${encodeURIComponent(productId)}`,
+          url: generateSearchUrl(p.platform_id, productId),
           lastUpdated: p.last_updated,
           deliveryTime: p.platform_id === 'swiggy' ? '15 min' : '10 min',
           isVerified: true
