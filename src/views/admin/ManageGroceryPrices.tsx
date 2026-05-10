@@ -116,24 +116,33 @@ const ManageGroceryPrices = () => {
     }));
   };
 
-  // 5. Save updates to Supabase
+  // 5. Save updates to Supabase via Secure API Route
   const handleSave = async () => {
     setSaving(true);
     const rowsToUpsert = Object.values(updates).filter(u => u.price > 0);
     
-    const { error } = await supabase
-      .from('live_prices')
-      .upsert(rowsToUpsert, { onConflict: 'item_name,platform_id' });
+    try {
+      const res = await fetch('/api/admin/update-price', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rowsToUpsert })
+      });
 
-    if (error) {
-      setStatus({ type: 'error', msg: `Failed to save: ${error.message}` });
-    } else {
-      setStatus({ type: 'success', msg: `Successfully updated ${rowsToUpsert.length} prices!` });
-      setUpdates({});
-      fetchData();
-      setTimeout(() => setStatus({ type: null, msg: '' }), 3000);
+      const data = await res.json();
+
+      if (!res.ok) {
+        setStatus({ type: 'error', msg: `Failed to save: ${data.error || 'Unknown error'}` });
+      } else {
+        setStatus({ type: 'success', msg: `Successfully updated ${rowsToUpsert.length} prices!` });
+        setUpdates({});
+        fetchData();
+        setTimeout(() => setStatus({ type: null, msg: '' }), 3000);
+      }
+    } catch (err: any) {
+      setStatus({ type: 'error', msg: `Failed to connect: ${err.message}` });
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   };
 
   return (

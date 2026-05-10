@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 
 const AdminLogin = () => {
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -16,14 +15,17 @@ const AdminLogin = () => {
         setLoading(true);
 
         try {
-            // Mock Admin Authentication
-            await new Promise(resolve => setTimeout(resolve, 800));
-            if (email === 'admin@fantasticfood.in' && password === 'admin123') {
-                localStorage.setItem('mushroom_admin', 'true');
+            const res = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+
+            if (res.ok) {
                 toast.success('Welcome to Admin Dashboard');
                 router.push('/admin');
             } else {
-                throw new Error('Invalid admin credentials. Hint: use admin@fantasticfood.in / admin123');
+                throw new Error('Invalid admin password');
             }
         } catch (error: any) {
             toast.error(error.message);
@@ -45,18 +47,6 @@ const AdminLogin = () => {
                 </div>
 
                 <form onSubmit={handleLogin} className="space-y-5">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1.5">Admin Email</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-2.5 rounded-xl bg-gray-700/50 border border-gray-600 text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all placeholder-gray-500"
-                            placeholder="admin@fantasticfood.in"
-                            required
-                        />
-                    </div>
-
                     <div>
                         <label className="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
                         <input
