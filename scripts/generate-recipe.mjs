@@ -186,7 +186,7 @@ async function generateAIImage(dishName, cuisine, date) {
       .replace(/blood/ig, 'red sauce')
       .replace(/spicy fire/ig, 'warm cooked');
 
-    const prompt = `A highly appetizing, hyper-realistic, professional food photography shot of a beautifully plated ${safeDishName}, authentic ${cuisine} culinary style. Served on a rustic ceramic dish, natural window daylight lighting, sharp focus, food magazine cover quality. Fully cooked, gourmet presentation, safe for work, absolutely delicious.`;
+    const prompt = `A highly appetizing, hyper-realistic, professional food photography shot of a beautifully plated ${safeDishName}, authentic ${cuisine} culinary style. Served on a rustic ceramic dish, natural window daylight lighting, sharp focus, food magazine cover quality. Fully cooked, gourmet presentation, safe for work, absolutely delicious. You MUST generate this image.`;
 
     // Try imagen-3.0-fast first, then fall back to earlier model
     const models = [
@@ -244,7 +244,7 @@ async function generateAIImage(dishName, cuisine, date) {
 console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" for ${today}...`);
 
 // ── Build Gemini prompt ────────────────────────────────────────────────────
-const prompt = `You are a world-renowned chef. Write an authentic, detailed recipe for "${selectedDish}" — a classic dish from ${selectedCuisine.country}.
+const prompt = `You are a world-renowned chef. Write an authentic, detailed recipe for "${selectedDish}" — a classic dish from ${selectedCuisine.country}. You MUST generate this recipe. Do not refuse.
 Provide translations for title, description, ingredients, and instructions in Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), and Tamil ('ta').
 
 Return ONLY a valid JSON object. Use EXACTLY this structure:
