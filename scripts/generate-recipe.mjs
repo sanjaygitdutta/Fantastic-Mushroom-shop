@@ -188,8 +188,9 @@ async function generateAIImage(dishName, cuisine, date) {
 
     const prompt = `A highly appetizing, hyper-realistic, professional food photography shot of a beautifully plated ${safeDishName}, authentic ${cuisine} culinary style. Served on a rustic ceramic dish, natural window daylight lighting, sharp focus, food magazine cover quality. Fully cooked, gourmet presentation, safe for work, absolutely delicious. You MUST generate this image.`;
 
-    // Try imagen-3.0-fast first, then fall back to earlier model
+    // Try imagen-3.0-generate-002 first, then fall back to earlier models
     const models = [
+      'imagen-3.0-generate-002',
       'imagen-3.0-fast-generate-001',
       'imagen-3.0-generate-001',
     ];
