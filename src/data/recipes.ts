@@ -1433,4 +1433,64 @@ export const recipes: Recipe[] = [
             }
         }
     }
+,
+    {
+        id: '2026-05-13',
+        title: 'Hokkien Mee',
+        description: 'Dive into the irresistible symphony of wok-hei infused noodles, succulent prawns, tender squid, and crispy pork belly, all bathed in a rich, savory prawn broth. This iconic Singaporean stir-fry is a textural masterpiece, bursting with umami in every bite. Get ready to ignite your taste buds and bring the vibrant flavors of Singapore right into your kitchen tonight!',
+        image: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&q=75&w=800',
+        prepTime: '20 min',
+        cookTime: '40 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Mixed Noodles (Yellow Hokkien & Bee Hoon)', amount: '700g total, soaked if dry' },
+            { item: 'Mixed Seafood (Fresh Prawns & Squid)', amount: '500g total, cleaned and prepared' },
+            { item: 'Pork Belly', amount: '150g, sliced thinly' },
+            { item: 'Prawn Broth', amount: '750ml (rich and flavorful)' },
+            { item: 'Hokkien Mee Sauce', amount: '4 tbsp (blend of light soy, dark soy, fish sauce)' },
+            { item: 'Aromatics & Greens (Minced Garlic, Bean Sprouts, Chives)', amount: '200g total' },
+            { item: 'Lard or Vegetable Oil', amount: '3 tbsp' },
+            { item: 'Sambal Belacan & Lime', amount: 'For serving' }
+        ],
+        instructions: [
+            'Heat lard/oil in a wok, fry pork belly until crispy. Add minced garlic (from aromatics), then stir-fry seafood until just cooked. Remove and set aside.',
+            'Add mixed noodles to the wok. Pour in prawn broth and Hokkien Mee sauce. Simmer until noodles absorb most liquid.',
+            'Return pork and seafood to the wok. Add remaining aromatics & greens (bean sprouts, chives). Stir-fry vigorously until well combined and slightly charred.',
+            'Serve immediately with a dollop of sambal belacan and a squeeze of fresh lime.'
+        ],
+        tags: ['Singaporean', 'Dinner', 'Non-Vegetarian'],
+        translations: {
+            hi: {
+                title: 'होक्कियन मी',
+                description: 'वोक-हेई से भरपूर नूडल्स, रसीले झींगे, नरम स्क्वीड और कुरकुरी पोर्क बेली का एक अनूठा संगम, जो एक समृद्ध, स्वादिष्ट झींगा शोरबे में डूबा हुआ है। यह प्रतिष्ठित सिंगापुरियन स्टिर-फ्राई एक बनावट वाली उत्कृष्ट कृति है, जो हर निवाले में उमामी से भरपूर है। आज ही अपनी स्वाद कलिकाओं को जगाने और सिंगापुर के जीवंत स्वादों को अपनी रसोई में लाने के लिए तैयार हो जाइए!',
+                ingredients: [{ item: 'मिश्रित नूडल्स (पीले होक्कियन और बी हून)', amount: 'कुल 700 ग्राम, सूखे होने पर भिगो' }],
+                instructions: []
+            },
+            bn: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            mr: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            te: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            ta: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            }
+        }
+    }
 ];
