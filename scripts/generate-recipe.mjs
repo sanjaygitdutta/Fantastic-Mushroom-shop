@@ -224,7 +224,7 @@ async function generateAIImage(dishName, cuisine, date) {
         continue;
       }
 
-      // Save to public/recipe-images/{date}.jpg — served as /recipe-images/{date}.jpg
+      // Save to public/recipe-images/{date}.jpg
       const imgDir = path.resolve('./public/recipe-images');
       fs.mkdirSync(imgDir, { recursive: true });
       const imgPath = path.join(imgDir, `${date}.jpg`);
@@ -234,6 +234,23 @@ async function generateAIImage(dishName, cuisine, date) {
       return `/recipe-images/${date}.jpg`;
     }
 
+    // ── Fallback to Pollinations AI (Free, No API Key) ──────────────────────
+    console.log(`⚠️  All Gemini Imagen models failed. Falling back to Pollinations AI...`);
+    const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=800&height=450&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
+    const pollRes = await fetch(pollinationsUrl);
+    
+    if (pollRes.ok) {
+      const buffer = await pollRes.arrayBuffer();
+      const imgDir = path.resolve('./public/recipe-images');
+      fs.mkdirSync(imgDir, { recursive: true });
+      const imgPath = path.join(imgDir, `${date}.jpg`);
+      fs.writeFileSync(imgPath, Buffer.from(buffer));
+      const sizeKB = Math.round(fs.statSync(imgPath).size / 1024);
+      console.log(`🎨 AI image saved via Pollinations AI: public/recipe-images/${date}.jpg (${sizeKB}KB)`);
+      return `/recipe-images/${date}.jpg`;
+    }
+
+    console.warn(`⚠️  Pollinations AI fallback also failed.`);
     return null; // all models failed
 
   } catch (e) {
