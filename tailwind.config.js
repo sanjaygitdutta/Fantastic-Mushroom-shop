@@ -83,8 +83,8 @@ export default {
                 },
             },
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                display: ['Outfit', 'sans-serif'],
+                sans: ['var(--font-inter)', 'sans-serif'],
+                display: ['var(--font-outfit)', 'sans-serif'],
             },
             screens: {
                 'xs': '475px',

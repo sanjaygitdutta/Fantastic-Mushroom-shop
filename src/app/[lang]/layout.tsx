@@ -3,7 +3,13 @@ import { Providers } from '../providers';
 import { Toaster } from 'react-hot-toast';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import AIAssistant from '../../components/AIAssistant';
+import { Inter, Outfit } from 'next/font/google';
+import dynamic from 'next/dynamic';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
+
+const AIAssistant = dynamic(() => import('../../components/AIAssistant'));
 
 import Script from 'next/script';
 
@@ -111,7 +117,7 @@ export default async function RootLayout({
 }) {
   const { lang } = await params;
   return (
-    <html lang={`${lang}-IN`}>
+    <html lang={`${lang}-IN`} className={`${inter.variable} ${outfit.variable}`}>
       <body>
         {/* Force Unregister Old Vite PWA Service Workers */}
         <Script id="unregister-sw" strategy="beforeInteractive">
@@ -224,7 +230,7 @@ export default async function RootLayout({
           <div className="min-h-screen flex flex-col">
             <Toaster position="top-center" />
             <Navbar />
-            <div className="flex-grow">
+            <div className="grow">
               {children}
             </div>
             <Footer />
