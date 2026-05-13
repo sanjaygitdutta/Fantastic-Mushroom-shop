@@ -289,7 +289,7 @@ Rules:
 - 5 to 10 ingredients max.
 - 4 to 5 CONCISE instructions (1-2 lines each max). Do not make them too detailed, keep them extremely brief to prevent generation failure.
 - Descriptions should be 1-2 sentences, punchy and highly appetizing.
-- You MUST provide the FULL 'ingredients' and 'instructions' arrays for EVERY single language ('hi', 'bn', 'mr', 'te', 'ta'). DO NOT leave them empty or return [].
+- CRITICAL: You MUST provide the FULL 'ingredients' and 'instructions' arrays for EVERY single language ('hi', 'bn', 'mr', 'te', 'ta'). Do NOT leave them empty. Do NOT return []. If you return an empty array for any language, the system will crash.
 - All property names in double quotes. No trailing commas.`;
 
 // ── Call Gemini REST API ──────────────────────────────────────────────────
@@ -306,7 +306,7 @@ async function callGemini(retryCount = 0) {
     }
   };
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   const response = await fetch(url, {
     method: 'POST',
