@@ -231,18 +231,22 @@ export default function RecipePage() {
       />
       <div className="min-h-screen bg-cream-50 pt-20">
         {/* Hero Banner */}
-        <div className="bg-linear-to-br from-forest-900 to-forest-800">
-          <div className="max-w-4xl mx-auto px-4 py-10">
-            {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-forest-400 text-sm mb-6">
-              <Link href="/" className="hover:text-white transition-colors">{t('recipe_home')}</Link>
-              <span>/</span>
-              <Link href="/recipes" className="hover:text-white transition-colors">{t('recipe_recipes_breadcrumb')}</Link>
-              <span>/</span>
-              <Link href="/recipes" className="hover:text-white transition-colors">{recipe.country}</Link>
-              <span>/</span>
-              <span className="text-cream-300">{displayName}</span>
-            </div>
+        <div className="bg-linear-to-br from-forest-900 to-forest-800 border-b-4 border-amber-500">
+          <div className="max-w-7xl mx-auto px-4 py-10 lg:py-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              
+              {/* Left Column: Info */}
+              <div>
+                {/* Breadcrumb */}
+                <div className="flex flex-wrap items-center gap-2 text-forest-400 text-sm mb-6">
+                  <Link href="/" className="hover:text-white transition-colors">{t('recipe_home')}</Link>
+                  <span>/</span>
+                  <Link href="/recipes" className="hover:text-white transition-colors">{t('recipe_recipes_breadcrumb')}</Link>
+                  <span>/</span>
+                  <Link href="/recipes" className="hover:text-white transition-colors">{recipe.country}</Link>
+                  <span>/</span>
+                  <span className="text-cream-300">{displayName}</span>
+                </div>
 
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
               {/* Country + City badge */}
@@ -326,32 +330,35 @@ export default function RecipePage() {
                 </a>
               </div>
             </motion.div>
+              </div>
+
+              {/* Right Column: Image (Desktop Hero) */}
+              {recipe.image && (
+                <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }} className="rounded-3xl overflow-hidden shadow-2xl border border-forest-800 relative group">
+                  <img 
+                    src={recipe.image} 
+                    alt={displayName} 
+                    className="w-full h-[350px] lg:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/20">
+                    <p className="text-xs font-black text-forest-900 flex items-center gap-2 tracking-wide uppercase">
+                      📸 AI Photography
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+
+            </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="max-w-4xl mx-auto px-4 py-10">
-          {/* AI Recipe Image */}
-          {recipe.image && (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10 rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-white relative">
-              <img 
-                src={recipe.image} 
-                alt={displayName} 
-                className="w-full h-[400px] object-cover"
-                loading="lazy"
-              />
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg border border-white/20">
-                <p className="text-xs font-black text-gray-800 flex items-center gap-1">
-                  📸 AI Food Photography
-                </p>
-              </div>
-            </motion.div>
-          )}
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto px-4 py-12 lg:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
 
             {/* Ingredients Sidebar */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-5 xl:col-span-4">
               <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-black text-gray-800 flex items-center gap-2">
@@ -417,7 +424,7 @@ export default function RecipePage() {
             </div>
 
             {/* Steps */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-7 xl:col-span-8">
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                   <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
