@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'sw
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
 
 const AIAssistant = dynamic(() => import('../../components/AIAssistant'));
+import ReferralTracker from '../../components/ReferralTracker';
 
 import Script from 'next/script';
 
@@ -235,6 +236,7 @@ export default async function RootLayout({
             </div>
             <Footer />
             <AIAssistant />
+            <ReferralTracker />
           </div>
         </Providers>
       </body>

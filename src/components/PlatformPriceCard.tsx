@@ -119,7 +119,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
       {/* Coupon code hint */}
       {topCoupon && price.inStock && (
         <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mb-3">
-          <Tag className="w-3 h-3 text-amber-600 flex-shrink-0" />
+          <Tag className="w-3 h-3 text-amber-600 shrink-0" />
           <div className="min-w-0">
             <span className="text-xs font-bold text-amber-700 font-mono">{topCoupon.code}</span>
             <span className="text-xs text-amber-600"> — {topCoupon.description}</span>

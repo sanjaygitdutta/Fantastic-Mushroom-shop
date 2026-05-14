@@ -45,7 +45,7 @@
   }
 
   .platform-card-best {
-    @apply bg-gradient-to-br from-forest-50 to-moss-50 border-2 border-forest-500 rounded-2xl p-5 shadow-md;
+    @apply bg-linear-to-br from-forest-50 to-moss-50 border-2 border-forest-500 rounded-2xl p-5 shadow-md;
   }
 
   /* CTA button - amber */
@@ -139,4 +139,4 @@
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--cream); }
 ::-webkit-scrollbar-thumb { background: var(--moss); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--forest); }
+::-webkit-scrollbar-thumb:hover { background: var(--forest); }

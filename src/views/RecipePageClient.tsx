@@ -231,7 +231,7 @@ export default function RecipePage() {
       />
       <div className="min-h-screen bg-cream-50 pt-20">
         {/* Hero Banner */}
-        <div className="bg-gradient-to-br from-forest-900 to-forest-800">
+        <div className="bg-linear-to-br from-forest-900 to-forest-800">
           <div className="max-w-4xl mx-auto px-4 py-10">
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-forest-400 text-sm mb-6">
@@ -381,7 +381,7 @@ export default function RecipePage() {
                     const isChecked = checkedIngredients.has(i);
                     return (
                       <li key={i} onClick={() => toggleIngredient(i)} className={`flex items-start gap-2.5 group cursor-pointer p-1.5 -mx-1.5 rounded-xl transition-all ${isChecked ? 'bg-gray-50 opacity-60' : 'hover:bg-gray-50'}`}>
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors border ${isChecked ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 text-transparent group-hover:border-forest-600'}`}>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 transition-colors border ${isChecked ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 text-transparent group-hover:border-forest-600'}`}>
                           <CheckCircle2 className="w-3 h-3" />
                         </div>
                         <div className="flex-1 flex items-start justify-between gap-2">
@@ -405,7 +405,7 @@ export default function RecipePage() {
                 <div className="mt-5 pt-4 border-t border-gray-100">
                   <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-3">{t('recipe_shop_ingredients_emoji')}</p>
                   <Link href={`/basket?prefill=${encodeURIComponent(recipe.ingredients.map((ing) => getCompareKey(ing)).filter(Boolean).join(','))}`}
-                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-forest-800 to-forest-700 hover:from-forest-700 hover:to-forest-600 shadow-xl shadow-forest-900/10 text-white font-bold py-3 rounded-xl transition-all hover:-translate-y-0.5"
+                    className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-forest-800 to-forest-700 hover:from-forest-700 hover:to-forest-600 shadow-xl shadow-forest-900/10 text-white font-bold py-3 rounded-xl transition-all hover:-translate-y-0.5"
                   >
                     <ShoppingCart className="w-5 h-5" /> {t('recipe_compare_basket')}
                   </Link>
@@ -425,7 +425,7 @@ export default function RecipePage() {
                   </h2>
                   <button 
                     onClick={() => { setCookMode(true); setCurrentStep(0); }}
-                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-forest-900 font-bold px-5 py-2.5 rounded-xl text-sm transition-all hover:scale-[1.02] active:scale-95 shadow-md shadow-amber-500/20"
+                    className="flex items-center justify-center gap-2 bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-forest-900 font-bold px-5 py-2.5 rounded-xl text-sm transition-all hover:scale-[1.02] active:scale-95 shadow-md shadow-amber-500/20"
                   >
                     <Play className="w-4 h-4 fill-current" /> Cook Mode
                   </button>
@@ -435,7 +435,7 @@ export default function RecipePage() {
                     const isChecked = checkedSteps.has(i);
                     return (
                       <div key={i} onClick={() => toggleStep(i)} className={`flex gap-4 p-4 rounded-xl cursor-pointer transition-all border ${isChecked ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-transparent hover:border-gray-100 hover:bg-gray-50/50'}`}>
-                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0 shadow-sm transition-colors ${isChecked ? 'bg-green-500 text-white' : 'bg-gradient-to-br from-amber-400 to-amber-500 text-forest-900'}`}>
+                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-black shrink-0 shadow-sm transition-colors ${isChecked ? 'bg-green-500 text-white' : 'bg-linear-to-br from-amber-400 to-amber-500 text-forest-900'}`}>
                           {isChecked ? <CheckCircle2 className="w-5 h-5" /> : i + 1}
                         </div>
                         <div className="flex-1 pt-1.5">
@@ -449,7 +449,7 @@ export default function RecipePage() {
 
               {/* Price compare banner */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                className="bg-gradient-to-r from-forest-800 to-forest-700 rounded-2xl p-5 mb-6">
+                className="bg-linear-to-r from-forest-800 to-forest-700 rounded-2xl p-5 mb-6">
                 <p className="text-amber-300 text-xs font-bold uppercase tracking-wider mb-1">{t('recipe_pro_tip')}</p>
                 <h3 className="text-white font-bold mb-2">{t('recipe_before_cook_check')}</h3>
                 <p className="text-cream-300 text-sm mb-3">
@@ -527,7 +527,7 @@ export default function RecipePage() {
             initial={{ opacity: 0, y: 50 }} 
             animate={{ opacity: 1, y: 0 }} 
             exit={{ opacity: 0, y: 50 }}
-            className="fixed inset-0 z-[100] bg-gray-950 flex flex-col"
+            className="fixed inset-0 z-100 bg-gray-950 flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-800 bg-gray-900">
