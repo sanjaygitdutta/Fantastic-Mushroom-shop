@@ -1,7 +1,8 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Bot, Mic, MicOff, Volume2 } from 'lucide-react';
+import { X, Send, Bot, Mic, MicOff, Volume2, Crown, Lock, Copy, CheckCircle2, Sparkles } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 type Message = {
   id: string;
@@ -35,6 +36,14 @@ const AIAssistant = () => {
   
   // Voice Output State
   const [voiceEnabled, setVoiceEnabled] = useState(true);
+
+  // PRO Mode State
+  const [activeTab, setActiveTab] = useState<'chat' | 'pro'>('chat');
+  const [clicks, setClicks] = useState<number>(0);
+  const [refCode, setRefCode] = useState<string>('');
+  const [hasCheckedPro, setHasCheckedPro] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const TARGET_CLICKS = 5;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -79,7 +88,43 @@ const AIAssistant = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isTyping]);
+  }, [messages, isTyping, activeTab]);
+
+  useEffect(() => {
+    if (isOpen && activeTab === 'pro' && !hasCheckedPro) {
+      const code = localStorage.getItem('fantastic_ref_code');
+      if (code) {
+        setRefCode(code);
+        supabase.from('viral_referrals').select('click_count').eq('ref_code', code).single()
+          .then(({ data }) => {
+            if (data) setClicks(data.click_count || 0);
+            setHasCheckedPro(true);
+          });
+      }
+    }
+  }, [isOpen, activeTab, hasCheckedPro]);
+
+  const copyLink = () => {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(`${window.location.origin}/en/rewards?ref=${refCode}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleGenerateMealPlan = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const goal = formData.get('goal');
+    const diet = formData.get('diet');
+    
+    const prompt = `Please act as an expert nutritionist. Generate a 7-day meal plan for a ${diet} diet with a goal of ${goal}. Keep the response structured, clear, and focused on Indian ingredients that can be easily bought on quick-commerce apps like Zepto or Blinkit. Format with markdown.`;
+    
+    setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', content: `Please generate a 7-day ${diet} meal plan for ${goal}.` }]);
+    setActiveTab('chat');
+    setIsTyping(true);
+    fetchAIResponse(prompt);
+  };
 
   const speakText = (text: string) => {
     if (!voiceEnabled || !('speechSynthesis' in window)) return;
@@ -184,39 +229,61 @@ const AIAssistant = () => {
               style={{ background: '#FEFDF7' }}
             >
               {/* Header — deep forest green gradient matching site navbar */}
-              <div className="flex items-center justify-between px-4 py-3" style={{ background: 'linear-gradient(135deg, #0F2419 0%, #1A3C2B 100%)' }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-lg shadow-md" style={{ background: 'linear-gradient(135deg, #F4A23C, #D6AD60)' }}>
-                    🍳
+              <div className="flex flex-col" style={{ background: 'linear-gradient(135deg, #0F2419 0%, #1A3C2B 100%)' }}>
+                <div className="flex items-center justify-between px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-lg shadow-md" style={{ background: 'linear-gradient(135deg, #F4A23C, #D6AD60)' }}>
+                      🍳
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-sm text-white tracking-wide flex items-center gap-2">
+                        Chef Aika
+                      </h3>
+                      <p className="text-[10px] flex items-center gap-1.5" style={{ color: '#FAE89A' }}>
+                        <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#52B788' }}></span>
+                        AI-powered Assistant
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-sm text-white tracking-wide">Chef Aika</h3>
-                    <p className="text-[10px] flex items-center gap-1.5" style={{ color: '#FAE89A' }}>
-                      <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#52B788' }}></span>
-                      AI-powered · Free
-                    </p>
+                  <div className="flex items-center gap-1">
+                    <button 
+                      onClick={() => setVoiceEnabled(!voiceEnabled)}
+                      title={voiceEnabled ? "Mute Voice" : "Enable Voice"}
+                      className="p-1.5 rounded-lg transition-colors"
+                      style={{ color: voiceEnabled ? '#F4A23C' : '#7EC49A' }}
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </button>
+                    <button 
+                      onClick={() => setIsOpen(false)}
+                      className="p-1.5 rounded-lg transition-colors hover:bg-white/10 text-white/60 hover:text-white"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
-                <div className="flex items-center gap-1">
+
+                {/* Tabs */}
+                <div className="flex px-4 gap-4 mt-1 border-b border-white/10">
                   <button 
-                    onClick={() => setVoiceEnabled(!voiceEnabled)}
-                    title={voiceEnabled ? "Mute Voice" : "Enable Voice"}
-                    className="p-1.5 rounded-lg transition-colors"
-                    style={{ color: voiceEnabled ? '#F4A23C' : '#7EC49A' }}
+                    onClick={() => setActiveTab('chat')}
+                    className={`pb-2 text-xs font-bold transition-colors border-b-2 ${activeTab === 'chat' ? 'text-white border-amber-400' : 'text-forest-300 border-transparent hover:text-forest-100'}`}
                   >
-                    <Volume2 className="w-4 h-4" />
+                    Chat
                   </button>
                   <button 
-                    onClick={() => setIsOpen(false)}
-                    className="p-1.5 rounded-lg transition-colors hover:bg-white/10 text-white/60 hover:text-white"
+                    onClick={() => setActiveTab('pro')}
+                    className={`pb-2 text-xs font-bold transition-colors border-b-2 flex items-center gap-1 ${activeTab === 'pro' ? 'text-amber-400 border-amber-400' : 'text-amber-500/50 border-transparent hover:text-amber-400'}`}
                   >
-                    <X className="w-4 h-4" />
+                    <Crown className="w-3 h-3" /> PRO Tools
                   </button>
                 </div>
               </div>
 
-              {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              {activeTab === 'chat' ? (
+                <>
+                  {/* Messages */}
+                  <div className="flex-1 overflow-y-auto p-4 space-y-3">
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex items-end gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {msg.role === 'assistant' && (
@@ -302,6 +369,65 @@ const AIAssistant = () => {
                   </div>
                 </div>
               </form>
+                </>
+              ) : (
+                /* PRO Tab View */
+                <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-white to-amber-50/30">
+                  <div className="text-center mb-6">
+                    <div className="w-12 h-12 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
+                      <Crown className="w-6 h-6" />
+                    </div>
+                    <h3 className="font-black text-gray-900 text-lg">PRO Meal Planner</h3>
+                    <p className="text-xs text-gray-500 mt-1">Generate a custom 7-day grocery and meal plan designed by AI.</p>
+                  </div>
+
+                  {clicks < TARGET_CLICKS ? (
+                    <div className="bg-white border border-gray-200 rounded-2xl p-5 text-center shadow-sm relative overflow-hidden">
+                      <div className="absolute top-0 inset-x-0 h-1 bg-gray-200">
+                        <div className="h-full bg-amber-400" style={{ width: `${(clicks / TARGET_CLICKS) * 100}%` }} />
+                      </div>
+                      <Lock className="w-8 h-8 text-gray-400 mx-auto mb-3 mt-2" />
+                      <h4 className="font-bold text-gray-800 text-sm mb-1">Feature Locked</h4>
+                      <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+                        Invite {TARGET_CLICKS} friends to Fantastic Food to unlock unlimited PRO meal planning.
+                      </p>
+                      <div className="text-2xl font-black text-gray-800 mb-4">{clicks} <span className="text-sm font-bold text-gray-400">/ {TARGET_CLICKS} Clicks</span></div>
+                      
+                      <div className="bg-gray-50 border border-gray-200 rounded-xl p-2 flex items-center gap-2 mb-2">
+                        <span className="text-[10px] font-mono text-gray-500 truncate flex-1 pl-1">fantasticfood.in/en/rewards?ref={refCode}</span>
+                        <button onClick={copyLink} className="p-1.5 bg-white border rounded-lg hover:bg-gray-50 text-gray-700">
+                          {copied ? <CheckCircle2 className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
+                        </button>
+                      </div>
+                      <a href="/en/rewards" className="text-[10px] text-amber-600 font-bold hover:underline">View Rewards Page &rarr;</a>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleGenerateMealPlan} className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-bold text-gray-700 mb-1.5">Your Goal</label>
+                        <select name="goal" className="w-full text-sm rounded-xl border-gray-200 bg-white px-3 py-2.5 outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 shadow-sm">
+                          <option value="Weight Loss">Weight Loss</option>
+                          <option value="Muscle Gain">Muscle Gain</option>
+                          <option value="Healthy Maintenance">Healthy Maintenance</option>
+                          <option value="High Energy / Focus">High Energy / Focus</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-700 mb-1.5">Dietary Preference</label>
+                        <select name="diet" className="w-full text-sm rounded-xl border-gray-200 bg-white px-3 py-2.5 outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 shadow-sm">
+                          <option value="Vegetarian">Vegetarian</option>
+                          <option value="Non-Vegetarian">Non-Vegetarian</option>
+                          <option value="Vegan">Vegan</option>
+                          <option value="Keto">Keto</option>
+                        </select>
+                      </div>
+                      <button type="submit" className="w-full mt-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-forest-900 font-black py-3 rounded-xl shadow-md transition-transform active:scale-95 text-sm flex items-center justify-center gap-2">
+                        <Sparkles className="w-4 h-4" /> Generate 7-Day Plan
+                      </button>
+                    </form>
+                  )}
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
