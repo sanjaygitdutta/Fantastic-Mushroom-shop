@@ -51,23 +51,23 @@ export async function POST(req: Request) {
   // 3. Construct AI Personality and Data
   const systemPrompt = `You are a frugal, highly skilled Indian AI Chef and Grocery Planner. Your job is to create extremely practical, healthy ${days}-day meal plans that strictly fit within a tight Indian grocery budget constraint.`;
 
-  const userPrompt = `Create a ${days}-day meal plan for ${familySize} people focusing on ${dietary} dietary preferences. 
+  const userPrompt = `Create a highly varied and UNIQUE ${days}-day meal plan for ${familySize} people focusing STRICTLY on ${dietary} dietary preferences. 
 The total weekly grocery budget MUST STAY UNDER ₹${budget} INR.${marketContext}
+IMPORTANT: Provide diverse meals! DO NOT COPY the example meals below. Ensure every single meal strictly respects the "${dietary}" constraint (e.g. Jain must have no onions/garlic, High Protein must have protein sources).
 
-Respond ONLY with valid JSON exactly matching this structure (do not include markdown code block syntax or backticks):
+Respond ONLY with valid JSON exactly matching this structure (do not include markdown code block syntax or backticks). The following is just a structural example, DO NOT use these specific recipes:
 {
   "estimatedCost": 1200,
-  "savingsTip": "Buy whole spices and grind them at home...",
+  "savingsTip": "Your actionable saving tip here...",
   "shoppingList": [
-    { "item": "Toor Dal", "quantity": "1 kg" },
-    { "item": "Tomato", "quantity": "1 kg" }
+    { "item": "Ingredient Name", "quantity": "1 kg" }
   ],
   "days": [
     {
       "day": 1,
-      "breakfast": { "name": "Poha", "ingredients": ["poha", "onion", "peanuts"] },
-      "lunch": { "name": "Dal Tadka & Rice", "ingredients": ["toor dal", "rice", "ghee"] },
-      "dinner": { "name": "Aloo Gobi & Roti", "ingredients": ["potato", "cauliflower", "wheat flour"] }
+      "breakfast": { "name": "Unique Breakfast Name", "ingredients": ["item1", "item2"] },
+      "lunch": { "name": "Unique Lunch Name", "ingredients": ["item1", "item2"] },
+      "dinner": { "name": "Unique Dinner Name", "ingredients": ["item1", "item2"] }
     }
   ]
 }`;
@@ -85,7 +85,7 @@ Respond ONLY with valid JSON exactly matching this structure (do not include mar
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        temperature: 0.6,
+        temperature: 0.8,
         max_tokens: 4000
       })
     });
