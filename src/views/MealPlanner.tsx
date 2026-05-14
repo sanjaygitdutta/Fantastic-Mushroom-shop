@@ -52,7 +52,7 @@ const MealPlanner = () => {
   const [error, setError] = useState('');
   const [plan, setPlan] = useState<MealPlanResponse | null>(null);
 
-  const generatePlan = async () => {
+  const generatePlan = async (overrideBudget?: number, overrideDiet?: string, overrideSize?: number) => {
     setLoading(true);
     setError('');
     
@@ -60,7 +60,7 @@ const MealPlanner = () => {
       const res = await fetch('/api/generate-meal-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ budget, dietary, familySize, days })
+        body: JSON.stringify({ budget: overrideBudget ?? budget, dietary: overrideDiet ?? dietary, familySize: overrideSize ?? familySize, days })
       });
       
       const data = await res.json();
@@ -160,7 +160,7 @@ const MealPlanner = () => {
               )}
 
               <button 
-                onClick={generatePlan}
+                onClick={() => generatePlan()}
                 disabled={loading}
                 className="w-full py-4 bg-forest-900 hover:bg-forest-800 text-cream-100 rounded-2xl font-bold flex items-center justify-center gap-2 transition-transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
               >

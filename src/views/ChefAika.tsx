@@ -45,6 +45,7 @@ export default function ChefAikaPage() {
   const [proteinGoal, setProteinGoal] = useState('');
 
   // Pro Logic
+  const [sharedRecipeName, setSharedRecipeName] = useState('');
   const [dailyRecipeUsage, setDailyRecipeUsage] = useState(0);
   const [clicks, setClicks] = useState(0);
   const [refCode, setRefCode] = useState('');
@@ -371,6 +372,22 @@ export default function ChefAikaPage() {
         keywords="AI chef, recipe generator, fridge scan, meal planner, Chef Aika, Fantastic Food"
         structuredData={structuredData}
       />
+
+            
+      <AnimatePresence>
+        {sharedRecipeName && (
+          <motion.div initial={{opacity: 0, y: -50}} animate={{opacity: 1, y: 0}} exit={{opacity: 0, scale: 0.9}} className="fixed top-20 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[400px] z-50 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-4 shadow-2xl shadow-amber-500/30 border-2 border-amber-300">
+            <button onClick={() => setSharedRecipeName('')} className="absolute top-2 right-2 text-amber-900 hover:bg-amber-400/50 p-1 rounded-full"><X className="w-4 h-4" /></button>
+            <div className="flex items-start gap-3">
+              <div className="text-3xl mt-1">😲</div>
+              <div>
+                <h4 className="font-black text-amber-950 text-sm mb-1">Your friend just made {sharedRecipeName.replace(/_/g, ' ')}!</h4>
+                <p className="text-xs text-amber-900 font-medium">Want to see what Chef Aika can make with YOUR fridge? Scan your ingredients now!</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="min-h-screen pt-16" style={{ background: '#0F2419' }}>
 
