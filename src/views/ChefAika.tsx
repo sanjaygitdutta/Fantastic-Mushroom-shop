@@ -1,10 +1,11 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb } from 'lucide-react';
+import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb, Gift } from 'lucide-react';
 import SEO from '../components/SEO';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '../lib/supabase';
 
 
 declare global {
@@ -42,6 +43,82 @@ export default function ChefAikaPage() {
   const [dietary, setDietary] = useState('');
   const [calorieLimit, setCalorieLimit] = useState('');
   const [proteinGoal, setProteinGoal] = useState('');
+
+  // Pro Logic
+  const [dailyRecipeUsage, setDailyRecipeUsage] = useState(0);
+  const [clicks, setClicks] = useState(0);
+  const [refCode, setRefCode] = useState('');
+  const [hasCheckedPro, setHasCheckedPro] = useState(false);
+  const TARGET_CLICKS = 3;
+
+  useEffect(() => {
+    const today = new Date().toDateString();
+    const savedDate = localStorage.getItem('aika_recipe_date');
+    if (savedDate !== today) {
+      localStorage.setItem('aika_recipe_date', today);
+      localStorage.setItem('aika_recipe_count', '0');
+      setDailyRecipeUsage(0);
+    } else {
+      setDailyRecipeUsage(parseInt(localStorage.getItem('aika_recipe_count') || '0', 10));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hasCheckedPro) {
+      const code = localStorage.getItem('fantastic_ref_code');
+      if (code) {
+        setRefCode(code);
+        supabase.from('viral_referrals').select('click_count').eq('ref_code', code).single()
+          .then(({ data }) => {
+            if (data) setClicks(data.click_count || 0);
+            setHasCheckedPro(true);
+          });
+      } else {
+        setHasCheckedPro(true);
+      }
+    }
+  }, [hasCheckedPro]);
+
+  const recipeLimit = clicks >= TARGET_CLICKS ? 5 : 1;
+  const hasReachedRecipeLimit = dailyRecipeUsage >= recipeLimit;
+
+  // Pro Logic
+  const [dailyRecipeUsage, setDailyRecipeUsage] = useState(0);
+  const [clicks, setClicks] = useState(0);
+  const [refCode, setRefCode] = useState('');
+  const [hasCheckedPro, setHasCheckedPro] = useState(false);
+  const TARGET_CLICKS = 3;
+
+  useEffect(() => {
+    const today = new Date().toDateString();
+    const savedDate = localStorage.getItem('aika_recipe_date');
+    if (savedDate !== today) {
+      localStorage.setItem('aika_recipe_date', today);
+      localStorage.setItem('aika_recipe_count', '0');
+      setDailyRecipeUsage(0);
+    } else {
+      setDailyRecipeUsage(parseInt(localStorage.getItem('aika_recipe_count') || '0', 10));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hasCheckedPro) {
+      const code = localStorage.getItem('fantastic_ref_code');
+      if (code) {
+        setRefCode(code);
+        supabase.from('viral_referrals').select('click_count').eq('ref_code', code).single()
+          .then(({ data }) => {
+            if (data) setClicks(data.click_count || 0);
+            setHasCheckedPro(true);
+          });
+      } else {
+        setHasCheckedPro(true);
+      }
+    }
+  }, [hasCheckedPro]);
+
+  const recipeLimit = clicks >= TARGET_CLICKS ? 5 : 1;
+  const hasReachedRecipeLimit = dailyRecipeUsage >= recipeLimit;
 
   // Camera
   const [cameraActive, setCameraActive] = useState(false);
@@ -258,11 +335,17 @@ export default function ChefAikaPage() {
 
   // ── Generate Recipe ───────────────────────────────────────────────────────
   const generateRecipe = async () => {
+    if (hasReachedRecipeLimit) return;
     if (!ingredients.length) {
       addMessage('ai', 'Please add some ingredients first! Scan your fridge or type them in.');
       speakText('Please add some ingredients first!');
       return;
     }
+
+    const newCount = dailyRecipeUsage + 1;
+    setDailyRecipeUsage(newCount);
+    localStorage.setItem('aika_recipe_count', newCount.toString());
+
     setGeneratingRecipe(true);
     setActiveStep(null);
     addMessage('ai', `✨ Generating a recipe with ${ingredients.join(', ')}...`);
@@ -530,6 +613,20 @@ export default function ChefAikaPage() {
               </div>
             )}
 
+            {/* Upsell Banner */}
+            {clicks < TARGET_CLICKS && (
+              <div className="mx-4 mb-2 p-3 rounded-xl flex items-center justify-between shadow-lg" style={{ background: 'linear-gradient(135deg, #4b200b, #331505)', border: '1px solid #7c330c' }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-500 shrink-0"><Gift className="w-4 h-4" /></div>
+                  <div>
+                    <h4 className="text-xs font-bold text-amber-400">Unlock Premium & Daily Coupons</h4>
+                    <p className="text-[10px] text-amber-200/70">Invite 3 friends to get unlimited access</p>
+                  </div>
+                </div>
+                <Link href="/en/rewards" className="shrink-0 ml-2 px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold text-[10px] rounded-lg transition-colors">Get Link</Link>
+              </div>
+            )}
+
             {/* Generate + Options */}
             <div className="p-4 border-t" style={{ borderColor: '#1A3C2B' }}>
               <div className="flex gap-2 mb-3">
@@ -558,24 +655,48 @@ export default function ChefAikaPage() {
                   className="flex-1 px-3 py-2 rounded-lg text-sm outline-none placeholder-forest-500"
                   style={{ background: '#1A3C2B', color: '#FAE89A', border: '1px solid #2D6A4F' }} />
               </div>
-              <motion.button
-                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                onClick={generateRecipe}
-                disabled={generatingRecipe}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-black text-sm transition-all shadow-xl"
-                style={generatingRecipe
-                  ? { background: '#1A3C2B', color: '#52B788' }
-                  : { background: 'linear-gradient(135deg, #1A5E38, #2D9B65)', color: 'white' }
-                }>
-                {generatingRecipe ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                    {t('aika_cooking')}
-                  </>
-                ) : (
-                  <><Sparkles className="w-4 h-4" /> {t('aika_generate')}</>
-                )}
-              </motion.button>
+              {hasReachedRecipeLimit ? (
+                <div className="w-full text-center p-4 rounded-xl border" style={{ background: '#0D1F16', borderColor: '#F4A23C' }}>
+                  <p className="font-bold text-sm mb-1 text-amber-500">Daily Limit Reached! 🛑</p>
+                  {clicks < TARGET_CLICKS ? (
+                    <>
+                      <p className="text-xs text-amber-200/80 mb-3">
+                        You've generated your 1 free recipe today.
+                      </p>
+                      <Link href="/en/rewards" className="inline-block px-4 py-2 bg-amber-500 text-amber-950 font-black rounded-lg text-xs shadow-md transition-transform hover:scale-105">
+                        Invite 3 friends to unlock 5/day
+                      </Link>
+                    </>
+                  ) : (
+                    <p className="text-xs text-amber-200/80">You've reached your 5 daily recipes limit. Come back tomorrow!</p>
+                  )}
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                    onClick={generateRecipe}
+                    disabled={generatingRecipe}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-black text-sm transition-all shadow-xl"
+                    style={generatingRecipe
+                      ? { background: '#1A3C2B', color: '#52B788' }
+                      : { background: 'linear-gradient(135deg, #1A5E38, #2D9B65)', color: 'white' }
+                    }>
+                    {generatingRecipe ? (
+                      <>
+                        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        {t('aika_cooking')}
+                      </>
+                    ) : (
+                      <><Sparkles className="w-4 h-4" /> {t('aika_generate')}</>
+                    )}
+                  </motion.button>
+                  <p className="text-[10px] text-center" style={{ color: '#52B788' }}>
+                    {dailyRecipeUsage}/{recipeLimit} recipes used today. 
+                    {clicks < TARGET_CLICKS && <Link href="/en/rewards" className="ml-1 text-amber-500 font-bold hover:underline">Want 5?</Link>}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
