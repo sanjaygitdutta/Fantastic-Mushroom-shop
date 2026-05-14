@@ -39,7 +39,7 @@ const MegaPanel = ({ items, onClose }: { items: NavItem[]; onClose: () => void }
     {items.map((item) => (
       item.soon ? (
         <div key={item.to} className="flex items-start gap-3 px-3 py-2.5 rounded-xl opacity-50 cursor-not-allowed">
-          <span className="text-xl flex-shrink-0 mt-0.5">{item.icon}</span>
+          <span className="text-xl shrink-0 mt-0.5">{item.icon}</span>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <p className="text-sm font-semibold text-forest-800">{item.label}</p>
@@ -55,7 +55,7 @@ const MegaPanel = ({ items, onClose }: { items: NavItem[]; onClose: () => void }
           onClick={onClose}
           className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-forest-50 transition-colors group"
         >
-          <span className="text-xl flex-shrink-0 mt-0.5">{item.icon}</span>
+          <span className="text-xl shrink-0 mt-0.5">{item.icon}</span>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-forest-900 group-hover:text-moss-700 transition-colors">{item.label}</p>
             <p className="text-xs text-forest-500 truncate">{item.desc}</p>
@@ -163,7 +163,7 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-16">
 
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0 flex items-center gap-2.5">
+            <Link href="/" className="shrink-0 flex items-center gap-2.5">
               <div className="w-9 h-9 flex items-center justify-center overflow-hidden shadow-md">
                 <img src="/logo.png" alt="Fantastic Food Logo" className="w-full h-full object-contain" />
               </div>
@@ -321,7 +321,7 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-start justify-center pt-24 px-4"
+            className="fixed inset-0 z-60 bg-black/60 backdrop-blur-sm flex items-start justify-center pt-24 px-4"
             onClick={() => setIsSearchOpen(false)}
           >
             <motion.div
@@ -454,4 +454,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar; // refresh

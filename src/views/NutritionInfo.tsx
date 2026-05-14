@@ -117,7 +117,7 @@ export default function NutritionInfo() {
               {/* Header card */}
               <div className="bg-white rounded-3xl border border-forest-100 shadow-sm overflow-hidden">
                 <div className="p-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                  <div className={`w-20 h-20 rounded-2xl ${scoreConf.bg} flex flex-col items-center justify-center text-white flex-shrink-0 shadow-lg`}>
+                  <div className={`w-20 h-20 rounded-2xl ${scoreConf.bg} flex flex-col items-center justify-center text-white shrink-0 shadow-lg`}>
                     <span className="text-3xl font-black">{data.healthScore}</span>
                     <span className="text-xs font-bold uppercase">{scoreConf.label}</span>
                   </div>
@@ -126,7 +126,7 @@ export default function NutritionInfo() {
                     <p className="text-forest-500 text-sm mb-2">{t('nutri_per_serving', { servingSize: data.servingSize })}</p>
                     <p className={`text-sm font-medium ${scoreConf.color}`}>{data.healthScoreReason}</p>
                   </div>
-                  <div className="bg-cream-100 rounded-2xl p-4 text-center flex-shrink-0">
+                  <div className="bg-cream-100 rounded-2xl p-4 text-center shrink-0">
                     <p className="text-3xl font-black text-forest-900">{data.calories}</p>
                     <p className="text-xs text-forest-500 font-bold uppercase tracking-wider">{t('nutri_kcal')}</p>
                   </div>
@@ -167,7 +167,7 @@ export default function NutritionInfo() {
                     <div className="space-y-2">
                       {data.warnings.map((w, i) => (
                         <p key={i} className="text-xs text-orange-700 bg-orange-50 rounded-lg px-3 py-2 flex items-start gap-1.5">
-                          <AlertTriangle className="w-3 h-3 flex-shrink-0 mt-0.5" /> {w}
+                          <AlertTriangle className="w-3 h-3 shrink-0 mt-0.5" /> {w}
                         </p>
                       ))}
                     </div>
@@ -182,7 +182,7 @@ export default function NutritionInfo() {
                   <div className="space-y-2">
                     {data.benefits.map((b, i) => (
                       <p key={i} className="text-xs text-green-800 bg-green-50 rounded-lg px-3 py-2 flex items-start gap-1.5">
-                        <CheckCircle className="w-3 h-3 flex-shrink-0 mt-0.5 text-green-500" /> {b}
+                        <CheckCircle className="w-3 h-3 shrink-0 mt-0.5 text-green-500" /> {b}
                       </p>
                     ))}
                   </div>
@@ -208,7 +208,7 @@ export default function NutritionInfo() {
 
               {/* Healthier Alternative */}
               {data.healthierAlternative && (
-                <div className="bg-gradient-to-r from-moss-700 to-forest-800 text-white rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
+                <div className="bg-linear-to-r from-moss-700 to-forest-800 text-white rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
                   <div>
                     <p className="text-moss-300 text-sm font-bold uppercase tracking-wider mb-1">{t('nutri_healthier_alt')}</p>
                     <h3 className="text-xl font-black mb-1">{data.healthierAlternative.name}</h3>

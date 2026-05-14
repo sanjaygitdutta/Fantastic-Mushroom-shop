@@ -158,7 +158,7 @@ const Profile = () => {
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8">
                 
                 {/* Sidebar */}
-                <div className="md:w-64 flex-shrink-0">
+                <div className="md:w-64 shrink-0">
                     <div className="bg-white rounded-3xl p-6 shadow-sm border border-forest-100 sticky top-28">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="relative group">
@@ -224,7 +224,7 @@ const Profile = () => {
                                 <h1 className="text-3xl font-black font-display text-forest-900 mb-6">{t('profile_welcome_back', { name: user.profile?.name?.split(' ')[0] })}</h1>
                                 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                                    <div className="bg-gradient-to-br from-amber-400 to-amber-500 rounded-3xl p-6 text-black shadow-lg">
+                                    <div className="bg-linear-to-br from-amber-400 to-amber-500 rounded-3xl p-6 text-black shadow-lg">
                                         <Sparkles className="w-6 h-6 mb-4 opacity-50" />
                                         <p className="text-sm font-bold uppercase tracking-wider mb-1 opacity-80">{t('profile_lifetime_savings')}</p>
                                         <p className="text-3xl font-black">₹{mockSavings}</p>
@@ -328,7 +328,7 @@ const Profile = () => {
                                 <h2 className="text-3xl font-black font-display text-forest-900 mb-6">{t('profile_user_settings')}</h2>
                                 <form onSubmit={handleSaveSettings} className="bg-white rounded-3xl p-8 shadow-sm border border-forest-100 max-w-2xl">
                                     <div className="flex items-center gap-3 p-4 bg-blue-50 text-blue-800 rounded-2xl mb-8">
-                                        <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                                        <AlertCircle className="w-5 h-5 shrink-0" />
                                         <p className="text-sm font-medium">{t('profile_settings_hint')}</p>
                                     </div>
                                     

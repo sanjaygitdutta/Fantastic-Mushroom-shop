@@ -43,6 +43,7 @@ const AIAssistant = () => {
   const [refCode, setRefCode] = useState<string>('');
   const [hasCheckedPro, setHasCheckedPro] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [dailyUsage, setDailyUsage] = useState(0);
   const TARGET_CLICKS = 5;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -91,7 +92,19 @@ const AIAssistant = () => {
   }, [messages, isTyping, activeTab]);
 
   useEffect(() => {
-    if (isOpen && activeTab === 'pro' && !hasCheckedPro) {
+    const today = new Date().toDateString();
+    const savedDate = localStorage.getItem('aika_usage_date');
+    if (savedDate !== today) {
+      localStorage.setItem('aika_usage_date', today);
+      localStorage.setItem('aika_usage_count', '0');
+      setDailyUsage(0);
+    } else {
+      setDailyUsage(parseInt(localStorage.getItem('aika_usage_count') || '0', 10));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isOpen && !hasCheckedPro) {
       const code = localStorage.getItem('fantastic_ref_code');
       if (code) {
         setRefCode(code);
@@ -100,9 +113,20 @@ const AIAssistant = () => {
             if (data) setClicks(data.click_count || 0);
             setHasCheckedPro(true);
           });
+      } else {
+        setHasCheckedPro(true);
       }
     }
-  }, [isOpen, activeTab, hasCheckedPro]);
+  }, [isOpen, hasCheckedPro]);
+
+  const incrementUsage = () => {
+    const newCount = dailyUsage + 1;
+    setDailyUsage(newCount);
+    localStorage.setItem('aika_usage_count', newCount.toString());
+  };
+
+  const chatLimit = clicks >= TARGET_CLICKS ? 5 : 1;
+  const hasReachedLimit = dailyUsage >= chatLimit;
 
   const copyLink = () => {
     if (typeof window !== 'undefined') {
@@ -184,7 +208,8 @@ const AIAssistant = () => {
   };
 
   const handleSendVoice = (transcript: string) => {
-    if (!transcript.trim()) return;
+    if (!transcript.trim() || hasReachedLimit) return;
+    incrementUsage();
     setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', content: transcript }]);
     setInput('');
     setIsTyping(true);
@@ -193,7 +218,8 @@ const AIAssistant = () => {
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || hasReachedLimit) return;
+    incrementUsage();
 
     const userMessage = input.trim();
     setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', content: userMessage }]);
@@ -287,7 +313,7 @@ const AIAssistant = () => {
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex items-end gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {msg.role === 'assistant' && (
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mb-0.5 text-xs" style={{ background: '#1A3C2B' }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mb-0.5 text-xs" style={{ background: '#1A3C2B' }}>
                         🍳
                       </div>
                     )}
@@ -307,7 +333,7 @@ const AIAssistant = () => {
                 
                 {isTyping && (
                   <div className="flex items-end gap-2 justify-start">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs" style={{ background: '#1A3C2B' }}>
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs" style={{ background: '#1A3C2B' }}>
                       🍳
                     </div>
                     <div className="bg-white border rounded-2xl rounded-bl-none px-4 py-3 shadow-sm flex items-center gap-1" style={{ borderColor: '#D9EDE0' }}>
@@ -324,7 +350,7 @@ const AIAssistant = () => {
               <div className="px-3 py-2 border-t flex gap-1.5 overflow-x-auto" style={{ borderColor: '#D9EDE0', background: '#FEFAE0' }}>
                 {['Mushroom recipe 🍄', 'Cheapest veggies?', 'Healthy dinner?'].map(s => (
                   <button key={s} onClick={() => setInput(s)}
-                    className="flex-shrink-0 text-[11px] bg-white border rounded-full px-2.5 py-1 transition-colors font-medium whitespace-nowrap hover:bg-forest-50"
+                    className="shrink-0 text-[11px] bg-white border rounded-full px-2.5 py-1 transition-colors font-medium whitespace-nowrap hover:bg-forest-50"
                     style={{ borderColor: '#B3DBBD', color: '#1A5E38' }}>
                     {s}
                   </button>
@@ -332,12 +358,25 @@ const AIAssistant = () => {
               </div>
 
               {/* Input */}
-              <form onSubmit={handleSend} className="p-3 bg-white border-t" style={{ borderColor: '#D9EDE0' }}>
-                <div className="flex items-center gap-2">
+              <div className="p-3 bg-white border-t" style={{ borderColor: '#D9EDE0' }}>
+                {hasReachedLimit ? (
+                  <div className="text-center p-3 rounded-xl border" style={{ background: '#FEFAE0', borderColor: '#F4A23C' }}>
+                    <p className="font-bold text-sm mb-1 text-amber-900">Daily Limit Reached! 🛑</p>
+                    {clicks < TARGET_CLICKS ? (
+                      <p className="text-xs text-amber-800">
+                        You've used your 1 free chat today. <button type="button" onClick={() => setActiveTab('pro')} className="underline font-bold text-amber-600">Invite 5 friends</button> to unlock 5 chats/day! (Get a Premium Coupon at 3 invites!)
+                      </p>
+                    ) : (
+                      <p className="text-xs text-amber-800">You've used your 5 chats for today. Come back tomorrow!</p>
+                    )}
+                  </div>
+                ) : (
+                  <form onSubmit={handleSend}>
+                    <div className="flex items-center gap-2">
                   <button 
                     type="button"
                     onClick={toggleListening}
-                    className={`p-2.5 rounded-full transition-all flex-shrink-0 border ${
+                    className={`p-2.5 rounded-full transition-all shrink-0 border ${
                       isListening 
                         ? 'bg-red-500 border-red-400 text-white animate-pulse shadow-md' 
                         : 'bg-cream-50 border-forest-200 text-forest-700 hover:bg-forest-50'
@@ -368,11 +407,16 @@ const AIAssistant = () => {
                     </button>
                   </div>
                 </div>
+                <div className="text-[10px] text-center mt-2 text-forest-400">
+                  {dailyUsage}/{chatLimit} messages used today. {clicks < TARGET_CLICKS && <span className="text-amber-500 font-bold cursor-pointer hover:underline" onClick={() => setActiveTab('pro')}>Want 5 messages?</span>}
+                </div>
               </form>
+            )}
+          </div>
                 </>
               ) : (
                 /* PRO Tab View */
-                <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-white to-amber-50/30">
+                <div className="flex-1 overflow-y-auto p-6 bg-linear-to-b from-white to-amber-50/30">
                   <div className="text-center mb-6">
                     <div className="w-12 h-12 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
                       <Crown className="w-6 h-6" />
@@ -389,7 +433,7 @@ const AIAssistant = () => {
                       <Lock className="w-8 h-8 text-gray-400 mx-auto mb-3 mt-2" />
                       <h4 className="font-bold text-gray-800 text-sm mb-1">Feature Locked</h4>
                       <p className="text-xs text-gray-500 mb-4 leading-relaxed">
-                        Invite {TARGET_CLICKS} friends to Fantastic Food to unlock unlimited PRO meal planning.
+                        Invite {TARGET_CLICKS} friends to Fantastic Food to unlock PRO meal planning. (Unlock a Premium Coupon at just 3 invites!)
                       </p>
                       <div className="text-2xl font-black text-gray-800 mb-4">{clicks} <span className="text-sm font-bold text-gray-400">/ {TARGET_CLICKS} Clicks</span></div>
                       
@@ -421,7 +465,7 @@ const AIAssistant = () => {
                           <option value="Keto">Keto</option>
                         </select>
                       </div>
-                      <button type="submit" className="w-full mt-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-forest-900 font-black py-3 rounded-xl shadow-md transition-transform active:scale-95 text-sm flex items-center justify-center gap-2">
+                      <button type="submit" className="w-full mt-2 bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-forest-900 font-black py-3 rounded-xl shadow-md transition-transform active:scale-95 text-sm flex items-center justify-center gap-2">
                         <Sparkles className="w-4 h-4" /> Generate 7-Day Plan
                       </button>
                     </form>
@@ -451,3 +495,6 @@ const AIAssistant = () => {
 };
 
 export default AIAssistant;
+// force refresh
+
+

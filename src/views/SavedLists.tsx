@@ -97,7 +97,7 @@ export default function SavedLists() {
             {alerts.map(alert => (
               <div key={alert.id} className="bg-white p-5 rounded-2xl border border-forest-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-moss-50 rounded-xl flex items-center justify-center flex-shrink-0 text-xl">
+                  <div className="w-12 h-12 bg-moss-50 rounded-xl flex items-center justify-center shrink-0 text-xl">
                     🛒
                   </div>
                   <div>

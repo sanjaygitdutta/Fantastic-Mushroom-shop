@@ -114,7 +114,7 @@ const Subscription = () => {
 
     return (
         <div className="min-h-screen pt-20 bg-white">
-            <div className="bg-gradient-to-br from-forest-50 via-mushroom-50 to-orange-50 py-24 px-4 text-center relative overflow-hidden">
+            <div className="bg-linear-to-br from-forest-50 via-mushroom-50 to-orange-50 py-24 px-4 text-center relative overflow-hidden">
                 {/* Decorative background elements */}
                 <div className="absolute top-0 left-0 w-64 h-64 bg-forest-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
                 <div className="absolute top-0 right-0 w-64 h-64 bg-mushroom-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -167,7 +167,7 @@ const Subscription = () => {
                             <ul className="space-y-3 mb-8 min-h-[280px]">
                                 {plan.features.map((feature, i) => (
                                     <li key={i} className="flex items-start text-gray-700 text-sm">
-                                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                                        <Check className="w-4 h-4 text-green-500 mr-2 shrink-0 mt-0.5" />
                                         {feature}
                                     </li>
                                 ))}

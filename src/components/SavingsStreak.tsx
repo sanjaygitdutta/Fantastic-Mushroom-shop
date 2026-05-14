@@ -84,7 +84,7 @@ export default function SavingsStreak() {
       {/* ── Floating Streak Badge ─────────────────────────────────────────────── */}
       <button
         onClick={() => setShowModal(true)}
-        className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg hover:scale-105 transition-transform"
+        className="inline-flex items-center gap-2 bg-linear-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg hover:scale-105 transition-transform"
         title="Your savings streak"
       >
         <Flame className="w-4 h-4 animate-pulse" />
@@ -125,7 +125,7 @@ export default function SavingsStreak() {
               <div className="grid grid-cols-5 gap-2 mb-6">
                 {BADGES.map(b => (
                   <div key={b.days} className={`flex flex-col items-center gap-1 ${streak.count >= b.days ? 'opacity-100' : 'opacity-25'}`}>
-                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${b.bg} flex items-center justify-center text-lg shadow`}>
+                    <div className={`w-10 h-10 rounded-full bg-linear-to-br ${b.bg} flex items-center justify-center text-lg shadow`}>
                       {b.emoji}
                     </div>
                     <span className="text-[9px] font-bold text-forest-700 text-center leading-tight">{b.days}d</span>
@@ -145,7 +145,7 @@ export default function SavingsStreak() {
 
               <button
                 onClick={shareStreak}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+                className="w-full bg-linear-to-r from-green-500 to-emerald-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
               >
                 <Share2 className="w-4 h-4" /> Share on WhatsApp
               </button>
@@ -163,7 +163,7 @@ export default function SavingsStreak() {
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50"
           >
-            <div className={`bg-gradient-to-r ${newBadge.bg} text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3`}>
+            <div className={`bg-linear-to-r ${newBadge.bg} text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3`}>
               <span className="text-3xl">{newBadge.emoji}</span>
               <div>
                 <p className="font-black text-sm">Badge Unlocked!</p>

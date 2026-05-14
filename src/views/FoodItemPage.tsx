@@ -218,7 +218,7 @@ const FoodItemPage = () => {
             {/* Notification / Price Drop Alert Box */}
             <div className="bg-forest-50 p-6 rounded-2xl border border-forest-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 max-w-3xl mx-auto mt-8">
               <div className="flex items-start gap-4">
-                <div className="bg-amber-100 p-3 rounded-full text-amber-600 flex-shrink-0">
+                <div className="bg-amber-100 p-3 rounded-full text-amber-600 shrink-0">
                   <Bell className="w-6 h-6" />
                 </div>
                 <div>

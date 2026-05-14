@@ -193,7 +193,7 @@ const RecipeDetails = () => {
                         <div className="space-y-8">
                             {displayInstructions.map((step: string, i: number) => (
                                 <div key={i} className="flex gap-4">
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-forest-900 text-white flex items-center justify-center font-bold">
+                                    <div className="shrink-0 w-8 h-8 rounded-full bg-forest-900 text-white flex items-center justify-center font-bold">
                                         {i + 1}
                                     </div>
                                     <p className="text-gray-700 leading-relaxed pt-1">{step}</p>
@@ -207,4 +207,4 @@ const RecipeDetails = () => {
     );
 };
 
-export default RecipeDetails;
+export default RecipeDetails; // refresh

@@ -42,7 +42,7 @@ const ItemCard = ({ item }: { item: FestivalItem }) => (
       <p className="font-bold text-forest-900 text-sm">{item.item}</p>
       <p className="text-xs text-forest-500">{item.purpose}</p>
     </div>
-    <div className="text-right flex-shrink-0">
+    <div className="text-right shrink-0">
       <p className="text-sm font-bold text-forest-800">{item.quantity}</p>
       <p className="text-xs text-amber-600 font-bold">~₹{item.estimatedCost}</p>
     </div>
@@ -173,7 +173,7 @@ export default function FestivalPlanner() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
               {/* Summary */}
               <div className="grid md:grid-cols-3 gap-4">
-                <div className="md:col-span-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white p-6 rounded-3xl shadow-lg">
+                <div className="md:col-span-2 bg-linear-to-r from-amber-500 to-orange-500 text-white p-6 rounded-3xl shadow-lg">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="text-4xl">{FESTIVALS.find(f => f.name === result.festival)?.emoji}</span>
                     <div>

@@ -596,7 +596,7 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
           <div className="space-y-8">
             {isLoading ? (
               [...Array(3)].map((_, i) => (
-                <div key={i} className="bg-[#12261c] rounded-[2rem] overflow-hidden border border-forest-800/80 shadow-2xl animate-pulse">
+                <div key={i} className="bg-[#12261c] rounded-4xl overflow-hidden border border-forest-800/80 shadow-2xl animate-pulse">
                   <div className="p-5 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-forest-800" />
                     <div className="space-y-2 flex-1">
@@ -646,12 +646,12 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.05 }}
-                      className="bg-[#12261c] rounded-[2rem] overflow-hidden border border-forest-800/80 shadow-2xl group"
+                      className="bg-[#12261c] rounded-4xl overflow-hidden border border-forest-800/80 shadow-2xl group"
                     >
                       {/* Author Header */}
                   <div className="p-5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 to-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                      <div className="w-10 h-10 rounded-full bg-linear-to-tr from-amber-400 to-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
                         {getInitials(post.user_name)}
                       </div>
                       <div>
@@ -856,7 +856,7 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
 
             <Link href="/mushroom-shop" className="block mt-8 rounded-2xl overflow-hidden relative group">
               <img src="https://images.unsplash.com/photo-1554998171-894458cc10dd?q=80&w=400&auto=format&fit=crop" alt="Mushrooms" className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex flex-col justify-end p-4">
+              <div className="absolute inset-0 bg-linear-to-t from-black/90 to-transparent flex flex-col justify-end p-4">
                 <span className="text-amber-400 text-[10px] font-black uppercase tracking-wider mb-1">Farm Direct</span>
                 <span className="text-white font-bold text-sm">Shop Organic Mushrooms</span>
               </div>

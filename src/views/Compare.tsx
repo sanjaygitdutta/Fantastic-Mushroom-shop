@@ -198,7 +198,7 @@ const ComparePage = () => {
       )}
 
       {/* ── Premium Hero ── */}
-      <div className="bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900 text-white pt-8 pb-10 px-4 mb-0 relative overflow-hidden">
+      <div className="bg-linear-to-br from-forest-900 via-forest-800 to-forest-900 text-white pt-8 pb-10 px-4 mb-0 relative overflow-hidden">
         {/* Background glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl" />
@@ -316,7 +316,7 @@ const ComparePage = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="mb-6 bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 rounded-2xl p-4 flex items-center justify-between gap-4 cursor-pointer shadow-lg hover:shadow-xl transition-shadow"
+              className="mb-6 bg-linear-to-r from-red-500 via-orange-500 to-amber-500 rounded-2xl p-4 flex items-center justify-between gap-4 cursor-pointer shadow-lg hover:shadow-xl transition-shadow"
               onClick={() => router.push(`/compare?q=${dailyDeal.query}`)}
             >
               <div className="flex items-center gap-3">

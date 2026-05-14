@@ -108,7 +108,7 @@ const ManageSubscriptions = () => {
     };
 
     return (
-        <div className="min-h-screen pt-24 pb-20 bg-gradient-to-br from-forest-50 to-mushroom-50">
+        <div className="min-h-screen pt-24 pb-20 bg-linear-to-br from-forest-50 to-mushroom-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="mb-8">

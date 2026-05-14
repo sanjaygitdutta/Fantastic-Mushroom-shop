@@ -78,7 +78,7 @@ const Home = () => {
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-20">
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-forest-900 via-forest-800 to-forest-700 -z-10" />
+        <div className="absolute inset-0 bg-linear-to-br from-forest-900 via-forest-800 to-forest-700 -z-10" />
         {/* Subtle pattern overlay */}
         <div className="absolute inset-0 opacity-10 -z-10"
           style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='2' fill='%23FEFAE0' fill-opacity='0.4'/%3E%3C/svg%3E\")" }}
@@ -109,7 +109,7 @@ const Home = () => {
               initial={{ backgroundPosition: '200% center' }}
               animate={{ backgroundPosition: '-200% center' }}
               transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
-              className="bg-clip-text text-transparent bg-gradient-to-r from-white via-cream-200 to-white bg-[length:200%_auto]"
+              className="bg-clip-text text-transparent bg-linear-to-r from-white via-cream-200 to-white bg-[length:200%_auto]"
             >
               {t('home_compare_food_prices')}
             </motion.span>
@@ -168,7 +168,7 @@ const Home = () => {
                 className="mb-8 max-w-2xl mx-auto relative z-10"
               >
                 <Link href={`/recipe/${todayRecipe.id}`} className="block group">
-                  <div className="bg-gradient-to-r from-amber-500/90 to-amber-400/90 hover:from-amber-400 hover:to-amber-500 backdrop-blur-md border border-amber-300 rounded-3xl p-5 shadow-[0_0_20px_rgba(251,191,36,0.3)] transition-all transform hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(251,191,36,0.5)] flex items-center justify-between gap-6">
+                  <div className="bg-linear-to-r from-amber-500/90 to-amber-400/90 hover:from-amber-400 hover:to-amber-500 backdrop-blur-md border border-amber-300 rounded-3xl p-5 shadow-[0_0_20px_rgba(251,191,36,0.3)] transition-all transform hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(251,191,36,0.5)] flex items-center justify-between gap-6">
                     <div className="text-left flex-1 min-w-0">
                       <p className="text-forest-900 font-black text-xs uppercase tracking-wider mb-1">
                         {t('home_aika_recipe_day')}
@@ -177,7 +177,7 @@ const Home = () => {
                         {todayRecipe.title}
                       </h3>
                     </div>
-                    <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center flex-shrink-0 border border-white/50 text-forest-900 shadow-sm transition-transform group-hover:rotate-12 group-hover:bg-white/40">
+                    <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center shrink-0 border border-white/50 text-forest-900 shadow-sm transition-transform group-hover:rotate-12 group-hover:bg-white/40">
                       <ArrowRight className="w-6 h-6 ml-0.5" />
                     </div>
                   </div>
@@ -277,7 +277,7 @@ const Home = () => {
                 <motion.div 
                   whileHover={{ rotate: 360, scale: 1.1 }}
                   transition={{ duration: 0.6, type: "spring" }}
-                  className="w-20 h-20 rounded-3xl bg-gradient-to-br from-forest-50 to-moss-100 border border-forest-200 text-4xl flex items-center justify-center mx-auto mb-5 shadow-sm"
+                  className="w-20 h-20 rounded-3xl bg-linear-to-br from-forest-50 to-moss-100 border border-forest-200 text-4xl flex items-center justify-center mx-auto mb-5 shadow-sm"
                 >
                   {step.icon}
                 </motion.div>
@@ -409,7 +409,7 @@ const Home = () => {
           .find(r => r.id.match(/^\d{4}-\d{2}-\d{2}$/)) ?? recipes[recipes.length - 1];
         if (!aiRecipe) return null;
         return (
-          <section className="py-16 px-4 bg-gradient-to-br from-forest-950 to-forest-900">
+          <section className="py-16 px-4 bg-linear-to-br from-forest-950 to-forest-900">
             <div className="max-w-5xl mx-auto">
               <div className="flex flex-col md:flex-row items-center gap-10">
                 {/* Left: Recipe Info */}
@@ -478,7 +478,7 @@ const Home = () => {
                       priority
                       className="object-cover"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-5">
+                    <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/70 to-transparent p-5">
                       <div className="flex flex-wrap gap-2">
                         {aiRecipe.tags.map(tag => (
                           <span key={tag} className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
@@ -499,7 +499,7 @@ const Home = () => {
       })()}
 
       {/* ── Mushroom Shop Spotlight ── */}
-      <section className="py-16 px-4 bg-gradient-to-br from-earth-700 to-earth-900">
+      <section className="py-16 px-4 bg-linear-to-br from-earth-700 to-earth-900">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-white">
             <div className="inline-flex items-center gap-2 bg-earth-600 text-earth-200 text-sm font-medium px-4 py-1.5 rounded-full mb-5">

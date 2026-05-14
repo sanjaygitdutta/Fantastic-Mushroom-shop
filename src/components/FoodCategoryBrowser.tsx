@@ -72,7 +72,7 @@ const FoodCategoryBrowser = ({ compact = false }: FoodCategoryBrowserProps) => {
             onClick={() => handleCategory(cat.query, cat.special)}
             className={`flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all duration-200 cursor-pointer ${
               cat.special
-                ? 'bg-gradient-to-br from-earth-100 to-earth-200 border-earth-300 hover:border-earth-500 hover:shadow-md'
+                ? 'bg-linear-to-br from-earth-100 to-earth-200 border-earth-300 hover:border-earth-500 hover:shadow-md'
                 : 'bg-white border-forest-100 hover:border-forest-300 hover:shadow-sm hover:bg-forest-50'
             }`}
           >

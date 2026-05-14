@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { SEASONAL_PRODUCE, MONTH_NAMES, getCurrentSeasonalItems, getItemsByMonth } from '../data/seasonalProduce';
 
-export default function SeasonalGuide() {
+export default function SeasonalGuide() { // refresh
   const { t } = useTranslation();
   const currentMonth = new Date().getMonth() + 1;
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
@@ -40,7 +40,7 @@ export default function SeasonalGuide() {
         </div>
 
         {/* Current month highlight */}
-        <div className="bg-gradient-to-r from-moss-700 to-forest-800 rounded-3xl p-6 mb-8 text-white">
+        <div className="bg-linear-to-r from-moss-700 to-forest-800 rounded-3xl p-6 mb-8 text-white">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <p className="text-moss-300 text-sm font-bold uppercase tracking-wider mb-1">{t('seas_best_to_buy', { defaultValue: 'Best to buy in' })} {MONTH_NAMES[currentMonth - 1]}</p>
@@ -69,7 +69,7 @@ export default function SeasonalGuide() {
               <button
                 key={month}
                 onClick={() => setSelectedMonth(monthNum)}
-                className={`flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                className={`shrink-0 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
                   selectedMonth === monthNum
                     ? 'bg-forest-800 text-white shadow-lg'
                     : 'bg-white border border-forest-100 text-forest-700 hover:border-forest-400'

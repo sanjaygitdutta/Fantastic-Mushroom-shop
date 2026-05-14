@@ -151,7 +151,7 @@ export default function CityPage() {
         structuredData={[citySchema, faqSchema]}
       />
 
-      <div className="min-h-screen bg-gradient-to-b from-forest-900 via-forest-800 to-cream-50 pt-24 pb-20">
+      <div className="min-h-screen bg-linear-to-b from-forest-900 via-forest-800 to-cream-50 pt-24 pb-20">
 
         {/* Hero */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-14">
@@ -239,7 +239,7 @@ export default function CityPage() {
                   <Link
                     key={label}
                     href={`/compare?q=tomato&city=${city.slug}`}
-                    className="flex items-center justify-between bg-gradient-to-r from-forest-50 to-cream-50 border border-forest-100 rounded-2xl p-4 hover:shadow-md transition-all group"
+                    className="flex items-center justify-between bg-linear-to-r from-forest-50 to-cream-50 border border-forest-100 rounded-2xl p-4 hover:shadow-md transition-all group"
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{PLATFORM_LOGOS[a]}</span>
@@ -256,7 +256,7 @@ export default function CityPage() {
 
           {/* All cities grid */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-            className="bg-gradient-to-br from-forest-800 to-forest-900 rounded-3xl p-6 md:p-8">
+            className="bg-linear-to-br from-forest-800 to-forest-900 rounded-3xl p-6 md:p-8">
             <h2 className="text-xl font-black text-white mb-5 flex items-center gap-2">
               <MapPin className="w-5 h-5 text-amber-400" />
               {t('city_check_another')}

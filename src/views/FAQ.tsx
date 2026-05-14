@@ -69,7 +69,7 @@ const FAQ = () => {
                                     className="w-full flex items-center justify-between p-6 text-left hover:bg-forest-50 transition-colors"
                                 >
                                     <span className="text-lg font-bold text-forest-900 pr-8">{faq.question}</span>
-                                    <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${activeIndex === index ? 'bg-amber-500 text-white rotate-180' : 'bg-forest-100 text-forest-500'}`}>
+                                    <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${activeIndex === index ? 'bg-amber-500 text-white rotate-180' : 'bg-forest-100 text-forest-500'}`}>
                                         {activeIndex === index ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
                                     </div>
                                 </button>
@@ -94,7 +94,7 @@ const FAQ = () => {
 
                     {/* Support Contact */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-forest-900 rounded-[2rem] p-8 text-white flex flex-col items-center text-center group">
+                        <div className="bg-forest-900 rounded-4xl p-8 text-white flex flex-col items-center text-center group">
                             <div className="w-14 h-14 bg-forest-800 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 transition-colors">
                                 <MessageCircle className="w-6 h-6" />
                             </div>
@@ -103,7 +103,7 @@ const FAQ = () => {
                             <span className="text-amber-500 font-bold">Responds in ~2 hours</span>
                         </div>
 
-                        <div className="bg-white rounded-[2rem] p-8 text-forest-900 flex flex-col items-center text-center border border-forest-100 group shadow-sm">
+                        <div className="bg-white rounded-4xl p-8 text-forest-900 flex flex-col items-center text-center border border-forest-100 group shadow-sm">
                             <div className="w-14 h-14 bg-cream-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
                                 <Mail className="w-6 h-6" />
                             </div>
@@ -119,4 +119,4 @@ const FAQ = () => {
     );
 };
 
-export default FAQ;
+export default FAQ; // refresh

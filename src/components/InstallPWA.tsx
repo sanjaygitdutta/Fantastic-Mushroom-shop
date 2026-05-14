@@ -54,7 +54,7 @@ export default function InstallPWA() {
 
   return (
     <div className="mt-8 pt-8 border-t border-forest-800/50 flex flex-col items-center">
-      <div className="bg-gradient-to-r from-forest-800 to-moss-900 p-6 rounded-2xl border border-forest-700 w-full max-w-md text-center shadow-lg">
+      <div className="bg-linear-to-r from-forest-800 to-moss-900 p-6 rounded-2xl border border-forest-700 w-full max-w-md text-center shadow-lg">
         <h4 className="text-white font-bold mb-2 font-display">Get the Fantastic Food App</h4>
         <p className="text-forest-300 text-sm mb-4">Install our app for a faster native experience on your phone.</p>
         

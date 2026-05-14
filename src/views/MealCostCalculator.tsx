@@ -129,7 +129,7 @@ const MealCostCalculator = () => {
   const adjustedTotal = (base: number) => Math.round(base * (servings / (selectedRecipe?.servings || 1)));
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-forest-900 to-cream-50 pt-24 pb-16">
+    <div className="min-h-screen bg-linear-to-b from-forest-900 to-cream-50 pt-24 pb-16">
       <SEO
         title="Meal Cost Calculator — 250+ World Recipes Cost Comparison | Fantastic Food"
         description="Find the exact cost of cooking 250+ recipes from 25 countries at home. Compare ingredient prices across Blinkit, Zepto, BigBasket and more. Adjust for servings!"
@@ -161,7 +161,7 @@ const MealCostCalculator = () => {
               onClick={e => e.stopPropagation()}
             >
               {/* Sticky Header */}
-              <div className="sticky top-0 z-10 px-6 py-5 bg-gradient-to-r from-forest-900 to-forest-800 text-white rounded-t-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="sticky top-0 z-10 px-6 py-5 bg-linear-to-r from-forest-900 to-forest-800 text-white rounded-t-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                   <span className="text-4xl">{selectedRecipe.emoji}</span>
                   <div>
@@ -212,7 +212,7 @@ const MealCostCalculator = () => {
 
                   {/* Savings Banner */}
                   {recipeSavings > 0 && (
-                    <div className="px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-b border-amber-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <div className="px-6 py-4 bg-linear-to-r from-amber-50 to-yellow-50 border-b border-amber-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-amber-500" />
                         <p className="text-amber-800 font-semibold text-sm">
@@ -235,7 +235,7 @@ const MealCostCalculator = () => {
                       const barWidth = Math.round((cost.total / maxCost) * 100);
                       return (
                         <motion.div key={cost.platformId} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: rank * 0.05 }}
-                          className={`py-4 ${isBest ? 'bg-gradient-to-r from-green-50 to-transparent -mx-6 px-6' : ''}`}
+                          className={`py-4 ${isBest ? 'bg-linear-to-r from-green-50 to-transparent -mx-6 px-6' : ''}`}
                         >
                           <div className="flex items-center gap-3 mb-2">
                             <span className="text-lg w-6 text-center">{isBest ? '🏆' : `${rank + 1}`}</span>

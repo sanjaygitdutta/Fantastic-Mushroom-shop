@@ -46,7 +46,7 @@ const DealOfTheDay = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="py-14 bg-gradient-to-b from-forest-900 to-forest-800">
+    <section className="py-14 bg-linear-to-b from-forest-900 to-forest-800">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

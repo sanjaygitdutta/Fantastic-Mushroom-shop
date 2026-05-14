@@ -15,7 +15,7 @@ const MushroomShop = () => {
         canonicalUrl="https://www.fantasticfood.in/mushroom-shop"
       />
       {/* Hero banner */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-earth-800 via-earth-700 to-forest-800 py-20 px-4">
+      <section className="relative overflow-hidden bg-linear-to-br from-earth-800 via-earth-700 to-forest-800 py-20 px-4">
         {/* Blobs */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-moss-500/20 rounded-full blur-3xl -z-0" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl -z-0" />
@@ -52,7 +52,7 @@ const MushroomShop = () => {
           <motion.div
             animate={{ y: [0, -14, 0] }}
             transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
-            className="text-[130px] md:text-[160px] leading-none select-none flex-shrink-0"
+            className="text-[130px] md:text-[160px] leading-none select-none shrink-0"
           >
             🍄
           </motion.div>

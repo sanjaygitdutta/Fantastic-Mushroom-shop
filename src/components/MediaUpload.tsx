@@ -84,7 +84,7 @@ const MediaUpload = ({ productId, onUploadComplete }: MediaUploadProps) => {
                     htmlFor={`file-upload-${productId}`}
                     className="cursor-pointer flex flex-col items-center"
                 >
-                    <div className="w-16 h-16 bg-gradient-to-br from-mushroom-100 to-forest-100 rounded-full flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-linear-to-br from-mushroom-100 to-forest-100 rounded-full flex items-center justify-center mb-4">
                         <Upload className="w-8 h-8 text-mushroom-600" />
                     </div>
 
@@ -147,7 +147,7 @@ const MediaUpload = ({ productId, onUploadComplete }: MediaUploadProps) => {
             {/* Tips */}
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                 <p className="text-xs text-gray-600 flex items-start gap-2">
-                    <ImageIcon className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <ImageIcon className="w-4 h-4 mt-0.5 shrink-0" />
                     <span>
                         <strong>Tip:</strong> Upload high-quality images (min 800x800px) and short videos (&lt;30s) for best results.
                     </span>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Share2, MessageCircle, Lock, Unlock, Copy, CheckCircle2, TrendingUp, Star } from 'lucide-react';
+import { Gift, Clock, MessageCircle, Lock, Unlock, Copy, CheckCircle2, TrendingUp, Star } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supabase } from '../../../lib/supabase';
 
@@ -14,7 +14,7 @@ const DAILY_PREMIUM_COUPON = {
   expires: 'Tonight at 11:59 PM'
 };
 
-export default function RewardsPage() {
+export default function RewardsPage() { // refresh
   const [refCode, setRefCode] = useState<string | null>(null);
   const [clicks, setClicks] = useState<number>(0);
   const [loading, setLoading] = useState(true);
@@ -105,7 +105,7 @@ export default function RewardsPage() {
         
         {/* Header */}
         <div className="text-center mb-10">
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 text-white mb-4 shadow-xl shadow-amber-500/20">
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-linear-to-br from-amber-400 to-amber-500 text-white mb-4 shadow-xl shadow-amber-500/20">
             <Gift className="w-8 h-8" />
           </motion.div>
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">Unlock Daily Premium Coupons</h1>
@@ -134,7 +134,7 @@ export default function RewardsPage() {
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercent}%` }}
                   transition={{ duration: 1, ease: "easeOut" }}
-                  className={`h-full ${isUnlocked ? 'bg-gradient-to-r from-green-400 to-green-500' : 'bg-gradient-to-r from-amber-400 to-amber-500'} relative`}
+                  className={`h-full ${isUnlocked ? 'bg-linear-to-r from-green-400 to-green-500' : 'bg-linear-to-r from-amber-400 to-amber-500'} relative`}
                 >
                   <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
                 </motion.div>
@@ -157,7 +157,7 @@ export default function RewardsPage() {
                   <p className="text-gray-500 mb-6 font-medium">Share your link below. Once 3 people click it, today's {DAILY_PREMIUM_COUPON.platform} coupon will automatically appear right here.</p>
                 </motion.div>
               ) : (
-                <motion.div key="unlocked" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-200 p-6 text-center relative overflow-hidden">
+                <motion.div key="unlocked" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-linear-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-200 p-6 text-center relative overflow-hidden">
                   <div className="absolute -top-10 -right-10 text-green-500/10"><Star className="w-40 h-40" /></div>
                   <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/30 relative z-10">
                     <Unlock className="w-7 h-7 text-white" />
@@ -166,10 +166,20 @@ export default function RewardsPage() {
                   <h3 className="text-3xl font-black text-gray-900 mb-2 relative z-10">{DAILY_PREMIUM_COUPON.platform}</h3>
                   <p className="text-green-700 font-bold mb-6 text-lg relative z-10">{DAILY_PREMIUM_COUPON.discount}</p>
                   
-                  <div className="bg-white border-2 border-dashed border-green-300 rounded-xl p-4 flex flex-col items-center relative z-10">
-                    <span className="text-3xl font-black tracking-widest text-gray-800 font-mono mb-2">{DAILY_PREMIUM_COUPON.code}</span>
-                    <span className="text-xs text-gray-500 flex items-center gap-1"><Clock className="w-3 h-3" /> Expires: {DAILY_PREMIUM_COUPON.expires}</span>
-                  </div>
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(DAILY_PREMIUM_COUPON.code);
+                      confetti({ particleCount: 80, spread: 60, origin: { y: 0.8 }, colors: ['#22c55e', '#16a34a'] });
+                      alert('Coupon copied to clipboard!');
+                    }}
+                    className="w-full bg-white border-2 border-dashed border-green-400 hover:border-green-500 rounded-xl p-4 flex flex-col items-center relative z-10 hover:bg-green-50 transition-all active:scale-95 group shadow-sm hover:shadow-md cursor-pointer"
+                  >
+                    <span className="text-3xl sm:text-4xl font-black tracking-widest text-gray-800 font-mono mb-1 group-hover:text-green-700 transition-colors">{DAILY_PREMIUM_COUPON.code}</span>
+                    <div className="flex items-center gap-1 text-sm font-bold text-green-600 mb-2 bg-green-100 px-3 py-1 rounded-full">
+                      <Copy className="w-4 h-4" /> Tap to Copy
+                    </div>
+                    <span className="text-[10px] text-gray-500 flex items-center gap-1 mt-1"><Clock className="w-3 h-3" /> Expires: {DAILY_PREMIUM_COUPON.expires}</span>
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>

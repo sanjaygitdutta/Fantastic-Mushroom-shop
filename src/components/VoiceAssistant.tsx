@@ -193,7 +193,7 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({ onClose }) => {
                     animate={{ scale: 1, y: 0 }}
                     exit={{ scale: 0.9, y: 20 }}
                     onClick={(e) => e.stopPropagation()}
-                    className="bg-gradient-to-br from-forest-50 to-mushroom-50 rounded-3xl shadow-2xl max-w-2xl w-full p-8 relative border-2 border-forest-200"
+                    className="bg-linear-to-br from-forest-50 to-mushroom-50 rounded-3xl shadow-2xl max-w-2xl w-full p-8 relative border-2 border-forest-200"
                 >
                     {/* Close button */}
                     <button
@@ -205,7 +205,7 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({ onClose }) => {
 
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                        <div className="w-20 h-20 mx-auto mb-4 bg-linear-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg animate-pulse">
                             <Package className="w-10 h-10 text-white" />
                         </div>
                         <h2 className="text-3xl font-bold text-forest-900 mb-2">

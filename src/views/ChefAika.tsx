@@ -522,7 +522,7 @@ export default function ChefAikaPage() {
               <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar">
                 {['Too salty 🧂', 'Too spicy 🌶️', 'Missing an ingredient?'].map(fix => (
                   <button key={fix} onClick={() => { addMessage('user', fix); sendToAi(fix); }}
-                    className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all"
+                    className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all"
                     style={{ background: '#1A3C2B', color: '#F4A23C', border: '1px solid #2D6A4F' }}>
                     {fix}
                   </button>
@@ -635,7 +635,7 @@ export default function ChefAikaPage() {
                       <ul className="space-y-1.5">
                         {recipe.ingredients_used.map((ing, i) => (
                           <li key={i} className="flex items-center gap-2 text-sm" style={{ color: '#B3DBBD' }}>
-                            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#52B788' }} />
+                            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: '#52B788' }} />
                             {ing}
                           </li>
                         ))}
@@ -649,7 +649,7 @@ export default function ChefAikaPage() {
                         <ul className="space-y-1.5">
                           {recipe.missing_ingredients.map((ing, i) => (
                             <li key={i} className="flex items-center gap-2 text-sm text-red-300">
-                              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-red-500" />
+                              <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-red-500" />
                               {ing}
                             </li>
                           ))}
@@ -693,7 +693,7 @@ export default function ChefAikaPage() {
                               ? { background: '#1A5E38', border: '1px solid #52B788' }
                               : { background: '#1A3C2B', border: '1px solid #2D6A4F' }
                             }>
-                            <span className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 mt-0.5"
+                            <span className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0 mt-0.5"
                               style={{ background: '#F4A23C', color: '#0F2419' }}>{i + 1}</span>
                             <span className="text-sm leading-relaxed" style={{ color: activeStep === i ? 'white' : '#B3DBBD' }}>{step}</span>
                           </motion.li>

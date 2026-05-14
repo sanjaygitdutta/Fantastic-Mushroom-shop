@@ -113,7 +113,7 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
   );
 };
 
-export default function Coupons() {
+export default function Coupons() { // refresh
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPlatform, setSelectedPlatform] = useState('All');
@@ -160,7 +160,7 @@ export default function Coupons() {
         }}
       />
 
-      <div className="min-h-screen bg-gradient-to-b from-forest-900 via-forest-800 to-cream-50 pt-24 pb-16">
+      <div className="min-h-screen bg-linear-to-b from-forest-900 via-forest-800 to-cream-50 pt-24 pb-16">
 
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">

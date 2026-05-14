@@ -146,7 +146,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
       <form onSubmit={handleSearch}>
         <div className={`search-bar flex items-center ${isHero ? 'p-2' : 'p-1.5'} gap-2`}>
           {/* Search icon */}
-          <div className={`flex-shrink-0 ${isHero ? 'pl-3' : 'pl-2'}`}>
+          <div className={`shrink-0 ${isHero ? 'pl-3' : 'pl-2'}`}>
             {isLoading ? (
               <Loader2 className={`${isHero ? 'w-6 h-6' : 'w-5 h-5'} text-forest-500 animate-spin`} />
             ) : (
@@ -200,7 +200,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
             <button
               type="button"
               onClick={toggleListening}
-              className={`p-2 rounded-full transition-all flex-shrink-0 relative ${
+              className={`p-2 rounded-full transition-all shrink-0 relative ${
                 isListening 
                   ? 'bg-amber-100 text-amber-600 hover:bg-amber-200' 
                   : 'text-forest-500 hover:bg-forest-100'
@@ -217,7 +217,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
           {/* Search button */}
           <button
             type="submit"
-            className={`btn-forest flex-shrink-0 flex items-center gap-2 ${isHero ? 'px-6 py-3 text-base' : 'px-4 py-2 text-sm'}`}
+            className={`btn-forest shrink-0 flex items-center gap-2 ${isHero ? 'px-6 py-3 text-base' : 'px-4 py-2 text-sm'}`}
           >
             {isHero ? t('compare_prices_btn') : t('search_btn')}
           </button>
@@ -233,7 +233,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
               className="overflow-hidden"
             >
               <div className="mt-2 flex items-center gap-3 bg-white border border-forest-200 rounded-xl px-4 py-3">
-                <MapPin className="w-4 h-4 text-forest-500 flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-forest-500 shrink-0" />
                 <input
                   type="text"
                   placeholder={t('enter_pincode')}
@@ -286,4 +286,4 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
   );
 };
 
-export default PriceSearchBar;
+export default PriceSearchBar; // refresh

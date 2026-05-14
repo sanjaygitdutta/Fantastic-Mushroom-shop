@@ -17,7 +17,7 @@ const About = () => {
             <div className="min-h-screen pt-24 pb-20 bg-cream-50">
                 {/* Hero Section */}
                 <section className="relative overflow-hidden py-24">
-                    <div className="absolute inset-0 bg-gradient-to-br from-forest-900 to-forest-800 opacity-95"></div>
+                    <div className="absolute inset-0 bg-linear-to-br from-forest-900 to-forest-800 opacity-95"></div>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -29,7 +29,7 @@ const About = () => {
                             </span>
                             <h1 className="text-5xl md:text-7xl font-black text-white mb-8 font-display tracking-tight leading-none">
                                 From Rural Roots to <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+                                <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-orange-500">
                                     AI-Powered Savings
                                 </span>
                             </h1>
@@ -148,7 +148,7 @@ const About = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-[3rem] p-12 md:p-20 text-center text-forest-900 shadow-2xl relative overflow-hidden"
+                            className="bg-linear-to-r from-amber-500 to-orange-500 rounded-[3rem] p-12 md:p-20 text-center text-forest-900 shadow-2xl relative overflow-hidden"
                         >
                             <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
                             <h2 className="text-4xl md:text-6xl font-black font-display mb-8 tracking-tighter relative z-10">

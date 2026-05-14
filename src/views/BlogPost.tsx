@@ -111,7 +111,7 @@ const BlogPost = () => {
             </ReactMarkdown>
             
             {/* Action Card Funnel */}
-            <div className="mt-12 bg-gradient-to-br from-forest-900 to-forest-800 rounded-2xl p-8 text-center text-white">
+            <div className="mt-12 bg-linear-to-br from-forest-900 to-forest-800 rounded-2xl p-8 text-center text-white">
               <h3 className="text-2xl font-black font-display mb-3">{t('blog_stop_overpaying', { defaultValue: 'Stop overpaying for groceries.' })}</h3>
               <p className="text-forest-200 mb-6">{t('blog_compare_desc', { defaultValue: 'Instantly compare live prices across Blinkit, Zepto, and Swiggy Instamart before you buy.' })}</p>
               <Link href="/compare" className="inline-block bg-amber-500 hover:bg-amber-400 text-forest-900 font-bold px-8 py-4 rounded-xl transition-transform hover:-translate-y-1">
@@ -126,4 +126,4 @@ const BlogPost = () => {
   );
 };
 
-export default BlogPost;
+export default BlogPost; // refresh

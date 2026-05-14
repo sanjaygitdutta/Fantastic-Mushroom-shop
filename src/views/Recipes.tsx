@@ -29,7 +29,7 @@ const COUNTRY_EMOJIS: Record<string, string> = {
   'Aika Recipes': '👩‍🍳',
 };
 
-export default function Recipes() {
+export default function Recipes() { // refresh
   const [search, setSearch] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -90,7 +90,7 @@ export default function Recipes() {
         keywords="world recipes, international cuisine, Indian recipes, Italian recipes, Japanese recipes, Chinese recipes, Mexican recipes, how to cook, recipe ingredients comparison"
       />
 
-      <div className="min-h-screen bg-gradient-to-b from-forest-900 to-gray-50 pt-24 pb-16">
+      <div className="min-h-screen bg-linear-to-b from-forest-900 to-gray-50 pt-24 pb-16">
 
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 text-center mb-10">
@@ -123,6 +123,29 @@ export default function Recipes() {
           </motion.div>
         </div>
 
+        {/* Aika Chef Banner */}
+        <div className="max-w-7xl mx-auto px-4 mb-8">
+          <Link href="/chef-aika" className="block bg-linear-to-r from-forest-800 to-amber-700 rounded-3xl p-6 sm:p-8 shadow-xl border border-amber-500/30 group hover:shadow-2xl hover:scale-[1.01] transition-all relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 opacity-10 text-9xl transform translate-x-4 -translate-y-12">👩‍🍳</div>
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-black text-white mb-2 flex items-center gap-2">
+                  <span className="bg-amber-500 text-forest-900 px-3 py-1 rounded-full text-sm uppercase tracking-widest font-bold">New</span>
+                  Have ingredients but no recipe?
+                </h2>
+                <p className="text-amber-100 text-lg max-w-xl">
+                  Tell Chef Aika what you have in your fridge, and she will instantly generate a custom, step-by-step recipe for you!
+                </p>
+              </div>
+              <div className="shrink-0">
+                <span className="inline-flex items-center gap-2 bg-white text-forest-900 font-bold px-6 py-3 rounded-xl group-hover:bg-amber-400 transition-colors">
+                  Cook with AI <span className="text-xl">👩‍🍳</span>
+                </span>
+              </div>
+            </div>
+          </Link>
+        </div>
+
         {/* Filters */}
         <div className="max-w-7xl mx-auto px-4 mb-8">
           <div className="bg-white rounded-2xl shadow-md p-5 space-y-4">
@@ -151,7 +174,7 @@ export default function Recipes() {
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {allCountries.map(c => (
                   <button key={c} onClick={() => setSelectedCountry(c)}
-                    className={`flex-shrink-0 text-sm font-semibold px-3 py-1.5 rounded-full border transition-all ${selectedCountry === c ? 'bg-forest-700 text-white border-forest-700' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-forest-300'}`}
+                    className={`shrink-0 text-sm font-semibold px-3 py-1.5 rounded-full border transition-all ${selectedCountry === c ? 'bg-forest-700 text-white border-forest-700' : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-forest-300'}`}
                   >
                     {COUNTRY_EMOJIS[c] || ''} {c}
                   </button>

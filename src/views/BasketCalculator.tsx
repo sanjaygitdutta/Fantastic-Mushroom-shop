@@ -273,7 +273,7 @@ const BasketCalculator = () => {
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={handleFriendSlash}
-          className="w-48 h-48 rounded-full bg-gradient-to-tr from-amber-400 to-amber-600 text-forest-900 font-black text-4xl shadow-2xl flex flex-col items-center justify-center gap-2 border-4 border-amber-300"
+          className="w-48 h-48 rounded-full bg-linear-to-tr from-amber-400 to-amber-600 text-forest-900 font-black text-4xl shadow-2xl flex flex-col items-center justify-center gap-2 border-4 border-amber-300"
         >
           <span>⚔️</span>
           <span>SLASH IT</span>
@@ -501,7 +501,7 @@ const BasketCalculator = () => {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="relative overflow-hidden bg-gradient-to-r from-amber-400 to-amber-500 rounded-2xl p-5"
+                    className="relative overflow-hidden bg-linear-to-r from-amber-400 to-amber-500 rounded-2xl p-5"
                   >
                     {/* Background pattern */}
                     <div className="absolute inset-0 opacity-10" style={{
@@ -552,13 +552,13 @@ const BasketCalculator = () => {
                         >
                           <div className="flex items-center gap-3 mb-2">
                             {/* Rank / Medal */}
-                            <span className="text-xl w-7 flex-shrink-0">
+                            <span className="text-xl w-7 shrink-0">
                               {rank < 3 ? RANK_MEDALS[rank] : <span className="text-green-500 font-bold text-sm">#{rank + 1}</span>}
                             </span>
 
                             {/* Platform dot */}
                             <div
-                              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                              className="w-2.5 h-2.5 rounded-full shrink-0"
                               style={{ background: PLATFORM_COLORS[pt.platformId] || '#ccc' }}
                             />
 
@@ -587,7 +587,7 @@ const BasketCalculator = () => {
                             </div>
 
                             {/* Total + extra */}
-                            <div className="text-right flex-shrink-0">
+                            <div className="text-right shrink-0">
                               <div className={`text-xl font-black ${isBest ? 'text-amber-400' : 'text-white'}`}>
                                 ₹{pt.total}
                               </div>
@@ -646,7 +646,7 @@ const BasketCalculator = () => {
                       )}
                     </button>
                   ) : (
-                    <div className="bg-gradient-to-r from-forest-800 to-forest-900 border border-moss-500/50 rounded-2xl p-6">
+                    <div className="bg-linear-to-r from-forest-800 to-forest-900 border border-moss-500/50 rounded-2xl p-6">
                       <div className="flex items-center gap-2 mb-4 text-green-400 font-bold">
                         <Bot className="w-5 h-5" /> {t('basket_ai_title')}
                       </div>
@@ -654,7 +654,7 @@ const BasketCalculator = () => {
                       <div className="space-y-3 mb-4">
                         {aiAdvice.platformSplit?.map((split: any, i: number) => (
                           <div key={i} className="bg-white/10 rounded-xl p-3 flex items-start gap-3">
-                            <div className="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0" />
+                            <div className="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0" />
                             <div>
                               <p className="font-bold text-amber-300 text-sm">{split.platform}: <span className="text-white font-medium">{split.itemsToBuy}</span></p>
                               <p className="text-xs text-forest-300 mt-0.5">{split.reason}</p>
@@ -695,7 +695,7 @@ const BasketCalculator = () => {
 
               {/* TEAM SLASH HOST UI */}
               {basket.length > 0 && (
-                <div className="mt-6 bg-gradient-to-br from-amber-400/10 to-amber-600/10 border-2 border-dashed border-amber-500/50 rounded-3xl p-6 relative overflow-hidden">
+                <div className="mt-6 bg-linear-to-br from-amber-400/10 to-amber-600/10 border-2 border-dashed border-amber-500/50 rounded-3xl p-6 relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-4 text-6xl opacity-20 transform rotate-12">⚔️</div>
                   <h3 className="text-xl font-black text-amber-400 mb-2 flex items-center gap-2">
                     <Gift className="w-5 h-5"/> {t('basket_team_slash')}

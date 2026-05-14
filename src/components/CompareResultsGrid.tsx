@@ -181,7 +181,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-gradient-to-r from-amber-400 to-orange-400 rounded-2xl px-5 py-4 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg"
+          className="bg-linear-to-r from-amber-400 to-orange-400 rounded-2xl px-5 py-4 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg"
         >
           <div className="flex items-center gap-3">
             <span className="text-3xl">💡</span>
@@ -204,7 +204,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-forest-800 to-forest-700 text-white rounded-2xl p-5 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        className="bg-linear-to-r from-forest-800 to-forest-700 text-white rounded-2xl p-5 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
       >
         <div className="flex items-center gap-3">
           <span className="text-4xl">{result.icon}</span>
@@ -287,7 +287,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         )}
         {unitDealNote && (
           <div className="flex items-center gap-2 text-sm px-4 py-2.5 rounded-xl border border-purple-200 bg-purple-50 text-purple-700 shadow-sm">
-            <Scale className="w-4 h-4 flex-shrink-0" />
+            <Scale className="w-4 h-4 shrink-0" />
             <span>{unitDealNote}</span>
           </div>
         )}
@@ -416,7 +416,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-8 bg-gradient-to-r from-earth-600 to-earth-700 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+          className="mt-8 bg-linear-to-r from-earth-600 to-earth-700 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
         >
           <div className="flex items-center gap-4">
             <span className="text-5xl">🍄</span>
@@ -497,3 +497,4 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
 };
 
 export default CompareResultsGrid;
+// force refresh

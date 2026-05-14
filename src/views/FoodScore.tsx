@@ -111,7 +111,7 @@ export default function FoodScore() {
               </div>
             </div>
             <span className="text-3xl mb-1">{grade.emoji}</span>
-            <h2 className={`text-xl font-black bg-gradient-to-r ${grade.color} bg-clip-text text-transparent`}>{t(grade.labelKey)}</h2>
+            <h2 className={`text-xl font-black bg-linear-to-r ${grade.color} bg-clip-text text-transparent`}>{t(grade.labelKey)}</h2>
             <p className="text-xs text-forest-500 mt-1">{t('foodscore_grade_label')} {grade.grade}</p>
             <button onClick={shareScore} className="mt-4 w-full py-2.5 rounded-xl bg-green-500 text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-green-600 transition-colors">
               <Share2 className="w-4 h-4" /> {t('foodscore_share')}

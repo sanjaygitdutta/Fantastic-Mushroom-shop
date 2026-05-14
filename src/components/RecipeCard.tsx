@@ -32,7 +32,7 @@ const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => {
     whileHover={{ y: -4 }}
     className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all group"
   >
-    <div className="h-1.5 bg-gradient-to-r from-forest-500 to-amber-400" />
+    <div className="h-1.5 bg-linear-to-r from-forest-500 to-amber-400" />
     <div className="p-5">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
@@ -67,4 +67,4 @@ const RecipeCard = ({ recipe }: { recipe: WorldRecipe }) => {
   );
 };
 
-export default RecipeCard;
+export default RecipeCard; // refresh

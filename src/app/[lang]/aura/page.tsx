@@ -79,7 +79,7 @@ const AURAS = {
   }
 };
 
-export default function AuraQuiz() {
+export default function AuraQuiz() { // refresh
   const [step, setStep] = useState(-1);
   const [answers, setAnswers] = useState<string[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -125,10 +125,10 @@ export default function AuraQuiz() {
       <AnimatePresence mode="wait">
         {step === -1 && (
           <motion.div key="intro" exit={{ opacity: 0, y: -50 }} className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-violet-500 to-fuchsia-500 flex items-center justify-center mb-8 shadow-[0_0_50px_rgba(168,85,247,0.5)]">
+            <div className="w-24 h-24 rounded-full bg-linear-to-tr from-violet-500 to-fuchsia-500 flex items-center justify-center mb-8 shadow-[0_0_50px_rgba(168,85,247,0.5)]">
               <Sparkles className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">What is your<br/>Food Aura?</h1>
+            <h1 className="text-5xl md:text-6xl font-black mb-4 bg-clip-text text-transparent bg-linear-to-r from-white to-gray-400">What is your<br/>Food Aura?</h1>
             <p className="text-xl text-gray-400 mb-12 max-w-md">Take the 4-question AI taste test to discover your culinary personality.</p>
             <button 
               onClick={() => setStep(0)}
@@ -184,7 +184,7 @@ export default function AuraQuiz() {
             </div>
 
             {/* The "Instagram Story" Card */}
-            <div className={`w-full max-w-md aspect-[4/5] rounded-[2rem] bg-gradient-to-br ${auraData.colors} p-8 flex flex-col relative overflow-hidden shadow-2xl`}>
+            <div className={`w-full max-w-md aspect-4/5 rounded-4xl bg-linear-to-br ${auraData.colors} p-8 flex flex-col relative overflow-hidden shadow-2xl`}>
               
               {/* Decorative elements */}
               <div className="absolute -top-24 -right-24 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>

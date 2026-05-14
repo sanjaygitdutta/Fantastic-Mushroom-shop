@@ -91,7 +91,7 @@ const SubscriptionEditor = ({ plan, onUpdate }: SubscriptionEditorProps) => {
             className="bg-white rounded-2xl shadow-lg border-2 border-gray-100 overflow-hidden"
         >
             {/* Plan Image */}
-            <div className="relative group h-48 bg-gradient-to-br from-forest-100 to-mushroom-100">
+            <div className="relative group h-48 bg-linear-to-br from-forest-100 to-mushroom-100">
                 <img
                     src={displayImage}
                     alt={plan.name}
