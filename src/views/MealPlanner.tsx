@@ -101,6 +101,31 @@ const MealPlanner = () => {
         {/* Configuration Panel */}
         {!plan && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-3xl shadow-sm border border-forest-100 p-8 max-w-3xl mx-auto">
+            {/* ₹1500 Survival Challenge Banner */}
+            <div className="mb-10 bg-linear-to-r from-amber-500 to-amber-600 rounded-2xl p-6 shadow-lg shadow-amber-500/20 text-forest-900 border border-amber-400 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-700" />
+              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider bg-white/30 px-3 py-1 rounded-full mb-2">
+                    <Flame className="w-3.5 h-3.5" /> Viral Challenge
+                  </div>
+                  <h3 className="text-2xl font-black font-display mb-1">The ₹1500 Weekly Survival</h3>
+                  <p className="font-medium text-amber-950 text-sm">Can you feed 2 people for 7 days under ₹1500? AI says yes.</p>
+                </div>
+                <button 
+                  onClick={() => {
+                    setBudget(1500);
+                    setFamilySize(2);
+                    setDietary('Vegetarian');
+                    generatePlan(1500, 'Vegetarian', 2);
+                  }}
+                  className="shrink-0 bg-forest-900 text-amber-400 font-bold px-6 py-3 rounded-xl hover:bg-forest-800 transition-colors shadow-xl"
+                >
+                  Accept Challenge
+                </button>
+              </div>
+            </div>
+
             <div className="space-y-8">
               
               {/* Budget */}
