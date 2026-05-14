@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gift, Share2, MessageCircle, Lock, Unlock, Copy, CheckCircle2, TrendingUp, Star } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { supabase } from '../../../../lib/supabase';
+import { supabase } from '../../../lib/supabase';
 
 // Mock daily coupon for the reveal
 const DAILY_PREMIUM_COUPON = {
