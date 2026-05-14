@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChefHat, Wallet, Users, Utensils, ArrowRight, Loader2, IndianRupee, Sparkles, CheckCircle2, ShoppingCart } from 'lucide-react';
+import { ChefHat, Wallet, Users, Utensils, ArrowRight, Loader2, IndianRupee, Sparkles, CheckCircle2, ShoppingCart, Flame } from 'lucide-react';
 import Link from 'next/link';
 
 import SEO from '../components/SEO';

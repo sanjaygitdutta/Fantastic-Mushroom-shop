@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb, Gift } from 'lucide-react';
+import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb, Gift, MessageCircle } from 'lucide-react';
 import SEO from '../components/SEO';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
