@@ -82,43 +82,6 @@ export default function ChefAikaPage() {
   const recipeLimit = clicks >= TARGET_CLICKS ? 5 : 1;
   const hasReachedRecipeLimit = dailyRecipeUsage >= recipeLimit;
 
-  // Pro Logic
-  const [dailyRecipeUsage, setDailyRecipeUsage] = useState(0);
-  const [clicks, setClicks] = useState(0);
-  const [refCode, setRefCode] = useState('');
-  const [hasCheckedPro, setHasCheckedPro] = useState(false);
-  const TARGET_CLICKS = 3;
-
-  useEffect(() => {
-    const today = new Date().toDateString();
-    const savedDate = localStorage.getItem('aika_recipe_date');
-    if (savedDate !== today) {
-      localStorage.setItem('aika_recipe_date', today);
-      localStorage.setItem('aika_recipe_count', '0');
-      setDailyRecipeUsage(0);
-    } else {
-      setDailyRecipeUsage(parseInt(localStorage.getItem('aika_recipe_count') || '0', 10));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!hasCheckedPro) {
-      const code = localStorage.getItem('fantastic_ref_code');
-      if (code) {
-        setRefCode(code);
-        supabase.from('viral_referrals').select('click_count').eq('ref_code', code).single()
-          .then(({ data }) => {
-            if (data) setClicks(data.click_count || 0);
-            setHasCheckedPro(true);
-          });
-      } else {
-        setHasCheckedPro(true);
-      }
-    }
-  }, [hasCheckedPro]);
-
-  const recipeLimit = clicks >= TARGET_CLICKS ? 5 : 1;
-  const hasReachedRecipeLimit = dailyRecipeUsage >= recipeLimit;
 
   // Camera
   const [cameraActive, setCameraActive] = useState(false);
