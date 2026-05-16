@@ -1680,4 +1680,66 @@ export const recipes: Recipe[] = [
             }
         }
     }
+,
+    {
+        id: '2026-05-17',
+        title: 'Daal Chawal',
+        description: 'Experience the heartwarming embrace of Pakistan\'s beloved comfort food, Daal Chawal! This simple yet profoundly flavorful dish combines tender, spiced lentils with fluffy, aromatic rice, creating a symphony of textures and tastes. Ready to whip up this authentic delight today?',
+        image: '/recipe-images/2026-05-17.jpg',
+        prepTime: '20 min',
+        cookTime: '40 min',
+        difficulty: 'Medium',
+        servings: 4,
+        ingredients: [
+            { item: 'Masoor Daal (Red Lentils)', amount: '1 cup' },
+            { item: 'Basmati Rice', amount: '2 cups' },
+            { item: 'Onion', amount: '1 medium, finely chopped' },
+            { item: 'Tomato', amount: '1 medium, chopped' },
+            { item: 'Ginger-Garlic Paste', amount: '1 tbsp' },
+            { item: 'Cumin Seeds', amount: '1 tsp' },
+            { item: 'Turmeric Powder', amount: '1/2 tsp' },
+            { item: 'Red Chilli Powder', amount: '1 tsp' },
+            { item: 'Salt', amount: 'To taste' },
+            { item: 'Cooking Oil/Ghee', amount: '3 tbsp' }
+        ],
+        instructions: [
+            'Wash and soak daal for 20 mins, rice for 30 mins. Cook rice separately until fluffy.',
+            'Heat oil/ghee, sauté cumin, then onions until golden. Add ginger-garlic paste and tomatoes; cook until soft.',
+            'Stir in turmeric, red chilli powder, salt, and soaked daal with 3 cups water. Bring to a boil, then simmer until daal is tender.',
+            'Serve the hot daal with the cooked Basmati rice.'
+        ],
+        tags: ['Pakistani', 'Dinner', 'Vegetarian'],
+        translations: {
+            hi: {
+                title: 'दाल चावल',
+                description: 'पाकिस्तान के इस प्रिय आरामदायक भोजन, दाल चावल के हार्दिक आलिंगन का अनुभव करें! यह सरल लेकिन गहरा स्वादिष्ट व्यंजन कोमल, मसालेदार दाल को फूले हुए, सुगंधित चावल के साथ जोड़ता है, जिससे बनावट और स्वाद का एक अद्भुत संगम बनता है। क्या आप आज ही इस प्रामाणिक व्यंजन को बनाने के लिए तैयार हैं?',
+                ingredients: [{ item: 'मसूर दाल (लाल दाल)', amount: '1 कप' }, { item: 'बासमती चावल', amount: '2 कप' }, { item: 'प्याज', amount: '1 मध्यम, बारीक कटा हुआ' }, { item: 'टमाटर', amount: '1 मध्यम, कटा हुआ' }, { item: 'अदरक-लहसुन का पेस्ट', amount: '1 बड़ा चम्मच' }, { item: 'जीरा', amount: '1 छोटा चम्मच' }, { item: 'हल्दी पाउडर', amount: '1/2 छोटा चम्मच' }, { item: 'लाल मिर्च पाउडर', amount: '1 छोटा चम्मच' }, { item: 'नमक', amount: 'स्वादानुसार' }, { item: 'खाना पकाने का तेल/घी', amount: '3 बड़े चम्मच' }],
+                instructions: ['दाल को 20 मिनट और चावल को 30 मिनट के लिए धोकर भिगो दें। चावल को अलग से नरम होने तक पकाएं।', 'तेल/घी गरम करें, जीरा भूनें, फिर प्याज को सुनहरा होने तक भूनें। अदरक-लहसुन का पेस्ट और टमाटर डालकर नरम होने तक पकाएं।', 'हल्दी, लाल मिर्च पाउडर, नमक और भीगी हुई दाल को 3 कप पानी के साथ मिलाएं। उबाल आने दें, फिर दाल के नरम होने तक धीमी आंच पर पकाएं।', 'पके हुए बासमती चावल के साथ गरमागरम दाल परोसें।']
+            },
+            bn: {
+                title: 'ডাল চাউল',
+                description: 'পাকিস্তানের প্রিয় আরামদায়ক খাবার, ডাল চাউলের উষ্ণ আলিঙ্গন অনুভব করুন! এই সহজ কিন্তু গভীরভাবে সুস্বাদু খাবারটি নরম, মশলাদার ডালকে নরম, সুগন্ধি ভাতের সাথে একত্রিত করে, যা টেক্সচার এবং স্বাদের একটি সিম্ফনি তৈরি করে। আজই এই খাঁটি খাবারটি তৈরি করতে প্রস্তুত?',
+                ingredients: [{ item: 'মসুর ডাল (লাল ডাল)', amount: '1 কাপ' }, { item: 'বাসমতী চাল', amount: '2 কাপ' }, { item: 'পেঁয়াজ', amount: '1টি মাঝারি, মিহি করে কাটা' }, { item: 'টমেটো', amount: '1টি মাঝারি' }],
+                instructions: []
+            },
+            mr: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            te: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            },
+            ta: {
+                title: '',
+                description: '',
+                ingredients: [],
+                instructions: []
+            }
+        }
+    }
 ];
