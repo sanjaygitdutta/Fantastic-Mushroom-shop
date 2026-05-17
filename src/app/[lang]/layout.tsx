@@ -97,6 +97,12 @@ export async function generateMetadata({ params }: Props) {
 // Enable ISR (Incremental Static Regeneration) to ensure content is always fresh but fast
 export const revalidate = 60;
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+  maximumScale: 5.0,
+};
+
 // Required for Next.js static generation of dynamic routes
 export async function generateStaticParams() {
   return [

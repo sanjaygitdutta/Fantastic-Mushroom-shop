@@ -11,7 +11,7 @@ import { ShoppingBasket, Globe } from 'lucide-react';
 import { POPULAR_SEARCHES } from '../data/mockPrices';
 import { useTranslation } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '../i18n/dictionary';
-import { useRegion, Region } from '../utils/region';
+import { useRegion } from '../utils/region';
 
 // ── Mega-menu data ─────────────────────────────────────────────────────────────
 interface NavItem {
@@ -467,23 +467,64 @@ const Navbar = () => {
               </Link>
 
               {!isAuthenticated && (
-                <div className="pt-3 border-t border-forest-800">
-                  <Link href="/login" onClick={() => setIsMobileOpen(false)} className="w-full py-3 bg-amber-500 text-forest-900 font-bold rounded-xl text-center text-sm flex items-center justify-center mb-3">
-                    {t('nav_sign_in')}
-                  </Link>
+                <Link href="/login" onClick={() => setIsMobileOpen(false)} className="w-full py-3 bg-amber-500 text-forest-900 font-bold rounded-xl text-center text-sm flex items-center justify-center mb-3">
+                  {t('nav_sign_in')}
+                </Link>
+              )}
+
+              {/* Region and Language Selectors for Mobile (always visible at bottom) */}
+              <div className="pt-4 border-t border-forest-800 space-y-4">
+                {/* Region Selector */}
+                <div>
+                  <p className="text-xs text-forest-400 uppercase font-bold tracking-wider mb-2 text-center">
+                    Select Region
+                  </p>
+                  <div className="flex justify-center gap-3">
+                    <button
+                      onClick={() => { setRegion('IN'); setIsMobileOpen(false); }}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border transition-all ${
+                        region === 'IN' 
+                          ? 'bg-amber-500 border-amber-500 text-forest-900 shadow-md shadow-amber-500/20' 
+                          : 'border-forest-700 text-cream-300 hover:text-white hover:bg-forest-800'
+                      }`}
+                    >
+                      🇮🇳 India
+                    </button>
+                    <button
+                      onClick={() => { setRegion('SG'); setIsMobileOpen(false); }}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border transition-all ${
+                        region === 'SG' 
+                          ? 'bg-amber-500 border-amber-500 text-forest-900 shadow-md shadow-amber-500/20' 
+                          : 'border-forest-700 text-cream-300 hover:text-white hover:bg-forest-800'
+                      }`}
+                    >
+                      🇸🇬 Singapore
+                    </button>
+                  </div>
+                </div>
+
+                {/* Language Selector */}
+                <div>
+                  <p className="text-xs text-forest-400 uppercase font-bold tracking-wider mb-2 text-center">
+                    Select Language
+                  </p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {displayedLanguages.map((lang) => (
                       <button
                         key={lang.code}
                         onClick={() => handleLanguageChange(lang.code)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors border ${i18n.language.startsWith(lang.code) ? 'bg-forest-700 border-forest-600 text-white' : 'border-forest-700 text-forest-400 hover:text-white hover:bg-forest-800'}`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors border ${
+                          i18n.language.startsWith(lang.code) 
+                            ? 'bg-forest-700 border-forest-600 text-white' 
+                            : 'border-forest-700 text-forest-400 hover:text-white hover:bg-forest-800'
+                        }`}
                       >
                         {lang.nativeName}
                       </button>
                     ))}
                   </div>
                 </div>
-              )}
+              </div>
             </div>
           </motion.div>
         )}
