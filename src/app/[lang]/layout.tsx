@@ -238,7 +238,7 @@ export default async function RootLayout({
           strategy="lazyOnload" 
         />
         <Providers>
-          <div className="min-h-screen flex flex-col">
+          <div className="min-h-screen flex flex-col max-w-full overflow-x-hidden">
             <Toaster position="top-center" />
             <Navbar />
             <div className="grow">

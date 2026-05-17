@@ -125,7 +125,7 @@ const Home = () => {
           <motion.h1
             initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-black text-white leading-tight mb-4 font-display"
+            className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-tight mb-4 font-display"
           >
             <motion.span 
               initial={{ backgroundPosition: '200% center' }}
@@ -144,7 +144,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="text-xl text-forest-300 mb-10 max-w-2xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-forest-300 mb-10 max-w-2xl mx-auto"
           >
             {t(region === 'SG' ? 'home_hero_subtitle_sg' : 'home_hero_subtitle')}
           </motion.p>

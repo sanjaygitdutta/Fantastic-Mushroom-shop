@@ -161,7 +161,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={PLACEHOLDERS[placeholderIdx]}
-            className={`flex-1 bg-transparent outline-none text-forest-900 placeholder-forest-400 ${isHero ? 'text-lg py-2' : 'text-base py-1.5'} font-medium`}
+            className={`flex-1 w-full min-w-0 bg-transparent outline-none text-forest-900 placeholder-forest-400 ${isHero ? 'text-lg py-2' : 'text-base py-1.5'} font-medium`}
             autoComplete="off"
           />
 
@@ -217,9 +217,14 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
           {/* Search button */}
           <button
             type="submit"
-            className={`btn-forest shrink-0 flex items-center gap-2 ${isHero ? 'px-6 py-3 text-base' : 'px-4 py-2 text-sm'}`}
+            className={`btn-forest shrink-0 flex items-center justify-center gap-2 ${
+              isHero 
+                ? 'px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base' 
+                : 'px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm'
+            }`}
           >
-            {isHero ? t('compare_prices_btn') : t('search_btn')}
+            <span className="hidden sm:inline">{isHero ? t('compare_prices_btn') : t('search_btn')}</span>
+            <Search className="w-4 h-4 sm:hidden" />
           </button>
         </div>
 
