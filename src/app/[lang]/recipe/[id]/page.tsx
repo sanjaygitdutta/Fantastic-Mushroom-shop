@@ -1,7 +1,30 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import { ALL_RECIPES } from '../../../../data/worldRecipes';
 import RecipePageClient from '../../../../views/RecipePageClient';
+
+const RECIPE_TITLE_TEMPLATES: Record<string, string> = {
+  en: "Authentic {name} Recipe: {cost} Total Cost ({time} Prep)",
+  hi: "प्रामाणिक {name} रेसिपी: {cost} में बनाएं ({time} में तैयार)",
+  bn: "খাঁটি {name} রেসিপি: {cost} মোট খরচ ({time} প্রস্তুতি)",
+  mr: "अस्सल {name} रेसिपी: {cost} एकूण खर्च ({time} वेळ)",
+  te: "అథెంటిక్ {name} రెసిపీ: {cost} మొత్తం ఖర్చు ({time} తయారీ)",
+  ta: "அசல் {name} செய்முறை: {cost} மொத்த செலவு ({time} தயாரிப்பு)",
+  "zh-CN": "正宗 {name} 食谱：只需 {cost} 总成本（只需 {time} 准备）",
+  ms: "Resipi {name} Autentik: Jumlah Kos {cost} ({time} Penyediaan)"
+};
+
+const RECIPE_DESC_TEMPLATES: Record<string, string> = {
+  en: "How to make authentic {name} from {city}, {country}. Ready in {time}, serves {servings}. Compare ingredient prices online!",
+  hi: "{city}, {country} से प्रामाणिक {name} कैसे बनाएं। {time} में तैयार, {servings} लोगों के लिए। सामग्री की कीमतों की ऑनलाइन तुलना करें!",
+  bn: "{city}, {country} থেকে খাঁটি {name} কীভাবে তৈরি করবেন। {time} এ প্রস্তুত, {servings} জনের জন্য। অনলাইনে উপাদানের দাম তুলনা করুন!",
+  mr: "{city}, {country} मधील अस्सल {name} कशी बनवायची. {time} मध्ये तयार, {servings} लोकांसाठी. साहित्याच्या किमती ऑनलाईन तपासा!",
+  te: "{city}, {country} నుండి అథెంటిక్ {name} ఎలా తయారు చేయాలి. {time} లో సిద్ధం, {servings} మందికి సరిపోతుంది. ఆన్‌లైన్‌లో ధరలను పోల్చండి!",
+  ta: "{city}, {country} இன் அசல் {name} எப்படி செய்வது. {time} இல் தயார், {servings} பேருக்கு. ஆன்லைने விலைகளை ஒப்பிடுக!",
+  "zh-CN": "如何制作来自 {country} {city} 的正宗 {name}。仅需 {time} 即可做成，可供 {servings} 人食用。在线比较食材价格！",
+  ms: "Cara membuat {name} autentik dari {city}, {country}. Siap dalam {time}, hidangan untuk {servings} orang. Bandingkan harga bahan secara dalam talian!"
+};
 
 export const dynamic = 'force-dynamic';
 
@@ -16,19 +39,38 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   }
 
   const lang = resolvedParams.lang || 'en';
-  // ... (Metadata generation stays same)
   type RecipeTranslation = { title?: string; description?: string };
   const tRecipe = (recipe.translations?.[lang] ?? {}) as RecipeTranslation;
   const displayName = tRecipe.title ?? recipe.name;
   
-  const estimatedCost = (recipe.ingredients.length * 18) + (recipe.servings * 12);
-  
-  const title = lang === 'en' 
-    ? `Authentic ${displayName} Recipe: ₹${estimatedCost} Total Cost (${recipe.time.replace(' min', ' Min').replace(' hrs', ' Hrs')} Prep)`
-    : `${displayName} रेसिपी: ₹${estimatedCost} में बनाएं (${recipe.time} में तैयार)`;
+  // Read user-region to toggle currency & price estimation
+  const cookieStore = await cookies();
+  const region = (cookieStore.get('user-region')?.value as 'IN' | 'SG') || 'IN';
 
-  const description = tRecipe.description ?? 
-    `Authentic ${recipe.country} recipe for ${displayName} from ${recipe.city}. ${recipe.difficulty} difficulty, ready in ${recipe.time}.`;
+  let costString = '';
+  if (region === 'SG') {
+    const estimatedCost = (recipe.ingredients.length * 1.5) + (recipe.servings * 1.0);
+    costString = `S$${estimatedCost.toFixed(2)}`;
+  } else {
+    const estimatedCost = (recipe.ingredients.length * 18) + (recipe.servings * 12);
+    costString = `₹${estimatedCost}`;
+  }
+  
+  const cleanTime = recipe.time.replace(' min', ' Min').replace(' hrs', ' Hrs');
+  
+  const titleTemplate = RECIPE_TITLE_TEMPLATES[lang] || RECIPE_TITLE_TEMPLATES['en'];
+  const title = titleTemplate
+    .replace('{name}', displayName)
+    .replace('{cost}', costString)
+    .replace('{time}', cleanTime);
+
+  const descTemplate = RECIPE_DESC_TEMPLATES[lang] || RECIPE_DESC_TEMPLATES['en'];
+  const description = descTemplate
+    .replace('{name}', displayName)
+    .replace('{city}', recipe.city)
+    .replace('{country}', recipe.country)
+    .replace('{time}', recipe.time)
+    .replace('{servings}', recipe.servings.toString());
 
   const defaultImage = 'https://www.fantasticfood.in/og-image.jpg';
   const ogImage = recipe.image ? `https://www.fantasticfood.in${recipe.image}`.replace('https://www.fantasticfood.inhttps://', 'https://') : defaultImage;
@@ -61,7 +103,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           alt: title,
         },
       ],
-      locale: lang === 'en' ? 'en_US' : `${lang}_IN`,
+      locale: lang === 'en' ? 'en_US' : `${lang}_${region === 'SG' ? 'SG' : 'IN'}`,
       type: 'article',
     },
     twitter: {
