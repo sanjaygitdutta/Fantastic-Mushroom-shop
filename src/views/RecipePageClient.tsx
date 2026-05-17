@@ -33,10 +33,13 @@ export default function RecipePage() {
   const [showCommunityBanner, setShowCommunityBanner] = useState(false);
   const [copied, setCopied] = useState(false);
   
+  const recipe: WorldRecipe | undefined = ALL_RECIPES.find(r => r.id === recipeId);
+
   // -- NEW UX STATES --
   const [cookMode, setCookMode] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [servingsRatio, setServingsRatio] = useState(1);
+  const [servings, setServings] = useState(recipe ? (recipe.servings || 4) : 4);
+  const servingsRatio = recipe ? (servings / (recipe.servings || 4)) : 1;
   const [checkedIngredients, setCheckedIngredients] = useState<Set<number>>(new Set());
   const [checkedSteps, setCheckedSteps] = useState<Set<number>>(new Set());
   const [wakeLock, setWakeLock] = useState<any>(null); // Type any since WakeLock isn't globally typed in this project
@@ -117,7 +120,7 @@ export default function RecipePage() {
     }
   }, [searchParams]);
 
-  const recipe: WorldRecipe | undefined = ALL_RECIPES.find(r => r.id === recipeId);
+
 
   // Suggest related recipes from same country
   const related = recipe
@@ -395,17 +398,17 @@ export default function RecipePage() {
                     </span>
                   </h2>
                   <div className="flex items-center gap-2 bg-gray-50 rounded-full px-2 py-1 border border-gray-200">
-                    <button onClick={() => setServingsRatio(r => Math.max(0.5, r - 0.5))} className="w-6 h-6 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-forest-600 transition-colors">
+                    <button onClick={() => setServings(s => Math.max(1, s - 1))} className="w-6 h-6 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-forest-600 transition-colors">
                       <Minus className="w-3 h-3" />
                     </button>
                     <div className="flex flex-col items-center justify-center w-8">
                       <AnimatePresence mode="popLayout">
-                        <motion.span key={servingsRatio} initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 10, opacity: 0 }} className="text-sm font-bold text-gray-800 leading-none">
-                          {Math.round((recipe.servings || 4) * servingsRatio)}
+                        <motion.span key={servings} initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 10, opacity: 0 }} className="text-sm font-bold text-gray-800 leading-none">
+                          {servings}
                         </motion.span>
                       </AnimatePresence>
                     </div>
-                    <button onClick={() => setServingsRatio(r => Math.min(4, r + 0.5))} className="w-6 h-6 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-forest-600 transition-colors">
+                    <button onClick={() => setServings(s => Math.min(20, s + 1))} className="w-6 h-6 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-forest-600 transition-colors">
                       <Plus className="w-3 h-3" />
                     </button>
                   </div>
