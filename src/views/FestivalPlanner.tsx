@@ -1,26 +1,43 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Users, Wallet, Loader2, ShoppingCart, ArrowRight, IndianRupee, Lightbulb } from 'lucide-react';
+import { Sparkles, Users, Wallet, Loader2, ShoppingCart, ArrowRight, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-
 import SEO from '../components/SEO';
+import { useRegion, formatCurrency } from '../utils/region';
+import type { Region } from '../utils/region';
 
-// ── Festival data ──────────────────────────────────────────────────────────────
-const FESTIVALS = [
+// ── Indian Festivals ────────────────────────────────────────────────────────
+const IN_FESTIVALS = [
   { name: 'Diwali', emoji: '🪔', month: 'October–November', description: 'Festival of Lights' },
   { name: 'Holi', emoji: '🎨', month: 'March', description: 'Festival of Colors' },
   { name: 'Navratri', emoji: '🌺', month: 'September–October', description: '9 Nights of Fasting' },
   { name: 'Eid ul-Fitr', emoji: '🌙', month: 'Varies', description: 'Festival of Breaking Fast' },
-  { name: 'Ganesh Chaturthi', emoji: '🐘', month: 'August–September', description: 'Lord Ganesha\'s Birthday' },
+  { name: 'Ganesh Chaturthi', emoji: '🐘', month: 'August–September', description: "Lord Ganesha's Birthday" },
   { name: 'Onam', emoji: '🌸', month: 'August–September', description: 'Kerala Harvest Festival' },
   { name: 'Pongal', emoji: '🏺', month: 'January', description: 'Tamil Harvest Festival' },
   { name: 'Durga Puja', emoji: '🙏', month: 'October', description: 'Bengali Festival' },
   { name: 'Baisakhi', emoji: '🌾', month: 'April', description: 'Punjabi Harvest Festival' },
   { name: 'Christmas', emoji: '🎄', month: 'December', description: 'Festival of Joy' },
-  { name: 'Karwa Chauth', emoji: '🌖', month: 'October', description: 'Fasting for Husband\'s Longevity' },
+  { name: 'Karwa Chauth', emoji: '🌖', month: 'October', description: "Fasting for Husband's Longevity" },
   { name: 'Raksha Bandhan', emoji: '🎀', month: 'August', description: 'Sibling Bond Festival' },
+];
+
+// ── Singapore Festivals ─────────────────────────────────────────────────────
+const SG_FESTIVALS = [
+  { name: 'Chinese New Year', emoji: '🧧', month: 'January–February', description: 'Lunar New Year Reunion' },
+  { name: 'Hari Raya Aidilfitri', emoji: '🌙', month: 'Varies', description: 'End of Ramadan Celebration' },
+  { name: 'Deepavali', emoji: '🪔', month: 'October–November', description: 'Festival of Lights' },
+  { name: 'Mid-Autumn Festival', emoji: '🏮', month: 'September–October', description: 'Mooncake & Lantern Festival' },
+  { name: 'Dragon Boat Festival', emoji: '🐉', month: 'June', description: 'Rice Dumpling Festival' },
+  { name: 'Hari Raya Haji', emoji: '🐑', month: 'Varies', description: 'Feast of Sacrifice' },
+  { name: 'Vesak Day', emoji: '🙏', month: 'May', description: 'Buddhist Holy Day' },
+  { name: 'Christmas', emoji: '🎄', month: 'December', description: 'Festival of Joy' },
+  { name: 'National Day', emoji: '🇸🇬', month: 'August', description: 'Singapore Independence Day' },
+  { name: 'Hungry Ghost Festival', emoji: '👻', month: 'August', description: 'Hungry Ghost Month' },
+  { name: 'Qingming Festival', emoji: '🌿', month: 'April', description: 'Tomb Sweeping Day' },
+  { name: 'Dongzhi', emoji: '❄️', month: 'December', description: 'Winter Solstice Festival' },
 ];
 
 const DIETS = ['None', 'Vegetarian', 'Vegan', 'Jain', 'Halal'];
@@ -36,7 +53,7 @@ interface FestivalResult {
   festivalTip: string;
 }
 
-const ItemCard = ({ item }: { item: FestivalItem }) => (
+const ItemCard = ({ item, region }: { item: FestivalItem; region: Region }) => (
   <div className="flex items-center gap-3 bg-forest-50 border border-forest-100 rounded-xl px-4 py-3">
     <div className="flex-1">
       <p className="font-bold text-forest-900 text-sm">{item.item}</p>
@@ -44,16 +61,26 @@ const ItemCard = ({ item }: { item: FestivalItem }) => (
     </div>
     <div className="text-right shrink-0">
       <p className="text-sm font-bold text-forest-800">{item.quantity}</p>
-      <p className="text-xs text-amber-600 font-bold">~₹{item.estimatedCost}</p>
+      <p className="text-xs text-amber-600 font-bold">~{formatCurrency(item.estimatedCost, region)}</p>
     </div>
   </div>
 );
 
 export default function FestivalPlanner() {
   const { t } = useTranslation();
+  const { region } = useRegion();
+  const isSG = region === 'SG';
+
+  // Region-aware constants
+  const FESTIVALS = isSG ? SG_FESTIVALS : IN_FESTIVALS;
+  const DEFAULT_BUDGET = isSG ? 300 : 5000;
+  const SLIDER_MIN     = isSG ? 100 : 1000;
+  const SLIDER_MAX     = isSG ? 3000 : 50000;
+  const SLIDER_STEP    = isSG ? 50 : 500;
+
   const [selectedFestival, setSelectedFestival] = useState('');
   const [familySize, setFamilySize] = useState(4);
-  const [budget, setBudget] = useState(5000);
+  const [budget, setBudget] = useState(DEFAULT_BUDGET);
   const [dietary, setDietary] = useState('None');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -66,7 +93,7 @@ export default function FestivalPlanner() {
       const res = await fetch('/api/festival-planner', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ festival: selectedFestival, familySize, budget, dietary })
+        body: JSON.stringify({ festival: selectedFestival, familySize, budget, dietary, region })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -80,29 +107,33 @@ export default function FestivalPlanner() {
 
   const allItems = result ? [...result.essentialItems, ...result.sweets, ...result.decorations] : [];
 
+  const festNameKey = (name: string) => 'fest_name_' + name.replace(/[- ]/g, '_');
+  const festMonthKey = (month: string) => 'fest_month_' + month.toLowerCase().replace(/[^a-z]/g, '_');
+
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
       <SEO
-        title="Festival Shopping Planner India — Diwali, Holi, Navratri | Fantastic Food"
-        description="AI-powered bulk shopping list for every Indian festival. Compare prices on Blinkit, Zepto and save money on Diwali, Holi, Navratri festive groceries."
-        canonicalUrl="https://www.fantasticfood.in/festival"
+        title={t(isSG ? 'festival_seo_title_sg' : 'festival_seo_title', { defaultValue: isSG ? "Singapore Festival Shopping Planner — Chinese New Year, Hari Raya, Deepavali | Fantastic Food" : "Festival Shopping Planner India — Diwali, Holi, Navratri | Fantastic Food" })}
+        description={t(isSG ? 'festival_seo_desc_sg' : 'festival_seo_desc', { defaultValue: isSG ? "AI-powered bulk shopping list for every Singapore festival. Compare prices on FairPrice, RedMart & more. Save money on Chinese New Year, Hari Raya & Deepavali groceries." : "AI-powered bulk shopping list for every Indian festival. Compare prices on Blinkit, Zepto and save money on Diwali, Holi, Navratri festive groceries." })}
+        canonicalUrl={isSG ? "https://www.fantasticfood.in/festival?region=SG" : "https://www.fantasticfood.in/festival"}
       />
+
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4">
             <Sparkles className="w-4 h-4" /> {t('fest_mode')}
           </div>
           <h1 className="text-4xl md:text-5xl font-black font-display text-forest-900 mb-4">
-            {t('fest_title')}
+            {t(isSG ? 'fest_title_sg' : 'fest_title')}
           </h1>
           <p className="text-forest-600 max-w-2xl mx-auto text-lg">
-            {t('fest_desc')}
+            {t(isSG ? 'fest_desc_sg' : 'fest_desc')}
           </p>
         </div>
 
         {!result ? (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-3xl shadow-sm border border-forest-100 p-8 max-w-3xl mx-auto">
-            {/* Festival selector */}
+            {/* Festival Grid */}
             <div className="mb-8">
               <label className="block text-forest-900 font-bold mb-4">{t('fest_select')}</label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -117,25 +148,28 @@ export default function FestivalPlanner() {
                     }`}
                   >
                     <span className="text-2xl mb-1">{f.emoji}</span>
-                    <span className="font-bold text-forest-900 text-xs leading-tight">{t('fest_name_' + f.name.replace(/[- ]/g, '_'), f.name)}</span>
-                    <span className="text-forest-400 text-[10px] mt-0.5">{t('fest_month_' + f.month.toLowerCase().replace(/[^a-z]/g, '_'), f.month)}</span>
+                    <span className="font-bold text-forest-900 text-xs leading-tight">{t(festNameKey(f.name), f.name)}</span>
+                    <span className="text-forest-400 text-[10px] mt-0.5">{t(festMonthKey(f.month), f.month)}</span>
                   </button>
                 ))}
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 mb-8">
-              {/* Budget */}
+              {/* Budget Slider */}
               <div>
                 <label className="flex items-center justify-between text-forest-900 font-bold mb-3">
                   <span className="flex items-center gap-2"><Wallet className="w-4 h-4 text-amber-500" /> {t('fest_budget')}</span>
-                  <span className="text-xl font-black text-amber-600 flex items-center"><IndianRupee className="w-4 h-4" />{budget.toLocaleString()}</span>
+                  <span className="text-xl font-black text-amber-600">{formatCurrency(budget, region)}</span>
                 </label>
-                <input type="range" min="1000" max="50000" step="500" value={budget}
+                <input type="range" min={SLIDER_MIN} max={SLIDER_MAX} step={SLIDER_STEP} value={budget}
                   onChange={e => setBudget(Number(e.target.value))} className="w-full accent-amber-500" />
-                <div className="flex justify-between text-xs text-forest-400 mt-1"><span>₹1,000</span><span>₹50,000</span></div>
+                <div className="flex justify-between text-xs text-forest-400 mt-1">
+                  <span>{formatCurrency(SLIDER_MIN, region)}</span>
+                  <span>{formatCurrency(SLIDER_MAX, region)}</span>
+                </div>
               </div>
-              {/* Family size */}
+              {/* Family Size */}
               <div>
                 <label className="flex items-center gap-2 text-forest-900 font-bold mb-3">
                   <Users className="w-4 h-4 text-moss-500" /> {t('fest_family')}
@@ -165,25 +199,27 @@ export default function FestivalPlanner() {
 
             <button onClick={generate} disabled={loading || !selectedFestival}
               className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-forest-900 rounded-2xl font-bold flex items-center justify-center gap-2 transition-transform active:scale-[0.98] disabled:opacity-60">
-              {loading ? <><Loader2 className="w-5 h-5 animate-spin" /> {t('fest_generating')}</> : <><Sparkles className="w-5 h-5" /> {t('fest_gen_btn', { festival: selectedFestival ? t('fest_name_' + selectedFestival.replace(/[- ]/g, '_'), selectedFestival) : t('fest_gen_placeholder') })}</>}
+              {loading
+                ? <><Loader2 className="w-5 h-5 animate-spin" /> {t('fest_generating')}</>
+                : <><Sparkles className="w-5 h-5" /> {t('fest_gen_btn', { festival: selectedFestival ? t(festNameKey(selectedFestival), selectedFestival) : t('fest_gen_placeholder') })}</>}
             </button>
           </motion.div>
         ) : (
           <AnimatePresence>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-              {/* Summary */}
+              {/* Summary Banner */}
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="md:col-span-2 bg-linear-to-r from-amber-500 to-orange-500 text-white p-6 rounded-3xl shadow-lg">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="text-4xl">{FESTIVALS.find(f => f.name === result.festival)?.emoji}</span>
+                    <span className="text-4xl">{FESTIVALS.find(f => f.name === result.festival)?.emoji ?? '🎉'}</span>
                     <div>
-                      <h2 className="text-2xl font-black font-display">{t('fest_summary_title', { festival: t('fest_name_' + result.festival.replace(/[- ]/g, '_'), result.festival) })}</h2>
-                      <p className="text-amber-100 text-sm">{t('fest_summary_sub', { familySize, budget: budget.toLocaleString() })}</p>
+                      <h2 className="text-2xl font-black font-display">{t('fest_summary_title', { festival: t(festNameKey(result.festival), result.festival) })}</h2>
+                      <p className="text-amber-100 text-sm">{t('fest_summary_sub', { familySize, budget: formatCurrency(budget, region) })}</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/20 rounded-xl p-3 text-center">
-                      <p className="text-2xl font-black">₹{result.totalEstimatedCost?.toLocaleString()}</p>
+                      <p className="text-xl font-black">{formatCurrency(result.totalEstimatedCost ?? 0, region)}</p>
                       <p className="text-xs text-amber-100">{t('fest_est_total')}</p>
                     </div>
                     <div className="bg-white/20 rounded-xl p-3 text-center">
@@ -191,7 +227,7 @@ export default function FestivalPlanner() {
                       <p className="text-xs text-amber-100">{t('fest_total_items')}</p>
                     </div>
                     <div className="bg-white/20 rounded-xl p-3 text-center">
-                      <p className="text-2xl font-black">₹{Math.max(0, budget - (result.totalEstimatedCost || 0)).toLocaleString()}</p>
+                      <p className="text-xl font-black">{formatCurrency(Math.max(0, budget - (result.totalEstimatedCost || 0)), region)}</p>
                       <p className="text-xs text-amber-100">{t('fest_budget_left')}</p>
                     </div>
                   </div>
@@ -205,7 +241,7 @@ export default function FestivalPlanner() {
                 </div>
               </div>
 
-              {/* Items */}
+              {/* Item sections */}
               {[
                 { title: t('fest_sec_essentials'), items: result.essentialItems },
                 { title: t('fest_sec_sweets'), items: result.sweets },
@@ -214,7 +250,7 @@ export default function FestivalPlanner() {
                 <div key={section.title} className="bg-white p-6 rounded-3xl border border-forest-100 shadow-sm">
                   <h3 className="font-black text-forest-900 text-lg mb-4">{section.title}</h3>
                   <div className="grid sm:grid-cols-2 gap-3">
-                    {section.items.map((item, i) => <ItemCard key={i} item={item} />)}
+                    {section.items.map((item, i) => <ItemCard key={i} item={item} region={region as Region} />)}
                   </div>
                 </div>
               ))}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRegion, formatCurrency } from '../utils/region';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowDownUp, Zap, Tag, PackageCheck, ArrowRight,
@@ -21,6 +22,7 @@ import toast from 'react-hot-toast';
 import { getRelatedItems } from '../data/compareFeatures';
 import { getPriceTrendSignal, getBestUnitDeal } from '../utils/unitPrice';
 import { useTranslation } from 'react-i18next';
+import { getTranslatedItem } from '../i18n/dictionary';
 
 type SortMode = 'price' | 'discount' | 'delivery' | 'availability';
 type ViewMode = 'cards' | 'table';
@@ -43,6 +45,7 @@ const sortByMode = (prices: PlatformPrice[], mode: SortMode): PlatformPrice[] =>
 
 // ── Table row ──────────────────────────────────────────────────────────────────
 const TableRow = ({ price, isBest, rank, t }: { price: PlatformPrice; isBest: boolean; rank: number; t: any }) => {
+  const { region } = useRegion();
   const platform = getPlatformById(price.platformId);
   if (!platform) return null;
   return (
@@ -71,9 +74,9 @@ const TableRow = ({ price, isBest, rank, t }: { price: PlatformPrice; isBest: bo
           : <span className="text-xs text-red-400">{t('unavailable')}</span>}
       </td>
       <td className="py-3 px-4 font-bold text-forest-900">
-        ₹{price.price}
+        {formatCurrency(price.price, region)}
         {price.originalPrice > price.price && (
-          <span className="text-xs text-gray-400 line-through ml-1">₹{price.originalPrice}</span>
+          <span className="text-xs text-gray-400 line-through ml-1">{formatCurrency(price.originalPrice, region)}</span>
         )}
       </td>
       <td className="py-3 px-4">
@@ -86,9 +89,8 @@ const TableRow = ({ price, isBest, rank, t }: { price: PlatformPrice; isBest: bo
           href={getAffiliateUrl(price.platformId, price.url)}
           target="_blank"
           rel="noopener noreferrer"
-          className={`inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${
-            isBest ? 'bg-forest-700 text-white hover:bg-forest-800' : 'bg-forest-50 text-forest-700 border border-forest-200 hover:bg-forest-100'
-          } ${!price.inStock ? 'opacity-40 pointer-events-none' : ''}`}
+          className={`inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${isBest ? 'bg-forest-700 text-white hover:bg-forest-800' : 'bg-forest-50 text-forest-700 border border-forest-200 hover:bg-forest-100'
+            } ${!price.inStock ? 'opacity-40 pointer-events-none' : ''}`}
         >
           {isBest ? t('buy_now') : t('view')} <ExternalLink className="w-3 h-3" />
         </a>
@@ -106,7 +108,10 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
   const [shared, setShared] = useState(false);
 
   const { addWatch, removeWatch, isWatching } = usePriceWatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language?.substring(0, 2) || 'en';
+  const displayName = getTranslatedItem(result.query, currentLang as any);
+  const { region } = useRegion();
 
   const router = useRouter();
 
@@ -130,7 +135,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
   // ── WhatsApp Share ──
   const handleShare = () => {
     const lines = [
-      `🛒 *${result.canonicalName} Price Comparison* — Fantastic Food`,
+      `🛒 *${displayName} Price Comparison* — Fantastic Food`,
       '',
       ...sortedPrices
         .filter((p) => p.inStock)
@@ -165,12 +170,12 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
     if (!target || target <= 0) { toast.error(t('toast_enter_valid_price')); return; }
     addWatch({
       query: result.query.toLowerCase(),
-      label: result.canonicalName,
+      label: displayName,
       icon: result.icon,
       targetPrice: target,
       currentBest: minPrice,
     });
-    toast.success(t('toast_watch_set', { name: result.canonicalName, target }));
+    toast.success(t('toast_watch_set', { name: displayName, target }));
     setShowWatchModal(false);
   };
 
@@ -187,10 +192,10 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
             <span className="text-3xl">💡</span>
             <div>
               <p className="text-amber-900 font-black text-base">
-                {t('save_up_to')} ₹{savings} ({savingsPct}% {t('cheaper')}) {t('by_choosing_platform')}
+                {t('save_up_to')} {formatCurrency(savings, region)} ({savingsPct}% {t('cheaper')}) {t('by_choosing_platform')}
               </p>
               <p className="text-amber-800 text-xs">
-                {t('cheapest_label')} <strong>{bestPrice.platformId.charAt(0).toUpperCase() + bestPrice.platformId.slice(1)}</strong> {t('at_price')} ₹{minPrice} {t('vs_highest')} ₹{maxPrice}
+                {t('cheapest_label')} <strong>{bestPrice.platformId.charAt(0).toUpperCase() + bestPrice.platformId.slice(1)}</strong> {t('at_price')} {formatCurrency(minPrice, region)} {t('vs_highest')} {formatCurrency(maxPrice, region)}
               </p>
             </div>
           </div>
@@ -209,7 +214,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
         <div className="flex items-center gap-3">
           <span className="text-4xl">{result.icon}</span>
           <div>
-            <h2 className="text-xl font-bold font-display">{result.canonicalName}</h2>
+            <h2 className="text-xl font-bold font-display">{displayName}</h2>
             <p className="text-forest-300 text-sm">
               {result.category} · {inStockPrices.length} {t('in_stock').toLowerCase()}
               {outOfStock > 0 && <span className="text-red-400"> · {outOfStock} {t('unavailable').toLowerCase()}</span>}
@@ -221,16 +226,16 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
           {/* Stats */}
           <div className="flex gap-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-amber-400">₹{minPrice}</div>
+              <div className="text-2xl font-bold text-amber-400">{formatCurrency(minPrice, region)}</div>
               <div className="text-forest-300 text-xs">{t('lowest_price_label')}</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-cream-300">₹{maxPrice}</div>
+              <div className="text-2xl font-bold text-cream-300">{formatCurrency(maxPrice, region)}</div>
               <div className="text-forest-300 text-xs">{t('highest_price_label')}</div>
             </div>
             {savings > 0 && (
               <div className="text-center">
-                <div className="text-2xl font-bold text-moss-400">₹{savings}</div>
+                <div className="text-2xl font-bold text-moss-400">{formatCurrency(savings, region)}</div>
                 <div className="text-forest-300 text-xs">{t('you_save_label')}</div>
               </div>
             )}
@@ -242,9 +247,8 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
             <button
               onClick={handleShare}
               title="Share on WhatsApp"
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
-                shared ? 'bg-green-500 text-white' : 'bg-white/10 hover:bg-white/20 text-white'
-              }`}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${shared ? 'bg-green-500 text-white' : 'bg-white/10 hover:bg-white/20 text-white'
+                }`}
             >
               {shared ? <CheckCircle2 className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
               {shared ? t('shared') : t('whatsapp_share')}
@@ -254,9 +258,8 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
             <button
               onClick={handleWatch}
               title={watching ? 'Remove price watch' : 'Set price alert'}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
-                watching ? 'bg-amber-400 text-amber-900' : 'bg-white/10 hover:bg-white/20 text-white'
-              }`}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${watching ? 'bg-amber-400 text-amber-900' : 'bg-white/10 hover:bg-white/20 text-white'
+                }`}
             >
               {watching ? <BellOff className="w-4 h-4" /> : <Bell className="w-4 h-4" />}
               {watching ? t('watching') : t('price_alert')}
@@ -277,10 +280,9 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
       {/* ── Best Time to Buy + Unit price note ── */}
       <div className="flex flex-wrap gap-3 mb-5">
         {trendSignal && (
-          <div className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-xl border bg-white shadow-sm ${
-            trendSignal.signal === 'low' ? 'border-green-200 bg-green-50' :
-            trendSignal.signal === 'high' ? 'border-red-200 bg-red-50' : 'border-blue-200 bg-blue-50'
-          }`}>
+          <div className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-xl border bg-white shadow-sm ${trendSignal.signal === 'low' ? 'border-green-200 bg-green-50' :
+              trendSignal.signal === 'high' ? 'border-red-200 bg-red-50' : 'border-blue-200 bg-blue-50'
+            }`}>
             <span>{trendSignal.emoji}</span>
             <span className={trendSignal.color}>{trendSignal.label}</span>
           </div>
@@ -309,11 +311,10 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
             <button
               key={key}
               onClick={() => setSortMode(key)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                sortMode === key
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${sortMode === key
                   ? 'bg-forest-700 text-white shadow-sm'
                   : 'bg-white border border-forest-200 text-forest-700 hover:border-forest-400'
-              }`}
+                }`}
             >
               <Icon className="w-3.5 h-3.5" />{label}
             </button>
@@ -452,7 +453,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
                 <span className="text-5xl mb-3 block">{result.icon}</span>
                 <h3 className="text-xl font-black text-forest-900">{t('set_price_alert_modal')}</h3>
                 <p className="text-sm text-forest-600 mt-1">
-                  {t('alert_you_when')} <strong>{result.canonicalName}</strong> {t('drops_below_target')}
+                  {t('alert_you_when')} <strong>{displayName}</strong> {t('drops_below_target')}
                 </p>
               </div>
 
@@ -471,7 +472,7 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
                     autoFocus
                   />
                 </div>
-                <p className="text-xs text-forest-500 mt-1.5">{t('current_best_price')} ₹{minPrice}</p>
+                <p className="text-xs text-forest-500 mt-1.5">{t('current_best_price')} {formatCurrency(minPrice, region)}</p>
               </div>
 
               <div className="flex gap-3 mt-5">

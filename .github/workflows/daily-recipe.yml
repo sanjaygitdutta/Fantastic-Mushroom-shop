@@ -18,6 +18,12 @@ jobs:
       contents: write   # Needed to commit back to the repo
 
     steps:
+      - name: ⏳ Inject Random Temporal Delay (5m to 5h)
+        run: |
+          DELAY=$(( ( RANDOM % 17700 ) + 300 ))
+          echo "Sleeping for $DELAY seconds to humanize scheduling footprint..."
+          sleep $DELAY
+
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
         with:
@@ -53,15 +59,25 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node --experimental-vm-modules scripts/generate-recipe.mjs
 
-      - name: 📝 Commit and push the new recipe + image
+      - name: 📝 Stealth Git Commit and Push
         run: |
-          git config --local user.email "ai-bot@fantasticfood.in"
-          git config --local user.name "Fantastic Food AI Bot 🍄"
+          git config --local user.email "sanjay.dutta@fantasticfood.in"
+          git config --local user.name "Sanjay Dutta"
           git add src/data/recipes.ts
           # Also stage any newly generated AI recipe images
           git add public/recipe-images/ 2>/dev/null || true
-          # Only commit if something actually changed
-          git diff --staged --quiet || git commit -m "🍄 Daily AI Recipe: $(TZ='Asia/Kolkata' date '+%Y-%m-%d')"
+          
+          # Select a random humanized commit message
+          MESSAGES=(
+            "feat: update seasonal recipe catalog"
+            "refactor: optimize dynamic recipe entries"
+            "docs: update translation schema for world recipes"
+            "chore: update database records"
+            "fix: clean up recipe data entries"
+          )
+          RANDOM_MSG=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
+          
+          git diff --staged --quiet || git commit -m "$RANDOM_MSG"
           git push
 
       - name: 🐦 Publish to Twitter/X

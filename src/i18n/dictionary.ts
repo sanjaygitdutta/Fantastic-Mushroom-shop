@@ -7,7 +7,9 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'bn', name: 'Bengali', nativeName: 'বাংলা' },
   { code: 'mr', name: 'Marathi', nativeName: 'मराठी' },
   { code: 'te', name: 'Telugu', nativeName: 'తెలుగు' },
-  { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்' }
+  { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
+  { code: 'zh-CN', name: 'Chinese', nativeName: '中文' },
+  { code: 'ms', name: 'Malay', nativeName: 'Bahasa Melayu' }
 ] as const;
 
 export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number]['code'];
@@ -15,93 +17,97 @@ export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number]['code'];
 // Core 39 Items translation dictionary
 export const FOOD_DICTIONARY: Record<string, Record<SupportedLanguage, string>> = {
   // Vegetables
-  'tomato': { en: 'Tomato', hi: 'टमाटर', bn: 'টমেটো', mr: 'टोमॅटो', te: 'టమాటా', ta: 'தக்காளி' },
-  'onion (red)': { en: 'Onion', hi: 'प्याज', bn: 'পেঁয়াজ', mr: 'कांदा', te: 'ఉల్లిపాయ', ta: 'வெங்காயம்' },
-  'potato': { en: 'Potato', hi: 'आलू', bn: 'আলু', mr: 'बटाटा', te: 'బంగాళదుంప', ta: 'உருளைக்கிழங்கு' },
-  'spinach (palak)': { en: 'Spinach', hi: 'पालक', bn: 'পালং শাক', mr: 'पालक', te: 'పాలకూర', ta: 'பசலைக்கீரை' },
-  'carrot (gajar)': { en: 'Carrot', hi: 'गाजर', bn: 'গাজর', mr: 'गाजर', te: 'క్యారెట్', ta: 'கேரட்' },
-  'capsicum (bell pepper)': { en: 'Capsicum', hi: 'शिमला मिर्च', bn: 'ক্যাপসিকাম', mr: 'सिमला मिरची', te: 'క్యాప్సికమ్', ta: 'குடைமிளகாய்' },
-  'cucumber (kheera)': { en: 'Cucumber', hi: 'खीरा', bn: 'শসা', mr: 'काकडी', te: 'దోసకాయ', ta: 'வெள்ளரிக்காய்' },
-  'lady finger (bhindi)': { en: 'Lady Finger', hi: 'भिंडी', bn: 'ঢেঁড়স', mr: 'भेंडी', te: 'బెండకాయ', ta: 'வெண்டைக்காய்' },
-  'brinjal (baingan)': { en: 'Brinjal', hi: 'बैंगन', bn: 'বেগুন', mr: 'वांगे', te: 'వంకాయ', ta: 'கத்தரிக்காய்' },
-  'button mushroom': { en: 'Mushroom', hi: 'मशरूम', bn: 'মাশরুম', mr: 'मशरूम', te: 'పుట్టగొడుగు', ta: 'காளான்' },
-  'cabbage (patta gobhi)': { en: 'Cabbage', hi: 'पत्ता गोभी', bn: 'বাঁধাকপি', mr: 'कोबी', te: 'క్యాబేజీ', ta: 'முட்டைக்கோஸ்' },
-  'cauliflower (phool gobhi)': { en: 'Cauliflower', hi: 'फूल गोभी', bn: 'ফুলকপি', mr: 'फ्लॉवर', te: 'కాలీఫ్లవర్', ta: 'காலிஃபிளவர்' },
-  'garlic (lahsun)': { en: 'Garlic', hi: 'लहसुन', bn: 'রসুন', mr: 'लसूण', te: 'వెల్లుల్లి', ta: 'பூண்டு' },
-  'ginger (adrak)': { en: 'Ginger', hi: 'अदरक', bn: 'আদা', mr: 'आले', te: 'అల్లం', ta: 'இஞ்சி' },
-  'green chilli': { en: 'Green Chilli', hi: 'हरी मिर्च', bn: 'কাঁচা লঙ্কা', mr: 'हिरवी मिरची', te: 'పచ్చిమిర్చి', ta: 'பச்சை மிளகாய்' },
-  'coriander leaves (dhaniya)': { en: 'Coriander', hi: 'धनिया पत्ता', bn: 'ধনে পাতা', mr: 'कोथिंबीर', te: 'కొత్తిమీర', ta: 'கொத்தமல்லி' },
-  'mint leaves (pudina)': { en: 'Mint', hi: 'पुदीना', bn: 'পুদিনা পাতা', mr: 'पुदिना', te: 'పుదీనా', ta: 'புதினா' },
-  'lemon (nimbu)': { en: 'Lemon', hi: 'नींबू', bn: 'লেবু', mr: 'लिंबू', te: 'నిమ్మకాయ', ta: 'எலுமிச்சை' },
-  'bottle gourd (lauki)': { en: 'Bottle Gourd', hi: 'लौकी', bn: 'লাউ', mr: 'दुधी भोपळा', te: 'సొరకాయ', ta: 'சுரைக்காய்' },
-  'bitter gourd (karela)': { en: 'Bitter Gourd', hi: 'करेला', bn: 'করলা', mr: 'कारले', te: 'కాకరకాయ', ta: 'பாகற்காய்' },
-  
+  // Vegetables
+  'tomato': { en: 'Tomato', hi: 'टमाटर', bn: 'টমেটো', mr: 'टोमॅटो', te: 'టమాటా', ta: 'தக்காளி', 'zh-CN': '西红柿', ms: 'Tomato' },
+  'onion (red)': { en: 'Onion', hi: 'प्याज', bn: 'পেঁয়াজ', mr: 'कांदा', te: 'ఉల్లిపాయ', ta: 'வெங்காயம்', 'zh-CN': '洋葱', ms: 'Bawang Merah' },
+  'potato': { en: 'Potato', hi: 'आलू', bn: 'আলু', mr: 'बटाटा', te: 'బంగాళదుంప', ta: 'உருளைக்கிழங்கு', 'zh-CN': '土豆', ms: 'Ubi Kentang' },
+  'spinach (palak)': { en: 'Spinach', hi: 'पालक', bn: 'পালং শাক', mr: 'पालक', te: 'పాలకూర', ta: 'பசலைக்கீரை', 'zh-CN': '菠菜', ms: 'Bayam' },
+  'carrot (gajar)': { en: 'Carrot', hi: 'गाजर', bn: 'গাজর', mr: 'गाजर', te: 'క్యారెట్', ta: 'கேரட்', 'zh-CN': '胡萝卜', ms: 'Lobak Merah' },
+  'capsicum (bell pepper)': { en: 'Capsicum', hi: 'शिमला मिर्च', bn: 'ক্যাপসিকাম', mr: 'सिमला मिरची', te: 'క్యాప్సికమ్', ta: 'குடைமிளகாய்', 'zh-CN': '灯笼椒', ms: 'Capsicum' },
+  'cucumber (kheera)': { en: 'Cucumber', hi: 'खीरा', bn: 'শসা', mr: 'काकडी', te: 'దోసకాయ', ta: 'வெள்ளரிக்காய்', 'zh-CN': '黄瓜', ms: 'Timun' },
+  'lady finger (bhindi)': { en: 'Lady Finger', hi: 'भिंडी', bn: 'ঢেঁড়স', mr: 'भेंडी', te: 'బెండకాయ', ta: 'வெண்டைக்காய்', 'zh-CN': '秋葵', ms: 'Kacang Bendi' },
+  'brinjal (baingan)': { en: 'Brinjal', hi: 'बैंगन', bn: 'বেগুন', mr: 'वांगे', te: 'వంకాయ', ta: 'கத்தரிக்காய்', 'zh-CN': '茄子', ms: 'Terung' },
+  'button mushroom': { en: 'Mushroom', hi: 'मशरूम', bn: 'মাশরুম', mr: 'मशरूम', te: 'పుట్టగొడుగు', ta: 'காளான்', 'zh-CN': '蘑菇', ms: 'Cendawan' },
+  'cabbage (patta gobhi)': { en: 'Cabbage', hi: 'पत्ता गोभी', bn: 'বাঁধাকপি', mr: 'कोबी', te: 'క్యాబేజీ', ta: 'முட்டைக்கோஸ்', 'zh-CN': '卷心菜', ms: 'Kubis' },
+  'cauliflower (phool gobhi)': { en: 'Cauliflower', hi: 'फूल गोभी', bn: 'ফুলকপি', mr: 'फ्लॉवर', te: 'కాలీఫ్లవర్', ta: 'காலிஃபிளவர்', 'zh-CN': '花椰菜', ms: 'Bunga Kobis' },
+  'garlic (lahsun)': { en: 'Garlic', hi: 'लहसुन', bn: 'রসুন', mr: 'लसूण', te: 'వెల్లుల్లి', ta: 'பூண்டு', 'zh-CN': '大蒜', ms: 'Bawang Putih' },
+  'ginger (adrak)': { en: 'Ginger', hi: 'अदरक', bn: 'আদা', mr: 'आले', te: 'అల్లం', ta: 'இஞ்சி', 'zh-CN': '姜', ms: 'Halia' },
+  'green chilli': { en: 'Green Chilli', hi: 'हरी मिर्च', bn: 'কাঁচা লঙ্কা', mr: 'हिरवी मिरची', te: 'పచ్చిమిర్చి', ta: 'பச்சை மிளகாய்', 'zh-CN': '青辣椒', ms: 'Cili Hijau' },
+  'coriander leaves (dhaniya)': { en: 'Coriander', hi: 'धनिया पत्ता', bn: 'ধনে পাতা', mr: 'कोथिंबीर', te: 'కొత్తిమీర', ta: 'கொத்தமல்லி', 'zh-CN': '香菜', ms: 'Daun Ketumbar' },
+  'mint leaves (pudina)': { en: 'Mint', hi: 'पुदीना', bn: 'পুদিনা পাতা', mr: 'पुदिना', te: 'పుదీనా', ta: 'புதினா', 'zh-CN': '薄荷', ms: 'Daun Pudina' },
+  'lemon (nimbu)': { en: 'Lemon', hi: 'नींबू', bn: 'লেবু', mr: 'लिंबू', te: 'నిమ్మకాయ', ta: 'எலுமிச்சை', 'zh-CN': '柠檬', ms: 'Limau' },
+  'bottle gourd (lauki)': { en: 'Bottle Gourd', hi: 'लौकी', bn: 'লাউ', mr: 'दुधी भोपळा', te: 'సొరకాయ', ta: 'சுரைக்காய்', 'zh-CN': '葫芦', ms: 'Labu Air' },
+  'bitter gourd (karela)': { en: 'Bitter Gourd', hi: 'करेला', bn: 'করলা', mr: 'कारले', te: 'కాకరకాయ', ta: 'பாகற்காய்', 'zh-CN': '苦瓜', ms: 'Peria Katak' },
+
   // Fruits
-  'banana': { en: 'Banana', hi: 'केला', bn: 'কলা', mr: 'केळी', te: 'అరటి పండు', ta: 'வாழைப்பழம்' },
-  'apple (fuji)': { en: 'Apple', hi: 'सेब', bn: 'আপেল', mr: 'सफरचंद', te: 'యాపిల్', ta: 'ஆப்பிள்' },
-  'mango (alphonso)': { en: 'Mango', hi: 'आम', bn: 'আম', mr: 'आंबा', te: 'మామిడి', ta: 'மாம்பழம்' },
-  'orange': { en: 'Orange', hi: 'संतरा', bn: 'কমলালেবু', mr: 'संत्री', te: 'నారింజ', ta: 'ஆரஞ்சு' },
-  'papaya': { en: 'Papaya', hi: 'पपीता', bn: 'পেঁপে', mr: 'पपई', te: 'బొప్పాయి', ta: 'பப்பாளி' },
-  'watermelon': { en: 'Watermelon', hi: 'तरबूज', bn: 'তরমুজ', mr: 'कलिंगड', te: 'పుచ్చకాయ', ta: 'தர்பூசணி' },
-  'pomegranate (anar)': { en: 'Pomegranate', hi: 'अनार', bn: 'বেদানা', mr: 'डाळिंब', te: 'దానిమ్మ', ta: 'மாதுளை' },
-  'grapes (green)': { en: 'Grapes', hi: 'अंगूर', bn: 'আঙ্গুর', mr: 'द्राक्षे', te: 'ద్రాక్ష', ta: 'திராட்சை' },
-  
+  'banana': { en: 'Banana', hi: 'केला', bn: 'কলা', mr: 'केळी', te: 'అరటి పండు', ta: 'வாழைப்பழம்', 'zh-CN': '香蕉', ms: 'Pisang' },
+  'apple (fuji)': { en: 'Apple', hi: 'सेब', bn: 'আপেল', mr: 'सफरचंद', te: 'యాపిల్', ta: 'ஆப்பிள்', 'zh-CN': '苹果', ms: 'Epal' },
+  'mango (alphonso)': { en: 'Mango', hi: 'आम', bn: 'আম', mr: 'आंबा', te: 'మామిడి', ta: 'மாம்பழம்', 'zh-CN': '芒果', ms: 'Mangga' },
+  'orange': { en: 'Orange', hi: 'संतरा', bn: 'কমলালেবু', mr: 'संत्री', te: 'నారింజ', ta: 'ஆரஞ்சு', 'zh-CN': '橙子', ms: 'Oren' },
+  'papaya': { en: 'Papaya', hi: 'पपीता', bn: 'পেঁপে', mr: 'पपई', te: 'బొప్పాయి', ta: 'பப்பாளி', 'zh-CN': '木瓜', ms: 'Betik' },
+  'watermelon': { en: 'Watermelon', hi: 'तरबूज', bn: 'তরমুজ', mr: 'कलिंगड', te: 'పుచ్చకాయ', ta: 'தர்பூசணி', 'zh-CN': '西瓜', ms: 'Tembikai' },
+  'pomegranate (anar)': { en: 'Pomegranate', hi: 'अनार', bn: 'বেদানা', mr: 'डाळिंब', te: 'దానిమ్మ', ta: 'மாதுளை', 'zh-CN': '石榴', ms: 'Delima' },
+  'grapes (green)': { en: 'Grapes', hi: 'अंगूर', bn: 'আঙ্গুর', mr: 'द्राक्षे', te: 'ద్రాక్ష', ta: 'திராட்சை', 'zh-CN': '葡萄', ms: 'Anggur' },
+
   // Dairy & Eggs
-  'milk (full cream)': { en: 'Milk', hi: 'दूध', bn: 'দুধ', mr: 'दूध', te: 'పాలు', ta: 'பால்' },
-  'curd (dahi)': { en: 'Curd', hi: 'दही', bn: 'দই', mr: 'दही', te: 'పెరుగు', ta: 'தயிர்' },
-  'paneer (fresh)': { en: 'Paneer', hi: 'पनीर', bn: 'পনির', mr: 'पनीर', te: 'పనీర్', ta: 'பனீர்' },
-  'butter (amul)': { en: 'Butter', hi: 'मक्खन', bn: 'মাখন', mr: 'लोणी', te: 'వెన్న', ta: 'வெண்ணெய்' },
-  'cheese slices': { en: 'Cheese', hi: 'पनीर (चीज़)', bn: 'চিজ', mr: 'चीज', te: 'జున్ను', ta: 'பாலாடைக்கட்டி' },
-  'eggs (white)': { en: 'Eggs', hi: 'अंडे', bn: 'ডিম', mr: 'अंडी', te: 'గుడ్లు', ta: 'முட்டை' },
-  'ghee (cow)': { en: 'Ghee', hi: 'घी', bn: 'ঘি', mr: 'तूप', te: 'నెయ్యి', ta: 'நெய்' },
-  
+  'milk (full cream)': { en: 'Milk', hi: 'दूध', bn: 'দুধ', mr: 'दूध', te: 'పాలు', ta: 'பால்', 'zh-CN': '全脂牛奶', ms: 'Susu' },
+  'curd (dahi)': { en: 'Curd', hi: 'दही', bn: 'দই', mr: 'दही', te: 'పెరుగు', ta: 'தயிர்', 'zh-CN': '酸奶', ms: 'Dadih' },
+  'paneer (fresh)': { en: 'Paneer', hi: 'पनीर', bn: 'পনির', mr: 'पनीर', te: 'పనీర్', ta: 'பனீர்', 'zh-CN': '印度奶酪', ms: 'Paneer' },
+  'butter (amul)': { en: 'Butter', hi: 'मक्खन', bn: 'মাখন', mr: 'लोणी', te: 'వెన్న', ta: 'வெண்ணெய்', 'zh-CN': '黄油', ms: 'Mentega' },
+  'cheese slices': { en: 'Cheese', hi: 'पनीर (चीज़)', bn: 'চিজ', mr: 'चीज', te: 'జున్ను', ta: 'பாலாடைக்கட்டி', 'zh-CN': '芝士', ms: 'Keju' },
+  'eggs (white)': { en: 'Eggs', hi: 'अंडे', bn: 'ডিম', mr: 'अंडी', te: 'గుడ్లు', ta: 'முட்டை', 'zh-CN': '鸡蛋', ms: 'Telur' },
+  'ghee (cow)': { en: 'Ghee', hi: 'घी', bn: 'ঘি', mr: 'तूप', te: 'నెయ్యి', ta: 'நெய்', 'zh-CN': '酥油', ms: 'Ghee' },
+
   // Meat & Fish
-  'chicken breast (boneless)': { en: 'Chicken', hi: 'चिकन', bn: 'মুরগি', mr: 'चिकन', te: 'చికెన్', ta: 'கோழி' },
-  'mutton (curry cut)': { en: 'Mutton', hi: 'मटन', bn: 'খাসির মাংস', mr: 'मटण', te: 'మటన్', ta: 'ஆட்டுக்கறி' },
-  'rohu fish': { en: 'Rohu Fish', hi: 'रोहू मछली', bn: 'রুই মাছ', mr: 'रोहू मासा', te: 'రోహు చేప', ta: 'ரோஹு மீன்' },
-  'prawns (medium)': { en: 'Prawns', hi: 'झींगा', bn: 'চিংড়ি', mr: 'कोळंबी', te: 'రొయ్యలు', ta: 'இறால்' },
+  'chicken breast (boneless)': { en: 'Chicken', hi: 'चिकन', bn: 'মুরগি', mr: 'चिकन', te: 'చికెన్', ta: 'கோழி', 'zh-CN': '鸡肉', ms: 'Ayam' },
+  'mutton (curry cut)': { en: 'Mutton', hi: 'मटन', bn: 'খাসির মাংস', mr: 'मटण', te: 'మటన్', ta: 'ஆட்டுக்கறி', 'zh-CN': '羊肉', ms: 'Daging Kambing' },
+  'rohu fish': { en: 'Rohu Fish', hi: 'रोहू मछली', bn: 'রুই মাছ', mr: 'रोहू मासा', te: 'రోహు చేప', ta: 'ரோஹு மீன்', 'zh-CN': '鱼', ms: 'Ikan' },
+  'prawns (medium)': { en: 'Prawns', hi: 'झींगा', bn: 'চিংড়ি', mr: 'कोळंबी', te: 'రొయ్యలు', ta: 'இறால்', 'zh-CN': '虾', ms: 'Udang' },
 
   // Grains & Flours
-  'wheat atta (ashirvaad)': { en: 'Atta', hi: 'आटा', bn: 'আটা', mr: 'कणीक', te: 'గోధుమ పిండి', ta: 'கோதுமை மாவு' },
-  'basmati rice (daawat)': { en: 'Rice', hi: 'चावल', bn: 'চাল', mr: 'तांदूळ', te: 'బియ్యం', ta: 'அரிசி' },
-  'maida (refined flour)': { en: 'Maida', hi: 'मैदा', bn: 'ময়দা', mr: 'मैदा', te: 'మైదా', ta: 'மைதா' },
-  'besan (gram flour)': { en: 'Besan', hi: 'बेसन', bn: 'বেসন', mr: 'बेसन', te: 'శనగ పిండి', ta: 'கடலை மாவு' },
-  'suji (semolina)': { en: 'Suji', hi: 'सूजी', bn: 'সুজি', mr: 'रवा', te: 'ఉప్మా రవ్వ', ta: 'ரவை' },
-  'poha (flattened rice)': { en: 'Poha', hi: 'पोहा', bn: 'চিঁড়ে', mr: 'पोहे', te: 'అటుకులు', ta: 'அவல்' },
+  'wheat atta (ashirvaad)': { en: 'Atta', hi: 'आटा', bn: 'আটা', mr: 'कणीक', te: 'గోధుమ పిండి', ta: 'கோதுமை மாவு', 'zh-CN': '全麦面粉', ms: 'Tepung Gandum' },
+  'basmati rice (daawat)': { en: 'Rice', hi: 'चावल', bn: 'চাল', mr: 'तांदूळ', te: 'బియ్యం', ta: 'அரிசி', 'zh-CN': '香米', ms: 'Beras Basmati' },
+  'maida (refined flour)': { en: 'Maida', hi: 'मैदा', bn: 'ময়দা', mr: 'मैदा', te: 'మైదా', ta: 'மைதா', 'zh-CN': '精面粉', ms: 'Tepung Halus' },
+  'besan (gram flour)': { en: 'Besan', hi: 'बेसन', bn: 'বেসন', mr: 'बेसन', te: 'శనగ పిండి', ta: 'கடலை மாவு', 'zh-CN': '鹰嘴豆粉', ms: 'Tepung Kacang Dhal' },
+  'suji (semolina)': { en: 'Suji', hi: 'सूजी', bn: 'সুজি', mr: 'रवा', te: 'ఉప్మా రవ్వ', ta: 'ரவை', 'zh-CN': '粗面粉', ms: 'Semolina' },
+  'poha (flattened rice)': { en: 'Poha', hi: 'पोहा', bn: 'চিঁড়ে', mr: 'पोहे', te: 'అటుకులు', ta: 'அவல்', 'zh-CN': '压扁米', ms: 'Beras Pipih' },
 
   // Pulses & Dals
-  'toor dal (arhar)': { en: 'Toor Dal', hi: 'तूर दाल', bn: 'অড়হর ডাল', mr: 'तूर डाळ', te: 'కందిపప్పు', ta: 'துவரம் பருப்பு' },
-  'moong dal (yellow)': { en: 'Moong Dal', hi: 'मूंग दाल', bn: 'মুগ ডাল', mr: 'मूग डाळ', te: 'పెసరపప్పు', ta: 'பாசிப்பருப்பு' },
-  'chana dal': { en: 'Chana Dal', hi: 'चना दाल', bn: 'ছোলার ডাল', mr: 'हरभरा डाळ', te: 'శనగపప్పు', ta: 'கடலைப் பருப்பு' },
-  'masoor dal (red)': { en: 'Masoor Dal', hi: 'मसूर दाल', bn: 'মসুর ডাল', mr: 'मसूर डाळ', te: 'ఎర్ర కందిపప్పు', ta: 'மைசூர் பருப்பு' },
-  'urad dal (white)': { en: 'Urad Dal', hi: 'उड़द दाल', bn: 'বিউলির ডাল', mr: 'उडीद डाळ', te: 'మినపప్పు', ta: 'உளுத்தம் பருப்பு' },
-  'rajma (kidney beans)': { en: 'Rajma', hi: 'राजमा', bn: 'রাজমা', mr: 'राजमा', te: 'రాజ్మా', ta: 'ராஜ்மா' },
-  'kabuli chana (chickpeas)': { en: 'Chickpeas', hi: 'काबुली चना', bn: 'কাবুলি ছোলা', mr: 'काबुली चणा', te: 'కాబూలీ శనగలు', ta: 'கொண்டைக்கடலை' },
+  'toor dal (arhar)': { en: 'Toor Dal', hi: 'तूर दाल', bn: 'অড়হর ডাল', mr: 'तूर डाळ', te: 'కందిపప్పు', ta: 'துவரம் பருப்பு', 'zh-CN': '木豆', ms: 'Dal Toor' },
+  'moong dal (yellow)': { en: 'Moong Dal', hi: 'मूंग दाल', bn: 'মুগ ডাল', mr: 'मूग डाळ', te: 'పెసరపప్పు', ta: 'பாசிப்பருப்பு', 'zh-CN': '绿豆', ms: 'Dal Hijau' },
+  'chana dal': { en: 'Chana Dal', hi: 'चना दाल', bn: 'ছোলার ডাল', mr: 'हरभरा डाळ', te: 'శనగపప్పు', ta: 'கடலைப் பருப்பு', 'zh-CN': '鹰嘴豆瓣', ms: 'Dal Kacang Dhal' },
+  'masoor dal (red)': { en: 'Masoor Dal', hi: 'मसूर दाल', bn: 'মসুর ডাল', mr: 'मसूर डाळ', te: 'ఎర్ర కందిపప్పు', ta: 'மைசூர் பருப்பு', 'zh-CN': '红扁豆', ms: 'Dal Merah' },
+  'urad dal (white)': { en: 'Urad Dal', hi: 'उड़द दाल', bn: 'বিউলির ডাল', mr: 'उडीद डाळ', te: 'మినపప్పు', ta: 'உளுத்தம் பருப்பு', 'zh-CN': '黑豆瓣', ms: 'Dal Urad' },
+  'rajma (kidney beans)': { en: 'Rajma', hi: 'राजमा', bn: 'রাজমা', mr: 'राजमा', te: 'రాజ్మా', ta: 'ராஜ்மா', 'zh-CN': '腰豆', ms: 'Kacang Merah' },
+  'kabuli chana (chickpeas)': { en: 'Chickpeas', hi: 'काबुली चना', bn: 'কাবুলি ছোলা', mr: 'काबुली चणा', te: 'కాబూలీ శనగలు', ta: 'கொண்டைக்கடலை', 'zh-CN': '鹰嘴豆', ms: 'Kacang Chickpea' },
 
   // Spices & Condiments
-  'salt (tata)': { en: 'Salt', hi: 'नमक', bn: 'লবণ', mr: 'मीठ', te: 'ఉప్పు', ta: 'உப்பு' },
-  'sugar (refined)': { en: 'Sugar', hi: 'चीनी', bn: 'চিনি', mr: 'साखर', te: 'చక్కెర', ta: 'சர்க்கரை' },
-  'turmeric powder (haldi)': { en: 'Turmeric', hi: 'हल्दी', bn: 'হলুদ', mr: 'हळद', te: 'పసుపు', ta: 'மஞ்சள் தூள்' },
-  'red chilli powder': { en: 'Red Chilli Powder', hi: 'लाल मिर्च पाउडर', bn: 'লঙ্কা গুঁড়ো', mr: 'लाल तिखट', te: 'కారం', ta: 'மிளகாய் தூள்' },
-  'coriander powder (dhaniya)': { en: 'Coriander Powder', hi: 'धनिया पाउडर', bn: 'ধনে গুঁড়ো', mr: 'धने पूड', te: 'ధనియాల పొడి', ta: 'மல்லித் தூள்' },
-  'cumin seeds (jeera)': { en: 'Cumin', hi: 'जीरा', bn: 'জিরে', mr: 'जिरे', te: 'జీలకర్ระ', ta: 'சீரகம்' },
-  'mustard seeds (sarson)': { en: 'Mustard Seeds', hi: 'सरसों', bn: 'সর্ষে', mr: 'मोहरी', te: 'ఆవాలు', ta: 'கடுகு' },
-  'garam masala': { en: 'Garam Masala', hi: 'गरम मसाला', bn: 'গরম মশলা', mr: 'गरम मसाला', te: 'గరం మసాలా', ta: 'கரம் மசாலா' },
-  
+  'salt (tata)': { en: 'Salt', hi: 'नमक', bn: 'লবণ', mr: 'मीठ', te: 'ఉప్పు', ta: 'உப்பு', 'zh-CN': '盐', ms: 'Garam' },
+  'sugar (refined)': { en: 'Sugar', hi: 'चीनी', bn: 'চিনি', mr: 'साखर', te: 'చక్కెర', ta: 'சர்க்கரை', 'zh-CN': '白糖', ms: 'Gula' },
+  'turmeric powder (haldi)': { en: 'Turmeric', hi: 'हल्दी', bn: 'হলুদ', mr: 'हळद', te: 'పసుపు', ta: 'மஞ்சள் தூள்', 'zh-CN': '姜黄粉', ms: 'Serbuk Kunyit' },
+  'red chilli powder': { en: 'Red Chilli Powder', hi: 'लाल मिर्च पाउडर', bn: 'লঙ্কা গুঁড়ো', mr: 'लाल तिखट', te: 'కారం', ta: 'மிளகாய் தூள்', 'zh-CN': '辣椒粉', ms: 'Serbuk Cili Merah' },
+  'coriander powder (dhaniya)': { en: 'Coriander Powder', hi: 'धनिया पाउडर', bn: 'ধনে গুঁড়ো', mr: 'धने पूड', te: 'ధనియాల పొడి', ta: 'மல்லித் தூள்', 'zh-CN': '香菜粉', ms: 'Serbuk Ketumbar' },
+  'cumin seeds (jeera)': { en: 'Cumin', hi: 'जीरा', bn: 'জিরে', mr: 'जिरे', te: 'జీలకర్ระ', ta: 'சீரகம்', 'zh-CN': '孜然', ms: 'Jintan Putih' },
+  'mustard seeds (sarson)': { en: 'Mustard Seeds', hi: 'सरसों', bn: 'সর্ষে', mr: 'मोहरी', te: 'ఆవాలు', ta: 'கடுகு', 'zh-CN': '芥菜籽', ms: 'Biji Sawi' },
+  'garam masala': { en: 'Garam Masala', hi: 'गरम मसाला', bn: 'গরম মশলা', mr: 'गरम मसाला', te: 'గరం మసాలా', ta: 'கரம் மசாலா', 'zh-CN': '印度综合香料', ms: 'Rempah Garam Masala' },
+
   // Oils & Liquids
-  'mustard oil (kacchi ghani)': { en: 'Mustard Oil', hi: 'सरसों का तेल', bn: 'সর্ষের তেল', mr: 'मोहरीचे तेल', te: 'ఆవ నూనె', ta: 'கடுகு எண்ணெய்' },
-  'sunflower oil (refined)': { en: 'Sunflower Oil', hi: 'सूरजमुखी का तेल', bn: 'সূর্যমুখী তেল', mr: 'सूर्यफूल तेल', te: 'పొద్దుతిరుగుడు నూనె', ta: 'சூரியகாந்தி எண்ணெய்' },
-  'groundnut oil': { en: 'Groundnut Oil', hi: 'मूंगफली का तेल', bn: 'বাদাম তেল', mr: 'शेंगदाणा तेल', te: 'వేరుశనగ నూనె', ta: 'கடலை எண்ணெய்' }
+  'mustard oil (kacchi ghani)': { en: 'Mustard Oil', hi: 'सरसों का तेल', bn: 'সর্ষের তেল', mr: 'मोहरीचे तेल', te: 'ఆవ నూనె', ta: 'கடுகு எண்ணெய்', 'zh-CN': '芥末油', ms: 'Minyak Sawi' },
+  'sunflower oil (refined)': { en: 'Sunflower Oil', hi: 'सूरजमुखी का तेल', bn: 'সূর্যমুখী তেল', mr: 'सूर्यफूल तेल', te: 'పొద్దుతిరుగుడు నూనె', ta: 'சூரியகாந்தி எண்ணெய்', 'zh-CN': '葵花籽油', ms: 'Minyak Bunga Matahari' },
+  'groundnut oil': { en: 'Groundnut Oil', hi: 'मूंगफली का तेल', bn: 'বাদাম তেল', mr: 'शेंगदाणा तेल', te: 'వేరుశనగ నూనె', ta: 'கடலை எண்ணெய்', 'zh-CN': '花生油', ms: 'Minyak Kacang' }
 };
 
+
 // SEO Title Templates provided by user
-export const SEO_TEMPLATES = {
+export const SEO_TEMPLATES: Record<string, string> = {
   en: "{item} Price — Today Real Price | Compare Blinkit, Zepto, BigBasket & More",
   hi: "आज {item} की कीमत — ब्लिंकइट, ज़ेप्टो और अन्य की तुलना करें",
   bn: "আজকের {item} দাম — ব্লিংকিট, জেপ্টো ও আরও অনেক কিছুর তুলনা করুন",
   mr: "आजचा {item} भाव — ब्लिंकइट, झेप्टो आणि इतरांशी तुलना करा",
   te: "ఈరోజు {item} ధర — బ్లింకిట్, జెప్టో మరియు మరిన్నింటిని పోల్చండి",
-  ta: "இன்றைய {item} விலை — பிளிங்கிட், செப்டோ மற்றும் பலவற்றை ஒப்பிடுக"
+  ta: "இன்றைய {item} விலை — பிளிங்கிட், செப்டோ மற்றும் பலவற்றை ஒப்பிடுக",
+  "zh-CN": "{item} 今日价格 | 比较 FairPrice、RedMart 及更多平台",
+  ms: "{item} Harga Hari Ini | Bandingkan FairPrice, RedMart & Lebih"
 };
 
 // Helper function to get translated item name (fallback to English if missing)

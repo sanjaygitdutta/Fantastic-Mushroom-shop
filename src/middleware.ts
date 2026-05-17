@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const ALL_LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta'];
+const ALL_LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta', 'zh-CN', 'ms'];
 const LANG_SEGMENTS = new Set([
   'food', 'city', 'blog', 'compare', 'recipe', 'recipes', 'directory', 
   'basket', 'chef-aika', 'meal-planner', 'festival', 'health', 
@@ -22,6 +22,18 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // --- GEO-IP & URL REGION DETECTION ---
+  const urlRegion = request.nextUrl.searchParams.get('region')?.toUpperCase();
+  let region = (urlRegion === 'SG' || urlRegion === 'IN') ? urlRegion : request.cookies.get('user-region')?.value;
+  if (!region) {
+    const country = (request as any).geo?.country || 'IN';
+    region = country === 'SG' ? 'SG' : 'IN';
+  }
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-user-region', region);
+  // -------------------------------------
+
   const parts = pathname.split('/').filter(Boolean);
 
   // 2. Redirect ?lang=xx to the proper path prefix
@@ -35,12 +47,17 @@ export function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = `/${langParam}/${parts.join('/')}`;
     url.searchParams.delete('lang');
-    return NextResponse.redirect(url, { status: 301 });
+    const response = NextResponse.redirect(url, { status: 301 });
+    if (urlRegion && ['SG', 'IN'].includes(urlRegion)) {
+      response.cookies.set('user-region', urlRegion, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    } else if (!request.cookies.has('user-region')) {
+      response.cookies.set('user-region', region, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    }
+    return response;
   }
 
   // 1. If ?lang=XX is present, ALWAYS redirect to the clean path version /XX/path
   if (langParam && ALL_LANGUAGES.includes(langParam)) {
-    // Determine the clean path (remove any existing language prefix from the path first)
     let cleanPath = pathname;
     if (ALL_LANGUAGES.includes(parts[0])) {
       cleanPath = '/' + parts.slice(1).join('/');
@@ -48,31 +65,47 @@ export function middleware(request: NextRequest) {
     
     const url = request.nextUrl.clone();
     url.pathname = `/${langParam}${cleanPath === '/' ? '' : cleanPath}`;
-    url.searchParams.delete('lang'); // Erase the query param
-    return NextResponse.redirect(url, { status: 301 });
+    url.searchParams.delete('lang');
+    const response = NextResponse.redirect(url, { status: 301 });
+    if (urlRegion && ['SG', 'IN'].includes(urlRegion)) {
+      response.cookies.set('user-region', urlRegion, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    } else if (!request.cookies.has('user-region')) {
+      response.cookies.set('user-region', region, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    }
+    return response;
   }
 
   // 2. Handle paths missing a language prefix
   const hasLangPrefix = ALL_LANGUAGES.includes(parts[0]);
 
   if (!hasLangPrefix) {
-    // Detect user preference from cookie
     const cookieLang = request.cookies.get('i18next')?.value || request.cookies.get('NEXT_LOCALE')?.value;
     const targetLang = (cookieLang && ALL_LANGUAGES.includes(cookieLang)) ? cookieLang : 'en';
 
-    // A. For the ROOT homepage (/) -> Use REWRITE to avoid loop
+    let response;
     if (pathname === '/') {
-      return NextResponse.rewrite(new URL(`/${targetLang}`, request.url));
+      response = NextResponse.rewrite(new URL(`/${targetLang}`, request.url), { request: { headers: requestHeaders } });
+    } else {
+      response = NextResponse.rewrite(new URL(`/${targetLang}${pathname}${request.nextUrl.search}`, request.url), { request: { headers: requestHeaders } });
     }
-
-    // B. For all other segments -> Use REWRITE to serve content but keep canonical signals
-    return NextResponse.rewrite(new URL(`/${targetLang}${pathname}${request.nextUrl.search}`, request.url));
+    if (urlRegion && ['SG', 'IN'].includes(urlRegion)) {
+      response.cookies.set('user-region', urlRegion, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    } else if (!request.cookies.has('user-region')) {
+      response.cookies.set('user-region', region, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    }
+    return response;
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  if (urlRegion && ['SG', 'IN'].includes(urlRegion)) {
+    response.cookies.set('user-region', urlRegion, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+  } else if (!request.cookies.has('user-region')) {
+    response.cookies.set('user-region', region, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+  }
+  return response;
 }
 
 export const config = {
-  // Do not run the middleware on static files and api routes
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  regions: ['bom1', 'sin1'],
 };

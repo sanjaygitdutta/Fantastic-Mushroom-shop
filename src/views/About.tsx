@@ -4,13 +4,19 @@ import Link from 'next/link';
 
 import { Heart, Leaf, Users, Award, Zap, Globe } from 'lucide-react';
 import SEO from '../components/SEO';
+import { useTranslation } from 'react-i18next';
+import { useRegion } from '../utils/region';
 
 const About = () => {
+    const { t } = useTranslation();
+    const { region } = useRegion();
+    const isSG = region?.toUpperCase() === 'SG';
+
     return (
         <>
             <SEO 
-                title="About Us | AI Grocery Comparison & Organic Mushroom Farm"
-                description="The story of Fantastic Food: From a small village mushroom farm to India's most advanced AI-powered grocery price comparison engine."
+                title={t(isSG ? 'about_seo_title_sg' : 'about_seo_title', { defaultValue: isSG ? "About Us — Premium Organic Mushrooms & AI Grocery Comparison SG" : "About Us | AI Grocery Comparison & Organic Mushroom Farm" })}
+                description={t(isSG ? 'about_seo_desc_sg' : 'about_seo_desc', { defaultValue: isSG ? "The story of Fantastic Food: How we leverage advanced AI to bring absolute transparency to online grocery pricing in Singapore." : "The story of Fantastic Food: From a small village mushroom farm to India's most advanced AI-powered grocery price comparison engine." })}
                 canonicalUrl="https://www.fantasticfood.in/about"
             />
 
@@ -150,7 +156,7 @@ const About = () => {
                             viewport={{ once: true }}
                             className="bg-linear-to-r from-amber-500 to-orange-500 rounded-[3rem] p-12 md:p-20 text-center text-forest-900 shadow-2xl relative overflow-hidden"
                         >
-                            <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+                            <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
                             <h2 className="text-4xl md:text-6xl font-black font-display mb-8 tracking-tighter relative z-10">
                                 Be Part of the <br />Future of Food
                             </h2>

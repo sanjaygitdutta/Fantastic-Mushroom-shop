@@ -277,7 +277,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
               className="badge-category hover:scale-105 transition-transform"
             >
               <span>{item.icon}</span>
-              {item.label}
+              {t(item.labelKey, { defaultValue: item.label })}
             </button>
           ))}
         </div>

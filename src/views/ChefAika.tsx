@@ -1,11 +1,12 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb, Gift, MessageCircle } from 'lucide-react';
+import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb, Gift } from 'lucide-react';
 import SEO from '../components/SEO';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabase';
+import { useRegion } from '../utils/region';
 
 
 declare global {
@@ -35,6 +36,8 @@ type Recipe = {
 
 export default function ChefAikaPage() {
   const { t } = useTranslation();
+  const { region } = useRegion();
+  const isSG = region?.toUpperCase() === 'SG';
 
   // Ingredients
   const [ingredients, setIngredients] = useState<string[]>([]);
@@ -48,7 +51,7 @@ export default function ChefAikaPage() {
   const [sharedRecipeName, setSharedRecipeName] = useState('');
   const [dailyRecipeUsage, setDailyRecipeUsage] = useState(0);
   const [clicks, setClicks] = useState(0);
-  const [refCode, setRefCode] = useState('');
+  const [_refCode, setRefCode] = useState('');
   const [hasCheckedPro, setHasCheckedPro] = useState(false);
   const TARGET_CLICKS = 3;
 
@@ -347,14 +350,14 @@ export default function ChefAikaPage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Chef Aika AI Kitchen Assistant",
-    "url": "https://www.fantasticfood.in/chef-aika",
+    "url": isSG ? "https://www.fantasticfood.in/chef-aika?region=SG" : "https://www.fantasticfood.in/chef-aika",
     "description": "An AI kitchen assistant that scans your fridge, identifies ingredients, and instantly generates personalized recipes.",
     "applicationCategory": "LifestyleApplication",
     "operatingSystem": "Any",
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "INR"
+      "priceCurrency": isSG ? "SGD" : "INR"
     },
     "featureList": [
       "AI Recipe Generation",
@@ -366,10 +369,12 @@ export default function ChefAikaPage() {
   return (
     <>
       <SEO
-        title="Chef Aika — AI Kitchen Assistant | Fantastic Food"
-        description="Let Chef Aika plan your meals! Scan your fridge, add ingredients, and get personalized AI-generated recipes in seconds."
-        canonicalUrl="https://www.fantasticfood.in/chef-aika"
-        keywords="AI chef, recipe generator, fridge scan, meal planner, Chef Aika, Fantastic Food"
+        title={t(isSG ? 'chef_aika_seo_title_sg' : 'chef_aika_seo_title', { defaultValue: isSG ? "Chef Aika — AI Fridge Scanner & Recipe Generator SG | Fantastic Food" : "Chef Aika — AI Kitchen Assistant | Fantastic Food" })}
+        description={t(isSG ? 'chef_aika_seo_desc_sg' : 'chef_aika_seo_desc', { defaultValue: isSG ? "Let Chef Aika plan your meals in Singapore! Scan your fridge ingredients to instantly generate local recipes and buy grocery kits." : "Let Chef Aika plan your meals! Scan your fridge, add ingredients, and get personalized AI-generated recipes in seconds." })}
+        canonicalUrl={isSG ? "https://www.fantasticfood.in/chef-aika?region=SG" : "https://www.fantasticfood.in/chef-aika"}
+        keywords={isSG
+          ? "AI chef Singapore, recipe generator Singapore, fridge scan SG, meal planner Singapore, Chef Aika, Fantastic Food"
+          : "AI chef, recipe generator, fridge scan, meal planner, Chef Aika, Fantastic Food"}
         structuredData={structuredData}
       />
 
@@ -537,7 +542,7 @@ export default function ChefAikaPage() {
                 )}
               </div>
               <h1 className="text-2xl font-black text-white mb-1">Chef Aika</h1>
-              <p className="text-sm mb-4" style={{ color: '#52B788' }}>Your AI Kitchen Companion</p>
+              <p className="text-sm mb-4" style={{ color: '#52B788' }}>{t('aika_companion')}</p>
 
               {/* Voice Button */}
               <motion.button

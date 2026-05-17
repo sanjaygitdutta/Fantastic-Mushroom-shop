@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useMemo } from 'react';
+import { useRegion, formatCurrency } from '../utils/region';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Plus, Star, Heart } from 'lucide-react';
 import type { Product } from '../data/products';
@@ -164,7 +165,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         )}
                     </div>
                     <span className="text-lg font-black text-forest-900 mt-1">
-                        ₹{Math.round(displayPrice)}
+                        {formatCurrency(Math.round(displayPrice), region)}
                     </span>
                 </div>
 

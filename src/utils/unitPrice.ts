@@ -3,6 +3,7 @@
  * Converts all platform prices to a common unit (per kg / per L / per piece)
  * so users can make apples-to-apples comparisons even when pack sizes differ.
  */
+import type { Region } from './region';
 
 // Parse a unit string like "500g", "1 kg", "250ml", "6 pcs" into grams/ml/count
 export interface ParsedUnit {
@@ -38,29 +39,51 @@ export const parseUnit = (unit: string): ParsedUnit => {
   return { value: 1, type: 'unknown', baseUnit: 'unit' };
 };
 
-// Returns price per base unit, formatted as "₹X/kg" or "₹X/L" etc.
-export const getUnitPrice = (price: number, unit: string): string | null => {
+// Returns price per base unit, formatted as "₹X/kg" or "S$X/kg" etc.
+export const getUnitPrice = (price: number, unit: string, region: Region = 'IN'): string | null => {
   const parsed = parseUnit(unit);
   if (parsed.type === 'unknown') return null;
 
+  const sym = region === 'SG' ? 'S$' : '₹';
   let normalized: number;
   let label: string;
 
   if (parsed.type === 'weight') {
-    // Convert to per kg
     normalized = Math.round((price / parsed.value) * 1000);
-    label = `₹${normalized}/kg`;
+    label = `${sym}${normalized}/kg`;
   } else if (parsed.type === 'volume') {
-    // Convert to per litre
     normalized = Math.round((price / parsed.value) * 1000);
-    label = `₹${normalized}/L`;
+    label = `${sym}${normalized}/L`;
   } else {
-    // Per piece
     const perPiece = (price / parsed.value).toFixed(1);
-    label = `₹${perPiece}/pc`;
+    label = `${sym}${perPiece}/pc`;
   }
 
   return label;
+};
+
+// Maps raw platformId to a human-readable display name for both IN and SG markets
+const platformDisplayName = (id: string): string => {
+  const names: Record<string, string> = {
+    // SG platforms
+    fairprice:   'FairPrice',
+    redmart:     'RedMart',
+    coldstorage: 'Cold Storage',
+    shengsiong:  'Sheng Siong',
+    giant:       'Giant',
+    grabmart:    'GrabMart',
+    pandamart:   'PandaMart',
+    amazon_sg:   'Amazon SG',
+    // IN platforms
+    blinkit:     'Blinkit',
+    zepto:       'Zepto',
+    swiggy:      'Swiggy',
+    bigbasket:   'BigBasket',
+    amazon:      'Amazon Fresh',
+    jiomart:     'JioMart',
+    flipkart:    'Flipkart',
+  };
+  return names[id] || id.charAt(0).toUpperCase() + id.slice(1);
 };
 
 // Returns best deal accounting for unit differences
@@ -73,21 +96,28 @@ export const getBestUnitDeal = (
       const parsed = parseUnit(p.unit);
       if (parsed.type === 'unknown') return null;
       const perUnit = parsed.type === 'piece' ? p.price / parsed.value : (p.price / parsed.value) * 1000;
-      return { ...p, perUnit };
+      return { ...p, perUnit, unitType: parsed.type };
     })
-    .filter(Boolean) as { platformId: string; perUnit: number }[];
+    .filter(Boolean) as { platformId: string; perUnit: number; unitType: string }[];
 
   if (withNormalized.length < 2) return null;
 
-  const best = withNormalized.reduce((a, b) => (a.perUnit < b.perUnit ? a : b));
-  const worst = withNormalized.reduce((a, b) => (a.perUnit > b.perUnit ? a : b));
+  // Only compare platforms of the same unit type — cross-unit (kg vs piece) is meaningless
+  const unitTypes = ['weight', 'volume', 'piece'] as const;
+  const dominant = unitTypes.find(t => withNormalized.filter(p => p.unitType === t).length >= 2);
+  if (!dominant) return null;
+  const sameType = withNormalized.filter(p => p.unitType === dominant);
+  if (sameType.length < 2) return null;
+
+  const best = sameType.reduce((a, b) => (a.perUnit < b.perUnit ? a : b));
+  const worst = sameType.reduce((a, b) => (a.perUnit > b.perUnit ? a : b));
 
   if (best.platformId === worst.platformId) return null;
 
   const savingPct = Math.round(((worst.perUnit - best.perUnit) / worst.perUnit) * 100);
   if (savingPct < 3) return null; // Not worth showing tiny differences
 
-  return `${best.platformId.charAt(0).toUpperCase() + best.platformId.slice(1)} is ${savingPct}% cheaper per unit than ${worst.platformId.charAt(0).toUpperCase() + worst.platformId.slice(1)} when comparing pack sizes`;
+  return `${platformDisplayName(best.platformId)} is ${savingPct}% cheaper per unit than ${platformDisplayName(worst.platformId)} when comparing pack sizes`;
 };
 
 // Price trend signal based on seeded history (uses same seed as priceHistory.ts)

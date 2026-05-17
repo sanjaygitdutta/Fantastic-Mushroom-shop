@@ -4,12 +4,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, Check, Tag, Clock, ExternalLink, Star, Zap, TrendingDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { useRegion } from '../utils/region';
 import SEO from '../components/SEO';
 import type { Coupon } from '../data/coupons';
-import { COUPONS } from '../data/coupons';
+import { COUPONS, SG_COUPONS } from '../data/coupons';
 
 
-const PLATFORM_IDS = ['All', 'Blinkit', 'Zepto', 'Swiggy Instamart', 'BigBasket', 'Amazon Fresh', 'JioMart', 'Flipkart Minutes'];
+const IN_PLATFORMS = ['All', 'Blinkit', 'Zepto', 'Swiggy Instamart', 'BigBasket', 'Amazon Fresh', 'JioMart', 'Flipkart Minutes'];
+const SG_PLATFORMS = ['All', 'FairPrice', 'RedMart', 'Cold Storage', 'Shopee Supermarket'];
 const CATEGORY_KEYS = ['All', 'First Order', 'Grocery', 'Vegetables', 'Dairy', 'Delivery'];
 const CATEGORY_I18N: Record<string, string> = {
   'All': 'coup_cat_all',
@@ -115,11 +117,16 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
 
 export default function Coupons() { // refresh
   const { t } = useTranslation();
+  const { region } = useRegion();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPlatform, setSelectedPlatform] = useState('All');
   const [search, setSearch] = useState('');
 
-  const filtered = COUPONS.filter(c => {
+    const isSG = region?.toUpperCase() === 'SG';
+    const platformIds = isSG ? SG_PLATFORMS : IN_PLATFORMS;
+    const couponsList = isSG ? SG_COUPONS : COUPONS;
+
+  const filtered = couponsList.filter(c => {
     const matchCat = selectedCategory === 'All' || c.category === selectedCategory;
     const matchPlat = selectedPlatform === 'All' || c.platform === selectedPlatform;
     const matchSearch = c.code.toLowerCase().includes(search.toLowerCase()) ||
@@ -131,13 +138,13 @@ export default function Coupons() { // refresh
   const hotCount = filtered.filter(c => c.isHot).length;
 
   const currentMonthYear = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
-  const couponCount = COUPONS.length;
+  const couponCount = couponsList.length;
 
   return (
     <>
       <SEO
-        title={`${couponCount}+ Active Grocery Coupons for ${currentMonthYear} (Updated Daily)`}
-        description={`Get the latest grocery coupon codes for ${currentMonthYear}. Verified promo offers for Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Updated daily!`}
+        title={t(region?.toLowerCase() === 'sg' ? 'coupons_seo_title_sg' : 'coupons_seo_title', { defaultValue: `${couponCount}+ Active Grocery Coupons for ${currentMonthYear} (Updated Daily)` }).replace('{{count}}', couponCount.toString()).replace('{{month}}', currentMonthYear)}
+        description={t(region?.toLowerCase() === 'sg' ? 'coupons_seo_desc_sg' : 'coupons_seo_desc', { defaultValue: `Get the latest grocery coupon codes for ${currentMonthYear}. Verified promo offers for Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Updated daily!` }).replace('{{month}}', currentMonthYear)}
         canonicalUrl="https://www.fantasticfood.in/coupons"
         keywords={`blinkit coupon code ${currentMonthYear}, zepto promo code, swiggy instamart offer, bigbasket coupon, jiomart coupon today, flipkart minutes discount`}
       />
@@ -148,7 +155,7 @@ export default function Coupons() { // refresh
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'FAQPage',
-            mainEntity: COUPONS.slice(0, 5).map(coupon => ({
+            mainEntity: couponsList.slice(0, 5).map(coupon => ({
               '@type': 'Question',
               name: `What is the latest coupon code for ${coupon.platform}?`,
               acceptedAnswer: {
@@ -173,15 +180,15 @@ export default function Coupons() { // refresh
               <span className="text-amber-400">{t('coup_subtitle', { defaultValue: 'Save More Every Day' })}</span>
             </h1>
             <p className="text-cream-300 text-lg max-w-2xl mx-auto">
-              {t('coup_desc', { defaultValue: 'The best promo codes for Blinkit, Zepto, Swiggy, BigBasket, JioMart & Flipkart Minutes — all in one place. Click to copy instantly!' })}
+              {t(isSG ? 'coup_desc_sg' : 'coup_desc', { defaultValue: 'The best promo codes for Blinkit, Zepto, Swiggy, BigBasket, JioMart & Flipkart Minutes — all in one place. Click to copy instantly!' })}
             </p>
 
             {/* Stats bar */}
             <div className="flex flex-wrap justify-center gap-6 mt-8">
               {[
-                { label: t('coup_stat_active', { defaultValue: 'Active Coupons' }), value: COUPONS.length, icon: '🎟️' },
-                { label: t('coup_stat_hot', { defaultValue: 'Hot Deals Today' }), value: COUPONS.filter(c => c.isHot).length, icon: '🔥' },
-                { label: t('coup_stat_platforms', { defaultValue: 'Platforms Covered' }), value: 7, icon: '🏪' },
+                { label: t('coup_stat_active', { defaultValue: 'Active Coupons' }), value: couponsList.length, icon: '🎟️' },
+                { label: t('coup_stat_hot', { defaultValue: 'Hot Deals Today' }), value: couponsList.filter(c => c.isHot).length, icon: '🔥' },
+                { label: t('coup_stat_platforms', { defaultValue: 'Platforms Covered' }), value: platformIds.length - 1, icon: '🏪' },
               ].map((stat) => (
                 <div key={stat.label} className="bg-white/10 backdrop-blur border border-white/20 rounded-2xl px-6 py-4 text-center">
                   <div className="text-3xl mb-1">{stat.icon}</div>
@@ -227,7 +234,7 @@ export default function Coupons() { // refresh
             <div>
               <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">{t('coup_platform_label', { defaultValue: 'Platform' })}</p>
               <div className="flex flex-wrap gap-2">
-                {PLATFORM_IDS.map(p => (
+                {platformIds.map(p => (
                   <button
                     key={p}
                     onClick={() => setSelectedPlatform(p)}

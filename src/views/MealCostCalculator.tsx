@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useRegion, formatCurrency } from '../utils/region';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChefHat, ExternalLink, ShoppingCart, Plus, Minus, Sparkles, Users } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -75,6 +77,8 @@ const DIFFICULTY_COLORS = { Easy: 'bg-green-100 text-green-700', Medium: 'bg-amb
 interface PlatformCost { platformId: string; total: number; }
 
 const MealCostCalculator = () => {
+  const { region } = useRegion();
+  const { t } = useTranslation();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [costs, setCosts] = useState<PlatformCost[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -105,7 +109,7 @@ const MealCostCalculator = () => {
     setCosts(null);
     setModalOpen(true);
 
-    const results = await Promise.all(recipe.ingredients.map(ing => searchPrices(ing.query)));
+    const results = await Promise.all(recipe.ingredients.map(ing => searchPrices(ing.query, region)));
     const totals: Record<string, number> = {};
     PLATFORMS.forEach(p => { totals[p.id] = 0; });
     results.forEach(result => {
@@ -131,8 +135,8 @@ const MealCostCalculator = () => {
   return (
     <div className="min-h-screen bg-linear-to-b from-forest-900 to-cream-50 pt-24 pb-16">
       <SEO
-        title="Meal Cost Calculator — 250+ World Recipes Cost Comparison | Fantastic Food"
-        description="Find the exact cost of cooking 250+ recipes from 25 countries at home. Compare ingredient prices across Blinkit, Zepto, BigBasket and more. Adjust for servings!"
+        title={t(region?.toUpperCase() === 'SG' ? 'meal_cost_seo_title_sg' : 'meal_cost_seo_title').replace('{{count}}', RECIPES.length.toString())}
+        description={t(region?.toUpperCase() === 'SG' ? 'meal_cost_seo_desc_sg' : 'meal_cost_seo_desc').replace('{{count}}', RECIPES.length.toString())}
         keywords="meal cost calculator India, recipe cost, cooking cost calculator, world recipes cost, how much to cook biryani, pizza cost India"
         canonicalUrl="https://www.fantasticfood.in/meal-calculator"
       />
@@ -172,7 +176,7 @@ const MealCostCalculator = () => {
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2 bg-white/10 rounded-2xl px-3 py-2">
                     <Users className="w-4 h-4 text-cream-300" />
-                    <span className="text-cream-200 text-sm font-medium">Servings:</span>
+                    <span className="text-cream-200 text-sm font-medium">{t('meal_cost_servings')}</span>
                     <button onClick={() => setServings(s => Math.max(1, s - 1))} className="w-7 h-7 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors">
                       <Minus className="w-3 h-3" />
                     </button>
@@ -192,15 +196,15 @@ const MealCostCalculator = () => {
                 <div className="flex items-center justify-center py-24">
                   <div className="text-center">
                     <div className="w-14 h-14 border-4 border-forest-100 border-t-forest-600 rounded-full animate-spin mx-auto mb-4" />
-                    <p className="text-forest-600 font-semibold text-lg">Comparing prices…</p>
-                    <p className="text-forest-400 text-sm mt-1">Checking 7 platforms for you</p>
+                    <p className="text-forest-600 font-semibold text-lg">{t('meal_cost_comparing')}</p>
+                    <p className="text-forest-400 text-sm mt-1">{t('meal_cost_checking')}</p>
                   </div>
                 </div>
               ) : costs && (
                 <>
                   {/* Ingredients */}
                   <div className="px-6 py-4 bg-cream-50 border-b border-gray-100">
-                    <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-3">Ingredients Needed</p>
+                    <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-3">{t('meal_cost_ingredients')}</p>
                     <div className="flex flex-wrap gap-2">
                       {selectedRecipe.ingredients.map(ing => (
                         <span key={ing.query} className="text-xs bg-white text-forest-700 px-3 py-1.5 rounded-full border border-forest-100 shadow-sm font-medium">
@@ -216,11 +220,11 @@ const MealCostCalculator = () => {
                       <div className="flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-amber-500" />
                         <p className="text-amber-800 font-semibold text-sm">
-                          Save <strong className="text-amber-600 text-lg">₹{adjustedTotal(recipeSavings)}</strong> by choosing the cheapest platform!
+                          {t('meal_cost_save_tip').split('{{amount}}')[0]}<strong className="text-amber-600 text-lg">{formatCurrency(adjustedTotal(recipeSavings), region)}</strong>{t('meal_cost_save_tip').split('{{amount}}')[1]}
                         </p>
                       </div>
                       <span className="text-amber-600 text-xs bg-amber-100 px-3 py-1 rounded-full font-medium">
-                        ₹{Math.round(adjustedTotal(recipeSavings) / servings)}/person savings
+                        {formatCurrency(Math.round(adjustedTotal(recipeSavings) / servings), region)} {t('meal_cost_per_person')}
                       </span>
                     </div>
                   )}
@@ -243,18 +247,18 @@ const MealCostCalculator = () => {
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-bold text-gray-800">{platform.name}</span>
-                                {isBest && <span className="text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-bold">CHEAPEST</span>}
+                                {isBest && <span className="text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-bold">{t('meal_cost_cheapest')}</span>}
                               </div>
-                              <span className="text-xs text-gray-400">₹{Math.round(adjustedCost / servings)}/person · {platform.deliveryTime}</span>
+                              <span className="text-xs text-gray-400">{formatCurrency(Math.round(adjustedCost / servings), region)}/person · {platform.deliveryTime}</span>
                             </div>
                             <div className="text-right">
-                              <div className={`text-xl font-black ${isBest ? 'text-green-600' : 'text-gray-700'}`}>₹{adjustedCost}</div>
-                              <div className="text-xs text-gray-400">for {servings} servings</div>
+                              <div className={`text-xl font-black ${isBest ? 'text-green-600' : 'text-gray-700'}`}>{formatCurrency(adjustedCost, region)}</div>
+                              <div className="text-xs text-gray-400">{t('meal_cost_for_servings').replace('{{n}}', servings.toString())}</div>
                             </div>
                             <a href={platform.searchUrl(selectedRecipe.ingredients[0].query)} target="_blank" rel="noopener noreferrer"
                               className="hidden sm:flex items-center gap-1 text-xs border border-gray-200 rounded-xl px-3 py-2 text-gray-500 hover:text-forest-700 hover:border-forest-300 transition-colors"
                             >
-                              <ShoppingCart className="w-3 h-3" /> Order <ExternalLink className="w-3 h-3" />
+                              <ShoppingCart className="w-3 h-3" /> {t('meal_cost_order')} <ExternalLink className="w-3 h-3" />
                             </a>
                           </div>
                           <div className="ml-9">
@@ -271,7 +275,7 @@ const MealCostCalculator = () => {
 
                   {/* Footer */}
                   <div className="px-6 py-4 bg-gray-50 rounded-b-3xl">
-                    <p className="text-gray-400 text-xs text-center">⚠️ Actual prices vary by location & availability. Click Order to see live prices.</p>
+                    <p className="text-gray-400 text-xs text-center">{t('meal_cost_disclaimer')}</p>
                   </div>
                 </>
               )}
@@ -285,13 +289,13 @@ const MealCostCalculator = () => {
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 text-sm font-semibold px-4 py-2 rounded-full mb-4 border border-amber-400/30">
-            <ChefHat className="w-4 h-4" /> Smart Meal Planner
+            <ChefHat className="w-4 h-4" /> {t('meal_cost_badge')}
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white mb-3">
-            Cook Smarter<br /><span className="text-amber-400">Spend Less</span>
+            {t('meal_cost_title_1')}<br /><span className="text-amber-400">{t('meal_cost_title_2')}</span>
           </h1>
           <p className="text-cream-300 max-w-xl mx-auto text-lg">
-            Pick from <strong className="text-amber-400">{RECIPES.length}+ global recipes</strong> — we'll compare the total ingredient cost across all 7 platforms.
+            {t(region === 'sg' ? 'meal_cost_desc_sg' : 'meal_cost_desc').split('{{count}}')[0]}<strong className="text-amber-400">{RECIPES.length}</strong>{t(region === 'sg' ? 'meal_cost_desc_sg' : 'meal_cost_desc').split('{{count}}')[1]}
           </p>
         </motion.div>
 
@@ -302,7 +306,7 @@ const MealCostCalculator = () => {
             <input
               id="meal-search"
               type="text"
-              placeholder={`Search ${RECIPES.length}+ recipes…`}
+              placeholder={t('meal_cost_search').replace('{{count}}', RECIPES.length.toString())}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-cream-400 rounded-xl py-2.5 pl-9 pr-4 outline-none focus:bg-white/20 transition-all text-sm"
@@ -350,7 +354,7 @@ const MealCostCalculator = () => {
                 <span>🥕 {recipe.ingredients.length} items</span>
               </div>
               <div className="mt-3 text-xs text-amber-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                Tap to compare prices →
+                {t('meal_cost_tap_compare')}
               </div>
             </motion.button>
           ))}

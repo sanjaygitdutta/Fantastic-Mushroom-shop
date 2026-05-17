@@ -7,6 +7,7 @@ import { getAffiliateUrl } from '../utils/affiliate';
 import { PLATFORM_COUPONS } from '../data/compareFeatures';
 import { getUnitPrice } from '../utils/unitPrice';
 import { useTranslation } from 'react-i18next';
+import { useRegion, formatCurrency } from '../utils/region';
 
 interface PlatformPriceCardProps {
   price: PlatformPrice;
@@ -15,12 +16,13 @@ interface PlatformPriceCardProps {
 }
 
 const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => {
+  const { region } = useRegion();
   const platform = getPlatformById(price.platformId);
   if (!platform) return null;
 
   const coupons = PLATFORM_COUPONS[price.platformId] ?? [];
   const topCoupon = coupons[0];
-  const unitPrice = getUnitPrice(price.price, price.unit);
+  const unitPrice = getUnitPrice(price.price, price.unit, region);
   const { t } = useTranslation();
 
   return (
@@ -91,10 +93,10 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
       {/* Price */}
       <div className="flex items-end gap-2 mb-1">
         <span className={`text-2xl font-bold ${isBest ? 'text-forest-700' : 'text-forest-900'}`}>
-          ₹{price.price}
+          {formatCurrency(price.price, region)}
         </span>
         {price.originalPrice > price.price && (
-          <span className="text-sm text-gray-400 line-through mb-0.5">₹{price.originalPrice}</span>
+          <span className="text-sm text-gray-400 line-through mb-0.5">{formatCurrency(price.originalPrice, region)}</span>
         )}
         <span className="text-xs text-forest-600 mb-0.5">/ {price.unit}</span>
       </div>
@@ -112,7 +114,7 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
       {price.discount > 0 && (
         <div className="flex items-center gap-1 text-xs text-moss-600 mb-3">
           <TrendingDown className="w-3 h-3" />
-          {t('card_save')} ₹{price.originalPrice - price.price}
+          {t('card_save')} {formatCurrency(price.originalPrice - price.price, region)}
         </div>
       )}
 

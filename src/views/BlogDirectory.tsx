@@ -4,15 +4,19 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { BLOG_POSTS } from '../data/blogPosts';
+import { useRegion } from '../utils/region';
 
 const BlogDirectory = () => {
+  const { region } = useRegion();
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
+  const isSG = region === 'SG';
+
   return (
     <>
       <SEO 
-        title="Grocery Deals, Coupons & Price Insights Blog | Fantastic Food"
-        description="Read the latest insights on how to save money on grocery delivery in India. Zepto vs Blinkit, coupon codes, and price drops."
+        title={t(isSG ? 'blog_seo_title_sg' : 'blog_seo_title', { defaultValue: isSG ? 'Singapore Grocery Deals, Coupons & Price Insights | Fantastic Food SG' : 'Grocery Deals, Coupons & Price Insights Blog | Fantastic Food' })}
+        description={t(isSG ? 'blog_seo_desc_sg' : 'blog_seo_desc', { defaultValue: isSG ? 'Read the latest insights on how to save money on grocery delivery in Singapore. FairPrice vs RedMart vs Cold Storage, promo codes, and price drops.' : 'Read the latest insights on how to save money on grocery delivery in India. Zepto vs Blinkit, coupon codes, and price drops.' })}
         canonicalUrl="https://www.fantasticfood.in/blog"
       />
 
@@ -29,7 +33,10 @@ const BlogDirectory = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...BLOG_POSTS].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((post) => {
+            {[...BLOG_POSTS]
+              .filter(post => post.date <= new Date().toISOString().split('T')[0])
+              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+              .map((post) => {
               const tPost = post.translations?.[lang] || post;
               const displayTitle = tPost.title || post.title;
               const displayDescription = tPost.description || post.description;
@@ -59,7 +66,7 @@ const BlogDirectory = () => {
                 
                 <div className="flex items-center justify-between pt-4 border-t border-forest-50 mt-auto">
                   <span className="text-sm font-medium text-forest-500 flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-forest-100 text-forest-600 flex items-center justify-center text-xs">AI</span>
+                    <span className="w-6 h-6 rounded-full bg-forest-100 text-forest-600 flex items-center justify-center text-xs">SD</span>
                     {post.author}
                   </span>
                   <span className="text-amber-600 font-bold group-hover:translate-x-1 transition-transform">

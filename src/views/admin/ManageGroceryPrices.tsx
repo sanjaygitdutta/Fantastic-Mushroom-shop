@@ -22,9 +22,14 @@ const PLATFORMS = [
   { id: 'flipkart', name: 'Flipkart' }
 ];
 
+const SG_BASE_PLATFORM = [
+  { id: 'sg_base_price', name: 'SG Base Price (S$)' }
+];
+
 const ManageGroceryPrices = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [adminRegion, setAdminRegion] = useState<'IN' | 'SG'>('IN');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [liveData, setLiveData] = useState<any[]>([]);
@@ -160,8 +165,25 @@ const ManageGroceryPrices = () => {
             </p>
           </div>
           
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            {/* Region Toggle */}
+            <div className="flex bg-forest-100 rounded-2xl p-1 shadow-inner">
+              <button
+                onClick={() => setAdminRegion('IN')}
+                className={`px-6 py-2 rounded-xl text-sm font-bold transition-all ${adminRegion === 'IN' ? 'bg-white text-forest-900 shadow-sm' : 'text-forest-500 hover:text-forest-700'}`}
+              >
+                🇮🇳 India
+              </button>
+              <button
+                onClick={() => setAdminRegion('SG')}
+                className={`px-6 py-2 rounded-xl text-sm font-bold transition-all ${adminRegion === 'SG' ? 'bg-white text-forest-900 shadow-sm' : 'text-forest-500 hover:text-forest-700'}`}
+              >
+                🇸🇬 Singapore
+              </button>
+            </div>
+
+            <div className="relative w-full md:w-auto">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
               type="text"
               placeholder="Search product (Onion, Milk...)"
@@ -169,6 +191,7 @@ const ManageGroceryPrices = () => {
               value={searchQuery}
               onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
             />
+            </div>
           </div>
         </div>
 
@@ -228,7 +251,7 @@ const ManageGroceryPrices = () => {
                   </div>
                   
                   <div className="p-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
-                    {PLATFORMS.map(platform => {
+                    {(adminRegion === 'IN' ? PLATFORMS : SG_BASE_PLATFORM).map(platform => {
                       const currentLive = liveData.find(ld => ld.item_name === item.query && ld.platform_id === platform.id);
                       const isModified = updates[`${item.query}_${platform.id}`];
                       
@@ -236,11 +259,11 @@ const ManageGroceryPrices = () => {
                         <div key={platform.id} className={`p-3 rounded-2xl border-2 transition-all ${isModified ? 'border-amber-400 bg-amber-50' : 'border-gray-50 bg-gray-50'}`}>
                           <label className="text-[10px] font-black uppercase text-gray-400 block mb-1">{platform.name}</label>
                           <div className="relative">
-                            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₹</span>
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 font-bold">{adminRegion === 'SG' ? 'S$' : '₹'}</span>
                             <input 
                               type="number"
                               placeholder={currentLive ? currentLive.price.toString() : "0"}
-                              className="w-full bg-transparent pl-4 pr-1 font-bold text-forest-900 outline-none text-lg"
+                              className="w-full bg-transparent pl-5 pr-1 font-bold text-forest-900 outline-none text-lg"
                               onChange={(e) => handlePriceChange(item.query, platform.id, e.target.value, item.label)}
                               value={isModified ? (isModified.price === 0 ? '' : isModified.price) : (currentLive ? currentLive.price : '')}
                             />

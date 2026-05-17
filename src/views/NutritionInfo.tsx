@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Search, Loader2, AlertTriangle, CheckCircle, ArrowRight, Info, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-
 import SEO from '../components/SEO';
+import { useRegion } from '../utils/region';
 
 interface NutritionData {
   name: string;
@@ -22,18 +22,17 @@ interface NutritionData {
   healthierAlternative?: { name: string; reason: string; searchQuery: string };
 }
 
-const SCORE_CONFIG: Record<string, { color: string; label: string; bg: string }> = {
-  A: { color: 'text-green-600', label: 'Excellent', bg: 'bg-green-500' },
-  B: { color: 'text-lime-600', label: 'Good', bg: 'bg-lime-500' },
-  C: { color: 'text-yellow-600', label: 'OK', bg: 'bg-yellow-500' },
-  D: { color: 'text-orange-600', label: 'Poor', bg: 'bg-orange-500' },
-  F: { color: 'text-red-600', label: 'Bad', bg: 'bg-red-500' },
-};
-
-const POPULAR = ['Paneer', 'Amul Butter', 'Whole Milk', 'Chicken Breast', 'Brown Bread', 'Almonds', 'Maggi Noodles', 'Greek Yogurt'];
+// ── Popular foods by region ─────────────────────────────────────────────────
+const IN_POPULAR = ['Paneer', 'Amul Butter', 'Whole Milk', 'Chicken Breast', 'Brown Bread', 'Almonds', 'Maggi Noodles', 'Greek Yogurt'];
+const SG_POPULAR = ['Tofu', 'Fish Ball', 'Milo', 'Bok Choy', 'Oyster Sauce', 'Prawn', 'Laksa Paste', 'Durian'];
 
 export default function NutritionInfo() {
   const { t } = useTranslation();
+  const { region } = useRegion();
+  const isSG = region === 'SG';
+
+  const POPULAR = isSG ? SG_POPULAR : IN_POPULAR;
+
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -71,9 +70,9 @@ export default function NutritionInfo() {
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
       <SEO
-        title="Food Nutrition Info & Health Score — Fantastic Food"
-        description="Check nutrition facts, allergens, health score and find healthier alternatives for any food or grocery item. Powered by AI."
-        canonicalUrl="https://www.fantasticfood.in/health"
+        title={t(isSG ? 'nutrition_seo_title_sg' : 'nutrition_seo_title', { defaultValue: isSG ? "Pantry Nutrition Facts & Grocery Calories Guide SG | Fantastic Food" : "Food Nutrition Info & Health Score — Fantastic Food" })}
+        description={t(isSG ? 'nutrition_seo_desc_sg' : 'nutrition_seo_desc', { defaultValue: isSG ? "Explore complete nutrition details, macro ratios, and compare online delivery prices for thousands of Singapore groceries." : "Check nutrition facts, allergens, health score and find healthier alternatives for any food or grocery item. Powered by AI." })}
+        canonicalUrl={isSG ? "https://www.fantasticfood.in/health?region=SG" : "https://www.fantasticfood.in/health"}
       />
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-8">
@@ -81,7 +80,9 @@ export default function NutritionInfo() {
             <Heart className="w-4 h-4" /> {t('nutri_health_mode')}
           </div>
           <h1 className="text-4xl md:text-5xl font-black font-display text-forest-900 mb-4">{t('nutri_scanner_title')}</h1>
-          <p className="text-forest-600 max-w-xl mx-auto">{t('nutri_scanner_desc')}</p>
+          <p className="text-forest-600 max-w-xl mx-auto">
+            {t(isSG ? 'nutri_scanner_desc_sg' : 'nutri_scanner_desc')}
+          </p>
         </div>
 
         {/* Search bar */}
@@ -90,7 +91,7 @@ export default function NutritionInfo() {
             <div className="flex-1 flex items-center gap-3 bg-white border-2 border-forest-200 focus-within:border-moss-500 rounded-2xl px-4 py-3 transition-colors">
               <Search className="w-5 h-5 text-forest-400" />
               <input type="text" value={query} onChange={e => setQuery(e.target.value)}
-                placeholder={t('nutri_search_placeholder')}
+                placeholder={t(isSG ? 'nutri_search_placeholder_sg' : 'nutri_search_placeholder')}
                 className="flex-1 outline-none text-forest-900 text-lg placeholder-forest-400 bg-transparent" />
             </div>
             <button type="submit" disabled={loading || !query.trim()}
@@ -136,10 +137,10 @@ export default function NutritionInfo() {
                 <div className="px-6 pb-6 grid grid-cols-5 gap-3">
                   {[
                     { key: 'protein', label: t('nutri_protein'), color: 'bg-blue-500', unit: 'g' },
-                    { key: 'carbs', label: t('nutri_carbs'), color: 'bg-amber-500', unit: 'g' },
-                    { key: 'fat', label: t('nutri_fat'), color: 'bg-red-400', unit: 'g' },
-                    { key: 'fiber', label: t('nutri_fiber'), color: 'bg-green-500', unit: 'g' },
-                    { key: 'sugar', label: t('nutri_sugar'), color: 'bg-pink-500', unit: 'g' },
+                    { key: 'carbs',   label: t('nutri_carbs'),   color: 'bg-amber-500', unit: 'g' },
+                    { key: 'fat',     label: t('nutri_fat'),     color: 'bg-red-400',   unit: 'g' },
+                    { key: 'fiber',   label: t('nutri_fiber'),   color: 'bg-green-500', unit: 'g' },
+                    { key: 'sugar',   label: t('nutri_sugar'),   color: 'bg-pink-500',  unit: 'g' },
                   ].map(m => (
                     <div key={m.key} className="text-center">
                       <div className={`${m.color} rounded-xl py-2 px-1 mb-1`}>

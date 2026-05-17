@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRegion, formatCurrency } from '../utils/region';
 import { motion } from 'framer-motion';
 import { TrendingDown, Star, Flame, Share2, ArrowRight, Trophy } from 'lucide-react';
 import Link from 'next/link';
@@ -24,6 +25,7 @@ const SCORE_GRADES = [
 ];
 
 export default function FoodScore() {
+  const { region } = useRegion();
   const [log, setLog] = useState<SavingsLog[]>([]);
   const [streak, setStreak] = useState(0);
   const [score, setScore] = useState(0);
@@ -63,15 +65,16 @@ export default function FoodScore() {
   const offset = circumference - (score / 100) * circumference;
 
   const shareScore = () => {
-    const text = `💰 My FoodScore on Fantastic Food is ${score}/100 — ${t(grade.labelKey)}! I've saved ₹${totalSavings.toFixed(0)} by comparing grocery prices across Blinkit, Zepto & more. Check yours: https://www.fantasticfood.in/savings`;
+    const platforms = region === 'sg' ? 'FairPrice, RedMart & more' : 'Blinkit, Zepto & more';
+    const text = `💰 My FoodScore on Fantastic Food is ${score}/100 — ${t(grade.labelKey)}! I've saved ${formatCurrency(totalSavings, region)} by comparing grocery prices across ${platforms}. Check yours: https://www.fantasticfood.in/savings`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
       <SEO
-        title="FoodScore — Your Personal Grocery Savings Dashboard | Fantastic Food"
-        description="Track how much you've saved by comparing grocery prices. Get your personal FoodScore and see your savings streak."
+        title={t(region?.toUpperCase() === 'SG' ? 'foodscore_seo_title_sg' : 'foodscore_seo_title', { defaultValue: region?.toUpperCase() === 'SG' ? "FoodScore — Personal Grocery Savings Dashboard SG | Fantastic Food" : "FoodScore — Your Personal Grocery Savings Dashboard | Fantastic Food" })}
+        description={t(region?.toUpperCase() === 'SG' ? 'foodscore_seo_desc_sg' : 'foodscore_seo_desc', { defaultValue: region?.toUpperCase() === 'SG' ? "Review your total savings, track active price drop alerts, and level up your grocery shopping scorecard in Singapore." : "Track how much you've saved by comparing grocery prices. Get your personal FoodScore and see your savings streak." })}
         canonicalUrl="https://www.fantasticfood.in/savings"
       />
       <div className="max-w-5xl mx-auto px-4">
@@ -121,7 +124,7 @@ export default function FoodScore() {
           {/* Stats */}
           <div className="md:col-span-2 grid grid-cols-2 gap-4">
             {[
-              { icon: <TrendingDown className="w-6 h-6 text-green-500" />, label: t('foodscore_total_saved'), value: `₹${totalSavings.toFixed(0)}`, sub: t('foodscore_total_saved_sub'), bg: 'bg-green-50 border-green-100' },
+              { icon: <TrendingDown className="w-6 h-6 text-green-500" />, label: t('foodscore_total_saved'), value: formatCurrency(totalSavings, region), sub: t('foodscore_total_saved_sub'), bg: 'bg-green-50 border-green-100' },
               { icon: <Star className="w-6 h-6 text-amber-500" />, label: t('foodscore_comparisons'), value: totalComparisons, sub: t('foodscore_comparisons_sub'), bg: 'bg-amber-50 border-amber-100' },
               { icon: <Flame className="w-6 h-6 text-orange-500" />, label: t('foodscore_streak'), value: `${streak} 🔥`, sub: t('foodscore_streak_sub'), bg: 'bg-orange-50 border-orange-100' },
               { icon: <Trophy className="w-6 h-6 text-purple-500" />, label: t('foodscore_best_category'), value: log.length > 0 ? log[0].platform : '—', sub: t('foodscore_best_category_sub'), bg: 'bg-purple-50 border-purple-100' },
@@ -161,7 +164,7 @@ export default function FoodScore() {
                     <p className="font-bold text-forest-900 text-sm capitalize">{entry.query}</p>
                     <p className="text-xs text-forest-500">{entry.date} · {t('foodscore_best_on')} {entry.platform}</p>
                   </div>
-                  <span className="text-green-600 font-black text-sm">-₹{entry.savings}</span>
+                  <span className="text-green-600 font-black text-sm">-{formatCurrency(entry.savings, region)}</span>
                 </div>
               ))}
             </div>

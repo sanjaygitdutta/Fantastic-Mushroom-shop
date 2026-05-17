@@ -4,15 +4,26 @@ import CompareResultsGrid from '../../../../components/CompareResultsGrid';
 export const dynamic = 'force-dynamic';
 import { searchPrices, POPULAR_SEARCHES } from '../../../../data/mockPrices';
 import { getTranslatedItem, getEnglishQuery, getLocalizedSEOTitle, type SupportedLanguage } from '../../../../i18n/dictionary';
+import { cookies } from 'next/headers';
 
 // City-food pages for long-tail local SEO — used in keywords metadata
-const CITIES = ['Mumbai', 'Delhi', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'];
+const CITIES_IN = ['Mumbai', 'Delhi', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'];
+const CITIES_SG = ['Singapore', 'Jurong', 'Woodlands', 'Tampines', 'Yishun', 'Bedok'];
+
 // Platform labels for SEO
-const PLATFORMS = ['Blinkit', 'BigBasket', 'Zepto', 'Swiggy', 'Amazon Fresh', 'JioMart'];
-const PLATFORM_LABELS: Record<string, string> = {
+const PLATFORMS_IN = ['Blinkit', 'BigBasket', 'Zepto', 'Swiggy', 'Amazon Fresh', 'JioMart'];
+const PLATFORMS_SG = ['FairPrice', 'RedMart', 'Cold Storage', 'Sheng Siong', 'Giant', 'GrabMart', 'pandamart', 'Amazon Fresh'];
+
+const PLATFORM_LABELS_IN: Record<string, string> = {
   blinkit: 'Blinkit', zepto: 'Zepto', swiggy: 'Swiggy',
   bigbasket: 'BigBasket', amazon: 'Amazon Fresh', jiomart: 'JioMart',
   flipkart: 'Flipkart Minutes'
+};
+
+const PLATFORM_LABELS_SG: Record<string, string> = {
+  fairprice: 'FairPrice', redmart: 'RedMart', coldstorage: 'Cold Storage',
+  shengsiong: 'Sheng Siong', giant: 'Giant', amazon_sg: 'Amazon Fresh',
+  grabmart: 'GrabMart', pandamart: 'pandamart'
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; item: string }> }) {
@@ -22,8 +33,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   // Convert foreign language query back to English DB key
   const englishQuery = getEnglishQuery(foodItem);
   
+  const cookieStore = await cookies();
+  const region = (cookieStore.get('user-region')?.value as 'IN' | 'SG') || 'IN';
+
   // Dynamic Product Generation: We ALWAYS generate a result now using the English query
-  const result = await searchPrices(englishQuery);
+  const result = await searchPrices(englishQuery, region);
   if (!result) return { title: 'Food Prices Today' };
 
   const displayName = englishQuery
@@ -45,16 +59,21 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
   const todayLabel = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
+  const CITIES = region === 'SG' ? CITIES_SG : CITIES_IN;
+  const PLATFORMS = region === 'SG' ? PLATFORMS_SG : PLATFORMS_IN;
+  const PLATFORM_LABELS = region === 'SG' ? PLATFORM_LABELS_SG : PLATFORM_LABELS_IN;
+  const currencySymbol = region === 'SG' ? 'S$' : '₹';
+
   const seoTitle = currentLang === 'en'
     ? (lowestPrice > 0 && secondPrice > 0
-      ? `${result.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — 7 Apps | Today Real Price`
-      : `${result.icon || '🛒'} ${displayName} Price Today — Compare Blinkit, Zepto & More`)
+      ? `${result.icon || '🛒'} ${displayName} ${currencySymbol}${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ${currencySymbol}${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — ${PLATFORMS.length + 1} Apps | Today Real Price`
+      : `${result.icon || '🛒'} ${displayName} Price Today — Compare ${PLATFORMS.slice(0, 2).join(', ')} & More`)
     : `${result.icon || '🛒'} ${getLocalizedSEOTitle(translatedItem, currentLang)}`;
 
   const seoDesc = currentLang === 'en'
     ? (lowestPrice > 0 && secondPrice > 0
-      ? `${displayName} price today (${todayLabel}): ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || 'Zepto'}. Compare all 7 apps — Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes — before prices change.`
-      : `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly.`)
+      ? `${displayName} price today (${todayLabel}): ${currencySymbol}${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || PLATFORMS[0]} vs ${currencySymbol}${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || PLATFORMS[1]}. Compare all apps — ${PLATFORMS.join(', ')} & more — before prices change.`
+      : `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across ${PLATFORMS.join(', ')} instantly.`)
     : getLocalizedSEOTitle(translatedItem, currentLang);
 
   const cityKeywords = CITIES.map(city => `${displayName} price in ${city}`).join(', ');
@@ -85,7 +104,9 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
   
   try {
     const englishQuery = getEnglishQuery(foodItem);
-    const result = await searchPrices(englishQuery);
+    const cookieStore = await cookies();
+    const region = (cookieStore.get('user-region')?.value as 'IN' | 'SG') || 'IN';
+    const result = await searchPrices(englishQuery, region);
     
     // We base the display name on the English query so translations work correctly
     const displayName = englishQuery
@@ -102,8 +123,10 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
     const lowestPrice = sortedPrices[0]?.price || 0;
     const todayLabel = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
     
+    const PLATFORMS = region === 'SG' ? PLATFORMS_SG : PLATFORMS_IN;
+
     const seoDesc = currentLang === 'en'
-      ? `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly.`
+      ? `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across ${PLATFORMS.join(', ')} instantly.`
       : getLocalizedSEOTitle(translatedItem, currentLang);
 
     const jsonLd = {
@@ -118,8 +141,8 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
       },
       "offers": {
         "@type": "AggregateOffer",
-        "priceCurrency": "INR",
-        "lowPrice": lowestPrice || 50,
+        "priceCurrency": region === 'SG' ? "SGD" : "INR",
+        "lowPrice": lowestPrice || (region === 'SG' ? 2 : 50),
         "highPrice": result?.prices?.reduce((max: number, p: any) => Math.max(max, p.price), 0) || 100,
         "offerCount": result?.prices?.length || 7,
         "availability": "https://schema.org/InStock"
@@ -183,7 +206,7 @@ export default async function FoodItemPage({ params }: { params: Promise<{ lang:
               {currentLang === 'en' ? `${displayName} Price Today in India` : getLocalizedSEOTitle(translatedItem, currentLang)}
             </h1>
             <p className="text-forest-300 text-lg mb-4">
-              Compare prices instantly from 7 delivery apps
+              Compare prices instantly from {PLATFORMS.length} delivery apps
             </p>
             <div className="flex flex-wrap gap-2">
               {PLATFORMS.map(pl => (

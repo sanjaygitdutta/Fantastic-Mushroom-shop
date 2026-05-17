@@ -1,5 +1,6 @@
 'use client';
 import { useState, useMemo, useEffect } from 'react';
+import { useRegion, formatCurrency } from '../utils/region';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, Zap, Share2, Bot, Loader2, Link2, Gift, Users, RefreshCw } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -20,19 +21,20 @@ interface BasketItem {
   result: CompareResult;
 }
 
-const PLATFORM_IDS = ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart'];
+const IN_PLATFORM_IDS = ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart'];
+const SG_PLATFORM_IDS = ['fairprice', 'redmart', 'coldstorage', 'shengsiong', 'giant', 'grabmart', 'amazon_sg'];
 
-const PLATFORM_COLORS: Record<string, string> = {
-  blinkit: '#F5D100',
-  zepto: '#9B30D9',
-  swiggy: '#FC8019',
-  bigbasket: '#84C225',
-  amazon: '#FF9900',
-  jiomart: '#0070BA',
-  flipkart: '#2874F0',
+const IN_PLATFORM_COLORS: Record<string, string> = {
+  blinkit: '#F5D100', zepto: '#9B30D9', swiggy: '#FC8019',
+  bigbasket: '#84C225', amazon: '#FF9900', jiomart: '#0070BA', flipkart: '#2874F0',
+};
+const SG_PLATFORM_COLORS: Record<string, string> = {
+  fairprice: '#F57C00', redmart: '#E53935', coldstorage: '#1565C0',
+  shengsiong: '#388E3C', giant: '#C62828', grabmart: '#00B14F',
+  pandamart: '#FF1F4B', amazon_sg: '#FF9900',
 };
 
-const QUICK_ADDS = [
+const IN_QUICK_ADDS = [
   { label: 'Onion', query: 'onion', icon: '🧅' },
   { label: 'Tomato', query: 'tomato', icon: '🍅' },
   { label: 'Milk', query: 'milk', icon: '🥛' },
@@ -50,10 +52,33 @@ const QUICK_ADDS = [
   { label: 'Sugar', query: 'sugar', icon: '🍬' },
   { label: 'Atta', query: 'atta', icon: '🌾' },
 ];
+const SG_QUICK_ADDS = [
+  { label: 'Eggs', query: 'eggs', icon: '🥚' },
+  { label: 'Rice', query: 'rice', icon: '🍚' },
+  { label: 'Tofu', query: 'tofu', icon: '🥬' },
+  { label: 'Bok Choy', query: 'bok choy', icon: '🥦' },
+  { label: 'Chicken', query: 'chicken', icon: '🍗' },
+  { label: 'Fish', query: 'fish', icon: '🐟' },
+  { label: 'Milk', query: 'milk', icon: '🥛' },
+  { label: 'Bread', query: 'bread', icon: '🍞' },
+  { label: 'Milo', query: 'milo', icon: '☕' },
+  { label: 'Noodles', query: 'noodles', icon: '🍜' },
+  { label: 'Potato', query: 'potato', icon: '🥔' },
+  { label: 'Banana', query: 'banana', icon: '🍌' },
+  { label: 'Prawn', query: 'prawn', icon: '🦐' },
+  { label: 'Soy Sauce', query: 'soy sauce', icon: '🫙' },
+  { label: 'Coconut Milk', query: 'coconut milk', icon: '🥥' },
+  { label: 'Durian', query: 'durian', icon: '🌵' },
+];
 
 const RANK_MEDALS = ['🥇', '🥈', '🥉'];
 
 const BasketCalculator = () => {
+  const { region } = useRegion();
+  const isSG = region === 'SG';
+  const PLATFORM_IDS = isSG ? SG_PLATFORM_IDS : IN_PLATFORM_IDS;
+  const PLATFORM_COLORS = isSG ? SG_PLATFORM_COLORS : IN_PLATFORM_COLORS;
+  const QUICK_ADDS = isSG ? SG_QUICK_ADDS : IN_QUICK_ADDS;
   const [basket, setBasket] = useState<BasketItem[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
@@ -130,7 +155,7 @@ const BasketCalculator = () => {
     if (basket.find(b => b.query.toLowerCase() === query.toLowerCase())) return;
     setLoading(true);
     setSearchResult(null);
-    const result = await searchPrices(query);
+    const result = await searchPrices(query, region);
     if (result) {
       setBasket(prev => {
         const nb = [...prev, {
@@ -190,7 +215,7 @@ const BasketCalculator = () => {
     const items = basket.map(b => encodeURIComponent(b.query)).join(',');
     // Generate a viral string parameter
     const url = `${window.location.origin}/basket?slashHost=YourFriend&prefill=${items}`;
-    const msg = `Hey! I need your help slicing ₹${DISCOUNT_AMOUNT} off my grocery bill on Fantastic Food! Tap this link and help me slash the price: ${url}`;
+    const msg = `Hey! I need your help slicing ${formatCurrency(DISCOUNT_AMOUNT, region)} off my grocery bill on Fantastic Food! Tap this link and help me slash the price: ${url}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
@@ -265,10 +290,10 @@ const BasketCalculator = () => {
   if (slashHostParam && !codeGenerated) {
     return (
       <div className="min-h-screen bg-forest-900 flex flex-col items-center justify-center p-6 text-center">
-        <SEO title="Help Your Friend Slash Their Bill! | Fantastic Food" description="Gamified price drops" />
+        <SEO title={t('basket_friend_title', { defaultValue: "Help Your Friend Slash Their Bill! | Fantastic Food" })} description={t('basket_friend_desc', { defaultValue: "Gamified price drops" })} />
         <h1 className="text-3xl font-black text-white mb-4">Your friend needs help!</h1>
         <p className="text-green-300 text-lg max-w-sm mb-8">
-          Tap the button 10 times to slash ₹{DISCOUNT_AMOUNT} off their Fantastic Food grocery bill!
+          Tap the button 10 times to slash {formatCurrency(DISCOUNT_AMOUNT, region)} off their Fantastic Food grocery bill!
         </p>
         <motion.button
           whileTap={{ scale: 0.9 }}
@@ -290,7 +315,7 @@ const BasketCalculator = () => {
       <div className="min-h-screen bg-forest-900 flex flex-col items-center justify-center p-6 text-center">
         <h1 className="text-4xl font-black text-amber-400 mb-4">You did it! 🎊</h1>
         <p className="text-green-300 mb-8 max-w-sm">
-          You successfully slashed ₹{DISCOUNT_AMOUNT} off your friend's cart! Send them this secret code so they can claim it.
+          You successfully slashed {formatCurrency(DISCOUNT_AMOUNT, region)} off your friend's cart! Send them this secret code so they can claim it.
         </p>
         <div className="bg-forest-800 border-2 border-dashed border-amber-400 rounded-2xl p-6 mb-8 max-w-xs w-full">
           <p className="text-3xl font-black text-white tracking-wider">{codeGenerated}</p>
@@ -313,10 +338,12 @@ const BasketCalculator = () => {
   return (
     <div className="min-h-screen pt-20 pb-16" style={{ background: 'linear-gradient(135deg, #0f2418 0%, #1b4332 40%, #2d3a1f 100%)' }}>
       <SEO
-        title={t('basket_seo_title')}
-        description={t('basket_seo_desc')}
-        keywords="grocery basket calculator, cheapest grocery platform, compare grocery cart, blinkit vs zepto vs bigbasket total price"
-        canonicalUrl="https://www.fantasticfood.in/basket"
+        title={t(isSG ? 'basket_seo_title_sg' : 'basket_seo_title', { defaultValue: isSG ? "Smart Grocery Basket Calculator Singapore | Fantastic Food" : "Find the Cheapest Platform for Your Entire Grocery Basket" })}
+        description={t(isSG ? 'basket_seo_desc_sg' : 'basket_seo_desc', { defaultValue: isSG ? "Add multiple grocery items to compare real-time shopping cart totals across FairPrice, RedMart, Cold Storage, Giant & more in Singapore." : "Compare grocery cart totals in real-time across Blinkit, Zepto, Swiggy Instamart, BigBasket, and save up to 40% on your weekly grocery bill." })}
+        keywords={isSG
+          ? 'grocery basket Singapore, cheapest grocery platform Singapore, FairPrice vs RedMart vs Cold Storage'
+          : 'grocery basket calculator, cheapest grocery platform, compare grocery cart, blinkit vs zepto vs bigbasket total price'}
+        canonicalUrl={isSG ? 'https://www.fantasticfood.in/basket?region=SG' : 'https://www.fantasticfood.in/basket'}
       />
 
       {/* ── Hero ────────────────────────────────────── */}
@@ -345,7 +372,7 @@ const BasketCalculator = () => {
             {[
               { label: t('basket_platforms_label'), val: '7', icon: '🏪' },
               { label: t('basket_items_in_db'), val: '500+', icon: '🥕' },
-              { label: t('basket_avg_savings'), val: '₹80+', icon: '💸' },
+              { label: t('basket_avg_savings'), val: formatCurrency(isSG ? 8 : 80, region) + '+', icon: '💸' },
             ].map(s => (
               <div key={s.label} className="bg-white/10 border border-white/20 backdrop-blur rounded-2xl px-5 py-2.5 text-center">
                 <span className="text-lg mr-1">{s.icon}</span>
@@ -513,7 +540,9 @@ const BasketCalculator = () => {
                         <div className="flex items-center gap-2 mb-1">
                           <Trophy className="w-5 h-5 text-forest-900" />
                           <span className="font-black text-forest-900 text-lg">
-                            {t('basket_you_save', { savings: finalSavings, percent: savingsPercent })}
+                            {isSG
+                              ? t('basket_you_save_sg', { savings: formatCurrency(finalSavings, region), percent: savingsPercent })
+                              : t('basket_you_save', { savings: finalSavings, percent: savingsPercent })}
                           </span>
                         </div>
                         <p className="text-forest-800 text-sm">
@@ -579,7 +608,7 @@ const BasketCalculator = () => {
                                   const p = item.result.prices.find(pr => pr.platformId === pt.platformId);
                                   return p ? (
                                     <span key={item.id} className="text-xs text-green-300">
-                                      {item.icon} ₹{p.price}
+                                      {item.icon} {formatCurrency(p.price, region)}
                                     </span>
                                   ) : null;
                                 })}
@@ -589,10 +618,10 @@ const BasketCalculator = () => {
                             {/* Total + extra */}
                             <div className="text-right shrink-0">
                               <div className={`text-xl font-black ${isBest ? 'text-amber-400' : 'text-white'}`}>
-                                ₹{pt.total}
+                                {formatCurrency(pt.total, region)}
                               </div>
                               {rank > 0 && (
-                                <div className="text-xs text-red-400 font-semibold">{t('basket_more_price', { extra })}</div>
+                                <div className="text-xs text-red-400 font-semibold">{isSG ? t('basket_more_price_sg', { extra: formatCurrency(extra, region) }) : t('basket_more_price', { extra })}</div>
                               )}
                             </div>
 
@@ -701,7 +730,7 @@ const BasketCalculator = () => {
                     <Gift className="w-5 h-5"/> {t('basket_team_slash')}
                   </h3>
                   <p className="text-sm text-green-200 mb-6 max-w-sm">
-                    {t('basket_team_slash_desc', { discount: DISCOUNT_AMOUNT })}
+                    {t(isSG ? 'basket_team_slash_desc_sg' : 'basket_team_slash_desc', { discount: formatCurrency(DISCOUNT_AMOUNT, region) })}
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-4 mb-4">
@@ -728,7 +757,7 @@ const BasketCalculator = () => {
                   </div>
                   {discountApplied && (
                     <div className="mt-3 text-amber-400 text-sm font-bold flex items-center gap-2">
-                      <Sparkles className="w-4 h-4"/> {t('basket_slash_success', { discount: DISCOUNT_AMOUNT })}
+                      <Sparkles className="w-4 h-4"/> {t(isSG ? 'basket_slash_success_sg' : 'basket_slash_success', { discount: formatCurrency(DISCOUNT_AMOUNT, region) })}
                     </div>
                   )}
                 </div>
@@ -743,10 +772,10 @@ const BasketCalculator = () => {
       <div className="max-w-6xl mx-auto px-4 mt-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { icon: '⚡', title: 'Instant Compare', desc: '7 platforms at once' },
-            { icon: '💰', title: 'Real Savings', desc: 'Up to ₹200+ per basket' },
-            { icon: '🔄', title: 'Live Prices', desc: 'Updated continuously' },
-            { icon: '🛒', title: 'Full Basket', desc: 'Not just single items' },
+            { icon: '⚡', title: t('basket_feat_instant'), desc: t('basket_feat_instant_desc', { count: isSG ? 7 : 7 }) },
+            { icon: '💰', title: t('basket_feat_savings'), desc: t('basket_feat_savings_desc', { amount: formatCurrency(isSG ? 20 : 200, region) }) },
+            { icon: '🔄', title: t('basket_feat_live'), desc: t('basket_feat_live_desc') },
+            { icon: '🛒', title: t('basket_feat_full'), desc: t('basket_feat_full_desc') },
           ].map(f => (
             <div key={f.title} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
               <div className="text-2xl mb-1">{f.icon}</div>

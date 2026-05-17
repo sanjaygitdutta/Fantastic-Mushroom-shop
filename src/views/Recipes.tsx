@@ -1,5 +1,6 @@
 'use client';
 import { useState, useMemo } from 'react';
+import { useRegion } from '../utils/region';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, TrendingDown, Globe, X } from 'lucide-react';
 import Link from 'next/link';
@@ -35,13 +36,19 @@ export default function Recipes() { // refresh
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
   const { t, i18n } = useTranslation();
+  const { region } = useRegion();
   const lang = i18n.language;
 
   const categories = ['All', ...Array.from(new Set(ALL_RECIPES.map(r => r.category))).sort()];
   const allCountries = ['All', ...ALL_COUNTRIES];
 
   const filtered = useMemo(() => {
+    const todayStr = new Date().toISOString().split('T')[0];
     const results = ALL_RECIPES.filter(r => {
+      // Hide future scheduled recipes
+      if (/^\d{4}-\d{2}-\d{2}$/.test(r.id) && r.id > todayStr) {
+        return false;
+      }
       const q = search.toLowerCase();
       // Search English name or localized title
       type RecipeTranslation = { title?: string };
@@ -84,8 +91,8 @@ export default function Recipes() { // refresh
   return (
     <>
       <SEO
-        title={t('recipes_seo_title', { recipeCount: ALL_RECIPES.length, countryCount: ALL_COUNTRIES.length })}
-        description={t('recipes_seo_desc', { recipeCount: ALL_RECIPES.length, countryCount: ALL_COUNTRIES.length })}
+        title={t(region?.toUpperCase() === 'SG' ? 'recipes_seo_title_sg' : 'recipes_seo_title', { recipeCount: ALL_RECIPES.length, countryCount: ALL_COUNTRIES.length })}
+        description={t(region?.toUpperCase() === 'SG' ? 'recipes_seo_desc_sg' : 'recipes_seo_desc', { recipeCount: ALL_RECIPES.length, countryCount: ALL_COUNTRIES.length })}
         canonicalUrl="https://www.fantasticfood.in/recipes"
         keywords="world recipes, international cuisine, Indian recipes, Italian recipes, Japanese recipes, Chinese recipes, Mexican recipes, how to cook, recipe ingredients comparison"
       />
@@ -130,16 +137,16 @@ export default function Recipes() { // refresh
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-black text-white mb-2 flex items-center gap-2">
-                  <span className="bg-amber-500 text-forest-900 px-3 py-1 rounded-full text-sm uppercase tracking-widest font-bold">New</span>
-                  Have ingredients but no recipe?
+                  <span className="bg-amber-500 text-forest-900 px-3 py-1 rounded-full text-sm uppercase tracking-widest font-bold">{t('recipes_aika_new')}</span>
+                  {t('recipes_aika_title')}
                 </h2>
                 <p className="text-amber-100 text-lg max-w-xl">
-                  Tell Chef Aika what you have in your fridge, and she will instantly generate a custom, step-by-step recipe for you!
+                  {t('recipes_aika_desc')}
                 </p>
               </div>
               <div className="shrink-0">
                 <span className="inline-flex items-center gap-2 bg-white text-forest-900 font-bold px-6 py-3 rounded-xl group-hover:bg-amber-400 transition-colors">
-                  Cook with AI <span className="text-xl">👩‍🍳</span>
+                  {t('recipes_aika_btn')} <span className="text-xl">👩‍🍳</span>
                 </span>
               </div>
             </div>
@@ -266,7 +273,7 @@ export default function Recipes() { // refresh
           <h2 className="text-2xl font-black text-white mb-2 flex items-center gap-2 justify-center">
             <TrendingDown className="w-6 h-6 text-amber-400" /> {t('recipes_compare_before_cook')}
           </h2>
-          <p className="text-cream-300 mb-6 text-sm">{t('recipes_find_cheapest')}</p>
+          <p className="text-cream-300 mb-6 text-sm">{t(region?.toUpperCase() === 'SG' ? 'recipes_find_cheapest_sg' : 'recipes_find_cheapest')}</p>
           <div className="flex flex-wrap justify-center gap-2">
             {['chicken', 'tomato', 'rice', 'paneer', 'eggs', 'butter', 'onion', 'garlic'].map(item => (
               <Link key={item} href={`/compare?q=${item}`}

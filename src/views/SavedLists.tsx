@@ -6,6 +6,7 @@ import { Bell, Trash2, Clock, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { useRegion, formatCurrency } from '../utils/region';
 
 import SEO from '../components/SEO';
 
@@ -19,6 +20,7 @@ interface PriceAlert {
 
 export default function SavedLists() {
   const { t } = useTranslation();
+  const { region } = useRegion();
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const [alerts, setAlerts] = useState<PriceAlert[]>([]);
@@ -62,7 +64,10 @@ export default function SavedLists() {
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO title="My Saved Lists & Price Alerts — Fantastic Food" description="Track and manage your price alerts on your favorite grocery items." />
+      <SEO 
+        title={t(region === 'SG' ? 'saved_seo_title_sg' : 'saved_seo_title', { defaultValue: region === 'SG' ? "My Saved Lists & Price Drop Alerts SG | Fantastic Food" : "My Saved Lists & Price Alerts — Fantastic Food" })}
+        description={t(region === 'SG' ? 'saved_seo_desc_sg' : 'saved_seo_desc', { defaultValue: region === 'SG' ? "Track, monitor, and compare price drops on your favorite grocery list items in Singapore." : "Track and manage your price alerts on your favorite grocery items." })}
+      />
       <div className="max-w-4xl mx-auto px-4">
         
         <div className="flex items-center justify-between mb-8">
@@ -112,7 +117,7 @@ export default function SavedLists() {
                   <div className="text-left sm:text-right">
                     <p className="text-xs font-semibold text-moss-600 uppercase tracking-wider mb-0.5">{t('saved_last_best_price', { defaultValue: 'Last Best Price' })}</p>
                     <p className="text-xl font-black text-forest-900 flex items-center gap-1 sm:justify-end">
-                      ₹{alert.current_best_price}
+                      {formatCurrency(alert.current_best_price, region)}
                     </p>
                     <p className="text-xs text-forest-500">{t('saved_on_platform', { defaultValue: 'on' })} {alert.current_best_platform}</p>
                   </div>

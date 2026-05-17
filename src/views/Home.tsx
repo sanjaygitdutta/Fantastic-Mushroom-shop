@@ -12,6 +12,7 @@ import SEO from '../components/SEO';
 import DealOfTheDay from '../components/DealOfTheDay';
 import { recipes } from '../data/recipes';
 import { useTranslation, Trans } from 'react-i18next';
+import { useRegion } from '../utils/region';
 
 // Animated counter
 const Counter = ({ target, suffix = '' }: { target: number; suffix?: string }) => {
@@ -28,6 +29,15 @@ const Counter = ({ target, suffix = '' }: { target: number; suffix?: string }) =
   }, [target]);
   return <>{count.toLocaleString()}{suffix}</>;
 };
+
+const SG_PLATFORM_LOGOS = [
+  { name: 'FairPrice', emoji: '🛒', color: '#E31837' },
+  { name: 'RedMart', emoji: '🔴', color: '#E31837' },
+  { name: 'Cold Storage', emoji: '❄️', color: '#006B3F' },
+  { name: 'Sheng Siong', emoji: '🏪', color: '#00A040' },
+  { name: 'Giant', emoji: '🟢', color: '#4B9928' },
+  { name: 'Amazon Fresh', emoji: '📦', color: '#FF9900' },
+];
 
 const PLATFORM_LOGOS = [
   { name: 'Blinkit', emoji: '⚡', color: '#F5D100' },
@@ -66,14 +76,26 @@ const Home = () => {
   const y2 = useTransform(scrollY, [0, 1000], [0, -300]);
   const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
   const { t } = useTranslation();
+  const { region } = useRegion();
+  const activeLogos = region === 'SG' ? SG_PLATFORM_LOGOS : PLATFORM_LOGOS;
+  
+  const activeHowItWorks = HOW_IT_WORKS.map(step => {
+    if (step.step === '2') {
+      return { ...step, desc: region === 'SG' ? t('home_step_2_desc_sg') : step.desc };
+    }
+    return step;
+  });
 
   return (
     <div className="min-h-screen">
       <SEO 
-        title={t('home_seo_title')} 
-        description={t('home_seo_desc')} 
+        title={t(region === 'SG' ? 'home_seo_title_sg' : 'home_seo_title')} 
+        description={t(region === 'SG' ? 'home_seo_desc_sg' : 'home_seo_desc')} 
         canonicalUrl="https://www.fantasticfood.in/"
-        keywords="grocery price comparison India, blinkit vs zepto, blinkit vs swiggy, cheapest grocery app india, food price comparison 2026, bigbasket vs blinkit, amazon fresh prices, jiomart vs blinkit"
+        keywords={region === 'SG' 
+          ? "grocery price comparison Singapore, FairPrice vs RedMart, RedMart vs Cold Storage, cheapest online supermarket Singapore, food price comparison SG 2026"
+          : "grocery price comparison India, blinkit vs zepto, blinkit vs swiggy, cheapest grocery app india, food price comparison 2026, bigbasket vs blinkit, amazon fresh prices, jiomart vs blinkit"
+        }
       />
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-20">
@@ -109,7 +131,7 @@ const Home = () => {
               initial={{ backgroundPosition: '200% center' }}
               animate={{ backgroundPosition: '-200% center' }}
               transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
-              className="bg-clip-text text-transparent bg-linear-to-r from-white via-cream-200 to-white bg-[length:200%_auto]"
+              className="bg-clip-text text-transparent bg-linear-to-r from-white via-cream-200 to-white bg-size-[200%_auto]"
             >
               {t('home_compare_food_prices')}
             </motion.span>
@@ -124,7 +146,7 @@ const Home = () => {
             transition={{ delay: 0.25 }}
             className="text-xl text-forest-300 mb-10 max-w-2xl mx-auto"
           >
-            {t('home_hero_subtitle')}
+            {t(region === 'SG' ? 'home_hero_subtitle_sg' : 'home_hero_subtitle')}
           </motion.p>
 
           {/* Search bar */}
@@ -145,7 +167,7 @@ const Home = () => {
             className="flex flex-wrap justify-center gap-4 mb-12"
           >
             <span className="text-forest-400 text-sm self-center">{t('home_comparing_on')}</span>
-            {PLATFORM_LOGOS.map((p) => (
+            {activeLogos.map((p) => (
               <div key={p.name}
                 className="flex items-center gap-1.5 bg-white/10 border border-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm text-white font-medium"
               >
@@ -261,7 +283,7 @@ const Home = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {HOW_IT_WORKS.map((step, i) => (
+            {activeHowItWorks.map((step, i) => (
               <motion.div
                 key={step.step}
                 initial={{ opacity: 0, y: 20 }}
@@ -357,7 +379,7 @@ const Home = () => {
                     className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-forest-100 hover:border-forest-400 hover:shadow-md transition-all duration-200 group"
                   >
                     <span className="text-3xl group-hover:scale-110 transition-transform">{item.icon}</span>
-                    <span className="text-sm font-medium text-forest-800">{item.label}</span>
+                    <span className="text-sm font-medium text-forest-800">{t(item.labelKey, { defaultValue: item.label })}</span>
                     <div className="flex items-center gap-1 text-xs text-forest-500">
                       <TrendingDown className="w-3 h-3" />
                       {t('home_compare_action')}
@@ -507,12 +529,12 @@ const Home = () => {
             <div className="absolute top-0 right-0 w-48 h-48 bg-white/20 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110 blur-xl" />
             <div className="relative z-10 text-forest-900">
               <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-amber-700 bg-amber-200/50 backdrop-blur-sm px-3 py-1 rounded-full mb-4 border border-amber-300/50">
-                <Flame className="w-3.5 h-3.5" /> Viral Challenge
+                <Flame className="w-3.5 h-3.5" /> {t('portal_viral_badge')}
               </div>
-              <h3 className="text-3xl font-black font-display mb-3 leading-tight">The ₹1500 Weekly Food Challenge</h3>
-              <p className="text-forest-800 font-medium mb-8 max-w-sm">Can AI feed a family of 2 for under ₹1500 a week? Take the challenge and save money.</p>
+              <h3 className="text-3xl font-black font-display mb-3 leading-tight">{t(region === 'SG' ? 'portal_challenge_title_sg' : 'portal_challenge_title')}</h3>
+              <p className="text-forest-800 font-medium mb-8 max-w-sm">{t(region === 'SG' ? 'portal_challenge_desc_sg' : 'portal_challenge_desc')}</p>
               <span className="inline-flex items-center justify-center w-full sm:w-auto bg-forest-900 text-white font-bold px-6 py-3 rounded-xl gap-2 group-hover:bg-forest-800 transition-colors">
-                Accept Challenge <ArrowRight className="w-4 h-4" />
+                {t('portal_challenge_btn')} <ArrowRight className="w-4 h-4" />
               </span>
             </div>
           </Link>
@@ -522,12 +544,12 @@ const Home = () => {
             <div className="absolute top-0 right-0 w-48 h-48 bg-moss-500/20 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110 blur-xl" />
             <div className="relative z-10 text-white">
               <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-moss-400 bg-moss-900/50 backdrop-blur-sm px-3 py-1 rounded-full mb-4 border border-moss-800">
-                <Sparkles className="w-3.5 h-3.5" /> AI Sous-Chef
+                <Sparkles className="w-3.5 h-3.5" /> {t('portal_aika_badge')}
               </div>
-              <h3 className="text-3xl font-black font-display mb-3 leading-tight text-white">Scan Your Fridge with Chef Aika</h3>
-              <p className="text-forest-300 mb-8 max-w-sm">Don't know what to cook? Let AI scan your ingredients and generate a 5-star recipe instantly.</p>
+              <h3 className="text-3xl font-black font-display mb-3 leading-tight text-white">{t('portal_aika_title')}</h3>
+              <p className="text-forest-300 mb-8 max-w-sm">{t('portal_aika_desc')}</p>
               <span className="inline-flex items-center justify-center w-full sm:w-auto bg-moss-500 text-forest-900 font-bold px-6 py-3 rounded-xl gap-2 group-hover:bg-moss-400 transition-colors">
-                Try Chef Aika Free <ArrowRight className="w-4 h-4" />
+                {t('portal_aika_btn')} <ArrowRight className="w-4 h-4" />
               </span>
             </div>
           </Link>

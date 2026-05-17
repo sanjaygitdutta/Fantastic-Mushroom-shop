@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useCart } from '../context/CartContext';
 
 const Cart = () => {
+  const { region } = useRegion();
     const { isCartOpen, setIsCartOpen, items, removeFromCart, updateQuantity, cartTotal } = useCart();
 
     return (
@@ -82,7 +83,7 @@ const Cart = () => {
                                                 </button>
                                             </div>
                                             <p className="text-forest-900 font-bold mb-3">
-                                                ₹{item.calculatedPrice.toFixed(2)}
+                                                {formatCurrency(item.calculatedPrice.toFixed(2), region)}
                                                 {item.selectedWeight && (
                                                     <span className="text-xs text-gray-500 ml-2">
                                                         each
@@ -114,7 +115,7 @@ const Cart = () => {
                             <div className="p-6 border-t border-mushroom-100 bg-mushroom-50/30">
                                 <div className="flex justify-between items-center mb-4">
                                     <span className="text-mushroom-600">Subtotal</span>
-                                    <span className="text-2xl font-bold text-mushroom-900">₹{cartTotal.toFixed(2)}</span>
+                                    <span className="text-2xl font-bold text-mushroom-900">{formatCurrency(cartTotal.toFixed(2), region)}</span>
                                 </div>
                                 <Link href="/checkout"
                                     onClick={() => setIsCartOpen(false)}

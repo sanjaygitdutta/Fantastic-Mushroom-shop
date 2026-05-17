@@ -11,6 +11,7 @@ import type { CompareResult } from '../data/mockPrices';
 import { supabase } from '../lib/supabase';
 import { useTranslation } from 'react-i18next';
 import { getTranslatedItem, getLocalizedSEOTitle, type SupportedLanguage } from '../i18n/dictionary';
+import { useRegion } from '../utils/region';
 
 
 // City-food pages for long-tail local SEO
@@ -19,6 +20,16 @@ const PLATFORMS = ['Blinkit', 'BigBasket', 'Zepto', 'Swiggy', 'Amazon Fresh', 'J
 
 const FoodItemPage = () => {
   const { item } = useParams<{ item: string }>();
+  const { region } = useRegion();
+  const isSG = region?.toUpperCase() === 'SG';
+  
+  const REGION_CITIES = isSG
+    ? ['Ang Mo Kio', 'Bedok', 'Jurong', 'Tampines', 'Woodlands', 'Yishun', 'Sengkang', 'Punggol']
+    : ['Mumbai', 'Delhi', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'];
+  const REGION_PLATFORMS = isSG
+    ? ['FairPrice', 'RedMart', 'Cold Storage', 'Giant', 'Sheng Siong', 'GrabMart']
+    : ['Blinkit', 'BigBasket', 'Zepto', 'Swiggy', 'Amazon Fresh', 'JioMart'];
+
   const foodItem = item ? decodeURIComponent(item) : '';
   const displayName = foodItem
     .split('-')
@@ -63,11 +74,11 @@ const FoodItemPage = () => {
   useEffect(() => {
     if (!foodItem) return;
     setLoading(true);
-    searchPrices(foodItem).then((data) => {
+    searchPrices(foodItem, region).then((data) => {
       setResult(data);
       setLoading(false);
     });
-  }, [foodItem]);
+  }, [foodItem, region]);
 
   // Build per-platform price data for the SEO title
   const sortedPrices = result?.prices
@@ -83,25 +94,27 @@ const FoodItemPage = () => {
   const PLATFORM_LABELS: Record<string, string> = {
     blinkit: 'Blinkit', zepto: 'Zepto', swiggy: 'Swiggy',
     bigbasket: 'BigBasket', amazon: 'Amazon Fresh', jiomart: 'JioMart',
-    flipkart: 'Flipkart Minutes'
+    flipkart: 'Flipkart Minutes',
+    fairprice: 'FairPrice', redmart: 'RedMart', coldstorage: 'Cold Storage',
+    giant: 'Giant', shengsiong: 'Sheng Siong', grab: 'GrabMart'
   };
 
   // Auto-updating date — refreshes every page load
-  const todayLabel = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); // "24 Apr 2026"
+  const todayLabel = new Date().toLocaleDateString(isSG ? 'en-SG' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); // "24 Apr 2026"
 
   // Build the title using native templates if not English
   const seoTitle = currentLang === 'en'
     ? (lowestPrice > 0 && secondPrice > 0
-      ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — 7 Apps | Today Real Price`
+      ? `${result?.icon || '🛒'} ${displayName} ${isSG ? 'S$' : '₹'}${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || lowestPlatform} vs ${isSG ? 'S$' : '₹'}${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || secondPlatform} & More — ${isSG ? '6 Apps' : '7 Apps'} | Today Real Price`
       : lowestPrice > 0
-        ? `${result?.icon || '🛒'} ${displayName} ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} — Compare 7 Apps | Today Real Price`
-        : `${displayName} Price Today ${todayLabel} — Compare Blinkit, Zepto, BigBasket & More`)
+        ? `${result?.icon || '🛒'} ${displayName} ${isSG ? 'S$' : '₹'}${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || (isSG ? 'FairPrice' : 'Blinkit')} — Compare ${isSG ? '6 Apps' : '7 Apps'} | Today Real Price`
+        : `${displayName} Price Today ${todayLabel} — Compare ${isSG ? 'FairPrice, RedMart, Cold Storage & More' : 'Blinkit, Zepto, BigBasket & More'}`)
     : `${result?.icon || '🛒'} ${getLocalizedSEOTitle(translatedItem, currentLang)}`;
 
   const seoDesc = currentLang === 'en'
     ? (lowestPrice > 0 && secondPrice > 0
-      ? `${displayName} price today (${todayLabel}): ₹${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || 'Blinkit'} vs ₹${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || 'Zepto'}. Compare all 7 apps — Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes — before prices change.`
-      : `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart instantly.`)
+      ? `${displayName} price today (${todayLabel}): ${isSG ? 'S$' : '₹'}${lowestPrice} on ${PLATFORM_LABELS[lowestPlatform] || (isSG ? 'FairPrice' : 'Blinkit')} vs ${isSG ? 'S$' : '₹'}${secondPrice} on ${PLATFORM_LABELS[secondPlatform] || (isSG ? 'RedMart' : 'Zepto')}. Compare all ${isSG ? '6 apps — FairPrice, RedMart, Cold Storage, Giant, Sheng Siong & GrabMart' : '7 apps — Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes'} — before prices change.`
+      : `Find the cheapest ${displayName} price on ${todayLabel}. Compare prices across ${isSG ? 'FairPrice, RedMart, Cold Storage, Giant, Sheng Siong and GrabMart' : 'Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh and JioMart'} instantly.`)
     : getLocalizedSEOTitle(translatedItem, currentLang);
 
   // Build schema for Google Rich Results
@@ -119,10 +132,10 @@ const FoodItemPage = () => {
     },
     offers: {
       '@type': 'AggregateOffer',
-      priceCurrency: 'INR',
+      priceCurrency: isSG ? 'SGD' : 'INR',
       lowPrice: lowestPrice || 10,
       highPrice: (lowestPrice || 10) + 40,
-      offerCount: PLATFORMS.length
+      offerCount: REGION_PLATFORMS.length
     }
   };
 
@@ -130,9 +143,9 @@ const FoodItemPage = () => {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.fantasticfood.in/' },
-      { '@type': 'ListItem', position: 2, name: 'Compare Prices', item: 'https://www.fantasticfood.in/compare' },
-      { '@type': 'ListItem', position: 3, name: `${displayName} Price`, item: `https://www.fantasticfood.in/food/${foodItem}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: isSG ? 'https://www.fantasticfood.in/?region=SG' : 'https://www.fantasticfood.in/' },
+      { '@type': 'ListItem', position: 2, name: 'Compare Prices', item: isSG ? 'https://www.fantasticfood.in/compare?region=SG' : 'https://www.fantasticfood.in/compare' },
+      { '@type': 'ListItem', position: 3, name: `${displayName} Price`, item: isSG ? `https://www.fantasticfood.in/food/${foodItem}?region=SG` : `https://www.fantasticfood.in/food/${foodItem}` },
     ],
   };
 
@@ -140,26 +153,26 @@ const FoodItemPage = () => {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: `Where can I buy ${displayName} online cheapest in India?`, acceptedAnswer: { '@type': 'Answer', text: `You can compare ${displayName} prices across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh, and JioMart on Fantastic Food to find the best price.` } },
-      { '@type': 'Question', name: `Which app has cheapest ${displayName} price today?`, acceptedAnswer: { '@type': 'Answer', text: `Fantastic Food compares real-time ${displayName} prices from 6 major platforms so you can instantly see which app is offering the lowest price for ${displayName} right now.` } },
-      { '@type': 'Question', name: `How to get ${displayName} delivered fast?`, acceptedAnswer: { '@type': 'Answer', text: `Blinkit and Zepto typically deliver ${displayName} in 10 minutes. Swiggy Instamart delivers in 15 minutes. BigBasket and Amazon Fresh offer 2-hour slots.` } },
-      { '@type': 'Question', name: `Is ${displayName} available on Blinkit and Zepto?`, acceptedAnswer: { '@type': 'Answer', text: `Yes, ${displayName} is available on both Blinkit and Zepto for quick delivery. Use Fantastic Food to compare which one has a cheaper price right now.` } },
+      { '@type': 'Question', name: `Where can I buy ${displayName} online cheapest in ${isSG ? 'Singapore' : 'India'}?`, acceptedAnswer: { '@type': 'Answer', text: `You can compare ${displayName} prices across ${REGION_PLATFORMS.join(', ')} on Fantastic Food to find the best price.` } },
+      { '@type': 'Question', name: `Which app has cheapest ${displayName} price today?`, acceptedAnswer: { '@type': 'Answer', text: `Fantastic Food compares real-time ${displayName} prices from major platforms so you can instantly see which app is offering the lowest price for ${displayName} right now.` } },
+      { '@type': 'Question', name: `How to get ${displayName} delivered fast?`, acceptedAnswer: { '@type': 'Answer', text: isSG ? `FairPrice, GrabMart and RedMart typically deliver within hours or same-day.` : `Blinkit and Zepto typically deliver ${displayName} in 10 minutes. Swiggy Instamart delivers in 15 minutes. BigBasket and Amazon Fresh offer 2-hour slots.` } },
+      { '@type': 'Question', name: `Is ${displayName} available on ${isSG ? 'FairPrice and RedMart' : 'Blinkit and Zepto'}?`, acceptedAnswer: { '@type': 'Answer', text: `Yes, ${displayName} is available on those platforms for quick delivery. Use Fantastic Food to compare which one has a cheaper price right now.` } },
     ],
   };
 
   const seoKeywords = [
     `${displayName} price today`,
-    `buy ${displayName} online India`,
+    `buy ${displayName} online ${isSG ? 'Singapore' : 'India'}`,
     `${displayName} cheapest price`,
-    `${displayName} Blinkit price`,
-    `${displayName} Zepto price`,
-    `${displayName} BigBasket price`,
-    `${displayName} Swiggy instamart`,
-    `${displayName} Amazon Fresh`,
-    `${displayName} JioMart price`,
+    isSG ? `${displayName} FairPrice price` : `${displayName} Blinkit price`,
+    isSG ? `${displayName} RedMart price` : `${displayName} Zepto price`,
+    isSG ? `${displayName} Cold Storage price` : `${displayName} BigBasket price`,
+    isSG ? `${displayName} GrabMart` : `${displayName} Swiggy instamart`,
+    isSG ? `${displayName} Sheng Siong` : `${displayName} Amazon Fresh`,
+    isSG ? `${displayName} Giant price` : `${displayName} JioMart price`,
     `${displayName} price comparison`,
     `cheapest ${displayName} delivery`,
-    `${displayName} online order India`,
+    `${displayName} online order ${isSG ? 'Singapore' : 'India'}`,
   ].join(', ');
 
   return (
@@ -168,7 +181,7 @@ const FoodItemPage = () => {
         title={seoTitle}
         description={seoDesc}
         keywords={seoKeywords}
-        canonicalUrl={`https://www.fantasticfood.in/food/${foodItem}`}
+        canonicalUrl={isSG ? `https://www.fantasticfood.in/food/${foodItem}?region=SG` : `https://www.fantasticfood.in/food/${foodItem}`}
         structuredData={[productSchema, faqSchema, breadcrumbSchema]}
       />
 
@@ -187,13 +200,13 @@ const FoodItemPage = () => {
       <div className="max-w-6xl mx-auto px-4 mb-10">
         <div className="bg-forest-900 text-white rounded-2xl px-8 py-8">
           <h1 className="text-3xl md:text-4xl font-black font-display mb-2">
-            {currentLang === 'en' ? `${displayName} Price Today in India` : getLocalizedSEOTitle(translatedItem, currentLang)}
+            {currentLang === 'en' ? `${displayName} Price Today in ${isSG ? 'Singapore' : 'India'}` : getLocalizedSEOTitle(translatedItem, currentLang)}
           </h1>
           <p className="text-forest-300 text-lg mb-4">
             {t('food_item_compare_on')}
           </p>
           <div className="flex flex-wrap gap-2">
-            {PLATFORMS.map(pl => (
+            {REGION_PLATFORMS.map(pl => (
               <span key={pl} className="bg-forest-800 border border-forest-700 text-forest-300 text-xs px-3 py-1 rounded-full">✓ {pl}</span>
             ))}
           </div>
@@ -304,7 +317,7 @@ const FoodItemPage = () => {
           {t('food_item_buy_city')}
         </h2>
         <div className="flex flex-wrap gap-2">
-          {CITIES.map(city => (
+          {REGION_CITIES.map(city => (
             <Link
               key={city}
               href={`/compare?q=${encodeURIComponent(foodItem)}&city=${city}`}

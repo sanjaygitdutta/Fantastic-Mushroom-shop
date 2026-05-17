@@ -1,5 +1,7 @@
 // ------------------------------------------------------------------
 import { supabase } from '../lib/supabase';
+import { MOCK_DB_SG } from './mockPricesSG';
+import { getEnglishQuery } from '../i18n/dictionary';
 // Fantastic Food — Price Data System
 // Phase 1: Rich mock DB covering 50+ frequently ordered food items
 // Phase 2 (Production): Replace searchPrices() with live Supabase
@@ -4026,13 +4028,15 @@ export const getBestPrice = (prices: PlatformPrice[]): PlatformPrice | null => {
   return inStock.reduce((best, curr) => (curr.price < best.price ? curr : best), inStock[0]);
 };
 
-const searchPricesInternal = async (query: string, _pincode?: string): Promise<CompareResult | null> => {
+const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): Promise<CompareResult | null> => {
   await delay(400 + Math.random() * 300);
-  const key = query.toLowerCase().trim();
+  const englishQuery = getEnglishQuery(query);
+  const key = englishQuery.toLowerCase().trim();
 
   // 1. Identify the Product ID (Match either Supabase ID or MOCK_DB Key)
   let productId = key;
   let dbProduct: any = null;
+  const DB = region === 'SG' ? MOCK_DB_SG : MOCK_DB;
 
   try {
     // Make search fuzzy by replacing spaces with wildcards (e.g., '7 up' -> '%7%up%')
@@ -4064,30 +4068,78 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
       .select('*')
       .eq('item_name', productId);
 
-    if (!prError && dbPrices && dbPrices.length > 0) {
-      return {
-        query: productId,
-        canonicalName: dbProduct?.canonical_name || MOCK_DB[productId]?.canonicalName || productId.toUpperCase(),
-        category: dbProduct?.category || MOCK_DB[productId]?.category || 'Grocery',
-        icon: dbProduct?.icon || MOCK_DB[productId]?.icon || '🛒',
-        prices: dbPrices.map(p => {
-          const fluc = getDailyFluctuation(productId, p.platform_id);
-          const fPrice = Math.round(p.price * fluc);
+        if (!prError && dbPrices && dbPrices.length > 0) {
+      const canonicalName = dbProduct?.canonical_name || DB[productId]?.canonicalName || productId.toUpperCase();
+      const category = dbProduct?.category || DB[productId]?.category || 'Grocery';
+      const icon = dbProduct?.icon || DB[productId]?.icon || '🛒';
+
+      // --- SINGAPORE BASELINE GENERATION ---
+      if (region === 'SG') {
+        const sgBase = dbPrices.find(p => p.platform_id === 'sg_base_price');
+        if (sgBase && sgBase.price > 0) {
+          const basePrice = sgBase.price;
+          const sgPlatformIds = ['fairprice', 'redmart', 'coldstorage', 'shengsiong', 'giant', 'grabmart', 'pandamart', 'amazon_sg'];
+          
           return {
-            platformId: p.platform_id,
-            productName: p.canonical_name || dbProduct?.canonical_name || productId,
-            price: fPrice,
-            originalPrice: Math.round(fPrice * 1.15),
-            discount: 15,
-            unit: '1 unit',
-            inStock: p.in_stock,
-            url: generateSearchUrl(p.platform_id, productId),
-            lastUpdated: p.last_updated,
-            deliveryTime: p.platform_id === 'swiggy' ? '15 min' : '10 min',
-            isVerified: true
+            query: productId,
+            canonicalName,
+            category,
+            icon,
+            prices: sgPlatformIds.map(pId => {
+              const fluc = getDailyFluctuation(productId, pId);
+              const fPrice = Math.round((basePrice * vary(basePrice, 0.95, 1.05)) * fluc * 100) / 100;
+              
+              let deliveryTime = ['redmart', 'fairprice'].includes(pId) ? '1 day' : (['grabmart', 'pandamart'].includes(pId) ? '15 min' : 'Same day');
+              if (pId === 'amazon_sg') deliveryTime = '2 hrs';
+
+              return {
+                platformId: pId,
+                productName: sgBase.canonical_name || canonicalName,
+                price: parseFloat(fPrice.toFixed(2)),
+                originalPrice: parseFloat((fPrice * vary(basePrice, 1.1, 1.2)).toFixed(2)),
+                discount: 10 + Math.floor(Math.random() * 10),
+                unit: '1 unit',
+                inStock: sgBase.in_stock,
+                url: generateSearchUrl(pId, productId),
+                lastUpdated: sgBase.last_updated,
+                deliveryTime,
+                isVerified: true
+              };
+            })
           };
-        })
-      };
+        }
+      }
+
+      // --- INDIA (DEFAULT) LOGIC --- only for IN region
+      if (region !== 'SG') {
+        const inPrices = dbPrices.filter(p => p.platform_id !== 'sg_base_price');
+        if (inPrices.length > 0) {
+          return {
+            query: productId,
+            canonicalName,
+            category,
+            icon,
+            prices: inPrices.map(p => {
+              const fluc = getDailyFluctuation(productId, p.platform_id);
+              const fPrice = Math.round(p.price * fluc);
+              return {
+                platformId: p.platform_id,
+                productName: p.canonical_name || canonicalName,
+                price: fPrice,
+                originalPrice: Math.round(fPrice * 1.15),
+                discount: 15,
+                unit: '1 unit',
+                inStock: p.in_stock,
+                url: generateSearchUrl(p.platform_id, productId),
+                lastUpdated: p.last_updated,
+                deliveryTime: p.platform_id === 'swiggy' ? '15 min' : '10 min',
+                isVerified: true
+              };
+            })
+          };
+        }
+      }
+      // SG users fall through to MOCK_DB_SG below
     }
   } catch (e) {
     console.error("Database search sequence failed", e);
@@ -4095,23 +4147,25 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
 
   // 2. Fallback to MOCK_DB / Auto-generation logic
   let resultTemplate: CompareResult;
-  const match = Object.keys(MOCK_DB).find((k) => k === key || k.includes(key) || key.includes(k));
+  const match = Object.keys(DB).find((k) => k === key || k.includes(key) || key.includes(k));
 
   if (match) {
-    resultTemplate = JSON.parse(JSON.stringify(MOCK_DB[match])) as CompareResult;
-    const platformIds = ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart'];
+    resultTemplate = JSON.parse(JSON.stringify(DB[match])) as CompareResult;
+    const platformIds = region === 'SG' ? ['fairprice', 'redmart', 'coldstorage', 'shengsiong', 'giant', 'grabmart', 'pandamart', 'amazon_sg'] : ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart'];
     const basePrice = resultTemplate.prices[0]?.originalPrice || estimateBasePrice(key);
     
+    const templateUnit = resultTemplate.prices[0]?.unit || '1 unit';
     platformIds.forEach(pId => {
       if (!resultTemplate.prices.find(p => p.platformId === pId)) {
-        const deliveryTime = pId === 'swiggy' ? '15 min' : (pId === 'jiomart' ? '1 day' : (['bigbasket', 'amazon'].includes(pId) ? '2 hrs' : '10 min'));
+        let deliveryTime = pId === 'swiggy' ? '15 min' : (pId === 'jiomart' ? '1 day' : (['bigbasket', 'amazon', 'amazon_sg'].includes(pId) ? '2 hrs' : '10 min'));
+        if (region === 'SG') deliveryTime = ['redmart', 'fairprice'].includes(pId) ? '1 day' : (['grabmart', 'pandamart'].includes(pId) ? '15 min' : 'Same day');
         resultTemplate.prices.push({ 
           platformId: pId, 
           productName: resultTemplate.canonicalName, 
           price: vary(basePrice, 0.85, 1.1), 
           originalPrice: vary(basePrice, 1.1, 1.25), 
           discount: 15, 
-          unit: '1 unit', 
+          unit: templateUnit,
           inStock: true, 
           url: '#', 
           lastUpdated: new Date().toISOString(), 
@@ -4121,6 +4175,22 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
     });
   } else {
     const basePrice = estimateBasePrice(key);
+    if (region === 'SG') {
+        const sgBase = (basePrice / 55) + 1.5;
+        resultTemplate = {
+            query,
+            canonicalName: query.charAt(0).toUpperCase() + query.slice(1),
+            category: 'Grocery',
+            icon: '🛒',
+            prices: [
+                { platformId: 'fairprice', productName: query, price: vary(sgBase, 0.92, 1.08), originalPrice: vary(sgBase, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '1 day' },
+                { platformId: 'redmart', productName: query, price: vary(sgBase, 0.88, 1.02), originalPrice: vary(sgBase, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
+                { platformId: 'coldstorage', productName: query, price: vary(sgBase, 0.95, 1.1),  originalPrice: vary(sgBase, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: 'Same day' },
+                { platformId: 'amazon_sg', productName: query, price: vary(sgBase, 1.0, 1.2), originalPrice: vary(sgBase, 1.15, 1.3), discount: 11, unit: '1 unit', inStock: true, url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs' }
+            ]
+        };
+    } else {
+const basePrice = estimateBasePrice(key);
     resultTemplate = {
         query,
         canonicalName: query.charAt(0).toUpperCase() + query.slice(1),
@@ -4136,17 +4206,18 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
             { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
         ]
     };
+    }
   }
 
   // Apply deterministic daily fluctuation to auto-generated/fallback prices
   resultTemplate.prices = resultTemplate.prices.map(p => {
     const fluc = getDailyFluctuation(resultTemplate.query, p.platformId);
-    const fPrice = Math.round(p.price * fluc);
-    return {
-      ...p,
-      price: fPrice,
-      originalPrice: Math.max(p.originalPrice, Math.round(fPrice * 1.15))
-    };
+    // Small prices (SG, e.g. S$2.19) need 2 decimal places; large prices (IN, e.g. ₹30) round to integer
+    const raw = p.price * fluc;
+    const fPrice = raw < 10 ? parseFloat(raw.toFixed(2)) : Math.round(raw);
+    const rawOrig = Math.max(p.originalPrice, fPrice * 1.15);
+    const fOrig = rawOrig < 10 ? parseFloat(rawOrig.toFixed(2)) : Math.round(rawOrig);
+    return { ...p, price: fPrice, originalPrice: fOrig };
   });
 
     // 2.5 Log a background Scrape Request for new items (Scrape-on-Demand)
@@ -4167,24 +4238,24 @@ const searchPricesInternal = async (query: string, _pincode?: string): Promise<C
 
 // ─── POPULAR SEARCHES ──────────────────────────────────────────────────────────
 export const POPULAR_SEARCHES = [
-  { label: 'Onion',      query: 'onion',     icon: '🧅' },
-  { label: 'Tomato',     query: 'tomato',    icon: '🍅' },
-  { label: 'Milk',       query: 'milk',      icon: '🥛' },
-  { label: 'Eggs',       query: 'eggs',      icon: '🥚' },
-  { label: 'Chicken',    query: 'chicken',   icon: '🍗' },
-  { label: 'Rice',       query: 'rice',      icon: '🍚' },
-  { label: 'Paneer',     query: 'paneer',    icon: '🧀' },
-  { label: 'Banana',     query: 'banana',    icon: '🍌' },
-  { label: 'Potato',     query: 'potato',    icon: '🥔' },
-  { label: 'Dal',        query: 'dal',       icon: '🫘' },
-  { label: 'Bread',      query: 'bread',     icon: '🍞' },
-  { label: 'Atta',       query: 'flour',     icon: '🌾' },
-  { label: 'Curd',       query: 'curd',      icon: '🍶' },
-  { label: 'Mango',      query: 'mango',     icon: '🥭' },
-  { label: 'Fish',       query: 'fish',      icon: '🐟' },
-  { label: 'Mushroom',   query: 'mushroom',  icon: '🍄' },
-  { label: 'Tea',        query: 'tea',       icon: '🍵' },
-  { label: 'Coffee',     query: 'coffee',    icon: '☕' },
+  { label: 'Onion',      labelKey: 'pop_onion',    query: 'onion',     icon: '🧅' },
+  { label: 'Tomato',     labelKey: 'pop_tomato',   query: 'tomato',    icon: '🍅' },
+  { label: 'Milk',       labelKey: 'pop_milk',     query: 'milk',      icon: '🥛' },
+  { label: 'Eggs',       labelKey: 'pop_eggs',     query: 'eggs',      icon: '🥚' },
+  { label: 'Chicken',    labelKey: 'pop_chicken',  query: 'chicken',   icon: '🍗' },
+  { label: 'Rice',       labelKey: 'pop_rice',     query: 'rice',      icon: '🍚' },
+  { label: 'Paneer',     labelKey: 'pop_paneer',   query: 'paneer',    icon: '🧀' },
+  { label: 'Banana',     labelKey: 'pop_banana',   query: 'banana',    icon: '🍌' },
+  { label: 'Potato',     labelKey: 'pop_potato',   query: 'potato',    icon: '🥔' },
+  { label: 'Dal',        labelKey: 'pop_dal',      query: 'dal',       icon: '🫘' },
+  { label: 'Bread',      labelKey: 'pop_bread',    query: 'bread',     icon: '🍞' },
+  { label: 'Atta',       labelKey: 'pop_atta',     query: 'flour',     icon: '🌾' },
+  { label: 'Curd',       labelKey: 'pop_curd',     query: 'curd',      icon: '🍶' },
+  { label: 'Mango',      labelKey: 'pop_mango',    query: 'mango',     icon: '🥭' },
+  { label: 'Fish',       labelKey: 'pop_fish',     query: 'fish',      icon: '🐟' },
+  { label: 'Mushroom',   labelKey: 'pop_mushroom', query: 'mushroom',  icon: '🍄' },
+  { label: 'Tea',        labelKey: 'pop_tea',      query: 'tea',       icon: '🍵' },
+  { label: 'Coffee',     labelKey: 'pop_coffee',   query: 'coffee',    icon: '☕' },
 ];
 
 // ─── FOOD CATEGORIES ──────────────────────────────────────────────────────────
@@ -4206,6 +4277,6 @@ export const FOOD_CATEGORIES = [
 ];
 
 // 5. EXPORT (Live Data - No Cache)
-export const searchPrices = async (query: string) => {
-  return searchPricesInternal(query);
+export const searchPrices = async (query: string, region: 'IN' | 'SG' = 'IN') => {
+  return searchPricesInternal(query, region);
 };

@@ -2,7 +2,8 @@
 // Enhanced SEO Component with full OG, Twitter, JSON-LD, and Hreflang support
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SUPPORTED_LANGUAGES } from '../i18n/dictionary';
+
+import { useRegion } from '../utils/region';
 
 interface SEOProps {
   title: string;
@@ -28,11 +29,16 @@ const SEO = ({
   structuredData,
 }: SEOProps) => {
   const { i18n } = useTranslation();
+  const { region } = useRegion();
   const currentLang = i18n.language?.substring(0, 2) || 'en';
+  const isSG = region?.toUpperCase() === 'SG';
 
   useEffect(() => {
+    const targetCountry = isSG ? 'SG' : 'IN';
+    const localeCode = isSG ? 'SG' : 'IN';
+
     // ── HTML Lang Attribute ────────────────────────────
-    document.documentElement.lang = `${currentLang}-IN`;
+    document.documentElement.lang = `${currentLang}-${targetCountry}`;
 
     const fullTitle = title.includes('Fantastic Food') ? title : `${title} | Fantastic Food`;
     document.title = fullTitle;
@@ -44,7 +50,7 @@ const SEO = ({
     urlObj.searchParams.delete('lang'); // kill ?lang=te, ?lang=mr etc.
 
     // Strip any existing language prefix from path to avoid double-prefixing (/hi/hi/...)
-    const LANG_CODES = ['hi', 'bn', 'mr', 'te', 'ta'];
+    const LANG_CODES = ['en', 'hi', 'bn', 'mr', 'te', 'ta', 'zh-CN', 'ms'];
     const pathParts = urlObj.pathname.split('/').filter(Boolean);
     if (LANG_CODES.includes(pathParts[0])) {
       pathParts.shift(); // remove existing lang prefix
@@ -57,6 +63,14 @@ const SEO = ({
     } else {
       urlObj.pathname = cleanPath || '/';
     }
+
+    // Preserve region tag in canonical for SG pages so Google knows the canonical of SG version is the one with parameter
+    if (isSG) {
+      urlObj.searchParams.set('region', 'SG');
+    } else {
+      urlObj.searchParams.delete('region');
+    }
+
     let pageUrl = urlObj.toString();
 
     const setMeta = (attr: string, attrVal: string, content: string) => {
@@ -84,7 +98,7 @@ const SEO = ({
     setMeta('name', 'description', description);
     setMeta('name', 'robots', 'index, follow');
     setMeta('name', 'author', 'Fantastic Food');
-    setMeta('name', 'language', `${currentLang}-IN`);
+    setMeta('name', 'language', `${currentLang}-${targetCountry}`);
     if (keywords) setMeta('name', 'keywords', keywords);
 
     // ── Open Graph ─────────────────────────────────────
@@ -97,7 +111,7 @@ const SEO = ({
     setMeta('property', 'og:image:height', '630');
     setMeta('property', 'og:image:alt',    ogImageAlt);
     setMeta('property', 'og:site_name',   'Fantastic Food');
-    setMeta('property', 'og:locale',      `${currentLang}_IN`);
+    setMeta('property', 'og:locale',      `${currentLang}_${localeCode}`);
 
     // ── Twitter Cards ──────────────────────────────────
     setMeta('name', 'twitter:card',        'summary_large_image');
@@ -106,39 +120,51 @@ const SEO = ({
     setMeta('name', 'twitter:image',       ogImage);
     setMeta('name', 'twitter:site',        '@fantasticfoodin');
 
-    // ── Canonical & Hreflang ───────────────────────────
+    // ── Canonical & Hreflang alternate Map ───────────────────────────
     if (pageUrl) {
       setLink('canonical', pageUrl);
       
-      // Inject hreflang tags for ALL supported languages to link their SEO ranking
-      // This is the #1 most important step for scaling regional SEO
-      SUPPORTED_LANGUAGES.forEach(lang => {
-        // Build hreflang URL — always start from the clean English path
+      const targets = [
+        { hreflang: 'en-SG', langCode: 'en', targetRegion: 'SG' },
+        { hreflang: 'zh-SG', langCode: 'zh-CN', targetRegion: 'SG' },
+        { hreflang: 'ms-SG', langCode: 'ms', targetRegion: 'SG' },
+        { hreflang: 'en-IN', langCode: 'en', targetRegion: 'IN' },
+        { hreflang: 'hi-IN', langCode: 'hi', targetRegion: 'IN' },
+        { hreflang: 'bn-IN', langCode: 'bn', targetRegion: 'IN' },
+        { hreflang: 'mr-IN', langCode: 'mr', targetRegion: 'IN' },
+        { hreflang: 'te-IN', langCode: 'te', targetRegion: 'IN' },
+        { hreflang: 'ta-IN', langCode: 'ta', targetRegion: 'IN' },
+        { hreflang: 'x-default', langCode: 'en', targetRegion: 'IN' },
+      ];
+
+      targets.forEach(({ hreflang, langCode, targetRegion }) => {
         const baseUrl = canonicalUrl || window.location.href;
         const hrefObj = new URL(baseUrl);
-        hrefObj.searchParams.delete('lang'); // strip ?lang= params
+        hrefObj.search = ''; // clear search
 
-        // Strip any existing lang prefix from path
+        // Strip any existing language prefix from path
         const hrefParts = hrefObj.pathname.split('/').filter(Boolean);
         if (LANG_CODES.includes(hrefParts[0])) hrefParts.shift();
         const hrefClean = '/' + hrefParts.join('/');
 
         // Add lang prefix for non-English
-        if (lang.code !== 'en') {
-          hrefObj.pathname = `/${lang.code}${hrefClean === '/' ? '' : hrefClean}`;
+        if (langCode !== 'en') {
+          hrefObj.pathname = `/${langCode}${hrefClean === '/' ? '' : hrefClean}`;
         } else {
           hrefObj.pathname = hrefClean || '/';
         }
+
+        // Add region tag for SG target URLs
+        if (targetRegion === 'SG') {
+          hrefObj.searchParams.set('region', 'SG');
+        }
+
         const localizedUrl = hrefObj.toString();
-        
-        // Use 'x-default' for english, and standard codes for others
-        const hreflangCode = lang.code === 'en' ? 'x-default' : `${lang.code}-in`;
-        setLink('alternate', localizedUrl, hreflangCode);
+        setLink('alternate', localizedUrl, hreflang);
       });
     }
 
     // ── JSON-LD Structured Data ────────────────────────
-    // Supports single object OR array — injects as @graph for Google compatibility
     if (structuredData) {
       const id = 'seo-structured-data-jsonld';
       let script = document.getElementById(id) as HTMLScriptElement | null;
@@ -153,10 +179,9 @@ const SEO = ({
     }
 
     return () => {
-      // Clean up on page navigation so stale schema doesn't persist
       document.getElementById('seo-structured-data-jsonld')?.remove();
     };
-  }, [title, description, keywords, canonicalUrl, ogImage, ogImageAlt, ogType, structuredData, currentLang]);
+  }, [title, description, keywords, canonicalUrl, ogImage, ogImageAlt, ogType, structuredData, currentLang, isSG]);
 
   return null;
 };

@@ -42,8 +42,8 @@ const RecipeDetails = () => {
     // Schema.org Recipe structured data — enables Google Rich Results (cook time, ingredient preview in search)
     const recipeSchema = {
         '@type': 'Recipe',
-        name: recipe.title,
-        description: recipe.description,
+        name: displayTitle,
+        description: displayDescription,
         image: recipe.image,
         author: { '@type': 'Organization', name: 'Fantastic Food' },
         prepTime: `PT${recipe.prepTime.replace(' min', 'M')}`,
@@ -51,7 +51,7 @@ const RecipeDetails = () => {
         recipeYield: `${recipe.servings} servings`,
         recipeCategory: recipe.tags[0] ?? 'Main Course',
         recipeCuisine: recipe.tags[1] ?? 'Indian',
-        keywords: `${recipe.title}, mushroom recipe, ${recipe.tags.join(', ')}`,
+        keywords: `${displayTitle}, mushroom recipe, ${recipe.tags.join(', ')}`,
         aggregateRating: {
             '@type': 'AggregateRating',
             ratingValue: 4.9,
@@ -75,7 +75,7 @@ const RecipeDetails = () => {
     };
 
     const seoDescription = t('recipe_seo_desc', { 
-        description: recipe.description, 
+        description: displayDescription, 
         prepTime: recipe.prepTime, 
         cookTime: recipe.cookTime, 
         servings: recipe.servings 
@@ -84,10 +84,10 @@ const RecipeDetails = () => {
     return (
         <div className="min-h-screen pt-24 pb-20 bg-white">
             <SEO
-              title={t('recipe_seo_title', { title: recipe.title })}
+              title={t('recipe_seo_title', { title: displayTitle })}
               description={seoDescription}
               canonicalUrl={`https://www.fantasticfood.in/recipe/${recipe.id}`}
-              keywords={`${recipe.title}, ${recipe.tags.join(', ')}, mushroom recipe, recipe ingredients price`}
+              keywords={`${displayTitle}, ${recipe.tags.join(', ')}, mushroom recipe, recipe ingredients price`}
               structuredData={recipeSchema}
             />
 

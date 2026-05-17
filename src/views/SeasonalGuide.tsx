@@ -6,22 +6,26 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 import SEO from '../components/SEO';
-import { SEASONAL_PRODUCE, MONTH_NAMES, getCurrentSeasonalItems, getItemsByMonth } from '../data/seasonalProduce';
+import { SEASONAL_PRODUCE_IN, SEASONAL_PRODUCE_SG, MONTH_NAMES, getCurrentSeasonalItems, getItemsByMonth } from '../data/seasonalProduce';
+import { useRegion } from '../utils/region';
 
 export default function SeasonalGuide() { // refresh
+  const { region } = useRegion();
   const { t } = useTranslation();
   const currentMonth = new Date().getMonth() + 1;
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [filter, setFilter] = useState<'all' | 'vegetable' | 'fruit'>('all');
 
-  const items = getItemsByMonth(selectedMonth).filter(i => filter === 'all' || i.type === filter);
-  const currentItems = getCurrentSeasonalItems();
+  const isSG = region === 'SG';
+  const seasonalList = isSG ? SEASONAL_PRODUCE_SG : SEASONAL_PRODUCE_IN;
+  const items = getItemsByMonth(selectedMonth, region).filter(i => filter === 'all' || i.type === filter);
+  const currentItems = getCurrentSeasonalItems(region);
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
       <SEO
-        title="Seasonal Fruits & Vegetables Guide India — Fantastic Food"
-        description="Discover what fruits and vegetables are in season right now in India. Fresh, cheap, and healthy — compared across Blinkit, Zepto, Swiggy Instamart."
+        title={t(isSG ? 'seas_seo_title_sg' : 'seas_seo_title', { defaultValue: isSG ? 'Seasonal Fruits & Vegetables Guide Singapore — Fantastic Food SG' : 'Seasonal Fruits & Vegetables Guide India — Fantastic Food' })}
+        description={t(isSG ? 'seas_seo_desc_sg' : 'seas_seo_desc', { defaultValue: isSG ? 'Discover what fruits and vegetables are in season right now in Singapore. Compare prices across FairPrice, RedMart, Cold Storage.' : 'Discover what fruits and vegetables are in season right now in India. Fresh, cheap, and healthy — compared across Blinkit, Zepto, Swiggy Instamart.' })}
         canonicalUrl="https://www.fantasticfood.in/seasonal"
       />
 
@@ -35,7 +39,7 @@ export default function SeasonalGuide() { // refresh
             {t('seas_title', { defaultValue: "What's In Season" })} <span className="text-moss-600">{t('seas_title_highlight', { defaultValue: 'Right Now?' })}</span>
           </h1>
           <p className="text-forest-600 max-w-2xl mx-auto text-lg">
-            {t('seas_desc', { defaultValue: 'In-season produce is always fresher, tastier, and significantly cheaper. Shop smart by buying what nature intended.' })}
+            {t(isSG ? 'seas_desc_sg' : 'seas_desc', { defaultValue: isSG ? 'Since Singapore imports most produce, in-season goods from neighboring countries are fresher, taste better, and are much cheaper. Buy smart!' : 'In-season produce is always fresher, tastier, and significantly cheaper. Shop smart by buying what nature intended.' })}
           </p>
         </div>
 
@@ -64,7 +68,7 @@ export default function SeasonalGuide() { // refresh
         <div className="flex overflow-x-auto gap-2 pb-3 mb-6 scrollbar-hide">
           {MONTH_NAMES.map((month, i) => {
             const monthNum = i + 1;
-            const count = SEASONAL_PRODUCE.filter(item => item.months.includes(monthNum)).length;
+            const count = seasonalList.filter(item => item.months.includes(monthNum)).length;
             return (
               <button
                 key={month}
@@ -134,7 +138,7 @@ export default function SeasonalGuide() { // refresh
         {/* Bottom CTA */}
         <div className="mt-12 bg-white rounded-3xl border border-forest-100 p-8 text-center shadow-sm">
           <h3 className="text-2xl font-black font-display text-forest-900 mb-2">{t('seas_cta_title', { defaultValue: 'Shop seasonal, save more 🌾' })}</h3>
-          <p className="text-forest-600 mb-4 max-w-lg mx-auto">{t('seas_cta_desc', { defaultValue: 'In-season produce costs up to 40% less than out-of-season imports. Compare prices across all platforms and get the freshest at cheapest!' })}</p>
+          <p className="text-forest-600 mb-4 max-w-lg mx-auto">{t(isSG ? 'seas_cta_desc_sg' : 'seas_cta_desc', { defaultValue: isSG ? 'In-season imported produce costs up to 40% less than out-of-season air-freighted items. Compare prices across FairPrice, RedMart and Cold Storage!' : 'In-season produce costs up to 40% less than out-of-season imports. Compare prices across all platforms and get the freshest at cheapest!' })}</p>
           <Link href="/basket" className="btn-forest inline-flex items-center gap-2 px-6 py-3">
             {t('seas_cta_btn', { defaultValue: 'Build My Seasonal Basket' })} <ArrowRight className="w-4 h-4" />
           </Link>

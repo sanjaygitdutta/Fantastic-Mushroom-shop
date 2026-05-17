@@ -1,12 +1,18 @@
 'use client';
 import SEO from '../components/SEO';
+import { useTranslation } from 'react-i18next';
+import { useRegion } from '../utils/region';
 
 const TermsOfService = () => {
+    const { t } = useTranslation();
+    const { region } = useRegion();
+    const isSG = region?.toUpperCase() === 'SG';
+
     return (
         <>
             <SEO 
-                title="Terms of Service | Fantastic Food"
-                description="The legal terms and conditions for using the Fantastic Food price comparison platform and mushroom shop."
+                title={t(isSG ? 'terms_seo_title_sg' : 'terms_seo_title', { defaultValue: isSG ? "Terms of Service & Conditions SG | Fantastic Food" : "Terms of Service | Fantastic Food" })}
+                description={t(isSG ? 'terms_seo_desc_sg' : 'terms_seo_desc', { defaultValue: isSG ? "Read the terms, rules, and conditions for using the Fantastic Food price comparison engine in Singapore." : "The legal terms and conditions for using the Fantastic Food price comparison platform and mushroom shop." })}
                 canonicalUrl="https://www.fantasticfood.in/terms"
             />
 

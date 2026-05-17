@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRegion, formatCurrency } from '../utils/region';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChefHat, Wallet, Users, Utensils, ArrowRight, Loader2, IndianRupee, Sparkles, CheckCircle2, ShoppingCart, Flame } from 'lucide-react';
+import { ChefHat, Wallet, Users, Utensils, ArrowRight, Loader2, Sparkles, CheckCircle2, ShoppingCart, Flame } from 'lucide-react';
 import Link from 'next/link';
 
 import SEO from '../components/SEO';
@@ -30,10 +31,19 @@ interface MealPlanResponse {
 const DIETS = ['None', 'Vegetarian', 'Vegan', 'Jain', 'High Protein', 'Keto', 'Diabetes Friendly'];
 
 const MealPlanner = () => {
+  const { region } = useRegion();
   const { t } = useTranslation();
   const { user } = useAuth();
+
+  // Region-aware budget constants
+  const isSG = region === 'SG';
+  const CHALLENGE_AMOUNT = isSG ? 50 : 1500;
+  const DEFAULT_BUDGET   = isSG ? 50 : 1500;
+  const SLIDER_MIN       = isSG ? 50 : 500;
+  const SLIDER_MAX       = isSG ? 1000 : 10000;
+  const SLIDER_STEP      = isSG ? 5 : 100;
   
-  const [budget, setBudget] = useState(1500);
+  const [budget, setBudget] = useState(DEFAULT_BUDGET);
   const [dietary, setDietary] = useState('Vegetarian');
   const [familySize, setFamilySize] = useState(2);
   const [days] = useState(7);
@@ -80,8 +90,8 @@ const MealPlanner = () => {
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
       <SEO
-        title="Weekly AI Meal Planner (Budget-Based) — Fantastic Food"
-        description="Generate a 7-day grocery meal plan that strictly fits your weekly budget constraints."
+        title={t(region?.toUpperCase() === 'SG' ? 'meal_planner_seo_title_sg' : 'meal_planner_seo_title', { defaultValue: region?.toUpperCase() === 'SG' ? "Weekly Smart Meal Planner Singapore | Fantastic Food" : "Weekly AI Meal Planner (Budget-Based) — Fantastic Food" })}
+        description={t(region?.toUpperCase() === 'SG' ? 'meal_planner_seo_desc_sg' : 'meal_planner_seo_desc', { defaultValue: region?.toUpperCase() === 'SG' ? "Plan your weekly meals and optimize your grocery list automatically to get the lowest ingredient prices in Singapore." : "Generate a 7-day grocery meal plan that strictly fits your weekly budget constraints." })}
         canonicalUrl="https://www.fantasticfood.in/meal-planner"
       />
 
@@ -101,27 +111,27 @@ const MealPlanner = () => {
         {/* Configuration Panel */}
         {!plan && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-3xl shadow-sm border border-forest-100 p-8 max-w-3xl mx-auto">
-            {/* ₹1500 Survival Challenge Banner */}
+            {/* {formatCurrency(1500, region)} Survival Challenge Banner */}
             <div className="mb-10 bg-linear-to-r from-amber-500 to-amber-600 rounded-2xl p-6 shadow-lg shadow-amber-500/20 text-forest-900 border border-amber-400 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-700" />
               <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div>
                   <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider bg-white/30 px-3 py-1 rounded-full mb-2">
-                    <Flame className="w-3.5 h-3.5" /> Viral Challenge
+                    <Flame className="w-3.5 h-3.5" /> {t('meal_viral_challenge')}
                   </div>
-                  <h3 className="text-2xl font-black font-display mb-1">The ₹1500 Weekly Survival</h3>
-                  <p className="font-medium text-amber-950 text-sm">Can you feed 2 people for 7 days under ₹1500? AI says yes.</p>
+                  <h3 className="text-2xl font-black font-display mb-1">{t('meal_viral_title', { amount: formatCurrency(CHALLENGE_AMOUNT, region) })}</h3>
+                  <p className="font-medium text-amber-950 text-sm">{t('meal_viral_desc', { amount: formatCurrency(CHALLENGE_AMOUNT, region) })}</p>
                 </div>
                 <button 
                   onClick={() => {
-                    setBudget(1500);
+                    setBudget(CHALLENGE_AMOUNT);
                     setFamilySize(2);
                     setDietary('Vegetarian');
-                    generatePlan(1500, 'Vegetarian', 2);
+                    generatePlan(CHALLENGE_AMOUNT, 'Vegetarian', 2);
                   }}
                   className="shrink-0 bg-forest-900 text-amber-400 font-bold px-6 py-3 rounded-xl hover:bg-forest-800 transition-colors shadow-xl"
                 >
-                  Accept Challenge
+                  {t('meal_accept_challenge')}
                 </button>
               </div>
             </div>
@@ -132,19 +142,19 @@ const MealPlanner = () => {
               <div>
                 <label className="flex items-center justify-between text-forest-900 font-bold mb-4">
                   <span className="flex items-center gap-2"><Wallet className="w-5 h-5 text-amber-500" /> {t('meal_budget')}</span>
-                  <span className="text-2xl font-black text-amber-500 flex items-center">
-                    <IndianRupee className="w-5 h-5" />{budget}
+                  <span className="text-2xl font-black text-amber-500">
+                    {formatCurrency(budget, region)}
                   </span>
                 </label>
                 <input 
                   type="range" 
-                  min="500" max="10000" step="100"
+                  min={SLIDER_MIN} max={SLIDER_MAX} step={SLIDER_STEP}
                   value={budget}
                   onChange={(e) => setBudget(Number(e.target.value))}
                   className="w-full accent-amber-500"
                 />
                 <div className="flex justify-between text-xs text-forest-400 mt-2">
-                  <span>₹500</span><span>₹10,000</span>
+                  <span>{formatCurrency(SLIDER_MIN, region)}</span><span>{formatCurrency(SLIDER_MAX, region)}</span>
                 </div>
               </div>
 
@@ -216,11 +226,11 @@ const MealPlanner = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-cream-100 p-4 rounded-2xl">
                       <p className="text-forest-500 text-xs font-bold uppercase tracking-wider mb-1">{t('meal_target_budget')}</p>
-                      <p className="text-2xl font-black text-forest-900">₹{budget}</p>
+                      <p className="text-2xl font-black text-forest-900">{formatCurrency(budget, region)}</p>
                     </div>
                     <div className="bg-amber-100 p-4 rounded-2xl">
                       <p className="text-amber-800 text-xs font-bold uppercase tracking-wider mb-1">{t('meal_estimated_cost')}</p>
-                      <p className="text-2xl font-black text-amber-900">₹{plan.estimatedCost}</p>
+                      <p className="text-2xl font-black text-amber-900">{formatCurrency(plan.estimatedCost, region)}</p>
                     </div>
                   </div>
                 </div>

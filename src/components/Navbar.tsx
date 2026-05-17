@@ -11,6 +11,7 @@ import { ShoppingBasket, Globe } from 'lucide-react';
 import { POPULAR_SEARCHES } from '../data/mockPrices';
 import { useTranslation } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '../i18n/dictionary';
+import { useRegion, Region } from '../utils/region';
 
 // ── Mega-menu data ─────────────────────────────────────────────────────────────
 interface NavItem {
@@ -81,6 +82,10 @@ const Navbar = () => {
   const pathname = usePathname();
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t, i18n } = useTranslation();
+  const { region, setRegion } = useRegion();
+  const [isRegionOpen, setIsRegionOpen] = useState(false);
+
+  const displayedLanguages = region === 'SG' ? SUPPORTED_LANGUAGES.filter(lang => ['en', 'zh-CN', 'ms'].includes(lang.code)) : SUPPORTED_LANGUAGES.filter(lang => ['en', 'hi', 'bn', 'mr', 'te', 'ta'].includes(lang.code));
 
   const AI_TOOLS: NavItem[] = [
     { to: '/chef-aika', icon: '👩‍🍳', label: t('nav_chef_aika'), desc: t('nav_chef_aika_desc') },
@@ -112,7 +117,7 @@ const Navbar = () => {
 
   const handleLanguageChange = (code: string) => {
     let cleanPath = pathname;
-    const locales = ['hi', 'bn', 'mr', 'te', 'ta']; // Non-default locales
+    const locales = ['hi', 'bn', 'mr', 'te', 'ta', 'zh-CN', 'ms']; // Non-default locales
     for (const locale of locales) {
       if (cleanPath === `/${locale}` || cleanPath.startsWith(`/${locale}/`)) {
         cleanPath = cleanPath.substring(locale.length + 1);
@@ -234,6 +239,39 @@ const Navbar = () => {
             {/* Right icons */}
             <div className="flex items-center gap-1.5">
               
+              {/* Region Switcher (Desktop) */}
+              <div className="relative hidden lg:block">
+                <button
+                  onClick={() => setIsRegionOpen(!isRegionOpen)}
+                  className="flex items-center gap-1 p-2 rounded-xl hover:bg-forest-800 transition-colors text-cream-300 hover:text-white uppercase font-bold text-xs"
+                >
+                  <span className="text-lg">{region === 'SG' ? '🇸🇬' : '🇮🇳'}</span>
+                </button>
+                <AnimatePresence>
+                  {isRegionOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute right-0 top-full mt-2 w-32 bg-white rounded-xl shadow-2xl border border-forest-100 overflow-hidden z-50 py-1"
+                    >
+                      <button
+                        onClick={() => { setRegion('IN'); setIsRegionOpen(false); }}
+                        className={`w-full text-left px-4 py-2 text-sm font-semibold transition-colors flex items-center gap-2 ${region === 'IN' ? 'bg-forest-50 text-forest-700' : 'text-forest-900 hover:bg-gray-50'}`}
+                      >
+                        🇮🇳 India
+                      </button>
+                      <button
+                        onClick={() => { setRegion('SG'); setIsRegionOpen(false); }}
+                        className={`w-full text-left px-4 py-2 text-sm font-semibold transition-colors flex items-center gap-2 ${region === 'SG' ? 'bg-forest-50 text-forest-700' : 'text-forest-900 hover:bg-gray-50'}`}
+                      >
+                        🇸🇬 Singapore
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {/* Language Switcher (Desktop) */}
               <div className="relative hidden lg:block">
                 <button
@@ -251,7 +289,7 @@ const Navbar = () => {
                       exit={{ opacity: 0, y: 10 }}
                       className="absolute right-0 top-full mt-2 w-40 bg-white rounded-xl shadow-2xl border border-forest-100 overflow-hidden z-50 py-1"
                     >
-                      {SUPPORTED_LANGUAGES.map((lang) => (
+                      {displayedLanguages.map((lang) => (
                         <button
                           key={lang.code}
                           onClick={() => handleLanguageChange(lang.code)}
@@ -434,7 +472,7 @@ const Navbar = () => {
                     {t('nav_sign_in')}
                   </Link>
                   <div className="flex flex-wrap gap-2 justify-center">
-                    {SUPPORTED_LANGUAGES.map((lang) => (
+                    {displayedLanguages.map((lang) => (
                       <button
                         key={lang.code}
                         onClick={() => handleLanguageChange(lang.code)}

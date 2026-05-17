@@ -3,18 +3,27 @@ import NutritionInfo from '../../../views/NutritionInfo';
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
+  const isSG = ['zh-CN', 'ms'].includes(lang);
   return {
-    title: 'Grocery Health Guide — Eat Better for Less | Fantastic Food',
-    description: 'Discover the nutritional value of common grocery items. Learn how to shop for a healthier lifestyle while staying within your budget.',
+    title: isSG
+      ? 'Singapore Food Nutrition Scanner — Health Score & Allergens | Fantastic Food'
+      : 'Grocery Health Guide — Eat Better for Less | Fantastic Food',
+    description: isSG
+      ? 'Check nutrition facts, health score and allergens for Singapore foods like Tofu, Fish Ball, Laksa & more. Powered by AI.'
+      : 'Discover the nutritional value of common grocery items. Learn how to shop for a healthier lifestyle while staying within your budget.',
     alternates: {
-      canonical: `https://www.fantasticfood.in/${lang}/health`,
+      canonical: isSG
+        ? `https://www.fantasticfood.sg/${lang}/health`
+        : `https://www.fantasticfood.in/${lang}/health`,
       languages: {
-        'en': `https://www.fantasticfood.in/en/health`,
-        'hi': `https://www.fantasticfood.in/hi/health`,
-        'bn': `https://www.fantasticfood.in/bn/health`,
-        'mr': `https://www.fantasticfood.in/mr/health`,
-        'te': `https://www.fantasticfood.in/te/health`,
-        'ta': `https://www.fantasticfood.in/ta/health`,
+        'en':        `https://www.fantasticfood.in/en/health`,
+        'hi':        `https://www.fantasticfood.in/hi/health`,
+        'bn':        `https://www.fantasticfood.in/bn/health`,
+        'mr':        `https://www.fantasticfood.in/mr/health`,
+        'te':        `https://www.fantasticfood.in/te/health`,
+        'ta':        `https://www.fantasticfood.in/ta/health`,
+        'zh-CN':     `https://www.fantasticfood.sg/zh-CN/health`,
+        'ms':        `https://www.fantasticfood.sg/ms/health`,
         'x-default': `https://www.fantasticfood.in/en/health`,
       },
     },

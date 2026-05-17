@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { useRegion, formatCurrency } from '../utils/region';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 import { motion } from 'framer-motion';
@@ -15,11 +16,12 @@ import { useRecentlyCompared } from '../hooks/useRecentlyCompared';
 import { getDailyDeal } from '../data/compareFeatures';
 import { useStreak } from '../components/SavingsStreak';
 import { useTranslation } from 'react-i18next';
+import { getTranslatedItem } from '../i18n/dictionary';
 import { searchRecipes } from '../data/worldRecipes';
 import RecipeCard from '../components/RecipeCard';
 
-// Platform logos strip
-const PLATFORMS = [
+// Platform logos strip — Indian platforms
+const PLATFORMS_IN = [
   { name: 'Blinkit', logo: '⚡', color: '#f0c029', bg: '#fffbea' },
   { name: 'Zepto', logo: '🟣', color: '#8b5cf6', bg: '#f5f3ff' },
   { name: 'Swiggy', logo: '🟠', color: '#f97316', bg: '#fff7ed' },
@@ -27,6 +29,17 @@ const PLATFORMS = [
   { name: 'Amazon', logo: '📦', color: '#f59e0b', bg: '#fffbeb' },
   { name: 'JioMart', logo: '🔵', color: '#2563eb', bg: '#eff6ff' },
   { name: 'Flipkart Minutes', logo: '🛍️', color: '#1d4ed8', bg: '#dbeafe' },
+];
+
+// Platform logos strip — Singapore platforms
+const PLATFORMS_SG = [
+  { name: 'FairPrice', logo: '🟡', color: '#f59e0b', bg: '#fffbeb' },
+  { name: 'RedMart', logo: '🔴', color: '#ef4444', bg: '#fef2f2' },
+  { name: 'Cold Storage', logo: '🔵', color: '#3b82f6', bg: '#eff6ff' },
+  { name: 'Sheng Siong', logo: '🟢', color: '#16a34a', bg: '#f0fdf4' },
+  { name: 'Giant', logo: '🟣', color: '#7c3aed', bg: '#f5f3ff' },
+  { name: 'GrabMart', logo: '🟢', color: '#00b14f', bg: '#ecfdf5' },
+  { name: 'Amazon SG', logo: '📦', color: '#f59e0b', bg: '#fffbeb' },
 ];
 
 // Loading skeleton
@@ -46,6 +59,7 @@ const SkeletonCard = () => (
 );
 
 const ComparePage = () => {
+  const { region } = useRegion();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const pincode = searchParams.get('pincode') || '';
@@ -54,20 +68,23 @@ const ComparePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [lastQuery, setLastQuery] = useState('');
+  const [lastRegion, setLastRegion] = useState<typeof region>('IN');
   const { recents, addRecent, clearRecents } = useRecentlyCompared();
   const { incrementStreak } = useStreak();
   const router = useRouter();
   const dailyDeal = getDailyDeal();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language?.substring(0, 2) || 'en';
 
   useEffect(() => {
-    if (!query || query === lastQuery) return;
+    if (!query || (query === lastQuery && region === lastRegion)) return;
     setLastQuery(query);
+    setLastRegion(region);
     setLoading(true);
     setError('');
     setResult(null);
 
-    searchPrices(query, pincode)
+    searchPrices(query, region)
       .then((data) => {
         setResult(data);
         setLoading(false);
@@ -103,11 +120,11 @@ const ComparePage = () => {
         setError(t('something_went_wrong') + '. ' + t('try_again') + '.');
         setLoading(false);
       });
-  }, [query, pincode, t]);
+  }, [query, pincode, region, t]);
 
   let lowestPrice = 0;
-  let bestPlatform = 'Blinkit';
-  let secondBestPlatform = 'Zepto';
+  let bestPlatform = region === 'SG' ? 'FairPrice' : 'Blinkit';
+  let secondBestPlatform = region === 'SG' ? 'RedMart' : 'Zepto';
   
   if (result && result.prices) {
     const inStock = result.prices.filter(p => p.price > 0 && p.inStock).sort((a, b) => a.price - b.price);
@@ -120,19 +137,48 @@ const ComparePage = () => {
     }
   }
 
-  const queryCap = query ? query.charAt(0).toUpperCase() + query.slice(1) : '';
+  // Translate product name for SEO
+  const translatedItem = query ? getTranslatedItem(query, currentLang as any) : '';
+  const queryCap = query ? translatedItem.charAt(0).toUpperCase() + translatedItem.slice(1) : '';
 
-  const seoTitle = query
-    ? (lowestPrice > 0
-      ? `🧅 Compare ${queryCap} Prices: ₹${lowestPrice} on ${bestPlatform} vs ${secondBestPlatform} (Live Today)`
-      : `🧅 Compare ${queryCap} Prices: Check Live Cost Across 7 Apps Today`)
-    : `🛒 Compare Grocery Prices: Blinkit vs Zepto vs Swiggy (Live Today)`;
+  // Region-aware SEO helpers
+  const currency = region === 'SG' ? 'SGD' : 'INR';
+  const seoCurrencySymbol = region === 'SG' ? 'S$' : '₹';
+  const seoPlatforms = region === 'SG'
+    ? 'FairPrice, RedMart, Cold Storage, Sheng Siong & GrabMart'
+    : 'Blinkit, Zepto, Swiggy Instamart, BigBasket & JioMart';
+  const seoAppCount = region === 'SG' ? '8' : '7';
 
-  const seoDescription = query
-    ? (lowestPrice > 0
-      ? `🔥 Found ${queryCap} for just ₹${lowestPrice} on ${bestPlatform}! Compare live prices across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh & JioMart to save money.`
-      : `Compare prices for ${queryCap} across Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Find the cheapest deal instantly.`)
-    : `Search any grocery or food item to compare real-time prices across 7 major Indian delivery platforms. Save money on every order.`;
+  let seoTitle = '';
+  let seoDescription = '';
+
+  if (query) {
+    if (currentLang === 'zh-CN') {
+      seoTitle = lowestPrice > 0
+        ? `🧅 比较 ${queryCap} 价格: 最低仅需 ${seoCurrencySymbol}${lowestPrice} 在 ${bestPlatform} vs ${secondBestPlatform} (今日实时)`
+        : `🧅 比较 ${queryCap} 价格: 检查新加坡各大线上超市实时价格`;
+      seoDescription = lowestPrice > 0
+        ? `🔥 新加坡 ${queryCap} 仅需 ${seoCurrencySymbol}${lowestPrice} 在 ${bestPlatform}! 比较 FairPrice、RedMart 及更多平台实时价格省钱。`
+        : `在新加坡各大超市如 FairPrice、RedMart 间比较 ${queryCap} 价格。快速获取最低价格优惠。`;
+    } else if (currentLang === 'ms') {
+      seoTitle = lowestPrice > 0
+        ? `🧅 Bandingkan Harga ${queryCap}: Terendah ${seoCurrencySymbol}${lowestPrice} di ${bestPlatform} vs ${secondBestPlatform} (Hari Ini)`
+        : `🧅 Bandingkan Harga ${queryCap}: Semak Kos Langsung di Semua Platform SG`;
+      seoDescription = lowestPrice > 0
+        ? `🔥 Temui ${queryCap} pada harga ${seoCurrencySymbol}${lowestPrice} di ${bestPlatform}! Bandingkan harga langsung untuk jimat wang.`
+        : `Bandingkan harga untuk ${queryCap} merentasi FairPrice, RedMart, Cold Storage & Giant. Cari tawaran termurah segera.`;
+    } else {
+      seoTitle = lowestPrice > 0
+        ? `🧅 Compare ${queryCap} Prices: ${seoCurrencySymbol}${lowestPrice} on ${bestPlatform} vs ${secondBestPlatform} (Live Today)`
+        : `🧅 Compare ${queryCap} Prices: Check Live Cost Across ${seoAppCount} Apps Today`;
+      seoDescription = lowestPrice > 0
+        ? `🔥 Found ${queryCap} for just ${seoCurrencySymbol}${lowestPrice} on ${bestPlatform}! Compare live prices across ${seoPlatforms} to save money.`
+        : `Compare prices for ${queryCap} across ${seoPlatforms}. Find the cheapest deal instantly.`;
+    }
+  } else {
+    seoTitle = t(region === 'SG' ? 'compare_seo_title_sg' : 'compare_seo_title');
+    seoDescription = t(region === 'SG' ? 'compare_seo_desc_sg' : 'compare_seo_desc');
+  }
 
   const compareSchema = {
     '@context': 'https://schema.org',
@@ -143,7 +189,7 @@ const ComparePage = () => {
     offers: {
       '@type': 'Offer',
       price: '0',
-      priceCurrency: 'INR',
+      priceCurrency: currency,
     },
     description: seoDescription,
   };
@@ -170,14 +216,14 @@ const ComparePage = () => {
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: queryCap,
-        description: `Compare prices for ${queryCap} across 7 quick-commerce apps. Lowest price found: ₹${minP} on ${bestPlatform}.`,
+        description: `Compare prices for ${queryCap} across ${seoAppCount} quick-commerce apps. Lowest price found: ${seoCurrencySymbol}${minP} on ${bestPlatform}.`,
         image: 'https://www.fantasticfood.in/og-image.jpg',
         offers: {
           '@type': 'AggregateOffer',
           offerCount: inStockPrices.length,
           lowPrice: minP,
           highPrice: maxP,
-          priceCurrency: 'INR'
+          priceCurrency: currency
         }
       };
     }
@@ -227,9 +273,9 @@ const ComparePage = () => {
             <PriceSearchBar variant="page" initialQuery={query} />
           </div>
 
-          {/* Platform logo pills */}
+          {/* Platform logo pills — region aware */}
           <div className="flex flex-wrap justify-center gap-2 mt-6">
-            {PLATFORMS.map((pl) => (
+            {(region === 'SG' ? PLATFORMS_SG : PLATFORMS_IN).map((pl) => (
               <div
                 key={pl.name}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
@@ -328,8 +374,8 @@ const ComparePage = () => {
                   </div>
                   <p className="font-black text-base">{dailyDeal.label} — {dailyDeal.discount}% {t('off_on')} {dailyDeal.platform}</p>
                   <p className="text-xs opacity-80">
-                    <span className="line-through">₹{dailyDeal.originalPrice}</span>
-                    <span className="ml-1.5 font-bold text-sm">₹{dailyDeal.currentPrice}</span>
+                    <span className="line-through">{formatCurrency(dailyDeal.originalPrice, region)}</span>
+                    <span className="ml-1.5 font-bold text-sm">{formatCurrency(dailyDeal.currentPrice, region)}</span>
                     <span className="ml-1.5">· {t('tap_to_compare')}</span>
                   </p>
                 </div>
@@ -364,7 +410,7 @@ const ComparePage = () => {
                 return (
                   <div className="mt-14 mb-8">
                     <h3 className="text-xl font-bold text-forest-900 mb-6 font-display flex items-center gap-2">
-                      <Flame className="w-5 h-5 text-amber-500" /> Cooking with {query.charAt(0).toUpperCase() + query.slice(1)}? Try these recipes!
+                      <Flame className="w-5 h-5 text-amber-500" /> {t('compare_cooking_with', { item: query.charAt(0).toUpperCase() + query.slice(1), defaultValue: `Cooking with ${query.charAt(0).toUpperCase() + query.slice(1)}? Try these recipes!` })}
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                       {suggestedRecipes.map(recipe => (

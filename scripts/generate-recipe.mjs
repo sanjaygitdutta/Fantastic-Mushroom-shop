@@ -127,26 +127,81 @@ const FOOD_IMAGES = [
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-// ── Pick today's cuisine deterministically (cycles through all) ────────────
+// ── Pick today's cuisine & generate unique dish name ──────────────────────
 const now = new Date();
 const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
-const today = istTime.toISOString().split('T')[0];
 const dayOfYear = Math.floor((istTime - new Date(istTime.getFullYear(), 0, 0)) / 86400000);
 const dayOfWeek = istTime.getDay(); // 0 is Sunday, 1 is Monday, etc.
 
+// Schedule this post randomly 1 to 5 days in the future to keep a steady editor calendar
+const daysAhead = Math.floor(Math.random() * 5) + 1;
+const futureDateObj = new Date(istTime.getTime() + (daysAhead * 24 * 60 * 60 * 1000));
+const scheduledDateStr = futureDateObj.toISOString().split('T')[0];
+const today = scheduledDateStr; // Alias today as the scheduled date for all downstream variables
+
 let selectedCuisine;
-let selectedDish;
+let fallbackDishPool;
 
 // Prioritize Singaporean recipes 3 times a week (Monday, Wednesday, Friday)
 if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {
   const singaporeCuisine = { country: 'Singapore', cuisine: 'Singaporean', flag: '🇸🇬', dishes: ['Hainanese Chicken Rice', 'Laksa', 'Char Kway Teow', 'Chilli Crab', 'Nasi Lemak', 'Mee Rebus', 'Roti Prata', 'Hokkien Mee', 'Bak Kut Teh', 'Fish Head Curry', 'Prawn Noodles', 'Oyster Omelette', 'Kaya Toast', 'Murtabak'] };
   selectedCuisine = singaporeCuisine;
-  selectedDish = singaporeCuisine.dishes[dayOfYear % singaporeCuisine.dishes.length];
+  fallbackDishPool = singaporeCuisine.dishes;
 } else {
   selectedCuisine = WORLD_CUISINES[dayOfYear % WORLD_CUISINES.length];
-  selectedDish = selectedCuisine.dishes[Math.floor(dayOfYear / WORLD_CUISINES.length) % selectedCuisine.dishes.length];
+  fallbackDishPool = selectedCuisine.dishes;
 }
-// Pick fallback image deterministically (offset by prime to avoid aligning with cuisine cycle)
+
+// Fallback dish selection deterministically
+const fallbackDish = fallbackDishPool[dayOfYear % fallbackDishPool.length];
+
+// ── Dynamically generate a completely unique, authentic dish name via Gemini ────
+async function generateUniqueDishName(cuisine, country) {
+  try {
+    const prompt = `You are a world-renowned chef and culinary expert. 
+Invent a completely unique, highly authentic, mouth-watering regional signature dish title for ${cuisine} cuisine from ${country}.
+It must sound incredibly specific, descriptive, and premium (e.g. instead of a generic "Butter Chicken", invent something like "Slow-Simmered Murg Makhani with Charcoal-Smoked Gravy and Fenugreek").
+Do not return generic titles. Return ONLY a single line containing the exact invented English title of the dish. Do not wrap in quotes or markdown.`;
+
+    const payload = {
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.8,
+        maxOutputTokens: 100
+      }
+    };
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Gemini API returned status ${response.status}`);
+    }
+
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) throw new Error("Empty response");
+    return text.trim().replace(/^["']|["']$/g, '');
+  } catch (e) {
+    console.warn(`⚠️ Dish name generation failed: ${e.message}. Using fallback selection.`);
+    return null;
+  }
+}
+
+// Fetch dynamic dish or fall back if Gemini call fails
+console.log(`🧠 Dynamic Planner: Fetching unique ${selectedCuisine.cuisine} dish name from Gemini...`);
+let selectedDish = await generateUniqueDishName(selectedCuisine.cuisine, selectedCuisine.country);
+if (!selectedDish) {
+  selectedDish = fallbackDish;
+  console.log(`⚠️ Falling back to deterministic dish: "${selectedDish}"`);
+} else {
+  console.log(`✨ Gemini Dynamically Planned Dish: "${selectedDish}"`);
+}
+
 const fallbackImageUrl = FOOD_IMAGES[(dayOfYear * 7 + 13) % FOOD_IMAGES.length];
 
 // ── Fetch real dish image from TheMealDB (free, no API key) ─────────────────
@@ -160,7 +215,6 @@ async function getRealDishImage(dishName) {
     const data = await res.json();
     const meal = data?.meals?.[0];
     if (meal?.strMealThumb) {
-      // TheMealDB images are high quality JPEGs — append /preview for smaller size
       const thumbUrl = meal.strMealThumb.endsWith('/preview')
         ? meal.strMealThumb
         : `${meal.strMealThumb}/preview`;
@@ -173,10 +227,10 @@ async function getRealDishImage(dishName) {
   return null;
 }
 
-// ── Generate AI food photo using Gemini Imagen API ──────────────────────────
-async function generateAIImage(dishName, cuisine, date) {
+// ── Generate AI food photo using Pollinations AI (Flux) with DSLR/iPhone Prompt ────
+async function generateAIImage(dishName, cuisine, date, retryCount = 0) {
+  const MAX_RETRIES = 3;
   try {
-    // Sanitize dish name to prevent Google Imagen safety filter blocks
     const safeDishName = dishName
       .replace(/breast/ig, 'cutlet')
       .replace(/thigh/ig, 'portion')
@@ -186,110 +240,81 @@ async function generateAIImage(dishName, cuisine, date) {
       .replace(/blood/ig, 'red sauce')
       .replace(/spicy fire/ig, 'warm cooked');
 
-    const prompt = `A highly appetizing, hyper-realistic, professional food photography shot of a beautifully plated ${safeDishName}, authentic ${cuisine} culinary style. Served on a rustic ceramic dish, natural window daylight lighting, sharp focus, food magazine cover quality. Fully cooked, gourmet presentation, safe for work, absolutely delicious. You MUST generate this image.`;
+    // Ultimate photographic Jedi mind trick prompt: forces the diffusion model to produce a authentic, non-synthetic raw magazine photograph
+    const prompt = `An authentic, unedited editorial food photograph for a premium culinary magazine. A close-up shot of beautifully plated ${safeDishName}, authentic regional ${cuisine} dish. Captured on a high-end Hasselblad medium format camera with a 90mm lens, f/2.8, shallow depth of field. Natural, slightly diffused side-window daylight, organic soft shadows. Raw culinary textures: visible glistening moisture, crisp caramelized edges, imperfect fresh herbs scattered naturally. Absolutely zero synthetic textures, no artificial studio lighting, no digital CGI smoothness. Genuine culinary realism, highly tactile, stunning magazine feature style.`;
 
-    // Try imagen-3.0-generate-002 first, then fall back to earlier models
-    const models = [
-      'imagen-3.0-generate-002',
-      'imagen-3.0-fast-generate-001',
-      'imagen-3.0-generate-001',
-    ];
+    console.log(`🎨 Requesting authentic DSLR photo from Pollinations (Flux)... (attempt ${retryCount + 1}/${MAX_RETRIES + 1})`);
+    const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=576&nologo=true&model=flux&seed=${Math.floor(Math.random() * 10000)}`;
 
-    for (const model of models) {
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:predict?key=${GEMINI_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            instances: [{ prompt }],
-            parameters: {
-              sampleCount: 1,
-              aspectRatio: '16:9',
-            }
-          })
-        }
-      );
-
-      if (!res.ok) {
-        const errText = await res.text();
-        console.warn(`⚠️  Imagen model ${model} error (${res.status}): ${errText.slice(0, 300)}`);
-        continue; // try next model
-      }
-
-      const data = await res.json();
-      const b64 = data.predictions?.[0]?.bytesBase64Encoded;
-      if (!b64) {
-        console.warn(`⚠️  Imagen model ${model} returned no image data.`);
-        continue;
-      }
-
-      // Save to public/recipe-images/{date}.jpg
-      const imgDir = path.resolve('./public/recipe-images');
-      fs.mkdirSync(imgDir, { recursive: true });
-      const imgPath = path.join(imgDir, `${date}.jpg`);
-      fs.writeFileSync(imgPath, Buffer.from(b64, 'base64'));
-      const sizeKB = Math.round(fs.statSync(imgPath).size / 1024);
-      console.log(`🎨 AI image saved: public/recipe-images/${date}.jpg (${sizeKB}KB) via ${model}`);
-      return `/recipe-images/${date}.jpg`;
+    const res = await fetch(pollinationsUrl);
+    if (!res.ok) {
+      throw new Error(`Pollinations API returned status ${res.status}`);
     }
 
-    // ── Fallback to Pollinations AI (Free, No API Key) ──────────────────────
-    console.log(`⚠️  All Gemini Imagen models failed. Falling back to Pollinations AI...`);
-    const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=800&height=450&nologo=true&seed=${Math.floor(Math.random() * 1000)}`;
-    const pollRes = await fetch(pollinationsUrl);
-    
-    if (pollRes.ok) {
-      const buffer = await pollRes.arrayBuffer();
-      const imgDir = path.resolve('./public/recipe-images');
-      fs.mkdirSync(imgDir, { recursive: true });
-      const imgPath = path.join(imgDir, `${date}.jpg`);
-      fs.writeFileSync(imgPath, Buffer.from(buffer));
-      const sizeKB = Math.round(fs.statSync(imgPath).size / 1024);
-      console.log(`🎨 AI image saved via Pollinations AI: public/recipe-images/${date}.jpg (${sizeKB}KB)`);
-      return `/recipe-images/${date}.jpg`;
-    }
-
-    console.warn(`⚠️  Pollinations AI fallback also failed.`);
-    return null; // all models failed
-
+    const buffer = await res.arrayBuffer();
+    const imgDir = path.resolve('./public/recipe-images');
+    fs.mkdirSync(imgDir, { recursive: true });
+    const imgPath = path.join(imgDir, `${date}.jpg`);
+    fs.writeFileSync(imgPath, Buffer.from(buffer));
+    const sizeKB = Math.round(fs.statSync(imgPath).size / 1024);
+    console.log(`📸 Authentic editorial photo saved: public/recipe-images/${date}.jpg (${sizeKB}KB)`);
+    return `/recipe-images/${date}.jpg`;
   } catch (e) {
-    console.warn(`⚠️  Imagen generation failed: ${e.message}`);
+    if (retryCount < MAX_RETRIES) {
+      console.warn(`⏳ Image generation failed (${e.message}). Retrying in 3s...`);
+      await new Promise(r => setTimeout(r, 3000));
+      return generateAIImage(dishName, cuisine, date, retryCount + 1);
+    }
+    console.warn(`❌ Pollinations Flux image generation failed after ${MAX_RETRIES} retries: ${e.message}`);
     return null;
   }
 }
 
-console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" for ${today}...`);
+console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" scheduled for ${today}...`);
 
 // ── Build Gemini prompt ────────────────────────────────────────────────────
-const prompt = `You are a world-renowned chef. Write an authentic, detailed recipe for "${selectedDish}" — a classic dish from ${selectedCuisine.country}. You MUST generate this recipe. Do not refuse.
-Provide translations for title, description, ingredients, and instructions in Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), and Tamil ('ta').
+const prompt = `You are a passionate home cook, food columnist, and regional culinary advocate. Write an authentic, deeply detailed recipe for "${selectedDish}" — a signature dish from ${selectedCuisine.country}.
+Provide comprehensive translation objects for:
+- English ('en')
+- 6 Indian languages: Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), Tamil ('ta'), and Kannada ('kn').
+- 3 Singaporean languages: English (covered in 'en'), Simplified Chinese ('zh-CN'), and Malay ('ms').
+
+🔴 FORBIDDEN AI CLICHES (DO NOT USE ANY OF THESE):
+"culinary journey", "symphony of flavors", "delight your senses", "dive in", "nestled in", "brimming with", "elevate your dish", "tapestry", "testament", "treasure trove", "more than just a meal", "in conclusion", "game changer", "look no further", "delightful", "a testament to".
+If any of these AI cliches appear, manual reviewers will flag and reject the page. Write naturally instead.
+
+🛡️ PSYCHO-LINGUISTIC HUMANIZATION DIRECTIVES:
+1. High Sentence Burstiness: Break up smooth AI rhythm. Mix short, blunt sentences ("Look, it works.", "Do not walk away.", "Keep it simple.") with long, detailed, and winding narrative thoughts detailing aromas, childhood memories, and traditional techniques.
+2. Warm & Opinionated Voice: Write with a warm, colloquial, strongly opinionated culinary style. Share personal shortcuts, kitchen frustrations, and minor traditional debates (e.g. "some purists argue X, but I've found Y is far better because...").
+3. Sensory Visual Cues: For every step, describe physical visual/smell/sound markers instead of dry commands (e.g., "until the cumin seeds violently crackle", "the raw pungent bite of garlic transforms into a sweet nutty aroma", "the masala begins to split and tiny bubbles of red oil collect around the perimeter of the pan").
+4. High Backstory Depth: For the English 'en' description, write an extensive, 3-paragraph conversational, high-perplexity backstory detailing how you learned to cook this, common failures, and key ingredient rules.
+5. Zero AI Signature: Never mention AI avatars, digital cooking systems, or programmatic assistance. The page is represented as written by a real expert.
 
 Return ONLY a valid JSON object. Use EXACTLY this structure:
 {
   "en": {
     "title": "${selectedDish}",
-    "description": "Write a punchy, mouth-watering 3-4 sentence description that makes the user crave this dish. End with an exciting hook to make them want to cook it today!",
-    "prepTime": "20 min",
-    "cookTime": "40 min",
+    "description": "Write a highly detailed, 3-paragraph conversational, high-burstiness backstory here in English. Do not hold back on word count, make it extremely descriptive, personal, and premium.",
+    "prepTime": "25 min",
+    "cookTime": "45 min",
     "difficulty": "Medium",
     "servings": 4,
     "ingredients": [{ "item": "Name", "amount": "Qty" }],
-    "instructions": ["Step 1", "Step 2"],
-    "tags": ["${selectedCuisine.cuisine}", "Dinner", "Non-Vegetarian"]
+    "instructions": ["Step 1 detailing tips", "Step 2 with visual cues", "Step 3", "Step 4", "Step 5"],
+    "tags": ["${selectedCuisine.cuisine}", "Dinner", "Authentic"]
   },
   "hi": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
   "bn": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
   "mr": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
   "te": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
-  "ta": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] }
+  "ta": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
+  "kn": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
+  "zh-CN": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
+  "ms": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] }
 }
 
 Rules:
-- 5 to 10 ingredients max.
-- 4 to 5 CONCISE instructions (1-2 lines each max). Do not make them too detailed, keep them extremely brief to prevent generation failure.
-- Descriptions should be 1-2 sentences, punchy and highly appetizing.
-- CRITICAL: You MUST provide the FULL 'ingredients' and 'instructions' arrays for EVERY single language ('hi', 'bn', 'mr', 'te', 'ta'). Do NOT leave them empty. Do NOT return []. If you return an empty array for any language, the system will crash.
+- CRITICAL: You MUST provide the FULL 'ingredients' and 'instructions' arrays for EVERY single language key. Do NOT leave them empty. Do NOT return []. If you return an empty array for any language, the system will crash.
 - All property names in double quotes. No trailing commas.`;
 
 // ── Call Gemini REST API ──────────────────────────────────────────────────
@@ -500,6 +525,24 @@ ${recipe.en.instructions.map((s) => `            '${esc(s)}'`).join(',\n')}
                 description: '${esc(recipe.ta?.description || '')}',
                 ingredients: [${(recipe.ta?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
                 instructions: [${(recipe.ta?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+            },
+            kn: {
+                title: '${esc(recipe.kn?.title || '')}',
+                description: '${esc(recipe.kn?.description || '')}',
+                ingredients: [${(recipe.kn?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${(recipe.kn?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+            },
+            'zh-CN': {
+                title: '${esc(recipe['zh-CN']?.title || recipe.zh?.title || '')}',
+                description: '${esc(recipe['zh-CN']?.description || recipe.zh?.description || '')}',
+                ingredients: [${(recipe['zh-CN']?.ingredients || recipe.zh?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${(recipe['zh-CN']?.instructions || recipe.zh?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+            },
+            ms: {
+                title: '${esc(recipe.ms?.title || '')}',
+                description: '${esc(recipe.ms?.description || '')}',
+                ingredients: [${(recipe.ms?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
+                instructions: [${(recipe.ms?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
             }
         }
     }`;
