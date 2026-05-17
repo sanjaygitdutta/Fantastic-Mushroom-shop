@@ -88,6 +88,8 @@ export async function generateMetadata({ params }: Props) {
         'mr': `https://www.fantasticfood.in/mr`,
         'te': `https://www.fantasticfood.in/te`,
         'ta': `https://www.fantasticfood.in/ta`,
+        'zh-CN': `https://www.fantasticfood.in/zh-CN`,
+        'ms': `https://www.fantasticfood.in/ms`,
         'x-default': `https://www.fantasticfood.in/en`,
       },
     },
@@ -112,6 +114,8 @@ export async function generateStaticParams() {
     { lang: 'mr' },
     { lang: 'te' },
     { lang: 'ta' },
+    { lang: 'zh-CN' },
+    { lang: 'ms' },
   ];
 }
 
