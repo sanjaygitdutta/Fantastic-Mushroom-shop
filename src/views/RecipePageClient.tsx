@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Users, ChefHat, ArrowLeft, ShoppingCart, Globe, Flame, Tag, Share2, Twitter, Facebook, MessageCircle, Play, X, ChevronRight, ChevronLeft, Minus, Plus, CheckCircle2 } from 'lucide-react';
+import { Clock, Users, ChefHat, ArrowLeft, ShoppingCart, Globe, Flame, Tag, Share2, Twitter, Facebook, MessageCircle, Play, X, ChevronRight, ChevronLeft, Minus, Plus, CheckCircle2, Send, Link as LinkIcon } from 'lucide-react';
 import { ALL_RECIPES, type WorldRecipe } from '../data/worldRecipes';
 import { useTranslation, Trans } from 'react-i18next';
 
@@ -31,6 +31,7 @@ export default function RecipePage() {
   // Show community banner if user arrived via a shared Aika community post link
   const searchParams = useSearchParams();
   const [showCommunityBanner, setShowCommunityBanner] = useState(false);
+  const [copied, setCopied] = useState(false);
   
   // -- NEW UX STATES --
   const [cookMode, setCookMode] = useState(false);
@@ -217,6 +218,12 @@ export default function RecipePage() {
   const shareUrl = `https://www.fantasticfood.in/recipe/${recipe.id}`;
   const shareTitle = `Look at this incredible ${displayName} recipe! You have to try making this 🤤`;
 
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
 
   return (
     <>
@@ -310,6 +317,15 @@ export default function RecipePage() {
                 >
                   <MessageCircle className="w-4 h-4" /> WhatsApp
                 </a>
+
+                {/* Telegram */}
+                <a 
+                  href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-[#0088cc] hover:bg-[#0077b5] text-white px-4 py-2 rounded-xl font-bold transition-all hover:-translate-y-0.5 shadow-lg shadow-[#0088cc]/20"
+                >
+                  <Send className="w-4 h-4" /> Telegram
+                </a>
                 
                 {/* Twitter */}
                 <a 
@@ -328,6 +344,18 @@ export default function RecipePage() {
                 >
                   <Facebook className="w-4 h-4" /> Facebook
                 </a>
+
+                {/* Copy Link */}
+                <button 
+                  onClick={handleCopyLink}
+                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 px-4 py-2 rounded-xl font-bold transition-all hover:-translate-y-0.5"
+                >
+                  {copied ? (
+                    <><CheckCircle2 className="w-4 h-4 text-green-400" /> Copied!</>
+                  ) : (
+                    <><LinkIcon className="w-4 h-4" /> Copy Link</>
+                  )}
+                </button>
               </div>
             </motion.div>
               </div>
