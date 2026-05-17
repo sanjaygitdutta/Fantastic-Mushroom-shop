@@ -413,6 +413,1280 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Ethiopian', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: 'Zilzil Tibs (埃塞俄比亚香辣牛肉条)',
+                        description: '一道备受喜爱的埃塞俄比亚炒菜，特色是嫩牛肉条与芳香香料、Niter Kibbeh（香料澄清黄油）和充满活力的Berbere香料混合物一起炒制，通常与英杰拉（Injera）一起食用。',
+                        ingredients: [
+                            {
+                                item: '牛里脊或牛柳，切成薄条',
+                                amount: '500克'
+                            },
+                            {
+                                item: '香料澄清黄油 (Niter Kibbeh)',
+                                amount: '4 汤匙'
+                            },
+                            {
+                                item: 'Berbere香料混合物',
+                                amount: '2 汤匙'
+                            },
+                            {
+                                item: '红洋葱，切薄片',
+                                amount: '1 个大'
+                            },
+                            {
+                                item: '大蒜，切末',
+                                amount: '4 瓣'
+                            },
+                            {
+                                item: '新鲜姜，磨碎',
+                                amount: '1 汤匙'
+                            },
+                            {
+                                item: '青辣椒，切碎（根据口味调整）',
+                                amount: '1-2 个'
+                            }
+                        ],
+                        instructions: [
+                            '在一个大煎锅或锅中，用中高火加热2汤匙Niter Kibbeh。',
+                            '加入牛肉条，快速煎至四面金黄，然后从锅中取出备用。',
+                            '在同一个锅中，加入剩余的Niter Kibbeh，然后炒红洋葱至变软，接着加入大蒜、姜和青辣椒炒2分钟。',
+                            '拌入Berbere香料混合物，再煮一分钟直到散发香味，然后将煎好的牛肉放回锅中。',
+                            '将所有食材搅拌均匀，确保牛肉充分裹上香料，煮5-7分钟直到牛肉变软，味道融合。',
+                            '根据口味用盐调味，立即上桌，传统上与英杰拉（Injera）一起食用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Zilzil Tibs (Daging Lembu Goreng Pedas Ethiopia)',
+                        description: 'Hidangan tumis Ethiopia yang digemari, menampilkan hirisan daging lembu lembut yang ditumis dengan rempah-rempah aromatik, Niter Kibbeh, dan campuran Berbere yang bersemangat, sering dihidangkan dengan injera.',
+                        ingredients: [
+                            {
+                                item: 'Daging batang pinang atau tenderloin, dihiris nipis menjadi jalur',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Mentega jernih berempah (Niter Kibbeh)',
+                                amount: '4 sudu besar'
+                            },
+                            {
+                                item: 'Campuran Rempah Berbere',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Bawang merah, dihiris nipis',
+                                amount: '1 biji besar'
+                            },
+                            {
+                                item: 'Bawang putih, dicincang',
+                                amount: '4 ulas'
+                            },
+                            {
+                                item: 'Halia segar, diparut',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Cili hijau, dicincang halus (sesuaikan mengikut rasa)',
+                                amount: '1-2 biji'
+                            }
+                        ],
+                        instructions: [
+                            'Panaskan 2 sudu besar Niter Kibbeh dalam kuali besar atau periuk di atas api sederhana tinggi.',
+                            'Masukkan hirisan daging lembu dan goreng cepat sehingga perang di semua sisi, kemudian angkat dari kuali dan ketepikan.',
+                            'Dalam kuali yang sama, masukkan baki Niter Kibbeh, kemudian tumis bawang merah sehingga lembut, diikuti dengan bawang putih, halia, dan cili hijau selama 2 minit.',
+                            'Kacau masuk campuran rempah Berbere dan masak selama satu minit lagi sehingga wangi, kemudian masukkan semula daging lembu yang telah digoreng ke dalam kuali.',
+                            'Gaulkan semua bahan bersama, pastikan daging lembu disalut rata dengan rempah, dan masak selama 5-7 minit sehingga daging lembu lembut dan rasa sebati.',
+                            'Perasakan dengan garam secukup rasa dan hidangkan segera, secara tradisional dengan injera.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: 'Arroz con Leche (西班牙牛奶米布丁)',
+                        description: '这款奶油般香甜、令人舒心的米布丁是秘鲁家庭中备受喜爱的经典甜点，肉桂和柑橘的甜美融合唤起珍贵的回忆。它是一款简单而优雅的甜点，深深植根于秘鲁的烹饪灵魂，适合任何场合。',
+                        ingredients: [
+                            {
+                                item: '短粒白米（例如：阿博里奥米或戈宾多博格米）',
+                                amount: '1 杯 (200克)'
+                            },
+                            {
+                                item: '水',
+                                amount: '2 杯 (480毫升)'
+                            },
+                            {
+                                item: '全脂牛奶',
+                                amount: '4 杯 (960毫升)'
+                            },
+                            {
+                                item: '炼乳',
+                                amount: '1 罐 (397克)'
+                            },
+                            {
+                                item: '砂糖',
+                                amount: '1/2 杯 (100克)'
+                            },
+                            {
+                                item: '肉桂棒',
+                                amount: '2 根 (3英寸)'
+                            },
+                            {
+                                item: '丁香',
+                                amount: '4-5 颗'
+                            },
+                            {
+                                item: '柠檬皮条',
+                                amount: '1 条 (来自1/2个柠檬)'
+                            },
+                            {
+                                item: '香草精',
+                                amount: '1 茶匙'
+                            },
+                            {
+                                item: '盐',
+                                amount: '1/4 茶匙'
+                            },
+                            {
+                                item: '金色葡萄干',
+                                amount: '1/2 杯 (75克)'
+                            },
+                            {
+                                item: '肉桂粉',
+                                amount: '用于装饰'
+                            }
+                        ],
+                        instructions: [
+                            '用冷水彻底冲洗大米，直到水变清。在一个厚底锅中，将洗净的大米与2杯水、肉桂棒、丁香和柠檬皮条混合。用中高火煮沸，然后转小火，盖上盖子，炖煮10-12分钟，或直到大部分水被吸收。',
+                            '水大部分被吸收后，倒入全脂牛奶，加入砂糖和盐。轻轻搅拌混合。将火调至中低，将混合物煮至微沸，偶尔搅拌以防粘锅。',
+                            '继续炖煮，频繁搅拌（特别是锅底），持续20-25分钟，或直到米饭变软，混合物变得浓稠呈奶油状。米饭应完全煮熟但仍保持形状。',
+                            '小心地从锅中取出并丢弃肉桂棒、丁香和柠檬皮条。拌入炼乳、香草精和金色葡萄干。',
+                            '再煮5-7分钟，不断搅拌，让味道融合，布丁进一步变稠。稠度应浓郁且呈奶油状，但冷却后会变得更稠。',
+                            '将锅从火上移开。盖上盖子，让Arroz con Leche静置至少10-15分钟。这能让米饭吸收更多液体，味道更浓郁。',
+                            '温热或冷藏后盛入单独的碗中。食用前撒上大量的肉桂粉作为装饰。如果想增加风味，也可以撒上一些烤椰丝。'
+                        ]
+                    },
+            ms: {
+                        title: 'Arroz con Leche (Puding Nasi Susu Sepanyol)',
+                        description: 'Puding nasi berkrim dan menyelerakan ini adalah hidangan kegemaran di rumah-rumah Peru, pelukan manis kayu manis dan sitrus yang membangkitkan kenangan indah. Ia adalah pencuci mulut yang ringkas namun elegan, berakar umbi dalam jiwa kulinari negara itu, sesuai untuk sebarang majlis.',
+                        ingredients: [
+                            {
+                                item: 'Beras putih biji pendek (cth: Arborio atau Gobindobhog)',
+                                amount: '1 cawan (200g)'
+                            },
+                            {
+                                item: 'Air',
+                                amount: '2 cawan (480ml)'
+                            },
+                            {
+                                item: 'Susu penuh krim',
+                                amount: '4 cawan (960ml)'
+                            },
+                            {
+                                item: 'Susu pekat manis',
+                                amount: '1 tin (397g)'
+                            },
+                            {
+                                item: 'Gula pasir',
+                                amount: '1/2 cawan (100g)'
+                            },
+                            {
+                                item: 'Batang kayu manis',
+                                amount: '2 batang (3 inci)'
+                            },
+                            {
+                                item: 'Bunga cengkih',
+                                amount: '4-5 biji'
+                            },
+                            {
+                                item: 'Jalur kulit lemon',
+                                amount: '1 jalur (dari 1/2 lemon)'
+                            },
+                            {
+                                item: 'Ekstrak vanila',
+                                amount: '1 sudu teh'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: '1/4 sudu teh'
+                            },
+                            {
+                                item: 'Kismis emas',
+                                amount: '1/2 cawan (75g)'
+                            },
+                            {
+                                item: 'Serbuk kayu manis',
+                                amount: 'Untuk hiasan'
+                            }
+                        ],
+                        instructions: [
+                            'Bilas beras dengan bersih di bawah air sejuk sehingga air jernih. Dalam periuk bertutup tebal, gabungkan beras yang telah dibilas dengan 2 cawan air, batang kayu manis, bunga cengkih, dan jalur kulit lemon. Didihkan di atas api sederhana tinggi, kemudian kecilkan api, tutup, dan reneh selama 10-12 minit, atau sehingga kebanyakan air telah diserap.',
+                            'Setelah air hampir diserap sepenuhnya, tuangkan susu penuh krim, masukkan gula pasir dan garam. Kacau perlahan untuk sebati. Tingkatkan api ke sederhana rendah dan biarkan campuran mendidih perlahan, kacau sekali-sekala untuk mengelakkan melekat.',
+                            'Teruskan mereneh, kacau dengan kerap (terutama di bahagian bawah periuk), selama 20-25 minit, atau sehingga nasi lembut dan campuran telah pekat menjadi konsistensi berkrim. Nasi harus dimasak sepenuhnya tetapi masih mengekalkan bentuknya.',
+                            'Keluarkan dan buang batang kayu manis, bunga cengkih, dan jalur kulit lemon dari periuk dengan berhati-hati. Kacau masuk susu pekat manis, ekstrak vanila, dan kismis emas.',
+                            'Masak lagi selama 5-7 minit, kacau sentiasa, biarkan rasa sebati dan puding menjadi lebih pekat. Konsistensinya harus kaya dan berkrim, tetapi ia akan menjadi lebih pekat apabila sejuk.',
+                            'Angkat periuk dari api. Tutup dan biarkan Arroz con Leche berehat selama sekurang-kurangnya 10-15 minit. Ini membolehkan nasi menyerap lebih banyak cecair dan rasa menjadi lebih mendalam.',
+                            'Hidangkan panas atau sejuk dalam mangkuk individu. Hias dengan taburan serbuk kayu manis sebelum dihidangkan. Untuk sentuhan tambahan, taburan kelapa parut panggang juga boleh ditambah.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '新英格兰龙虾卷',
+                        description: '新英格兰龙虾卷是美国夏季的经典美食，以鲜嫩的龙虾肉为主，佐以清淡的调味，然后放入涂有黄油并烤至金黄的面包中。这道标志性菜肴颂扬了大西洋纯净的风味，每一口都带来沿海的奢华体验。',
+                        ingredients: [
+                            {
+                                item: '熟龙虾肉',
+                                amount: '450g (来自2只500-600g龙虾)'
+                            },
+                            {
+                                item: '蛋黄酱',
+                                amount: '1/2杯 (120ml)'
+                            },
+                            {
+                                item: '芹菜，切小丁',
+                                amount: '2根'
+                            },
+                            {
+                                item: '新鲜柠檬汁',
+                                amount: '1汤匙 (15ml)'
+                            },
+                            {
+                                item: '新鲜细香葱，切碎（或新鲜欧芹）',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '无盐黄油，融化',
+                                amount: '4汤匙 (60g)'
+                            },
+                            {
+                                item: '热狗面包（最好是顶部开口的）',
+                                amount: '4个'
+                            },
+                            {
+                                item: '盐',
+                                amount: '1/2茶匙 (或根据口味)'
+                            },
+                            {
+                                item: '黑胡椒（现磨，或根据口味）',
+                                amount: '1/4茶匙'
+                            },
+                            {
+                                item: '红椒粉（用于装饰，可选）',
+                                amount: '少许'
+                            }
+                        ],
+                        instructions: [
+                            '步骤 1: 如果使用活龙虾，将一大锅加盐的水烧开。小心地将龙虾头朝下放入，煮10-12分钟（对于500-600克的龙虾），直到变成鲜红色。取出并放入冰水中停止烹饪。',
+                            '步骤 2: 龙虾冷却后，拧下钳子和尾巴。敲开钳子和关节以取出肉。将尾巴纵向切开，去除黑色的肠线，然后取出尾肉。将龙虾肉粗略切成一口大小的块。',
+                            '步骤 3: 在一个中等大小的碗中，混合蛋黄酱、切碎的芹菜丁、新鲜柠檬汁、切碎的细香葱（或欧芹）、盐和黑胡椒。充分搅拌均匀。',
+                            '步骤 4: 将切好的龙虾肉轻轻拌入蛋黄酱混合物中。注意不要过度搅拌，以保持龙虾肉的细腻质地。品尝并根据需要调整调味料。',
+                            '步骤 5: 在中火上加热一个大煎锅或烤盘。在热狗面包的外侧均匀涂抹融化的黄油。将涂有黄油的一面朝下放在煎锅上，每面烤2-3分钟，直到金黄色酥脆。',
+                            '步骤 6: 小心地打开每个烤好的面包，然后慷慨地填入准备好的龙虾沙拉。',
+                            '步骤 7: 立即上菜，可以撒上少许红椒粉或额外的细香葱枝作装饰，搭配薯片或简单的绿色沙拉，以获得完整的新英格兰体验。'
+                        ]
+                    },
+            ms: {
+                        title: 'Roti Gulung Udang Kara New England',
+                        description: 'Roti Gulung Udang Kara New England adalah hidangan musim panas Amerika yang penting, menampilkan daging udang kara yang lazat yang diperasakan ringan dan diletakkan di dalam roti bakar mentega. Hidangan ikonik ini meraikan rasa asli Atlantik, menawarkan rasa kemewahan pantai dalam setiap gigitan.',
+                        ingredients: [
+                            {
+                                item: 'Isi udang kara yang telah dimasak',
+                                amount: '450g (dari 2 ekor udang kara 500-600g)'
+                            },
+                            {
+                                item: 'Mayonis',
+                                amount: '1/2 cawan (120ml)'
+                            },
+                            {
+                                item: 'Saderi, dipotong dadu halus',
+                                amount: '2 batang'
+                            },
+                            {
+                                item: 'Jus lemon segar',
+                                amount: '1 sudu besar (15ml)'
+                            },
+                            {
+                                item: 'Daun kucai segar, dicincang halus (atau pasli segar)',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Mentega tanpa garam, dicairkan',
+                                amount: '4 sudu besar (60g)'
+                            },
+                            {
+                                item: 'Roti hot dog (lebih disukai yang belah atas)',
+                                amount: '4 biji'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: '1/2 sudu kecil (atau secukup rasa)'
+                            },
+                            {
+                                item: 'Lada hitam (baru dikisar, atau secukup rasa)',
+                                amount: '1/4 sudu kecil'
+                            },
+                            {
+                                item: 'Paprika (untuk hiasan, pilihan)',
+                                amount: 'Secubit'
+                            }
+                        ],
+                        instructions: [
+                            'Langkah 1: Jika menggunakan udang kara hidup, didihkan periuk besar air yang banyak garam. Masukkan udang kara dengan berhati-hati, kepala dahulu, dan rebus selama 10-12 minit untuk udang kara 500-600g, atau sehingga merah terang. Angkat dan masukkan ke dalam mandian ais untuk menghentikan proses memasak.',
+                            'Langkah 2: Setelah udang kara sejuk, putar tangkai dan ekornya. Pecahkan tangkai dan buku jari untuk mengeluarkan isinya. Belah ekor memanjang dan buang urat gelap, kemudian keluarkan isi ekor. Cincang kasar isi udang kara menjadi kepingan bersaiz gigitan.',
+                            'Langkah 3: Dalam mangkuk sederhana, campurkan mayonis, saderi yang dipotong dadu halus, jus lemon segar, daun kucai cincang (atau pasli), garam, dan lada hitam. Gaul rata sehingga sebati.',
+                            'Langkah 4: Lipat perlahan-lahan isi udang kara cincang ke dalam campuran mayonis. Berhati-hati agar tidak terlalu banyak menggaul, kerana anda ingin mengekalkan tekstur udang kara yang halus. Rasa dan sesuaikan perasa jika perlu.',
+                            'Langkah 5: Panaskan kuali besar atau griddle di atas api sederhana. Sapu bahagian luar roti hot dog dengan mentega cair. Letakkan bahagian yang disapu mentega ke bawah di atas kuali dan bakar selama 2-3 minit setiap sisi, atau sehingga perang keemasan dan rangup.',
+                            'Langkah 6: Buka setiap roti bakar dengan berhati-hati dan isi dengan salad udang kara yang telah disediakan.',
+                            'Langkah 7: Hidangkan segera, mungkin dengan taburan paprika atau tangkai kucai tambahan untuk hiasan, bersama kerepek kentang atau salad hijau ringkas untuk pengalaman New England yang lengkap.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '越南碎米饭 (Com Tam)',
+                        description: '越南碎米饭（Com Tam）是一道深受喜爱的越南街头美食，以精致的碎米为中心，呈现出质地和风味的活力交响曲。这道标志性菜肴通常包括烤猪肉、美味的鸡蛋肉饼和煎蛋，所有这些都通过酸甜的鱼露（nuoc cham）蘸酱完美融合。',
+                        ingredients: [
+                            {
+                                item: '碎米（或短粒米）',
+                                amount: '500g'
+                            },
+                            {
+                                item: '猪肩肉或五花肉，切薄片',
+                                amount: '500g'
+                            },
+                            {
+                                item: '鱼露',
+                                amount: '100ml'
+                            },
+                            {
+                                item: '砂糖',
+                                amount: '50g'
+                            },
+                            {
+                                item: '大蒜，切末',
+                                amount: '6瓣'
+                            },
+                            {
+                                item: '青葱，切末',
+                                amount: '2个中等大小'
+                            },
+                            {
+                                item: '香茅，切碎',
+                                amount: '2根'
+                            },
+                            {
+                                item: '大鸡蛋',
+                                amount: '6个'
+                            },
+                            {
+                                item: '猪绞肉',
+                                amount: '200g'
+                            },
+                            {
+                                item: '干木耳',
+                                amount: '10g'
+                            },
+                            {
+                                item: '粉丝',
+                                amount: '20g'
+                            },
+                            {
+                                item: '白醋',
+                                amount: '50ml'
+                            }
+                        ],
+                        instructions: [
+                            '步骤 1: 准备烤猪肉（Suon Nuong）。将猪肉切薄片。用2汤匙鱼露、1汤匙糖、3瓣蒜末、1个青葱末和1汤匙切碎的香茅腌制。混合均匀，冷藏至少30分钟，最好是2-3小时。',
+                            '步骤 2: 制作鱼露蘸酱（Nuoc Cham）。在一个碗中，混合4汤匙鱼露、3汤匙糖、50毫升白醋、1个青柠汁和100毫升温水。加入3瓣蒜末和切碎的鸟眼辣椒（如果需要）。搅拌直到糖完全溶解。',
+                            '步骤 3: 准备蒸鸡蛋肉饼（Cha Trung）。将木耳和粉丝用温水浸泡至软。沥干并切碎。在一个碗中，混合猪绞肉、切碎的木耳、切碎的粉丝、2个鸡蛋、1汤匙鱼露、1茶匙糖和少许黑胡椒。充分混合。放入涂油的耐热盘中蒸20-25分钟，直到变硬并完全煮熟。稍微冷却，然后切成块状。',
+                            '步骤 4: 煮碎米饭。用冷水彻底冲洗碎米，直到水变清。在电饭煲或锅中以1:1的水米比例（例如，500克米对500毫升水）煮饭。煮熟后，再蒸10-15分钟，以确保米饭松软。',
+                            '步骤 5: 烤猪肉。将烤架或烤盘预热至中高火。将腌制好的猪肉片每面烤3-4分钟，直到呈现美丽的焦糖色，变嫩并完全煮熟。',
+                            '步骤 6: 煎鸡蛋。在不粘锅中用中火加热少量植物油。煎4个太阳蛋，确保蛋黄保持流淌，以呈现经典的碎米饭。',
+                            '步骤 7: 组装菜肴。在每个盘子上盛上足量的碎米饭。摆放烤猪肉片、一块蒸鸡蛋肉饼和一个煎蛋。用新鲜的黄瓜片和番茄片装饰。',
+                            '步骤 8: 上菜。在整道菜上淋上一勺准备好的鱼露蘸酱，或者将其放在旁边供单独蘸食。立即享用这道正宗的越南经典美食。'
+                        ]
+                    },
+            ms: {
+                        title: 'Com Tam (Nasi Hancur Vietnam)',
+                        description: 'Com Tam adalah makanan jalanan Vietnam yang digemari, simfoni tekstur dan rasa yang meriah berpusat pada nasi hancur yang halus. Hidangan ikonik ini biasanya menampilkan daging babi panggang, bebola daging telur yang lazat, dan telur goreng, semuanya disatukan oleh sos pencicah nuoc cham yang masam manis.',
+                        ingredients: [
+                            {
+                                item: 'Nasi hancur (atau beras biji pendek)',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Bahu atau perut babi, dihiris nipis',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Sos ikan (nuoc mam)',
+                                amount: '100ml'
+                            },
+                            {
+                                item: 'Gula pasir',
+                                amount: '50g'
+                            },
+                            {
+                                item: 'Bawang putih, dicincang',
+                                amount: '6 ulas'
+                            },
+                            {
+                                item: 'Bawang merah, dicincang',
+                                amount: '2 biji sederhana'
+                            },
+                            {
+                                item: 'Serai, dicincang halus',
+                                amount: '2 batang'
+                            },
+                            {
+                                item: 'Telur besar',
+                                amount: '6 biji'
+                            },
+                            {
+                                item: 'Daging babi cincang',
+                                amount: '200g'
+                            },
+                            {
+                                item: 'Cendawan telinga kayu kering',
+                                amount: '10g'
+                            },
+                            {
+                                item: 'Mi suhun (vermicelli)',
+                                amount: '20g'
+                            },
+                            {
+                                item: 'Cuka putih',
+                                amount: '50ml'
+                            }
+                        ],
+                        instructions: [
+                            'Langkah 1: Sediakan Daging Babi Panggang (Suon Nuong). Hiris daging babi nipis. Perap dengan 2 sudu besar sos ikan, 1 sudu besar gula, 3 ulas bawang putih cincang, 1 bawang merah cincang, dan 1 sudu besar serai cincang halus. Gaul rata dan sejukkan selama sekurang-kurangnya 30 minit, atau lebih baik 2-3 jam.',
+                            'Langkah 2: Buat Nuoc Cham (Sos Pencicah). Dalam mangkuk, campurkan 4 sudu besar sos ikan, 3 sudu besar gula, 50ml cuka putih, jus 1 limau nipis, dan 100ml air suam. Tambah 3 ulas bawang putih cincang dan cili padi cincang halus (jika suka). Kacau sehingga gula larut sepenuhnya.',
+                            'Langkah 3: Sediakan Cha Trung (Bebola Daging Telur Kukus). Rendam cendawan telinga kayu dan mi suhun dalam air suam sehingga lembut. Toskan dan cincang halus. Dalam mangkuk, campurkan daging babi cincang, cendawan cincang, mi cincang, 2 biji telur, 1 sudu besar sos ikan, 1 sudu kecil gula, dan secubit lada hitam. Gaul rata. Kukus dalam pinggan tahan panas yang telah digris selama 20-25 minit sehingga pejal dan masak sepenuhnya. Biarkan sejuk sedikit, kemudian hiris menjadi kepingan hidangan.',
+                            'Langkah 4: Masak Nasi Hancur. Bilas nasi hancur dengan teliti di bawah air sejuk sehingga air jernih. Masak dalam periuk nasi atau periuk dengan nisbah air-ke-nasi 1:1 (contohnya, 500g nasi kepada 500ml air). Setelah masak, biarkan ia mengukus selama 10-15 minit lagi untuk memastikan tekstur yang gebu.',
+                            'Langkah 5: Panggang Daging Babi. Panaskan gril atau kuali gril ke api sederhana tinggi. Panggang hirisan daging babi yang telah diperap selama 3-4 minit setiap sisi, atau sehingga berwarna keemasan yang cantik, lembut, dan masak sepenuhnya.',
+                            'Langkah 6: Goreng Telur. Panaskan sedikit minyak sayuran dalam kuali tidak melekat di atas api sederhana. Goreng 4 biji telur mata kerbau, pastikan kuning telur kekal cair untuk persembahan Com Tam klasik.',
+                            'Langkah 7: Susun Hidangan. Di setiap pinggan, hidangkan sebahagian besar nasi hancur. Susun hirisan daging babi panggang, sekeping bebola daging telur kukus, dan telur goreng di atasnya. Hias dengan hirisan timun dan tomato segar.',
+                            'Langkah 8: Hidang. Tuangkan sesudu Nuoc Cham yang telah disediakan ke atas seluruh hidangan atau hidangkan di sisi untuk pencicahan individu. Nikmati klasik Vietnam yang asli ini dengan segera.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '韩式烤肉',
+                        description: '韩式烤肉（Bulgogi），意为“火肉”，是一道典型的韩国菜肴，以薄片腌制牛肉烤制或煎炸至鲜嫩完美。其甜咸口味，常带有一丝果香，使其成为韩国料理中备受喜爱的经典菜肴。',
+                        ingredients: [
+                            {
+                                item: '牛里脊或牛眼肉，逆纹切薄片',
+                                amount: '500克'
+                            },
+                            {
+                                item: '酱油',
+                                amount: '1/2杯'
+                            },
+                            {
+                                item: '红糖',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '香油',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '蒜末',
+                                amount: '5瓣'
+                            },
+                            {
+                                item: '姜末',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '梨（博斯克或安茹品种），磨碎',
+                                amount: '1/2个中等大小'
+                            },
+                            {
+                                item: '黄洋葱，切薄片',
+                                amount: '1/2个中等大小'
+                            },
+                            {
+                                item: '小葱，切段',
+                                amount: '3根'
+                            },
+                            {
+                                item: '现磨黑胡椒粉',
+                                amount: '1/2茶匙'
+                            },
+                            {
+                                item: '烤芝麻',
+                                amount: '1茶匙'
+                            }
+                        ],
+                        instructions: [
+                            '步骤 1: 准备牛肉：将牛肉逆纹切成非常薄的片。为了更容易切片，可以在切片前将牛肉部分冷冻约30分钟。',
+                            '步骤 2: 制作腌料：在一个大碗中，混合酱油、红糖、香油、蒜末、姜末、磨碎的梨和现磨黑胡椒粉。充分搅拌直至糖溶解。',
+                            '步骤 3: 腌制牛肉：将切好的薄片牛肉、切片黄洋葱和一半切好的小葱加入腌料中。用手充分混合，确保每一片牛肉都均匀裹上腌料。盖上碗，冷藏至少1小时，最好是4小时至过夜，以获得更浓郁的风味。',
+                            '步骤 4: 烹饪准备：用中高火加热一个大煎锅、铸铁锅或烤盘。如果您的锅不是不粘锅，可以加入少量油，尽管牛肉本身的脂肪通常就足够了。',
+                            '步骤 5: 煎烤牛肉：将腌制好的牛肉分批放入热锅中，平铺成一层，避免过度拥挤。过度拥挤会导致肉被蒸熟而不是煎烤。',
+                            '步骤 6: 烹饪：每面煎烤2-3分钟，直到韩式烤肉呈现漂亮的焦糖色，鲜嫩并完全煮熟。注意不要过度烹饪，否则牛肉会变韧。',
+                            '步骤 7: 上菜：将煮好的韩式烤肉转移到盘中。撒上剩余的切碎小葱和烤芝麻作为装饰。立即与热腾腾的米饭和您喜欢的韩式小菜一起食用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Bulgogi',
+                        description: 'Hidangan Korea yang penting, Bulgogi, bermaksud "daging api," menampilkan daging lembu yang dihiris nipis dan diperap, dipanggang atau digoreng hingga lembut sempurna. Rasa manis dan savuri, seringkali dengan sedikit buah, menjadikannya hidangan kegemaran masakan Korea.',
+                        ingredients: [
+                            {
+                                item: 'Daging Sirloin atau Ribeye, dihiris nipis melawan urat',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Kicap Cair',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Gula Perang',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Minyak Bijan',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Bawang Putih, dicincang',
+                                amount: '5 ulas'
+                            },
+                            {
+                                item: 'Halia, diparut',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Buah Pir (Bosc atau Anjou), diparut',
+                                amount: '1/2 biji sederhana'
+                            },
+                            {
+                                item: 'Bawang Holland, dihiris nipis',
+                                amount: '1/2 biji sederhana'
+                            },
+                            {
+                                item: 'Daun Bawang, dicincang',
+                                amount: '3 batang'
+                            },
+                            {
+                                item: 'Lada Hitam, baru dikisar',
+                                amount: '1/2 sudu kecil'
+                            },
+                            {
+                                item: 'Biji Bijan Bakar',
+                                amount: '1 sudu kecil'
+                            }
+                        ],
+                        instructions: [
+                            'Langkah 1: Sediakan daging lembu dengan menghirisnya sangat nipis melawan urat. Untuk hirisan yang lebih mudah, anda boleh membekukan daging lembu separa selama kira-kira 30 minit sebelum memotong.',
+                            'Langkah 2: Dalam mangkuk adunan besar, gabungkan kicap cair, gula perang, minyak bijan, bawang putih cincang, halia parut, pir parut, dan lada hitam yang baru dikisar. Pukul rata sehingga gula larut.',
+                            'Langkah 3: Tambahkan daging lembu yang dihiris nipis, bawang holland yang dihiris, dan separuh daripada daun bawang yang dicincang ke dalam perapan. Gaul rata dengan tangan anda untuk memastikan setiap keping daging lembu disalut. Tutup mangkuk dan sejukkan selama sekurang-kurangnya 1 jam, atau lebih baik 4 jam hingga semalaman untuk rasa yang lebih mendalam.',
+                            'Langkah 4: Panaskan kuali besar, kuali besi tuang, atau kuali panggang di atas api sederhana-tinggi. Sedikit minyak boleh ditambah jika kuali anda tidak melekat, walaupun lemak dari daging lembu biasanya mencukupi.',
+                            'Langkah 5: Tambahkan daging lembu yang diperap ke dalam kuali panas dalam satu lapisan, lakukan secara berperingkat jika perlu untuk mengelakkan kesesakan. Kesesakan akan mengukus daging dan bukannya membakar.',
+                            'Langkah 6: Masak bulgogi selama 2-3 minit setiap sisi, sehingga ia menjadi karamel yang cantik, lembut, dan masak sepenuhnya. Berhati-hati agar tidak terlalu masak, kerana ini boleh menjadikan daging lembu liat.',
+                            'Langkah 7: Pindahkan bulgogi yang telah dimasak ke pinggan hidangan. Hias dengan banyak daun bawang cincang yang tinggal dan biji bijan bakar. Hidangkan segera dengan nasi kukus panas dan banchan Korea kegemaran anda.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: 'Merguez 香肠',
+                        description: '这种充满活力、辛辣的羊肉香肠是摩洛哥美食的基石，散发着芳香的香料和火辣的味道。传统上烤制或煎炸，每一口多汁的香肠都带来北非烹饪传统的风味。',
+                        ingredients: [
+                            {
+                                item: '去骨羊肩肉',
+                                amount: '500克（精细绞碎）'
+                            },
+                            {
+                                item: '羊油（或牛油）',
+                                amount: '100克（精细绞碎）'
+                            },
+                            {
+                                item: '大蒜瓣',
+                                amount: '4瓣（大，切末）'
+                            },
+                            {
+                                item: '克什米尔红辣椒粉',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '孜然粉',
+                                amount: '1.5茶匙'
+                            },
+                            {
+                                item: '香菜粉',
+                                amount: '1茶匙'
+                            },
+                            {
+                                item: '辣红辣椒粉（或卡宴辣椒粉）',
+                                amount: '1茶匙（根据口味调整）'
+                            },
+                            {
+                                item: '盐',
+                                amount: '1.5茶匙（或根据口味）'
+                            },
+                            {
+                                item: '黑胡椒粉',
+                                amount: '0.5茶匙（现磨）'
+                            },
+                            {
+                                item: '冷水',
+                                amount: '2-3汤匙'
+                            },
+                            {
+                                item: '天然羊肠衣',
+                                amount: '2米（浸泡并冲洗，可选）'
+                            }
+                        ],
+                        instructions: [
+                            '步骤 1: 准备肉类：如果尚未绞碎，将去骨羊肩肉和羊油一起绞碎。为了获得最佳口感，请使用中号绞肉机，或手工切碎。',
+                            '步骤 2: 混合香料：在一个大碗中，将绞碎的羊肉和羊油与蒜末、克什米尔红辣椒粉、孜然粉、香菜粉、辣红辣椒粉、盐和黑胡椒粉混合。',
+                            '步骤 3: 充分混合：加入冷水，用手用力搅拌5-7分钟，直到混合物变得粘稠并充分乳化。这有助于蛋白质的形成，并确保良好的质地。',
+                            '步骤 4: 静置混合物：盖上碗，将混合物冷藏至少2小时，最好是过夜。这能让风味充分融合，并使肉质变硬。',
+                            '步骤 5: 灌肠（可选）：如果使用肠衣，请彻底冲洗并将其套在灌肠机上。小心地将羊肉混合物灌入肠衣中，确保没有气泡。扭转或系成10-12厘米长的香肠。如果不使用肠衣，将混合物制成小而厚的肉饼。',
+                            '步骤 6: 烹饪香肠：用中火加热烤盘或厚底煎锅。在锅中轻轻涂油。烹饪Merguez香肠（或肉饼）8-12分钟，偶尔翻动，直到两面都呈漂亮的棕色并完全煮熟。',
+                            '步骤 7: 上菜：立即将热腾腾的Merguez香肠与硬皮面包、新鲜沙拉或一小勺哈里萨辣酱一起食用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Sosej Merguez',
+                        description: 'Sosej kambing yang bersemangat dan pedas ini adalah tunjang masakan Maghribi, penuh dengan rempah-ratus aromatik dan rasa pedas yang membakar. Secara tradisional dipanggang atau digoreng, ia menawarkan rasa warisan masakan Afrika Utara dalam setiap gigitan yang lazat.',
+                        ingredients: [
+                            {
+                                item: 'Bahu Kambing Tanpa Tulang',
+                                amount: '500g (dicincang halus atau dikisar)'
+                            },
+                            {
+                                item: 'Lemak Kambing (atau Lemak Daging Lembu)',
+                                amount: '100g (dicincang halus atau dikisar)'
+                            },
+                            {
+                                item: 'Ulas Bawang Putih',
+                                amount: '4 (besar, dicincang)'
+                            },
+                            {
+                                item: 'Serbuk Cili Merah Kashmiri',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Serbuk Jintan Manis',
+                                amount: '1.5 sudu kecil'
+                            },
+                            {
+                                item: 'Serbuk Ketumbar',
+                                amount: '1 sudu kecil'
+                            },
+                            {
+                                item: 'Serbuk Cili Merah Pedas (atau Cayenne)',
+                                amount: '1 sudu kecil (sesuaikan rasa)'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: '1.5 sudu kecil (atau secukup rasa)'
+                            },
+                            {
+                                item: 'Lada Hitam',
+                                amount: '0.5 sudu kecil (baru dikisar)'
+                            },
+                            {
+                                item: 'Air Sejuk',
+                                amount: '2-3 sudu besar'
+                            },
+                            {
+                                item: 'Sarung Usus Kambing Asli',
+                                amount: '2 meter (direndam dan dibilas, pilihan)'
+                            }
+                        ],
+                        instructions: [
+                            'Langkah 1: Sediakan Daging: Jika belum dicincang, cincang halus bahu kambing tanpa tulang dan lemak kambing bersama-sama. Untuk tekstur terbaik, gunakan penggiling daging dengan mata sederhana, atau cincang halus dengan tangan.',
+                            'Langkah 2: Gabungkan Rempah: Dalam mangkuk besar, gabungkan daging kambing cincang dan lemak dengan bawang putih cincang, serbuk cili merah Kashmiri, serbuk jintan manis, serbuk ketumbar, serbuk cili merah pedas, garam, dan lada hitam.',
+                            'Langkah 3: Gaul Rata: Tambahkan air sejuk dan gaul kuat dengan tangan selama 5-7 minit sehingga campuran menjadi melekit dan teremulsi dengan baik. Ini mengembangkan protein dan memastikan tekstur yang baik.',
+                            'Langkah 4: Rehatkan Campuran: Tutup mangkuk dan sejukkan campuran selama sekurang-kurangnya 2 jam, atau lebih baik semalaman. Ini membolehkan rasa sebati dan daging menjadi pejal.',
+                            'Langkah 5: Sumbat Sarung Usus (Pilihan): Jika menggunakan sarung usus, bilas dengan teliti dan masukkan ke dalam alat penyumbat sosej. Sumbat campuran kambing ke dalam sarung usus dengan berhati-hati, pastikan tiada poket udara. Pusing atau ikat menjadi pautan 10-12 cm. Jika tidak menggunakan sarung usus, bentuk campuran menjadi bebola daging kecil dan tebal.',
+                            'Langkah 6: Masak Sosej: Panaskan kuali panggang atau kuali dasar tebal di atas api sederhana. Sapu sedikit minyak pada kuali. Masak sosej Merguez (atau bebola daging) selama 8-12 minit, balikkan sekali-sekala, sehingga perang keemasan yang cantik di semua sisi dan masak sepenuhnya.',
+                            'Langkah 7: Hidangkan: Hidangkan sosej Merguez panas segera dengan roti kerak, salad segar, atau sesudu harissa di sisi.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '希腊千层面 (Pastitsio)',
+                        description: 'Pastitsio，常被称为“希腊千层面”，是一道深受喜爱的烤意面菜肴，特色是分层的调味肉末、管状意面和浓郁奶油白酱。它是希腊的经典舒适美食，非常适合家庭聚会和特殊场合。',
+                        ingredients: [
+                            {
+                                item: '瘦牛肉末或羊肉末',
+                                amount: '500克'
+                            },
+                            {
+                                item: '粗管面或粗通心粉',
+                                amount: '300克'
+                            },
+                            {
+                                item: '大洋葱，切碎',
+                                amount: '1个'
+                            },
+                            {
+                                item: '大蒜瓣，切末',
+                                amount: '3瓣'
+                            },
+                            {
+                                item: '碎番茄',
+                                amount: '400克罐装'
+                            },
+                            {
+                                item: '干红葡萄酒 (可选，或牛肉高汤)',
+                                amount: '120毫升'
+                            },
+                            {
+                                item: '肉桂棒',
+                                amount: '1根'
+                            },
+                            {
+                                item: '无盐黄油',
+                                amount: '100克'
+                            },
+                            {
+                                item: '中筋面粉',
+                                amount: '100克'
+                            },
+                            {
+                                item: '全脂牛奶',
+                                amount: '1升'
+                            },
+                            {
+                                item: '大鸡蛋',
+                                amount: '2个'
+                            },
+                            {
+                                item: '帕尔马干酪，新鲜磨碎',
+                                amount: '100克'
+                            }
+                        ],
+                        instructions: [
+                            '步骤 1: 准备肉酱 (Ragu)。在一个大平底锅中用中高火加热2汤匙橄榄油。炒切碎的洋葱，直到变软，大约5分钟。加入切碎的大蒜，再煮一分钟直到香气散发。加入牛肉末或羊肉末，用勺子将其捣散，彻底煎至褐色。沥干多余的脂肪。',
+                            '步骤 2: 完成肉酱。拌入碎番茄、红酒（如果使用）、肉桂棒、1片月桂叶、1茶匙盐和1/2茶匙现磨黑胡椒。煮沸，然后将火调至小火，盖上锅盖，煮至少20分钟，或最多45分钟，让味道充分融合。组装前取出肉桂棒和月桂叶。',
+                            '步骤 3: 煮意面。在肉酱慢炖的同时，在一个大锅中用足量的盐水煮粗管面或通心粉，按照包装说明煮至有嚼劲。沥干水分。在一个大碗中，将热意面与1个打散的鸡蛋和2汤匙磨碎的帕尔马干酪拌匀。这有助于粘合意面层。',
+                            '步骤 4: 准备白酱。在另一个平底锅中，用中火融化无盐黄油。加入中筋面粉并搅拌1-2分钟，不断搅拌，制成面糊。逐渐少量地加入全脂牛奶，确保没有结块。继续搅拌，直到酱汁变浓稠呈奶油状，大约5-7分钟。',
+                            '步骤 5: 完成白酱。将白酱从火上移开。拌入剩余的打散的鸡蛋、50克磨碎的帕尔马干酪、1/2茶匙新鲜磨碎的肉豆蔻、1/2茶匙盐和1/4茶匙黑胡椒。搅拌至光滑并充分混合。',
+                            '步骤 6: 组装Pastitsio。将烤箱预热至180°C (350°F)。轻轻涂油一个9x13英寸 (23x33厘米) 的烤盘。将准备好的意面均匀地铺在烤盘底部。铺上肉酱，均匀地铺在意面层上方。',
+                            '步骤 7: 铺顶并烘烤。将奶油白酱均匀地倒在肉层上方，确保覆盖整个表面。在白酱上撒上剩余的48克磨碎的帕尔马干酪。烘烤35-45分钟，或直到顶部呈金黄色并冒泡。',
+                            '步骤 8: 静置并上菜。将Pastitsio从烤箱中取出，静置至少15-20分钟，然后切片上菜。这有助于各层凝固，使切片更整齐，口感更佳。'
+                        ]
+                    },
+            ms: {
+                        title: 'Lasagna Yunani (Pastitsio)',
+                        description: 'Pastitsio, sering disebut \'lasagna Yunani\', adalah hidangan pasta bakar yang digemari yang menampilkan lapisan daging cincang berperisa, pasta tiub, dan sos béchamel yang kaya dan berkrim. Ia adalah hidangan klasik yang menenangkan dari Greece, sesuai untuk perhimpunan keluarga dan majlis istimewa.',
+                        ingredients: [
+                            {
+                                item: 'Daging lembu atau kambing cincang tanpa lemak',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Bucatini atau makaroni tebal',
+                                amount: '300g'
+                            },
+                            {
+                                item: 'Bawang besar, dicincang halus',
+                                amount: '1 biji'
+                            },
+                            {
+                                item: 'Ulas bawang putih, dicincang',
+                                amount: '3 ulas'
+                            },
+                            {
+                                item: 'Tomato hancur',
+                                amount: '400g tin'
+                            },
+                            {
+                                item: 'Wain merah kering (pilihan, atau stok daging lembu)',
+                                amount: '120ml'
+                            },
+                            {
+                                item: 'Batang kayu manis',
+                                amount: '1 batang'
+                            },
+                            {
+                                item: 'Mentega tanpa garam',
+                                amount: '100g'
+                            },
+                            {
+                                item: 'Tepung serbaguna',
+                                amount: '100g'
+                            },
+                            {
+                                item: 'Susu penuh krim',
+                                amount: '1 liter'
+                            },
+                            {
+                                item: 'Telur besar',
+                                amount: '2 biji'
+                            },
+                            {
+                                item: 'Keju Parmesan, diparut segar',
+                                amount: '100g'
+                            }
+                        ],
+                        instructions: [
+                            'Langkah 1: Sediakan Sos Daging (Ragu). Panaskan 2 sudu besar minyak zaitun dalam kuali besar di atas api sederhana tinggi. Tumis bawang yang dicincang sehingga lembut, kira-kira 5 minit. Masukkan bawang putih cincang dan masak selama satu minit lagi sehingga wangi. Masukkan daging lembu atau kambing cincang, hancurkan dengan sudu, dan goreng sehingga perang sepenuhnya. Toskan sebarang lemak berlebihan.',
+                            'Langkah 2: Selesaikan Ragu. Masukkan tomato hancur, wain merah (jika digunakan), batang kayu manis, 1 helai daun salam, 1 sudu teh garam, dan 1/2 sudu teh lada hitam yang baru dikisar. Didihkan, kemudian kurangkan api kepada perlahan, tutup, dan masak selama sekurang-kurangnya 20 minit, atau sehingga 45 minit, membiarkan rasa sebati. Buang batang kayu manis dan daun salam sebelum pemasangan.',
+                            'Langkah 3: Masak Pasta. Semasa ragu mereneh, masak bucatini atau makaroni dalam periuk besar berisi air mendidih yang banyak garam mengikut arahan pakej sehingga al dente. Toskan dengan baik. Dalam mangkuk besar, gaulkan pasta panas dengan 1 biji telur yang dipukul dan 2 sudu besar keju Parmesan yang diparut. Ini membantu mengikat lapisan pasta.',
+                            'Langkah 4: Sediakan Sos Béchamel. Dalam periuk berasingan, cairkan mentega tanpa garam di atas api sederhana. Pukul masuk tepung serbaguna dan masak selama 1-2 minit, kacau sentiasa, untuk membuat roux. Masukkan susu penuh krim secara beransur-ansur, sedikit demi sedikit, memastikan tiada ketulan terbentuk. Terus pukul sehingga sos memekat menjadi konsistensi berkrim, kira-kira 5-7 minit.',
+                            'Langkah 5: Selesaikan Béchamel. Angkat béchamel dari api. Pukul masuk telur yang dipukul yang tinggal, 50g keju Parmesan yang diparut, 1/2 sudu teh buah pala yang baru diparut, 1/2 sudu teh garam, dan 1/4 sudu teh lada hitam. Kacau sehingga licin dan sebati.',
+                            'Langkah 6: Pasang Pastitsio. Panaskan oven anda hingga 180°C (350°F). Griskan sedikit loyang pembakar 9x13 inci (23x33 cm). Sebarkan pasta yang telah disediakan secara rata di bahagian bawah loyang. Lapisi dengan sos daging, sebarkannya secara rata di atas lapisan pasta.',
+                            'Langkah 7: Lapisi dan Bakar. Tuangkan sos béchamel berkrim secara rata di atas lapisan daging, memastikan ia menutupi seluruh permukaan. Taburkan baki 48g keju Parmesan yang diparut di atas béchamel. Bakar selama 35-45 minit, atau sehingga bahagian atas berwarna perang keemasan dan berbuih.',
+                            'Langkah 8: Rehatkan dan Hidangkan. Keluarkan Pastitsio dari oven dan biarkan ia berehat selama sekurang-kurangnya 15-20 minit sebelum dihiris dan dihidangkan. Ini membolehkan lapisan-lapisan mengeras, menghasilkan potongan yang lebih bersih dan tekstur yang lebih menyeronokkan.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '加利西亚章鱼 (Pulpo a la Gallega)',
+                        description: '这道经典的加利西亚菜肴以鲜嫩、烹制完美的章鱼为特色，简单地淋上特级初榨橄榄油、烟熏辣椒粉和粗海盐。它是一道典型的西班牙小吃，体现了西班牙沿海美食的质朴优雅。',
+                        ingredients: [
+                            {
+                                item: '章鱼',
+                                amount: '1公斤 (已清理，新鲜或冷冻)'
+                            },
+                            {
+                                item: '土豆',
+                                amount: '500克 (蜡质品种，去皮)'
+                            },
+                            {
+                                item: '特级初榨橄榄油',
+                                amount: '100毫升'
+                            },
+                            {
+                                item: '烟熏辣椒粉 (Pimentón de la Vera)',
+                                amount: '2茶匙 (甜味或半甜味)'
+                            },
+                            {
+                                item: '粗海盐',
+                                amount: '1茶匙 (另加少许用于调味)'
+                            },
+                            {
+                                item: '月桂叶',
+                                amount: '2大片'
+                            },
+                            {
+                                item: '洋葱',
+                                amount: '1个中等大小 (去皮，对半切开)'
+                            },
+                            {
+                                item: '大蒜',
+                                amount: '3瓣 (去皮，拍扁)'
+                            }
+                        ],
+                        instructions: [
+                            '步骤 1: 准备章鱼。如果使用新鲜章鱼，请将其冷冻至少24小时，然后完全解冻；这有助于使肉质变嫩。在冷水下彻底清洗章鱼，如果尚未处理，请去除眼睛和喙。',
+                            '步骤 2: 烧一大锅水至沸腾。将对半切开的洋葱、月桂叶和拍扁的大蒜瓣加入水中。“吓唬”章鱼，将其浸入沸水中10秒钟，然后取出。重复此过程三次；这有助于使触手卷曲并使肉质变嫩。',
+                            '步骤 3: 第三次浸泡后，将章鱼完全浸入沸水中。将火调至小火慢炖，盖上锅盖，煮30-40分钟，或直到用刀刺入触手最厚的部分时非常嫩。烹饪时间因章鱼大小而异。',
+                            '步骤 4: 在章鱼烹饪时，将土豆去皮切成1/2英寸厚的片。在章鱼快煮好前约15分钟，将土豆片加入同一锅慢炖的水中（或单独用盐水煮），直到变软但不要煮烂。',
+                            '步骤 5: 煮熟后，小心地将章鱼从水中取出，放在砧板上静置几分钟。沥干土豆。使用厨房剪刀或锋利的刀，将章鱼触手切成1/2英寸厚的圆片。',
+                            '步骤 6: 将煮熟的土豆片摆放在传统的木制餐盘或单独的盘子上。将切好的章鱼整齐地放在土豆上方。',
+                            '步骤 7: 大量淋上特级初榨橄榄油。均匀撒上烟熏辣椒粉和一小撮粗海盐。立即上菜，传统上搭配清爽的阿尔巴利诺葡萄酒。'
+                        ]
+                    },
+            ms: {
+                        title: 'Sotong Kurita Gaya Galicia (Pulpo a la Gallega)',
+                        description: 'Hidangan klasik Galicia ini menampilkan sotong kurita yang lembut dan dimasak sempurna, hanya diperasakan dengan minyak zaitun extra virgin, paprika salai, dan garam laut kasar. Ia adalah tapa penting yang melambangkan keanggunan desa masakan pantai Sepanyol.',
+                        ingredients: [
+                            {
+                                item: 'Sotong Kurita',
+                                amount: '1 kg (dibersihkan, segar atau beku)'
+                            },
+                            {
+                                item: 'Kentang',
+                                amount: '500g (jenis berlilin, dikupas)'
+                            },
+                            {
+                                item: 'Minyak Zaitun Extra Virgin',
+                                amount: '100 ml'
+                            },
+                            {
+                                item: 'Paprika Salai (Pimentón de la Vera)',
+                                amount: '2 sudu teh (manis atau separa manis)'
+                            },
+                            {
+                                item: 'Garam Laut Kasar',
+                                amount: '1 sudu teh (dan lebih untuk perasa)'
+                            },
+                            {
+                                item: 'Daun Salam',
+                                amount: '2 helai besar'
+                            },
+                            {
+                                item: 'Bawang Besar',
+                                amount: '1 biji sederhana (dikupas, dibelah dua)'
+                            },
+                            {
+                                item: 'Bawang Putih',
+                                amount: '3 ulas (dikupas, dihancurkan)'
+                            }
+                        ],
+                        instructions: [
+                            'Langkah 1: Sediakan sotong kurita. Jika menggunakan sotong kurita segar, bekukan selama sekurang-kurangnya 24 jam dan kemudian nyahbeku sepenuhnya; ini melembutkan daging. Bersihkan sotong kurita dengan teliti di bawah air sejuk, buang mata dan paruh jika belum dilakukan.',
+                            'Langkah 2: Didihkan air dalam periuk besar. Masukkan bawang besar yang dibelah dua, daun salam, dan ulas bawang putih yang dihancurkan ke dalam air. "Takutkan" sotong kurita dengan mencelupkannya ke dalam air mendidih selama 10 saat, kemudian angkat. Ulangi proses ini tiga kali; ini membantu menggulung sesungut dan melembutkan daging.',
+                            'Langkah 3: Selepas celupan ketiga, rendam sotong kurita sepenuhnya dalam air mendidih. Kurangkan api kepada reneh perlahan, tutup, dan masak selama 30-40 minit, atau sehingga sangat lembut apabila dicucuk dengan pisau di bahagian sesungut yang paling tebal. Masa memasak berbeza mengikut saiz sotong kurita.',
+                            'Langkah 4: Semasa sotong kurita dimasak, kupas kentang dan potong menjadi kepingan setebal 1/2 inci. Kira-kira 15 minit sebelum sotong kurita siap, masukkan hirisan kentang ke dalam periuk air reneh yang sama (atau masak secara berasingan dalam air masin) sehingga lembut tetapi tidak lembik.',
+                            'Langkah 5: Setelah masak, keluarkan sotong kurita dengan berhati-hati dari air dan biarkan ia berehat di atas papan pemotong selama beberapa minit. Toskan kentang. Menggunakan gunting dapur atau pisau tajam, potong sesungut sotong kurita menjadi kepingan bulat setebal 1/2 inci.',
+                            'Langkah 6: Susun hirisan kentang yang telah dimasak di atas pinggan hidangan kayu tradisional atau pinggan individu. Letakkan hirisan sotong kurita dengan kemas di atas kentang.',
+                            'Langkah 7: Renjiskan dengan banyak minyak zaitun extra virgin. Taburkan secara rata dengan paprika salai dan secubit garam laut kasar. Hidangkan segera, secara tradisional diiringi dengan wain Albariño yang segar.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '塔布勒沙拉',
+                        description: '塔布勒沙拉是黎巴嫩美食中充满活力、香草芬芳的灵魂，一道清爽的沙拉，颂扬了新鲜欧芹和薄荷的丰盛。这道标志性菜肴完美平衡了柠檬的酸味和细粒布格麦的微妙嚼劲，每一口都带来地中海阳光的爆发。',
+                        ingredients: [
+                            {
+                                item: '细粒布格麦 (burghul na\'am)',
+                                amount: '90克'
+                            },
+                            {
+                                item: '新鲜平叶欧芹',
+                                amount: '2大束 (约250克)'
+                            },
+                            {
+                                item: '新鲜薄荷叶',
+                                amount: '1/2杯压实 (约30克)'
+                            },
+                            {
+                                item: '熟番茄',
+                                amount: '2个中等大小 (约300克)'
+                            },
+                            {
+                                item: '小葱',
+                                amount: '4-5根'
+                            },
+                            {
+                                item: '新鲜柠檬汁',
+                                amount: '1/4杯 (约60毫升)'
+                            },
+                            {
+                                item: '特级初榨橄榄油',
+                                amount: '1/4杯 (约60毫升)'
+                            },
+                            {
+                                item: '盐',
+                                amount: '1茶匙'
+                            },
+                            {
+                                item: '现磨黑胡椒',
+                                amount: '1/2茶匙 (可选)'
+                            }
+                        ],
+                        instructions: [
+                            '将细粒布格麦放入中碗中。用冷水快速冲洗，然后用细网筛彻底沥干，挤出多余水分。让其在残留水分中浸泡20-30分钟，直至饱满变软，然后用叉子拨松。',
+                            '在布格麦浸泡的同时，仔细清洗并彻底擦干欧芹和薄荷。将欧芹切碎，确保其几乎像粗粉末一样，并切碎薄荷叶。将它们放入一个大搅拌碗中。',
+                            '将熟番茄切成小丁，确保沥干所有多余液体。将小葱切薄片，使用白色和浅绿色部分。将切好的番茄和小葱加入装有香草的碗中。',
+                            '将拨松的布格麦加入装有香草和蔬菜的碗中。',
+                            '将新鲜柠檬汁和特级初榨橄榄油倒在混合物上。用盐和现磨黑胡椒（如果使用）调味。',
+                            '轻轻地将所有食材混合均匀。品尝并根据需要调整调味料。为获得最佳效果，盖上碗，让塔布勒沙拉在冰箱中静置至少30分钟，以使风味融合。',
+                            '冰镇后作为清爽的配菜、开胃菜或中东拼盘的一部分食用，通常搭配脆生菜叶用于舀取。'
+                        ]
+                    },
+            ms: {
+                        title: 'Tabbouleh',
+                        description: 'Tabbouleh adalah jiwa masakan Lubnan yang bersemangat dan beraroma herba, salad yang menyegarkan yang meraikan limpahan pasli dan pudina segar. Hidangan ikonik ini mengimbangi dengan sempurna rasa masam lemon dengan tekstur kenyal bulgur halus, menawarkan letupan cahaya matahari Mediterranean dalam setiap suapan.',
+                        ingredients: [
+                            {
+                                item: 'Bulgur Halus (burghul na\'am)',
+                                amount: '90g'
+                            },
+                            {
+                                item: 'Daun Pasli Segar',
+                                amount: '2 ikat besar (anggaran 250g)'
+                            },
+                            {
+                                item: 'Daun Pudina Segar',
+                                amount: '1/2 cawan padat (anggaran 30g)'
+                            },
+                            {
+                                item: 'Tomato Masak',
+                                amount: '2 biji sederhana (anggaran 300g)'
+                            },
+                            {
+                                item: 'Daun Bawang',
+                                amount: '4-5 batang'
+                            },
+                            {
+                                item: 'Jus Lemon Segar',
+                                amount: '1/4 cawan (anggaran 60ml)'
+                            },
+                            {
+                                item: 'Minyak Zaitun Extra Virgin',
+                                amount: '1/4 cawan (anggaran 60ml)'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: '1 sudu teh'
+                            },
+                            {
+                                item: 'Lada Hitam Baru Dikisar',
+                                amount: '1/2 sudu teh (pilihan)'
+                            }
+                        ],
+                        instructions: [
+                            'Letakkan bulgur halus dalam mangkuk sederhana. Bilas dengan cepat di bawah air sejuk, kemudian toskan dengan teliti menggunakan penapis jaring halus, tekan keluar air berlebihan. Biarkan ia meresap dalam kelembapan sisa selama 20-30 minit sehingga mengembang dan lembut, kemudian gemburkan dengan garpu.',
+                            'Semasa bulgur meresap, basuh dengan teliti dan keringkan pasli dan pudina. Cincang halus pasli, pastikan ia hampir seperti serbuk kasar, dan cincang halus daun pudina. Letakkan dalam mangkuk adunan besar.',
+                            'Potong dadu halus tomato masak, pastikan semua cecair berlebihan ditoskan. Hiris nipis daun bawang, gunakan kedua-dua bahagian putih dan hijau muda. Masukkan tomato dan daun bawang yang dicincang ke dalam mangkuk bersama herba.',
+                            'Masukkan bulgur yang telah digemburkan ke dalam mangkuk yang mengandungi herba dan sayur-sayuran.',
+                            'Tuangkan jus lemon segar dan minyak zaitun extra virgin ke atas campuran. Perasakan dengan garam dan lada hitam baru dikisar (jika digunakan).',
+                            'Gaulkan semua bahan dengan perlahan sehingga sebati. Rasa dan sesuaikan perasa mengikut keperluan. Untuk hasil terbaik, tutup mangkuk dan biarkan tabbouleh berehat di dalam peti sejuk selama sekurang-kurangnya 30 minit untuk membolehkan rasa sebati.',
+                            'Hidangkan sejuk sebagai hidangan sampingan yang menyegarkan, pembuka selera, atau sebahagian daripada hidangan mezze, selalunya dengan daun salad rangup untuk mencedok.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '辛辣蘑菇马萨拉咖喱',
+                        description: '一道浓郁的印度咖喱，特色是我们的魔力蘑菇马萨拉混合香料。搭配烤饼或米饭食用完美。',
+                        ingredients: [
+                            {
+                                item: '混合新鲜蘑菇',
+                                amount: '500克'
+                            },
+                            {
+                                item: '洋葱',
+                                amount: '2个，切碎'
+                            },
+                            {
+                                item: '番茄',
+                                amount: '2个，打成泥'
+                            },
+                            {
+                                item: '姜蒜酱',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '魔力蘑菇马萨拉',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '椰奶',
+                                amount: '1杯'
+                            },
+                            {
+                                item: '香菜',
+                                amount: '用于装饰'
+                            }
+                        ],
+                        instructions: [
+                            '用油炒洋葱至金黄色。加入姜蒜酱，煮1分钟。',
+                            '加入番茄泥，煮至油水分离。',
+                            '拌入魔力蘑菇马萨拉和盐。',
+                            '加入蘑菇并翻炒均匀。煮5分钟。',
+                            '倒入椰奶，小火炖煮10-15分钟，直到酱汁变稠。',
+                            '用新鲜香菜装饰，趁热食用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Kari Masala Cendawan Pedas',
+                        description: 'Kari India yang kaya rasa, menampilkan campuran rempah Magic Mushroom Masala kami. Sesuai dihidangkan dengan naan atau nasi.',
+                        ingredients: [
+                            {
+                                item: 'Cendawan Campuran Segar',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Bawang Besar',
+                                amount: '2 biji, dicincang'
+                            },
+                            {
+                                item: 'Tomato',
+                                amount: '2 biji, dilumatkan'
+                            },
+                            {
+                                item: 'Pes Halia-Bawang Putih',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Magic Mushroom Masala',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Santan',
+                                amount: '1 cawan'
+                            },
+                            {
+                                item: 'Daun Ketumbar',
+                                amount: 'Untuk hiasan'
+                            }
+                        ],
+                        instructions: [
+                            'Tumis bawang besar dalam minyak sehingga keperangan. Masukkan pes halia-bawang putih dan masak selama 1 minit.',
+                            'Masukkan puri tomato dan masak sehingga minyak terpisah.',
+                            'Masukkan Magic Mushroom Masala dan garam, kacau rata.',
+                            'Masukkan cendawan dan gaul rata. Masak selama 5 minit.',
+                            'Tuang santan dan reneh selama 10-15 minit sehingga kuah pekat.',
+                            'Hias dengan daun ketumbar segar dan hidangkan panas-panas.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '猴头菇“蟹肉”饼',
+                        description: '海鲜经典菜肴的植物基版本。猴头菇的质地与蟹肉惊人地相似。',
+                        ingredients: [
+                            {
+                                item: '新鲜猴头菇（来自套件）',
+                                amount: '500克'
+                            },
+                            {
+                                item: '日式面包糠',
+                                amount: '1 杯'
+                            },
+                            {
+                                item: '蛋黄酱',
+                                amount: '1/4 杯'
+                            },
+                            {
+                                item: '第戎芥末酱',
+                                amount: '1 茶匙'
+                            },
+                            {
+                                item: '老湾调味料',
+                                amount: '1 茶匙'
+                            },
+                            {
+                                item: '鸡蛋',
+                                amount: '1 个'
+                            },
+                            {
+                                item: '香葱',
+                                amount: '2 根，切碎'
+                            }
+                        ],
+                        instructions: [
+                            '将猴头菇撕成蟹肉状的小块。',
+                            '在干锅中炒香蘑菇，以去除多余水分。',
+                            '在一个碗中，混合蛋黄酱、芥末酱、鸡蛋、调味料和香葱。',
+                            '拌入蘑菇和面包糠。',
+                            '塑形为饼状，冷藏20分钟使其定型。',
+                            '用油煎至两面金黄。',
+                            '搭配柠檬角和塔塔酱享用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Kek "Ketam" Cendawan Lion\'s Mane',
+                        description: 'Sentuhan berasaskan tumbuhan pada hidangan laut kegemaran. Cendawan Lion\'s Mane mempunyai tekstur yang sangat serupa dengan isi ketam.',
+                        ingredients: [
+                            {
+                                item: 'Cendawan Lion\'s Mane Segar (dari Kit)',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Serbuk Roti Panko',
+                                amount: '1 cawan'
+                            },
+                            {
+                                item: 'Mayonis',
+                                amount: '1/4 cawan'
+                            },
+                            {
+                                item: 'Mustard Dijon',
+                                amount: '1 sudu kecil'
+                            },
+                            {
+                                item: 'Perasa Old Bay',
+                                amount: '1 sudu kecil'
+                            },
+                            {
+                                item: 'Telur',
+                                amount: '1 biji'
+                            },
+                            {
+                                item: 'Daun Bawang',
+                                amount: '2 batang, dicincang'
+                            }
+                        ],
+                        instructions: [
+                            'Carik-carikkan cendawan Lion\'s Mane menjadi kepingan kecil seperti isi ketam.',
+                            'Tumis cendawan dalam kuali kering untuk menghilangkan kelembapan berlebihan.',
+                            'Dalam mangkuk, campurkan mayonis, mustard, telur, perasa, dan daun bawang.',
+                            'Gaulkan cendawan dan serbuk roti.',
+                            'Bentukkan menjadi bebola leper dan sejukkan selama 20 minit untuk mengeras.',
+                            'Goreng dalam minyak sehingga perang keemasan di kedua-dua belah.',
+                            'Hidangkan dengan hirisan lemon dan sos tartar.'
+                        ]
+                    },
+            'zh-CN': {
+                        title: '奶油野菌烩饭',
+                        description: '一道奢华的意大利经典菜肴，采用我们的干牛肝菌和白松露油。口感浓郁、泥土芬芳，令人心满意足。',
+                        ingredients: [
+                            {
+                                item: '意大利烩饭米',
+                                amount: '2 杯'
+                            },
+                            {
+                                item: '干牛肝菌',
+                                amount: '30克'
+                            },
+                            {
+                                item: '蔬菜高汤',
+                                amount: '1.5 升'
+                            },
+                            {
+                                item: '白葡萄酒',
+                                amount: '1/2 杯'
+                            },
+                            {
+                                item: '小洋葱',
+                                amount: '2 个，切碎'
+                            },
+                            {
+                                item: '黄油',
+                                amount: '50克'
+                            },
+                            {
+                                item: '帕尔马干酪',
+                                amount: '1/2 杯'
+                            },
+                            {
+                                item: '松露酥油',
+                                amount: '1 汤匙'
+                            }
+                        ],
+                        instructions: [
+                            '将干牛肝菌用温水浸泡20分钟使其软化。沥干并切碎，保留浸泡液。',
+                            '在一个大平底锅中，用一半黄油炒香小洋葱，直至变软。',
+                            '加入米饭，翻炒2分钟，直至边缘变透明。',
+                            '倒入白葡萄酒，搅拌直至蒸发。',
+                            '逐渐加入温热的高汤（和蘑菇浸泡液），每次一勺，持续搅拌。',
+                            '烹饪至一半时，加入切碎的蘑菇。',
+                            '米饭煮至弹牙后，离火。拌入剩余的黄油、帕尔马干酪和松露酥油。',
+                            '立即与新鲜欧芹一起享用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Risotto Cendawan Liar Berkrim',
+                        description: 'Hidangan klasik Itali yang mewah menggunakan Cendawan Porcini Kering dan Minyak Truffle Putih kami. Kaya, berperisa tanah, dan menenangkan.',
+                        ingredients: [
+                            {
+                                item: 'Beras Arborio',
+                                amount: '2 cawan'
+                            },
+                            {
+                                item: 'Cendawan Porcini Kering',
+                                amount: '30g'
+                            },
+                            {
+                                item: 'Stok Sayuran',
+                                amount: '1.5 liter'
+                            },
+                            {
+                                item: 'Wain Putih',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Bawang Merah Kecil',
+                                amount: '2 biji, dicincang halus'
+                            },
+                            {
+                                item: 'Mentega',
+                                amount: '50g'
+                            },
+                            {
+                                item: 'Keju Parmesan',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Ghee Desi Infusi Truffle',
+                                amount: '1 sudu besar'
+                            }
+                        ],
+                        instructions: [
+                            'Rendam cendawan porcini kering dalam air suam selama 20 minit. Toskan dan cincang, simpan air rendaman.',
+                            'Dalam kuali besar, tumis bawang merah kecil dengan separuh mentega sehingga lembut.',
+                            'Masukkan beras dan tumis selama 2 minit sehingga lutsinar di bahagian tepi.',
+                            'Tuangkan wain dan kacau sehingga kering.',
+                            'Masukkan stok suam (dan air cendawan) secara beransur-ansur, satu senduk pada satu masa, kacau sentiasa.',
+                            'Masukkan cendawan cincang separuh jalan memasak.',
+                            'Apabila nasi al dente, angkat dari api. Kacau masuk baki mentega, parmesan, dan Ghee Truffle.',
+                            'Hidangkan segera dengan pasli segar.'
+                        ]
+                    },
             hi: {
                 title: 'ज़िलज़िल टिब्स',
                 description: 'एक प्रिय इथियोपियाई स्टिर-फ्राई जिसमें सुगंधित मसालों, नाइटर किब्बे और एक जीवंत बेरबेरे मिश्रण के साथ तले हुए बीफ़ के कोमल स्ट्रिप्स होते हैं, जिसे अक्सर इंजेरा के साथ परोसा जाता है।',
@@ -473,6 +1747,88 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Pakistani', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '查普利烤肉串',
+                        description: '一种典型的巴基斯坦浅炸烤肉串，以其质朴的质地和大胆辛辣的风味而闻名，常与馕或酸辣酱一起享用。',
+                        ingredients: [
+                            {
+                                item: '牛肉末或羊肉末 (Keema)',
+                                amount: '500克'
+                            },
+                            {
+                                item: '洋葱，切碎并挤干水分',
+                                amount: '1个大'
+                            },
+                            {
+                                item: '番茄，去籽并切碎',
+                                amount: '1个中等大小'
+                            },
+                            {
+                                item: '新鲜香草和香料 (青辣椒、香菜叶、姜蒜酱)',
+                                amount: '2-3个青辣椒，1/4杯香菜，1汤匙酱'
+                            },
+                            {
+                                item: '查普利烤肉串香料混合物 (碎香菜籽、石榴籽、孜然、红辣椒片、盐)',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '粘合剂 (鸡蛋、玉米淀粉)',
+                                amount: '1个鸡蛋，2汤匙玉米淀粉'
+                            },
+                            {
+                                item: '油',
+                                amount: '用于浅炸'
+                            }
+                        ],
+                        instructions: [
+                            '步骤 1：在一个大碗中，将肉末与切碎的洋葱、番茄、新鲜香草和香料以及查普利烤肉串香料混合物混合。',
+                            '步骤 2：将打散的鸡蛋和玉米淀粉加入混合物中，然后彻底揉搓5-7分钟，直到充分混合并略带粘性。',
+                            '步骤 3：将混合物分成等份，将每份压成薄而大的肉饼（查普利形状），可选地在中心压入一小片番茄。',
+                            '步骤 4：在一个大煎锅中用中火加热油，然后将烤肉串每面浅炸5-7分钟，直到金黄色并完全煮熟。',
+                            '步骤 5：立即将热腾腾的查普利烤肉串与温热的馕、雷塔或您喜欢的酸辣酱一起享用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Chapli Kebab',
+                        description: 'Kebab goreng cetek Pakistan yang penting, terkenal dengan teksturnya yang kasar dan rasa pedas yang kuat, sering dinikmati bersama naan atau chutney.',
+                        ingredients: [
+                            {
+                                item: 'Daging Cincang Lembu atau Kambing (Keema)',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Bawang, dicincang halus dan diperah kering',
+                                amount: '1 biji besar'
+                            },
+                            {
+                                item: 'Tomato, dibuang biji dan dicincang halus',
+                                amount: '1 biji sederhana'
+                            },
+                            {
+                                item: 'Herba Segar & Aromatik (Cili Hijau, Daun Ketumbar, Pes Halia-Bawang Putih)',
+                                amount: '2-3 biji cili hijau, 1/4 cawan daun ketumbar, 1 sudu besar pes'
+                            },
+                            {
+                                item: 'Campuran Rempah Chapli Kebab (Ketumbar Hancur, Anardana, Jintan Manis, Serpihan Cili Merah, Garam)',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Agen Pengikat (Telur, Tepung Jagung)',
+                                amount: '1 biji telur, 2 sudu besar tepung jagung'
+                            },
+                            {
+                                item: 'Minyak',
+                                amount: 'Untuk menggoreng cetek'
+                            }
+                        ],
+                        instructions: [
+                            'Langkah 1: Dalam mangkuk besar, campurkan daging cincang dengan bawang yang dicincang, tomato, herba segar & aromatik, dan campuran rempah chapli kebab.',
+                            'Langkah 2: Masukkan telur yang dipukul dan tepung jagung ke dalam campuran, kemudian uli dengan teliti selama 5-7 minit sehingga sebati dan sedikit melekit.',
+                            'Langkah 3: Bahagikan campuran kepada bahagian yang sama dan leperkan setiap satu menjadi patty nipis dan besar (bentuk chapli), secara pilihan tekan hirisan tomato kecil ke tengah.',
+                            'Langkah 4: Panaskan minyak dalam kuali besar di atas api sederhana, kemudian goreng cetek kebab selama 5-7 minit setiap sisi sehingga perang keemasan dan masak sepenuhnya.',
+                            'Langkah 5: Hidangkan Chapli Kebab panas serta-merta dengan naan hangat, raita, atau chutney kegemaran anda.'
+                        ]
+                    },
             hi: {
                 title: 'चपली कबाब',
                 description: 'एक विशिष्ट पाकिस्तानी शैलो-फ्राइड कबाब, जो अपनी देहाती बनावट और तीखे, मसालेदार स्वाद के लिए जाना जाता है, जिसे अक्सर नान या चटनी के साथ परोसा जाता है।',
@@ -534,6 +1890,90 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Brazilian', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '瓦塔帕',
+                        description: '一道奶油状、美味的非洲-巴西炖菜，含有虾、面包、椰奶和登德油。',
+                        ingredients: [
+                            {
+                                item: '虾米',
+                                amount: '1杯，泡软并切碎'
+                            },
+                            {
+                                item: '陈白面包',
+                                amount: '4片，去皮，泡软'
+                            },
+                            {
+                                item: '椰奶',
+                                amount: '1罐 (400毫升)'
+                            },
+                            {
+                                item: '登德油 (棕榈油)',
+                                amount: '1/4杯'
+                            },
+                            {
+                                item: '洋葱',
+                                amount: '1个中等大小，切碎'
+                            },
+                            {
+                                item: '大蒜',
+                                amount: '3瓣，切末'
+                            },
+                            {
+                                item: '腰果',
+                                amount: '1/2杯，烤香并磨碎'
+                            }
+                        ],
+                        instructions: [
+                            '用登德油炒香洋葱和大蒜。',
+                            '加入切碎的虾米和磨碎的腰果，煮几分钟。',
+                            '将泡软的面包与椰奶混合搅拌至顺滑。',
+                            '将面包椰奶混合物倒入锅中，煮至浓稠。',
+                            '用盐调味，不断搅拌，煮至奶油状。',
+                            '趁热上桌，传统上搭配阿卡拉热或白米饭。'
+                        ]
+                    },
+            ms: {
+                        title: 'Vatapá',
+                        description: 'Rebusan Afro-Brazil yang berkrim dan berperisa dengan udang, roti, santan, dan minyak dendê.',
+                        ingredients: [
+                            {
+                                item: 'Udang kering',
+                                amount: '1 cawan, direndam dan dicincang'
+                            },
+                            {
+                                item: 'Roti putih basi',
+                                amount: '4 keping, dibuang kerak, direndam'
+                            },
+                            {
+                                item: 'Santan',
+                                amount: '1 tin (400ml)'
+                            },
+                            {
+                                item: 'Minyak dendê (minyak sawit)',
+                                amount: '1/4 cawan'
+                            },
+                            {
+                                item: 'Bawang',
+                                amount: '1 biji sederhana, dicincang'
+                            },
+                            {
+                                item: 'Bawang putih',
+                                amount: '3 ulas, dicincang'
+                            },
+                            {
+                                item: 'Gajus',
+                                amount: '1/2 cawan, dipanggang dan dikisar'
+                            }
+                        ],
+                        instructions: [
+                            'Tumis bawang dan bawang putih dalam minyak dendê sehingga wangi.',
+                            'Masukkan udang kering cincang dan gajus kisar, masak selama beberapa minit.',
+                            'Kisar roti yang direndam dengan santan sehingga licin.',
+                            'Kacau campuran roti-santan ke dalam kuali, masak sehingga pekat.',
+                            'Perasakan dengan garam dan masak, kacau sentiasa, sehingga berkrim.',
+                            'Hidangkan panas, secara tradisional dengan acarajé atau nasi putih.'
+                        ]
+                    },
             hi: {
                 title: 'वटापा',
                 description: 'झींगा, ब्रेड, नारियल के दूध और डेंडे तेल के साथ एक मलाईदार, स्वादिष्ट एफ्रो-ब्राज़ीलियाई स्टू।',
@@ -594,6 +2034,88 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Indonesian', 'Dinner', 'Non-Vegetarian', 'Noodles'],
         translations: {
+            'zh-CN': {
+                        title: '炒面',
+                        description: '一道充满活力的印尼炒面，咸香、辛辣，令人无比满足。',
+                        ingredients: [
+                            {
+                                item: '新鲜黄鸡蛋面',
+                                amount: '400克'
+                            },
+                            {
+                                item: '鸡胸肉（切片）',
+                                amount: '200克'
+                            },
+                            {
+                                item: '虾（去皮去虾线）',
+                                amount: '150克'
+                            },
+                            {
+                                item: '混合蔬菜（卷心菜丝、胡萝卜丝）',
+                                amount: '2杯'
+                            },
+                            {
+                                item: '甜酱油（Kecap Manis）',
+                                amount: '4汤匙'
+                            },
+                            {
+                                item: '香料（蒜蓉、葱头片、可选辣椒）',
+                                amount: '1汤匙酱'
+                            },
+                            {
+                                item: '鸡蛋',
+                                amount: '2个'
+                            }
+                        ],
+                        instructions: [
+                            '按照包装说明煮面条，沥干备用。',
+                            '在炒锅中加热油，翻炒鸡肉和虾仁至熟，然后取出。',
+                            '爆香香料，然后加入蔬菜翻炒至脆嫩。',
+                            '将鸡肉和虾仁倒回锅中，加入面条和甜酱油，充分翻炒均匀。',
+                            '拌入炒鸡蛋或蛋皮丝，轻轻混合，趁热食用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Mi Goreng',
+                        description: 'Hidangan mi goreng Indonesia yang bersemangat, berperisa, pedas, dan sangat memuaskan.',
+                        ingredients: [
+                            {
+                                item: 'Mi telur kuning segar',
+                                amount: '400g'
+                            },
+                            {
+                                item: 'Isi ayam (dihiris)',
+                                amount: '200g'
+                            },
+                            {
+                                item: 'Udang (dikupas & dibuang urat)',
+                                amount: '150g'
+                            },
+                            {
+                                item: 'Sayur-sayuran campuran (kubis dihiris, lobak merah dihiris julienne)',
+                                amount: '2 cawan'
+                            },
+                            {
+                                item: 'Kicap Manis',
+                                amount: '4 sudu besar'
+                            },
+                            {
+                                item: 'Bahan aromatik (bawang putih cincang, bawang merah dihiris, cili pilihan)',
+                                amount: '1 sudu besar pes'
+                            },
+                            {
+                                item: 'Telur',
+                                amount: '2 biji'
+                            }
+                        ],
+                        instructions: [
+                            'Rebus mi mengikut arahan pada bungkusan, toskan, dan ketepikan.',
+                            'Panaskan minyak dalam kuali, tumis ayam dan udang sehingga masak, kemudian angkat.',
+                            'Tumis bahan aromatik sehingga wangi, kemudian masukkan sayur-sayuran dan tumis sehingga lembut rangup.',
+                            'Masukkan semula ayam dan udang, tambah mi dan kicap manis, gaul rata.',
+                            'Masukkan telur hancur atau hirisan telur dadar, gaul perlahan, dan hidangkan panas.'
+                        ]
+                    },
             hi: {
                 title: 'मी गोरेंग',
                 description: 'एक जीवंत इंडोनेशियाई स्टिर-फ्राइड नूडल डिश, नमकीन, मसालेदार और बेहद संतोषजनक।',
@@ -653,6 +2175,74 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Italian', 'Dinner', 'Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '奶酪胡椒意面',
+                        description: '一道经典的罗马菜肴，简单却又极致美味，由意面、奶酪和胡椒组成。',
+                        ingredients: [
+                            {
+                                item: '意大利面或Tonnarelli面',
+                                amount: '400克'
+                            },
+                            {
+                                item: '佩科里诺罗马羊奶酪，磨碎',
+                                amount: '200克'
+                            },
+                            {
+                                item: '黑胡椒粒，现磨',
+                                amount: '15克'
+                            },
+                            {
+                                item: '盐',
+                                amount: '适量'
+                            },
+                            {
+                                item: '煮意面的水',
+                                amount: '适量'
+                            }
+                        ],
+                        instructions: [
+                            '在意面水中加入少量盐，将意面煮至弹牙，保留大量淀粉质的煮面水。',
+                            '在一个大平底锅中用中火烘烤现磨黑胡椒至香，然后加入一勺煮面水。',
+                            '将锅从火上移开，加入磨碎的佩科里诺罗马羊奶酪和少量煮面水，剧烈搅拌以形成奶油状乳液。',
+                            '沥干意面，立即将其加入盛有奶酪酱的平底锅中，不断翻拌使其均匀裹上酱汁。',
+                            '如果需要，可加入更多煮面水或奶酪，以获得顺滑有光泽的酱汁。',
+                            '立即上桌，撒上额外的现磨胡椒和佩科里诺奶酪作装饰。'
+                        ]
+                    },
+            ms: {
+                        title: 'Cacio e Pepe',
+                        description: 'Klasik Rom, ringkas namun hebat, dengan pasta, keju, dan lada hitam.',
+                        ingredients: [
+                            {
+                                item: 'Spaghetti atau Tonnarelli',
+                                amount: '400g'
+                            },
+                            {
+                                item: 'Keju Pecorino Romano, disagar halus',
+                                amount: '200g'
+                            },
+                            {
+                                item: 'Lada hitam biji, baru dihancurkan',
+                                amount: '15g'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: 'secukup rasa'
+                            },
+                            {
+                                item: 'Air rebusan pasta',
+                                amount: 'secukupnya'
+                            }
+                        ],
+                        instructions: [
+                            'Rebus pasta dalam air yang sedikit masin sehingga al dente, simpan banyak air rebusan pasta yang berkanji.',
+                            'Panggang lada hitam yang dihancurkan dalam kuali besar di atas api sederhana sehingga wangi, kemudian masukkan satu senduk air rebusan pasta.',
+                            'Angkat kuali dari api, masukkan keju Pecorino Romano yang disagar dan sedikit lagi air rebusan pasta, kacau dengan kuat untuk menghasilkan emulsi berkrim.',
+                            'Toskan pasta dan segera masukkan ke dalam kuali bersama sos keju, gaul berterusan untuk menyalut.',
+                            'Tambah lebih banyak air rebusan pasta atau keju jika perlu untuk mendapatkan sos yang licin dan berkilat.',
+                            'Hidangkan segera, dihiasi dengan lada hitam yang dihancurkan dan Pecorino tambahan.'
+                        ]
+                    },
             hi: {
                 title: 'काचो ए पेपे',
                 description: 'एक रोमन क्लासिक, पास्ता, पनीर और काली मिर्च के साथ सरल फिर भी शानदार।',
@@ -713,6 +2303,88 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Japanese', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '日式烤鸡肉串',
+                        description: '美味的日式烤鸡肉串，淋上甜咸的照烧酱汁。',
+                        ingredients: [
+                            {
+                                item: '鸡腿肉（去骨带皮）',
+                                amount: '500克'
+                            },
+                            {
+                                item: '酱油',
+                                amount: '1/2 杯'
+                            },
+                            {
+                                item: '味醂',
+                                amount: '1/2 杯'
+                            },
+                            {
+                                item: '清酒',
+                                amount: '1/4 杯'
+                            },
+                            {
+                                item: '糖',
+                                amount: '2 汤匙'
+                            },
+                            {
+                                item: '青葱（装饰用）',
+                                amount: '2 根'
+                            },
+                            {
+                                item: '竹签',
+                                amount: '12-15 根'
+                            }
+                        ],
+                        instructions: [
+                            '将鸡肉切成一口大小的块，然后串到竹签上。',
+                            '将酱油、味醂、清酒和糖放入平底锅中混合；小火慢炖至稍微浓稠，制成照烧酱。',
+                            '用中高火烤鸡肉串，频繁翻动并刷上照烧酱。',
+                            '继续烧烤和刷酱，直到鸡肉完全煮熟并焦糖化。',
+                            '用切碎的青葱装饰，立即上桌。'
+                        ]
+                    },
+            ms: {
+                        title: 'Yakitori',
+                        description: 'Sate ayam Jepun yang lazat, disalut dengan sos tare manis dan masin.',
+                        ingredients: [
+                            {
+                                item: 'Paha Ayam (tanpa tulang, dengan kulit)',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Kicap Soya',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Mirin',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Sake',
+                                amount: '1/4 cawan'
+                            },
+                            {
+                                item: 'Gula',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Daun Bawang (untuk hiasan)',
+                                amount: '2 tangkai'
+                            },
+                            {
+                                item: 'Pencucuk Buluh',
+                                amount: '12-15 batang'
+                            }
+                        ],
+                        instructions: [
+                            'Potong ayam kepada kepingan bersaiz gigitan dan cucuk pada pencucuk buluh.',
+                            'Gabungkan kicap soya, mirin, sake, dan gula dalam periuk; reneh sehingga sedikit pekat untuk membuat sos tare.',
+                            'Panggang pencucuk di atas api sederhana tinggi, pusingkan dengan kerap dan sapukan dengan sos tare.',
+                            'Teruskan memanggang dan menyapu sehingga ayam masak sepenuhnya dan berkaramel.',
+                            'Hias dengan daun bawang cincang dan hidangkan segera.'
+                        ]
+                    },
             hi: {
                 title: 'याकिटोरी',
                 description: 'मीठे और नमकीन तारे सॉस के साथ स्वादिष्ट जापानी ग्रिल्ड चिकन स्क्यूअर।',
@@ -773,6 +2445,88 @@ export const recipes: Recipe[] = [
         ],
         tags: ['French', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '马赛鱼汤',
+                        description: '一道浓郁芳香的普罗旺斯鱼汤，充满地中海风味。',
+                        ingredients: [
+                            {
+                                item: '什锦海鲜（结实白鱼、虾、贻贝）',
+                                amount: '共 2.5 磅'
+                            },
+                            {
+                                item: '橄榄油',
+                                amount: '3 汤匙'
+                            },
+                            {
+                                item: '芳香蔬菜（洋葱、大蒜、茴香）',
+                                amount: '1 个大洋葱，4 瓣大蒜，1 个小茴香头'
+                            },
+                            {
+                                item: '罐装碎番茄',
+                                amount: '1 罐（28 盎司）'
+                            },
+                            {
+                                item: '藏红花丝',
+                                amount: '1/2 茶匙'
+                            },
+                            {
+                                item: '鱼汤',
+                                amount: '4 杯'
+                            },
+                            {
+                                item: '干白葡萄酒',
+                                amount: '1 杯'
+                            }
+                        ],
+                        instructions: [
+                            '在一个大锅中，用橄榄油炒洋葱、大蒜和茴香，直到变软。',
+                            '加入番茄、藏红花、鱼汤和白葡萄酒；煮沸后小火慢炖 15 分钟。',
+                            '轻轻加入结实的鱼块，煮 5-7 分钟直到快熟。',
+                            '拌入虾和贻贝，煮至贝类开口，虾变粉红色，大约 3-5 分钟。',
+                            '用盐和胡椒调味，然后立即与硬皮面包一起上桌。'
+                        ]
+                    },
+            ms: {
+                        title: 'Bouillabaisse',
+                        description: 'Rebusan ikan Provençal yang kaya, beraroma, penuh dengan rasa Mediterranean.',
+                        ingredients: [
+                            {
+                                item: 'Makanan Laut Campuran (ikan putih pejal, udang, kupang)',
+                                amount: '2.5 paun jumlah'
+                            },
+                            {
+                                item: 'Minyak Zaitun',
+                                amount: '3 sudu besar'
+                            },
+                            {
+                                item: 'Sayuran Beraroma (bawang, bawang putih, adas)',
+                                amount: '1 biji bawang besar, 4 ulas bawang putih, 1 ulas adas kecil'
+                            },
+                            {
+                                item: 'Tomato Hancur dalam Tin',
+                                amount: '1 tin (28 oz)'
+                            },
+                            {
+                                item: 'Benang Saffron',
+                                amount: '1/2 sudu teh'
+                            },
+                            {
+                                item: 'Stok Ikan',
+                                amount: '4 cawan'
+                            },
+                            {
+                                item: 'Wain Putih Kering',
+                                amount: '1 cawan'
+                            }
+                        ],
+                        instructions: [
+                            'Tumis bawang, bawang putih, dan adas dalam minyak zaitun sehingga lembut dalam periuk besar.',
+                            'Masukkan tomato, saffron, stok ikan, dan wain putih; didihkan dan masak selama 15 minit.',
+                            'Masukkan kepingan ikan pejal dengan perlahan dan masak selama 5-7 minit sehingga hampir masak.',
+                            'Kacau udang dan kupang, masak sehingga kerang terbuka dan udang berwarna merah jambu, kira-kira 3-5 minit.',
+                            'Perasakan dengan garam dan lada sulah, kemudian hidangkan segera dengan roti kerak.'
+                        ]
+                    },
             hi: {
                 title: 'बुइयाबेस',
                 description: 'भूमध्यसागरीय स्वादों से भरपूर एक समृद्ध, सुगंधित प्रोवेन्सल मछली स्टू।',
@@ -834,6 +2588,90 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Mexican', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '莫雷酱鸡肉 (Mole Poblano)',
+                        description: '一种浓郁、复杂且标志性的墨西哥酱汁，由辣椒、香料和巧克力制成。',
+                        ingredients: [
+                            {
+                                item: '鸡肉块（鸡腿/鸡翅）',
+                                amount: '1.5 公斤'
+                            },
+                            {
+                                item: '干安乔辣椒',
+                                amount: '4'
+                            },
+                            {
+                                item: '干穆拉托辣椒',
+                                amount: '2'
+                            },
+                            {
+                                item: '干帕西利亚辣椒',
+                                amount: '2'
+                            },
+                            {
+                                item: '墨西哥酸浆',
+                                amount: '250克'
+                            },
+                            {
+                                item: '墨西哥巧克力（块状）',
+                                amount: '50克'
+                            },
+                            {
+                                item: '杏仁、芝麻、香料（孜然、丁香、肉桂）',
+                                amount: '1/4 杯混合'
+                            }
+                        ],
+                        instructions: [
+                            '将鸡肉煮至软烂；保留鸡汤并撕碎鸡肉。',
+                            '烤香辣椒，然后用热水泡软；与墨西哥酸浆和香料一起搅拌成泥。',
+                            '用油炒制搅拌好的酱汁，不断搅拌直至变稠。',
+                            '加入巧克力搅拌至融化，然后加入预留的鸡汤。',
+                            '小火慢炖莫雷酱，直至浓郁入味，然后加入撕碎的鸡肉。',
+                            '趁热与米饭一起食用，撒上芝麻点缀。'
+                        ]
+                    },
+            ms: {
+                        title: 'Mole Poblano',
+                        description: 'Sos Mexico yang kaya, kompleks, dan ikonik dengan cili, rempah-ratus, dan coklat.',
+                        ingredients: [
+                            {
+                                item: 'Potongan ayam (peha/kepak)',
+                                amount: '1.5 kg'
+                            },
+                            {
+                                item: 'Cili Ancho kering',
+                                amount: '4'
+                            },
+                            {
+                                item: 'Cili Mulato kering',
+                                amount: '2'
+                            },
+                            {
+                                item: 'Cili Pasilla kering',
+                                amount: '2'
+                            },
+                            {
+                                item: 'Tomatillo',
+                                amount: '250g'
+                            },
+                            {
+                                item: 'Coklat Mexico (tablet)',
+                                amount: '50g'
+                            },
+                            {
+                                item: 'Badam, bijan, rempah-ratus (jintan manis, cengkih, kayu manis)',
+                                amount: '1/4 cawan campuran'
+                            }
+                        ],
+                        instructions: [
+                            'Rebus ayam sehingga empuk; simpan stok ayam dan carikkan ayam.',
+                            'Bakar cili, kemudian rendam dalam air panas; kisar bersama tomatillo dan rempah-ratus.',
+                            'Tumis sos yang telah dikisar dalam minyak sehingga pekat, kacau sentiasa.',
+                            'Kacau coklat sehingga cair, kemudian masukkan stok ayam yang disimpan.',
+                            'Reneh mole sehingga kaya dan berperisa, kemudian masukkan ayam carik.',
+                            'Hidangkan panas bersama nasi, dihiasi dengan bijan.'
+                        ]
+                    },
             hi: {
                 title: 'मोल पोब्लानो',
                 description: 'मिर्च, मसालों और चॉकलेट के साथ एक समृद्ध, जटिल और प्रतिष्ठित मैक्सिकन सॉस।',
@@ -903,6 +2741,154 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Thai', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '泰式炒饭 (Khao Pad)',
+                        description: '在这道经典的泰式炒饭中体验充满活力的风味交响曲！完美锅炒的米饭，注入了美味的酱汁、鲜嫩的蛋白质和爽脆的蔬菜，创造出甜、咸和鲜味的不可抗拒的和谐。每一勺都是通往曼谷繁华街道的旅程，承诺带来真正地道的味觉体验。不要只是梦想——今晚就把泰国的魔力带到你的厨房！',
+                        ingredients: [
+                            {
+                                item: '煮熟的茉莉香米（隔夜，冷藏）',
+                                amount: '4 杯'
+                            },
+                            {
+                                item: '鸡胸肉（或虾），切薄片',
+                                amount: '1 磅 (约 450克)'
+                            },
+                            {
+                                item: '大鸡蛋',
+                                amount: '2'
+                            },
+                            {
+                                item: '蒜末',
+                                amount: '4 瓣'
+                            },
+                            {
+                                item: '葱头，切薄片',
+                                amount: '2 中等'
+                            },
+                            {
+                                item: '鱼露',
+                                amount: '3 汤匙'
+                            },
+                            {
+                                item: '蚝油',
+                                amount: '2 汤匙'
+                            },
+                            {
+                                item: '生抽',
+                                amount: '1 汤匙'
+                            },
+                            {
+                                item: '糖（棕榈糖或砂糖）',
+                                amount: '1 茶匙'
+                            },
+                            {
+                                item: '白胡椒粉',
+                                amount: '1/2 茶匙'
+                            },
+                            {
+                                item: '植物油',
+                                amount: '3 汤匙'
+                            },
+                            {
+                                item: '洋葱，切丁',
+                                amount: '1/2 中等'
+                            },
+                            {
+                                item: '番茄，切块',
+                                amount: '1 中等'
+                            },
+                            {
+                                item: '香葱，切碎',
+                                amount: '1/4 杯'
+                            },
+                            {
+                                item: '黄瓜片、青柠角、新鲜香菜（用于装饰）',
+                                amount: '适量'
+                            }
+                        ],
+                        instructions: [
+                            '准备酱汁：在一个小碗中，将鱼露、蚝油、生抽、糖和白胡椒粉搅拌均匀。备用。确保您的隔夜茉莉香米已经打散，没有结块，这可以防止粘锅并确保均匀炒制。',
+                            '烹饪蛋白质和鸡蛋：在一个大炒锅或平底锅中用中高火加热1汤匙植物油。加入鸡肉（或虾）翻炒，直到煮熟并略微 browned，大约3-4分钟。将蛋白质推到一边，加入剩余的2汤匙油，打入鸡蛋。将鸡蛋炒至刚凝固，然后将其分成小块并与蛋白质混合。',
+                            '香料和蔬菜：将蒜末和切片葱头加入炒锅中，翻炒约1分钟直至出香。接着，加入切丁洋葱，再翻炒2-3分钟直至变软。此时的香气应该非常诱人。',
+                            '混合并炒制：将冷藏的茉莉香米加入炒锅。将准备好的酱汁均匀地倒在米饭上。用锅铲不断搅拌和翻炒米饭，打散任何结块，确保每一粒米饭都裹上酱汁并与其他食材混合。继续炒制3-5分钟，直到米饭热透并略带焦香。',
+                            '最后润色：轻轻拌入番茄块和切碎的香葱，搅拌至刚热透即可，但仍保留一些新鲜度和口感。避免过度烹饪以保持其鲜艳的颜色和质地。',
+                            '上菜：将泰式炒饭盛入盘中。用新鲜黄瓜片、青柠角和少许新鲜香菜慷慨地装饰。立即上菜，享受泰国地道的风味！'
+                        ]
+                    },
+            ms: {
+                        title: 'Khao Pad (Nasi Goreng Thai)',
+                        description: 'Alami simfoni rasa yang meriah dalam Khao Pad Thai klasik ini! Nasi yang digoreng sempurna dalam kuali, diselitkan dengan sos yang lazat, protein lembut, dan sayur-sayuran rangup, mencipta harmoni manis, masin, dan umami yang tidak dapat ditolak. Setiap suapan adalah perjalanan ke jalan-jalan sibuk Bangkok, menjanjikan sensasi rasa yang benar-benar asli. Jangan hanya bermimpi mengenainya – bawa keajaiban Thailand ke dapur anda malam ini!',
+                        ingredients: [
+                            {
+                                item: 'Nasi Jasmine yang dimasak (semalaman, disejukkan)',
+                                amount: '4 cawan'
+                            },
+                            {
+                                item: 'Isi ayam (atau udang), dihiris nipis',
+                                amount: '1 paun (kira-kira 450g)'
+                            },
+                            {
+                                item: 'Telur besar',
+                                amount: '2'
+                            },
+                            {
+                                item: 'Bawang putih, dicincang',
+                                amount: '4 ulas'
+                            },
+                            {
+                                item: 'Bawang merah, dihiris nipis',
+                                amount: '2 sederhana'
+                            },
+                            {
+                                item: 'Sos ikan',
+                                amount: '3 sudu besar'
+                            },
+                            {
+                                item: 'Sos tiram',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Kicap cair',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Gula (gula melaka atau gula pasir)',
+                                amount: '1 sudu kecil'
+                            },
+                            {
+                                item: 'Lada putih',
+                                amount: '1/2 sudu kecil'
+                            },
+                            {
+                                item: 'Minyak sayuran',
+                                amount: '3 sudu besar'
+                            },
+                            {
+                                item: 'Bawang besar, didadu',
+                                amount: '1/2 sederhana'
+                            },
+                            {
+                                item: 'Tomato, dipotong baji',
+                                amount: '1 sederhana'
+                            },
+                            {
+                                item: 'Daun bawang, dicincang',
+                                amount: '1/4 cawan'
+                            },
+                            {
+                                item: 'Hirisan timun, hirisan limau nipis, daun ketumbar segar (untuk hiasan)',
+                                amount: 'Secukupnya'
+                            }
+                        ],
+                        instructions: [
+                            'Sediakan Sos: Dalam mangkuk kecil, pukul sos ikan, sos tiram, kicap cair, gula, dan lada putih bersama. Ketepikan. Pastikan nasi jasmine semalaman anda telah dileraikan dan bebas daripada ketulan, kerana ini menghalang kelengketan dan memastikan penggorengan sekata.',
+                            'Masak Protein dan Telur: Panaskan 1 sudu besar minyak sayuran dalam kuali besar atau kuali leper di atas api sederhana tinggi. Masukkan ayam (atau udang) dan goreng kilas sehingga masak dan sedikit keperangan, kira-kira 3-4 minit. Tolak protein ke satu sisi, masukkan baki 2 sudu besar minyak, dan pecahkan telur. Hancurkan telur sehingga baru masak, kemudian pecahkan kepada kepingan kecil dan campurkan dengan protein.',
+                            'Aromatik dan Sayur-sayuran: Masukkan bawang putih cincang dan bawang merah hiris ke dalam kuali dan goreng kilas selama kira-kira 1 minit sehingga wangi. Seterusnya, masukkan bawang besar dadu dan goreng kilas selama 2-3 minit lagi sehingga lembut. Aroma pada peringkat ini sepatutnya sangat menarik.',
+                            'Gabungkan dan Goreng: Masukkan nasi jasmine yang telah disejukkan ke dalam kuali. Tuangkan campuran sos yang telah disediakan secara sekata ke atas nasi. Menggunakan spatula, kacau dan gaul nasi secara berterusan, memecahkan sebarang ketulan dan memastikan setiap butir nasi disalut dengan sos dan bercampur dengan bahan-bahan lain. Teruskan menggoreng selama 3-5 minit sehingga nasi panas sepenuhnya dan sedikit garing.',
+                            'Sentuhan Akhir: Masukkan hirisan tomato dan daun bawang cincang perlahan-lahan, kacau sekadar sehingga panas tetapi masih mengekalkan kesegaran dan kerangupan. Elakkan memasak terlalu lama untuk mengekalkan warna dan tekstur yang cerah.',
+                            'Hidangkan: Pindahkan Khao Pad ke pinggan hidangan. Hias dengan hirisan timun segar, hirisan limau nipis, dan taburan daun ketumbar segar. Hidangkan segera dan nikmati rasa asli Thailand!'
+                        ]
+                    },
             hi: {
                 title: 'खाओ पैड (फ्राइड राइस)',
                 description: 'इस क्लासिक थाई खाओ पैड में स्वादों की जीवंत सिम्फनी का अनुभव करें! पूरी तरह से वोक-टॉस्ड चावल, स्वादिष्ट सॉस, नरम प्रोटीन और कुरकुरी सब्जियों से भरपूर, मीठे, नमकीन और उमामी का एक अनूठा सामंजस्य बनाता है। हर निवाला बैंकॉक की हलचल भरी सड़कों की यात्रा है, जो वास्तव में प्रामाणिक स्वाद का वादा करता है। इसके बारे में सिर्फ सपने न देखें - आज रात थाईलैंड का जादू अपनी रसोई में लाएँ!',
@@ -965,6 +2951,104 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Chinese', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '蒙古牛肉',
+                        description: '尽情享受极致的舒适美食：鲜嫩的薄切牛肉浸润在浓郁香甜的酱汁中，散发着芳香的姜蒜味。这道标志性菜肴承诺带来风味的交响乐，完美焦糖化，令人无比满足。今晚就用这道餐厅品质的美味提升您的晚餐吧！',
+                        ingredients: [
+                            {
+                                item: '牛腩',
+                                amount: '1.5 磅 (薄切)'
+                            },
+                            {
+                                item: '玉米淀粉',
+                                amount: '2 汤匙'
+                            },
+                            {
+                                item: '酱油',
+                                amount: '1/2 杯'
+                            },
+                            {
+                                item: '水',
+                                amount: '1/4 杯'
+                            },
+                            {
+                                item: '红糖',
+                                amount: '1/2 杯'
+                            },
+                            {
+                                item: '新鲜姜',
+                                amount: '1 汤匙 (磨碎)'
+                            },
+                            {
+                                item: '大蒜',
+                                amount: '3 瓣 (切碎)'
+                            },
+                            {
+                                item: '植物油',
+                                amount: '3 汤匙'
+                            },
+                            {
+                                item: '青葱',
+                                amount: '1 束 (切段)'
+                            }
+                        ],
+                        instructions: [
+                            '将切好的牛肉裹上玉米淀粉。',
+                            '将酱油、水、红糖、姜和蒜搅匀制成酱汁。',
+                            '在炒锅中加热油；分批炒牛肉至变色，然后取出。',
+                            '将酱汁加入炒锅，小火煮至浓稠。放回牛肉，翻炒均匀，煮1-2分钟。',
+                            '用青葱装饰，趁热与米饭一起食用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Daging Mongolia',
+                        description: 'Nikmati hidangan selesa terbaik: daging lembu yang lembut, dihiris nipis, disalut dalam sos kaya, masin-manis dengan aroma halia dan bawang putih. Hidangan ikonik ini menjanjikan simfoni rasa, dikaramelkan dengan sempurna dan sangat memuaskan. Tingkatkan makan malam anda malam ini dengan hidangan berkualiti restoran ini!',
+                        ingredients: [
+                            {
+                                item: 'Daging lembu rusuk',
+                                amount: '1.5 paun (dihiris nipis)'
+                            },
+                            {
+                                item: 'Tepung jagung',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Kicap',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Air',
+                                amount: '1/4 cawan'
+                            },
+                            {
+                                item: 'Gula perang',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Halia segar',
+                                amount: '1 sudu besar (diparut)'
+                            },
+                            {
+                                item: 'Bawang putih',
+                                amount: '3 ulas (dicincang)'
+                            },
+                            {
+                                item: 'Minyak sayuran',
+                                amount: '3 sudu besar'
+                            },
+                            {
+                                item: 'Daun bawang',
+                                amount: '1 ikat (dicincang)'
+                            }
+                        ],
+                        instructions: [
+                            'Salutkan hirisan daging lembu dengan tepung jagung.',
+                            'Pukul kicap, air, gula perang, halia, dan bawang putih untuk sos.',
+                            'Panaskan minyak dalam kuali; goreng daging lembu secara berperingkat sehingga perang, kemudian angkat.',
+                            'Masukkan sos ke dalam kuali, reneh sehingga pekat. Masukkan semula daging lembu, gaul rata, dan masak 1-2 minit.',
+                            'Hias dengan daun bawang dan hidangkan panas bersama nasi.'
+                        ]
+                    },
             hi: {
                 title: 'मंगोलियाई बीफ',
                 description: 'बेहतरीन आरामदायक भोजन का आनंद लें: नरम, पतले कटे हुए बीफ को सुगंधित अदरक और लहसुन के साथ एक समृद्ध, नमकीन-मीठी चटनी में नहलाया गया। यह प्रतिष्ठित व्यंजन स्वादों की एक सिम्फनी का वादा करता है, पूरी तरह से कैरामेलाइज़्ड और अविश्वसनीय रूप से संतोषजनक। इस रेस्टोरेंट-गुणवत्ता वाले व्यंजन से आज रात अपने खाने को बेहतर बनाएं!',
@@ -1027,6 +3111,110 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Singaporean', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '海南鸡饭',
+                        description: '通过这道经典的海南鸡饭，体验新加坡的标志性风味。多汁的白斩鸡、用鸡汤煮成的香米饭，以及三款充满活力的蘸酱，共同创造了一场难忘的烹饪之旅。准备好在每一口精致的美味中，仿佛置身于熙熙攘攘的小贩中心！',
+                        ingredients: [
+                            {
+                                item: '整鸡',
+                                amount: '1.2-1.5 公斤'
+                            },
+                            {
+                                item: '姜',
+                                amount: '1 大块 (切片)'
+                            },
+                            {
+                                item: '大蒜',
+                                amount: '8 瓣 (拍碎)'
+                            },
+                            {
+                                item: '香葱',
+                                amount: '3 根 (切段)'
+                            },
+                            {
+                                item: '茉莉香米',
+                                amount: '2 杯'
+                            },
+                            {
+                                item: '黄瓜',
+                                amount: '1 根 (切片)'
+                            },
+                            {
+                                item: '新鲜香菜',
+                                amount: '用于装饰'
+                            },
+                            {
+                                item: '生抽',
+                                amount: '用于蘸食'
+                            },
+                            {
+                                item: '辣椒酱',
+                                amount: '用于蘸食'
+                            },
+                            {
+                                item: '姜葱酱',
+                                amount: '用于蘸食'
+                            }
+                        ],
+                        instructions: [
+                            '将整鸡与姜、蒜和香葱一起放入大锅中煮熟。保留鸡汤。',
+                            '将煮熟的鸡肉立即放入冰水中浸泡10分钟，然后拍干并切成块。',
+                            '炒香姜蒜，然后加入茉莉香米，用保留的鸡汤煮至蓬松香糯。',
+                            '将切好的鸡肉放在香米饭上，用黄瓜和香菜装饰，并搭配三款蘸酱一起享用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Nasi Ayam Hainan',
+                        description: 'Alami rasa ikonik Singapura dengan Nasi Ayam Hainan klasik ini. Ayam rebus yang lembut, nasi wangi yang dimasak dalam sup ayam, dan tiga jenis sos pencicah yang bersemangat mencipta perjalanan kulinari yang tidak dapat dilupakan. Bersedia untuk dibawa ke pusat penjaja yang sibuk dengan setiap suapan yang lazat!',
+                        ingredients: [
+                            {
+                                item: 'Ayam bulat',
+                                amount: '1.2-1.5 kg'
+                            },
+                            {
+                                item: 'Halia',
+                                amount: '1 buku besar, dihiris'
+                            },
+                            {
+                                item: 'Bawang putih',
+                                amount: '8 ulas, ditumbuk'
+                            },
+                            {
+                                item: 'Daun bawang',
+                                amount: '3 batang, dicincang'
+                            },
+                            {
+                                item: 'Beras melati',
+                                amount: '2 cawan'
+                            },
+                            {
+                                item: 'Timun',
+                                amount: '1 biji, dihiris'
+                            },
+                            {
+                                item: 'Daun ketumbar segar',
+                                amount: 'untuk hiasan'
+                            },
+                            {
+                                item: 'Kicap cair',
+                                amount: 'untuk pencicah'
+                            },
+                            {
+                                item: 'Sos cili',
+                                amount: 'untuk pencicah'
+                            },
+                            {
+                                item: 'Sos halia-daun bawang',
+                                amount: 'untuk pencicah'
+                            }
+                        ],
+                        instructions: [
+                            'Rebus ayam bulat dalam periuk besar bersama halia, bawang putih, dan daun bawang sehingga masak. Simpan stok ayam.',
+                            'Segera masukkan ayam yang telah dimasak ke dalam air ais selama 10 minit, kemudian keringkan dan potong menjadi kepingan hidangan.',
+                            'Tumis sedikit halia dan bawang putih, kemudian masukkan beras melati dan masak dengan stok ayam yang disimpan sehingga gebu dan wangi.',
+                            'Hidangkan ayam yang dipotong di atas nasi wangi, dihiasi dengan timun dan daun ketumbar, bersama tiga sos pencicah.'
+                        ]
+                    },
             hi: {
                 title: 'हैनानीज़ चिकन राइस',
                 description: 'सिंगापुर के प्रतिष्ठित हैनानीज़ चिकन राइस के साथ उसके क्लासिक स्वाद का अनुभव करें। रसीला, उबला हुआ चिकन, चिकन शोरबे में पका हुआ सुगंधित चावल, और तीन जीवंत डिपिंग सॉस एक अविस्मरणीय पाक यात्रा बनाते हैं। हर स्वादिष्ट निवाले के साथ हलचल भरे हॉकर सेंटरों में पहुँचने के लिए तैयार हो जाइए!',
@@ -1089,6 +3277,110 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Turkish', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '土耳其曼提饺子',
+                        description: '体验土耳其曼提饺子的精致风味，这些小巧精致的饺子内馅是香料碎肉。淋上奶油蒜味酸奶酱，再撒上滋滋作响、香气扑鼻的红辣椒和薄荷黄油，每一口都是质地和风味的交响乐。准备好被这道烹饪杰作所吸引吧——您的土耳其美食之旅从今天开始！',
+                        ingredients: [
+                            {
+                                item: '中筋面粉',
+                                amount: '3 杯'
+                            },
+                            {
+                                item: '鸡蛋',
+                                amount: '1 个 (大)'
+                            },
+                            {
+                                item: '水',
+                                amount: '1/2 杯'
+                            },
+                            {
+                                item: '牛肉/羊肉馅',
+                                amount: '300克'
+                            },
+                            {
+                                item: '洋葱',
+                                amount: '1 个 (小，磨碎)'
+                            },
+                            {
+                                item: '原味酸奶',
+                                amount: '2 杯'
+                            },
+                            {
+                                item: '大蒜',
+                                amount: '3 瓣 (切碎)'
+                            },
+                            {
+                                item: '无盐黄油',
+                                amount: '4 汤匙'
+                            },
+                            {
+                                item: '红辣椒片 (Pul Biber)',
+                                amount: '1 茶匙'
+                            },
+                            {
+                                item: '干薄荷',
+                                amount: '1 茶匙'
+                            }
+                        ],
+                        instructions: [
+                            '准备面团和馅料：将面粉、鸡蛋、水和一小撮盐混合，揉成一个结实的面团。揉好后静置。将肉馅、磨碎的洋葱、盐和胡椒混合制成馅料。',
+                            '制作曼提饺子：将面团擀薄，切成小方块（约1.5厘米）。在每个方块的中心放一小撮馅料，然后将四个角捏合在一起，形成一个小包裹。',
+                            '煮曼提饺子：烧一大锅盐水至沸腾。将曼提饺子轻轻放入沸水中，煮8-10分钟，直到它们浮起并变软。',
+                            '准备酱汁并上菜：将酸奶与切碎的大蒜和一小撮盐搅匀。融化黄油，加入红辣椒片和干薄荷；加热至香气四溢。沥干曼提饺子，摆盘，淋上蒜味酸奶，再慷慨地淋上热辣黄油。'
+                        ]
+                    },
+            ms: {
+                        title: 'Ladle Manti Turki',
+                        description: 'Alami keenakan Ladle Manti Turki, ladu kecil yang halus diisi dengan daging cincang berperisa. Disiram dengan sos yogurt bawang putih berkrim dan dipercikkan dengan mentega panas yang harum diresapi dengan serbuk cili merah dan pudina, setiap gigitan adalah simfoni tekstur dan rasa. Bersedia untuk terpikat dengan mahakarya kulinari ini – perjalanan anda ke keenakan Turki bermula hari ini!',
+                        ingredients: [
+                            {
+                                item: 'Tepung Gandum Serbaguna',
+                                amount: '3 cawan'
+                            },
+                            {
+                                item: 'Telur',
+                                amount: '1 biji (besar)'
+                            },
+                            {
+                                item: 'Air',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Daging Cincang Lembu/Kambing',
+                                amount: '300g'
+                            },
+                            {
+                                item: 'Bawang Merah',
+                                amount: '1 biji (kecil, disagat halus)'
+                            },
+                            {
+                                item: 'Yogurt Asli',
+                                amount: '2 cawan'
+                            },
+                            {
+                                item: 'Bawang Putih',
+                                amount: '3 ulas (dicincang)'
+                            },
+                            {
+                                item: 'Mentega Tanpa Garam',
+                                amount: '4 sudu besar'
+                            },
+                            {
+                                item: 'Serbuk Cili Merah (Pul Biber)',
+                                amount: '1 sudu kecil'
+                            },
+                            {
+                                item: 'Pudina Kering',
+                                amount: '1 sudu kecil'
+                            }
+                        ],
+                        instructions: [
+                            'Sediakan Doh & Inti: Campurkan tepung, telur, air, dan secubit garam untuk membentuk doh yang pejal. Uli, kemudian rehatkan. Campurkan daging cincang, bawang merah disagat, garam, dan lada hitam untuk inti.',
+                            'Bentuk Manti: Canaikan doh nipis, potong menjadi segi empat kecil (kira-kira 1.5 cm). Letakkan sedikit inti di tengah setiap segi empat dan cubit keempat-empat bucu bersama untuk membentuk bungkusan kecil.',
+                            'Masak Manti: Didihkan periuk besar berisi air masin. Masukkan manti perlahan-lahan ke dalam air mendidih dan masak selama 8-10 minit sehingga ia terapung dan lembut.',
+                            'Sediakan Sos & Hidang: Pukul yogurt dengan bawang putih cincang dan secubit garam. Cairkan mentega, masukkan serbuk cili merah dan pudina kering; panaskan sehingga wangi. Toskan manti, susun di atas pinggan, tuangkan yogurt bawang putih, dan siram dengan mentega berperisa panas.'
+                        ]
+                    },
             hi: {
                 title: 'मंती पकौड़ी',
                 description: 'तुर्की मंती के उत्कृष्ट स्वाद का अनुभव करें, छोटे, नाजुक पकौड़े जो मसालेदार कीमा से भरे होते हैं। मलाईदार लहसुन दही सॉस में डूबे हुए और लाल मिर्च और पुदीने से युक्त सुगंधित मक्खन के साथ परोसे जाने पर, हर निवाला बनावट और स्वाद का एक अद्भुत संगम है।',
@@ -1152,6 +3444,112 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Singaporean', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '炒粿条',
+                        description: '体验炒粿条烟熏咸香的交响曲，这是新加坡备受喜爱的炒面食。扁平的河粉与鲜美的虾、腊肠和血蚶一起在锅中翻炒，全部裹上浓郁的黑酱油。浓郁的“锅气”风味将把您的味蕾直接带到小贩摊位。今天就准备好在自己的厨房里掌握这道标志性的街头美食了吗？',
+                        ingredients: [
+                            {
+                                item: '新鲜扁河粉 (粿条)',
+                                amount: '500克'
+                            },
+                            {
+                                item: '虾 (去壳，去肠线)',
+                                amount: '200克'
+                            },
+                            {
+                                item: '腊肠 (切片)',
+                                amount: '2 根'
+                            },
+                            {
+                                item: '血蚶 (去壳，可选)',
+                                amount: '100克'
+                            },
+                            {
+                                item: '豆芽',
+                                amount: '100克'
+                            },
+                            {
+                                item: '韭菜 (切段)',
+                                amount: '50克'
+                            },
+                            {
+                                item: '鸡蛋',
+                                amount: '2 个'
+                            },
+                            {
+                                item: '大蒜 (切碎)',
+                                amount: '3 瓣'
+                            },
+                            {
+                                item: '酱汁混合物 (老抽、生抽、糖、鱼露、白胡椒粉)',
+                                amount: '4 汤匙'
+                            },
+                            {
+                                item: '猪油 (或植物油)',
+                                amount: '2 汤匙'
+                            }
+                        ],
+                        instructions: [
+                            '在大炒锅中加热猪油至冒烟。爆香大蒜，然后加入虾和腊肠，翻炒至香。',
+                            '将食材推到一边，打入鸡蛋并快速炒散。加入河粉和血蚶，充分翻炒。',
+                            '倒入酱汁混合物和辣椒酱（如果使用）。大力翻炒，使所有食材均匀裹上酱汁。',
+                            '加入豆芽和韭菜，继续翻炒一分钟，直到蔬菜刚熟，河粉带有烟熏“锅气”。',
+                            '立即上菜，如果喜欢，可以撒上新鲜辣椒片做装饰。'
+                        ]
+                    },
+            ms: {
+                        title: 'Char Kway Teow',
+                        description: 'Alami simfoni berasap dan berperisa Char Kway Teow, hidangan mi goreng kegemaran Singapura. Mi beras leper digoreng kilas dalam kuali dengan udang yang lazat, sosej Cina, dan kerang, semuanya disalut dengan kicap pekat yang kaya. Rasa \'wok hei\' yang kuat akan membawa selera anda terus ke gerai-gerai penjaja. Bersedia untuk menguasai makanan jalanan ikonik ini di dapur anda sendiri hari ini?',
+                        ingredients: [
+                            {
+                                item: 'Mi Beras Leper Segar (Kway Teow)',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Udang (dibuang kulit, dibuang urat)',
+                                amount: '200g'
+                            },
+                            {
+                                item: 'Sosej Cina (lap cheong), dihiris',
+                                amount: '2 batang'
+                            },
+                            {
+                                item: 'Kerang (hum), dibuang kulit (pilihan)',
+                                amount: '100g'
+                            },
+                            {
+                                item: 'Taugeh',
+                                amount: '100g'
+                            },
+                            {
+                                item: 'Kucai (dipotong)',
+                                amount: '50g'
+                            },
+                            {
+                                item: 'Telur',
+                                amount: '2 biji'
+                            },
+                            {
+                                item: 'Bawang Putih, dicincang',
+                                amount: '3 ulas'
+                            },
+                            {
+                                item: 'Campuran Sos (Kicap Pekat, Kicap Cair, Gula, Sos Ikan, Lada Putih)',
+                                amount: '4 sudu besar'
+                            },
+                            {
+                                item: 'Minyak Babi (atau minyak sayuran)',
+                                amount: '2 sudu besar'
+                            }
+                        ],
+                        instructions: [
+                            'Panaskan minyak babi dalam kuali sehingga berasap. Tumis bawang putih, kemudian masukkan udang dan sosej Cina, goreng kilas sehingga wangi.',
+                            'Tolak bahan-bahan ke satu sisi, pecahkan telur dan kacau sebentar. Masukkan mi dan kerang, gaul rata.',
+                            'Tuangkan campuran sos dan pes cili (jika guna). Goreng kilas dengan kuat untuk menyalut semua bahan.',
+                            'Masukkan taugeh dan kucai, teruskan menggoreng kilas selama seminit lagi sehingga sayur-sayuran baru masak dan mi mempunyai \'wok hei\' berasap.',
+                            'Hidangkan segera, hias dengan hirisan cili segar jika suka.'
+                        ]
+                    },
             hi: {
                 title: 'चार क्वाय टियो',
                 description: 'सिंगापुर के प्रिय स्टिर-फ्राइड नूडल डिश, चार क्वाय टियो के धुएँदार, स्वादिष्ट सिम्फनी का अनुभव करें। फ्लैट चावल के नूडल्स को रसीले झींगे, चीनी सॉसेज और कॉकल्स के साथ वोक में उछाला जाता है, सभी एक समृद्ध, गहरे सोया सॉस में लिपटे होते हैं। तीव्र \'वोक हेई\' स्वाद आपकी स्वाद कलिकाओं को सीधे हॉकर स्टालों तक ले जाएगा। आज ही अपनी रसोई में इस प्रतिष्ठित स्ट्रीट फूड में महारत हासिल करने के लिए तैयार हैं?',
@@ -1215,6 +3613,112 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Spanish', 'Appetizer', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '西班牙炸丸子 (Croquetas)',
+                        description: '体验极致的西班牙舒适美食！这些金黄酥脆的炸丸子，内馅是奶油般香浓的白酱，每一口都是无法抗拒的纯粹美食享受。准备好爱上每一颗入口即化的美味吧——你今天一定要做它们！',
+                        ingredients: [
+                            {
+                                item: '无盐黄油',
+                                amount: '50克'
+                            },
+                            {
+                                item: '中筋面粉',
+                                amount: '50克'
+                            },
+                            {
+                                item: '全脂牛奶（温热）',
+                                amount: '500毫升'
+                            },
+                            {
+                                item: '塞拉诺火腿（或熟火腿），切丁',
+                                amount: '100克'
+                            },
+                            {
+                                item: '肉豆蔻粉',
+                                amount: '一小撮'
+                            },
+                            {
+                                item: '盐',
+                                amount: '适量'
+                            },
+                            {
+                                item: '黑胡椒粉',
+                                amount: '适量'
+                            },
+                            {
+                                item: '鸡蛋（打散）',
+                                amount: '2个'
+                            },
+                            {
+                                item: '面包屑',
+                                amount: '150克'
+                            },
+                            {
+                                item: '植物油',
+                                amount: '用于油炸'
+                            }
+                        ],
+                        instructions: [
+                            '融化黄油，加入面粉制成面糊（roux）。逐渐搅入温牛奶，直至形成浓稠的白酱（béchamel）。',
+                            '拌入切丁的火腿、肉豆蔻粉、盐和黑胡椒粉。煮5分钟，然后铺开使其完全冷却。',
+                            '将冷却后的混合物塑形为小圆柱或椭圆形。将每个炸丸子蘸上打散的鸡蛋，然后裹上面包屑。',
+                            '将油加热至170°C (340°F)。分批炸丸子，直至金黄酥脆。',
+                            '沥干油份，用厨房纸吸油，趁热食用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Kroket Sepanyol (Croquetas)',
+                        description: 'Alami hidangan selesa Sepanyol yang terbaik! Kroket keemasan dan rangup ini, dengan inti béchamel berkrim dan berperisa, adalah hidangan yang tidak dapat ditolak dan penuh kenikmatan masakan. Bersedia untuk jatuh cinta dengan setiap suapan yang cair di mulut – anda mesti membuatnya hari ini!',
+                        ingredients: [
+                            {
+                                item: 'Mentega tanpa garam',
+                                amount: '50g'
+                            },
+                            {
+                                item: 'Tepung serbaguna',
+                                amount: '50g'
+                            },
+                            {
+                                item: 'Susu penuh krim, suam',
+                                amount: '500ml'
+                            },
+                            {
+                                item: 'Jamón Serrano (atau ham masak), dipotong dadu halus',
+                                amount: '100g'
+                            },
+                            {
+                                item: 'Buah pala',
+                                amount: 'Secubit'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: 'Secukup rasa'
+                            },
+                            {
+                                item: 'Lada hitam',
+                                amount: 'Secukup rasa'
+                            },
+                            {
+                                item: 'Telur, dipukul',
+                                amount: '2 biji'
+                            },
+                            {
+                                item: 'Serbuk roti',
+                                amount: '150g'
+                            },
+                            {
+                                item: 'Minyak sayuran',
+                                amount: 'Untuk menggoreng jeluk'
+                            }
+                        ],
+                        instructions: [
+                            'Cairkan mentega, masukkan tepung untuk membuat roux. Pukul secara beransur-ansur susu suam sehingga béchamel pekat terbentuk.',
+                            'Masukkan jamón yang dipotong dadu, buah pala, garam, dan lada. Masak selama 5 minit, kemudian ratakan untuk menyejukkan sepenuhnya.',
+                            'Bentuk campuran yang telah sejuk menjadi silinder kecil atau bujur. Celupkan setiap kroket ke dalam telur yang dipukul, kemudian golekkan dalam serbuk roti.',
+                            'Panaskan minyak hingga 170°C (340°F). Goreng kroket secara berperingkat sehingga perang keemasan dan rangup.',
+                            'Tapiskan di atas tuala kertas dan hidangkan panas.'
+                        ]
+                    },
             hi: {
                 title: 'क्रोकेटास',
                 description: 'स्पेनिश कम्फर्ट फूड का बेहतरीन अनुभव करें! ये सुनहरे, कुरकुरे क्रोकेटास, अपनी मलाईदार, स्वादिष्ट बेचेमेल फिलिंग के साथ, शुद्ध पाक आनंद का एक अनूठा टुकड़ा हैं। हर पिघलने वाले निवाले के साथ प्यार में पड़ने के लिए तैयार हो जाइए - आपको इन्हें आज ही बनाना चाहिए!',
@@ -1276,6 +3780,96 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Greek', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '希腊柠檬蛋花鸡汤 (Avgolemono Soup)',
+                        description: '用希腊柠檬蛋花鸡汤体验希腊的温暖怀抱！这款丝滑、柠檬味的鸡肉米饭汤是明亮、浓郁风味和奶油般质地的交响乐，保证温暖你的心灵。准备好每一勺都带你穿越到地中海——你今天一定要尝尝这款经典！',
+                        ingredients: [
+                            {
+                                item: '鸡高汤',
+                                amount: '6杯'
+                            },
+                            {
+                                item: '意大利米（Arborio rice）',
+                                amount: '1/2杯'
+                            },
+                            {
+                                item: '煮熟的鸡丝',
+                                amount: '1杯'
+                            },
+                            {
+                                item: '大鸡蛋',
+                                amount: '3个'
+                            },
+                            {
+                                item: '新鲜柠檬汁',
+                                amount: '1/4杯'
+                            },
+                            {
+                                item: '盐',
+                                amount: '适量'
+                            },
+                            {
+                                item: '现磨黑胡椒',
+                                amount: '适量'
+                            },
+                            {
+                                item: '新鲜莳萝（切碎）',
+                                amount: '2汤匙'
+                            }
+                        ],
+                        instructions: [
+                            '在一个大锅中将鸡高汤煮沸。加入米饭，转小火，炖煮约15-20分钟，直至米饭变软。',
+                            '拌入煮熟的鸡丝并加热。用盐和胡椒调味。',
+                            '在一个单独的碗中，将鸡蛋打发至起泡。逐渐搅入柠檬汁。',
+                            '慢慢地将蛋柠檬混合物回温：舀入约1杯热高汤到鸡蛋混合物中，同时不断搅拌。',
+                            '将回温后的鸡蛋混合物倒回锅中，轻轻搅拌。加热至稍微变稠，但不要煮沸。用新鲜莳萝装饰。'
+                        ]
+                    },
+            ms: {
+                        title: 'Sup Avgolemono',
+                        description: 'Alami kehangatan Greece dengan Sup Avgolemono! Sup ayam dan nasi berperisa lemon yang lembut ini adalah simfoni rasa cerah, masam dan tekstur berkrim, dijamin akan menghangatkan jiwa anda. Bersedia untuk dibawa ke Mediterranean dengan setiap suapan – anda mesti mencuba klasik ini hari ini!',
+                        ingredients: [
+                            {
+                                item: 'Stok ayam',
+                                amount: '6 cawan'
+                            },
+                            {
+                                item: 'Beras Arborio',
+                                amount: '1/2 cawan'
+                            },
+                            {
+                                item: 'Ayam carik masak',
+                                amount: '1 cawan'
+                            },
+                            {
+                                item: 'Telur besar',
+                                amount: '3 biji'
+                            },
+                            {
+                                item: 'Jus lemon segar',
+                                amount: '1/4 cawan'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: 'Secukup rasa'
+                            },
+                            {
+                                item: 'Lada hitam kisar segar',
+                                amount: 'Secukup rasa'
+                            },
+                            {
+                                item: 'Dill segar (dicincang)',
+                                amount: '2 sudu besar'
+                            }
+                        ],
+                        instructions: [
+                            'Didihkan stok ayam dalam periuk besar. Masukkan beras, kecilkan api, dan reneh sehingga lembut, kira-kira 15-20 minit.',
+                            'Masukkan ayam carik masak dan panaskan. Perasakan dengan garam dan lada.',
+                            'Dalam mangkuk berasingan, pukul telur sehingga berbuih. Masukkan jus lemon secara beransur-ansur sambil memukul.',
+                            'Perlahan-lahan sesuaikan suhu campuran telur-lemon: Cedok kira-kira 1 cawan stok panas ke dalam campuran telur, sambil memukul sentiasa.',
+                            'Tuangkan campuran telur yang telah disesuaikan suhu kembali ke dalam periuk, kacau perlahan-lahan. Panaskan tanpa mendidih sehingga sedikit pekat. Hiaskan dengan dill segar.'
+                        ]
+                    },
             hi: {
                 title: 'अवगोलेमोनो सूप',
                 description: 'अवगोलेमोनो सूप के साथ ग्रीस के आरामदायक आलिंगन का अनुभव करें! यह मखमली, नींबू-युक्त चिकन और चावल का सूप चमकीले, तीखे स्वादों और मलाईदार बनावट की एक सिम्फनी है, जो आपकी आत्मा को गर्म करने की गारंटी देता है। हर चम्मच के साथ भूमध्य सागर में ले जाने के लिए तैयार हो जाइए - आपको आज ही इस क्लासिक को आज़माना चाहिए!',
@@ -1339,6 +3933,112 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Singaporean', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '爪哇面 (Mee Rebus)',
+                        description: '沉浸在一碗爪哇面（Mee Rebus）的美味中吧！这道新加坡小贩经典美食以Q弹的黄面条搭配浓郁、香甜、咸香的土豆酱汁。每一勺都是风味的交响乐，上面还点缀着水煮蛋、炸豆腐和新鲜青辣椒。今天就准备好在自己的厨房里重现这道标志性的街头美食吧！',
+                        ingredients: [
+                            {
+                                item: '福建黄面',
+                                amount: '500克'
+                            },
+                            {
+                                item: '红薯',
+                                amount: '2个中等大小 (煮熟，捣成泥)'
+                            },
+                            {
+                                item: '爪哇面香料酱（小葱头、大蒜、红辣椒、虾米混合研磨）',
+                                amount: '4汤匙'
+                            },
+                            {
+                                item: '豆酱 (Taucheo)',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '罗望子酱',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '马六甲椰糖 (Gula Melaka)',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '水',
+                                amount: '4杯'
+                            },
+                            {
+                                item: '水煮蛋',
+                                amount: '4个 (对半切)'
+                            },
+                            {
+                                item: '炸豆腐泡 (Tau Pok)',
+                                amount: '8个'
+                            },
+                            {
+                                item: '配料（豆芽、青柠角、青辣椒片、花生碎）',
+                                amount: '适量'
+                            }
+                        ],
+                        instructions: [
+                            '爆香爪哇面香料酱和豆酱。加入捣碎的红薯、罗望子酱、马六甲椰糖和水。小火慢炖至酱汁浓稠。',
+                            '将黄面和豆芽在热水中焯烫片刻。沥干水分。',
+                            '将焯烫好的面条和豆芽分装到碗中。',
+                            '将大量热腾腾的浓稠酱汁浇在面条上。',
+                            '每碗放上半个水煮蛋、炸豆腐泡和所需的配料。立即享用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Mee Rebus',
+                        description: 'Selami semangkuk Mee Rebus, hidangan klasik penjaja Singapura yang menampilkan mi kuning kenyal yang disiram kuah pekat, manis, dan savuri berasaskan ubi keledek. Setiap suapan adalah simfoni rasa, dihiasi dengan telur rebus, tauhu goreng, dan cili hijau segar. Bersedia untuk mencipta semula sensasi makanan jalanan ikonik ini di dapur anda sendiri hari ini?',
+                        ingredients: [
+                            {
+                                item: 'Mi Hokkien Kuning',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Ubi Keledek',
+                                amount: '2 sederhana (direbus, dilenyek)'
+                            },
+                            {
+                                item: 'Pes Rempah Mee Rebus (campuran bawang merah, bawang putih, cili merah, udang kering)',
+                                amount: '4 sudu besar'
+                            },
+                            {
+                                item: 'Taucu (Pes Kacang Fermentasi)',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Pes Asam Jawa',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Gula Melaka (Gula Aren)',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Air',
+                                amount: '4 cawan'
+                            },
+                            {
+                                item: 'Telur Rebus',
+                                amount: '4 biji (dibelah dua)'
+                            },
+                            {
+                                item: 'Tauhu Pok Goreng',
+                                amount: '8 biji'
+                            },
+                            {
+                                item: 'Hiasan (Taugeh, Hirisan Limau Nipis, Hirisan Cili Hijau, Kacang Tanah Panggang Hancur)',
+                                amount: 'Secukupnya'
+                            }
+                        ],
+                        instructions: [
+                            'Tumis Pes Rempah Mee Rebus dan Taucu hingga wangi. Masukkan ubi keledek lenyek, pes asam jawa, Gula Melaka, dan air. Reneh sehingga kuah pekat.',
+                            'Celur mi kuning dan taugeh sebentar dalam air panas. Toskan dengan baik.',
+                            'Bahagikan mi dan taugeh yang telah dicelur ke dalam mangkuk hidangan.',
+                            'Sendukkan kuah panas dan pekat dengan banyak ke atas mi.',
+                            'Letakkan telur rebus yang dibelah dua, tauhu pok goreng, dan hiasan yang diingini di atas setiap mangkuk. Hidangkan segera.'
+                        ]
+                    },
             hi: {
                 title: 'मी रीबस',
                 description: 'मी रीबस के एक कटोरे में गोता लगाएँ, सिंगापुर का एक क्लासिक हॉकर व्यंजन जिसमें समृद्ध, मीठी और नमकीन आलू-आधारित ग्रेवी में डूबे हुए लोचदार पीले नूडल्स होते हैं। प्रत्येक निवाला स्वादों का एक सिम्फनी है, जिसके ऊपर उबले अंडे, तले हुए टोफू और ताज़ी हरी मिर्च होती है। आज ही अपनी रसोई में इस प्रतिष्ठित स्ट्रीट फूड सनसनी को फिर से बनाने के लिए तैयार हैं?',
@@ -1401,6 +4101,110 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Korean', 'Dinner', 'Non-Vegetarian', 'Spicy'],
         translations: {
+            'zh-CN': {
+                        title: '辣炒年糕 (Tteokbokki)',
+                        description: '体验辣炒年糕（Tteokbokki）的火辣Q弹美味，这是一种深受喜爱的韩国街头美食！软糯的年糕浸泡在浓郁辛辣的韩式辣酱中，通常还配有鱼饼和水煮蛋。这道标志性菜肴融合了甜、咸、辣的爆炸性风味，将刺激您的味蕾。准备好今天就用这道令人无法抗拒的韩国经典点燃您的厨房了吗？',
+                        ingredients: [
+                            {
+                                item: '韩式年糕 (Garaetteok)',
+                                amount: '500克'
+                            },
+                            {
+                                item: '韩式辣酱 (Gochujang)',
+                                amount: '3汤匙'
+                            },
+                            {
+                                item: '韩式辣椒粉 (Gochugaru)',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '海带 (Dashima) / 鳀鱼高汤',
+                                amount: '4杯'
+                            },
+                            {
+                                item: '鱼饼 (eomuk)',
+                                amount: '200克'
+                            },
+                            {
+                                item: '水煮蛋',
+                                amount: '2-4个'
+                            },
+                            {
+                                item: '青葱',
+                                amount: '2根'
+                            },
+                            {
+                                item: '糖',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '酱油',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '蒜蓉',
+                                amount: '1茶匙'
+                            }
+                        ],
+                        instructions: [
+                            '如果年糕较硬，请先浸泡。用海带/鳀鱼准备高汤，然后取出固体。',
+                            '在高汤中加入韩式辣酱、韩式辣椒粉、糖、酱油和蒜蓉。煮沸。',
+                            '加入年糕和鱼饼。小火慢炖，偶尔搅拌，直到年糕变软，酱汁变浓稠。',
+                            '拌入水煮蛋和切碎的青葱。立即享用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Tteokbokki',
+                        description: 'Alami keenakan Tteokbokki yang pedas dan kenyal, sensasi makanan jalanan Korea yang digemari! Kek beras lembut yang disalut sos gochujang pedas yang kaya, sering dihidangkan bersama kek ikan dan telur rebus. Hidangan ikonik ini menawarkan letupan rasa manis, savuri, dan pedas yang akan memukau selera anda. Bersedia untuk menyemarakkan dapur anda dengan klasik Korea yang tidak dapat ditolak ini hari ini?',
+                        ingredients: [
+                            {
+                                item: 'Garaetteok (Kek Beras Korea)',
+                                amount: '500g'
+                            },
+                            {
+                                item: 'Gochujang (Pes Cili Korea)',
+                                amount: '3 sudu besar'
+                            },
+                            {
+                                item: 'Gochugaru (Serbuk Cili Korea)',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Dashima (rumpai laut kering) / Stok Ikan Bilis',
+                                amount: '4 cawan'
+                            },
+                            {
+                                item: 'Kek ikan (eomuk)',
+                                amount: '200g'
+                            },
+                            {
+                                item: 'Telur rebus',
+                                amount: '2-4 biji'
+                            },
+                            {
+                                item: 'Daun bawang',
+                                amount: '2 tangkai'
+                            },
+                            {
+                                item: 'Gula',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Kicap',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Bawang putih (dicincang)',
+                                amount: '1 sudu kecil'
+                            }
+                        ],
+                        instructions: [
+                            'Rendam kek beras jika keras. Sediakan stok dengan dashima/ikan bilis, kemudian buang bahan pepejal.',
+                            'Dalam stok, masukkan gochujang, gochugaru, gula, kicap, dan bawang putih cincang. Didihkan.',
+                            'Masukkan kek beras dan kek ikan. Reneh, kacau sekali-sekala, sehingga kek beras lembut dan sos pekat.',
+                            'Masukkan telur rebus dan daun bawang yang dicincang. Hidangkan segera.'
+                        ]
+                    },
             hi: {
                 title: 'टॉकबोक्की',
                 description: 'टॉकबोक्की के तीखे, चबाने वाले आनंद का अनुभव करें, जो एक प्रिय कोरियाई स्ट्रीट फूड सनसनी है! नरम चावल के केक एक समृद्ध, मसालेदार गोचुजांग सॉस में डूबे हुए, अक्सर मछली के केक और उबले अंडे के साथ परोसे जाते हैं। यह प्रतिष्ठित व्यंजन मीठे, नमकीन और मसालेदार स्वादों का एक विस्फोट प्रदान करता है जो आपकी स्वाद कलिकाओं को उत्तेजित करेगा। इस अनूठे कोरियाई क्लासिक के साथ अपनी रसोई को प्रज्वलित करने के लिए तैयार हैं?',
@@ -1461,6 +4265,94 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Singaporean', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '福建炒虾面',
+                        description: '沉浸在锅气十足的面条、鲜嫩多汁的虾、软嫩的鱿鱼和香脆的五花肉的诱人交响曲中，所有食材都浸润在浓郁鲜美的虾汤里。这道标志性的新加坡炒面是一道口感丰富的杰作，每一口都充满鲜味。准备好唤醒您的味蕾，今晚就将新加坡的活力风味带入您的厨房吧！',
+                        ingredients: [
+                            {
+                                item: '混合面条（黄福建面和米粉）',
+                                amount: '共700克，干面需提前泡软'
+                            },
+                            {
+                                item: '混合海鲜（新鲜虾和鱿鱼）',
+                                amount: '共500克，洗净处理好'
+                            },
+                            {
+                                item: '五花肉',
+                                amount: '150克，切薄片'
+                            },
+                            {
+                                item: '虾汤',
+                                amount: '750毫升（浓郁鲜美）'
+                            },
+                            {
+                                item: '福建炒面酱',
+                                amount: '4汤匙（生抽、老抽、鱼露混合）'
+                            },
+                            {
+                                item: '调味品和蔬菜（蒜蓉、豆芽、韭菜）',
+                                amount: '共200克'
+                            },
+                            {
+                                item: '猪油或植物油',
+                                amount: '3汤匙'
+                            },
+                            {
+                                item: '参巴峇拉煎和青柠',
+                                amount: '供食用'
+                            }
+                        ],
+                        instructions: [
+                            '在炒锅中加热猪油/植物油，将五花肉炒至酥脆。加入蒜蓉（来自调味品），然后将海鲜炒至刚熟。取出备用。',
+                            '将混合面条加入炒锅。倒入虾汤和福建炒面酱。小火慢炖，直到面条吸收大部分汤汁。',
+                            '将五花肉和海鲜倒回炒锅。加入剩余的调味品和蔬菜（豆芽、韭菜）。大火快速翻炒，直到充分混合并略带焦香。',
+                            '立即上桌，搭配一小勺参巴峇拉煎和挤上新鲜青柠汁。'
+                        ]
+                    },
+            ms: {
+                        title: 'Mee Hokkien',
+                        description: 'Selami simfoni mi yang diserap \'wok-hei\' (aroma kuali) yang tidak dapat ditolak, udang yang juicy, sotong yang lembut, dan perut babi rangup, semuanya disiram dalam kuah udang yang kaya dan berperisa. Hidangan gorengan Singapura yang ikonik ini adalah karya agung tekstur, penuh dengan rasa umami dalam setiap suapan. Bersedia untuk membangkitkan selera anda dan membawa rasa Singapura yang bersemangat terus ke dapur anda malam ini!',
+                        ingredients: [
+                            {
+                                item: 'Mi Campur (Mi Hokkien Kuning & Bihun)',
+                                amount: 'Jumlah 700g, rendam jika kering'
+                            },
+                            {
+                                item: 'Makanan Laut Campur (Udang Segar & Sotong)',
+                                amount: 'Jumlah 500g, dibersihkan dan disediakan'
+                            },
+                            {
+                                item: 'Perut Babi',
+                                amount: '150g, dihiris nipis'
+                            },
+                            {
+                                item: 'Kuah Udang',
+                                amount: '750ml (kaya dan berperisa)'
+                            },
+                            {
+                                item: 'Sos Mi Hokkien',
+                                amount: '4 sudu besar (campuran kicap cair, kicap pekat, sos ikan)'
+                            },
+                            {
+                                item: 'Bahan Aromatik & Sayuran (Bawang Putih Cincang, Taugeh, Kucai)',
+                                amount: 'Jumlah 200g'
+                            },
+                            {
+                                item: 'Minyak Babi atau Minyak Sayuran',
+                                amount: '3 sudu besar'
+                            },
+                            {
+                                item: 'Sambal Belacan & Limau Nipis',
+                                amount: 'Untuk hidangan'
+                            }
+                        ],
+                        instructions: [
+                            'Panaskan minyak babi/minyak dalam kuali, goreng perut babi sehingga rangup. Masukkan bawang putih cincang (dari bahan aromatik), kemudian tumis makanan laut sehingga masak. Angkat dan ketepikan.',
+                            'Masukkan mi campur ke dalam kuali. Tuangkan kuah udang dan sos Mi Hokkien. Reneh sehingga mi menyerap kebanyakan cecair.',
+                            'Kembalikan babi dan makanan laut ke dalam kuali. Masukkan baki bahan aromatik & sayuran (taugeh, kucai). Tumis dengan kuat sehingga sebati dan sedikit hangus.',
+                            'Hidangkan segera dengan sesudu sambal belacan dan perahan limau nipis segar.'
+                        ]
+                    },
             hi: {
                 title: 'होक्कियन मी',
                 description: 'वोक-हेई से भरपूर नूडल्स, रसीले झींगे, नरम स्क्वीड और कुरकुरी पोर्क बेली का एक अनूठा संगम, जो एक समृद्ध, स्वादिष्ट झींगा शोरबे में डूबा हुआ है। यह प्रतिष्ठित सिंगापुरियन स्टिर-फ्राई एक बनावट वाली उत्कृष्ट कृति है, जो हर निवाले में उमामी से भरपूर है। आज ही अपनी स्वाद कलिकाओं को जगाने और सिंगापुर के जीवंत स्वादों को अपनी रसोई में लाने के लिए तैयार हो जाइए!',
@@ -1524,6 +4416,112 @@ export const recipes: Recipe[] = [
         ],
         tags: ['American', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '德州辣肉酱',
+                        description: '体验正宗德州辣肉酱的传奇风味，这道丰盛、浓郁的炖菜充满鲜嫩牛肉和大胆香料的交响曲。这不仅仅是辣肉酱；这是一次通往孤星州核心的烹饪之旅，带来温暖、风味和纯粹的满足感。准备好唤醒您的味蕾，今晚就制作这道标志性菜肴吧！',
+                        ingredients: [
+                            {
+                                item: '牛肉末（80%瘦肉/20%肥肉）',
+                                amount: '1.5磅'
+                            },
+                            {
+                                item: '牛肉高汤',
+                                amount: '2杯'
+                            },
+                            {
+                                item: '番茄酱',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '辣椒粉',
+                                amount: '3汤匙'
+                            },
+                            {
+                                item: '孜然粉',
+                                amount: '1汤匙'
+                            },
+                            {
+                                item: '蒜粉',
+                                amount: '1茶匙'
+                            },
+                            {
+                                item: '洋葱粉',
+                                amount: '1茶匙'
+                            },
+                            {
+                                item: '辣椒（卡宴辣椒）',
+                                amount: '1/2茶匙（可选）'
+                            },
+                            {
+                                item: '盐',
+                                amount: '1茶匙'
+                            },
+                            {
+                                item: '植物油',
+                                amount: '1汤匙'
+                            }
+                        ],
+                        instructions: [
+                            '在一个大锅中用中高火加热油。将牛肉末炒至褐色，并将其捣散，然后沥干多余的脂肪。',
+                            '拌入辣椒粉、孜然粉、蒜粉、洋葱粉、辣椒和盐。煮1分钟，直到散发香味。',
+                            '加入牛肉高汤和番茄酱。煮沸后转小火。',
+                            '盖上锅盖，小火慢炖30-40分钟，偶尔搅拌，让味道充分融合。',
+                            '趁热食用，搭配您喜欢的配料，如奶酪、洋葱或玉米面包。'
+                        ]
+                    },
+            ms: {
+                        title: 'Cili Texas',
+                        description: 'Alami rasa legenda Cili Texas asli, stew yang mengenyangkan dan beraroma kuat yang penuh dengan daging lembu yang lembut dan simfoni rempah-ratus yang berani. Ini bukan sekadar cili; ini adalah perjalanan kulinari ke tengah-tengah Negeri Bintang Tunggal, menjanjikan kehangatan, rasa, dan kepuasan murni. Bersedia untuk membangkitkan selera anda dan buat hidangan ikonik ini malam ini!',
+                        ingredients: [
+                            {
+                                item: 'Daging Lembu Kisar (80/20)',
+                                amount: '1.5 paun'
+                            },
+                            {
+                                item: 'Stok Daging Lembu',
+                                amount: '2 cawan'
+                            },
+                            {
+                                item: 'Pes Tomato',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Serbuk Cili',
+                                amount: '3 sudu besar'
+                            },
+                            {
+                                item: 'Jintan Manis',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Serbuk Bawang Putih',
+                                amount: '1 sudu teh'
+                            },
+                            {
+                                item: 'Serbuk Bawang Merah',
+                                amount: '1 sudu teh'
+                            },
+                            {
+                                item: 'Cili Cayenne',
+                                amount: '1/2 sudu teh (pilihan)'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: '1 sudu teh'
+                            },
+                            {
+                                item: 'Minyak Sayuran',
+                                amount: '1 sudu besar'
+                            }
+                        ],
+                        instructions: [
+                            'Panaskan minyak dalam periuk besar di atas api sederhana tinggi. Goreng daging lembu kisar sehingga perang, pecah-pecahkan, kemudian toskan lemak berlebihan.',
+                            'Gaulkan serbuk cili, jintan manis, serbuk bawang putih, serbuk bawang merah, cili cayenne, dan garam. Masak selama 1 minit sehingga wangi.',
+                            'Masukkan stok daging lembu dan pes tomato. Didihkan, kemudian kecilkan api.',
+                            'Tutup dan reneh selama 30-40 minit, kacau sekali-sekala, biarkan rasa sebati.',
+                            'Hidangkan panas dengan topping kegemaran anda seperti keju, bawang, atau roti jagung.'
+                        ]
+                    },
             hi: {
                 title: 'टेक्सास चिली',
                 description: 'प्रामाणिक टेक्सास चिली का शानदार स्वाद अनुभव करें, एक हार्दिक, मजबूत स्टू जिसमें कोमल बीफ और बोल्ड मसालों का एक सिम्फनी है। यह सिर्फ चिली नहीं है; यह लोन स्टार राज्य के दिल की एक पाक यात्रा है, जो गर्माहट, स्वाद और शुद्ध संतुष्टि का वादा करती है।',
@@ -1586,6 +4584,110 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Singaporean', 'Dinner', 'Non-Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '鱼头咖喱',
+                        description: '深入新加坡美食的核心，品尝这道传奇的鱼头咖喱！浓郁、辛辣、酸爽的风味交织成一曲交响乐，这道菜以鲜嫩的鱼头为主料，在浓郁的椰奶肉汁中与各种新鲜蔬菜一同慢炖。这是一道烹饪杰作，承诺带来一次难忘的体验。准备好在家中创造这种地道的味觉盛宴了吗？',
+                        ingredients: [
+                            {
+                                item: '红鲷鱼头，对半切开',
+                                amount: '1个 (约1.5公斤)'
+                            },
+                            {
+                                item: '新加坡鱼头咖喱酱',
+                                amount: '150克'
+                            },
+                            {
+                                item: '浓椰浆',
+                                amount: '400毫升'
+                            },
+                            {
+                                item: '罗望子酱',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '水',
+                                amount: '500毫升'
+                            },
+                            {
+                                item: '秋葵（羊角豆），修剪过',
+                                amount: '8-10根'
+                            },
+                            {
+                                item: '茄子，切块',
+                                amount: '1个中等大小'
+                            },
+                            {
+                                item: '番茄，切四瓣',
+                                amount: '2个中等大小'
+                            },
+                            {
+                                item: '鱼露',
+                                amount: '1-2汤匙 (依口味)'
+                            },
+                            {
+                                item: '咖喱叶',
+                                amount: '1小枝'
+                            }
+                        ],
+                        instructions: [
+                            '在一个大锅中加热油，炒香咖喱酱和咖喱叶。',
+                            '加入罗望子酱、水和椰奶；小火慢炖。',
+                            '小心地加入鱼头、秋葵、茄子和番茄。煮15-20分钟，直到鱼肉变嫩，蔬菜煮熟。',
+                            '用鱼露调味。搭配热腾腾的米饭享用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Kari Kepala Ikan',
+                        description: 'Selami inti masakan Singapura dengan Kari Kepala Ikan yang legenda ini! Simfoni rasa yang kaya, pedas, dan masam, hidangan ini menampilkan kepala ikan yang empuk direneh dalam kuah santan yang pekat dengan pelbagai sayur-sayuran segar. Ia adalah mahakarya kulinari yang menjanjikan pengalaman yang tidak dapat dilupakan. Bersedia untuk mencipta sensasi rasa asli ini di rumah anda sendiri?',
+                        ingredients: [
+                            {
+                                item: 'Kepala Ikan Merah, dibelah dua',
+                                amount: '1 (anggaran 1.5 kg)'
+                            },
+                            {
+                                item: 'Pes Kari Kepala Ikan Singapura',
+                                amount: '150g'
+                            },
+                            {
+                                item: 'Santan pekat',
+                                amount: '400ml'
+                            },
+                            {
+                                item: 'Pes Asam Jawa',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Air',
+                                amount: '500ml'
+                            },
+                            {
+                                item: 'Bendi (jari wanita), dipotong hujungnya',
+                                amount: '8-10 biji'
+                            },
+                            {
+                                item: 'Terung, dipotong baji',
+                                amount: '1 biji sederhana'
+                            },
+                            {
+                                item: 'Tomato, dipotong empat',
+                                amount: '2 biji sederhana'
+                            },
+                            {
+                                item: 'Sos Ikan',
+                                amount: '1-2 sudu besar (secukup rasa)'
+                            },
+                            {
+                                item: 'Daun Kari',
+                                amount: '1 tangkai'
+                            }
+                        ],
+                        instructions: [
+                            'Panaskan minyak dalam periuk besar, tumis pes kari dan daun kari sehingga wangi.',
+                            'Masukkan pes asam jawa, air, dan santan; biarkan mendidih perlahan.',
+                            'Masukkan kepala ikan, bendi, terung, dan tomato dengan berhati-hati. Masak selama 15-20 minit sehingga ikan empuk dan sayur-sayuran masak.',
+                            'Perasakan dengan sos ikan secukup rasa. Hidangkan panas dengan nasi kukus.'
+                        ]
+                    },
             hi: {
                 title: 'फिश हेड करी',
                 description: 'इस पौराणिक फिश हेड करी के साथ सिंगापुर के व्यंजनों के दिल में गोता लगाएँ! समृद्ध, मसालेदार और तीखे स्वादों का एक सामंजस्य, यह व्यंजन ताज़ी सब्जियों के साथ एक जीवंत नारियल के दूध की ग्रेवी में उबाले गए रसीले मछली के सिर को प्रस्तुत करता है। यह एक पाक कला का उत्कृष्ट नमूना है जो एक अविस्मरणीय अनुभव का वादा करता है। अपने घर में इस प्रामाणिक स्वाद को बनाने के लिए तैयार हैं?',
@@ -1648,6 +4750,110 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Ethiopian', 'Vegetarian', 'Breakfast', 'Brunch', 'Dinner'],
         translations: {
+            'zh-CN': {
+                        title: '埃塞俄比亚炖蚕豆 (Ful Medames)',
+                        description: '体验埃塞俄比亚炖蚕豆（Ful Medames）的灵魂拥抱，这是一种丰盛而芳香的蚕豆炖菜，能唤醒您的感官。用鲜活的香料、新鲜的香草和清新的柠檬汁炖煮至完美，这是一道真正令人满足的菜肴。准备好在每一勺美味中被带到亚的斯亚贝巴熙熙攘攘的市场——何不今天就动手烹饪呢！',
+                        ingredients: [
+                            {
+                                item: '蚕豆（罐装，沥干并冲洗）',
+                                amount: '2罐 (每罐15盎司)'
+                            },
+                            {
+                                item: '红洋葱（切碎）',
+                                amount: '1个中等大小'
+                            },
+                            {
+                                item: '番茄（切丁）',
+                                amount: '2个中等大小'
+                            },
+                            {
+                                item: '大蒜（切末）',
+                                amount: '3瓣'
+                            },
+                            {
+                                item: '墨西哥辣椒或青辣椒（切碎）',
+                                amount: '1个 (可选，用于增加辣度)'
+                            },
+                            {
+                                item: '柠檬汁（鲜榨）',
+                                amount: '2汤匙'
+                            },
+                            {
+                                item: '橄榄油',
+                                amount: '3汤匙'
+                            },
+                            {
+                                item: '孜然粉',
+                                amount: '1茶匙'
+                            },
+                            {
+                                item: '盐',
+                                amount: '适量'
+                            },
+                            {
+                                item: '黑胡椒',
+                                amount: '适量'
+                            }
+                        ],
+                        instructions: [
+                            '在锅中加热橄榄油，炒红洋葱至软，然后加入大蒜、墨西哥辣椒和番茄，煮5分钟。',
+                            '拌入孜然、盐和胡椒粉，然后加入沥干的蚕豆和少量水。',
+                            '用叉子或压土豆器轻轻捣碎大约一半的蚕豆，然后小火慢炖15-20分钟，让味道充分融合。',
+                            '拌入新鲜柠檬汁。趁热享用，用新鲜欧芹或香菜装饰，可选配煮鸡蛋和少许橄榄油。'
+                        ]
+                    },
+            ms: {
+                        title: 'Ful Medames (Rebusan Kacang Fava Ethiopia)',
+                        description: 'Alami kehangatan Ful Medames Ethiopia, rebusan kacang fava yang mengenyangkan dan beraroma yang membangkitkan deria anda. Direneh sempurna dengan rempah-ratus yang bersemangat, herba segar, dan sentuhan lemon yang menyegarkan, ia adalah hidangan yang benar-benar memuaskan. Bersedia untuk dibawa ke pasar-pasar sibuk Addis Ababa dengan setiap suapan yang lazat – mengapa tunggu lagi, mari masak hari ini!',
+                        ingredients: [
+                            {
+                                item: 'Kacang Fava (dalam tin, ditos dan dibilas)',
+                                amount: '2 tin (setiap satu 15 oz)'
+                            },
+                            {
+                                item: 'Bawang Merah (dicincang halus)',
+                                amount: '1 biji sederhana'
+                            },
+                            {
+                                item: 'Tomato (dipotong dadu)',
+                                amount: '2 biji sederhana'
+                            },
+                            {
+                                item: 'Bawang Putih (dicincang)',
+                                amount: '3 ulas'
+                            },
+                            {
+                                item: 'Cili Jalapeño atau Cili Hijau (dicincang halus)',
+                                amount: '1 biji (pilihan, untuk kepedasan)'
+                            },
+                            {
+                                item: 'Jus Lemon (baru diperah)',
+                                amount: '2 sudu besar'
+                            },
+                            {
+                                item: 'Minyak Zaitun',
+                                amount: '3 sudu besar'
+                            },
+                            {
+                                item: 'Serbuk Jintan Putih',
+                                amount: '1 sudu kecil'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: 'Secukup rasa'
+                            },
+                            {
+                                item: 'Lada Hitam',
+                                amount: 'Secukup rasa'
+                            }
+                        ],
+                        instructions: [
+                            'Panaskan minyak zaitun dalam kuali, tumis bawang merah sehingga lembut, kemudian masukkan bawang putih, cili jalapeño, dan tomato, masak selama 5 minit.',
+                            'Masukkan jintan putih, garam, dan lada hitam, kemudian masukkan kacang fava yang telah ditos dan sedikit air.',
+                            'Lenyekkan kira-kira separuh kacang dengan garpu atau pelenyek kentang, kemudian reneh selama 15-20 minit, biarkan rasa sebati.',
+                            'Masukkan jus lemon segar. Hidangkan panas, dihiasi dengan pasli segar atau ketumbar, dan pilihan dengan telur rebus dan sedikit minyak zaitun.'
+                        ]
+                    },
             hi: {
                 title: 'फुल मेदामेस',
                 description: 'इथियोपियाई फुल मेदामेस के हार्दिक और सुगंधित फवा बीन स्टू का अनुभव करें जो आपकी इंद्रियों को जगाता है। जीवंत मसालों, ताजी जड़ी-बूटियों और एक तीखे नींबू के स्वाद के साथ पूर्णता तक उबाला गया, यह वास्तव में संतोषजनक व्यंजन है। हर स्वादिष्ट निवाले के साथ अदीस अबाबा के हलचल भरे बाजारों में ले जाने के लिए तैयार हो जाइए - इंतजार क्यों करें, आइए इसे आज ही पकाएं!',
@@ -1710,6 +4916,110 @@ export const recipes: Recipe[] = [
         ],
         tags: ['Pakistani', 'Dinner', 'Vegetarian'],
         translations: {
+            'zh-CN': {
+                        title: '达尔查瓦尔 (巴基斯坦扁豆饭)',
+                        description: '体验巴基斯坦备受喜爱的舒适美食——达尔查瓦尔的温暖怀抱！这道简单却风味浓郁的菜肴将软嫩的香料扁豆与蓬松芳香的米饭完美结合，创造出质地和味道的交响乐。今天就准备好制作这道地道美味了吗？',
+                        ingredients: [
+                            {
+                                item: '马苏尔扁豆 (红扁豆)',
+                                amount: '1 杯'
+                            },
+                            {
+                                item: '印度香米',
+                                amount: '2 杯'
+                            },
+                            {
+                                item: '洋葱',
+                                amount: '1 个中等大小，切碎'
+                            },
+                            {
+                                item: '番茄',
+                                amount: '1 个中等大小，切碎'
+                            },
+                            {
+                                item: '姜蒜蓉',
+                                amount: '1 汤匙'
+                            },
+                            {
+                                item: '孜然籽',
+                                amount: '1 茶匙'
+                            },
+                            {
+                                item: '姜黄粉',
+                                amount: '1/2 茶匙'
+                            },
+                            {
+                                item: '红辣椒粉',
+                                amount: '1 茶匙'
+                            },
+                            {
+                                item: '盐',
+                                amount: '适量'
+                            },
+                            {
+                                item: '食用油/酥油',
+                                amount: '3 汤匙'
+                            }
+                        ],
+                        instructions: [
+                            '将扁豆洗净浸泡20分钟，米饭浸泡30分钟。将米饭单独煮熟至蓬松。',
+                            '加热食用油/酥油，炒香孜然籽，然后加入洋葱炒至金黄。加入姜蒜蓉和番茄；煮至变软。',
+                            '拌入姜黄粉、红辣椒粉、盐和浸泡过的扁豆，加入3杯水。煮沸后转小火慢炖，直至扁豆变软。',
+                            '将热扁豆与煮好的印度香米一起食用。'
+                        ]
+                    },
+            ms: {
+                        title: 'Daal Chawal (Nasi Dal Pakistan)',
+                        description: 'Alami kehangatan hidangan selesa kegemaran Pakistan, Daal Chawal! Hidangan ringkas namun penuh perisa ini menggabungkan lentil lembut berperisa dengan nasi yang gebu dan harum, mencipta simfoni tekstur dan rasa. Sedia untuk menyediakan hidangan asli yang lazat ini hari ini?',
+                        ingredients: [
+                            {
+                                item: 'Dal Masoor (Lentil Merah)',
+                                amount: '1 cawan'
+                            },
+                            {
+                                item: 'Beras Basmati',
+                                amount: '2 cawan'
+                            },
+                            {
+                                item: 'Bawang Besar',
+                                amount: '1 biji sederhana, dicincang halus'
+                            },
+                            {
+                                item: 'Tomato',
+                                amount: '1 biji sederhana, dicincang'
+                            },
+                            {
+                                item: 'Pes Halia Bawang Putih',
+                                amount: '1 sudu besar'
+                            },
+                            {
+                                item: 'Biji Jintan Putih',
+                                amount: '1 sudu kecil'
+                            },
+                            {
+                                item: 'Serbuk Kunyit',
+                                amount: '1/2 sudu kecil'
+                            },
+                            {
+                                item: 'Serbuk Cili Merah',
+                                amount: '1 sudu kecil'
+                            },
+                            {
+                                item: 'Garam',
+                                amount: 'Secukup rasa'
+                            },
+                            {
+                                item: 'Minyak Masak/Ghee',
+                                amount: '3 sudu besar'
+                            }
+                        ],
+                        instructions: [
+                            'Basuh dan rendam dal selama 20 minit, nasi selama 30 minit. Masak nasi secara berasingan sehingga gebu.',
+                            'Panaskan minyak/ghee, tumis jintan putih, kemudian bawang besar sehingga keemasan. Masukkan pes halia bawang putih dan tomato; masak sehingga lembut.',
+                            'Masukkan serbuk kunyit, serbuk cili merah, garam, dan dal yang telah direndam bersama 3 cawan air. Didihkan, kemudian reneh sehingga dal lembut.',
+                            'Hidangkan dal panas bersama nasi Basmati yang telah dimasak.'
+                        ]
+                    },
             hi: {
                 title: 'दाल चावल',
                 description: 'पाकिस्तान के इस प्रिय आरामदायक भोजन, दाल चावल के हार्दिक आलिंगन का अनुभव करें! यह सरल लेकिन गहरा स्वादिष्ट व्यंजन कोमल, मसालेदार दाल को फूले हुए, सुगंधित चावल के साथ जोड़ता है, जिससे बनावट और स्वाद का एक अद्भुत संगम बनता है। क्या आप आज ही इस प्रामाणिक व्यंजन को बनाने के लिए तैयार हैं?',

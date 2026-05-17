@@ -142,13 +142,12 @@ export default function RecipePage() {
   type RecipeTranslation = { title?: string; description?: string; ingredients?: { item: string; amount: string }[]; instructions?: string[] };
   const tRecipe: RecipeTranslation = recipe.translations?.[lang] ?? {};
   const displayName = tRecipe.title ?? recipe.name;
-  const isEnglish = lang === 'en';
-  const displayIngredients = isEnglish
-    ? recipe.ingredients
-    : (tRecipe.ingredients && tRecipe.ingredients.length > 0 ? tRecipe.ingredients.map((i) => `${i.amount} ${i.item}`) : []);
-  const displaySteps = isEnglish
-    ? recipe.steps
-    : (tRecipe.instructions ?? []);
+  const displayIngredients = (lang !== 'en' && tRecipe.ingredients && tRecipe.ingredients.length > 0)
+    ? tRecipe.ingredients.map((i) => `${i.amount} ${i.item}`)
+    : recipe.ingredients;
+  const displaySteps = (lang !== 'en' && tRecipe.instructions && tRecipe.instructions.length > 0)
+    ? tRecipe.instructions
+    : recipe.steps;
 
   // Use branded OG image for social sharing
   const OG_IMAGE = 'https://www.fantasticfood.in/og-image.jpg';

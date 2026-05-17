@@ -1,4 +1,5 @@
 import { recipes as aiRecipes } from './recipes';
+import { WORLD_RECIPE_TRANSLATIONS } from './worldRecipeTranslations';
 
 export interface WorldRecipe {
   id: string;
@@ -31,7 +32,7 @@ const r = (
   ingredients: string[], steps: string[]
 ): WorldRecipe => ({ id, name, country, countryCode, emoji, city, category, difficulty, time, servings, calories, tags, ingredients, steps });
 
-export const WORLD_RECIPES: WorldRecipe[] = [
+const ORIGINAL_WORLD_RECIPES: WorldRecipe[] = [
 
   // ── INDIA ─────────────────────────────────────────────────────────────────
   r('in-01','Butter Chicken','India','IN','🇮🇳','Delhi','Main Course','Medium','45 min',4,520,['popular','chicken','creamy'],['500g chicken','3 tbsp butter','1 cup cream','2 tomatoes','1 tsp garam masala','1 tsp cumin','1 tsp turmeric','2 cloves garlic','1 inch ginger'],['Marinate chicken in yogurt and spices for 30 min. Cook chicken in butter until golden.','Blend tomatoes, garlic, ginger into smooth sauce. Cook sauce in butter for 10 min.','Add chicken back, pour in cream, simmer 15 min. Finish with garam masala and serve.']),
@@ -373,9 +374,13 @@ export const WORLD_RECIPES: WorldRecipe[] = [
   // ── LAOS ─────────────────────────────────────────────────────────────
   r('la-01','Laap','Laos','LA','🇱🇦','Vientiane','Salad','Easy','20 min',4,280,['minced meat','herb salad','national dish'],['Minced pork or chicken','Toasted rice powder','Lime juice','Fish sauce','Dried chilies','Mint','Cilantro','Shallots'],['Quickly cook minced meat (or serve raw — tiger laap for brave).','Dress with toasted rice powder, lime, fish sauce, chili.','Toss with shallots and enormous pile of fresh herbs. Serve with sticky rice.']),
 
-  // ── MYANMAR ──────────────────────────────────────────────────────────
   r('mm-01','Mohinga','Myanmar','MM','🇲🇲','Yangon','Breakfast','Hard','2 hrs',4,320,['national breakfast','fish soup','noodles'],['Fish (catfish)','Rice vermicelli','Lemongrass','Banana stem (inner part)','Onion','Ginger','Turmeric','Chickpea flour (thickener)'],['Make fish broth with lemongrass and ginger. Add banana stem pieces.','Thicken with chickpea flour. Season with fish sauce.','Serve over rice noodles with boiled egg, fritters, and lime.']),
 ];
+
+export const WORLD_RECIPES: WorldRecipe[] = ORIGINAL_WORLD_RECIPES.map(recipe => {
+  const trans = WORLD_RECIPE_TRANSLATIONS[recipe.id];
+  return trans ? { ...recipe, translations: { ...recipe.translations, ...trans } } : recipe;
+});
 
 
 export const COUNTRIES = [...new Set(WORLD_RECIPES.map(r => r.country))].sort();
