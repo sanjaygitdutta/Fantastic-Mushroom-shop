@@ -287,7 +287,7 @@ async function fetchGeminiJSON(promptText, retryCount = 0) {
     contents: [{ parts: [{ text: promptText }] }],
     generationConfig: {
       temperature: 0.1,
-      maxOutputTokens: 4000,
+      maxOutputTokens: 8192,
       responseMimeType: "application/json"
     }
   };
