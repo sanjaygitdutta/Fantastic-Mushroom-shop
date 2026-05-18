@@ -22,8 +22,15 @@ const PLATFORMS = [
   { id: 'flipkart', name: 'Flipkart' }
 ];
 
-const SG_BASE_PLATFORM = [
-  { id: 'sg_base_price', name: 'SG Base Price (S$)' }
+const SG_PLATFORMS = [
+  { id: 'fairprice', name: 'FairPrice' },
+  { id: 'redmart', name: 'RedMart' },
+  { id: 'coldstorage', name: 'Cold Storage' },
+  { id: 'shengsiong', name: 'Sheng Siong' },
+  { id: 'giant', name: 'Giant' },
+  { id: 'grabmart', name: 'GrabMart' },
+  { id: 'pandamart', name: 'pandamart' },
+  { id: 'amazon_sg', name: 'Amazon SG' }
 ];
 
 const ManageGroceryPrices = () => {
@@ -251,7 +258,7 @@ const ManageGroceryPrices = () => {
                   </div>
                   
                   <div className="p-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
-                    {(adminRegion === 'IN' ? PLATFORMS : SG_BASE_PLATFORM).map(platform => {
+                    {(adminRegion === 'IN' ? PLATFORMS : SG_PLATFORMS).map(platform => {
                       const currentLive = liveData.find(ld => ld.item_name === item.query && ld.platform_id === platform.id);
                       const isModified = updates[`${item.query}_${platform.id}`];
                       

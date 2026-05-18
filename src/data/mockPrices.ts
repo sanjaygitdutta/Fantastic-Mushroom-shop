@@ -4073,35 +4073,36 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
       const category = dbProduct?.category || DB[productId]?.category || 'Grocery';
       const icon = dbProduct?.icon || DB[productId]?.icon || '🛒';
 
-      // --- SINGAPORE BASELINE GENERATION ---
+      // --- SINGAPORE LOGIC ---
       if (region === 'SG') {
-        const sgBase = dbPrices.find(p => p.platform_id === 'sg_base_price');
-        if (sgBase && sgBase.price > 0) {
-          const basePrice = sgBase.price;
-          const sgPlatformIds = ['fairprice', 'redmart', 'coldstorage', 'shengsiong', 'giant', 'grabmart', 'pandamart', 'amazon_sg'];
-          
+        const sgPlatformIds = ['fairprice', 'redmart', 'coldstorage', 'shengsiong', 'giant', 'grabmart', 'pandamart', 'amazon_sg'];
+        const sgPrices = dbPrices.filter(p => sgPlatformIds.includes(p.platform_id) && p.price > 0);
+        
+        if (sgPrices.length > 0) {
           return {
             query: productId,
             canonicalName,
             category,
             icon,
-            prices: sgPlatformIds.map(pId => {
-              const fluc = getDailyFluctuation(productId, pId);
-              const fPrice = Math.round((basePrice * vary(basePrice, 0.95, 1.05)) * fluc * 100) / 100;
+            prices: sgPrices.map(p => {
+              const fluc = getDailyFluctuation(productId, p.platform_id);
+              // Small prices for SG (S$) need 2 decimal places
+              const raw = p.price * fluc;
+              const fPrice = parseFloat(raw.toFixed(2));
               
-              let deliveryTime = ['redmart', 'fairprice'].includes(pId) ? '1 day' : (['grabmart', 'pandamart'].includes(pId) ? '15 min' : 'Same day');
-              if (pId === 'amazon_sg') deliveryTime = '2 hrs';
+              let deliveryTime = ['redmart', 'fairprice'].includes(p.platform_id) ? '1 day' : (['grabmart', 'pandamart'].includes(p.platform_id) ? '15 min' : 'Same day');
+              if (p.platform_id === 'amazon_sg') deliveryTime = '2 hrs';
 
               return {
-                platformId: pId,
-                productName: sgBase.canonical_name || canonicalName,
-                price: parseFloat(fPrice.toFixed(2)),
-                originalPrice: parseFloat((fPrice * vary(basePrice, 1.1, 1.2)).toFixed(2)),
+                platformId: p.platform_id,
+                productName: p.canonical_name || canonicalName,
+                price: fPrice,
+                originalPrice: parseFloat((fPrice * vary(p.price, 1.1, 1.2)).toFixed(2)),
                 discount: 10 + Math.floor(Math.random() * 10),
                 unit: '1 unit',
-                inStock: sgBase.in_stock,
-                url: generateSearchUrl(pId, productId),
-                lastUpdated: sgBase.last_updated,
+                inStock: p.in_stock,
+                url: generateSearchUrl(p.platform_id, productId),
+                lastUpdated: p.last_updated,
                 deliveryTime,
                 isVerified: true
               };
