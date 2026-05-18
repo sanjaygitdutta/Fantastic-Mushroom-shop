@@ -165,8 +165,8 @@ export default function RecipePage() {
     image: [ OG_IMAGE ],
     description: tRecipe.description ?? `Authentic ${recipe.country} recipe for ${recipe.name} from ${recipe.city}. ${recipe.difficulty} difficulty, ready in ${recipe.time}. Serves ${recipe.servings}.`,
     author: {
-      '@type': recipe.country === 'Aika Recipes' ? 'Person' : 'Organization',
-      name: recipe.country === 'Aika Recipes' ? 'Chef Aika (AI)' : 'Fantastic Food',
+      '@type': recipe.country === 'Fantastic Recipes' ? 'Person' : 'Organization',
+      name: 'Fantastic Food',
       url: 'https://www.fantasticfood.in'
     },
     datePublished: today,
@@ -174,7 +174,7 @@ export default function RecipePage() {
     cookTime: `PT${recipe.time.replace(' min', 'M').replace(' hrs', 'H').replace(' hr', 'H')}`,
     totalTime: `PT${recipe.time.replace(' min', 'M').replace(' hrs', 'H').replace(' hr', 'H')}`,
     recipeYield: `${recipe.servings} servings`,
-    recipeCuisine: recipe.country === 'Aika Recipes' ? 'International' : recipe.country,
+    recipeCuisine: recipe.country === 'Fantastic Recipes' ? 'International' : recipe.country,
     recipeCategory: recipe.category,
     keywords: recipe.tags.join(', '),
     aggregateRating: {

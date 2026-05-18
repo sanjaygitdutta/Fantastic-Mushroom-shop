@@ -27,7 +27,7 @@ const COUNTRY_EMOJIS: Record<string, string> = {
   Kenya: '🇰🇪', Colombia: '🇨🇴', Cuba: '🇨🇺', Chile: '🇨🇱',
   'New Zealand': '🇳🇿', Israel: '🇮🇱', Iran: '🇮🇷', 'South Africa': '🇿🇦',
   Cambodia: '🇰🇭', Nepal: '🇳🇵', Bangladesh: '🇧🇩', Laos: '🇱🇦', Myanmar: '🇲🇲',
-  'Aika Recipes': '👩‍🍳',
+  'Fantastic Recipes': '👩‍🍳',
 };
 
 export default function Recipes() { // refresh
