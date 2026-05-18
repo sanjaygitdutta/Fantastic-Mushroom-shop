@@ -30,3 +30,6 @@ errors.txt
 
 # Backups
 .recipe-backups
+
+# Scratch
+scratch/
