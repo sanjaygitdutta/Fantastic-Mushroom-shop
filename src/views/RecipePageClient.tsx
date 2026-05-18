@@ -371,11 +371,6 @@ export default function RecipePage() {
                     className="w-full h-[350px] lg:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/20">
-                    <p className="text-xs font-black text-forest-900 flex items-center gap-2 tracking-wide uppercase">
-                      📸 AI Photography
-                    </p>
-                  </div>
                 </motion.div>
               )}
 
