@@ -84,8 +84,11 @@ const ComparePage = () => {
     setError('');
     setResult(null);
 
+    let isActive = true;
+
     searchPrices(query, region)
       .then((data) => {
+        if (!isActive) return;
         setResult(data);
         setLoading(false);
         if (data) {
@@ -117,9 +120,14 @@ const ComparePage = () => {
         }
       })
       .catch(() => {
+        if (!isActive) return;
         setError(t('something_went_wrong') + '. ' + t('try_again') + '.');
         setLoading(false);
       });
+      
+      return () => {
+        isActive = false;
+      };
   }, [query, pincode, region, t]);
 
   let lowestPrice = 0;

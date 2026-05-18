@@ -4113,7 +4113,8 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
 
       // --- INDIA (DEFAULT) LOGIC --- only for IN region
       if (region !== 'SG') {
-        const inPrices = dbPrices.filter(p => p.platform_id !== 'sg_base_price');
+        const inPlatformIds = ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart', 'instamart'];
+        const inPrices = dbPrices.filter(p => inPlatformIds.includes(p.platform_id) && p.price > 0);
         if (inPrices.length > 0) {
           return {
             query: productId,
