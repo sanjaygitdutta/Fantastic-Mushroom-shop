@@ -140,11 +140,101 @@ if (dayOfWeek === 2 || dayOfWeek === 4 || dayOfWeek === 6) {
 
 
 
+function getLanguageName(code) {
+  switch (code) {
+    case 'hi': return 'Hindi';
+    case 'bn': return 'Bengali';
+    case 'mr': return 'Marathi';
+    case 'te': return 'Telugu';
+    case 'ta': return 'Tamil';
+    case 'kn': return 'Kannada';
+    case 'zh-CN': return 'Simplified Chinese';
+    case 'ms': return 'Malay';
+    default: return 'English';
+  }
+}
+
+async function translatePost(englishPost, lang, retryCount = 0) {
+  const MAX_RETRIES = 3;
+  const RETRY_DELAYS_MS = [3000, 8000, 20000];
+
+  const translationPrompt = `You are a professional, expert human translator for 'Fantastic Food', a premium grocery price comparison website.
+
+Translate the following English blog post into native, natural, and idiomatic ${getLanguageName(lang)}.
+Ensure it reads seamlessly and sounds completely organic to a native speaker of ${getLanguageName(lang)}, avoiding robotic or literal word-for-word machine translation. Maintain all markdown formatting, lists, linebreaks, bolding, and headers (e.g. ###, **, etc.) exactly as they are in the original.
+
+English Title: "${englishPost.title}"
+English Description: "${englishPost.description}"
+English Content:
+${englishPost.content}
+
+Respond ONLY with valid JSON using this exact structure (no markdown fences, no other text):
+{
+  "title": "Translated Title in ${getLanguageName(lang)}",
+  "description": "Translated Description in ${getLanguageName(lang)}",
+  "content": "Translated Content in ${getLanguageName(lang)} using exact same markdown layout"
+}
+CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double quotes. No trailing commas.`;
+
+  const payload = {
+    contents: [{ parts: [{ text: translationPrompt }] }],
+    generationConfig: { 
+      temperature: 0.3,
+      topK: 40,
+      topP: 0.95,
+      maxOutputTokens: 8192,
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "OBJECT",
+        properties: {
+          title: { type: "STRING" },
+          description: { type: "STRING" },
+          content: { type: "STRING" }
+        },
+        required: ["title", "description", "content"]
+      }
+    }
+  };
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if ((response.status === 503 || response.status === 429) && retryCount < MAX_RETRIES) {
+    const waitMs = RETRY_DELAYS_MS[retryCount];
+    await new Promise(r => setTimeout(r, waitMs));
+    return translatePost(englishPost, lang, retryCount + 1);
+  }
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Gemini Translation Error for ${lang}: ${errText}`);
+  }
+
+  const data = await response.json();
+  let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) throw new Error("Empty translation response");
+
+  let cleanJson = text;
+  if (text.includes('```')) {
+    const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (match && match[1]) cleanJson = match[1];
+  }
+
+  return JSON.parse(cleanJson);
+}
+
 async function callGemini(retryCount = 0) {
   const MAX_RETRIES = 3;
   const RETRY_DELAYS_MS = [5000, 15000, 45000];
 
   const recentTitlesList = usedTitles.slice(-10).map(t => `- ${t}`).join('\n');
+
+  console.log(`✍️ Generating premium English content...`);
 
   const prompt = `You are a professional SEO writer, market analyst, and local consumer advocate for 'Fantastic Food', a premium grocery price comparison and smart kitchen platform.
   
@@ -162,27 +252,12 @@ To completely avoid Google automation, semantic analysis, and manual review pena
 "in conclusion", "furthermore", "moreover", "delightful", "a testament to", "game changer", "look no further", "nestled in", "brimming with", "tapestry", "treasure trove", "it's important to remember", "crucial first step".
 If any of these AI cliches appear, manual review algorithms will flag the page. Use natural conversational transitions instead.
 
-Provide comprehensive translations for:
-- English ('en')
-- 6 Indian languages: Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), Tamil ('ta'), and Kannada ('kn').
-- 3 Singaporean languages: English (covered in 'en'), Simplified Chinese ('zh-CN'), and Malay ('ms').
-
 Respond ONLY with valid JSON using this exact structure (no markdown fences, no other text):
 {
-  "en": {
-    "title": "A highly clickable, SEO-optimized title (under 60 chars)",
-    "description": "A 2-sentence meta description optimized for Google search results.",
-    "content": "The full markdown content",
-    "tags": ["SEO Tag 1", "SEO Tag 2"]
-  },
-  "hi": { "title": "...", "description": "...", "content": "..." },
-  "bn": { "title": "...", "description": "...", "content": "..." },
-  "mr": { "title": "...", "description": "...", "content": "..." },
-  "te": { "title": "...", "description": "...", "content": "..." },
-  "ta": { "title": "...", "description": "...", "content": "..." },
-  "kn": { "title": "...", "description": "...", "content": "..." },
-  "zh-CN": { "title": "...", "description": "...", "content": "..." },
-  "ms": { "title": "...", "description": "...", "content": "..." }
+  "title": "A highly clickable, SEO-optimized title (under 60 chars)",
+  "description": "A 2-sentence meta description optimized for Google search results.",
+  "content": "The full markdown content",
+  "tags": ["SEO Tag 1", "SEO Tag 2"]
 }
 CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double quotes. No trailing commas.`;
 
@@ -193,7 +268,20 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
       topK: 40, 
       topP: 0.95, 
       maxOutputTokens: 8192,
-      responseMimeType: "application/json" 
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "OBJECT",
+        properties: {
+          title: { type: "STRING" },
+          description: { type: "STRING" },
+          content: { type: "STRING" },
+          tags: {
+            type: "ARRAY",
+            items: { type: "STRING" }
+          }
+        },
+        required: ["title", "description", "content", "tags"]
+      }
     }
   };
 
@@ -232,12 +320,38 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
     }
   }
 
+  let englishPost;
   try {
-    return JSON.parse(cleanJson);
+    englishPost = JSON.parse(cleanJson);
   } catch (e) {
     console.error("❌ Failed to parse JSON:", text);
     throw new Error("Invalid JSON from Gemini: " + e.message);
   }
+
+  console.log(`📝 Generated English blog post: "${englishPost.title}" (${englishPost.content.split(/\s+/).length} words)`);
+
+  // 2. Perform parallel translation for all 8 target languages
+  console.log(`🌐 Initiating parallel translations into 8 languages...`);
+  const targetLanguages = ['hi', 'bn', 'mr', 'te', 'ta', 'kn', 'zh-CN', 'ms'];
+
+  const translations = {};
+  await Promise.all(targetLanguages.map(async (lang) => {
+    try {
+      console.log(`  ➔ Translating to: ${getLanguageName(lang)} (${lang})...`);
+      const transResult = await translatePost(englishPost, lang);
+      translations[lang] = transResult;
+      console.log(`  ✓ Translated to: ${getLanguageName(lang)} (${lang})`);
+    } catch (err) {
+      console.error(`  ✗ Translation failed for ${lang}:`, err.message);
+      // Fallback: put empty strings so it doesn't crash the script
+      translations[lang] = { title: '', description: '', content: '' };
+    }
+  }));
+
+  return {
+    en: englishPost,
+    ...translations
+  };
 }
 
 // ── Write to Data Array ───────────────────────────────────────────────────────
@@ -269,7 +383,7 @@ async function run() {
     description: '${esc(post.en.description)}',
     content: \`${post.en.content.replace(/`/g, '\\`')}\`,
     date: '${today}',
-    author: 'Sanjay Dutta',
+    author: 'Fantastic Food',
     tags: [${post.en.tags.map((t) => `'${esc(t)}'`).join(', ')}],
     translations: {
       hi: { title: '${esc(post.hi?.title || '')}', description: '${esc(post.hi?.description || '')}', content: \`${(post.hi?.content || '').replace(/`/g, '\\`')}\` },
