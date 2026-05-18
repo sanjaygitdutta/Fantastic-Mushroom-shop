@@ -408,7 +408,7 @@ export const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
 }));
 
 export const ALL_RECIPES = [...WORLD_RECIPES, ...mappedAIRecipes];
-export const ALL_COUNTRIES = [...COUNTRIES, 'Fantastic Recipes'];
+export const ALL_COUNTRIES = ['Fantastic Recipes', ...COUNTRIES];
 export const ALL_CATEGORIES = [...new Set(ALL_RECIPES.map(r => r.category))];
 
 export const getRecipesByCountry = (country: string) =>

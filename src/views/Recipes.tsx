@@ -243,7 +243,11 @@ export default function Recipes() { // refresh
 
         {/* Recipes by Country */}
         <div className="max-w-7xl mx-auto px-4 space-y-12">
-          {Object.entries(groupedByCountry).sort(([a], [b]) => a.localeCompare(b)).map(([country, recipes]) => (
+          {Object.entries(groupedByCountry).sort(([a], [b]) => {
+            if (a === 'Fantastic Recipes') return -1;
+            if (b === 'Fantastic Recipes') return 1;
+            return a.localeCompare(b);
+          }).map(([country, recipes]) => (
             <div key={country} className="scroll-mt-32">
               <div className="flex items-center gap-4 mb-6 bg-white/95 backdrop-blur-md px-6 py-4 rounded-3xl shadow-sm border border-gray-100 max-w-fit">
                 <span className="text-4xl">{COUNTRY_EMOJIS[country] || '🌍'}</span>
