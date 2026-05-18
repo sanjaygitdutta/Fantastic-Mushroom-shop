@@ -577,8 +577,8 @@ export default function RecipePage() {
               </div>
             </div>
 
-            {/* Main Content Area - Swipeable Card */}
-            <div className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+            {/* Main Content Area - Swipeable Card with Scrollable Overflow and Better Typography */}
+            <div className="flex-1 overflow-y-auto p-6 md:py-12 flex flex-col items-center relative">
               <AnimatePresence mode="wait">
                 <motion.div 
                   key={currentStep}
@@ -586,10 +586,10 @@ export default function RecipePage() {
                   animate={{ opacity: 1, scale: 1, x: 0 }}
                   exit={{ opacity: 0, scale: 0.95, x: -50 }}
                   transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
-                  className="max-w-2xl w-full"
+                  className="max-w-2xl w-full my-auto py-4"
                 >
-                  <h3 className="text-amber-400 text-2xl font-black mb-8 opacity-80">Step {currentStep + 1}</h3>
-                  <p className="text-white text-3xl md:text-5xl leading-tight font-medium">
+                  <h3 className="text-amber-400 text-xl md:text-2xl font-black mb-6 opacity-80">Step {currentStep + 1}</h3>
+                  <p className="text-white text-xl md:text-2xl lg:text-3xl leading-relaxed font-medium">
                     {displaySteps[currentStep]}
                   </p>
                 </motion.div>
