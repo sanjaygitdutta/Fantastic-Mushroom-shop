@@ -165,6 +165,23 @@ export default async function RootLayout({
           `}
         </Script>
 
+        {/* Grow by Mediavine Integration (Only renders when a valid Grow Site ID is configured) */}
+        {process.env.NEXT_PUBLIC_GROW_SITE_ID && process.env.NEXT_PUBLIC_GROW_SITE_ID !== 'YOUR_GROW_SITE_ID' && (
+          <>
+            <Script id="grow-initializer" strategy="afterInteractive">
+              {`
+                window.growMe||((window.growMe=function(e){window.growMe._.push(e);}),(window.growMe._=[]));
+              `}
+            </Script>
+            <Script
+              id="grow-me-integration"
+              strategy="lazyOnload"
+              src="https://faves.grow.me/main.js"
+              data-grow-faves-site-id={process.env.NEXT_PUBLIC_GROW_SITE_ID}
+            />
+          </>
+        )}
+
         {/* Website + SearchAction JSON-LD */}
         <Script
           id="structured-data-website"
