@@ -165,21 +165,14 @@ export default async function RootLayout({
           `}
         </Script>
 
-        {/* Grow by Mediavine Integration (Only renders when a valid Grow Site ID is configured) */}
+        {/* Grow by Mediavine Integration (Baked directly into HTML so crawlers can instantly see it) */}
         {process.env.NEXT_PUBLIC_GROW_SITE_ID && process.env.NEXT_PUBLIC_GROW_SITE_ID !== 'YOUR_GROW_SITE_ID' && (
-          <>
-            <Script id="grow-initializer" strategy="afterInteractive">
-              {`
-                window.growMe||((window.growMe=function(e){window.growMe._.push(e);}),(window.growMe._=[]));
-              `}
-            </Script>
-            <Script
-              id="grow-me-integration"
-              strategy="lazyOnload"
-              src="https://faves.grow.me/main.js"
-              data-grow-faves-site-id={process.env.NEXT_PUBLIC_GROW_SITE_ID}
-            />
-          </>
+          <script
+            data-grow-initializer=""
+            dangerouslySetInnerHTML={{
+              __html: `!(function(){window.growMe||((window.growMe=function(e){window.growMe._push(e);}),(window.growMe._=[]));var e=document.createElement("script");(e.type="text/javascript"),(e.src="https://faves.grow.me/main.js"),(e.defer=!0),e.setAttribute("data-grow-faves-site-id","${process.env.NEXT_PUBLIC_GROW_SITE_ID}");var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);})();`
+            }}
+          />
         )}
 
         {/* Website + SearchAction JSON-LD */}
