@@ -27,3 +27,6 @@ dist-ssr
 .next
 build.log
 errors.txt
+
+# Backups
+.recipe-backups
