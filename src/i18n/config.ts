@@ -614,6 +614,7 @@ const resources = {
       "footer_savers_joined": "Savers Joined",
       "footer_privacy": "Privacy Policy",
       "footer_terms": "Terms of Service",
+      "footer_disclaimer_link": "Disclaimer",
       "city_not_found": "City not found",
       "city_no_page": "We don't have a page for this city yet.",
       "go_to_homepage": "Go to Homepage",

@@ -158,6 +158,7 @@ const Footer = () => {
                     <div className="flex space-x-6 mt-4 md:mt-0">
                         <Link href="/privacy" className="hover:text-forest-300 transition-colors">{t('footer_privacy')}</Link>
                         <Link href="/terms" className="hover:text-forest-300 transition-colors">{t('footer_terms')}</Link>
+                        <Link href="/disclaimer" className="hover:text-forest-300 transition-colors">{t('footer_disclaimer_link', { defaultValue: 'Disclaimer' })}</Link>
                     </div>
                 </div>
             </div>
