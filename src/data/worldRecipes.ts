@@ -23,6 +23,7 @@ export interface WorldRecipe {
     instructions: string[];
   }>;
   image?: string;
+  publishedAt?: string;
 }
 
 const r = (

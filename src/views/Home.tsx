@@ -75,7 +75,7 @@ const Home = () => {
   const y1 = useTransform(scrollY, [0, 1000], [0, 300]);
   const y2 = useTransform(scrollY, [0, 1000], [0, -300]);
   const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { region } = useRegion();
   const activeLogos = region === 'SG' ? SG_PLATFORM_LOGOS : PLATFORM_LOGOS;
   
@@ -178,9 +178,16 @@ const Home = () => {
 
           {/* Daily Recipe Widget — links to full section below */}
           {(() => {
+            const todayStr = new Date().toISOString().split('T')[0];
+            const now = new Date();
             const todayRecipe = [...recipes]
               .reverse()
-              .find(r => r.id.match(/^\d{4}-\d{2}-\d{2}$/)) ?? recipes[recipes.length - 1];
+              .find(r => {
+                if (!r.id.match(/^\d{4}-\d{2}-\d{2}$/)) return false;
+                if (r.publishedAt && new Date(r.publishedAt) > now) return false;
+                if (!r.publishedAt && r.id > todayStr) return false;
+                return true;
+              }) ?? recipes[recipes.length - 1];
             if (!todayRecipe) return null;
             return (
               <motion.div
@@ -425,11 +432,25 @@ const Home = () => {
 
       {/* ── Chef Aika's Recipe of the Day ── */}
       {(() => {
-        // Get the latest AI-generated recipe (last in array with a date-based id)
+        // Get the latest AI-generated recipe that is already published
+        const todayStr = new Date().toISOString().split('T')[0];
+        const now = new Date();
         const aiRecipe = [...recipes]
           .reverse()
-          .find(r => r.id.match(/^\d{4}-\d{2}-\d{2}$/)) ?? recipes[recipes.length - 1];
+          .find(r => {
+            if (!r.id.match(/^\d{4}-\d{2}-\d{2}$/)) return false;
+            if (r.publishedAt && new Date(r.publishedAt) > now) return false;
+            if (!r.publishedAt && r.id > todayStr) return false;
+            return true;
+          }) ?? recipes[recipes.length - 1];
         if (!aiRecipe) return null;
+
+        const lang = i18n?.language || 'en';
+        type RecipeTranslation = { title?: string; description?: string; ingredients?: { item: string; amount: string }[]; instructions?: string[] };
+        const tRecipe: RecipeTranslation = aiRecipe.translations?.[lang] ?? {};
+        const displayTitle = tRecipe.title || aiRecipe.title;
+        const displayDesc = tRecipe.description || aiRecipe.description;
+
         return (
           <section className="py-16 px-4 bg-linear-to-br from-forest-950 to-forest-900">
             <div className="max-w-5xl mx-auto">
@@ -445,10 +466,10 @@ const Home = () => {
                     {t('home_aika_recipe_day')}
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black font-display mb-4 leading-tight">
-                    {aiRecipe.title}
+                    {displayTitle}
                   </h2>
-                  <p className="text-gray-300 text-lg mb-6 max-w-lg leading-relaxed">
-                    {aiRecipe.description}
+                  <p className="text-gray-300 text-lg mb-6 max-w-lg leading-relaxed line-clamp-3 md:line-clamp-4">
+                    {displayDesc}
                   </p>
                   <div className="flex flex-wrap gap-3 mb-8">
                     <span className="flex items-center gap-2 bg-white/10 text-gray-100 text-sm px-4 py-2 rounded-full border border-white/20">
@@ -494,7 +515,7 @@ const Home = () => {
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl w-full h-72">
                     <Image
                       src={aiRecipe.image}
-                      alt={aiRecipe.title}
+                      alt={displayTitle}
                       fill
                       sizes="(max-width: 768px) 100vw, 500px"
                       priority

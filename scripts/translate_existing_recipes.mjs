@@ -412,8 +412,9 @@ async function run() {
       // Let's check if the sub-block has an existing translations object
       const translationsMatch = sub.match(/translations:\s*\{/);
       // Ensure the match belongs to the current recipe object (before next recipe object)
-      const nextRecipeMatch = sub.match(/id:\s*'/);
-      const nextIdx = nextRecipeMatch && nextRecipeMatch.index > 0 ? nextRecipeMatch.index : sub.length;
+      const subNext = sub.substring(8); // skip "id: 'X'" at the beginning of the sub-string
+      const nextRecipeMatch = subNext.match(/id:\s*'/);
+      const nextIdx = nextRecipeMatch ? nextRecipeMatch.index + 8 : sub.length;
 
       if (translationsMatch && translationsMatch.index < nextIdx) {
         // translations block exists! Insert zh-CN and ms keys inside it.

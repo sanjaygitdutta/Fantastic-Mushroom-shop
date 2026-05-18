@@ -45,8 +45,12 @@ export default function Recipes() { // refresh
   const filtered = useMemo(() => {
     const todayStr = new Date().toISOString().split('T')[0];
     const results = ALL_RECIPES.filter(r => {
-      // Hide future scheduled recipes
-      if (/^\d{4}-\d{2}-\d{2}$/.test(r.id) && r.id > todayStr) {
+      // Hide future scheduled recipes or recipes not yet published today
+      if (r.publishedAt) {
+        if (new Date(r.publishedAt) > new Date()) {
+          return false;
+        }
+      } else if (/^\d{4}-\d{2}-\d{2}$/.test(r.id) && r.id > todayStr) {
         return false;
       }
       const q = search.toLowerCase();

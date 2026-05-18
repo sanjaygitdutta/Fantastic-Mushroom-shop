@@ -133,11 +133,14 @@ const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
 const dayOfYear = Math.floor((istTime - new Date(istTime.getFullYear(), 0, 0)) / 86400000);
 const dayOfWeek = istTime.getDay(); // 0 is Sunday, 1 is Monday, etc.
 
-// Schedule this post randomly 1 to 5 days in the future to keep a steady editor calendar
-const daysAhead = Math.floor(Math.random() * 5) + 1;
-const futureDateObj = new Date(istTime.getTime() + (daysAhead * 24 * 60 * 60 * 1000));
-const scheduledDateStr = futureDateObj.toISOString().split('T')[0];
-const today = scheduledDateStr; // Alias today as the scheduled date for all downstream variables
+// Schedule this post for today (publish immediately or later today at a random time)
+const today = istTime.toISOString().split('T')[0];
+
+// Generate a random post time for today (e.g. between 8 AM and 10 PM IST)
+const randomHour = Math.floor(Math.random() * 14) + 8; // 8 to 21
+const randomMinute = Math.floor(Math.random() * 60);
+const publishDate = new Date(`${today}T${String(randomHour).padStart(2, '0')}:${String(randomMinute).padStart(2, '0')}:00+05:30`);
+const publishedAtStr = publishDate.toISOString();
 
 let selectedCuisine;
 let fallbackDishPool;
@@ -481,6 +484,7 @@ try {
 
   const recipeTs = `    {
         id: '${today}',
+        publishedAt: '${publishedAtStr}',
         title: '${esc(recipe.en.title)}',
         description: '${esc(recipe.en.description)}',
         image: '${imageUrl}',
