@@ -164,7 +164,8 @@ async function generateUniqueDishName(cuisine, country) {
     const prompt = `You are a world-renowned chef and culinary expert. 
 Invent a completely unique, highly authentic, mouth-watering regional signature dish title for ${cuisine} cuisine from ${country}.
 It must sound incredibly specific, descriptive, and premium (e.g. instead of a generic "Butter Chicken", invent something like "Slow-Simmered Murg Makhani with Charcoal-Smoked Gravy and Fenugreek").
-Do not return generic titles. Return ONLY a single line containing the exact invented English title of the dish. Do not wrap in quotes or markdown.`;
+Do not return generic titles. Return ONLY a single line containing the exact invented English title of the dish. Do not wrap in quotes or markdown.
+CRITICAL: The title must be a complete, self-contained proper noun. Never end the title with conjunctions like 'and', 'with', 'for', 'or', or commas. Keep the title clean and under 6-8 words.`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -202,6 +203,8 @@ if (!selectedDish) {
   selectedDish = fallbackDish;
   console.log(`⚠️ Falling back to deterministic dish: "${selectedDish}"`);
 } else {
+  // Sanitization step: clean trailing conjunctions
+  selectedDish = selectedDish.replace(/\s+(and|with|for|&|or|और|এবং)\s*$/i, '').trim();
   console.log(`✨ Gemini Dynamically Planned Dish: "${selectedDish}"`);
 }
 
@@ -275,61 +278,16 @@ async function generateAIImage(dishName, cuisine, date, retryCount = 0) {
 
 console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" scheduled for ${today}...`);
 
-// ── Build Gemini prompt ────────────────────────────────────────────────────
-const prompt = `You are a passionate home cook, food columnist, and regional culinary advocate. Write an authentic, deeply detailed recipe for "${selectedDish}" — a signature dish from ${selectedCuisine.country}.
-Provide comprehensive translation objects for:
-- English ('en')
-- 6 Indian languages: Hindi ('hi'), Bengali ('bn'), Marathi ('mr'), Telugu ('te'), Tamil ('ta'), and Kannada ('kn').
-- 3 Singaporean languages: English (covered in 'en'), Simplified Chinese ('zh-CN'), and Malay ('ms').
-
-🔴 FORBIDDEN AI CLICHES (DO NOT USE ANY OF THESE):
-"culinary journey", "symphony of flavors", "delight your senses", "dive in", "nestled in", "brimming with", "elevate your dish", "tapestry", "testament", "treasure trove", "more than just a meal", "in conclusion", "game changer", "look no further", "delightful", "a testament to".
-If any of these AI cliches appear, manual reviewers will flag and reject the page. Write naturally instead.
-
-🛡️ PSYCHO-LINGUISTIC HUMANIZATION DIRECTIVES:
-1. High Sentence Burstiness: Break up smooth AI rhythm. Mix short, blunt sentences ("Look, it works.", "Do not walk away.", "Keep it simple.") with long, detailed, and winding narrative thoughts detailing aromas, childhood memories, and traditional techniques.
-2. Warm & Opinionated Voice: Write with a warm, colloquial, strongly opinionated culinary style. Share personal shortcuts, kitchen frustrations, and minor traditional debates (e.g. "some purists argue X, but I've found Y is far better because...").
-3. Sensory Visual Cues: For every step, describe physical visual/smell/sound markers instead of dry commands (e.g., "until the cumin seeds violently crackle", "the raw pungent bite of garlic transforms into a sweet nutty aroma", "the masala begins to split and tiny bubbles of red oil collect around the perimeter of the pan").
-4. High Backstory Depth: For the English 'en' description, write an extensive, 3-paragraph conversational, high-perplexity backstory detailing how you learned to cook this, common failures, and key ingredient rules.
-5. Zero AI Signature: Never mention AI avatars, digital cooking systems, or programmatic assistance. The page is represented as written by a real expert.
-
-Return ONLY a valid JSON object. Use EXACTLY this structure:
-{
-  "en": {
-    "title": "${selectedDish}",
-    "description": "Write a highly detailed, 3-paragraph conversational, high-burstiness backstory here in English. Do not hold back on word count, make it extremely descriptive, personal, and premium.",
-    "prepTime": "25 min",
-    "cookTime": "45 min",
-    "difficulty": "Medium",
-    "servings": 4,
-    "ingredients": [{ "item": "Name", "amount": "Qty" }],
-    "instructions": ["Step 1 detailing tips", "Step 2 with visual cues", "Step 3", "Step 4", "Step 5"],
-    "tags": ["${selectedCuisine.cuisine}", "Dinner", "Authentic"]
-  },
-  "hi": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
-  "bn": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
-  "mr": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
-  "te": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
-  "ta": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
-  "kn": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
-  "zh-CN": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] },
-  "ms": { "title": "...", "description": "...", "ingredients": [{"item": "...", "amount": "..."}], "instructions": ["..."] }
-}
-
-Rules:
-- CRITICAL: You MUST provide the FULL 'ingredients' and 'instructions' arrays for EVERY single language key. Do NOT leave them empty. Do NOT return []. If you return an empty array for any language, the system will crash.
-- All property names in double quotes. No trailing commas.`;
-
-// ── Call Gemini REST API ──────────────────────────────────────────────────
-async function callGemini(retryCount = 0) {
+// Generic Gemini JSON fetch helper
+async function fetchGeminiJSON(promptText, retryCount = 0) {
   const MAX_RETRIES = 3;
   const RETRY_DELAYS_MS = [5000, 15000, 45000];
 
   const payload = {
-    contents: [{ parts: [{ text: prompt }] }],
+    contents: [{ parts: [{ text: promptText }] }],
     generationConfig: {
       temperature: 0.1,
-      maxOutputTokens: 8192,
+      maxOutputTokens: 4000,
       responseMimeType: "application/json"
     }
   };
@@ -346,7 +304,7 @@ async function callGemini(retryCount = 0) {
     const waitMs = RETRY_DELAYS_MS[retryCount];
     console.log(`⏳ Gemini overloaded (${response.status}). Retrying in ${waitMs / 1000}s... (attempt ${retryCount + 1}/${MAX_RETRIES})`);
     await new Promise(r => setTimeout(r, waitMs));
-    return callGemini(retryCount + 1);
+    return fetchGeminiJSON(promptText, retryCount + 1);
   }
 
   if (!response.ok) {
@@ -355,65 +313,117 @@ async function callGemini(retryCount = 0) {
   }
 
   const data = await response.json();
-  let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
   if (!text) throw new Error("Empty response from Gemini");
 
-  // ── Robust JSON Repair ──────────────────────────────────────────────────
-  function robustParse(raw) {
-    let t = raw.trim();
-    t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
-
-    // Try parsing immediately
-    try { return JSON.parse(t); } catch (e) { }
-
-    console.log("🛠️ Attempting robust repair on truncated JSON...");
-
-    // 1. Backtrack to find the last potential valid ending point
-    // We look for characters that usually precede a new object or closing of a list
-    let current = t;
-    while (current.length > 50) {
-      // Try to close common structures and parse
-      const candidates = [
-        current,
-        current + '"',
-        current + '"}',
-        current + '"]',
-        current + '"}]',
-        current + '"}]}',
-        current + '"}]}}',
-        current + '"}]}}}'
-      ];
-
-      for (const cand of candidates) {
-        try { return JSON.parse(cand); } catch (e) { }
-      }
-
-      // If no candidate works, strip the last character and repeat
-      // Specifically strip back to the last comma or brace if we detect it's garbage
-      const lastComma = current.lastIndexOf(',');
-      const lastBrace = current.lastIndexOf('{');
-      const lastBracket = current.lastIndexOf('[');
-      const stripTo = Math.max(lastComma, lastBrace, lastBracket);
-
-      if (stripTo > 0 && stripTo < current.length - 1) {
-        current = current.substring(0, stripTo);
-      } else {
-        current = current.substring(0, current.length - 1);
-      }
-    }
-
-    throw new Error("Could not repair JSON even with backtracking.");
-  }
-
-  try {
-    return robustParse(text);
-  } catch (parseErr) {
-    console.error('\u274c JSON Parse Failed. Showing raw output snippet:');
-    console.error(text.slice(-500));
-    throw new Error(`JSON parse failed: ${parseErr.message}`);
-  }
+  return JSON.parse(text.trim());
 }
+
+// ── Call Gemini REST API - Batch Translation Pipeline ──────────────────────
+async function callGemini() {
+  // Step 1: Generate Master English recipe
+  const englishPrompt = `You are a passionate home cook, food columnist, and regional culinary advocate. Write an authentic, deeply detailed recipe in English for "${selectedDish}" — a signature dish from ${selectedCuisine.country}.
+Provide the full ingredients and instructions in English.
+
+🔴 FORBIDDEN AI CLICHES (DO NOT USE ANY OF THESE):
+"culinary journey", "symphony of flavors", "delight your senses", "dive in", "nestled in", "brimming with", "elevate your dish", "tapestry", "testament", "treasure trove", "more than just a meal", "in conclusion", "game changer", "look no further", "delightful", "a testament to".
+Write naturally instead.
+
+🛡️ PSYCHO-LINGUISTIC HUMANIZATION DIRECTIVES:
+1. High Sentence Burstiness: Break up smooth AI rhythm. Mix short, blunt sentences with long, detailed narrative thoughts.
+2. Warm & Opinionated Voice: Write with a warm, colloquial, strongly opinionated culinary style. Share personal shortcuts, kitchen frustrations, etc.
+3. Sensory Visual Cues: For every step, describe physical visual/smell/sound markers instead of dry commands.
+4. High Backstory Depth: Write an extensive, 3-paragraph conversational, high-perplexity backstory detailing how you learned to cook this, common failures, and key ingredient rules.
+
+Return ONLY a valid JSON object matching EXACTLY this structure:
+{
+  "title": "${selectedDish}",
+  "description": "Write a highly detailed, 3-paragraph conversational backstory here in English. Do not hold back on word count, make it extremely descriptive, personal, and premium.",
+  "prepTime": "25 min",
+  "cookTime": "45 min",
+  "difficulty": "Medium",
+  "servings": 4,
+  "ingredients": [{ "item": "Name", "amount": "Qty" }],
+  "instructions": ["Step 1 detailing tips", "Step 2 with visual cues", "Step 3", "Step 4", "Step 5"],
+  "tags": ["${selectedCuisine.cuisine}", "Dinner", "Authentic"]
+}`;
+
+  console.log(`🤖 Generating master English recipe for "${selectedDish}"...`);
+  const englishRecipe = await fetchGeminiJSON(englishPrompt);
+
+  // Programmatic Title guardrail on the generated English title
+  englishRecipe.title = englishRecipe.title
+    .replace(/\s+(and|with|for|&|or|aur)\s*$/i, '')
+    .trim();
+
+  // Helper function to translate into a set of languages
+  async function translateBatch(languages) {
+    const langListStr = Object.keys(languages).map(code => `${languages[code]} ('${code}')`).join(', ');
+    console.log(`🤖 Translating recipe into: ${langListStr}...`);
+    
+    const translatePrompt = `You are an expert culinary translator. Translate the following English recipe into:
+${langListStr}
+
+CRITICAL RULES:
+1. The title for each language MUST be a clean, complete proper noun representing the dish. NEVER append words like "and", "with", "और", "এবং", or commas at the end of the title. Keep it clean!
+2. Write a rich, mouth-watering description matching the tone of the English original.
+3. Translate all ingredients exactly, keeping the exact amounts and descriptive terms translated into the target language.
+4. Translate all preparation steps accurately and thoroughly.
+5. Return ONLY a valid JSON object matching this structure (no markdown, no backticks):
+{
+  ${Object.keys(languages).map(code => `"${code}": {
+    "title": "Clean translated dish title",
+    "description": "Rich translated story/description...",
+    "ingredients": [{"item": "translated item", "amount": "translated amount"}],
+    "instructions": ["Step 1 translated...", "Step 2 translated..."]
+  }`).join(',\n  ')}
+}`;
+
+    const payload = {
+      title: englishRecipe.title,
+      description: englishRecipe.description,
+      ingredients: englishRecipe.ingredients,
+      instructions: englishRecipe.instructions
+    };
+    
+    const finalPrompt = `${translatePrompt}\n\nEnglish Recipe to translate:\n${JSON.stringify(payload, null, 2)}`;
+    return await fetchGeminiJSON(finalPrompt);
+  }
+
+  // Translate in 3 parallel batches to prevent context token truncation
+  console.log(`🤖 Starting parallel translation batches to prevent context token truncation...`);
+  const [batch1, batch2, batch3] = await Promise.all([
+    translateBatch({ hi: 'Hindi', bn: 'Bengali', mr: 'Marathi' }),
+    translateBatch({ te: 'Telugu', ta: 'Tamil', kn: 'Kannada' }),
+    translateBatch({ 'zh-CN': 'Simplified Chinese', ms: 'Malay' })
+  ]);
+
+  // Combine translations
+  const finalResult = {
+    en: englishRecipe,
+    hi: batch1.hi,
+    bn: batch1.bn,
+    mr: batch1.mr,
+    te: batch2.te,
+    ta: batch2.ta,
+    kn: batch2.kn,
+    'zh-CN': batch3['zh-CN'],
+    ms: batch3.ms
+  };
+
+  // Programmatic cleanup of all translated titles (extra safety layer)
+  for (const code in finalResult) {
+    if (finalResult[code] && finalResult[code].title) {
+      finalResult[code].title = finalResult[code].title
+        .replace(/\s+(and|with|for|&|or|और|এবং|aur)\s*$/i, '')
+        .trim();
+    }
+  }
+
+  return finalResult;
+}
+
 
 // ── Main ──────────────────────────────────────────────────────────────────
 const recipesPath = path.resolve('./src/data/recipes.ts');

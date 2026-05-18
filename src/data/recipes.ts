@@ -5089,94 +5089,839 @@ export const recipes: Recipe[] = [
 ,
     {
         id: '2026-05-18',
-        title: 'Chilli Crab and',
-        description: 'Chilli Crab. Ah, the very name brings back the humid air of East Coast Lagoon Food Centre, the clatter of plates, and the joyous, messy slurping. This isn\'t just a dish; it\'s a Singaporean institution, a rite of passage. I remember my first real attempt at making it, back when I was just a young cook, all bravado and no technique. I’d watched my Auntie Mei whip it up countless times, her movements precise, almost ritualistic. But watching and doing are two different beasts. My first few tries? Disasters. The sauce was either too watery, refusing to cling to the crab, or so thick it became a gloopy mess. And the crab! Oh, the horror of overcooked, rubbery crab. Auntie Mei, bless her patient soul, would just shake her head, offer a small, knowing smile, and then gently guide my hand, showing me how to coax the sweetness from the shallots, how to judge the perfect moment the chili paste truly \'bloomed\' in the oil. It took years, honestly, to get that balance just right, to understand the soul of the dish.  The secret, if there is one, lies in the chili paste and the freshness of your crab. Forget those pre-made jars; they just don\'t cut it. You need that vibrant, complex heat from dried chilies, the pungent sweetness of fresh shallots, the sharp bite of garlic and ginger, and a tiny, crucial whisper of belacan. Some purists argue for a purely tomato-based sauce, but I\'ve found a judicious blend of good quality bottled chili sauce and ketchup, alongside fresh tomatoes, gives it that signature tangy-sweet-spicy depth that makes you want to lick the plate clean. And the egg! That delicate, silky egg swirl at the end isn\'t just for show; it adds a beautiful richness and texture, binding the sauce together. The trick is to drizzle it in slowly, gently stirring, letting it form those lovely, wispy ribbons. Don\'t just dump it in, or you\'ll end up with scrambled egg in your crab. Trust me, I\'ve been there.  This dish is meant to be shared, to be devoured with your hands, elbows deep in that glorious, fiery red sauce. It’s a communal experience, a celebration. You’ll need plenty of napkins, maybe even a bib, and definitely a stack of those fluffy, fried mantou buns. They’re not optional; they’re essential for mopping up every last drop of that incredible sauce. There’s nothing quite like tearing into a succulent piece of crab, coated in that rich, spicy, slightly sweet sauce, and then chasing it with a sauce-soaked mantou. It’s messy, it’s loud, and it’s absolutely perfect. Don\'t walk away from the stove once the crab goes in; it cooks fast. Keep an eye on it, and you\'ll be rewarded with a meal that truly sings.',
+        title: 'Chilli Crab',
+        description: "Chilli Crab. Ah, the very name brings back the humid air of East Coast Lagoon Food Centre, the clatter of plates, and the joyous, messy slurping. This isn't just a dish; it's a Singaporean institution, a rite of passage. I remember my first real attempt at making it, back when I was just a young cook, all bravado and no technique. I’d watched my Auntie Mei whip it up countless times, her movements precise, almost ritualistic. But watching and doing are two different beasts. My first few tries? Disasters. The sauce was either too watery, refusing to cling to the crab, or so thick it became a gloopy mess. And the crab! Oh, the horror of overcooked, rubbery crab. Auntie Mei, bless her patient soul, would just shake her head, offer a small, knowing smile, and then gently guide my hand, showing me how to coax the sweetness from the shallots, how to judge the perfect moment the chili paste truly 'bloomed' in the oil. It took years, honestly, to get that balance just right, to understand the soul of the dish.  The secret, if there is one, lies in the chili paste and the freshness of your crab. Forget those pre-made jars; they just don't cut it. You need that vibrant, complex heat from dried chilies, the pungent sweetness of fresh shallots, the sharp bite of garlic and ginger, and a tiny, crucial whisper of belacan. Some purists argue for a purely tomato-based sauce, but I've found a judicious blend of good quality bottled chili sauce and ketchup, alongside fresh tomatoes, gives it that signature tangy-sweet-spicy depth that makes you want to lick the plate clean. And the egg! That delicate, silky egg swirl at the end isn't just for show; it adds a beautiful richness and texture, binding the sauce together. The trick is to drizzle it in slowly, gently stirring, letting it form those lovely, wispy ribbons. Don't just dump it in, or you'll end up with scrambled egg in your crab. Trust me, I've been there.  This dish is meant to be shared, to be devoured with your hands, elbows deep in that glorious, fiery red sauce. It’s a communal experience, a celebration. You’ll need plenty of napkins, maybe even a bib, and definitely a stack of those fluffy, fried mantou buns. They’re not optional; they’re essential for mopping up every last drop of that incredible sauce. There’s nothing quite like tearing into a succulent piece of crab, coated in that rich, spicy, slightly sweet sauce, and then chasing it with a sauce-soaked mantou. It’s messy, it’s loud, and it’s absolutely perfect. Don't walk away from the stove once the crab goes in; it cooks fast. Keep an eye on it, and you'll be rewarded with a meal that truly sings.",
         image: '/recipe-images/2026-05-18.jpg',
         prepTime: '25 min',
         cookTime: '45 min',
         difficulty: 'Medium',
         servings: 4,
         ingredients: [
-            { item: 'Fresh Mud Crabs', amount: '2 (approx. 800g - 1kg each), cleaned and cracked' },
-            { item: 'Cooking Oil', amount: '1/2 cup' },
-            { item: 'Garlic', amount: '8 cloves, minced' },
-            { item: 'Ginger', amount: '2-inch piece, grated' },
-            { item: 'Shallots', amount: '4, finely chopped' },
-            { item: 'Dried Red Chilies', amount: '15-20, soaked in hot water, deseeded (adjust to spice preference)' },
-            { item: 'Fresh Red Chilies', amount: '5-6, deseeded (for color and fresh heat)' },
-            { item: 'Belacan (Shrimp Paste)', amount: '1 tsp, toasted' },
-            { item: 'Tomato Ketchup', amount: '1/2 cup' },
-            { item: 'Bottled Chilli Sauce', amount: '1/4 cup (e.g., Maggi or similar sweet chili sauce)' },
-            { item: 'Water or Chicken Stock', amount: '1.5 cups' },
-            { item: 'Sugar', amount: '2-3 tbsp (adjust to taste)' },
-            { item: 'Salt', amount: '1 tsp (or to taste)' },
-            { item: 'White Vinegar', amount: '1 tbsp' },
-            { item: 'Cornstarch', amount: '2 tbsp, mixed with 4 tbsp water (slurry)' },
-            { item: 'Eggs', amount: '2 large, lightly beaten' },
-            { item: 'Coriander Leaves', amount: 'For garnish, chopped' },
-            { item: 'Spring Onions', amount: 'For garnish, sliced' },
-            { item: 'Fried Mantou Buns', amount: 'For serving' }
-        ],
+          {
+                    "item": "Fresh Mud Crabs",
+                    "amount": "2 (approx. 800g - 1kg each), cleaned and cracked"
+          },
+          {
+                    "item": "Cooking Oil",
+                    "amount": "1/2 cup"
+          },
+          {
+                    "item": "Garlic",
+                    "amount": "8 cloves, minced"
+          },
+          {
+                    "item": "Ginger",
+                    "amount": "2-inch piece, grated"
+          },
+          {
+                    "item": "Shallots",
+                    "amount": "4, finely chopped"
+          },
+          {
+                    "item": "Dried Red Chilies",
+                    "amount": "15-20, soaked in hot water, deseeded (adjust to spice preference)"
+          },
+          {
+                    "item": "Fresh Red Chilies",
+                    "amount": "5-6, deseeded (for color and fresh heat)"
+          },
+          {
+                    "item": "Belacan (Shrimp Paste)",
+                    "amount": "1 tsp, toasted"
+          },
+          {
+                    "item": "Tomato Ketchup",
+                    "amount": "1/2 cup"
+          },
+          {
+                    "item": "Bottled Chilli Sauce",
+                    "amount": "1/4 cup (e.g., Maggi or similar sweet chili sauce)"
+          },
+          {
+                    "item": "Water or Chicken Stock",
+                    "amount": "1.5 cups"
+          },
+          {
+                    "item": "Sugar",
+                    "amount": "2-3 tbsp (adjust to taste)"
+          },
+          {
+                    "item": "Salt",
+                    "amount": "1 tsp (or to taste)"
+          },
+          {
+                    "item": "White Vinegar",
+                    "amount": "1 tbsp"
+          },
+          {
+                    "item": "Cornstarch",
+                    "amount": "2 tbsp, mixed with 4 tbsp water (slurry)"
+          },
+          {
+                    "item": "Eggs",
+                    "amount": "2 large, lightly beaten"
+          },
+          {
+                    "item": "Coriander Leaves",
+                    "amount": "For garnish, chopped"
+          },
+          {
+                    "item": "Spring Onions",
+                    "amount": "For garnish, sliced"
+          },
+          {
+                    "item": "Fried Mantou Buns",
+                    "amount": "For serving"
+          }
+],
         instructions: [
-            'Prepare the Crab: First, the star! Get your crabs. Clean them thoroughly under running water. Use a sturdy cleaver or heavy knife to crack the shells and claws. Don\'t be shy; you want the sauce to get into every nook and cranny. Separate the body into halves or quarters, keeping the legs and claws attached. Set aside.',
-            'Make the Chilli Paste: This is where the magic starts. In a food processor or with a mortar and pestle, combine the soaked dried red chilies, fresh red chilies, shallots, garlic, ginger, and the toasted belacan. Blend or pound until you have a relatively smooth, fragrant paste. It should smell vibrant, a little pungent, and promising.',
-            'Sauté the Paste: Heat the cooking oil in a large wok or deep pan over medium-high heat. Add your freshly made chili paste. Stir constantly, letting it sizzle and pop. You\'re looking for the raw, sharp edges of the chilies and garlic to mellow, for the paste to darken slightly, and for the oil to begin to \'split\' and collect around the edges of the pan. This takes about 8-10 minutes. Don\'t rush it; this step builds the foundation of flavor.',
-            'Build the Sauce Base: Pour in the tomato ketchup, bottled chili sauce, water or chicken stock, sugar, salt, and white vinegar. Stir everything together until it\'s well combined and starts to bubble gently. Let it simmer for about 5 minutes, allowing the flavors to meld and deepen. The aroma should be a beautiful mix of sweet, tangy, and spicy.',
-            'Cook the Crab: Now for the main event. Add the prepared crab pieces to the simmering sauce. Stir gently to coat all the crab with that glorious red mixture. Cover the wok and let it cook for about 8-10 minutes, or until the crab shells turn a vibrant orange-red and the flesh is opaque. Do not overcook! Rubber crab is a culinary tragedy.',
-            'Thicken the Sauce: Give the cornstarch slurry a quick stir (it settles!). Pour it slowly into the simmering sauce, stirring continuously. Watch as the sauce transforms, thickening to a glossy, luxurious consistency that will cling beautifully to the crab. Let it bubble for another minute to cook out the raw cornstarch taste.',
-            'Add the Egg: Reduce the heat to low. Slowly, in a thin stream, drizzle the lightly beaten eggs into the sauce while gently stirring with a spoon or spatula. You want to create delicate, silky ribbons of egg, not scrambled bits. Stir just enough to incorporate, then turn off the heat. The residual heat will finish cooking the egg.',
-            'Serve Immediately: Transfer the Chilli Crab to a large serving platter. Garnish generously with fresh coriander leaves and sliced spring onions. Serve piping hot with a generous pile of freshly fried Mantou buns. Get messy, dig in, and enjoy every single glorious bite!'
-        ],
+          "Prepare the Crab: First, the star! Get your crabs. Clean them thoroughly under running water. Use a sturdy cleaver or heavy knife to crack the shells and claws. Don't be shy; you want the sauce to get into every nook and cranny. Separate the body into halves or quarters, keeping the legs and claws attached. Set aside.",
+          "Make the Chilli Paste: This is where the magic starts. In a food processor or with a mortar and pestle, combine the soaked dried red chilies, fresh red chilies, shallots, garlic, ginger, and the toasted belacan. Blend or pound until you have a relatively smooth, fragrant paste. It should smell vibrant, a little pungent, and promising.",
+          "Sauté the Paste: Heat the cooking oil in a large wok or deep pan over medium-high heat. Add your freshly made chili paste. Stir constantly, letting it sizzle and pop. You're looking for the raw, sharp edges of the chilies and garlic to mellow, for the paste to darken slightly, and for the oil to begin to 'split' and collect around the edges of the pan. This takes about 8-10 minutes. Don't rush it; this step builds the foundation of flavor.",
+          "Build the Sauce Base: Pour in the tomato ketchup, bottled chili sauce, water or chicken stock, sugar, salt, and white vinegar. Stir everything together until it's well combined and starts to bubble gently. Let it simmer for about 5 minutes, allowing the flavors to meld and deepen. The aroma should be a beautiful mix of sweet, tangy, and spicy.",
+          "Cook the Crab: Now for the main event. Add the prepared crab pieces to the simmering sauce. Stir gently to coat all the crab with that glorious red mixture. Cover the wok and let it cook for about 8-10 minutes, or until the crab shells turn a vibrant orange-red and the flesh is opaque. Do not overcook! Rubber crab is a culinary tragedy.",
+          "Thicken the Sauce: Give the cornstarch slurry a quick stir (it settles!). Pour it slowly into the simmering sauce, stirring continuously. Watch as the sauce transforms, thickening to a glossy, luxurious consistency that will cling beautifully to the crab. Let it bubble for another minute to cook out the raw cornstarch taste.",
+          "Add the Egg: Reduce the heat to low. Slowly, in a thin stream, drizzle the lightly beaten eggs into the sauce while gently stirring with a spoon or spatula. You want to create delicate, silky ribbons of egg, not scrambled bits. Stir just enough to incorporate, then turn off the heat. The residual heat will finish cooking the egg.",
+          "Serve Immediately: Transfer the Chilli Crab to a large serving platter. Garnish generously with fresh coriander leaves and sliced spring onions. Serve piping hot with a generous pile of freshly fried Mantou buns. Get messy, dig in, and enjoy every single glorious bite!"
+],
         tags: ['Singaporean', 'Dinner', 'Authentic'],
         translations: {
-            hi: {
-                title: 'चिली क्रैब और',
-                description: 'चिली क्रैब। आह, यह नाम सुनते ही ईस्ट कोस्ट लैगून फूड सेंटर की उमस भरी हवा, बर्तनों की खड़खड़ाहट और खुशी से, गंदे तरीके से खाने की याद आ जाती है। यह सिर्फ एक व्यंजन नहीं है; यह सिंगापुर की एक संस्था है, एक परंपरा है। मुझे इसे बनाने का मेरा पहला वास्तविक प्रयास याद है, जब मैं सिर्फ एक युवा रसोइया था, पूरा जोश था पर तकनीक नहीं थी। मैंने अपनी चाची मेई को इसे अनगिनत बार बनाते देखा था, उनके हाव-भाव सटीक, लगभग अनुष्ठानिक थे। लेकिन देखना और करना दो अलग-अलग बातें हैं। मेरे पहले कुछ प्रयास? आपदाएँ। सॉस या तो बहुत पतला था, केकड़े से चिपकने से इनकार कर रहा था, या इतना गाढ़ा था कि वह एक चिपचिपा गड़बड़ बन गया। और केकड़ा! ओह, ज़्यादा पका हुआ, रबर जैसा केकड़ा कितना भयानक होता है। चाची मेई, उनकी धैर्यवान आत्मा को आशीर्वाद, बस अपना सिर हिलातीं, एक छोटी, समझदार मुस्कान देतीं, और फिर धीरे से मेरा हाथ पकड़कर मुझे दिखातीं कि कैसे प्याज़ से मिठास निकालनी है, कैसे उस सही क्षण का न्याय करना है जब मिर्च का पेस्ट तेल में वास्तव में \'खिलता\' है। ईमानदारी से कहूँ तो, इस संतुलन को सही करने में, इस व्यंजन की आत्मा को समझने में सालों लग गए।  इसका रहस्य, अगर कोई है, तो वह मिर्च के पेस्ट और आपके केकड़े की ताज़गी में निहित है। उन पहले से बने जारों को भूल जाइए; वे बस काम नहीं करते। आपको सूखी मिर्च से वह जीवंत, जटिल गर्मी चाहिए, ताज़े प्याज़ की तीखी मिठास, लहसुन और अदरक का तीखा स्वाद, और बेलाचन की एक छोटी, महत्वपूर्ण फुसफुसाहट। कुछ शुद्धतावादी पूरी तरह से टमाटर-आधारित सॉस के लिए तर्क देते हैं, लेकिन मैंने पाया है कि अच्छी गुणवत्ता वाले बोतल बंद चिली सॉस और केचप का एक विवेकपूर्ण मिश्रण, ताज़े टमाटरों के साथ, इसे वह विशिष्ट खट्टा-मीठा-मसालेदार गहराई देता है जो आपको प्लेट चाटने पर मजबूर कर देता है। और अंडा! अंत में वह नाजुक, रेशमी अंडे का घुमाव सिर्फ दिखाने के लिए नहीं है; यह एक सुंदर समृद्धि और बनावट जोड़ता है, सॉस को एक साथ बांधता है। चाल यह है कि इसे धीरे-धीरे, धीरे से हिलाते हुए डालें, जिससे यह सुंदर, पतली धारियाँ बना सके। इसे बस ऐसे ही मत डालिए, वरना आपके केकड़े में अंडे का भुर्जी बन जाएगी। मुझ पर विश्वास करें, मैं वहाँ रहा हूँ।  यह व्यंजन साझा करने के लिए है, अपने हाथों से खाने के लिए है, उस शानदार, उग्र लाल सॉस में कोहनी तक डूबकर। यह एक सामुदायिक अनुभव है, एक उत्सव है। आपको ढेर सारे नैपकिन, शायद एक बिब भी, और निश्चित रूप से उन फूले हुए, तले हुए मंटौ बन्स का एक ढेर चाहिए होगा। वे वैकल्पिक नहीं हैं; वे उस अविश्वसनीय सॉस की हर आखिरी बूंद को सोखने के लिए आवश्यक हैं। केकड़े के एक रसीले टुकड़े को फाड़कर, उस समृद्ध, मसालेदार, थोड़े मीठे सॉस में लपेटकर, और फिर उसे सॉस में डूबे मंटौ के साथ खाने जैसा कुछ भी नहीं है। यह गंदा है, यह शोरगुल वाला है, और यह बिल्कुल सही है। एक बार जब केकड़ा अंदर चला जाए तो स्टोव से दूर न हटें; यह जल्दी पकता है। इस पर नज़र रखें, और आपको एक ऐसा भोजन मिलेगा जो वास्तव में गाता है।',
-                ingredients: [{ item: 'ताजे मड क्रैब', amount: '2 (लगभग 800 ग्राम - 1 किलो प्रत्येक), साफ और तोड़े हुए' }, { item: 'खाना पकाने का तेल', amount: '1/2 कप' }, { item: 'लहसुन', amount: '8 कलियाँ, बारीक कटी हुई' }, { item: 'अदरक', amount: '2 इंच का टुकड़ा, कद्दूकस किया हुआ' }, { item: 'प्याज़ (शैलट्स)', amount: '4, बारीक कटे हुए' }, { item: 'सूखी लाल मिर्च', amount: '15-20, गर्म पानी में भिगोकर, बीज निकाले हुए (मसाले के अनुसार समायोजित करें)' }, { item: 'ताजी लाल मिर्च', amount: '5-6, बीज निकाले हुए (रंग और ताजी गर्मी के लिए)' }, { item: 'बेलाचन (झींगा पेस्ट)', amount: '1 छोटा चम्मच, भुना हुआ' }, { item: 'टमाटर केचप', amount: '1/2 कप' }, { item: 'बोतल बंद चिली सॉस', amount: '1/4 कप (जैसे मैगी या इसी तरह का मीठा चिली सॉस)' }, { item: 'पानी या चिकन स्टॉक', amount: '1.5 कप' }, { item: 'चीनी', amount: '2-3 बड़े चम्मच (स्वाद के अनुसार समायोजित करें)' }, { item: 'नमक', amount: '1 छोटा चम्मच (या स्वाद के अनुसार)' }, { item: 'सफेद सिरका', amount: '1 बड़ा चम्मच' }, { item: 'कॉर्नस्टार्च', amount: '2 बड़े चम्मच, 4 बड़े चम्मच पानी के साथ मिलाया हुआ (घोल)' }, { item: 'अंडे', amount: '2 बड़े, हल्के फेंटे हुए' }, { item: 'धनिया पत्ती', amount: 'सजाने के लिए, कटी हुई' }, { item: 'हरी प्याज़', amount: 'सजाने के लिए, कटी हुई' }, { item: 'तले हुए मंटौ बन्स', amount: 'परोसने के लिए' }],
-                instructions: ['केकड़ा तैयार करें: सबसे पहले, स्टार! अपने केकड़े लें। उन्हें बहते पानी के नीचे अच्छी तरह साफ करें। खोल और पंजों को तोड़ने के लिए एक मजबूत कुल्हाड़ी या भारी चाकू का उपयोग करें। शर्माएं नहीं; आप चाहते हैं कि सॉस हर कोने में जाए। शरीर को आधे या चौथाई हिस्सों में अलग करें, पैरों और पंजों को जुड़ा रहने दें। एक तरफ रख दें।', 'चिली पेस्ट बनाएं: यहीं से जादू शुरू होता है। एक फूड प्रोसेसर या मोर्टार और मूसल में, भिगोई हुई सूखी लाल मिर्च, ताजी लाल मिर्च, प्याज़, लहसुन, अदरक और भुना हुआ बेलाचन मिलाएं। तब तक ब्लेंड या पीसें जब तक आपको एक अपेक्षाकृत चिकना, सुगंधित पेस्ट न मिल जाए। इसकी महक जीवंत, थोड़ी तीखी और आशाजनक होनी चाहिए।', 'पेस्ट भूनें: एक बड़ी कड़ाही या गहरे पैन में मध्यम-तेज आंच पर खाना पकाने का तेल गरम करें। अपना ताज़ा बना हुआ चिली पेस्ट डालें। लगातार हिलाते रहें, इसे भुनने और चटकने दें। आप चाहते हैं कि मिर्च और लहसुन के कच्चे, तीखे किनारे नरम हो जाएं, पेस्ट थोड़ा गहरा हो जाए, और तेल \'अलग\' होकर पैन के किनारों पर जमा होने लगे। इसमें लगभग 8-10 मिनट लगते हैं। जल्दी न करें; यह कदम स्वाद की नींव बनाता है।', 'सॉस बेस बनाएं: टमाटर केचप, बोतल बंद चिली सॉस, पानी या चिकन स्टॉक, चीनी, नमक और सफेद सिरका डालें। सब कुछ एक साथ मिलाएं जब तक कि यह अच्छी तरह से मिल न जाए और धीरे-धीरे बुलबुले न उठने लगें। इसे लगभग 5 मिनट तक उबलने दें, जिससे स्वाद मिल जाएं और गहरा हो जाए। सुगंध मीठा, खट्टा और मसालेदार का एक सुंदर मिश्रण होना चाहिए।', 'केकड़ा पकाएं: अब मुख्य कार्यक्रम के लिए। तैयार केकड़े के टुकड़ों को उबलते सॉस में डालें। सभी केकड़ों को उस शानदार लाल मिश्रण से ढकने के लिए धीरे से हिलाएं। कड़ाही को ढक दें और इसे लगभग 8-10 मिनट तक पकने दें, या जब तक केकड़े के खोल चमकीले नारंगी-लाल न हो जाएं और मांस अपारदर्शी न हो जाए। ज़्यादा न पकाएं! रबर जैसा केकड़ा एक पाक त्रासदी है।', 'सॉस गाढ़ा करें: कॉर्नस्टार्च के घोल को एक बार फिर से हिलाएं (यह बैठ जाता है!)। इसे धीरे-धीरे उबलते सॉस में डालें, लगातार हिलाते रहें। देखें कि सॉस कैसे बदलता है, एक चमकदार, शानदार स्थिरता में गाढ़ा होता है जो केकड़े से खूबसूरती से चिपकेगा। कच्चे कॉर्नस्टार्च के स्वाद को पकाने के लिए इसे एक और मिनट के लिए उबलने दें।', 'अंडा डालें: आंच धीमी कर दें। धीरे-धीरे, एक पतली धार में, हल्के फेंटे हुए अंडे को सॉस में डालें जबकि एक चम्मच या स्पैटुला से धीरे-धीरे हिलाते रहें। आप अंडे की नाजुक, रेशमी धारियाँ बनाना चाहते हैं, न कि तले हुए टुकड़े। बस इतना हिलाएं कि वह मिल जाए, फिर आंच बंद कर दें। बची हुई गर्मी अंडे को पूरी तरह पका देगी।', 'तुरंत परोसें: चिली क्रैब को एक बड़ी सर्विंग प्लेट में निकालें। ताजी धनिया पत्ती और कटी हुई हरी प्याज़ से उदारतापूर्वक सजाएं। गरमागरम तले हुए मंटौ बन्स के ढेर के साथ परोसें। गंदे हो जाएं, खाना शुरू करें, और हर शानदार निवाले का आनंद लें!']
-            },
-            bn: {
-                title: 'চিলি ক্র্যাব এবং',
-                description: 'চিলি ক্র্যাব। আহা, এই নামটা শুনলেই ইস্ট কোস্ট ল্যাগুন ফুড সেন্টারের আর্দ্র বাতাস, থালা-বাসনের ঠোকাঠুকি আর আনন্দের, নোংরাভাবে খাবার খাওয়ার স্মৃতি মনে পড়ে যায়। এটা শুধু একটা পদ নয়; এটা সিঙ্গাপুরের একটা প্রতিষ্ঠান, একটা ঐতিহ্য। আমার মনে আছে, যখন আমি প্রথমবার এটা বানানোর চেষ্টা করেছিলাম, তখন আমি কেবল একজন তরুণ রাঁধুনি ছিলাম, আত্মবিশ্বাস ছিল কিন্তু কৌশল ছিল না। আমি আমার মাসি মেইকে এটা অসংখ্যবার বানাতে দেখেছি, তার নড়াচড়া ছিল নিখুঁত, প্রায় আনুষ্ঠানিক। কিন্তু দেখা আর করা দুটো ভিন্ন জিনিস। আমার প্রথম কয়েকটা চেষ্টা? বিপর্যয়। সস হয় খুব পাতলা হয়ে যেত, কাঁকড়ার গায়ে লেগে থাকত না, অথবা এত ঘন হয়ে যেত যে একটা আঠালো জগাখিচুড়ি হয়ে যেত। আর কাঁকড়া! ওহ, অতিরিক্ত সেদ্ধ, রাবারের মতো কাঁকড়ার ভয়াবহতা। মাসি মেই, তার ধৈর্যশীল আত্মাকে আশীর্বাদ, কেবল মাথা নাড়তেন, একটি ছোট, জ্ঞানী হাসি দিতেন, এবং তারপর আলতো করে আমার হাত ধরে দেখাতেন কিভাবে শ্যালট থেকে মিষ্টি বের করতে হয়, কিভাবে সেই নিখুঁত মুহূর্তটি বিচার করতে হয় যখন মরিচের পেস্ট তেলে সত্যিই \'ফুটে ওঠে\'। সত্যি বলতে, এই ভারসাম্যটা ঠিক করতে, এই পদের আত্মাকে বুঝতে কয়েক বছর লেগেছিল।  এর রহস্য, যদি কোনো থাকে, তাহলে তা মরিচের পেস্ট এবং আপনার কাঁকড়ার সতেজতায় নিহিত। সেই তৈরি করা জারগুলো ভুলে যান; সেগুলো ঠিক কাজ করে না। আপনার দরকার শুকনো মরিচ থেকে সেই প্রাণবন্ত, জটিল ঝাল, তাজা শ্যালটের তীব্র মিষ্টি, রসুন এবং আদার তীক্ষ্ণ কামড়, এবং বেলাচানের একটি ছোট, গুরুত্বপূর্ণ ফিসফিস। কিছু বিশুদ্ধতাবাদী সম্পূর্ণরূপে টমেটো-ভিত্তিক সসের জন্য তর্ক করেন, কিন্তু আমি দেখেছি যে ভালো মানের বোতলজাত চিলি সস এবং কেচাপের একটি বিচক্ষণ মিশ্রণ, তাজা টমেটোর সাথে, এটিকে সেই স্বাক্ষরযুক্ত টক-মিষ্টি-ঝাল গভীরতা দেয় যা আপনাকে প্লেট চেটে পরিষ্কার করতে বাধ্য করে। আর ডিম! শেষে সেই সূক্ষ্ম, রেশমি ডিমের ঘূর্ণন কেবল দেখানোর জন্য নয়; এটি একটি সুন্দর সমৃদ্ধি এবং টেক্সচার যোগ করে, সসকে একসাথে ধরে রাখে। কৌশলটি হল এটিকে ধীরে ধীরে, আলতো করে নাড়তে নাড়তে ঢালা, যাতে এটি সুন্দর, পাতলা ফিতা তৈরি করতে পারে। এটিকে শুধু ঢেলে দেবেন না, তাহলে আপনার কাঁকড়ার মধ্যে ডিমের ভুজিয়া হয়ে যাবে। বিশ্বাস করুন, আমি এটা করেছি।  এই পদটি ভাগ করে খাওয়ার জন্য, আপনার হাত দিয়ে গোগ্রাসে গিলে ফেলার জন্য, সেই মহিমান্বিত, জ্বলন্ত লাল সসে কনুই ডুবিয়ে। এটি একটি সাম্প্রদায়িক অভিজ্ঞতা, একটি উদযাপন। আপনার প্রচুর ন্যাপকিন লাগবে, হয়তো একটি বিবও, এবং অবশ্যই সেই নরম, ভাজা মান্টাউ বানের একটি স্তূপ। এগুলি ঐচ্ছিক নয়; সেই অবিশ্বাস্য সসের প্রতিটি শেষ ফোঁটা মুছে ফেলার জন্য এগুলি অপরিহার্য। কাঁকড়ার একটি রসালো টুকরো ছিঁড়ে, সেই সমৃদ্ধ, ঝাল, সামান্য মিষ্টি সসে ডুবিয়ে, এবং তারপর সসে ভেজানো মান্টাউ দিয়ে খাওয়ার মতো আর কিছুই নেই। এটা নোংরা, এটা কোলাহলপূর্ণ, এবং এটা একেবারে নিখুঁত। কাঁকড়া একবার কড়াইতে চলে গেলে চুলা থেকে দূরে সরে যাবেন না; এটা দ্রুত রান্না হয়। এর দিকে নজর রাখুন, এবং আপনি এমন একটি খাবার পাবেন যা সত্যিই গান গায়।',
-                ingredients: [{ item: 'তাজা মাড ক্র্যাব', amount: '2টি (প্রায় 800 গ্রাম - 1 কেজি প্রতিটি), পরিষ্কার এবং ভাঙা' }, { item: 'রান্নার তেল', amount: '1/2 কাপ' }, { item: 'রসুন', amount: '8 কোয়া, কুচি করা' }, { item: 'আদা', amount: '2 ইঞ্চি টুকরা, গ্রেট করা' }, { item: 'শ্যালট', amount: '4টি' }],
-                instructions: []
-            },
-            mr: {
-                title: '',
-                description: '',
-                ingredients: [],
-                instructions: []
-            },
-            te: {
-                title: '',
-                description: '',
-                ingredients: [],
-                instructions: []
-            },
-            ta: {
-                title: '',
-                description: '',
-                ingredients: [],
-                instructions: []
-            },
-            kn: {
-                title: '',
-                description: '',
-                ingredients: [],
-                instructions: []
-            },
-            'zh-CN': {
-                title: '',
-                description: '',
-                ingredients: [],
-                instructions: []
-            },
-            ms: {
-                title: '',
-                description: '',
-                ingredients: [],
-                instructions: []
-            }
-        }
+          "hi": {
+                    "title": "चिली क्रैब",
+                    "description": "चिली क्रैब। आह, यह नाम सुनते ही ईस्ट कोस्ट लैगून फूड सेंटर की उमस भरी हवा, बर्तनों की खड़खड़ाहट और खुशी से, गंदे तरीके से खाने की याद आ जाती है। यह सिर्फ एक व्यंजन नहीं है; यह सिंगापुर की एक संस्था है, एक परंपरा है। मुझे इसे बनाने का मेरा पहला वास्तविक प्रयास याद है, जब मैं सिर्फ एक युवा रसोइया था, पूरा जोश था पर तकनीक नहीं थी। मैंने अपनी चाची मेई को इसे अनगिनत बार बनाते देखा था, उनके हाव-भाव सटीक, लगभग अनुष्ठानिक थे। लेकिन देखना और करना दो अलग-अलग बातें हैं। मेरे पहले कुछ प्रयास? आपदाएँ। सॉस या तो बहुत पतला था, केकड़े से चिपकने से इनकार कर रहा था, या इतना गाढ़ा था कि वह एक चिपचिपा गड़बड़ बन गया। और केकड़ा! ओह, ज़्यादा पका हुआ, रबर जैसा केकड़ा कितना भयानक होता है। चाची मेई, उनकी धैर्यवान आत्मा को आशीर्वाद, बस अपना सिर हिलातीं, एक छोटी, समझदार मुस्कान देतीं, और फिर धीरे से मेरा हाथ पकड़कर मुझे दिखातीं कि कैसे प्याज़ से मिठास निकालनी है, कैसे उस सही क्षण का न्याय करना है जब मिर्च का पेस्ट तेल में वास्तव में 'खिलता' है। ईमानदारी से कहूँ तो, इस संतुलन को सही करने में, इस व्यंजन की आत्मा को समझने में सालों लग गए।  इसका रहस्य, अगर कोई है, तो वह मिर्च के पेस्ट और आपके केकड़े की ताज़गी में निहित है। उन पहले से बने जारों को भूल जाइए; वे बस काम नहीं करते। आपको सूखी मिर्च से वह जीवंत, जटिल गर्मी चाहिए, ताज़े प्याज़ की तीखी मिठास, लहसुन और अदरक का तीखा स्वाद, और बेलाचन की एक छोटी, महत्वपूर्ण फुसफुसाहट। कुछ शुद्धतावादी पूरी तरह से टमाटर-आधारित सॉस के लिए तर्क देते हैं, लेकिन मैंने पाया है कि अच्छी गुणवत्ता वाले बोतल बंद चिली सॉस और केचप का एक विवेकपूर्ण मिश्रण, ताज़े टमाटरों के साथ, इसे वह विशिष्ट खट्टा-मीठा-मसालेदार गहराई देता है जो आपको प्लेट चाटने पर मजबूर कर देता है। और अंडा! अंत में वह नाजुक, रेशमी अंडे का घुमाव सिर्फ दिखाने के लिए नहीं है; यह एक सुंदर समृद्धि और बनावट जोड़ता है, सॉस को एक साथ बांधता है। चाल यह है कि इसे धीरे-धीरे, धीरे से हिलाते हुए डालें, जिससे यह सुंदर, पतली धारियाँ बना सके। इसे बस ऐसे ही मत डालिए, वरना आपके केकड़े में अंडे का भुर्जी बन जाएगी। मुझ पर विश्वास करें, मैं वहाँ रहा हूँ।  यह व्यंजन साझा करने के लिए है, अपने हाथों से खाने के लिए है, उस शानदार, उग्र लाल सॉस में कोहनी तक डूबकर। यह एक सामुदायिक अनुभव है, एक उत्सव है। आपको ढेर सारे नैपकिन, शायद एक बिब भी, और निश्चित रूप से उन फूले हुए, तले हुए मंटौ बन्स का एक ढेर चाहिए होगा। वे वैकल्पिक नहीं हैं; वे उस अविश्वसनीय सॉस की हर आखिरी बूंद को सोखने के लिए आवश्यक हैं। केकड़े के एक रसीले टुकड़े को फाड़कर, उस समृद्ध, मसालेदार, थोड़े मीठे सॉस में लपेटकर, और फिर उसे सॉस में डूबे मंटौ के साथ खाने जैसा कुछ भी नहीं है। यह गंदा है, यह शोरगुल वाला है, और यह बिल्कुल सही है। एक बार जब केकड़ा अंदर चला जाए तो स्टोव से दूर न हटें; यह जल्दी पकता है। इस पर नज़र रखें, और आपको एक ऐसा भोजन मिलेगा जो वास्तव में गाता है।",
+                    "ingredients": [
+                              {
+                                        "item": "ताजे मड क्रैब",
+                                        "amount": "2 (लगभग 800 ग्राम - 1 किलो प्रत्येक), साफ और तोड़े हुए"
+                              },
+                              {
+                                        "item": "खाना पकाने का तेल",
+                                        "amount": "1/2 कप"
+                              },
+                              {
+                                        "item": "लहसुन",
+                                        "amount": "8 कलियाँ, बारीक कटी हुई"
+                              },
+                              {
+                                        "item": "अदरक",
+                                        "amount": "2 इंच का टुकड़ा, कद्दूकस किया हुआ"
+                              },
+                              {
+                                        "item": "प्याज़ (शैलट्स)",
+                                        "amount": "4, बारीक कटे हुए"
+                              },
+                              {
+                                        "item": "सूखी लाल मिर्च",
+                                        "amount": "15-20, गर्म पानी में भिगोकर, बीज निकाले हुए (मसाले के अनुसार समायोजित करें)"
+                              },
+                              {
+                                        "item": "ताजी लाल मिर्च",
+                                        "amount": "5-6, बीज निकाले हुए (रंग और ताजी गर्मी के लिए)"
+                              },
+                              {
+                                        "item": "बेलाचन (झींगा पेस्ट)",
+                                        "amount": "1 छोटा चम्मच, भुना हुआ"
+                              },
+                              {
+                                        "item": "टमाटर केचप",
+                                        "amount": "1/2 कप"
+                              },
+                              {
+                                        "item": "बोतल बंद चिली सॉस",
+                                        "amount": "1/4 कप (जैसे मैगी या इसी तरह का मीठा चिली सॉस)"
+                              },
+                              {
+                                        "item": "पानी या चिकन स्टॉक",
+                                        "amount": "1.5 कप"
+                              },
+                              {
+                                        "item": "चीनी",
+                                        "amount": "2-3 बड़े चम्मच (स्वाद के अनुसार समायोजित करें)"
+                              },
+                              {
+                                        "item": "नमक",
+                                        "amount": "1 छोटा चम्मच (या स्वाद के अनुसार)"
+                              },
+                              {
+                                        "item": "सफेद सिरका",
+                                        "amount": "1 बड़ा चम्मच"
+                              },
+                              {
+                                        "item": "कॉर्नस्टार्च",
+                                        "amount": "2 बड़े चम्मच, 4 बड़े चम्मच पानी के साथ मिलाया हुआ (घोल)"
+                              },
+                              {
+                                        "item": "अंडे",
+                                        "amount": "2 बड़े, हल्के फेंटे हुए"
+                              },
+                              {
+                                        "item": "धनिया पत्ती",
+                                        "amount": "सजाने के लिए, कटी हुई"
+                              },
+                              {
+                                        "item": "हरी प्याज़",
+                                        "amount": "सजाने के लिए, कटी हुई"
+                              },
+                              {
+                                        "item": "तले हुए मंटौ बन्स",
+                                        "amount": "परोसने के लिए"
+                              }
+                    ],
+                    "instructions": [
+                              "केकड़ा तैयार करें: सबसे पहले, स्टार! अपने केकड़े लें। उन्हें बहते पानी के नीचे अच्छी तरह साफ करें। खोल और पंजों को तोड़ने के लिए एक मजबूत कुल्हाड़ी या भारी चाकू का उपयोग करें। शर्माएं नहीं; आप चाहते हैं कि सॉस हर कोने में जाए। शरीर को आधे या चौथाई हिस्सों में अलग करें, पैरों और पंजों को जुड़ा रहने दें। एक तरफ रख दें।",
+                              "चिली पेस्ट बनाएं: यहीं से जादू शुरू होता है। एक फूड प्रोसेसर या मोर्टार और मूसल में, भिगोई हुई सूखी लाल मिर्च, ताजी लाल मिर्च, प्याज़, लहसुन, अदरक और भुना हुआ बेलाचन मिलाएं। तब तक ब्लेंड या पीसें जब तक आपको एक अपेक्षाकृत चिकना, सुगंधित पेस्ट न मिल जाए। इसकी महक जीवंत, थोड़ी तीखी और आशाजनक होनी चाहिए।",
+                              "पेस्ट भूनें: एक बड़ी कड़ाही या गहरे पैन में मध्यम-तेज आंच पर खाना पकाने का तेल गरम करें। अपना ताज़ा बना हुआ चिली पेस्ट डालें। लगातार हिलाते रहें, इसे भुनने और चटकने दें। आप चाहते हैं कि मिर्च और लहसुन के कच्चे, तीखे किनारे नरम हो जाएं, पेस्ट थोड़ा गहरा हो जाए, और तेल 'अलग' होकर पैन के किनारों पर जमा होने लगे। इसमें लगभग 8-10 मिनट लगते हैं। जल्दी न करें; यह कदम स्वाद की नींव बनाता है।",
+                              "सॉस बेस बनाएं: टमाटर केचप, बोतल बंद चिली सॉस, पानी या चिकन स्टॉक, चीनी, नमक और सफेद सिरका डालें। सब कुछ एक साथ मिलाएं जब तक कि यह अच्छी तरह से मिल न जाए और धीरे-धीरे बुलबुले न उठने लगें। इसे लगभग 5 मिनट तक उबलने दें, जिससे स्वाद मिल जाएं और गहरा हो जाए। सुगंध मीठा, खट्टा और मसालेदार का एक सुंदर मिश्रण होना चाहिए।",
+                              "केकड़ा पकाएं: अब मुख्य कार्यक्रम के लिए। तैयार केकड़े के टुकड़ों को उबलते सॉस में डालें। सभी केकड़ों को उस शानदार लाल मिश्रण से ढकने के लिए धीरे से हिलाएं। कड़ाही को ढक दें और इसे लगभग 8-10 मिनट तक पकने दें, या जब तक केकड़े के खोल चमकीले नारंगी-लाल न हो जाएं और मांस अपारदर्शी न हो जाए। ज़्यादा न पकाएं! रबर जैसा केकड़ा एक पाक त्रासदी है।",
+                              "सॉस गाढ़ा करें: कॉर्नस्टार्च के घोल को एक बार फिर से हिलाएं (यह बैठ जाता है!)। इसे धीरे-धीरे उबलते सॉस में डालें, लगातार हिलाते रहें। देखें कि सॉस कैसे बदलता है, एक चमकदार, शानदार स्थिरता में गाढ़ा होता है जो केकड़े से खूबसूरती से चिपकेगा। कच्चे कॉर्नस्टार्च के स्वाद को पकाने के लिए इसे एक और मिनट के लिए उबलने दें।",
+                              "अंडा डालें: आंच धीमी कर दें। धीरे-धीरे, एक पतली धार में, हल्के फेंटे हुए अंडे को सॉस में डालें जबकि एक चम्मच या स्पैटुला से धीरे-धीरे हिलाते रहें। आप अंडे की नाजुक, रेशमी धारियाँ बनाना चाहते हैं, न कि तले हुए टुकड़े। बस इतना हिलाएं कि वह मिल जाए, फिर आंच बंद कर दें। बची हुई गर्मी अंडे को पूरी तरह पका देगी।",
+                              "तुरंत परोसें: चिली क्रैब को एक बड़ी सर्विंग प्लेट में निकालें। ताजी धनिया पत्ती और कटी हुई हरी प्याज़ से उदारतापूर्वक सजाएं। गरमागरम तले हुए मंटौ बन्स के ढेर के साथ परोसें। गंदे हो जाएं, खाना शुरू करें, और हर शानदार निवाले का आनंद लें!"
+                    ]
+          },
+          "bn": {
+                    "title": "চিলি ক্র্যাব",
+                    "description": "চিলি ক্র্যাব। আহা, এই নামটাই ইস্ট কোস্ট ল্যাগুন ফুড সেন্টারের আর্দ্র বাতাস, প্লেটের ঠনঠন শব্দ আর আনন্দময়, অগোছালো স্লাপিংয়ের স্মৃতি ফিরিয়ে আনে। এটা শুধু একটা পদ নয়; এটা সিঙ্গাপুরের একটা প্রতিষ্ঠান, একটা দীক্ষার মতো। আমার মনে আছে, যখন আমি একজন তরুণ রাঁধুনি ছিলাম, তখন আমি প্রথমবার এটা বানানোর চেষ্টা করেছিলাম, তখন শুধু সাহস ছিল, কৌশল ছিল না। আমি আমার মাসি মেইকে অসংখ্যবার এটা বানাতে দেখেছি, তাঁর নড়াচড়া ছিল নিখুঁত, প্রায় আচার-অনুষ্ঠানের মতো। কিন্তু দেখা আর করা দুটো ভিন্ন জিনিস। আমার প্রথম কয়েকটি চেষ্টা? বিপর্যয়। সস হয় খুব পাতলা হয়ে যেত, কাঁকড়ার গায়ে লেগে থাকত না, অথবা এত ঘন হয়ে যেত যে একটা আঠালো জগাখিচুড়ি হয়ে যেত। আর কাঁকড়া! ওহ, অতিরিক্ত সেদ্ধ, রাবারি কাঁকড়ার ভয়াবহতা। মাসি মেই, তাঁর ধৈর্যশীল আত্মাকে আশীর্বাদ করি, শুধু মাথা নাড়তেন, একটা ছোট, জ্ঞাত হাসি দিতেন, এবং তারপর আলতো করে আমার হাত ধরে দেখাতেন কিভাবে শ্যালট থেকে মিষ্টি বের করতে হয়, কিভাবে মরিচ পেস্ট তেলে ঠিক কখন 'ফুটে ওঠে' তা বিচার করতে হয়। সত্যি বলতে, এই ভারসাম্য ঠিক করতে, এই পদের আত্মাকে বুঝতে কয়েক বছর লেগেছিল। গোপন রহস্য, যদি কিছু থাকে, তবে তা মরিচ পেস্ট এবং আপনার কাঁকড়ার সতেজতার মধ্যে নিহিত। সেই তৈরি করা জারগুলো ভুলে যান; সেগুলো দিয়ে কাজ হবে না। আপনার দরকার শুকনো মরিচ থেকে সেই প্রাণবন্ত, জটিল ঝাল, তাজা শ্যালটের তীব্র মিষ্টি, রসুন ও আদার তীক্ষ্ণ কামড়, এবং বেলাকানের একটি ক্ষুদ্র, গুরুত্বপূর্ণ ফিসফিস। কিছু বিশুদ্ধতাবাদী শুধুমাত্র টমেটো-ভিত্তিক সসের পক্ষে যুক্তি দেন, কিন্তু আমি দেখেছি যে ভালো মানের বোতলজাত চিলি সস এবং কেচাপের সাথে তাজা টমেটোর একটি বিচক্ষণ মিশ্রণ এটিকে সেই স্বাক্ষর টক-মিষ্টি-ঝাল গভীরতা দেয় যা আপনাকে প্লেট চেটেপুটে খেতে বাধ্য করে। আর ডিম! শেষে সেই সূক্ষ্ম, রেশমি ডিমের ঘূর্ণি শুধু দেখানোর জন্য নয়; এটি একটি সুন্দর সমৃদ্ধি এবং টেক্সচার যোগ করে, সসকে একসাথে বেঁধে রাখে। কৌশলটি হল ধীরে ধীরে, আলতো করে নাড়তে নাড়তে এটি ঢালা, যাতে এটি সুন্দর, পাতলা ফিতা তৈরি করে। শুধু ঢেলে দেবেন না, তাহলে আপনার কাঁকড়ায় স্ক্র্যাম্বলড ডিম হয়ে যাবে। বিশ্বাস করুন, আমি সেখানে ছিলাম। এই পদটি ভাগ করে নেওয়ার জন্য, হাত দিয়ে গোগ্রাসে খাওয়ার জন্য, সেই মহিমান্বিত, জ্বলন্ত লাল সসে কনুই ডুবিয়ে। এটি একটি সম্মিলিত অভিজ্ঞতা, একটি উদযাপন। আপনার প্রচুর ন্যাপকিন লাগবে, হয়তো একটা বিবও, এবং অবশ্যই সেই নরম, ভাজা মানতাউ বানের স্তূপ। এগুলো ঐচ্ছিক নয়; সেই অবিশ্বাস্য সসের প্রতিটি শেষ ফোঁটা মুছে ফেলার জন্য এগুলো অপরিহার্য। সেই সমৃদ্ধ, ঝাল, সামান্য মিষ্টি সসে মোড়ানো কাঁকড়ার একটি রসালো টুকরো ছিঁড়ে খাওয়া, এবং তারপর সসে ভেজানো মানতাউ দিয়ে তা অনুসরণ করার মতো আর কিছুই নেই। এটা অগোছালো, এটা কোলাহলপূর্ণ, এবং এটা একেবারে নিখুঁত। কাঁকড়া একবার কড়াইতে গেলে চুলা থেকে দূরে যাবেন না; এটি দ্রুত রান্না হয়। এর দিকে নজর রাখুন, এবং আপনি এমন একটি খাবারের সাথে পুরস্কৃত হবেন যা সত্যিই গান গায়।",
+                    "ingredients": [
+                              {
+                                        "item": "তাজা মাড ক্র্যাব",
+                                        "amount": "২টি (প্রতিটি প্রায় ৮০০ গ্রাম - ১ কেজি), পরিষ্কার করে ফাটানো"
+                              },
+                              {
+                                        "item": "রান্নার তেল",
+                                        "amount": "১/২ কাপ"
+                              },
+                              {
+                                        "item": "রসুন",
+                                        "amount": "৮ কোয়া, কুচি করা"
+                              },
+                              {
+                                        "item": "আদা",
+                                        "amount": "২ ইঞ্চি টুকরা, গ্রেট করা"
+                              },
+                              {
+                                        "item": "পেঁয়াজকলি",
+                                        "amount": "৪টি, মিহি করে কুচি করা"
+                              },
+                              {
+                                        "item": "শুকনো লাল লঙ্কা",
+                                        "amount": "১৫-২০টি, গরম জলে ভিজিয়ে, বীজ ছাড়ানো (ঝাল অনুযায়ী)"
+                              },
+                              {
+                                        "item": "তাজা লাল লঙ্কা",
+                                        "amount": "৫-৬টি, বীজ ছাড়ানো (রং ও তাজা ঝালের জন্য)"
+                              },
+                              {
+                                        "item": "বেলাকান (চিংড়ি পেস্ট)",
+                                        "amount": "১ চা চামচ, টোস্ট করা"
+                              },
+                              {
+                                        "item": "টমেটো কেচাপ",
+                                        "amount": "১/২ কাপ"
+                              },
+                              {
+                                        "item": "বোতলজাত চিলি সস",
+                                        "amount": "১/৪ কাপ (যেমন, ম্যাগি বা অনুরূপ মিষ্টি চিলি সস)"
+                              },
+                              {
+                                        "item": "জল বা চিকেন স্টক",
+                                        "amount": "১.৫ কাপ"
+                              },
+                              {
+                                        "item": "চিনি",
+                                        "amount": "২-৩ টেবিল চামচ (স্বাদমতো)"
+                              },
+                              {
+                                        "item": "লবণ",
+                                        "amount": "১ চা চামচ (বা স্বাদমতো)"
+                              },
+                              {
+                                        "item": "সাদা ভিনেগার",
+                                        "amount": "১ টেবিল চামচ"
+                              },
+                              {
+                                        "item": "কর্নস্টার্চ",
+                                        "amount": "২ টেবিল চামচ, ৪ টেবিল চামচ জলের সাথে মেশানো (স্লারি)"
+                              },
+                              {
+                                        "item": "ডিম",
+                                        "amount": "২টি বড়, হালকা ফেটানো"
+                              },
+                              {
+                                        "item": "ধনে পাতা",
+                                        "amount": "সাজানোর জন্য, কুচি করা"
+                              },
+                              {
+                                        "item": "পেঁয়াজ পাতা",
+                                        "amount": "সাজানোর জন্য, স্লাইস করা"
+                              },
+                              {
+                                        "item": "ভাজা মানতাউ বান",
+                                        "amount": "পরিবেশনের জন্য"
+                              }
+                    ],
+                    "instructions": [
+                              "কাঁকড়া প্রস্তুত করুন: প্রথমে, তারকা! আপনার কাঁকড়া নিন। চলমান জলের নিচে ভালোভাবে পরিষ্কার করুন। একটি মজবুত ক্লিভার বা ভারী ছুরি ব্যবহার করে শেল এবং নখর ফাটান। লজ্জা পাবেন না; আপনি চান সস প্রতিটি কোণে এবং ফাটলে প্রবেশ করুক। শরীরকে অর্ধেক বা চতুর্থাংশে ভাগ করুন, পা এবং নখর সংযুক্ত রাখুন। একপাশে রাখুন।",
+                              "চিলি পেস্ট তৈরি করুন: এখান থেকেই জাদু শুরু হয়। একটি ফুড প্রসেসরে বা হামানদিস্তায়, ভেজানো শুকনো লাল লঙ্কা, তাজা লাল লঙ্কা, পেঁয়াজকলি, রসুন, আদা এবং টোস্ট করা বেলাকান একত্রিত করুন। একটি তুলনামূলকভাবে মসৃণ, সুগন্ধি পেস্ট না হওয়া পর্যন্ত ব্লেন্ড করুন বা পিষে নিন। এটির প্রাণবন্ত, কিছুটা তীব্র এবং আশাব্যঞ্জক গন্ধ হওয়া উচিত।",
+                              "পেস্ট ভাজুন: একটি বড় কড়াই বা গভীর প্যানে মাঝারি-উচ্চ আঁচে রান্নার তেল গরম করুন। আপনার সদ্য তৈরি চিলি পেস্ট যোগ করুন। ক্রমাগত নাড়ুন, এটিকে ভাজতে দিন এবং ফুটতে দিন। আপনি চান লঙ্কা এবং রসুনের কাঁচা, তীক্ষ্ণ ধারগুলো নরম হোক, পেস্টটি কিছুটা গাঢ় হোক এবং তেল 'আলাদা' হতে শুরু করে প্যানের চারপাশে জমা হোক। এতে প্রায় ৮-১০ মিনিট সময় লাগে। তাড়াহুড়ো করবেন না; এই ধাপটি স্বাদের ভিত্তি তৈরি করে।",
+                              "সসের ভিত্তি তৈরি করুন: টমেটো কেচাপ, বোতলজাত চিলি সস, জল বা চিকেন স্টক, চিনি, লবণ এবং সাদা ভিনেগার ঢেলে দিন। সবকিছু একসাথে নাড়ুন যতক্ষণ না এটি ভালোভাবে মিশে যায় এবং আলতো করে ফুটতে শুরু করে। প্রায় ৫ মিনিট ধরে এটিকে ফুটতে দিন, যাতে স্বাদগুলো মিশে যায় এবং গভীর হয়। সুগন্ধটি মিষ্টি, টক এবং ঝালের একটি সুন্দর মিশ্রণ হওয়া উচিত।",
+                              "কাঁকড়া রান্না করুন: এবার মূল ঘটনা। প্রস্তুত কাঁকড়ার টুকরোগুলো ফুটন্ত সসে যোগ করুন। আলতো করে নাড়ুন যাতে সমস্ত কাঁকড়া সেই মহিমান্বিত লাল মিশ্রণে আবৃত হয়। কড়াই ঢেকে প্রায় ৮-১০ মিনিট রান্না করুন, অথবা কাঁকড়ার শেলগুলো উজ্জ্বল কমলা-লাল না হওয়া পর্যন্ত এবং মাংস অস্বচ্ছ না হওয়া পর্যন্ত। অতিরিক্ত রান্না করবেন না! রাবারি কাঁকড়া একটি রন্ধনসম্পর্কীয় ট্র্যাজেডি।",
+                              "সস ঘন করুন: কর্নস্টার্চ স্লারিটি দ্রুত নাড়ুন (এটি থিতিয়ে যায়!)। এটি ধীরে ধীরে ফুটন্ত সসে ঢালুন, ক্রমাগত নাড়তে থাকুন। দেখুন কিভাবে সস রূপান্তরিত হয়, একটি চকচকে, বিলাসবহুল ঘনত্বে ঘন হয় যা কাঁকড়ার সাথে সুন্দরভাবে লেগে থাকবে। কাঁচা কর্নস্টার্চের স্বাদ দূর করার জন্য এটিকে আরও এক মিনিট ফুটতে দিন।",
+                              "ডিম যোগ করুন: আঁচ কমিয়ে দিন। ধীরে ধীরে, একটি পাতলা ধারায়, হালকা ফেটানো ডিমগুলো সসে ঢালুন যখন একটি চামচ বা স্প্যাটুলা দিয়ে আলতো করে নাড়তে থাকুন। আপনি ডিমের সূক্ষ্ম, রেশমি ফিতা তৈরি করতে চান, স্ক্র্যাম্বলড টুকরা নয়। মেশানোর জন্য যথেষ্ট নাড়ুন, তারপর আঁচ বন্ধ করুন। অবশিষ্ট তাপ ডিম রান্না শেষ করবে।",
+                              "অবিলম্বে পরিবেশন করুন: চিলি ক্র্যাব একটি বড় পরিবেশন প্লেটে স্থানান্তর করুন। তাজা ধনে পাতা এবং স্লাইস করা পেঁয়াজ পাতা দিয়ে উদারভাবে সাজান। গরম গরম পরিবেশন করুন প্রচুর পরিমাণে সদ্য ভাজা মানতাউ বানের সাথে। অগোছালো হন, ডুব দিন এবং প্রতিটি মহিমান্বিত কামড় উপভোগ করুন!"
+                    ]
+          },
+          "mr": {
+                    "title": "चिली क्रॅब",
+                    "description": "चिली क्रॅब. अहा, हे नाव ऐकताच ईस्ट कोस्ट लॅगून फूड सेंटरमधील दमट हवा, प्लेट्सचा खडखडाट आणि आनंदी, गबाळेपणे खाण्याचा आवाज आठवतो. हा फक्त एक पदार्थ नाही; ही सिंगापूरची एक संस्था आहे, एक संस्कार आहे. मला आठवतं, जेव्हा मी एक तरुण स्वयंपाकी होतो, तेव्हा मी पहिल्यांदा हा पदार्थ बनवण्याचा प्रयत्न केला होता, तेव्हा फक्त धाडस होतं, तंत्रज्ञान नव्हतं. मी माझ्या मावशी मेईला हे अनेक वेळा बनवताना पाहिलं होतं, तिची हालचाल अचूक, जवळजवळ विधीवत होती. पण पाहणं आणि करणं या दोन वेगवेगळ्या गोष्टी आहेत. माझे पहिले काही प्रयत्न? आपत्त्या. सॉस एकतर खूप पातळ असायचा, खेकड्याला चिकटत नसे, किंवा इतका घट्ट असायचा की तो चिकट गोळा बनत असे. आणि खेकडा! ओह, जास्त शिजवलेल्या, रबरी खेकड्याची भीती. मावशी मेई, तिच्या सहनशील आत्म्याला आशीर्वाद असो, फक्त डोकं हलवायची, एक छोटी, जाणकार हसू द्यायची आणि मग हळूवारपणे माझा हात धरून दाखवायची की शॅलॉट्समधून गोडवा कसा काढायचा, मिरचीची पेस्ट तेलात कधी 'फुलते' याचा अचूक अंदाज कसा घ्यायचा. खरं सांगायचं तर, हे संतुलन साधायला, या पदार्थाचा आत्मा समजून घ्यायला अनेक वर्षं लागली. रहस्य, जर काही असेल तर, ते मिरचीच्या पेस्टमध्ये आणि तुमच्या खेकड्याच्या ताजेपणात आहे. त्या तयार जार विसरून जा; ते काही कामाचे नाहीत. तुम्हाला सुक्या मिरच्यांमधून ती तेजस्वी, जटिल तिखटपणा, ताज्या शॅलॉट्सचा तीव्र गोडवा, लसूण आणि आल्याचा तीक्ष्ण स्वाद आणि बेलाकानची एक छोटी, महत्त्वाची कुजबुज हवी आहे. काही शुद्धतावादी केवळ टोमॅटो-आधारित सॉससाठी युक्तिवाद करतात, परंतु मला आढळले आहे की चांगल्या दर्जाच्या बाटलीतील चिली सॉस आणि केचपचा, ताज्या टोमॅटोसह, एक योग्य मिश्रण त्याला ती खास आंबट-गोड-तिखट खोली देते ज्यामुळे तुम्हाला प्लेट चाटून खावीशी वाटते. आणि अंडं! शेवटी तो नाजूक, रेशमी अंड्याचा फिरका फक्त दाखवण्यासाठी नाही; तो एक सुंदर समृद्धी आणि पोत जोडतो, सॉसला एकत्र बांधतो. युक्ती अशी आहे की ते हळू हळू, हलकेच ढवळत ओतावे, ज्यामुळे ते सुंदर, पातळ रिबन तयार करेल. फक्त ओतू नका, नाहीतर तुमच्या खेकड्यात स्क्रॅम्बल्ड अंडं होईल. माझ्यावर विश्वास ठेवा, मी तिथे होतो. हा पदार्थ वाटून घेण्यासाठी आहे, हातांनी खाण्यासाठी आहे, त्या तेजस्वी, ज्वलंत लाल सॉसमध्ये कोपर बुडवून. हा एक सामुदायिक अनुभव आहे, एक उत्सव आहे. तुम्हाला भरपूर नॅपकिन्स लागतील, कदाचित एक बिब देखील, आणि निश्चितपणे त्या मऊ, तळलेल्या मांतोऊ बन्सचा ढिगारा. ते पर्यायी नाहीत; त्या अविश्वसनीय सॉसचा प्रत्येक शेवटचा थेंब पुसून काढण्यासाठी ते आवश्यक आहेत. त्या समृद्ध, तिखट, किंचित गोड सॉसमध्ये बुडवलेला खेकड्याचा रसाळ तुकडा खाण्यासारखं आणि मग सॉसमध्ये भिजवलेल्या मांतोऊने त्याचा पाठलाग करण्यासारखं काहीही नाही. ते गबाळं आहे, ते गोंगाटाचं आहे, आणि ते पूर्णपणे परिपूर्ण आहे. खेकडा एकदा कढईत घातल्यावर स्टोव्हपासून दूर जाऊ नका; तो लवकर शिजतो. त्यावर लक्ष ठेवा, आणि तुम्हाला खरोखरच गाणं गाणारं जेवण मिळेल.",
+                    "ingredients": [
+                              {
+                                        "item": "ताजे मड क्रॅब",
+                                        "amount": "२ (प्रत्येकी अंदाजे ८०० ग्रॅम - १ किलो), स्वच्छ करून फोडलेले"
+                              },
+                              {
+                                        "item": "खाद्यतेल",
+                                        "amount": "१/२ कप"
+                              },
+                              {
+                                        "item": "लसूण",
+                                        "amount": "८ पाकळ्या, बारीक चिरलेला"
+                              },
+                              {
+                                        "item": "आले",
+                                        "amount": "२ इंच तुकडा, किसलेले"
+                              },
+                              {
+                                        "item": "शॅलॉट्स",
+                                        "amount": "४, बारीक चिरलेले"
+                              },
+                              {
+                                        "item": "सुख्या लाल मिरच्या",
+                                        "amount": "१५-२०, गरम पाण्यात भिजवून, बिया काढलेल्या (तिखटपणाच्या आवडीनुसार)"
+                              },
+                              {
+                                        "item": "ताज्या लाल मिरच्या",
+                                        "amount": "५-६, बिया काढलेल्या (रंग आणि ताज्या तिखटपणासाठी)"
+                              },
+                              {
+                                        "item": "बेलाकान (कोळंबी पेस्ट)",
+                                        "amount": "१ चमचा, भाजलेले"
+                              },
+                              {
+                                        "item": "टोमॅटो केचप",
+                                        "amount": "१/२ कप"
+                              },
+                              {
+                                        "item": "बाटलीतील चिली सॉस",
+                                        "amount": "१/४ कप (उदा. मॅगी किंवा तत्सम गोड चिली सॉस)"
+                              },
+                              {
+                                        "item": "पाणी किंवा चिकन स्टॉक",
+                                        "amount": "१.५ कप"
+                              },
+                              {
+                                        "item": "साखर",
+                                        "amount": "२-३ चमचे (चवीनुसार)"
+                              },
+                              {
+                                        "item": "मीठ",
+                                        "amount": "१ चमचा (किंवा चवीनुसार)"
+                              },
+                              {
+                                        "item": "पांढरा व्हिनेगर",
+                                        "amount": "१ चमचा"
+                              },
+                              {
+                                        "item": "कॉर्नस्टार्च",
+                                        "amount": "२ चमचे, ४ चमचे पाण्यात मिसळलेले (स्लरी)"
+                              },
+                              {
+                                        "item": "अंडी",
+                                        "amount": "२ मोठी, हलके फेटलेली"
+                              },
+                              {
+                                        "item": "कोथिंबीर",
+                                        "amount": "सजावटीसाठी, चिरलेली"
+                              },
+                              {
+                                        "item": "कांद्याची पात",
+                                        "amount": "सजावटीसाठी, कापलेली"
+                              },
+                              {
+                                        "item": "तळलेले मांतोऊ बन्स",
+                                        "amount": "सर्व्ह करण्यासाठी"
+                              }
+                    ],
+                    "instructions": [
+                              "खेकडा तयार करा: सर्वप्रथम, स्टार! तुमचे खेकडे घ्या. त्यांना वाहत्या पाण्याखाली पूर्णपणे स्वच्छ करा. एक मजबूत कोयता किंवा जड चाकू वापरून कवच आणि नखे फोडा. लाजू नका; तुम्हाला सॉस प्रत्येक कोपऱ्यात आणि फटीत जायला हवा आहे. शरीर अर्ध्या किंवा चतुर्थांश भागांमध्ये वेगळे करा, पाय आणि नखे जोडलेले ठेवा. बाजूला ठेवा.",
+                              "चिली पेस्ट बनवा: येथून जादू सुरू होते. फूड प्रोसेसरमध्ये किंवा खलबत्त्यात, भिजवलेल्या सुक्या लाल मिरच्या, ताज्या लाल मिरच्या, शॅलॉट्स, लसूण, आले आणि भाजलेले बेलाकान एकत्र करा. ते तुलनेने गुळगुळीत, सुगंधी पेस्ट होईपर्यंत वाटून घ्या किंवा कुटून घ्या. त्याचा वास तेजस्वी, थोडा तिखट आणि आशादायक असावा.",
+                              "पेस्ट परतून घ्या: एका मोठ्या कढईत किंवा खोलगट पॅनमध्ये मध्यम-उच्च आचेवर खाद्यतेल गरम करा. तुमची ताजी बनवलेली चिली पेस्ट घाला. सतत ढवळत रहा, त्याला तडतडू द्या आणि फुटू द्या. तुम्हाला मिरच्या आणि लसणाचे कच्चे, तीक्ष्ण कडा मऊ झालेले, पेस्ट किंचित गडद झालेली आणि तेल 'वेगळे' होऊन पॅनच्या कडांभोवती जमा झालेले दिसायला हवे. याला सुमारे ८-१० मिनिटे लागतात. घाई करू नका; ही पायरी चवीचा पाया तयार करते.",
+                              "सॉसचा आधार तयार करा: टोमॅटो केचप, बाटलीतील चिली सॉस, पाणी किंवा चिकन स्टॉक, साखर, मीठ आणि पांढरा व्हिनेगर घाला. सर्वकाही चांगले मिसळेपर्यंत ढवळून घ्या आणि हळू हळू उकळायला सुरुवात होईपर्यंत शिजवा. चवींना एकत्र मिसळण्यासाठी आणि अधिक खोल होण्यासाठी सुमारे ५ मिनिटे उकळू द्या. सुगंध गोड, आंबट आणि तिखट यांचा सुंदर मिश्रण असावा.",
+                              "खेकडा शिजवा: आता मुख्य कार्यक्रम. तयार खेकड्याचे तुकडे उकळत्या सॉसमध्ये घाला. सर्व खेकड्याला त्या तेजस्वी लाल मिश्रणाने लेपण्यासाठी हळूवारपणे ढवळून घ्या. कढई झाका आणि सुमारे ८-१० मिनिटे शिजवा, किंवा खेकड्याचे कवच चमकदार नारंगी-लाल होईपर्यंत आणि मांस अपारदर्शक होईपर्यंत. जास्त शिजवू नका! रबरी खेकडा ही एक पाककृतीची शोकांतिका आहे.",
+                              "सॉस घट्ट करा: कॉर्नस्टार्च स्लरीला एक जलद ढवळून घ्या (ते खाली बसते!). ते हळू हळू उकळत्या सॉसमध्ये ओता, सतत ढवळत रहा. सॉस कसे बदलते ते पहा, ते खेकड्याला सुंदरपणे चिकटून राहण्यासाठी चमकदार, आलिशान सुसंगततेमध्ये घट्ट होते. कच्च्या कॉर्नस्टार्चची चव जाण्यासाठी आणखी एक मिनिट उकळू द्या.",
+                              "अंडं घाला: गॅस मंद करा. हळू हळू, पातळ धारेने, हलके फेटलेली अंडी सॉसमध्ये ओता, चमच्याने किंवा स्पॅटुल्याने हळूवारपणे ढवळत रहा. तुम्हाला अंड्याचे नाजूक, रेशमी रिबन तयार करायचे आहेत, स्क्रॅम्बल्ड तुकडे नाहीत. फक्त मिसळण्यासाठी पुरेसे ढवळून घ्या, नंतर गॅस बंद करा. उर्वरित उष्णता अंडं शिजवून पूर्ण करेल.",
+                              "लगेच सर्व्ह करा: चिली क्रॅब एका मोठ्या सर्व्हिंग प्लेटमध्ये काढा. ताज्या कोथिंबीर आणि कापलेल्या कांद्याच्या पातीने उदारपणे सजवा. गरम गरम, ताज्या तळलेल्या मांतोऊ बन्सच्या ढिगाऱ्यासोबत सर्व्ह करा. गबाळे व्हा, खाण्यात मग्न व्हा आणि प्रत्येक अद्भुत घासाचा आनंद घ्या!"
+                    ]
+          },
+          "te": {
+                    "title": "చిల్లీ క్రాబ్",
+                    "description": "చిల్లీ క్రాబ్. ఆహా, ఆ పేరు వినగానే ఈస్ట్ కోస్ట్ లగూన్ ఫుడ్ సెంటర్ యొక్క తేమతో కూడిన గాలి, ప్లేట్ల చప్పుడు, మరియు ఆనందకరమైన, చిందరవందరగా తినే శబ్దం గుర్తుకు వస్తాయి. ఇది కేవలం ఒక వంటకం కాదు; ఇది సింగపూర్ సంస్కృతిలో ఒక భాగం, ఒక ఆచారం. నేను చిన్న కుక్‌గా ఉన్నప్పుడు, ధైర్యం తప్ప సాంకేతికత లేని రోజుల్లో, దీన్ని మొదటిసారి నిజంగా ప్రయత్నించినప్పుడు నాకు గుర్తుంది. నా అత్తయ్య మీయ్ దీన్ని లెక్కలేనన్ని సార్లు తయారుచేయడం చూశాను, ఆమె కదలికలు ఖచ్చితమైనవి, దాదాపు ఆచారబద్ధమైనవి. కానీ చూడటం మరియు చేయడం రెండు వేర్వేరు విషయాలు. నా మొదటి కొన్ని ప్రయత్నాలు? విపత్తులు. సాస్ చాలా నీరుగా ఉండేది, పీతకు అంటుకోవడానికి నిరాకరించేది, లేదా చాలా చిక్కగా జిగురుగా మారేది. మరియు పీత! ఓహ్, అతిగా ఉడికిన, రబ్బరు లాంటి పీత యొక్క భయం. అత్తయ్య మీయ్, ఆమె ఓపికగల ఆత్మకు ధన్యవాదాలు, కేవలం తల ఊపి, చిన్న, తెలిసిన చిరునవ్వును అందించి, ఆపై నా చేతిని సున్నితంగా నడిపించి, చిన్న ఉల్లిపాయల నుండి తీపిని ఎలా బయటకు తీయాలో, నూనెలో మిరప పేస్ట్ నిజంగా 'వికసించే' సరైన క్షణాన్ని ఎలా అంచనా వేయాలో చూపించేది. ఈ సమతుల్యతను సరిగ్గా సాధించడానికి, ఈ వంటకం యొక్క ఆత్మను అర్థం చేసుకోవడానికి నిజాయితీగా సంవత్సరాలు పట్టింది. రహస్యం, ఏదైనా ఉంటే, మిరప పేస్ట్ మరియు మీ పీత యొక్క తాజాదనంలో ఉంది. ఆ ముందుగా తయారుచేసిన జాడీలను మర్చిపోండి; అవి పనికిరావు. మీకు ఎండు మిరపకాయల నుండి ఆ శక్తివంతమైన, సంక్లిష్టమైన వేడి, తాజా చిన్న ఉల్లిపాయల ఘాటైన తీపి, వెల్లుల్లి మరియు అల్లం యొక్క పదునైన రుచి, మరియు బెలకన్ యొక్క చిన్న, కీలకమైన గుసగుస కావాలి. కొందరు శుద్ధవాదులు పూర్తిగా టొమాటో ఆధారిత సాస్ కోసం వాదిస్తారు, కానీ నేను మంచి నాణ్యత గల బాటిల్ చిల్లీ సాస్ మరియు కెచప్, తాజా టొమాటోలతో కలిపి, ప్లేట్‌ను శుభ్రంగా నాకాలనిపించే ఆ ప్రత్యేకమైన పుల్లని-తీపి-కారం రుచిని ఇస్తుందని కనుగొన్నాను. మరియు గుడ్డు! చివరిలో ఆ సున్నితమైన, పట్టులాంటి గుడ్డు సుడి కేవలం ప్రదర్శన కోసం కాదు; ఇది ఒక అందమైన గొప్పదనాన్ని మరియు ఆకృతిని జోడిస్తుంది, సాస్‌ను బంధిస్తుంది. నెమ్మదిగా, సున్నితంగా కలుపుతూ, అది ఆ అందమైన, సన్నని రిబ్బన్‌లను ఏర్పరచడానికి అనుమతించడం ట్రిక్. కేవలం దానిని పడేయకండి, లేకపోతే మీ పీతలో స్క్రాంబుల్డ్ గుడ్డుతో ముగుస్తుంది. నన్ను నమ్మండి, నేను అక్కడ ఉన్నాను. ఈ వంటకం పంచుకోవడానికి ఉద్దేశించబడింది, మీ చేతులతో, ఆ అద్భుతమైన, మండుతున్న ఎర్రటి సాస్‌లో మోచేతులు లోతుగా మునిగి తినడానికి ఉద్దేశించబడింది. ఇది ఒక సామూహిక అనుభవం, ఒక వేడుక. మీకు చాలా నాప్‌కిన్‌లు, బహుశా ఒక బిబ్ కూడా, మరియు ఖచ్చితంగా ఆ మెత్తటి, వేయించిన మంటౌ బన్‌ల స్టాక్ అవసరం. అవి ఐచ్ఛికం కాదు; ఆ అద్భుతమైన సాస్ యొక్క ప్రతి చివరి చుక్కను తుడిచిపెట్టడానికి అవి అవసరం. ఆ గొప్ప, కారంగా, కొద్దిగా తీపి సాస్‌లో పూత పూసిన జ్యుసి పీత ముక్కను చీల్చి, ఆపై సాస్‌లో నానబెట్టిన మంటౌతో దాన్ని తినడం లాంటిది ఏదీ లేదు. ఇది చిందరవందరగా ఉంటుంది, ఇది బిగ్గరగా ఉంటుంది, మరియు ఇది ఖచ్చితంగా పరిపూర్ణంగా ఉంటుంది. పీత లోపలికి వెళ్ళిన తర్వాత స్టవ్ నుండి దూరంగా వెళ్ళకండి; అది త్వరగా ఉడుకుతుంది. దానిపై ఒక కన్ను వేసి ఉంచండి, మరియు మీరు నిజంగా పాట పాడే భోజనంతో బహుమతి పొందుతారు.",
+                    "ingredients": [
+                              {
+                                        "item": "తాజా మట్టి పీతలు",
+                                        "amount": "2 (సుమారు 800గ్రా - 1కిలో ఒక్కొక్కటి), శుభ్రం చేసి పగలగొట్టినవి"
+                              },
+                              {
+                                        "item": "వంట నూనె",
+                                        "amount": "అర కప్పు"
+                              },
+                              {
+                                        "item": "వెల్లుల్లి",
+                                        "amount": "8 రెబ్బలు, సన్నగా తరిగినవి"
+                              },
+                              {
+                                        "item": "అల్లం",
+                                        "amount": "2 అంగుళాల ముక్క, తురిమినది"
+                              },
+                              {
+                                        "item": "చిన్న ఉల్లిపాయలు",
+                                        "amount": "4, సన్నగా తరిగినవి"
+                              },
+                              {
+                                        "item": "ఎండు మిరపకాయలు",
+                                        "amount": "15-20, వేడి నీటిలో నానబెట్టి, గింజలు తీసినవి (కారం ప్రకారం సర్దుబాటు చేయండి)"
+                              },
+                              {
+                                        "item": "తాజా ఎర్ర మిరపకాయలు",
+                                        "amount": "5-6, గింజలు తీసినవి (రంగు మరియు తాజా కారం కోసం)"
+                              },
+                              {
+                                        "item": "బెలకన్ (రొయ్యల పేస్ట్)",
+                                        "amount": "1 టీస్పూన్, కాల్చినది"
+                              },
+                              {
+                                        "item": "టొమాటో కెచప్",
+                                        "amount": "అర కప్పు"
+                              },
+                              {
+                                        "item": "బాటిల్ చిల్లీ సాస్",
+                                        "amount": "పావు కప్పు (ఉదా. మాగీ లేదా అలాంటి తీపి చిల్లీ సాస్)"
+                              },
+                              {
+                                        "item": "నీరు లేదా చికెన్ స్టాక్",
+                                        "amount": "1.5 కప్పులు"
+                              },
+                              {
+                                        "item": "చక్కెర",
+                                        "amount": "2-3 టేబుల్ స్పూన్లు (రుచికి సరిపడా సర్దుబాటు చేయండి)"
+                              },
+                              {
+                                        "item": "ఉప్పు",
+                                        "amount": "1 టీస్పూన్ (లేదా రుచికి సరిపడా)"
+                              },
+                              {
+                                        "item": "తెల్ల వెనిగర్",
+                                        "amount": "1 టేబుల్ స్పూన్"
+                              },
+                              {
+                                        "item": "కార్న్‌స్టార్చ్",
+                                        "amount": "2 టేబుల్ స్పూన్లు, 4 టేబుల్ స్పూన్ల నీటితో కలిపినది (స్లర్రీ)"
+                              },
+                              {
+                                        "item": "గుడ్లు",
+                                        "amount": "2 పెద్దవి, తేలికగా కొట్టినవి"
+                              },
+                              {
+                                        "item": "కొత్తిమీర ఆకులు",
+                                        "amount": "అలంకరణ కోసం, తరిగినవి"
+                              },
+                              {
+                                        "item": "స్ప్రింగ్ ఆనియన్స్",
+                                        "amount": "అలంకరణ కోసం, ముక్కలుగా చేసినవి"
+                              },
+                              {
+                                        "item": "వేయించిన మంటౌ బన్స్",
+                                        "amount": "వడ్డించడానికి"
+                              }
+                    ],
+                    "instructions": [
+                              "పీతను సిద్ధం చేయండి: ముందుగా, స్టార్! మీ పీతలను తీసుకోండి. వాటిని పారే నీటి కింద పూర్తిగా శుభ్రం చేయండి. షెల్లు మరియు పీత కాళ్ళను పగలగొట్టడానికి బలమైన క్లీవర్ లేదా భారీ కత్తిని ఉపయోగించండి. సిగ్గుపడకండి; సాస్ ప్రతి మూలకూ చేరాలని మీరు కోరుకుంటారు. శరీరాన్ని సగం లేదా పావు వంతులుగా వేరు చేయండి, కాళ్ళు మరియు పీత కాళ్ళను అటాచ్ చేసి ఉంచండి. పక్కన పెట్టండి.",
+                              "చిల్లీ పేస్ట్ తయారు చేయండి: ఇక్కడే మాయ మొదలవుతుంది. ఫుడ్ ప్రాసెసర్‌లో లేదా రోలు మరియు రోకలితో, నానబెట్టిన ఎండు మిరపకాయలు, తాజా ఎర్ర మిరపకాయలు, చిన్న ఉల్లిపాయలు, వెల్లుల్లి, అల్లం మరియు కాల్చిన బెలకన్‌ను కలపండి. సాపేక్షంగా మృదువైన, సువాసనగల పేస్ట్ వచ్చేవరకు బ్లెండ్ చేయండి లేదా దంచండి. ఇది శక్తివంతంగా, కొద్దిగా ఘాటుగా మరియు ఆశాజనకంగా వాసన చూడాలి.",
+                              "పేస్ట్‌ను వేయించండి: పెద్ద వోక్ లేదా లోతైన పాన్‌లో మధ్యస్థ-అధిక వేడి మీద వంట నూనెను వేడి చేయండి. మీ తాజాగా తయారుచేసిన చిల్లీ పేస్ట్‌ను జోడించండి. నిరంతరం కలుపుతూ, అది చిటపటలాడటానికి మరియు పేలడానికి అనుమతించండి. మిరపకాయలు మరియు వెల్లుల్లి యొక్క పచ్చి, పదునైన అంచులు మృదువుగా మారడానికి, పేస్ట్ కొద్దిగా ముదురు రంగులోకి మారడానికి, మరియు నూనె 'విడిపోయి' పాన్ అంచుల చుట్టూ సేకరించడం ప్రారంభించడానికి మీరు చూస్తున్నారు. దీనికి సుమారు 8-10 నిమిషాలు పడుతుంది. తొందరపడకండి; ఈ దశ రుచికి పునాదిని నిర్మిస్తుంది.",
+                              "సాస్ బేస్‌ను నిర్మించండి: టొమాటో కెచప్, బాటిల్ చిల్లీ సాస్, నీరు లేదా చికెన్ స్టాక్, చక్కెర, ఉప్పు మరియు తెల్ల వెనిగర్‌ను పోయండి. అన్నీ బాగా కలిసే వరకు కలుపుతూ, అది నెమ్మదిగా బుడగలు రావడం ప్రారంభించే వరకు ఉడకనివ్వండి. రుచులు కలిసిపోయి లోతుగా మారడానికి సుమారు 5 నిమిషాలు ఉడకనివ్వండి. సువాసన తీపి, పుల్లని మరియు కారంగా ఉండే అందమైన మిశ్రమంగా ఉండాలి.",
+                              "పీతను ఉడికించండి: ఇప్పుడు ప్రధాన కార్యక్రమం. సిద్ధం చేసిన పీత ముక్కలను ఉడుకుతున్న సాస్‌లో జోడించండి. ఆ అద్భుతమైన ఎర్రటి మిశ్రమంతో అన్ని పీతలను పూత పూయడానికి సున్నితంగా కలుపుకోండి. వోక్‌ను మూతపెట్టి, సుమారు 8-10 నిమిషాలు ఉడకనివ్వండి, లేదా పీత షెల్లు శక్తివంతమైన నారింజ-ఎరుపు రంగులోకి మారి, మాంసం అపారదర్శకంగా మారే వరకు. అతిగా ఉడికించవద్దు! రబ్బరు పీత ఒక పాక విషాదం.",
+                              "సాస్‌ను చిక్కగా చేయండి: కార్న్‌స్టార్చ్ స్లర్రీని త్వరగా కదిలించండి (అది స్థిరపడుతుంది!). దానిని నెమ్మదిగా ఉడుకుతున్న సాస్‌లో పోయండి, నిరంతరం కలుపుతూ ఉండండి. సాస్ ఎలా మారుతుందో చూడండి, పీతకు అందంగా అంటుకునే మెరిసే, విలాసవంతమైన స్థిరత్వానికి చిక్కగా మారుతుంది. పచ్చి కార్న్‌స్టార్చ్ రుచిని వండటానికి మరో నిమిషం పాటు బుడగలు రానివ్వండి.",
+                              "గుడ్డును జోడించండి: వేడిని తక్కువకు తగ్గించండి. నెమ్మదిగా, సన్నని ప్రవాహంలో, తేలికగా కొట్టిన గుడ్లను సాస్‌లో పోయండి, అదే సమయంలో ఒక చెంచా లేదా గరిటెతో సున్నితంగా కలుపుతూ ఉండండి. మీరు స్క్రాంబుల్డ్ ముక్కలు కాకుండా సున్నితమైన, పట్టులాంటి గుడ్డు రిబ్బన్‌లను సృష్టించాలనుకుంటున్నారు. కలపడానికి సరిపడా కదిలించండి, ఆపై వేడిని ఆపివేయండి. మిగిలిన వేడి గుడ్డును వండటం పూర్తి చేస్తుంది.",
+                              "వెంటనే వడ్డించండి: చిల్లీ క్రాబ్‌ను పెద్ద సర్వింగ్ ప్లేట్‌కు మార్చండి. తాజా కొత్తిమీర ఆకులు మరియు ముక్కలుగా చేసిన స్ప్రింగ్ ఆనియన్స్‌తో ఉదారంగా అలంకరించండి. తాజాగా వేయించిన మంటౌ బన్‌ల పెద్ద కుప్పతో వేడివేడిగా వడ్డించండి. చిందరవందరగా తినండి, లోతుగా తవ్వండి మరియు ప్రతి అద్భుతమైన కాటును ఆస్వాదించండి!"
+                    ]
+          },
+          "ta": {
+                    "title": "சில்லி கிராப்",
+                    "description": "சில்லி கிராப். ஆஹா, அந்தப் பெயரே ஈஸ்ட் கோஸ்ட் லாகூன் உணவு மையத்தின் ஈரப்பதமான காற்று, தட்டுகளின் சத்தம், மற்றும் மகிழ்ச்சியான, குழப்பமான உறிஞ்சும் ஒலிகளை நினைவூட்டுகிறது. இது வெறும் ஒரு உணவு மட்டுமல்ல; இது ஒரு சிங்கப்பூர் நிறுவனம், ஒரு சடங்கு. நான் ஒரு இளம் சமையல்காரனாக இருந்தபோது, தைரியம் மட்டுமே இருந்து நுட்பம் இல்லாத நாட்களில், இதை முதன்முதலில் செய்ய முயற்சித்தபோது எனக்கு நினைவிருக்கிறது. என் அத்தை மேய் இதை எண்ணற்ற முறை சமைப்பதைப் பார்த்திருக்கிறேன், அவளது அசைவுகள் துல்லியமானவை, கிட்டத்தட்ட சடங்குத்தனமானவை. ஆனால் பார்ப்பதும் செய்வதும் இரண்டு வெவ்வேறு விஷயங்கள். என் முதல் சில முயற்சிகள்? பேரழிவுகள். சாஸ் ஒன்று மிகவும் நீர்த்திருந்தது, நண்டுடன் ஒட்ட மறுத்தது, அல்லது மிகவும் கெட்டியாகி ஒரு பிசுபிசுப்பான குழப்பமாக மாறியது. மற்றும் நண்டு! ஓ, அதிகமாக சமைத்த, ரப்பர் போன்ற நண்டின் பயங்கரம். அத்தை மேய், அவளது பொறுமையான ஆன்மாவுக்கு நன்றி, தலையை அசைத்து, ஒரு சிறிய, அறிந்த புன்னகையை அளித்து, பின்னர் என் கையை மெதுவாக வழிநடத்தி, சின்ன வெங்காயத்திலிருந்து இனிப்பை எப்படி வெளிக்கொணர்வது, மிளகாய் விழுது எண்ணெயில் உண்மையாக 'மலரும்' சரியான தருணத்தை எப்படி மதிப்பிடுவது என்று காட்டினாள். இந்த சமநிலையை சரியாகப் பெற, இந்த உணவின் ஆன்மாவைப் புரிந்துகொள்ள பல ஆண்டுகள் ஆனது, உண்மையிலேயே. ரகசியம், ஏதேனும் இருந்தால், மிளகாய் விழுது மற்றும் உங்கள் நண்டின் புத்துணர்ச்சியில் உள்ளது. அந்த முன் தயாரிக்கப்பட்ட ஜாடிகளை மறந்துவிடுங்கள்; அவை சரியாக வராது. காய்ந்த மிளகாயிலிருந்து அந்த துடிப்பான, சிக்கலான காரம், புதிய சின்ன வெங்காயத்தின் காரமான இனிப்பு, பூண்டு மற்றும் இஞ்சியின் கூர்மையான சுவை, மற்றும் பெலகனின் ஒரு சிறிய, முக்கியமான கிசுகிசுப்பு உங்களுக்குத் தேவை. சில தூய்மைவாதிகள் முற்றிலும் தக்காளி அடிப்படையிலான சாஸை வாதிடுகிறார்கள், ஆனால் நல்ல தரமான பாட்டில் சில்லி சாஸ் மற்றும் கெட்சப், புதிய தக்காளியுடன் சேர்த்து, தட்டை சுத்தமாக நக்கத் தூண்டும் அந்த தனித்துவமான புளிப்பு-இனிப்பு-காரமான ஆழத்தை அளிக்கிறது என்று நான் கண்டறிந்துள்ளேன். மற்றும் முட்டை! இறுதியில் அந்த மென்மையான, பட்டு போன்ற முட்டை சுழல் வெறும் காட்சிக்கு மட்டுமல்ல; இது ஒரு அழகான செழுமையையும் அமைப்பையும் சேர்க்கிறது, சாஸை ஒன்றாக பிணைக்கிறது. மெதுவாக, மெதுவாக கிளறி, அந்த அழகான, மெல்லிய ரிப்பன்களை உருவாக்க அனுமதிப்பதுதான் தந்திரம். அதை அப்படியே கொட்டிவிடாதீர்கள், இல்லையெனில் உங்கள் நண்டில் முட்டை பொரியலுடன் முடிவடையும். என்னை நம்புங்கள், நான் அங்கே இருந்திருக்கிறேன். இந்த உணவு பகிர்ந்து கொள்ளப்பட வேண்டும், உங்கள் கைகளால், அந்த அற்புதமான, தீப்பிழம்பு சிவப்பு சாஸில் முழங்கைகள் ஆழமாக மூழ்கி உண்ணப்பட வேண்டும். இது ஒரு சமூக அனுபவம், ஒரு கொண்டாட்டம். உங்களுக்கு நிறைய நாப்கின்கள், ஒருவேளை ஒரு பிப் கூட, மற்றும் நிச்சயமாக அந்த பஞ்சுபோன்ற, பொரித்த மாண்டோ பன்களின் ஒரு அடுக்கு தேவைப்படும். அவை விருப்பமானவை அல்ல; அந்த நம்பமுடியாத சாஸின் ஒவ்வொரு கடைசி துளியையும் துடைக்க அவை அவசியம். அந்த செழுமையான, காரமான, சற்று இனிப்பான சாஸில் பூசப்பட்ட ஒரு சுவையான நண்டுத் துண்டைப் பிழிந்து, பின்னர் சாஸில் ஊறிய மாண்டோவுடன் அதைத் துரத்துவது போல் வேறு எதுவும் இல்லை. இது குழப்பமானது, இது சத்தமானது, மற்றும் இது முற்றிலும் சரியானது. நண்டு உள்ளே சென்றவுடன் அடுப்பிலிருந்து விலகிச் செல்லாதீர்கள்; அது வேகமாக சமைக்கிறது. அதைக் கவனியுங்கள், நீங்கள் உண்மையிலேயே பாடும் ஒரு உணவுடன் வெகுமதி பெறுவீர்கள்.",
+                    "ingredients": [
+                              {
+                                        "item": "புதிய சேற்று நண்டுகள்",
+                                        "amount": "2 (தோராயமாக 800கி - 1கி ஒவ்வொன்றும்), சுத்தம் செய்து உடைக்கப்பட்டவை"
+                              },
+                              {
+                                        "item": "சமையல் எண்ணெய்",
+                                        "amount": "அரை கப்"
+                              },
+                              {
+                                        "item": "பூண்டு",
+                                        "amount": "8 பற்கள், பொடியாக நறுக்கியது"
+                              },
+                              {
+                                        "item": "இஞ்சி",
+                                        "amount": "2 அங்குல துண்டு, துருவியது"
+                              },
+                              {
+                                        "item": "சின்ன வெங்காயம்",
+                                        "amount": "4, பொடியாக நறுக்கியது"
+                              },
+                              {
+                                        "item": "காய்ந்த சிவப்பு மிளகாய்",
+                                        "amount": "15-20, வெந்நீரில் ஊறவைத்து, விதை நீக்கப்பட்டது (காரத்திற்கு ஏற்ப சரிசெய்யவும்)"
+                              },
+                              {
+                                        "item": "புதிய சிவப்பு மிளகாய்",
+                                        "amount": "5-6, விதை நீக்கப்பட்டது (நிறம் மற்றும் புதிய காரத்திற்கு)"
+                              },
+                              {
+                                        "item": "பெலகன் (இறால் பேஸ்ட்)",
+                                        "amount": "1 தேக்கரண்டி, வறுத்தது"
+                              },
+                              {
+                                        "item": "தக்காளி கெட்சப்",
+                                        "amount": "அரை கப்"
+                              },
+                              {
+                                        "item": "பாட்டில் சில்லி சாஸ்",
+                                        "amount": "கால் கப் (எ.கா., மேகி அல்லது ஒத்த இனிப்பு சில்லி சாஸ்)"
+                              },
+                              {
+                                        "item": "தண்ணீர் அல்லது சிக்கன் ஸ்டாக்",
+                                        "amount": "1.5 கப்"
+                              },
+                              {
+                                        "item": "சர்க்கரை",
+                                        "amount": "2-3 தேக்கரண்டி (சுவைக்கு ஏற்ப சரிசெய்யவும்)"
+                              },
+                              {
+                                        "item": "உப்பு",
+                                        "amount": "1 தேக்கரண்டி (அல்லது சுவைக்கு ஏற்ப)"
+                              },
+                              {
+                                        "item": "வெள்ளை வினிகர்",
+                                        "amount": "1 தேக்கரண்டி"
+                              },
+                              {
+                                        "item": "கார்ன்ஸ்டார்ச்",
+                                        "amount": "2 தேக்கரண்டி, 4 தேக்கரண்டி தண்ணீருடன் கலக்கப்பட்டது (ஸ்லரி)"
+                              },
+                              {
+                                        "item": "முட்டைகள்",
+                                        "amount": "2 பெரியது, லேசாக அடித்தது"
+                              },
+                              {
+                                        "item": "கொத்தமல்லி இலைகள்",
+                                        "amount": "அலங்கரிக்க, நறுக்கியது"
+                              },
+                              {
+                                        "item": "வெங்காயத்தாள்",
+                                        "amount": "அலங்கரிக்க, நறுக்கியது"
+                              },
+                              {
+                                        "item": "பொரித்த மாண்டோ பன்கள்",
+                                        "amount": "பரிமாற"
+                              }
+                    ],
+                    "instructions": [
+                              "நண்டை தயார் செய்யவும்: முதலில், நட்சத்திரம்! உங்கள் நண்டுகளைப் பெறுங்கள். ஓடும் நீரின் கீழ் அவற்றை நன்கு சுத்தம் செய்யவும். ஓடுகள் மற்றும் நகங்களை உடைக்க ஒரு உறுதியான கத்தி அல்லது கனமான கத்தியைப் பயன்படுத்தவும். வெட்கப்பட வேண்டாம்; சாஸ் ஒவ்வொரு மூலை முடுக்கிலும் செல்ல வேண்டும் என்று நீங்கள் விரும்புகிறீர்கள். உடலை பாதியாக அல்லது கால் பகுதிகளாகப் பிரிக்கவும், கால்கள் மற்றும் நகங்களை இணைத்து வைக்கவும். ஒதுக்கி வைக்கவும்.",
+                              "சில்லி விழுது தயாரிக்கவும்: இங்கிருந்துதான் மாயாஜாலம் தொடங்குகிறது. ஒரு உணவு செயலி அல்லது உரல் மற்றும் உலக்கையைப் பயன்படுத்தி, ஊறவைத்த காய்ந்த சிவப்பு மிளகாய், புதிய சிவப்பு மிளகாய், சின்ன வெங்காயம், பூண்டு, இஞ்சி மற்றும் வறுத்த பெலகன் ஆகியவற்றைச் சேர்க்கவும். ஒப்பீட்டளவில் மென்மையான, நறுமணமுள்ள விழுது கிடைக்கும் வரை அரைக்கவும் அல்லது இடிக்கவும். இது துடிப்பானதாகவும், சற்று காரமாகவும், நம்பிக்கைக்குரியதாகவும் வாசனை வர வேண்டும்.",
+                              "விழுதை வதக்கவும்: ஒரு பெரிய வாணலி அல்லது ஆழமான பாத்திரத்தில் நடுத்தர-அதிக தீயில் சமையல் எண்ணெயை சூடாக்கவும். நீங்கள் புதிதாக தயாரித்த சில்லி விழுதைச் சேர்க்கவும். தொடர்ந்து கிளறி, அது சத்தம் போட்டு வெடிக்க விடவும். மிளகாய் மற்றும் பூண்டின் பச்சையான, கூர்மையான முனைகள் மென்மையாவதற்கும், விழுது சற்று கருமையாவதற்கும், எண்ணெய் 'பிரிந்து' பாத்திரத்தின் ஓரங்களில் சேரத் தொடங்குவதற்கும் நீங்கள் பார்க்கிறீர்கள். இதற்கு சுமார் 8-10 நிமிடங்கள் ஆகும். அவசரப்பட வேண்டாம்; இந்த படி சுவையின் அடித்தளத்தை உருவாக்குகிறது.",
+                              "சாஸ் அடிப்படையை உருவாக்கவும்: தக்காளி கெட்சப், பாட்டில் சில்லி சாஸ், தண்ணீர் அல்லது சிக்கன் ஸ்டாக், சர்க்கரை, உப்பு மற்றும் வெள்ளை வினிகரை ஊற்றவும். அனைத்தும் நன்கு கலந்து மெதுவாக குமிழ ஆரம்பிக்கும் வரை கிளறவும். சுவைகள் கலந்து ஆழமடைய சுமார் 5 நிமிடங்கள் கொதிக்க விடவும். நறுமணம் இனிப்பு, புளிப்பு மற்றும் காரமான ஒரு அழகான கலவையாக இருக்க வேண்டும்.",
+                              "நண்டை சமைக்கவும்: இப்போது முக்கிய நிகழ்வு. தயாரிக்கப்பட்ட நண்டு துண்டுகளை கொதிக்கும் சாஸில் சேர்க்கவும். அந்த அற்புதமான சிவப்பு கலவையுடன் அனைத்து நண்டுகளையும் பூச மெதுவாக கிளறவும். வாணலியை மூடி, சுமார் 8-10 நிமிடங்கள் சமைக்கவும், அல்லது நண்டு ஓடுகள் துடிப்பான ஆரஞ்சு-சிவப்பு நிறமாக மாறி, சதை ஒளிபுகாவாக மாறும் வரை. அதிகமாக சமைக்க வேண்டாம்! ரப்பர் நண்டு ஒரு சமையல் சோகம்.",
+                              "சாஸை கெட்டியாக்கவும்: கார்ன்ஸ்டார்ச் ஸ்லரியை ஒரு விரைவான கிளறல் கொடுக்கவும் (அது அடியில் தங்கும்!). அதை மெதுவாக கொதிக்கும் சாஸில் ஊற்றவும், தொடர்ந்து கிளறவும். சாஸ் எப்படி மாறுகிறது என்று பாருங்கள், நண்டுடன் அழகாக ஒட்டிக்கொள்ளும் ஒரு பளபளப்பான, ஆடம்பரமான நிலைத்தன்மைக்கு கெட்டியாகிறது. பச்சையான கார்ன்ஸ்டார்ச் சுவை வெளியேற மற்றொரு நிமிடம் குமிழ விடவும்.",
+                              "முட்டையை சேர்க்கவும்: தீயை குறைக்கவும். மெதுவாக, ஒரு மெல்லிய நீரோட்டத்தில், லேசாக அடித்த முட்டைகளை சாஸில் ஊற்றவும், அதே நேரத்தில் ஒரு கரண்டி அல்லது ஸ்பேட்டூலால் மெதுவாக கிளறவும். நீங்கள் முட்டை பொரியல் துண்டுகள் அல்ல, மென்மையான, பட்டு போன்ற முட்டை ரிப்பன்களை உருவாக்க விரும்புகிறீர்கள். கலக்க போதுமான அளவு கிளறவும், பின்னர் தீயை அணைக்கவும். மீதமுள்ள வெப்பம் முட்டையை சமைப்பதை முடிக்கும்.",
+                              "உடனடியாக பரிமாறவும்: சில்லி கிராப்பை ஒரு பெரிய பரிமாறும் தட்டுக்கு மாற்றவும். புதிய கொத்தமல்லி இலைகள் மற்றும் நறுக்கிய வெங்காயத்தாள் கொண்டு தாராளமாக அலங்கரிக்கவும். புதிதாக பொரித்த மாண்டோ பன்களின் ஒரு பெரிய குவியலுடன் சூடாக பரிமாறவும். குழப்பமாக இருங்கள், உள்ளே தோண்டி, ஒவ்வொரு அற்புதமான கடியையும் அனுபவிக்கவும்!"
+                    ]
+          },
+          "kn": {
+                    "title": "ಚಿಲ್ಲಿ ಕ್ರಾಬ್",
+                    "description": "ಚಿಲ್ಲಿ ಕ್ರಾಬ್. ಆಹಾ, ಈ ಹೆಸರೇ ಈಸ್ಟ್ ಕೋಸ್ಟ್ ಲಗೂನ್ ಫುಡ್ ಸೆಂಟರ್‌ನ ಆರ್ದ್ರ ವಾತಾವರಣ, ತಟ್ಟೆಗಳ ಸದ್ದು ಮತ್ತು ಸಂತೋಷದ, ಅಸ್ತವ್ಯಸ್ತವಾದ ಸಪ್ಪಳವನ್ನು ನೆನಪಿಸುತ್ತದೆ. ಇದು ಕೇವಲ ಒಂದು ಖಾದ್ಯವಲ್ಲ; ಇದು ಸಿಂಗಾಪುರದ ಒಂದು ಸಂಸ್ಥೆ, ಒಂದು ಸಂಪ್ರದಾಯ. ನಾನು ಚಿಕ್ಕ ಅಡುಗೆಯವನಾಗಿದ್ದಾಗ, ಕೇವಲ ಧೈರ್ಯವಿದ್ದಾಗ ಮತ್ತು ತಂತ್ರಜ್ಞಾನವಿಲ್ಲದಿದ್ದಾಗ, ಅದನ್ನು ಮೊದಲ ಬಾರಿಗೆ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿದ್ದು ನನಗೆ ನೆನಪಿದೆ. ನನ್ನ ಚಿಕ್ಕಮ್ಮ ಮೇಯ್ ಅದನ್ನು ಅಸಂಖ್ಯಾತ ಬಾರಿ ತಯಾರಿಸುವುದನ್ನು ನಾನು ನೋಡಿದ್ದೆ, ಅವಳ ಚಲನೆಗಳು ನಿಖರವಾಗಿದ್ದವು, ಬಹುತೇಕ ವಿಧಿವಿಧಾನದಂತೆ. ಆದರೆ ನೋಡುವುದು ಮತ್ತು ಮಾಡುವುದು ಎರಡು ವಿಭಿನ್ನ ವಿಷಯಗಳು. ನನ್ನ ಮೊದಲ ಕೆಲವು ಪ್ರಯತ್ನಗಳು? ವಿಪತ್ತುಗಳು. ಸಾಸ್ ತುಂಬಾ ನೀರಾಗಿತ್ತು, ಏಡಿಗೆ ಅಂಟಿಕೊಳ್ಳಲು ನಿರಾಕರಿಸುತ್ತಿತ್ತು, ಅಥವಾ ತುಂಬಾ ದಪ್ಪವಾಗಿ ಗಟ್ಟಿಯಾದ ಗೊಂದಲವಾಗಿ ಮಾರ್ಪಟ್ಟಿತ್ತು. ಮತ್ತು ಏಡಿ! ಓಹ್, ಅತಿಯಾಗಿ ಬೇಯಿಸಿದ, ರಬ್ಬರ್‌ನಂತಹ ಏಡಿಯ ಭಯಾನಕತೆ. ಚಿಕ್ಕಮ್ಮ ಮೇಯ್, ಅವಳ ತಾಳ್ಮೆಯ ಆತ್ಮಕ್ಕೆ ಆಶೀರ್ವಾದ, ಕೇವಲ ತಲೆ ಅಲ್ಲಾಡಿಸುತ್ತಿದ್ದಳು, ಒಂದು ಸಣ್ಣ, ತಿಳಿದಿರುವ ನಗುವನ್ನು ನೀಡುತ್ತಿದ್ದಳು, ಮತ್ತು ನಂತರ ನಿಧಾನವಾಗಿ ನನ್ನ ಕೈಗೆ ಮಾರ್ಗದರ್ಶನ ನೀಡುತ್ತಿದ್ದಳು, ಶಾಲೋಟ್‌ಗಳಿಂದ ಸಿಹಿಯನ್ನು ಹೇಗೆ ಹೊರತೆಗೆಯುವುದು, ಮೆಣಸಿನಕಾಯಿ ಪೇಸ್ಟ್ ಎಣ್ಣೆಯಲ್ಲಿ ನಿಜವಾಗಿಯೂ 'ಅರಳುವ' ಪರಿಪೂರ್ಣ ಕ್ಷಣವನ್ನು ಹೇಗೆ ನಿರ್ಣಯಿಸುವುದು ಎಂದು ತೋರಿಸುತ್ತಿದ್ದಳು. ಪ್ರಾಮಾಣಿಕವಾಗಿ ಹೇಳಬೇಕೆಂದರೆ, ಆ ಸಮತೋಲನವನ್ನು ಸರಿಯಾಗಿ ಪಡೆಯಲು, ಖಾದ್ಯದ ಆತ್ಮವನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ವರ್ಷಗಳು ಬೇಕಾಯಿತು. ರಹಸ್ಯ, ಏನಾದರೂ ಇದ್ದರೆ, ಅದು ಮೆಣಸಿನಕಾಯಿ ಪೇಸ್ಟ್ ಮತ್ತು ನಿಮ್ಮ ಏಡಿಯ ತಾಜಾತನದಲ್ಲಿದೆ. ಆ ಪೂರ್ವಸಿದ್ಧ ಜಾರ್‌ಗಳನ್ನು ಮರೆತುಬಿಡಿ; ಅವು ಕೆಲಸ ಮಾಡುವುದಿಲ್ಲ. ನಿಮಗೆ ಒಣ ಮೆಣಸಿನಕಾಯಿಗಳಿಂದ ಆ ರೋಮಾಂಚಕ, ಸಂಕೀರ್ಣವಾದ ಖಾರ, ತಾಜಾ ಶಾಲೋಟ್‌ಗಳ ತೀಕ್ಷ್ಣವಾದ ಸಿಹಿ, ಬೆಳ್ಳುಳ್ಳಿ ಮತ್ತು ಶುಂಠಿಯ ತೀಕ್ಷ್ಣವಾದ ಕಚ್ಚುವಿಕೆ, ಮತ್ತು ಬೆಲಾಕನ್‌ನ ಒಂದು ಸಣ್ಣ, ನಿರ್ಣಾಯಕ ಪಿಸುಮಾತು ಬೇಕು. ಕೆಲವು ಶುದ್ಧತಾವಾದಿಗಳು ಸಂಪೂರ್ಣವಾಗಿ ಟೊಮೆಟೊ ಆಧಾರಿತ ಸಾಸ್‌ಗಾಗಿ ವಾದಿಸುತ್ತಾರೆ, ಆದರೆ ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಬಾಟಲಿ ಚಿಲ್ಲಿ ಸಾಸ್ ಮತ್ತು ಕೆಚಪ್‌ನ ವಿವೇಚನಾಯುಕ್ತ ಮಿಶ್ರಣವು, ತಾಜಾ ಟೊಮೆಟೊಗಳೊಂದಿಗೆ, ನಿಮಗೆ ಪ್ಲೇಟ್ ಅನ್ನು ನೆಕ್ಕಲು ಬಯಸುವಂತಹ ವಿಶಿಷ್ಟವಾದ ಹುಳಿ-ಸಿಹಿ-ಖಾರದ ಆಳವನ್ನು ನೀಡುತ್ತದೆ ಎಂದು ನಾನು ಕಂಡುಕೊಂಡಿದ್ದೇನೆ. ಮತ್ತು ಮೊಟ್ಟೆ! ಕೊನೆಯಲ್ಲಿ ಆ ಸೂಕ್ಷ್ಮ, ರೇಷ್ಮೆಯಂತಹ ಮೊಟ್ಟೆಯ ಸುರುಳಿ ಕೇವಲ ಪ್ರದರ್ಶನಕ್ಕಲ್ಲ; ಇದು ಸುಂದರವಾದ ಸಮೃದ್ಧಿ ಮತ್ತು ವಿನ್ಯಾಸವನ್ನು ಸೇರಿಸುತ್ತದೆ, ಸಾಸ್ ಅನ್ನು ಒಟ್ಟಿಗೆ ಬಂಧಿಸುತ್ತದೆ. ತಂತ್ರವೆಂದರೆ ಅದನ್ನು ನಿಧಾನವಾಗಿ, ನಿಧಾನವಾಗಿ ಬೆರೆಸುತ್ತಾ ಸುರಿಯುವುದು, ಅದು ಆ ಸುಂದರವಾದ, ತೆಳುವಾದ ರಿಬ್ಬನ್‌ಗಳನ್ನು ರೂಪಿಸಲು ಬಿಡುವುದು. ಅದನ್ನು ಕೇವಲ ಸುರಿಯಬೇಡಿ, ಇಲ್ಲದಿದ್ದರೆ ನಿಮ್ಮ ಏಡಿಯಲ್ಲಿ ಸ್ಕ್ರ್ಯಾಂಬಲ್ಡ್ ಮೊಟ್ಟೆ ಸಿಗುತ್ತದೆ. ನನ್ನನ್ನು ನಂಬಿ, ನಾನು ಅಲ್ಲಿಗೆ ಹೋಗಿದ್ದೇನೆ. ಈ ಖಾದ್ಯವನ್ನು ಹಂಚಿಕೊಳ್ಳಲು, ನಿಮ್ಮ ಕೈಗಳಿಂದ, ಆ ಅದ್ಭುತ, ಉರಿಯುತ್ತಿರುವ ಕೆಂಪು ಸಾಸ್‌ನಲ್ಲಿ ಮೊಣಕೈಯನ್ನು ಆಳವಾಗಿ ಅದ್ದಿ ತಿನ್ನಲು ಉದ್ದೇಶಿಸಲಾಗಿದೆ. ಇದು ಒಂದು ಸಮುದಾಯದ ಅನುಭವ, ಒಂದು ಆಚರಣೆ. ನಿಮಗೆ ಸಾಕಷ್ಟು ನ್ಯಾಪ್ಕಿನ್‌ಗಳು ಬೇಕಾಗುತ್ತವೆ, ಬಹುಶಃ ಒಂದು ಬಿಬ್ ಕೂಡ, ಮತ್ತು ಖಂಡಿತವಾಗಿಯೂ ಆ ನಯವಾದ, ಕರಿದ ಮಾಂಟೌ ಬನ್‌ಗಳ ರಾಶಿ. ಅವು ಐಚ್ಛಿಕವಲ್ಲ; ಆ ಅದ್ಭುತ ಸಾಸ್‌ನ ಪ್ರತಿಯೊಂದು ಕೊನೆಯ ಹನಿಗಳನ್ನು ಒರೆಸಲು ಅವು ಅತ್ಯಗತ್ಯ. ಆ ಶ್ರೀಮಂತ, ಖಾರ, ಸ್ವಲ್ಪ ಸಿಹಿ ಸಾಸ್‌ನಲ್ಲಿ ಲೇಪಿತವಾದ ಏಡಿಯ ರಸಭರಿತ ತುಂಡನ್ನು ಹರಿದು ತಿನ್ನುವುದು, ಮತ್ತು ನಂತರ ಸಾಸ್‌ನಲ್ಲಿ ನೆನೆಸಿದ ಮಾಂಟೌನೊಂದಿಗೆ ಅದನ್ನು ಬೆನ್ನಟ್ಟುವುದು ಬೇರೆ ಯಾವುದಕ್ಕೂ ಹೋಲಿಸಲಾಗದು. ಇದು ಅಸ್ತವ್ಯಸ್ತವಾಗಿದೆ, ಇದು ಗದ್ದಲಮಯವಾಗಿದೆ, ಮತ್ತು ಇದು ಸಂಪೂರ್ಣವಾಗಿ ಪರಿಪೂರ್ಣವಾಗಿದೆ. ಏಡಿ ಒಳಗೆ ಹೋದ ನಂತರ ಒಲೆಯಿಂದ ದೂರ ಹೋಗಬೇಡಿ; ಅದು ಬೇಗನೆ ಬೇಯುತ್ತದೆ. ಅದರ ಮೇಲೆ ಕಣ್ಣಿಡಿ, ಮತ್ತು ನೀವು ನಿಜವಾಗಿಯೂ ಹಾಡುವಂತಹ ಊಟದೊಂದಿಗೆ ಬಹುಮಾನ ಪಡೆಯುತ್ತೀರಿ.",
+                    "ingredients": [
+                              {
+                                        "item": "ತಾಜಾ ಮಡ್ ಏಡಿಗಳು",
+                                        "amount": "೨ (ಸುಮಾರು ೮೦೦ ಗ್ರಾಂ - ೧ ಕೆಜಿ ಪ್ರತಿ), ಸ್ವಚ್ಛಗೊಳಿಸಿ ಮತ್ತು ಒಡೆದ"
+                              },
+                              {
+                                        "item": "ಅಡುಗೆ ಎಣ್ಣೆ",
+                                        "amount": "೧/೨ ಕಪ್"
+                              },
+                              {
+                                        "item": "ಬೆಳ್ಳುಳ್ಳಿ",
+                                        "amount": "೮ ಎಸಳು, ಸಣ್ಣಗೆ ಹೆಚ್ಚಿದ"
+                              },
+                              {
+                                        "item": "ಶುಂಠಿ",
+                                        "amount": "೨ ಇಂಚು ತುಂಡು, ತುರಿದ"
+                              },
+                              {
+                                        "item": "ಶಾಲೋಟ್ಸ್",
+                                        "amount": "೪, ನುಣ್ಣಗೆ ಹೆಚ್ಚಿದ"
+                              },
+                              {
+                                        "item": "ಒಣ ಕೆಂಪು ಮೆಣಸಿನಕಾಯಿಗಳು",
+                                        "amount": "೧೫-೨೦, ಬಿಸಿ ನೀರಿನಲ್ಲಿ ನೆನೆಸಿ, ಬೀಜ ತೆಗೆದ (ಖಾರದ ಆದ್ಯತೆಗೆ ಅನುಗುಣವಾಗಿ)"
+                              },
+                              {
+                                        "item": "ತಾಜಾ ಕೆಂಪು ಮೆಣಸಿನಕಾಯಿಗಳು",
+                                        "amount": "೫-೬, ಬೀಜ ತೆಗೆದ (ಬಣ್ಣ ಮತ್ತು ತಾಜಾ ಖಾರಕ್ಕಾಗಿ)"
+                              },
+                              {
+                                        "item": "ಬೆಲಾಕನ್ (ಸೀಗಡಿ ಪೇಸ್ಟ್)",
+                                        "amount": "೧ ಟೀಸ್ಪೂನ್, ಹುರಿದ"
+                              },
+                              {
+                                        "item": "ಟೊಮೆಟೊ ಕೆಚಪ್",
+                                        "amount": "೧/೨ ಕಪ್"
+                              },
+                              {
+                                        "item": "ಬಾಟಲಿ ಚಿಲ್ಲಿ ಸಾಸ್",
+                                        "amount": "೧/೪ ಕಪ್ (ಉದಾಹರಣೆಗೆ, ಮ್ಯಾಗಿ ಅಥವಾ ಅಂತಹುದೇ ಸಿಹಿ ಚಿಲ್ಲಿ ಸಾಸ್)"
+                              },
+                              {
+                                        "item": "ನೀರು ಅಥವಾ ಚಿಕನ್ ಸ್ಟಾಕ್",
+                                        "amount": "೧.೫ ಕಪ್"
+                              },
+                              {
+                                        "item": "ಸಕ್ಕರೆ",
+                                        "amount": "೨-೩ ಟೇಬಲ್ಸ್ಪೂನ್ (ರುಚಿಗೆ ತಕ್ಕಂತೆ)"
+                              },
+                              {
+                                        "item": "ಉಪ್ಪು",
+                                        "amount": "೧ ಟೀಸ್ಪೂನ್ (ಅಥವಾ ರುಚಿಗೆ ತಕ್ಕಂತೆ)"
+                              },
+                              {
+                                        "item": "ಬಿಳಿ ವಿನೆಗರ್",
+                                        "amount": "೧ ಟೇಬಲ್ಸ್ಪೂನ್"
+                              },
+                              {
+                                        "item": "ಕಾರ್ನ್‌ಸ್ಟಾರ್ಚ್",
+                                        "amount": "೨ ಟೇಬಲ್ಸ್ಪೂನ್, ೪ ಟೇಬಲ್ಸ್ಪೂನ್ ನೀರಿನೊಂದಿಗೆ ಮಿಶ್ರಣ (ಸ್ಲರಿ)"
+                              },
+                              {
+                                        "item": "ಮೊಟ್ಟೆಗಳು",
+                                        "amount": "೨ ದೊಡ್ಡ, ಲಘುವಾಗಿ ಹೊಡೆದ"
+                              },
+                              {
+                                        "item": "ಕೊತ್ತಂಬರಿ ಸೊಪ್ಪು",
+                                        "amount": "ಅಲಂಕಾರಕ್ಕಾಗಿ, ಹೆಚ್ಚಿದ"
+                              },
+                              {
+                                        "item": "ಸ್ಪ್ರಿಂಗ್ ಈರುಳ್ಳಿ",
+                                        "amount": "ಅಲಂಕಾರಕ್ಕಾಗಿ, ಹೆಚ್ಚಿದ"
+                              },
+                              {
+                                        "item": "ಕರಿದ ಮಾಂಟೌ ಬನ್‌ಗಳು",
+                                        "amount": "ಬಡಿಸಲು"
+                              }
+                    ],
+                    "instructions": [
+                              "ಏಡಿಯನ್ನು ತಯಾರಿಸಿ: ಮೊದಲು, ನಾಯಕ! ನಿಮ್ಮ ಏಡಿಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಿ. ಹರಿಯುವ ನೀರಿನಲ್ಲಿ ಅವುಗಳನ್ನು ಚೆನ್ನಾಗಿ ಸ್ವಚ್ಛಗೊಳಿಸಿ. ಗಟ್ಟಿಮುಟ್ಟಾದ ಕತ್ತಿ ಅಥವಾ ಭಾರವಾದ ಚಾಕುವನ್ನು ಬಳಸಿ ಚಿಪ್ಪುಗಳು ಮತ್ತು ಹಿಡಿಕಟ್ಟುಗಳನ್ನು ಒಡೆಯಿರಿ. ನಾಚಿಕೆಪಡಬೇಡಿ; ಸಾಸ್ ಪ್ರತಿ ಮೂಲೆ ಮತ್ತು ಬಿರುಕಿಗೆ ತಲುಪಬೇಕು. ದೇಹವನ್ನು ಅರ್ಧ ಅಥವಾ ಕಾಲು ಭಾಗಗಳಾಗಿ ಬೇರ್ಪಡಿಸಿ, ಕಾಲುಗಳು ಮತ್ತು ಹಿಡಿಕಟ್ಟುಗಳನ್ನು ಜೋಡಿಸಿಡಿ. ಪಕ್ಕಕ್ಕೆ ಇಡಿ.",
+                              "ಚಿಲ್ಲಿ ಪೇಸ್ಟ್ ತಯಾರಿಸಿ: ಇಲ್ಲಿಂದ ಮ್ಯಾಜಿಕ್ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ. ಆಹಾರ ಸಂಸ್ಕಾರಕದಲ್ಲಿ ಅಥವಾ ಕಲ್ಲಿನ ಒರಳು ಮತ್ತು ಕುಟ್ಟಾಣಿಯಲ್ಲಿ, ನೆನೆಸಿದ ಒಣ ಕೆಂಪು ಮೆಣಸಿನಕಾಯಿಗಳು, ತಾಜಾ ಕೆಂಪು ಮೆಣಸಿನಕಾಯಿಗಳು, ಶಾಲೋಟ್ಸ್, ಬೆಳ್ಳುಳ್ಳಿ, ಶುಂಠಿ ಮತ್ತು ಹುರಿದ ಬೆಲಾಕನ್ ಅನ್ನು ಸೇರಿಸಿ. ತುಲನಾತ್ಮಕವಾಗಿ ನಯವಾದ, ಸುಗಂಧಭರಿತ ಪೇಸ್ಟ್ ಆಗುವವರೆಗೆ ಮಿಶ್ರಣ ಮಾಡಿ ಅಥವಾ ಕುಟ್ಟಿ. ಇದು ರೋಮಾಂಚಕ, ಸ್ವಲ್ಪ ತೀಕ್ಷ್ಣವಾದ ಮತ್ತು ಭರವಸೆಯ ವಾಸನೆಯನ್ನು ಹೊಂದಿರಬೇಕು.",
+                              "ಪೇಸ್ಟ್ ಅನ್ನು ಹುರಿಯಿರಿ: ದೊಡ್ಡ ಬಾಣಲೆ ಅಥವಾ ಆಳವಾದ ಪ್ಯಾನ್‌ನಲ್ಲಿ ಮಧ್ಯಮ-ಹೆಚ್ಚಿನ ಉರಿಯಲ್ಲಿ ಅಡುಗೆ ಎಣ್ಣೆಯನ್ನು ಬಿಸಿ ಮಾಡಿ. ನಿಮ್ಮ ಹೊಸದಾಗಿ ತಯಾರಿಸಿದ ಚಿಲ್ಲಿ ಪೇಸ್ಟ್ ಅನ್ನು ಸೇರಿಸಿ. ನಿರಂತರವಾಗಿ ಬೆರೆಸಿ, ಅದು ಸೀಳಲು ಮತ್ತು ಸಿಡಿಯಲು ಬಿಡಿ. ಮೆಣಸಿನಕಾಯಿಗಳು ಮತ್ತು ಬೆಳ್ಳುಳ್ಳಿಯ ಕಚ್ಚಾ, ತೀಕ್ಷ್ಣವಾದ ಅಂಚುಗಳು ಮೃದುವಾಗಲು, ಪೇಸ್ಟ್ ಸ್ವಲ್ಪ ಗಾಢವಾಗಲು ಮತ್ತು ಎಣ್ಣೆ 'ಬೇರ್ಪಡಿಸಲು' ಪ್ರಾರಂಭಿಸಿ ಪ್ಯಾನ್‌ನ ಅಂಚುಗಳ ಸುತ್ತ ಸಂಗ್ರಹವಾಗಲು ನೀವು ನೋಡಬೇಕು. ಇದಕ್ಕೆ ಸುಮಾರು ೮-೧೦ ನಿಮಿಷಗಳು ಬೇಕಾಗುತ್ತದೆ. ಆತುರಪಡಬೇಡಿ; ಈ ಹಂತವು ಸುವಾಸನೆಯ ಅಡಿಪಾಯವನ್ನು ನಿರ್ಮಿಸುತ್ತದೆ.",
+                              "ಸಾಸ್ ಬೇಸ್ ಅನ್ನು ನಿರ್ಮಿಸಿ: ಟೊಮೆಟೊ ಕೆಚಪ್, ಬಾಟಲಿ ಚಿಲ್ಲಿ ಸಾಸ್, ನೀರು ಅಥವಾ ಚಿಕನ್ ಸ್ಟಾಕ್, ಸಕ್ಕರೆ, ಉಪ್ಪು ಮತ್ತು ಬಿಳಿ ವಿನೆಗರ್ ಅನ್ನು ಸುರಿಯಿರಿ. ಎಲ್ಲವನ್ನೂ ಚೆನ್ನಾಗಿ ಮಿಶ್ರಣವಾಗುವವರೆಗೆ ಬೆರೆಸಿ ಮತ್ತು ನಿಧಾನವಾಗಿ ಕುದಿಯಲು ಪ್ರಾರಂಭಿಸಿ. ಸುಮಾರು ೫ ನಿಮಿಷಗಳ ಕಾಲ ಕುದಿಯಲು ಬಿಡಿ, ಸುವಾಸನೆಗಳು ಬೆರೆತು ಆಳವಾಗಲು ಅವಕಾಶ ನೀಡಿ. ಸುವಾಸನೆಯು ಸಿಹಿ, ಹುಳಿ ಮತ್ತು ಖಾರದ ಸುಂದರ ಮಿಶ್ರಣವಾಗಿರಬೇಕು.",
+                              "ಏಡಿಯನ್ನು ಬೇಯಿಸಿ: ಈಗ ಮುಖ್ಯ ಘಟನೆ. ತಯಾರಿಸಿದ ಏಡಿ ತುಂಡುಗಳನ್ನು ಕುದಿಯುತ್ತಿರುವ ಸಾಸ್‌ಗೆ ಸೇರಿಸಿ. ಆ ಅದ್ಭುತ ಕೆಂಪು ಮಿಶ್ರಣದಿಂದ ಎಲ್ಲಾ ಏಡಿಗಳನ್ನು ಲೇಪಿಸಲು ನಿಧಾನವಾಗಿ ಬೆರೆಸಿ. ಬಾಣಲೆಯನ್ನು ಮುಚ್ಚಿ ಸುಮಾರು ೮-೧೦ ನಿಮಿಷಗಳ ಕಾಲ ಬೇಯಿಸಿ, ಅಥವಾ ಏಡಿಯ ಚಿಪ್ಪುಗಳು ರೋಮಾಂಚಕ ಕಿತ್ತಳೆ-ಕೆಂಪು ಬಣ್ಣಕ್ಕೆ ತಿರುಗುವವರೆಗೆ ಮತ್ತು ಮಾಂಸವು ಅಪಾರದರ್ಶಕವಾಗುವವರೆಗೆ. ಅತಿಯಾಗಿ ಬೇಯಿಸಬೇಡಿ! ರಬ್ಬರ್ ಏಡಿ ಒಂದು ಪಾಕಶಾಲೆಯ ದುರಂತ.",
+                              "ಸಾಸ್ ಅನ್ನು ದಪ್ಪವಾಗಿಸಿ: ಕಾರ್ನ್‌ಸ್ಟಾರ್ಚ್ ಸ್ಲರಿಯನ್ನು ಒಂದು ಕ್ಷಿಪ್ರವಾಗಿ ಬೆರೆಸಿ (ಅದು ಕೆಳಗೆ ಕುಳಿತುಕೊಳ್ಳುತ್ತದೆ!). ಅದನ್ನು ನಿಧಾನವಾಗಿ ಕುದಿಯುತ್ತಿರುವ ಸಾಸ್‌ಗೆ ಸುರಿಯಿರಿ, ನಿರಂತರವಾಗಿ ಬೆರೆಸುತ್ತಾ ಇರಿ. ಸಾಸ್ ಹೇಗೆ ರೂಪಾಂತರಗೊಳ್ಳುತ್ತದೆ ಎಂಬುದನ್ನು ನೋಡಿ, ಅದು ಏಡಿಗೆ ಸುಂದರವಾಗಿ ಅಂಟಿಕೊಳ್ಳುವ ಹೊಳೆಯುವ, ಐಷಾರಾಮಿ ಸ್ಥಿರತೆಗೆ ದಪ್ಪವಾಗುತ್ತದೆ. ಕಚ್ಚಾ ಕಾರ್ನ್‌ಸ್ಟಾರ್ಚ್ ರುಚಿಯನ್ನು ಹೋಗಲಾಡಿಸಲು ಇನ್ನೊಂದು ನಿಮಿಷ ಕುದಿಯಲು ಬಿಡಿ.",
+                              "ಮೊಟ್ಟೆಯನ್ನು ಸೇರಿಸಿ: ಉರಿಯನ್ನು ಕಡಿಮೆ ಮಾಡಿ. ನಿಧಾನವಾಗಿ, ತೆಳುವಾದ ಹರಿವಿನಲ್ಲಿ, ಲಘುವಾಗಿ ಹೊಡೆದ ಮೊಟ್ಟೆಗಳನ್ನು ಸಾಸ್‌ಗೆ ಸುರಿಯಿರಿ, ಅದೇ ಸಮಯದಲ್ಲಿ ಚಮಚ ಅಥವಾ ಸ್ಪಾಟುಲಾದಿಂದ ನಿಧಾನವಾಗಿ ಬೆರೆಸುತ್ತಾ ಇರಿ. ನೀವು ಮೊಟ್ಟೆಯ ಸೂಕ್ಷ್ಮ, ರೇಷ್ಮೆಯಂತಹ ರಿಬ್ಬನ್‌ಗಳನ್ನು ರಚಿಸಲು ಬಯಸುತ್ತೀರಿ, ಸ್ಕ್ರ್ಯಾಂಬಲ್ಡ್ ತುಂಡುಗಳನ್ನಲ್ಲ. ಸೇರಿಸಲು ಸಾಕಷ್ಟು ಬೆರೆಸಿ, ನಂತರ ಉರಿಯನ್ನು ಆಫ್ ಮಾಡಿ. ಉಳಿದಿರುವ ಶಾಖವು ಮೊಟ್ಟೆಯನ್ನು ಬೇಯಿಸುವುದನ್ನು ಪೂರ್ಣಗೊಳಿಸುತ್ತದೆ.",
+                              "ತಕ್ಷಣವೇ ಬಡಿಸಿ: ಚಿಲ್ಲಿ ಕ್ರಾಬ್ ಅನ್ನು ದೊಡ್ಡ ಬಡಿಸುವ ತಟ್ಟೆಗೆ ವರ್ಗಾಯಿಸಿ. ತಾಜಾ ಕೊತ್ತಂಬರಿ ಸೊಪ್ಪು ಮತ್ತು ಹೆಚ್ಚಿದ ಸ್ಪ್ರಿಂಗ್ ಈರುಳ್ಳಿಯಿಂದ ಉದಾರವಾಗಿ ಅಲಂಕರಿಸಿ. ಬಿಸಿ ಬಿಸಿಯಾಗಿ, ಹೊಸದಾಗಿ ಕರಿದ ಮಾಂಟೌ ಬನ್‌ಗಳ ರಾಶಿಯೊಂದಿಗೆ ಬಡಿಸಿ. ಅಸ್ತವ್ಯಸ್ತವಾಗಿರಿ, ತಿನ್ನಲು ಪ್ರಾರಂಭಿಸಿ, ಮತ್ತು ಪ್ರತಿ ಅದ್ಭುತ ಕಚ್ಚುವಿಕೆಯನ್ನು ಆನಂದಿಸಿ!"
+                    ]
+          },
+          "zh-CN": {
+                    "title": "辣椒螃蟹",
+                    "description": "辣椒螃蟹。啊，这个名字本身就让人想起东海岸人工湖美食中心潮湿的空气、碗碟的叮当声，以及那欢快而又狼狈的吸吮声。这不仅仅是一道菜；它是一种新加坡的标志，一种成人礼。我记得我第一次真正尝试做这道菜时，那时我还是个年轻的厨师，满腔热情却毫无技巧。我曾无数次看着我的梅姨熟练地做这道菜，她的动作精准，几乎是仪式性的。但看和做是两回事。我最初的几次尝试？简直是灾难。酱汁要么太稀，不肯附着在螃蟹上，要么太稠，变成一团黏糊糊的东西。还有螃蟹！哦，煮过头、像橡胶一样的螃蟹简直是噩梦。梅姨，愿她耐心的灵魂安息，只会摇摇头，露出一个意味深长的微笑，然后温柔地引导我的手，教我如何从红葱头中提取甜味，如何判断辣椒酱在油中真正“绽放”的最佳时机。老实说，花了数年时间才找到这种恰到好处的平衡，才理解这道菜的灵魂。秘诀，如果真有的话，就在于辣椒酱和你螃蟹的新鲜度。忘掉那些预制罐装酱吧；它们根本不行。你需要干辣椒带来的那种鲜活、复杂的辣味，新鲜红葱头浓郁的甜味，大蒜和生姜的辛辣，以及一丁点至关重要的峇拉煎（虾酱）的低语。一些纯粹主义者主张纯番茄酱，但我发现优质瓶装辣椒酱和番茄酱，再配上新鲜番茄的巧妙混合，能赋予它那种标志性的酸甜辣深度，让你想把盘子舔干净。还有鸡蛋！最后那细腻、丝滑的蛋液漩涡不仅仅是为了好看；它增添了美妙的浓郁度和质感，将酱汁完美地结合在一起。诀窍是慢慢地、轻轻地淋入，边搅拌边让它形成那些可爱、飘逸的蛋花丝带。不要一下子倒进去，否则你的螃蟹里就会变成炒鸡蛋。相信我，我经历过。这道菜是用来分享的，用手大快朵颐，手臂深陷在那美妙、火红的酱汁中。这是一种共享的体验，一种庆祝。你需要大量的餐巾纸，甚至可能是一条围兜，当然还有一叠蓬松的炸馒头。它们不是可有可无的；它们是用来蘸取每一滴美味酱汁的必需品。没有什么比撕下一块多汁的螃蟹肉，裹上那浓郁、辛辣、略带甜味的酱汁，然后用蘸满酱汁的馒头来追逐它更美妙的了。它很凌乱，很热闹，而且绝对完美。螃蟹下锅后不要离开炉子；它煮得很快。密切关注它，你将获得一顿真正令人赞叹的美食。",
+                    "ingredients": [
+                              {
+                                        "item": "活泥蟹",
+                                        "amount": "2只 (每只约800克-1公斤)，已清洗并敲碎"
+                              },
+                              {
+                                        "item": "食用油",
+                                        "amount": "1/2 杯"
+                              },
+                              {
+                                        "item": "大蒜",
+                                        "amount": "8瓣，切末"
+                              },
+                              {
+                                        "item": "生姜",
+                                        "amount": "2英寸块，磨碎"
+                              },
+                              {
+                                        "item": "红葱头",
+                                        "amount": "4个，切碎"
+                              },
+                              {
+                                        "item": "干红辣椒",
+                                        "amount": "15-20个，用热水泡软，去籽 (根据辣度调整)"
+                              },
+                              {
+                                        "item": "新鲜红辣椒",
+                                        "amount": "5-6个，去籽 (用于增色和新鲜辣味)"
+                              },
+                              {
+                                        "item": "峇拉煎 (虾酱)",
+                                        "amount": "1茶匙，烤香"
+                              },
+                              {
+                                        "item": "番茄酱",
+                                        "amount": "1/2 杯"
+                              },
+                              {
+                                        "item": "瓶装辣椒酱",
+                                        "amount": "1/4 杯 (例如美极或类似甜辣酱)"
+                              },
+                              {
+                                        "item": "水或鸡高汤",
+                                        "amount": "1.5 杯"
+                              },
+                              {
+                                        "item": "糖",
+                                        "amount": "2-3汤匙 (根据口味调整)"
+                              },
+                              {
+                                        "item": "盐",
+                                        "amount": "1茶匙 (或根据口味)"
+                              },
+                              {
+                                        "item": "白醋",
+                                        "amount": "1汤匙"
+                              },
+                              {
+                                        "item": "玉米淀粉",
+                                        "amount": "2汤匙，与4汤匙水混合成水淀粉"
+                              },
+                              {
+                                        "item": "鸡蛋",
+                                        "amount": "2个大号，轻轻打散"
+                              },
+                              {
+                                        "item": "香菜叶",
+                                        "amount": "用于装饰，切碎"
+                              },
+                              {
+                                        "item": "小葱",
+                                        "amount": "用于装饰，切片"
+                              },
+                              {
+                                        "item": "炸馒头",
+                                        "amount": "用于佐餐"
+                              }
+                    ],
+                    "instructions": [
+                              "准备螃蟹：首先，是主角！准备好你的螃蟹。在流水下彻底清洗。用结实的菜刀或重刀敲碎蟹壳和蟹钳。不要害羞；你希望酱汁能渗入每一个缝隙。将蟹身分成两半或四份，保持蟹腿和蟹钳连接。放在一边备用。",
+                              "制作辣椒酱：魔力从这里开始。在食物料理机中或用研钵和杵，将泡软的干红辣椒、新鲜红辣椒、红葱头、大蒜、生姜和烤香的峇拉煎（虾酱）混合。搅拌或捣碎，直到形成相对光滑、芳香的酱料。它应该闻起来充满活力，略带辛辣，并充满希望。",
+                              "炒香酱料：在大炒锅或深锅中用中高火加热食用油。加入你刚做好的辣椒酱。不断搅拌，让它滋滋作响。你需要让辣椒和大蒜的生涩味变柔和，酱料颜色略微变深，并且油开始“分离”并聚集在锅边。这大约需要8-10分钟。不要着急；这一步是风味的基础。",
+                              "制作酱汁底：倒入番茄酱、瓶装辣椒酱、水或鸡高汤、糖、盐和白醋。搅拌均匀，直到开始轻轻冒泡。小火慢炖约5分钟，让味道融合并深化。香气应该是甜、酸、辣的完美结合。",
+                              "烹煮螃蟹：现在是重头戏。将准备好的螃蟹块加入正在慢炖的酱汁中。轻轻搅拌，让所有螃蟹都裹上那美妙的红色酱汁。盖上锅盖，煮约8-10分钟，直到蟹壳变成鲜艳的橙红色，蟹肉变得不透明。不要煮过头！像橡胶一样的螃蟹是烹饪的悲剧。",
+                              "勾芡酱汁：快速搅拌一下水淀粉（它会沉淀！）。将其缓慢倒入正在慢炖的酱汁中，同时不断搅拌。看着酱汁变化，变得浓稠、有光泽，能漂亮地附着在螃蟹上。再煮一分钟，以去除生淀粉的味道。",
+                              "加入鸡蛋：将火调至小。慢慢地，以细流状将轻轻打散的鸡蛋淋入酱汁中，同时用勺子或刮刀轻轻搅拌。你想要形成细腻、丝滑的蛋花丝带，而不是炒鸡蛋碎。搅拌至刚好混合，然后关火。余温会完成鸡蛋的烹煮。",
+                              "立即上菜：将辣椒螃蟹盛入大盘中。用新鲜香菜叶和切片小葱慷慨地装饰。趁热与一大堆新鲜炸馒头一起享用。尽情地弄脏自己，大快朵颐，享受每一口美妙的滋味！"
+                    ]
+          },
+          "ms": {
+                    "title": "Ketam Cili",
+                    "description": "Ketam Cili. Ah, nama itu sendiri mengembalikan ingatan akan udara lembap Pusat Makanan East Coast Lagoon, bunyi pinggan mangkuk, dan hirupan yang riang serta comot. Ini bukan sekadar hidangan; ia adalah institusi Singapura, satu upacara peralihan. Saya ingat percubaan pertama saya yang sebenar untuk membuatnya, ketika saya masih seorang tukang masak muda, penuh keberanian tetapi tiada teknik. Saya telah melihat Mak Cik Mei menyediakannya berkali-kali, gerakannya tepat, hampir ritualistik. Tetapi melihat dan melakukan adalah dua perkara yang berbeza. Beberapa percubaan pertama saya? Bencana. Sosnya sama ada terlalu cair, enggan melekat pada ketam, atau terlalu pekat sehingga menjadi gumpalan. Dan ketam! Oh, seramnya ketam yang terlebih masak, liat seperti getah. Mak Cik Mei, semoga jiwanya yang sabar diberkati, hanya akan menggelengkan kepala, memberikan senyuman kecil yang penuh pengertian, dan kemudian dengan lembut membimbing tangan saya, menunjukkan cara mengeluarkan kemanisan dari bawang merah, cara menilai saat yang tepat apabila pes cili benar-benar 'mekar' dalam minyak. Jujur, ia mengambil masa bertahun-tahun untuk mendapatkan keseimbangan yang betul, untuk memahami jiwa hidangan ini. Rahsianya, jika ada, terletak pada pes cili dan kesegaran ketam anda. Lupakan balang pra-buat itu; ia tidak cukup baik. Anda memerlukan kepedasan yang bersemangat dan kompleks dari cili kering, kemanisan tajam bawang merah segar, gigitan pedas bawang putih dan halia, dan bisikan kecil belacan yang penting. Sesetengah purist berpendapat untuk sos berasaskan tomato semata-mata, tetapi saya mendapati gabungan bijak sos cili botol berkualiti baik dan sos tomato, bersama-sama dengan tomato segar, memberikan kedalaman masam-manis-pedas yang khas yang membuat anda ingin menjilat pinggan bersih. Dan telur! Pusaran telur yang halus dan licin di akhir bukan hanya untuk hiasan; ia menambah kekayaan dan tekstur yang indah, mengikat sos bersama. Caranya adalah dengan menitiskannya perlahan-lahan, mengacau perlahan, membiarkannya membentuk jalur-jalur halus yang cantik. Jangan hanya menuangkannya sekaligus, atau anda akan berakhir dengan telur hancur dalam ketam anda. Percayalah, saya pernah mengalaminya. Hidangan ini dimaksudkan untuk dikongsi, untuk dinikmati dengan tangan anda, siku terendam dalam sos merah yang mulia dan berapi-api itu. Ia adalah pengalaman komunal, satu perayaan. Anda akan memerlukan banyak tisu, mungkin juga bib, dan pastinya setumpuk roti mantou goreng yang gebu itu. Ia bukan pilihan; ia penting untuk menyerap setiap titisan sos yang luar biasa itu. Tiada apa-apa yang setanding dengan merobek sekeping ketam yang berair, disalut dengan sos yang kaya, pedas, sedikit manis itu, dan kemudian mengejarnya dengan mantou yang direndam sos. Ia comot, ia bising, dan ia benar-benar sempurna. Jangan tinggalkan dapur sebaik sahaja ketam dimasukkan; ia masak dengan cepat. Perhatikan ia, dan anda akan diberi ganjaran dengan hidangan yang benar-benar memukau.",
+                    "ingredients": [
+                              {
+                                        "item": "Ketam Nipah Segar",
+                                        "amount": "2 ekor (anggaran 800g - 1kg setiap satu), dibersihkan dan dipecahkan"
+                              },
+                              {
+                                        "item": "Minyak Masak",
+                                        "amount": "1/2 cawan"
+                              },
+                              {
+                                        "item": "Bawang Putih",
+                                        "amount": "8 ulas, dicincang"
+                              },
+                              {
+                                        "item": "Halia",
+                                        "amount": "sekeping 2 inci, diparut"
+                              },
+                              {
+                                        "item": "Bawang Merah Kecil",
+                                        "amount": "4 biji, dicincang halus"
+                              },
+                              {
+                                        "item": "Cili Kering Merah",
+                                        "amount": "15-20 biji, direndam dalam air panas, dibuang biji (sesuaikan mengikut tahap kepedasan)"
+                              },
+                              {
+                                        "item": "Cili Merah Segar",
+                                        "amount": "5-6 biji, dibuang biji (untuk warna dan kepedasan segar)"
+                              },
+                              {
+                                        "item": "Belacan",
+                                        "amount": "1 sudu kecil, dibakar"
+                              },
+                              {
+                                        "item": "Sos Tomato",
+                                        "amount": "1/2 cawan"
+                              },
+                              {
+                                        "item": "Sos Cili Botol",
+                                        "amount": "1/4 cawan (cth., Maggi atau sos cili manis yang serupa)"
+                              },
+                              {
+                                        "item": "Air atau Stok Ayam",
+                                        "amount": "1.5 cawan"
+                              },
+                              {
+                                        "item": "Gula",
+                                        "amount": "2-3 sudu besar (sesuaikan mengikut rasa)"
+                              },
+                              {
+                                        "item": "Garam",
+                                        "amount": "1 sudu kecil (atau secukup rasa)"
+                              },
+                              {
+                                        "item": "Cuka Putih",
+                                        "amount": "1 sudu besar"
+                              },
+                              {
+                                        "item": "Tepung Jagung",
+                                        "amount": "2 sudu besar, dicampur dengan 4 sudu besar air (larutan)"
+                              },
+                              {
+                                        "item": "Telur",
+                                        "amount": "2 biji besar, dipukul ringan"
+                              },
+                              {
+                                        "item": "Daun Ketumbar",
+                                        "amount": "Untuk hiasan, dicincang"
+                              },
+                              {
+                                        "item": "Daun Bawang",
+                                        "amount": "Untuk hiasan, dihiris"
+                              },
+                              {
+                                        "item": "Roti Mantou Goreng",
+                                        "amount": "Untuk hidangan"
+                              }
+                    ],
+                    "instructions": [
+                              "Sediakan Ketam: Pertama, bintang utama! Dapatkan ketam anda. Bersihkan dengan teliti di bawah air mengalir. Gunakan parang yang kukuh atau pisau berat untuk memecahkan cengkerang dan penyepit. Jangan malu; anda mahu sos meresap ke setiap celah. Asingkan badan kepada separuh atau suku, biarkan kaki dan penyepit melekat. Ketepikan.",
+                              "Buat Pes Cili: Di sinilah keajaiban bermula. Dalam pemproses makanan atau dengan lesung dan alu, gabungkan cili kering merah yang telah direndam, cili merah segar, bawang merah kecil, bawang putih, halia, dan belacan yang telah dibakar. Kisar atau tumbuk sehingga anda mendapat pes yang agak licin dan wangi. Ia sepatutnya berbau bersemangat, sedikit tajam, dan menjanjikan.",
+                              "Tumis Pes: Panaskan minyak masak dalam kuali besar atau periuk dalam di atas api sederhana-tinggi. Masukkan pes cili yang baru dibuat. Kacau sentiasa, biarkan ia mendesis dan meletup. Anda ingin melihat tepi mentah dan tajam cili dan bawang putih menjadi lembut, pes menjadi sedikit gelap, dan minyak mula 'terpisah' dan berkumpul di sekeliling tepi kuali. Ini mengambil masa kira-kira 8-10 minit. Jangan tergesa-gesa; langkah ini membina asas rasa.",
+                              "Bina Asas Sos: Tuangkan sos tomato, sos cili botol, air atau stok ayam, gula, garam, dan cuka putih. Kacau semuanya sehingga sebati dan mula menggelegak perlahan. Biarkan ia mereneh selama kira-kira 5 minit, membiarkan rasa sebati dan mendalam. Aromanya sepatutnya menjadi campuran manis, masam, dan pedas yang indah.",
+                              "Masak Ketam: Sekarang untuk acara utama. Masukkan kepingan ketam yang telah disediakan ke dalam sos yang mereneh. Kacau perlahan untuk menyalut semua ketam dengan campuran merah yang mulia itu. Tutup kuali dan biarkan ia masak selama kira-kira 8-10 minit, atau sehingga cengkerang ketam bertukar menjadi merah jingga yang terang dan isinya legap. Jangan terlebih masak! Ketam liat adalah tragedi masakan.",
+                              "Pekatkan Sos: Kacau larutan tepung jagung dengan cepat (ia mendap!). Tuangkan perlahan-lahan ke dalam sos yang mereneh, kacau berterusan. Perhatikan bagaimana sos berubah, memekat menjadi konsistensi yang berkilat dan mewah yang akan melekat cantik pada ketam. Biarkan ia menggelegak selama satu minit lagi untuk memasak rasa tepung jagung mentah.",
+                              "Masukkan Telur: Kurangkan api ke tahap rendah. Perlahan-lahan, dalam aliran nipis, titiskan telur yang telah dipukul ringan ke dalam sos sambil mengacau perlahan dengan sudu atau spatula. Anda ingin mencipta jalur-jalur telur yang halus dan licin, bukan serpihan telur hancur. Kacau secukupnya untuk sebati, kemudian matikan api. Haba sisa akan menyelesaikan masakan telur.",
+                              "Hidangkan Segera: Pindahkan Ketam Cili ke pinggan hidangan besar. Hias dengan banyak daun ketumbar segar dan hirisan daun bawang. Hidangkan panas-panas dengan timbunan roti Mantou goreng yang banyak. Bersiaplah untuk comot, nikmati, dan rasai setiap gigitan yang mulia!"
+                    ]
+          }
+}
     }
 ];
