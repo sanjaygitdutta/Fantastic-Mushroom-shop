@@ -15,8 +15,8 @@ const About = () => {
     return (
         <>
             <SEO 
-                title={t(isSG ? 'about_seo_title_sg' : 'about_seo_title', { defaultValue: isSG ? "About Us — Premium Organic Mushrooms & AI Grocery Comparison SG" : "About Us | AI Grocery Comparison & Organic Mushroom Farm" })}
-                description={t(isSG ? 'about_seo_desc_sg' : 'about_seo_desc', { defaultValue: isSG ? "The story of Fantastic Food: How we leverage advanced AI to bring absolute transparency to online grocery pricing in Singapore." : "The story of Fantastic Food: From a small village mushroom farm to India's most advanced AI-powered grocery price comparison engine." })}
+                title={t(isSG ? 'about_seo_title_sg' : 'about_seo_title', { defaultValue: isSG ? "Our Story & Mission — Fantastic Food Singapore" : "About Us | Our Story & Mission — Fantastic Food" })}
+                description={t(isSG ? 'about_seo_desc_sg' : 'about_seo_desc', { defaultValue: isSG ? "Learn how Fantastic Food Singapore leverages transparent grocery comparison to help local households save on daily essentials." : "Learn the story of Fantastic Food: How we went from a family-run organic mushroom farm in a quiet village to India's most advanced grocery price comparison platform." })}
                 canonicalUrl="https://www.fantasticfood.in/about"
             />
 
@@ -31,17 +31,16 @@ const About = () => {
                             transition={{ duration: 0.6 }}
                         >
                             <span className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-bold tracking-wider uppercase mb-6">
-                                The Fantastic Story
+                                Our Story
                             </span>
                             <h1 className="text-5xl md:text-7xl font-black text-white mb-8 font-display tracking-tight leading-none">
                                 From Rural Roots to <br />
                                 <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-orange-500">
-                                    AI-Powered Savings
+                                    Honest Savings
                                 </span>
                             </h1>
                             <p className="text-xl text-forest-100 max-w-3xl mx-auto leading-relaxed font-medium">
-                                We are bridge-builders between nature's organic purity and tomorrow's high-speed technology. 
-                                Fantastic Food is India's premier grocery price engine and premium mushroom supplier.
+                                What started as a small family passion project in a quiet village has grown into a platform dedicated to honest food, real community value, and helping families save on their monthly grocery bills.
                             </p>
                         </motion.div>
                     </div>
@@ -61,16 +60,13 @@ const About = () => {
                                     <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center">
                                         <Globe className="w-6 h-6" />
                                     </div>
-                                    Our Global Vision
+                                    Our Vision
                                 </div>
                                 <h2 className="text-4xl md:text-5xl font-black font-display text-forest-900 leading-tight">
-                                    Empowering Households Through Transparency
+                                    Helping Families Beat Daily Inflation
                                 </h2>
                                 <p className="text-lg text-forest-600 leading-relaxed">
-                                    In an era where grocery prices fluctuate daily across dozens of apps, families are often left overpaying. 
-                                    We built Fantastic Food to solve this. Using state-of-the-art AI, we crawl and compare 
-                                    thousands of products across Blinkit, Zepto, Swiggy Instamart, and BigBasket to ensure 
-                                    you always pay the lowest possible price.
+                                    We believe that access to healthy food shouldn't be a luxury. In today's fast-paced world, grocery prices change almost every hour on different quick-commerce apps. We created Fantastic Food to give power back to you. Our platform crawls and compares real-time prices across major providers like Blinkit, Zepto, Swiggy Instamart, and BigBasket, ensuring you never overpay for your daily household essentials.
                                 </p>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="bg-white p-6 rounded-2xl border border-forest-100 shadow-sm">
@@ -95,21 +91,18 @@ const About = () => {
                                 </div>
                                 <h2 className="text-3xl font-black text-forest-900 mb-8 flex items-center gap-4 relative z-10">
                                     <Heart className="w-8 h-8 text-amber-500" />
-                                    The Village Origin
+                                    Our Humble Beginnings
                                 </h2>
                                 <p className="text-gray-700 leading-relaxed text-lg mb-8 relative z-10">
-                                    Long before the AI algorithms, there was a small farm in a quiet Indian village. 
-                                    Our family discovered a passion for organic mushroom cultivation—growing food 
-                                    without a single chemical or pesticide.
+                                    Before we wrote a single line of code, our story began in the soil. Cultivating premium paddy straw mushrooms organically on our family-run farm in a quiet village taught us the value of hard work, honest quality, and zero chemical compromise.
                                 </p>
                                 <div className="bg-amber-50 border-l-8 border-amber-500 p-8 rounded-r-3xl my-10 relative z-10">
                                     <p className="text-forest-900 text-xl font-bold italic leading-relaxed">
-                                        "Nature doesn't have a middleman. Why should your nutrition?"
+                                        "Good food shouldn't cost the earth, nor should it break the bank."
                                     </p>
                                 </div>
                                 <p className="text-gray-700 leading-relaxed text-lg relative z-10">
-                                    Today, we carry that same purity into our technology. Whether it's our direct-to-farm 
-                                    mushrooms or our AI-suggested low-cost pantry staples, quality is never compromised.
+                                    Today, we bring that same philosophy to our technology. Whether we are connecting you with fresh, locally grown mushrooms or helping you find the absolute best local price for standard pantry staples, our goal remains exactly the same: honest value, direct from our family to yours.
                                 </p>
                             </motion.div>
                         </div>
@@ -126,10 +119,10 @@ const About = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                             {[
-                                { icon: <Leaf />, title: '100% Organic', desc: 'No chemicals, no shortcuts. Only pure nature.', color: 'emerald' },
-                                { icon: <Zap />, title: 'Real-Time Data', desc: 'AI-powered tracking to save you money in seconds.', color: 'amber' },
-                                { icon: <Users />, title: 'Family Protection', desc: 'Helping Indian households fight inflation.', color: 'orange' },
-                                { icon: <Award />, title: 'Farm Transparency', desc: 'Direct sourcing to cut costs and increase quality.', color: 'white' }
+                                { icon: <Leaf />, title: '100% Organic', desc: 'No chemicals, no shortcuts. Only pure, fresh nature.', color: 'emerald' },
+                                { icon: <Zap />, title: 'Transparent Pricing', desc: 'Live local price checking to help you shop smart and save in seconds.', color: 'amber' },
+                                { icon: <Users />, title: 'Family First', desc: 'Standing with local households to beat inflation and save daily.', color: 'orange' },
+                                { icon: <Award />, title: 'Honest Sourcing', desc: 'Direct connections to cut out middleman markups and increase quality.', color: 'white' }
                             ].map((val, idx) => (
                                 <motion.div
                                     key={idx}
@@ -140,7 +133,7 @@ const About = () => {
                                         {val.icon}
                                     </div>
                                     <h3 className="text-xl font-black mb-3">{val.title}</h3>
-                                    <p className="text-forest-400 leading-relaxed">{val.desc}</p>
+                                    <p className="text-cream-200/90 leading-relaxed font-normal">{val.desc}</p>
                                 </motion.div>
                             ))}
                         </div>

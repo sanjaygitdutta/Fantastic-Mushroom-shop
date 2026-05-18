@@ -44,7 +44,7 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     {/* Brand */}
                     <div className="col-span-1 md:col-span-1">
-                        <Link href="/" className="flex items-center gap-2 tracking-tight mb-6 block">
+                        <Link href="/" className="flex items-center gap-2 tracking-tight mb-6">
                             <div className="w-8 h-8 bg-forest-700 rounded-lg flex items-center justify-center shadow-md">
                                 <Leaf className="w-4 h-4 text-moss-400" />
                             </div>
