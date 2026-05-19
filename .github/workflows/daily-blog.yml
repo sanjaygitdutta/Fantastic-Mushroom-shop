@@ -18,11 +18,12 @@ jobs:
       contents: write   # Needed to commit back to the repo
 
     steps:
-      - name: ⏳ Inject Random Temporal Delay (5m to 5h)
+      - name: ⏳ Inject Random Temporal Delay (5m to 30m)
         run: |
-          DELAY=$(( ( RANDOM % 17700 ) + 300 ))
+          DELAY=$(( ( RANDOM % 1500 ) + 300 ))
           echo "Sleeping for $DELAY seconds to humanize scheduling footprint..."
           sleep $DELAY
+
 
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
