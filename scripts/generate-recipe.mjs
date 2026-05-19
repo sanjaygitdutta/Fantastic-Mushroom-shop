@@ -12,10 +12,21 @@ import fs from 'fs';
 import https from 'https';
 import path from 'path';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+let GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 if (!GEMINI_API_KEY) {
-  console.error('❌ GEMINI_API_KEY not set. Add it to GitHub Secrets.');
+  const envPath = path.resolve('.env.local');
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    const match = envContent.match(/GEMINI_API_KEY=(.*)/);
+    if (match) {
+      GEMINI_API_KEY = match[1].trim().replace(/^["']|["']$/g, '');
+    }
+  }
+}
+
+if (!GEMINI_API_KEY) {
+  console.error('❌ GEMINI_API_KEY not set. Add it to GitHub Secrets or .env.local.');
   process.exit(1);
 }
 
@@ -203,8 +214,8 @@ if (!selectedDish) {
   selectedDish = fallbackDish;
   console.log(`⚠️ Falling back to deterministic dish: "${selectedDish}"`);
 } else {
-  // Sanitization step: clean trailing conjunctions
-  selectedDish = selectedDish.replace(/\s+(and|with|for|&|or|और|এবং)\s*$/i, '').trim();
+  // Sanitization step: clean double quotes and trailing conjunctions
+  selectedDish = selectedDish.replace(/["']/g, '').replace(/\s+(and|with|for|&|or|और|এবং)\s*$/i, '').trim();
   console.log(`✨ Gemini Dynamically Planned Dish: "${selectedDish}"`);
 }
 
@@ -279,7 +290,7 @@ async function generateAIImage(dishName, cuisine, date, retryCount = 0) {
 console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" scheduled for ${today}...`);
 
 // Generic Gemini JSON fetch helper
-async function fetchGeminiJSON(promptText, retryCount = 0) {
+async function fetchGeminiJSON(promptText, schema = null, retryCount = 0) {
   const MAX_RETRIES = 3;
   const RETRY_DELAYS_MS = [5000, 15000, 45000];
 
@@ -288,7 +299,8 @@ async function fetchGeminiJSON(promptText, retryCount = 0) {
     generationConfig: {
       temperature: 0.1,
       maxOutputTokens: 8192,
-      responseMimeType: "application/json"
+      responseMimeType: "application/json",
+      ...(schema ? { responseSchema: schema } : {})
     }
   };
 
@@ -304,7 +316,7 @@ async function fetchGeminiJSON(promptText, retryCount = 0) {
     const waitMs = RETRY_DELAYS_MS[retryCount];
     console.log(`⏳ Gemini overloaded (${response.status}). Retrying in ${waitMs / 1000}s... (attempt ${retryCount + 1}/${MAX_RETRIES})`);
     await new Promise(r => setTimeout(r, waitMs));
-    return fetchGeminiJSON(promptText, retryCount + 1);
+    return fetchGeminiJSON(promptText, schema, retryCount + 1);
   }
 
   if (!response.ok) {
@@ -317,7 +329,37 @@ async function fetchGeminiJSON(promptText, retryCount = 0) {
 
   if (!text) throw new Error("Empty response from Gemini");
 
-  return JSON.parse(text.trim());
+  let cleanText = text.trim();
+  if (cleanText.includes('```')) {
+    const match = cleanText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (match && match[1]) cleanText = match[1].trim();
+  }
+
+  // Robustly handle control characters (e.g. unescaped newlines/tabs inside string literals)
+  let inString = false;
+  let chars = cleanText.split('');
+  for (let i = 0; i < chars.length; i++) {
+    if (chars[i] === '"' && chars[i - 1] !== '\\') {
+      inString = !inString;
+    } else if (inString) {
+      if (chars[i] === '\n') {
+        chars[i] = '\\n';
+      } else if (chars[i] === '\r') {
+        chars[i] = '';
+      } else if (chars[i] === '\t') {
+        chars[i] = '\\t';
+      }
+    }
+  }
+  cleanText = chars.join('');
+
+  try {
+    return JSON.parse(cleanText);
+  } catch (parseErr) {
+    console.error("❌ JSON parsing failed. Sanitized response text was:\n", cleanText);
+    console.error("📋 Candidate Details:\n", JSON.stringify(data.candidates?.[0] || {}, null, 2));
+    throw new Error(`JSON.parse failed: ${parseErr.message}`);
+  }
 }
 
 // ── Call Gemini REST API - Batch Translation Pipeline ──────────────────────
@@ -336,6 +378,8 @@ Write naturally instead.
 3. Sensory Visual Cues: For every step, describe physical visual/smell/sound markers instead of dry commands.
 4. High Backstory Depth: Write an extensive, 3-paragraph conversational, high-perplexity backstory detailing how you learned to cook this, common failures, and key ingredient rules.
 
+5. CRITICAL JSON SAFETY: Inside all JSON string values (description, instructions, title, ingredients), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Always make sure every JSON string is properly closed and contains no raw unescaped control characters.
+
 Return ONLY a valid JSON object matching EXACTLY this structure:
 {
   "title": "${selectedDish}",
@@ -349,8 +393,40 @@ Return ONLY a valid JSON object matching EXACTLY this structure:
   "tags": ["${selectedCuisine.cuisine}", "Dinner", "Authentic"]
 }`;
 
+  const englishSchema = {
+    type: "OBJECT",
+    properties: {
+      title: { type: "STRING" },
+      description: { type: "STRING" },
+      prepTime: { type: "STRING" },
+      cookTime: { type: "STRING" },
+      difficulty: { type: "STRING" },
+      servings: { type: "INTEGER" },
+      ingredients: {
+        type: "ARRAY",
+        items: {
+          type: "OBJECT",
+          properties: {
+            item: { type: "STRING" },
+            amount: { type: "STRING" }
+          },
+          required: ["item", "amount"]
+        }
+      },
+      instructions: {
+        type: "ARRAY",
+        items: { type: "STRING" }
+      },
+      tags: {
+        type: "ARRAY",
+        items: { type: "STRING" }
+      }
+    },
+    required: ["title", "description", "prepTime", "cookTime", "difficulty", "servings", "ingredients", "instructions", "tags"]
+  };
+
   console.log(`🤖 Generating master English recipe for "${selectedDish}"...`);
-  const englishRecipe = await fetchGeminiJSON(englishPrompt);
+  const englishRecipe = await fetchGeminiJSON(englishPrompt, englishSchema);
 
   // Programmatic Title guardrail on the generated English title
   englishRecipe.title = englishRecipe.title
@@ -361,16 +437,18 @@ Return ONLY a valid JSON object matching EXACTLY this structure:
   async function translateBatch(languages) {
     const langListStr = Object.keys(languages).map(code => `${languages[code]} ('${code}')`).join(', ');
     console.log(`🤖 Translating recipe into: ${langListStr}...`);
-    
+
     const translatePrompt = `You are an expert culinary translator. Translate the following English recipe into:
 ${langListStr}
 
 CRITICAL RULES:
 1. The title for each language MUST be a clean, complete proper noun representing the dish. NEVER append words like "and", "with", "और", "এবং", or commas at the end of the title. Keep it clean!
-2. Write a rich, mouth-watering description matching the tone of the English original.
+2. Write a concise, single-paragraph mouth-watering description (approx. 50-80 words) in the target language that captures the essence of the English original's backstory, rather than a long word-for-word translation. This is critical to avoid token truncation limits.
 3. Translate all ingredients exactly, keeping the exact amounts and descriptive terms translated into the target language.
-4. Translate all preparation steps accurately and thoroughly.
-5. Return ONLY a valid JSON object matching this structure (no markdown, no backticks):
+4. Translate all preparation steps accurately, keeping them concise and clear (1-2 sentences per step).
+5. Translate in a thoroughly human-like, natural, and warm conversational tone. Avoid dry, literal, or robotic translation patterns.
+6. CRITICAL JSON SAFETY: Inside all JSON string values (descriptions, instructions, titles, ingredients), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Make sure every JSON string is properly closed.
+7. Return ONLY a valid JSON object matching this structure (no markdown, no backticks):
 {
   ${Object.keys(languages).map(code => `"${code}": {
     "title": "Clean translated dish title",
@@ -386,9 +464,43 @@ CRITICAL RULES:
       ingredients: englishRecipe.ingredients,
       instructions: englishRecipe.instructions
     };
-    
+
+    const schemaProperties = {};
+    const requiredKeys = Object.keys(languages);
+    for (const code of requiredKeys) {
+      schemaProperties[code] = {
+        type: "OBJECT",
+        properties: {
+          title: { type: "STRING" },
+          description: { type: "STRING" },
+          ingredients: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                item: { type: "STRING" },
+                amount: { type: "STRING" }
+              },
+              required: ["item", "amount"]
+            }
+          },
+          instructions: {
+            type: "ARRAY",
+            items: { type: "STRING" }
+          }
+        },
+        required: ["title", "description", "ingredients", "instructions"]
+      };
+    }
+
+    const translationSchema = {
+      type: "OBJECT",
+      properties: schemaProperties,
+      required: requiredKeys
+    };
+
     const finalPrompt = `${translatePrompt}\n\nEnglish Recipe to translate:\n${JSON.stringify(payload, null, 2)}`;
-    return await fetchGeminiJSON(finalPrompt);
+    return await fetchGeminiJSON(finalPrompt, translationSchema);
   }
 
   // Translate in 3 parallel batches to prevent context token truncation
