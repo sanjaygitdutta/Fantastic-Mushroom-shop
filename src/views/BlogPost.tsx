@@ -14,8 +14,7 @@ const BlogPost = () => {
   const { region } = useRegion();
   const { t, i18n } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
-  const todayStr = new Date().toISOString().split('T')[0];
-  const post = BLOG_POSTS.find(p => p.slug === slug && p.date <= todayStr);
+  const post = BLOG_POSTS.find(p => p.slug === slug && new Date(p.date) <= new Date());
   const isSG = region === 'SG';
 
   const router = useRouter();

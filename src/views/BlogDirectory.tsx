@@ -34,7 +34,7 @@ const BlogDirectory = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...BLOG_POSTS]
-              .filter(post => post.date <= new Date().toISOString().split('T')[0])
+              .filter(post => new Date(post.date) <= new Date())
               .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
               .map((post) => {
               const tPost = post.translations?.[lang] || post;

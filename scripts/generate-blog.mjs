@@ -8,10 +8,21 @@
 import fs from 'fs';
 import path from 'path';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+let GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 if (!GEMINI_API_KEY) {
-  console.error('❌ GEMINI_API_KEY not set.');
+  const envPath = path.resolve('.env.local');
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    const match = envContent.match(/GEMINI_API_KEY=(.*)/);
+    if (match) {
+      GEMINI_API_KEY = match[1].trim().replace(/^["']|["']$/g, '');
+    }
+  }
+}
+
+if (!GEMINI_API_KEY) {
+  console.error('❌ GEMINI_API_KEY not set. Add it to GitHub Secrets or .env.local.');
   process.exit(1);
 }
 
@@ -110,11 +121,11 @@ const now = new Date();
 const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
 const dayOfWeek = istTime.getDay();
 
-// Schedule this post randomly 1 to 5 days in the future to keep a steady editor calendar
-const daysAhead = Math.floor(Math.random() * 5) + 1;
-const futureDateObj = new Date(istTime.getTime() + (daysAhead * 24 * 60 * 60 * 1000));
-const scheduledDateStr = futureDateObj.toISOString().split('T')[0];
-const today = scheduledDateStr; // Alias today as the future date!
+// Schedule this post today, but randomize the publish time to be 0 to 6 hours in the future
+const calendarDate = istTime.toISOString().split('T')[0]; // e.g. '2026-05-19'
+const hoursAhead = Math.random() * 6; // Random float between 0 and 6 hours
+const publishTimeObj = new Date(now.getTime() + (hoursAhead * 60 * 60 * 1000));
+const today = publishTimeObj.toISOString(); // Full ISO string (e.g. '2026-05-19T10:30:15.123Z')
 
 const SINGAPORE_TOPICS = [
   "Why Hainanese Chicken Rice is Singapore's ultimate comfort food",
@@ -358,8 +369,8 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
 async function run() {
 
   // Prevent same day duplicate runs
-  if (existingContent.includes(`date: '${today}'`)) {
-    console.log(`✅ Blog for ${today} already exists. Skipping.`);
+  if (existingContent.includes(calendarDate)) {
+    console.log(`✅ Blog for ${calendarDate} already exists. Skipping.`);
     process.exit(0);
   }
 
@@ -372,7 +383,7 @@ async function run() {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '');
-    const slug = `${today}-${titleSlug}`;
+    const slug = `${calendarDate}-${titleSlug}`;
 
     const esc = (s) => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 

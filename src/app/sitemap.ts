@@ -86,15 +86,17 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   }));
 
   // AI Blogs
-  const blogRoutes = BLOG_POSTS.map((blog) => ({
-    url: `${langBase}/blog/${blog.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-    alternates: {
-      languages: getAlternates(`blog/${blog.slug}`)
-    }
-  }));
+  const blogRoutes = BLOG_POSTS
+    .filter((blog) => new Date(blog.date) <= new Date())
+    .map((blog) => ({
+      url: `${langBase}/blog/${blog.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+      alternates: {
+        languages: getAlternates(`blog/${blog.slug}`)
+      }
+    }));
 
   return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes];
 }
