@@ -102,6 +102,10 @@ const BasketCalculator = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [remoteFamilyCart, setRemoteFamilyCart] = useState(false);
 
+  // 1-Click Recipe Basket Prefill Live Loading Engine State
+  const [isPrefilling, setIsPrefilling] = useState(false);
+  const [prefillItemsStatus, setPrefillItemsStatus] = useState<{ name: string; status: 'loading' | 'success' | 'failed' }[]>([]);
+
   useEffect(() => {
     // 1. Initial Load for Family Cart
     if (familyIdParam) {
@@ -127,13 +131,74 @@ const BasketCalculator = () => {
 
       return () => { supabase.removeChannel(channel); };
     }
+    
+    // 3. Prefill load with premium live checkmark optimization
     const prefillQuery = searchParams.get('prefill');
     if (prefillQuery) {
       const itemsToLoad = prefillQuery.split(',').filter(Boolean);
-      itemsToLoad.forEach(item => addItem(item));
+      
+      const loadAllPrefill = async () => {
+        setIsPrefilling(true);
+        setPrefillItemsStatus(itemsToLoad.map(name => ({ name, status: 'loading' })));
+        
+        const validResults: BasketItem[] = [];
+        
+        // Sequentially load each item to present a gorgeous animation loop to the user
+        for (let i = 0; i < itemsToLoad.length; i++) {
+          const item = itemsToLoad[i];
+          try {
+            const result = await searchPrices(item, region);
+            if (result) {
+              validResults.push({
+                id: `${item}-${Date.now()}-${i}-${Math.random()}`,
+                query: item,
+                displayName: result.canonicalName,
+                icon: result.icon,
+                result,
+              });
+              setPrefillItemsStatus(prev => 
+                prev.map((s, idx) => idx === i ? { ...s, status: 'success' } : s)
+              );
+            } else {
+              setPrefillItemsStatus(prev => 
+                prev.map((s, idx) => idx === i ? { ...s, status: 'failed' } : s)
+              );
+            }
+          } catch (err) {
+            setPrefillItemsStatus(prev => 
+              prev.map((s, idx) => idx === i ? { ...s, status: 'failed' } : s)
+            );
+          }
+          // Tiny delay for gorgeous micro-animation pacing
+          await new Promise(r => setTimeout(r, 450));
+        }
+
+        // Apply bulk update in a single state change to avoid parallel race condition overwrites
+        if (validResults.length > 0) {
+          setBasket(prev => {
+            const existingQueries = new Set(prev.map(b => b.query.toLowerCase()));
+            const uniqueNew = validResults.filter(r => !existingQueries.has(r.query.toLowerCase()));
+            const nb = [...prev, ...uniqueNew];
+            syncToSupabase(nb);
+            return nb;
+          });
+          
+          // Trigger epic success confetti celebration!
+          setTimeout(() => {
+            confetti({ particleCount: 150, spread: 80, zIndex: 9999, colors: ['#fbbf24', '#f59e0b', '#10b981'] });
+          }, 100);
+        }
+
+        // Keep modal open briefly to allow user to appreciate full checklist before smooth fade out
+        await new Promise(r => setTimeout(r, 600));
+        setIsPrefilling(false);
+      };
+      
+      loadAllPrefill();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [familyIdParam, searchParams]);
+
 
   const syncToSupabase = async (newBasket: BasketItem[]) => {
     if (!familyIdParam) return;
@@ -336,7 +401,72 @@ const BasketCalculator = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-16" style={{ background: 'linear-gradient(135deg, #0f2418 0%, #1b4332 40%, #2d3a1f 100%)' }}>
+    <div className="min-h-screen pt-20 pb-16 relative" style={{ background: 'linear-gradient(135deg, #0f2418 0%, #1b4332 40%, #2d3a1f 100%)' }}>
+      
+      {/* ── Prefill Loader Overlay ─────────────────────────────────────────── */}
+      <AnimatePresence>
+        {isPrefilling && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-forest-950/85 backdrop-blur-md flex items-center justify-center p-4 text-center"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-forest-900 border border-green-500/30 rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden"
+            >
+              {/* Rotating background lights */}
+              <div className="absolute -top-24 -left-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-green-500/10 rounded-full blur-3xl animate-pulse" />
+
+              <div className="relative z-10">
+                {/* Spinner / Icon */}
+                <div className="w-20 h-20 bg-forest-950 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-green-500/20 shadow-inner relative">
+                  <div className="w-16 h-16 border-4 border-amber-400 border-t-transparent rounded-full animate-spin absolute" />
+                  <span className="text-3xl animate-bounce">👩‍🍳</span>
+                </div>
+
+                <h2 className="text-2xl font-black text-white mb-2 font-display">
+                  {t('prefill_loading_title', { defaultValue: 'Preloading Recipe Basket...' })}
+                </h2>
+                <p className="text-green-300 text-sm mb-6 leading-relaxed">
+                  {t('prefill_loading_desc', { defaultValue: 'Fetching live grocery prices across Blinkit, Zepto, Swiggy Instamart, and BigBasket...' })}
+                </p>
+
+                {/* Progress Checklist */}
+                <div className="bg-forest-950/50 rounded-2xl p-4 border border-forest-850 text-left space-y-3 max-h-[220px] overflow-y-auto custom-scrollbar">
+                  {prefillItemsStatus.map((item, idx) => (
+                    <div key={idx} className="flex items-center justify-between gap-3 text-sm">
+                      <span className="text-white font-medium capitalize flex items-center gap-2">
+                        <span className="opacity-75">🥕</span> {item.name}
+                      </span>
+                      {item.status === 'loading' && (
+                        <div className="w-4 h-4 border-2 border-amber-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                      )}
+                      {item.status === 'success' && (
+                        <span className="text-green-400 font-bold shrink-0 flex items-center gap-1">
+                          ✓ <span className="text-[10px] bg-green-500/10 px-1.5 py-0.5 rounded-full border border-green-500/20">Priced</span>
+                        </span>
+                      )}
+                      {item.status === 'failed' && (
+                        <span className="text-red-400 font-bold shrink-0">✗</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-forest-400 text-xs mt-6 font-semibold uppercase tracking-wider animate-pulse">
+                  {t('prefill_engine_status', { defaultValue: 'Optimizing Basket Totals...' })}
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <SEO
         title={t(isSG ? 'basket_seo_title_sg' : 'basket_seo_title', { defaultValue: isSG ? "Smart Grocery Basket Calculator Singapore | Fantastic Food" : "Find the Cheapest Platform for Your Entire Grocery Basket" })}
         description={t(isSG ? 'basket_seo_desc_sg' : 'basket_seo_desc', { defaultValue: isSG ? "Add multiple grocery items to compare real-time shopping cart totals across FairPrice, RedMart, Cold Storage, Giant & more in Singapore." : "Compare grocery cart totals in real-time across Blinkit, Zepto, Swiggy Instamart, BigBasket, and save up to 40% on your weekly grocery bill." })}

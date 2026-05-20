@@ -404,7 +404,8 @@ export const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
   ingredients: r.ingredients.map(i => `${i.amount} ${i.item}`),
   steps: r.instructions || [],
   translations: r.translations,
-  image: r.image
+  image: r.image,
+  publishedAt: r.publishedAt
 }));
 
 export const ALL_RECIPES = [...WORLD_RECIPES, ...mappedAIRecipes];
