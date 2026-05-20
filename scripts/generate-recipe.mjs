@@ -503,11 +503,12 @@ CRITICAL RULES:
     return await fetchGeminiJSON(finalPrompt, translationSchema);
   }
 
-  // Translate in 3 parallel batches to prevent context token truncation
+  // Translate in 4 parallel batches of 2 languages to prevent context token truncation
   console.log(`🤖 Starting parallel translation batches to prevent context token truncation...`);
-  const [batch1, batch2, batch3] = await Promise.all([
-    translateBatch({ hi: 'Hindi', bn: 'Bengali', mr: 'Marathi' }),
-    translateBatch({ te: 'Telugu', ta: 'Tamil', kn: 'Kannada' }),
+  const [batch1, batch2, batch3, batch4] = await Promise.all([
+    translateBatch({ hi: 'Hindi', bn: 'Bengali' }),
+    translateBatch({ mr: 'Marathi', kn: 'Kannada' }),
+    translateBatch({ te: 'Telugu', ta: 'Tamil' }),
     translateBatch({ 'zh-CN': 'Simplified Chinese', ms: 'Malay' })
   ]);
 
@@ -516,12 +517,12 @@ CRITICAL RULES:
     en: englishRecipe,
     hi: batch1.hi,
     bn: batch1.bn,
-    mr: batch1.mr,
-    te: batch2.te,
-    ta: batch2.ta,
+    mr: batch2.mr,
     kn: batch2.kn,
-    'zh-CN': batch3['zh-CN'],
-    ms: batch3.ms
+    te: batch3.te,
+    ta: batch3.ta,
+    'zh-CN': batch4['zh-CN'],
+    ms: batch4.ms
   };
 
   // Programmatic cleanup of all translated titles (extra safety layer)
