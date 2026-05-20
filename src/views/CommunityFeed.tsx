@@ -896,14 +896,25 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
                 <h2 className="font-black text-white text-2xl flex items-center gap-2">
                   <Flame className="w-6 h-6 text-amber-500" /> {t('comm_share_what_cooked', 'Share what you cooked!')}
                 </h2>
-                <button onClick={() => setShowPost(false)} className="text-forest-400 hover:text-white bg-forest-800/50 p-2 rounded-full"><X className="w-5 h-5" /></button>
+                <button
+                  onClick={() => setShowPost(false)}
+                  aria-label={t('comm_close_modal', 'Close dialog')}
+                  className="text-forest-400 hover:text-white bg-forest-800/50 p-2 rounded-full"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
 
               <div className="space-y-4">
+                <label htmlFor="community-recipe-name" className="sr-only">
+                  {t('comm_recipe_name_label', 'Recipe name')}
+                </label>
                 <input
+                  id="community-recipe-name"
                   className="w-full bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium"
                   placeholder={t('comm_recipe_name', 'Recipe Name (e.g. Palak Paneer) *')}
-                  value={recipeName} onChange={e => setRecipeName(e.target.value)}
+                  value={recipeName}
+                  onChange={e => setRecipeName(e.target.value)}
                 />
 
 
@@ -915,17 +926,27 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
                   value={ingredients} onChange={e => setIngredients(e.target.value)}
                 />
 
+                <label htmlFor="community-instructions" className="sr-only">
+                  {t('comm_instructions_label', 'Instructions')}
+                </label>
                 <textarea
+                  id="community-instructions"
                   className="w-full bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium text-sm resize-none"
                   placeholder="Instructions (one step per line, optional)"
                   rows={4}
-                  value={instructionsStr} onChange={e => setInstructionsStr(e.target.value)}
+                  value={instructionsStr}
+                  onChange={e => setInstructionsStr(e.target.value)}
                 />
 
+                <label htmlFor="community-tags" className="sr-only">
+                  {t('comm_tags_label', 'Tags')}
+                </label>
                 <input
+                  id="community-tags"
                   className="w-full bg-[#0a140f] border border-forest-700 text-white placeholder-forest-500 rounded-2xl px-5 py-4 outline-none focus:border-amber-500 transition-colors font-medium text-sm"
                   placeholder="Tags (comma separated, e.g. Vegan, Spicy)"
-                  value={formTagsStr} onChange={e => setFormTagsStr(e.target.value)}
+                  value={formTagsStr}
+                  onChange={e => setFormTagsStr(e.target.value)}
                 />
 
                 <div
@@ -949,7 +970,14 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
                       <p className="text-forest-600 text-xs mt-1">🛡️ All images are AI-moderated for safety</p>
                     </div>
                   )}
-                  <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    aria-label={t('comm_photo_upload', 'Upload recipe photo')}
+                    onChange={handlePhotoChange}
+                  />
                 </div>
 
                 <motion.button

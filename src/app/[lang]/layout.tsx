@@ -11,6 +11,7 @@ const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 
 
 const AIAssistant = dynamic(() => import('../../components/AIAssistant'));
 import ReferralTracker from '../../components/ReferralTracker';
+import GoogleAnalytics from '../../components/GoogleAnalytics';
 
 import Script from 'next/script';
 
@@ -149,27 +150,13 @@ export default async function RootLayout({
         </Script>
 
         {/* Google Analytics GA4 */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-QLDLDN52KB"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-QLDLDN52KB', {
-              page_path: window.location.pathname,
-              send_page_view: true
-            });
-          `}
-        </Script>
+        <GoogleAnalytics GA_MEASUREMENT_ID="G-QLDLDN52KB" />
 
         {/* Grow by Mediavine Integration (Baked directly into HTML so crawlers can instantly see it) */}
         <script
           data-grow-initializer=""
           dangerouslySetInnerHTML={{
-            __html: `!(function(){window.growMe||((window.growMe=function(e){window.growMe._push(e);}),(window.growMe._=[]));var e=document.createElement("script");(e.type="text/javascript"),(e.src="https://faves.grow.me/main.js"),(e.defer=!0),e.setAttribute("data-grow-faves-site-id","U2l0ZToxNjdhNWMxOC02MWUxLTQxY2QtYTFlZC0zODVkNGUyNDFlM2M=");var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);})();`
+            __html: `!(function(){window.growMe||((window.growMe=function(e){window.growMe._.push(e);}),(window.growMe._=[]));var e=document.createElement("script");(e.type="text/javascript"),(e.src="https://faves.grow.me/main.js"),(e.defer=!0),e.setAttribute("data-grow-faves-site-id","U2l0ZToxNjdhNWMxOC02MWUxLTQxY2QtYTFlZC0zODVkNGUyNDFlM2M=");var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);})();`
           }}
         />
 
