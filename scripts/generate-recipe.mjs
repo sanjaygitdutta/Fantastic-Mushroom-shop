@@ -446,9 +446,11 @@ CRITICAL RULES:
 2. Write a concise, single-paragraph mouth-watering description (approx. 50-80 words) in the target language that captures the essence of the English original's backstory, rather than a long word-for-word translation. This is critical to avoid token truncation limits.
 3. Translate all ingredients exactly, keeping the exact amounts and descriptive terms translated into the target language.
 4. Translate all preparation steps accurately, keeping them concise and clear (1-2 sentences per step).
-5. Translate in a thoroughly human-like, natural, and warm conversational tone. Avoid dry, literal, or robotic translation patterns.
-6. CRITICAL JSON SAFETY: Inside all JSON string values (descriptions, instructions, titles, ingredients), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Make sure every JSON string is properly closed.
-7. Return ONLY a valid JSON object matching this structure (no markdown, no backticks):
+5. ELIMINATE ALL AI FOOTPRINTS: The output must sound like a passionate, native home cook from the region writing for local food lovers, NOT an AI translation system. Avoid any robotic language transitions, sterile explanations, or formal syntax structures.
+6. NATIVE & COLLOQUIAL FLOW: Use local culinary idioms, authentic kitchen terminology, and warm, natural, conversational phrasing. If an English sentence structure feels stiff or unnatural when translated literally, rewrite it entirely to sound organic, colloquial, and native in the target language.
+7. BAN ROBOTIC/FORMAL BUZZWORDS: Avoid overly formal, literary, or clinical transition words (e.g., in Hindi, do not use overly formal sanskritized words when simple Hindustani/colloquial words are common; in Bengali, avoid stiff bookish language (Sadhu Bhasa) and use standard colloquial kitchen language (Cholit Bhasa)). Do not use overly dramatic or repetitive adjectives typical of machine-generated text.
+8. CRITICAL JSON SAFETY: Inside all JSON string values (descriptions, instructions, titles, ingredients), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Make sure every JSON string is properly closed.
+9. Return ONLY a valid JSON object matching this structure (no markdown, no backticks):
 {
   ${Object.keys(languages).map(code => `"${code}": {
     "title": "Clean translated dish title",
@@ -503,26 +505,30 @@ CRITICAL RULES:
     return await fetchGeminiJSON(finalPrompt, translationSchema);
   }
 
-  // Translate in 4 parallel batches of 2 languages to prevent context token truncation
-  console.log(`🤖 Starting parallel translation batches to prevent context token truncation...`);
-  const [batch1, batch2, batch3, batch4] = await Promise.all([
-    translateBatch({ hi: 'Hindi', bn: 'Bengali' }),
-    translateBatch({ mr: 'Marathi', kn: 'Kannada' }),
-    translateBatch({ te: 'Telugu', ta: 'Tamil' }),
-    translateBatch({ 'zh-CN': 'Simplified Chinese', ms: 'Malay' })
+  // Translate in 8 parallel individual calls to prevent context token truncation
+  console.log(`🤖 Starting parallel translation for 8 languages to prevent context token truncation...`);
+  const [hiBatch, bnBatch, mrBatch, knBatch, teBatch, taBatch, cnBatch, msBatch] = await Promise.all([
+    translateBatch({ hi: 'Hindi' }),
+    translateBatch({ bn: 'Bengali' }),
+    translateBatch({ mr: 'Marathi' }),
+    translateBatch({ kn: 'Kannada' }),
+    translateBatch({ te: 'Telugu' }),
+    translateBatch({ ta: 'Tamil' }),
+    translateBatch({ 'zh-CN': 'Simplified Chinese' }),
+    translateBatch({ ms: 'Malay' })
   ]);
 
   // Combine translations
   const finalResult = {
     en: englishRecipe,
-    hi: batch1.hi,
-    bn: batch1.bn,
-    mr: batch2.mr,
-    kn: batch2.kn,
-    te: batch3.te,
-    ta: batch3.ta,
-    'zh-CN': batch4['zh-CN'],
-    ms: batch4.ms
+    hi: hiBatch.hi,
+    bn: bnBatch.bn,
+    mr: mrBatch.mr,
+    kn: knBatch.kn,
+    te: teBatch.te,
+    ta: taBatch.ta,
+    'zh-CN': cnBatch['zh-CN'],
+    ms: msBatch.ms
   };
 
   // Programmatic cleanup of all translated titles (extra safety layer)

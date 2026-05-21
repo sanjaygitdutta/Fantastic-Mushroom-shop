@@ -6,7 +6,10 @@ import {
   CheckCircle, 
   AlertCircle, 
   TrendingDown, 
-  Filter
+  Filter,
+  Plus,
+  Edit3,
+  X
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { MOCK_DB } from '../../data/mockPrices';
@@ -44,6 +47,10 @@ const ManageGroceryPrices = () => {
   const [updates, setUpdates] = useState<Record<string, any>>({});
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null; msg: string }>({ type: null, msg: '' });
   
+  // Custom Product Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<any>(null);
+  
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 51; // 3 per row * 17 rows
@@ -64,7 +71,8 @@ const ManageGroceryPrices = () => {
         label: p.canonical_name,
         query: p.id,
         icon: p.icon,
-        category: p.category
+        category: p.category,
+        unit: p.unit || '1 unit'
       })));
     } else {
       // Fallback to MOCK_DB if table is empty or missing
@@ -157,6 +165,38 @@ const ManageGroceryPrices = () => {
     }
   };
 
+  const handleSaveProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const product = {
+      id: formData.get('id'),
+      canonical_name: formData.get('name'),
+      category: formData.get('category'),
+      icon: formData.get('icon'),
+      unit: formData.get('unit'),
+    };
+    
+    setSaving(true);
+    try {
+      const res = await fetch('/api/admin/update-product', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product })
+      });
+      if (res.ok) {
+        setStatus({ type: 'success', msg: 'Product saved successfully!' });
+        setIsModalOpen(false);
+        fetchData();
+      } else {
+        const error = await res.json();
+        setStatus({ type: 'error', msg: `Failed to save product: ${error.error}` });
+      }
+    } catch (err) {
+      setStatus({ type: 'error', msg: `Error saving product` });
+    }
+    setSaving(false);
+  };
+
   return (
     <div className="min-h-screen pt-24 pb-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
@@ -173,6 +213,14 @@ const ManageGroceryPrices = () => {
           </div>
           
           <div className="flex flex-col md:flex-row items-center gap-4">
+            {/* Add Custom Item Button */}
+            <button
+              onClick={() => { setEditingProduct(null); setIsModalOpen(true); }}
+              className="bg-forest-900 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-forest-800 shadow-sm"
+            >
+              <Plus className="w-4 h-4" /> Add Item
+            </button>
+
             {/* Region Toggle */}
             <div className="flex bg-forest-100 rounded-2xl p-1 shadow-inner">
               <button
@@ -241,7 +289,7 @@ const ManageGroceryPrices = () => {
                       <div>
                         <h2 className="text-xl font-bold text-white">{item.label}</h2>
                         {/* Status Badge */}
-                        <div className="mt-1">
+                        <div className="mt-1 flex items-center gap-2">
                           {liveData.some(ld => ld.item_name === item.query && ld.price > 0) ? (
                             <span className="inline-flex items-center gap-1 text-[9px] font-black bg-emerald-400/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-400/30 uppercase tracking-tighter">
                               <CheckCircle className="w-2 h-2" /> Verified
@@ -251,6 +299,17 @@ const ManageGroceryPrices = () => {
                               <AlertCircle className="w-2 h-2" /> Pending
                             </span>
                           )}
+                          <button
+                            onClick={() => {
+                              setEditingProduct(item);
+                              setIsModalOpen(true);
+                            }}
+                            className="text-white/60 hover:text-white transition-colors"
+                            aria-label="Edit item"
+                            title="Edit item"
+                          >
+                            <Edit3 className="w-3 h-3" />
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -336,6 +395,98 @@ const ManageGroceryPrices = () => {
           </div>
         )}
       </div>
+
+      {/* Product Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative">
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-6 right-6 text-gray-400 hover:text-gray-900"
+              aria-label="Close modal"
+              title="Close modal"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <h2 className="text-2xl font-black text-forest-900 mb-6">
+              {editingProduct ? 'Edit Grocery Item' : 'Add Custom Item'}
+            </h2>
+            <form onSubmit={handleSaveProduct} className="space-y-4">
+              <div>
+                <label htmlFor="product-id" className="block text-sm font-bold text-gray-700 mb-1">Item ID (Query)</label>
+                <input 
+                  id="product-id"
+                  type="text" 
+                  name="id" 
+                  required
+                  defaultValue={editingProduct?.query || ''}
+                  placeholder="e.g. apple_fuji"
+                  readOnly={!!editingProduct}
+                  className={`w-full p-3 rounded-xl border-2 border-forest-100 focus:border-forest-500 outline-none ${editingProduct ? 'bg-gray-100 text-gray-500' : ''}`}
+                />
+              </div>
+              <div>
+                <label htmlFor="product-name" className="block text-sm font-bold text-gray-700 mb-1">Item Name</label>
+                <input 
+                  id="product-name"
+                  type="text" 
+                  name="name" 
+                  required
+                  defaultValue={editingProduct?.label || ''}
+                  placeholder="e.g. Fuji Apple"
+                  className="w-full p-3 rounded-xl border-2 border-forest-100 focus:border-forest-500 outline-none"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="product-icon" className="block text-sm font-bold text-gray-700 mb-1">Icon (Emoji)</label>
+                  <input 
+                    id="product-icon"
+                    type="text" 
+                    name="icon" 
+                    required
+                    defaultValue={editingProduct?.icon || '🛒'}
+                    className="w-full p-3 rounded-xl border-2 border-forest-100 focus:border-forest-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="product-unit" className="block text-sm font-bold text-gray-700 mb-1">Unit / Quantity</label>
+                  <input 
+                    id="product-unit"
+                    type="text" 
+                    name="unit" 
+                    required
+                    defaultValue={editingProduct?.unit || '1 kg'}
+                    placeholder="e.g. 1 kg, 500g"
+                    className="w-full p-3 rounded-xl border-2 border-forest-100 focus:border-forest-500 outline-none"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="product-category" className="block text-sm font-bold text-gray-700 mb-1">Category</label>
+                <select 
+                  id="product-category"
+                  name="category" 
+                  defaultValue={editingProduct?.category || 'Vegetables'}
+                  className="w-full p-3 rounded-xl border-2 border-forest-100 focus:border-forest-500 outline-none bg-white"
+                >
+                  {CATEGORIES.filter(c => c !== 'All' && c !== 'Pending').map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
+              <button 
+                type="submit" 
+                disabled={saving}
+                className="w-full mt-4 bg-forest-900 text-white p-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-black transition-all disabled:opacity-50"
+              >
+                {saving ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                {saving ? 'Saving...' : 'Save Product'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
