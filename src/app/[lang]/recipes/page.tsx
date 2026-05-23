@@ -1,15 +1,18 @@
 import { Suspense } from 'react';
 import Recipes from '../../../views/Recipes';
+import { getLocalizedPageSEO } from '../../../i18n/dictionary';
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
+  const pageMeta = getLocalizedPageSEO('recipes', lang);
   const canonical = lang === 'en'
     ? 'https://www.fantasticfood.in/recipes'
     : `https://www.fantasticfood.in/${lang}/recipes`;
 
   return {
-    title: 'World Recipes — Discover 200+ Professional Cuisines | Fantastic Food',
-    description: 'Explore Michelin-star quality recipes from around the world. Step-by-step instructions for authentic dishes across 20 global cuisines.',
+    title: pageMeta.title,
+    description: pageMeta.description,
+    keywords: pageMeta.keywords,
     alternates: {
       canonical,
       languages: {
