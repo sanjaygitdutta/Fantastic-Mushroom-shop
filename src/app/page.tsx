@@ -1,4 +1,15 @@
+import '../index.css';
 import Home from '../views/Home';
+import { Providers } from './providers';
+import { Toaster } from 'react-hot-toast';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import dynamic from 'next/dynamic';
+import ReferralTracker from '../components/ReferralTracker';
+import GoogleAnalytics from '../components/GoogleAnalytics';
+import Script from 'next/script';
+
+const AIAssistant = dynamic(() => import('../components/AIAssistant'));
 
 export async function generateMetadata() {
   return {
@@ -22,5 +33,24 @@ export async function generateMetadata() {
 }
 
 export default function Page() {
-  return <Home />;
+  return (
+    <>
+      <Script id="page-analytics" strategy="afterInteractive">
+        {`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date());`}
+      </Script>
+      <GoogleAnalytics GA_MEASUREMENT_ID="G-QLDLDN52KB" />
+      <Providers>
+        <div className="min-h-screen flex flex-col max-w-full overflow-x-hidden">
+          <Toaster position="top-center" />
+          <Navbar />
+          <main className="grow">
+            <Home />
+          </main>
+          <Footer />
+          <AIAssistant />
+          <ReferralTracker />
+        </div>
+      </Providers>
+    </>
+  );
 }
