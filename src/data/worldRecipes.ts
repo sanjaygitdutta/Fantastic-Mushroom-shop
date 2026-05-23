@@ -16,11 +16,17 @@ export interface WorldRecipe {
   tags: string[];
   ingredients: string[];
   steps: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
   translations?: Record<string, {
     title: string;
     description: string;
     ingredients: { item: string; amount: string }[];
     instructions: string[];
+    seoTitle?: string;
+    seoDescription?: string;
+    seoKeywords?: string;
   }>;
   image?: string;
   publishedAt?: string;
@@ -403,6 +409,9 @@ export const mappedAIRecipes: WorldRecipe[] = aiRecipes.map(r => ({
   tags: r.tags || [],
   ingredients: r.ingredients.map(i => `${i.amount} ${i.item}`),
   steps: r.instructions || [],
+  seoTitle: r.seoTitle,
+  seoDescription: r.seoDescription,
+  seoKeywords: r.seoKeywords,
   translations: r.translations,
   image: r.image,
   publishedAt: r.publishedAt

@@ -378,7 +378,13 @@ Write naturally instead.
 3. Sensory Visual Cues: For every step, describe physical visual/smell/sound markers instead of dry commands.
 4. High Backstory Depth: Write an extensive, 3-paragraph conversational, high-perplexity backstory detailing how you learned to cook this, common failures, and key ingredient rules.
 
-5. CRITICAL JSON SAFETY: Inside all JSON string values (description, instructions, title, ingredients), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Always make sure every JSON string is properly closed and contains no raw unescaped control characters.
+5. SEO DYNAMIC KEYWORDS DIRECTIVES:
+Identify the single best high-search-intent, highly converting long-tail keyword in English for this specific recipe (e.g. "quick lunch ideas for working women", "easy dinner recipe for kids", "healthy dinner ideas", "authentic [name] recipe", etc.).
+- Generate "seoTitle": a highly engaging, click-worthy meta title (maximum 60 characters) that naturally integrates this long-tail keyword.
+- Generate "seoDescription": a compelling, click-through-optimized meta description (maximum 155 characters) that naturally integrates the long-tail keyword.
+- Generate "seoKeywords": a comma-separated string starting with the selected long-tail keyword, followed by 3-4 other highly relevant keywords.
+
+6. CRITICAL JSON SAFETY: Inside all JSON string values (description, instructions, title, ingredients, seoTitle, seoDescription, seoKeywords), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Always make sure every JSON string is properly closed and contains no raw unescaped control characters.
 
 Return ONLY a valid JSON object matching EXACTLY this structure:
 {
@@ -390,7 +396,10 @@ Return ONLY a valid JSON object matching EXACTLY this structure:
   "servings": 4,
   "ingredients": [{ "item": "Name", "amount": "Qty" }],
   "instructions": ["Step 1 detailing tips", "Step 2 with visual cues", "Step 3", "Step 4", "Step 5"],
-  "tags": ["${selectedCuisine.cuisine}", "Dinner", "Authentic"]
+  "tags": ["${selectedCuisine.cuisine}", "Dinner", "Authentic"],
+  "seoTitle": "Engaging Meta Title targeting long-tail keyword",
+  "seoDescription": "Compelling Meta Description targeting long-tail keyword",
+  "seoKeywords": "long-tail keyword, secondary keyword 1, secondary keyword 2"
 }`;
 
   const englishSchema = {
@@ -420,9 +429,12 @@ Return ONLY a valid JSON object matching EXACTLY this structure:
       tags: {
         type: "ARRAY",
         items: { type: "STRING" }
-      }
+      },
+      seoTitle: { type: "STRING" },
+      seoDescription: { type: "STRING" },
+      seoKeywords: { type: "STRING" }
     },
-    required: ["title", "description", "prepTime", "cookTime", "difficulty", "servings", "ingredients", "instructions", "tags"]
+    required: ["title", "description", "prepTime", "cookTime", "difficulty", "servings", "ingredients", "instructions", "tags", "seoTitle", "seoDescription", "seoKeywords"]
   };
 
   console.log(`🤖 Generating master English recipe for "${selectedDish}"...`);
@@ -449,14 +461,22 @@ CRITICAL RULES:
 5. ELIMINATE ALL AI FOOTPRINTS: The output must sound like a passionate, native home cook from the region writing for local food lovers, NOT an AI translation system. Avoid any robotic language transitions, sterile explanations, or formal syntax structures.
 6. NATIVE & COLLOQUIAL FLOW: Use local culinary idioms, authentic kitchen terminology, and warm, natural, conversational phrasing. If an English sentence structure feels stiff or unnatural when translated literally, rewrite it entirely to sound organic, colloquial, and native in the target language.
 7. BAN ROBOTIC/FORMAL BUZZWORDS: Avoid overly formal, literary, or clinical transition words (e.g., in Hindi, do not use overly formal sanskritized words when simple Hindustani/colloquial words are common; in Bengali, avoid stiff bookish language (Sadhu Bhasa) and use standard colloquial kitchen language (Cholit Bhasa)). Do not use overly dramatic or repetitive adjectives typical of machine-generated text.
-8. CRITICAL JSON SAFETY: Inside all JSON string values (descriptions, instructions, titles, ingredients), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Make sure every JSON string is properly closed.
-9. Return ONLY a valid JSON object matching this structure (no markdown, no backticks):
+8. SEO DYNAMIC KEYWORDS DIRECTIVES:
+Identify the single best high-intent long-tail keyword in the target language for this recipe (e.g., for Hindi, target terms like "Sambar recipe in Hindi", "[Dish Name] recipe in Hindi", or relevant cultural equivalents like "easy lunch ideas for kids", "quick tiffin box ideas", etc.).
+- Generate "seoTitle": a highly engaging, localized meta title in the target language (maximum 60 characters) naturally integrating this long-tail keyword.
+- Generate "seoDescription": a compelling localized meta description in the target language (maximum 155 characters) naturally integrating the long-tail keyword.
+- Generate "seoKeywords": a comma-separated string of search keywords in the target language, starting with the primary long-tail keyword.
+9. CRITICAL JSON SAFETY: Inside all JSON string values (descriptions, instructions, titles, ingredients, seoTitle, seoDescription, seoKeywords), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Make sure every JSON string is properly closed.
+10. Return ONLY a valid JSON object matching this structure (no markdown, no backticks):
 {
   ${Object.keys(languages).map(code => `"${code}": {
     "title": "Clean translated dish title",
     "description": "Rich translated story/description...",
     "ingredients": [{"item": "translated item", "amount": "translated amount"}],
-    "instructions": ["Step 1 translated...", "Step 2 translated..."]
+    "instructions": ["Step 1 translated...", "Step 2 translated..."],
+    "seoTitle": "Engaging translated Meta Title targeting long-tail keyword",
+    "seoDescription": "Compelling translated Meta Description targeting long-tail keyword",
+    "seoKeywords": "translated long-tail keyword, secondary translated keywords"
   }`).join(',\n  ')}
 }`;
 
@@ -489,9 +509,12 @@ CRITICAL RULES:
           instructions: {
             type: "ARRAY",
             items: { type: "STRING" }
-          }
+          },
+          seoTitle: { type: "STRING" },
+          seoDescription: { type: "STRING" },
+          seoKeywords: { type: "STRING" }
         },
-        required: ["title", "description", "ingredients", "instructions"]
+        required: ["title", "description", "ingredients", "instructions", "seoTitle", "seoDescription", "seoKeywords"]
       };
     }
 
@@ -589,7 +612,7 @@ try {
   const recipe = await callGemini();
 
   // Validate
-  const required = ['title', 'description', 'prepTime', 'cookTime', 'difficulty', 'servings', 'ingredients', 'instructions'];
+  const required = ['title', 'description', 'prepTime', 'cookTime', 'difficulty', 'servings', 'ingredients', 'instructions', 'seoTitle', 'seoDescription', 'seoKeywords'];
   for (const field of required) {
     if (recipe.en[field] === undefined || recipe.en[field] === null) {
       throw new Error(`Missing required field in 'en': "${field}"`);
@@ -628,54 +651,81 @@ ${recipe.en.ingredients.map((i) => `            { item: '${esc(i.item)}', amount
 ${recipe.en.instructions.map((s) => `            '${esc(s)}'`).join(',\n')}
         ],
         tags: [${recipe.en.tags.map((t) => `'${esc(t)}'`).join(', ')}],
+        seoTitle: '${esc(recipe.en.seoTitle || '')}',
+        seoDescription: '${esc(recipe.en.seoDescription || '')}',
+        seoKeywords: '${esc(recipe.en.seoKeywords || '')}',
         translations: {
             hi: {
                 title: '${esc(recipe.hi?.title || '')}',
                 description: '${esc(recipe.hi?.description || '')}',
                 ingredients: [${(recipe.hi?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${(recipe.hi?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+                instructions: [${(recipe.hi?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}],
+                seoTitle: '${esc(recipe.hi?.seoTitle || '')}',
+                seoDescription: '${esc(recipe.hi?.seoDescription || '')}',
+                seoKeywords: '${esc(recipe.hi?.seoKeywords || '')}'
             },
             bn: {
                 title: '${esc(recipe.bn?.title || '')}',
                 description: '${esc(recipe.bn?.description || '')}',
                 ingredients: [${(recipe.bn?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${(recipe.bn?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+                instructions: [${(recipe.bn?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}],
+                seoTitle: '${esc(recipe.bn?.seoTitle || '')}',
+                seoDescription: '${esc(recipe.bn?.seoDescription || '')}',
+                seoKeywords: '${esc(recipe.bn?.seoKeywords || '')}'
             },
             mr: {
                 title: '${esc(recipe.mr?.title || '')}',
                 description: '${esc(recipe.mr?.description || '')}',
                 ingredients: [${(recipe.mr?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${(recipe.mr?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+                instructions: [${(recipe.mr?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}],
+                seoTitle: '${esc(recipe.mr?.seoTitle || '')}',
+                seoDescription: '${esc(recipe.mr?.seoDescription || '')}',
+                seoKeywords: '${esc(recipe.mr?.seoKeywords || '')}'
             },
             te: {
                 title: '${esc(recipe.te?.title || '')}',
                 description: '${esc(recipe.te?.description || '')}',
                 ingredients: [${(recipe.te?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${(recipe.te?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+                instructions: [${(recipe.te?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}],
+                seoTitle: '${esc(recipe.te?.seoTitle || '')}',
+                seoDescription: '${esc(recipe.te?.seoDescription || '')}',
+                seoKeywords: '${esc(recipe.te?.seoKeywords || '')}'
             },
             ta: {
                 title: '${esc(recipe.ta?.title || '')}',
                 description: '${esc(recipe.ta?.description || '')}',
                 ingredients: [${(recipe.ta?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${(recipe.ta?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+                instructions: [${(recipe.ta?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}],
+                seoTitle: '${esc(recipe.ta?.seoTitle || '')}',
+                seoDescription: '${esc(recipe.ta?.seoDescription || '')}',
+                seoKeywords: '${esc(recipe.ta?.seoKeywords || '')}'
             },
             kn: {
                 title: '${esc(recipe.kn?.title || '')}',
                 description: '${esc(recipe.kn?.description || '')}',
                 ingredients: [${(recipe.kn?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${(recipe.kn?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+                instructions: [${(recipe.kn?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}],
+                seoTitle: '${esc(recipe.kn?.seoTitle || '')}',
+                seoDescription: '${esc(recipe.kn?.seoDescription || '')}',
+                seoKeywords: '${esc(recipe.kn?.seoKeywords || '')}'
             },
             'zh-CN': {
                 title: '${esc(recipe['zh-CN']?.title || recipe.zh?.title || '')}',
                 description: '${esc(recipe['zh-CN']?.description || recipe.zh?.description || '')}',
                 ingredients: [${(recipe['zh-CN']?.ingredients || recipe.zh?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${(recipe['zh-CN']?.instructions || recipe.zh?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+                instructions: [${(recipe['zh-CN']?.instructions || recipe.zh?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}],
+                seoTitle: '${esc(recipe['zh-CN']?.seoTitle || recipe.zh?.seoTitle || '')}',
+                seoDescription: '${esc(recipe['zh-CN']?.seoDescription || recipe.zh?.seoDescription || '')}',
+                seoKeywords: '${esc(recipe['zh-CN']?.seoKeywords || recipe.zh?.seoKeywords || '')}'
             },
             ms: {
                 title: '${esc(recipe.ms?.title || '')}',
                 description: '${esc(recipe.ms?.description || '')}',
                 ingredients: [${(recipe.ms?.ingredients || []).map((i) => `{ item: '${esc(i.item)}', amount: '${esc(i.amount)}' }`).join(', ')}],
-                instructions: [${(recipe.ms?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}]
+                instructions: [${(recipe.ms?.instructions || []).map((s) => `'${esc(s)}'`).join(', ')}],
+                seoTitle: '${esc(recipe.ms?.seoTitle || '')}',
+                seoDescription: '${esc(recipe.ms?.seoDescription || '')}',
+                seoKeywords: '${esc(recipe.ms?.seoKeywords || '')}'
             }
         }
     }`;

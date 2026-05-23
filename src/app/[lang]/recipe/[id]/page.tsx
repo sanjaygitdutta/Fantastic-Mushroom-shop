@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   }
 
   const lang = resolvedParams.lang || 'en';
-  type RecipeTranslation = { title?: string; description?: string };
+  type RecipeTranslation = { title?: string; description?: string; seoTitle?: string; seoDescription?: string; seoKeywords?: string };
   const tRecipe = (recipe.translations?.[lang] ?? {}) as RecipeTranslation;
   const displayName = tRecipe.title ?? recipe.name;
   
@@ -58,19 +58,27 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   
   const cleanTime = recipe.time.replace(' min', ' Min').replace(' hrs', ' Hrs');
   
-  const titleTemplate = RECIPE_TITLE_TEMPLATES[lang] || RECIPE_TITLE_TEMPLATES['en'];
-  const title = titleTemplate
-    .replace('{name}', displayName)
-    .replace('{cost}', costString)
-    .replace('{time}', cleanTime);
+  let title = tRecipe.seoTitle || (lang === 'en' ? recipe.seoTitle : undefined);
+  if (!title) {
+    const titleTemplate = RECIPE_TITLE_TEMPLATES[lang] || RECIPE_TITLE_TEMPLATES['en'];
+    title = titleTemplate
+      .replace('{name}', displayName)
+      .replace('{cost}', costString)
+      .replace('{time}', cleanTime);
+  }
 
-  const descTemplate = RECIPE_DESC_TEMPLATES[lang] || RECIPE_DESC_TEMPLATES['en'];
-  const description = descTemplate
-    .replace('{name}', displayName)
-    .replace('{city}', recipe.city)
-    .replace('{country}', recipe.country)
-    .replace('{time}', recipe.time)
-    .replace('{servings}', recipe.servings.toString());
+  let description = tRecipe.seoDescription || (lang === 'en' ? recipe.seoDescription : undefined);
+  if (!description) {
+    const descTemplate = RECIPE_DESC_TEMPLATES[lang] || RECIPE_DESC_TEMPLATES['en'];
+    description = descTemplate
+      .replace('{name}', displayName)
+      .replace('{city}', recipe.city)
+      .replace('{country}', recipe.country)
+      .replace('{time}', recipe.time)
+      .replace('{servings}', recipe.servings.toString());
+  }
+
+  const keywords = tRecipe.seoKeywords || (lang === 'en' ? recipe.seoKeywords : undefined) || `${displayName}, ${recipe.name}, ${recipe.country} cuisine, recipe`;
 
   const defaultImage = 'https://www.fantasticfood.in/og-image.jpg';
   const ogImage = recipe.image ? `https://www.fantasticfood.in${recipe.image}`.replace('https://www.fantasticfood.inhttps://', 'https://') : defaultImage;
@@ -78,6 +86,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   return {
     title,
     description,
+    keywords,
     alternates: {
       canonical: `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}`,
       languages: {
@@ -124,9 +133,25 @@ export default async function RecipePageServer({ params }: { params: Promise<{ l
     redirect(`/${lang}/recipes`);
   }
 
-  type RecipeTranslation = { title?: string; description?: string };
+  type RecipeTranslation = { 
+    title?: string; 
+    description?: string; 
+    ingredients?: { item: string; amount: string }[]; 
+    instructions?: string[]; 
+    seoKeywords?: string;
+  };
   const tRecipe = (recipe.translations?.[lang] ?? {}) as RecipeTranslation;
   const displayName = tRecipe.title ?? recipe.name;
+
+  const tRecipeIngredients = tRecipe.ingredients && Array.isArray(tRecipe.ingredients) 
+    ? tRecipe.ingredients.map(i => `${i.amount} ${i.item}`) 
+    : recipe.ingredients;
+
+  const tRecipeInstructions = tRecipe.instructions && Array.isArray(tRecipe.instructions) 
+    ? tRecipe.instructions 
+    : recipe.steps;
+
+  const keywords = tRecipe.seoKeywords || (lang === 'en' ? recipe.seoKeywords : undefined) || `${displayName}, ${recipe.name}, ${recipe.country} cuisine`;
 
   // Generate JSON-LD for Recipe Schema
   const jsonLd = {
@@ -135,7 +160,7 @@ export default async function RecipePageServer({ params }: { params: Promise<{ l
     "name": displayName,
     "image": recipe.image ? [`https://www.fantasticfood.in${recipe.image}`.replace('https://www.fantasticfood.inhttps://', 'https://')] : [],
     "description": tRecipe.description ?? recipe.name,
-    "keywords": `${recipe.name}, ${recipe.country} cuisine`,
+    "keywords": keywords,
     "author": {
       "@type": "Organization",
       "name": "Fantastic Food"
@@ -146,48 +171,49 @@ export default async function RecipePageServer({ params }: { params: Promise<{ l
     "recipeCategory": recipe.category || "Main Dish",
     "recipeCuisine": recipe.country,
     "recipeYield": `${recipe.servings} servings`,
-    "recipeIngredient": recipe.ingredients, // Already a string array
-      "recipeInstructions": recipe.steps.map((step: string, idx: number) => ({
-        "@type": "HowToStep",
-        "name": `Step ${idx + 1}`,
-        "text": step,
-        "url": `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}#step-${idx + 1}`
-      })),
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": Math.floor(Math.random() * 50) + 85
+    "recipeIngredient": tRecipeIngredients,
+    "recipeInstructions": tRecipeInstructions.map((step: string, idx: number) => ({
+      "@type": "HowToStep",
+      "name": `Step ${idx + 1}`,
+      "text": step,
+      "url": `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}#step-${idx + 1}`
+    })),
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": Math.floor(Math.random() * 50) + 85
+    },
+    ...(recipe.publishedAt ? { "datePublished": recipe.publishedAt } : {}),
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": `https://www.fantasticfood.in/${lang}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Recipes",
+        "item": `https://www.fantasticfood.in/${lang}/recipes`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": displayName,
+        "item": `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}`
       }
-    };
+    ]
+  };
 
-    const breadcrumbLd = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": `https://www.fantasticfood.in/${lang}`
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Recipes",
-          "item": `https://www.fantasticfood.in/${lang}/recipes`
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": displayName,
-          "item": `https://www.fantasticfood.in/${lang}/recipe/${recipe.id}`
-        }
-      ]
-    };
-
-    const relatedRecipes = ALL_RECIPES
-      .filter(r => r.id !== recipe.id && (r.category === recipe.category || r.country === recipe.country))
-      .slice(0, 4);
+  const relatedRecipes = ALL_RECIPES
+    .filter(r => r.id !== recipe.id && (r.category === recipe.category || r.country === recipe.country))
+    .slice(0, 4);
 
   return (
     <>

@@ -3,6 +3,9 @@ export interface RecipeTranslation {
   description: string;
   ingredients: { item: string; amount: string }[];
   instructions: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
 }
 
 export const WORLD_RECIPE_TRANSLATIONS: Record<string, Record<string, RecipeTranslation>> = {
