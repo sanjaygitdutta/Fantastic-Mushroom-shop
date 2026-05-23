@@ -2,7 +2,6 @@
 import Link from 'next/link';
 
 import { useTranslation } from 'react-i18next';
-import SEO from '../components/SEO';
 import { BLOG_POSTS } from '../data/blogPosts';
 import { useRegion } from '../utils/region';
 
@@ -14,11 +13,6 @@ const BlogDirectory = () => {
 
   return (
     <>
-      <SEO 
-        title={t(isSG ? 'blog_seo_title_sg' : 'blog_seo_title', { defaultValue: isSG ? 'Singapore Grocery Deals, Coupons & Price Insights | Fantastic Food SG' : 'Grocery Deals, Coupons & Price Insights Blog | Fantastic Food' })}
-        description={t(isSG ? 'blog_seo_desc_sg' : 'blog_seo_desc', { defaultValue: isSG ? 'Read the latest insights on how to save money on grocery delivery in Singapore. FairPrice vs RedMart vs Cold Storage, promo codes, and price drops.' : 'Read the latest insights on how to save money on grocery delivery in India. Zepto vs Blinkit, coupon codes, and price drops.' })}
-        canonicalUrl="https://www.fantasticfood.in/blog"
-      />
 
       <div className="pt-24 pb-16 bg-cream-50 min-h-screen">
         <div className="max-w-6xl mx-auto px-4">

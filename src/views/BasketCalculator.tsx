@@ -6,7 +6,6 @@ import { ShoppingCart, Plus, Trash2, ExternalLink, Search, Sparkles, X, Trophy, 
 import { useSearchParams } from 'next/navigation';
 
 import confetti from 'canvas-confetti';
-import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
@@ -355,7 +354,6 @@ const BasketCalculator = () => {
   if (slashHostParam && !codeGenerated) {
     return (
       <div className="min-h-screen bg-forest-900 flex flex-col items-center justify-center p-6 text-center">
-        <SEO title={t('basket_friend_title', { defaultValue: "Help Your Friend Slash Their Bill! | Fantastic Food" })} description={t('basket_friend_desc', { defaultValue: "Gamified price drops" })} />
         <h1 className="text-3xl font-black text-white mb-4">Your friend needs help!</h1>
         <p className="text-green-300 text-lg max-w-sm mb-8">
           Tap the button 10 times to slash {formatCurrency(DISCOUNT_AMOUNT, region)} off their Fantastic Food grocery bill!
@@ -466,15 +464,6 @@ const BasketCalculator = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <SEO
-        title={t(isSG ? 'basket_seo_title_sg' : 'basket_seo_title', { defaultValue: isSG ? "Smart Grocery Basket Calculator Singapore | Fantastic Food" : "Find the Cheapest Platform for Your Entire Grocery Basket" })}
-        description={t(isSG ? 'basket_seo_desc_sg' : 'basket_seo_desc', { defaultValue: isSG ? "Add multiple grocery items to compare real-time shopping cart totals across FairPrice, RedMart, Cold Storage, Giant & more in Singapore." : "Compare grocery cart totals in real-time across Blinkit, Zepto, Swiggy Instamart, BigBasket, and save up to 40% on your weekly grocery bill." })}
-        keywords={isSG
-          ? 'grocery basket Singapore, cheapest grocery platform Singapore, FairPrice vs RedMart vs Cold Storage'
-          : 'grocery basket calculator, cheapest grocery platform, compare grocery cart, blinkit vs zepto vs bigbasket total price'}
-        canonicalUrl={isSG ? 'https://www.fantasticfood.in/basket?region=SG' : 'https://www.fantasticfood.in/basket'}
-      />
 
       {/* ── Hero ────────────────────────────────────── */}
       <div className="max-w-6xl mx-auto px-4 pt-8 pb-10 text-center">

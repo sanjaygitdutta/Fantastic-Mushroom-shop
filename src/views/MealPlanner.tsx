@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChefHat, Wallet, Users, Utensils, ArrowRight, Loader2, Sparkles, CheckCircle2, ShoppingCart, Flame } from 'lucide-react';
 import Link from 'next/link';
 
-import SEO from '../components/SEO';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 
@@ -89,11 +88,6 @@ const MealPlanner = () => {
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO
-        title={t(region?.toUpperCase() === 'SG' ? 'meal_planner_seo_title_sg' : 'meal_planner_seo_title', { defaultValue: region?.toUpperCase() === 'SG' ? "Weekly Smart Meal Planner Singapore | Fantastic Food" : "Weekly AI Meal Planner (Budget-Based) — Fantastic Food" })}
-        description={t(region?.toUpperCase() === 'SG' ? 'meal_planner_seo_desc_sg' : 'meal_planner_seo_desc', { defaultValue: region?.toUpperCase() === 'SG' ? "Plan your weekly meals and optimize your grocery list automatically to get the lowest ingredient prices in Singapore." : "Generate a 7-day grocery meal plan that strictly fits your weekly budget constraints." })}
-        canonicalUrl="https://www.fantasticfood.in/meal-planner"
-      />
 
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-10">

@@ -10,7 +10,6 @@ import Reviews from '../components/Reviews';
 import WeightSelector from '../components/WeightSelector';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
-import SEO from '../components/SEO';
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -59,14 +58,6 @@ const ProductDetails = () => {
 
     return (
         <div className="min-h-screen pt-24 px-4 max-w-7xl mx-auto pb-20">
-            <SEO
-                title={t(isSG ? 'product_seo_title_sg' : 'product_seo_title', { name: product.name, defaultValue: `${product.name} | Fantastic Mushroom Shop` })}
-                description={t(isSG ? 'product_seo_desc_sg' : 'product_seo_desc', { name: product.name, desc: product.description, defaultValue: `Buy fresh and organic ${product.name} online at Fantastic Mushroom Shop. ${product.description}` })}
-                canonicalUrl={isSG ? `https://www.fantasticfood.in/product/${product.id}?region=SG` : `https://www.fantasticfood.in/product/${product.id}`}
-                keywords={isSG
-                  ? `buy ${product.name} Singapore, organic ${product.name} SG, culinary mushrooms Singapore`
-                  : `buy ${product.name}, organic ${product.name}, fresh mushrooms online`}
-            />
             <Link href="/" className="inline-flex items-center text-mushroom-600 hover:text-forest-600 mb-8 transition-colors">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Shop

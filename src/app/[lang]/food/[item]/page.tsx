@@ -83,15 +83,17 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     description: seoDesc,
     keywords: `${displayName} price today, ${displayName} Blinkit, ${displayName} Zepto, ${displayName} BigBasket, cheapest ${displayName} online, ${cityKeywords}`,
     alternates: {
-      canonical: `https://www.fantasticfood.in/${currentLang}/food/${foodItem}`,
+      canonical: currentLang === 'en' ? `https://www.fantasticfood.in/food/${foodItem}` : `https://www.fantasticfood.in/${currentLang}/food/${foodItem}`,
       languages: {
-        'en': `https://www.fantasticfood.in/en/food/${foodItem}`,
+        'en': `https://www.fantasticfood.in/food/${foodItem}`,
         'hi': `https://www.fantasticfood.in/hi/food/${foodItem}`,
         'bn': `https://www.fantasticfood.in/bn/food/${foodItem}`,
         'mr': `https://www.fantasticfood.in/mr/food/${foodItem}`,
         'te': `https://www.fantasticfood.in/te/food/${foodItem}`,
         'ta': `https://www.fantasticfood.in/ta/food/${foodItem}`,
-        'x-default': `https://www.fantasticfood.in/en/food/${foodItem}`,
+        'zh-CN': `https://www.fantasticfood.in/zh-CN/food/${foodItem}`,
+        'ms': `https://www.fantasticfood.in/ms/food/${foodItem}`,
+        'x-default': `https://www.fantasticfood.in/food/${foodItem}`,
       },
     }
   };

@@ -84,7 +84,11 @@ export function middleware(request: NextRequest) {
 
     let response;
     if (pathname === '/') {
-      response = NextResponse.rewrite(new URL(`/${targetLang}`, request.url), { request: { headers: requestHeaders } });
+      if (targetLang === 'en') {
+        response = NextResponse.next({ request: { headers: requestHeaders } });
+      } else {
+        response = NextResponse.rewrite(new URL(`/${targetLang}`, request.url), { request: { headers: requestHeaders } });
+      }
     } else {
       response = NextResponse.rewrite(new URL(`/${targetLang}${pathname}${request.nextUrl.search}`, request.url), { request: { headers: requestHeaders } });
     }

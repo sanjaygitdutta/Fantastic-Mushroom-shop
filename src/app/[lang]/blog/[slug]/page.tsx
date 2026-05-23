@@ -4,19 +4,25 @@ import BlogPost from '../../../../views/BlogPost';
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }) {
   const { lang, slug } = await params;
   const title = slug.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const canonical = lang === 'en'
+    ? `https://www.fantasticfood.in/blog/${slug}`
+    : `https://www.fantasticfood.in/${lang}/blog/${slug}`;
+
   return {
     title: `${title} | Fantastic Food Blog`,
     description: `Read about ${title} on Fantastic Food — India's grocery price comparison platform.`,
     alternates: {
-      canonical: `https://www.fantasticfood.in/${lang}/blog/${slug}`,
+      canonical,
       languages: {
-        'en': `https://www.fantasticfood.in/en/blog/${slug}`,
+        'en': `https://www.fantasticfood.in/blog/${slug}`,
         'hi': `https://www.fantasticfood.in/hi/blog/${slug}`,
         'bn': `https://www.fantasticfood.in/bn/blog/${slug}`,
         'mr': `https://www.fantasticfood.in/mr/blog/${slug}`,
         'te': `https://www.fantasticfood.in/te/blog/${slug}`,
         'ta': `https://www.fantasticfood.in/ta/blog/${slug}`,
-        'x-default': `https://www.fantasticfood.in/en/blog/${slug}`,
+        'zh-CN': `https://www.fantasticfood.in/zh-CN/blog/${slug}`,
+        'ms': `https://www.fantasticfood.in/ms/blog/${slug}`,
+        'x-default': `https://www.fantasticfood.in/blog/${slug}`,
       },
     },
   };

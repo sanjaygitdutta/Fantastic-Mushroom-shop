@@ -6,7 +6,6 @@ import { TrendingDown, Star, Flame, Share2, ArrowRight, Trophy } from 'lucide-re
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
-import SEO from '../components/SEO';
 import { STREAK_KEY } from '../components/SavingsStreak';
 
 interface SavingsLog {
@@ -72,11 +71,6 @@ export default function FoodScore() {
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO
-        title={t(region?.toUpperCase() === 'SG' ? 'foodscore_seo_title_sg' : 'foodscore_seo_title', { defaultValue: region?.toUpperCase() === 'SG' ? "FoodScore — Personal Grocery Savings Dashboard SG | Fantastic Food" : "FoodScore — Your Personal Grocery Savings Dashboard | Fantastic Food" })}
-        description={t(region?.toUpperCase() === 'SG' ? 'foodscore_seo_desc_sg' : 'foodscore_seo_desc', { defaultValue: region?.toUpperCase() === 'SG' ? "Review your total savings, track active price drop alerts, and level up your grocery shopping scorecard in Singapore." : "Track how much you've saved by comparing grocery prices. Get your personal FoodScore and see your savings streak." })}
-        canonicalUrl="https://www.fantasticfood.in/savings"
-      />
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4">

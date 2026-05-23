@@ -5,7 +5,6 @@ import { ArrowRight, Leaf, Apple } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
-import SEO from '../components/SEO';
 import { SEASONAL_PRODUCE_IN, SEASONAL_PRODUCE_SG, MONTH_NAMES, getCurrentSeasonalItems, getItemsByMonth } from '../data/seasonalProduce';
 import { useRegion } from '../utils/region';
 
@@ -23,11 +22,6 @@ export default function SeasonalGuide() { // refresh
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO
-        title={t(isSG ? 'seas_seo_title_sg' : 'seas_seo_title', { defaultValue: isSG ? 'Seasonal Fruits & Vegetables Guide Singapore — Fantastic Food SG' : 'Seasonal Fruits & Vegetables Guide India — Fantastic Food' })}
-        description={t(isSG ? 'seas_seo_desc_sg' : 'seas_seo_desc', { defaultValue: isSG ? 'Discover what fruits and vegetables are in season right now in Singapore. Compare prices across FairPrice, RedMart, Cold Storage.' : 'Discover what fruits and vegetables are in season right now in India. Fresh, cheap, and healthy — compared across Blinkit, Zepto, Swiggy Instamart.' })}
-        canonicalUrl="https://www.fantasticfood.in/seasonal"
-      />
 
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}

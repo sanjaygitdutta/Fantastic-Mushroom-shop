@@ -7,7 +7,7 @@ export const revalidate = 86400; // Cache for 24 hours
 
 const BASE_URL = 'https://www.fantasticfood.in';
 
-const LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta'];
+const LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta', 'zh-CN', 'ms'];
 
 export async function generateSitemaps() {
   // We chunk our sitemaps by language to bypass the 50,000 URL limit.
@@ -20,16 +20,22 @@ export async function generateSitemaps() {
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
   const langCode = LANGUAGES[id] || 'en';
   
-  // Base paths - always include langCode prefix, even for 'en'
-  // to match the canonical and hreflang tags 100%
-  const langBase = `${BASE_URL}/${langCode}`;
+  // Base paths - if 'en', omit the /en prefix to match canonicals perfectly
+  const langBase = langCode === 'en' ? BASE_URL : `${BASE_URL}/${langCode}`;
   
   // Helper to generate alternates for a path
   const getAlternates = (path: string) => {
-    return LANGUAGES.reduce((acc, l) => {
-      acc[l] = `${BASE_URL}/${l}/${path}`;
+    const alternates = LANGUAGES.reduce((acc, l) => {
+      if (l === 'en') {
+        acc[l] = `${BASE_URL}${path ? `/${path}` : ''}`;
+      } else {
+        acc[l] = `${BASE_URL}/${l}${path ? `/${path}` : ''}`;
+      }
       return acc;
     }, {} as Record<string, string>);
+    // Add x-default pointing to unprefixed English version
+    alternates['x-default'] = `${BASE_URL}${path ? `/${path}` : ''}`;
+    return alternates;
   };
 
   const coreRoutes = [

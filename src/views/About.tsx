@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 import { Heart, Leaf, Users, Award, Zap, Globe } from 'lucide-react';
-import SEO from '../components/SEO';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
 
@@ -14,11 +13,6 @@ const About = () => {
 
     return (
         <>
-            <SEO 
-                title={t(isSG ? 'about_seo_title_sg' : 'about_seo_title', { defaultValue: isSG ? "Our Story & Mission — Fantastic Food Singapore" : "About Us | Our Story & Mission — Fantastic Food" })}
-                description={t(isSG ? 'about_seo_desc_sg' : 'about_seo_desc', { defaultValue: isSG ? "Learn how Fantastic Food Singapore leverages transparent grocery comparison to help local households save on daily essentials." : "Learn the story of Fantastic Food: How we went from a family-run organic mushroom farm in a quiet village to India's most advanced grocery price comparison platform." })}
-                canonicalUrl="https://www.fantasticfood.in/about"
-            />
 
             <div className="min-h-screen pt-24 pb-20 bg-cream-50">
                 {/* Hero Section */}

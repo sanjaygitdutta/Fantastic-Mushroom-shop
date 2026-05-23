@@ -8,7 +8,6 @@ import Image from 'next/image';
 import PriceSearchBar from '../components/PriceSearchBar';
 import FoodCategoryBrowser from '../components/FoodCategoryBrowser';
 import { POPULAR_SEARCHES } from '../data/mockPrices';
-import SEO from '../components/SEO';
 import DealOfTheDay from '../components/DealOfTheDay';
 import { recipes } from '../data/recipes';
 import { useTranslation, Trans } from 'react-i18next';
@@ -78,7 +77,7 @@ const Home = () => {
   const { t, i18n } = useTranslation();
   const { region } = useRegion();
   const activeLogos = region === 'SG' ? SG_PLATFORM_LOGOS : PLATFORM_LOGOS;
-  
+
   const activeHowItWorks = HOW_IT_WORKS.map(step => {
     if (step.step === '2') {
       return { ...step, desc: region === 'SG' ? t('home_step_2_desc_sg') : step.desc };
@@ -88,15 +87,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      <SEO 
-        title={t(region === 'SG' ? 'home_seo_title_sg' : 'home_seo_title')} 
-        description={t(region === 'SG' ? 'home_seo_desc_sg' : 'home_seo_desc')} 
-        canonicalUrl="https://www.fantasticfood.in/"
-        keywords={region === 'SG' 
-          ? "grocery price comparison Singapore, FairPrice vs RedMart, RedMart vs Cold Storage, cheapest online supermarket Singapore, food price comparison SG 2026"
-          : "grocery price comparison India, blinkit vs zepto, blinkit vs swiggy, cheapest grocery app india, food price comparison 2026, bigbasket vs blinkit, amazon fresh prices, jiomart vs blinkit"
-        }
-      />
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-20">
         {/* Background gradient */}
@@ -127,7 +117,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-tight mb-4 font-display"
           >
-            <motion.span 
+            <motion.span
               initial={{ backgroundPosition: '200% center' }}
               animate={{ backgroundPosition: '-200% center' }}
               transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
@@ -226,22 +216,22 @@ const Home = () => {
             {(() => {
               const today = new Date();
               const seed = today.getFullYear() * 1000 + today.getMonth() * 100 + today.getDate();
-              
+
               // Steady growth calculation
               const launchDate = new Date('2026-04-01').getTime();
               const daysSinceLaunch = Math.max(0, Math.floor((today.getTime() - launchDate) / (1000 * 60 * 60 * 24)));
-              
+
               // Deterministic pseudo-random number generator for small daily fluctuations
               const pseudoRandom = (s: number) => {
                 const x = Math.sin(s++) * 10000;
                 return x - Math.floor(x);
               };
-              
+
               // Strictly increases every day (adds ~250-350 more comparisons each day to simulate viral growth)
               const dailyPrices = 12500 + (daysSinceLaunch * 312) + Math.floor(pseudoRandom(seed + 1) * 85);
               // Fluctuates naturally between 45 and 57
               const dailySavings = 45 + Math.floor(pseudoRandom(seed + 2) * 13);
-              
+
               return [
                 { label: t('home_total_prices_compared'), value: dailyPrices, suffix: '+' },
                 { label: t('home_avg_savings'), value: dailySavings, suffix: '₹' },
@@ -303,7 +293,7 @@ const Home = () => {
                 {i < 2 && (
                   <div className="hidden md:block absolute top-10 left-[58%] w-[38%] border-t-2 border-dashed border-forest-200" />
                 )}
-                <motion.div 
+                <motion.div
                   whileHover={{ rotate: 360, scale: 1.1 }}
                   transition={{ duration: 0.6, type: "spring" }}
                   className="w-20 h-20 rounded-3xl bg-linear-to-br from-forest-50 to-moss-100 border border-forest-200 text-4xl flex items-center justify-center mx-auto mb-5 shadow-sm"
@@ -333,7 +323,7 @@ const Home = () => {
               </span>
             </div>
           </Link>
-          
+
           <Link href="/meal-calculator" className="group relative bg-white border border-forest-200 hover:border-amber-500 rounded-3xl p-8 overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-100 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110" />
             <div className="relative z-10">
@@ -372,7 +362,7 @@ const Home = () => {
                 const randB = y - Math.floor(y);
                 return randA - randB;
               });
-              
+
               return shuffled.slice(0, 10).map((item, i) => (
                 <motion.div
                   key={item.query}
@@ -481,11 +471,10 @@ const Home = () => {
                     <span className="flex items-center gap-2 bg-white/10 text-gray-100 text-sm px-4 py-2 rounded-full border border-white/20">
                       {t('home_aika_serves')} {aiRecipe.servings}
                     </span>
-                    <span className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full border font-bold ${
-                      aiRecipe.difficulty === 'Easy' ? 'bg-green-900/40 text-green-400 border-green-800' :
-                      aiRecipe.difficulty === 'Medium' ? 'bg-amber-900/40 text-amber-400 border-amber-800' :
-                      'bg-red-900/40 text-red-400 border-red-800'
-                    }`}>
+                    <span className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full border font-bold ${aiRecipe.difficulty === 'Easy' ? 'bg-green-900/40 text-green-400 border-green-800' :
+                        aiRecipe.difficulty === 'Medium' ? 'bg-amber-900/40 text-amber-400 border-amber-800' :
+                          'bg-red-900/40 text-red-400 border-red-800'
+                      }`}>
                       {aiRecipe.difficulty === 'Easy' ? '✅' : aiRecipe.difficulty === 'Medium' ? '⚡' : '🔥'} {aiRecipe.difficulty}
                     </span>
                   </div>
@@ -541,7 +530,7 @@ const Home = () => {
         );
       })()}
 
-      
+
       {/* ── Viral Portals ── */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">

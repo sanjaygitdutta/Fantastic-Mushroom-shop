@@ -5,7 +5,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { MapPin, Search, TrendingUp, Zap, ArrowRight, Star } from 'lucide-react';
 import { useState } from 'react';
-import SEO from '../components/SEO';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
 
@@ -146,13 +145,6 @@ export default function CityPage() {
 
   return (
     <>
-      <SEO
-        title={t(isSG ? 'city_seo_title_sg' : 'city_seo_title', { city: city.name, defaultValue: `Grocery Prices in ${city.name} | Fantastic Food` })}
-        description={t(isSG ? 'city_seo_desc_sg' : 'city_seo_desc', { city: city.name, platforms: city.platforms.join(', '), state: city.state, desc: city.description, defaultValue: `Compare grocery prices in ${city.name} across major platforms. Find the cheapest delivery today!` })}
-        canonicalUrl={isSG ? `https://www.fantasticfood.in/city/${city.slug}?region=SG` : `https://www.fantasticfood.in/city/${city.slug}`}
-        keywords={`grocery prices ${city.name}, blinkit ${city.name}, zepto ${city.name}, swiggy instamart ${city.name}, bigbasket ${city.name}, cheapest grocery ${city.name}, food price comparison ${city.name}`}
-        structuredData={[citySchema, faqSchema]}
-      />
 
       <div className="min-h-screen bg-linear-to-b from-forest-900 via-forest-800 to-cream-50 pt-24 pb-20">
 

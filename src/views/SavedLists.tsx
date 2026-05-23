@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { useRegion, formatCurrency } from '../utils/region';
 
-import SEO from '../components/SEO';
 
 interface PriceAlert {
   id: string;
@@ -64,10 +63,6 @@ export default function SavedLists() {
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO 
-        title={t(region === 'SG' ? 'saved_seo_title_sg' : 'saved_seo_title', { defaultValue: region === 'SG' ? "My Saved Lists & Price Drop Alerts SG | Fantastic Food" : "My Saved Lists & Price Alerts — Fantastic Food" })}
-        description={t(region === 'SG' ? 'saved_seo_desc_sg' : 'saved_seo_desc', { defaultValue: region === 'SG' ? "Track, monitor, and compare price drops on your favorite grocery list items in Singapore." : "Track and manage your price alerts on your favorite grocery items." })}
-      />
       <div className="max-w-4xl mx-auto px-4">
         
         <div className="flex items-center justify-between mb-8">

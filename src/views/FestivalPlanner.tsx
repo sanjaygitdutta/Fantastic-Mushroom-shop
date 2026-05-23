@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Users, Wallet, Loader2, ShoppingCart, ArrowRight, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import SEO from '../components/SEO';
 import { useRegion, formatCurrency } from '../utils/region';
 import type { Region } from '../utils/region';
 
@@ -112,11 +111,6 @@ export default function FestivalPlanner() {
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO
-        title={t(isSG ? 'festival_seo_title_sg' : 'festival_seo_title', { defaultValue: isSG ? "Singapore Festival Shopping Planner — Chinese New Year, Hari Raya, Deepavali | Fantastic Food" : "Festival Shopping Planner India — Diwali, Holi, Navratri | Fantastic Food" })}
-        description={t(isSG ? 'festival_seo_desc_sg' : 'festival_seo_desc', { defaultValue: isSG ? "AI-powered bulk shopping list for every Singapore festival. Compare prices on FairPrice, RedMart & more. Save money on Chinese New Year, Hari Raya & Deepavali groceries." : "AI-powered bulk shopping list for every Indian festival. Compare prices on Blinkit, Zepto and save money on Diwali, Holi, Navratri festive groceries." })}
-        canonicalUrl={isSG ? "https://www.fantasticfood.in/festival?region=SG" : "https://www.fantasticfood.in/festival"}
-      />
 
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">

@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, TrendingDown, Globe, X } from 'lucide-react';
 import Link from 'next/link';
 
-import SEO from '../components/SEO';
 import { ALL_RECIPES, ALL_COUNTRIES, type WorldRecipe } from '../data/worldRecipes';
 import { useTranslation, Trans } from 'react-i18next';
 
@@ -94,12 +93,6 @@ export default function Recipes() { // refresh
 
   return (
     <>
-      <SEO
-        title={t(region?.toUpperCase() === 'SG' ? 'recipes_seo_title_sg' : 'recipes_seo_title', { recipeCount: ALL_RECIPES.length, countryCount: ALL_COUNTRIES.length })}
-        description={t(region?.toUpperCase() === 'SG' ? 'recipes_seo_desc_sg' : 'recipes_seo_desc', { recipeCount: ALL_RECIPES.length, countryCount: ALL_COUNTRIES.length })}
-        canonicalUrl="https://www.fantasticfood.in/recipes"
-        keywords="world recipes, international cuisine, Indian recipes, Italian recipes, Japanese recipes, Chinese recipes, Mexican recipes, how to cook, recipe ingredients comparison"
-      />
 
       <div className="min-h-screen bg-linear-to-b from-forest-900 to-gray-50 pt-24 pb-16">
 

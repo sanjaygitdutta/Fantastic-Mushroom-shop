@@ -10,24 +10,27 @@ export async function generateMetadata({
 }) {
   const { lang } = await params;
   const { prefill } = await searchParams;
+  const qStr = prefill ? `?prefill=${encodeURIComponent(prefill)}` : '';
   
-  const canonicalUrl = prefill 
-    ? `https://www.fantasticfood.in/${lang}/basket?prefill=${encodeURIComponent(prefill)}`
-    : `https://www.fantasticfood.in/${lang}/basket`;
+  const canonical = lang === 'en'
+    ? `https://www.fantasticfood.in/basket${qStr}`
+    : `https://www.fantasticfood.in/${lang}/basket${qStr}`;
 
   return {
     title: 'Smart Basket Calculator — Save on Your Full Grocery List | Fantastic Food',
     description: 'Add your entire grocery list and find which app—Blinkit, Zepto, or BigBasket—is cheapest for your total basket. Save ₹100+ on every order.',
     alternates: {
-      canonical: canonicalUrl,
+      canonical,
       languages: {
-        'en': `https://www.fantasticfood.in/en/basket${prefill ? `?prefill=${encodeURIComponent(prefill)}` : ''}`,
-        'hi': `https://www.fantasticfood.in/hi/basket${prefill ? `?prefill=${encodeURIComponent(prefill)}` : ''}`,
-        'bn': `https://www.fantasticfood.in/bn/basket${prefill ? `?prefill=${encodeURIComponent(prefill)}` : ''}`,
-        'mr': `https://www.fantasticfood.in/mr/basket${prefill ? `?prefill=${encodeURIComponent(prefill)}` : ''}`,
-        'te': `https://www.fantasticfood.in/te/basket${prefill ? `?prefill=${encodeURIComponent(prefill)}` : ''}`,
-        'ta': `https://www.fantasticfood.in/ta/basket${prefill ? `?prefill=${encodeURIComponent(prefill)}` : ''}`,
-        'x-default': `https://www.fantasticfood.in/en/basket${prefill ? `?prefill=${encodeURIComponent(prefill)}` : ''}`,
+        'en': `https://www.fantasticfood.in/basket${qStr}`,
+        'hi': `https://www.fantasticfood.in/hi/basket${qStr}`,
+        'bn': `https://www.fantasticfood.in/bn/basket${qStr}`,
+        'mr': `https://www.fantasticfood.in/mr/basket${qStr}`,
+        'te': `https://www.fantasticfood.in/te/basket${qStr}`,
+        'ta': `https://www.fantasticfood.in/ta/basket${qStr}`,
+        'zh-CN': `https://www.fantasticfood.in/zh-CN/basket${qStr}`,
+        'ms': `https://www.fantasticfood.in/ms/basket${qStr}`,
+        'x-default': `https://www.fantasticfood.in/basket${qStr}`,
       },
     },
   };

@@ -9,7 +9,6 @@ import { toast } from 'react-hot-toast';
 import imageCompression from 'browser-image-compression';
 
 import { supabase } from '../lib/supabase';
-import SEO from '../components/SEO';
 import { recipes } from '../data/recipes';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -546,12 +545,6 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
 
   return (
     <div className="min-h-screen pt-20 pb-16 bg-[#0a140f]">
-      <SEO
-        title={t(isSG ? 'community_seo_title_sg' : 'community_seo_title', { defaultValue: isSG ? "Community Recipes & Food Reviews Singapore | Fantastic Food" : "Community Recipes — Fantastic Food India" })}
-        description={t(isSG ? 'community_seo_desc_sg' : 'community_seo_desc', { defaultValue: isSG ? "Browse, share, and enjoy community recipes shared by Singapore home cooks. Join live cooking streams, add ingredients directly, and save today!" : "See what Indian home chefs are cooking! Browse AI-generated recipes made by real people, add ingredients to your basket, and share your own dishes." })}
-        keywords={isSG ? "community food feed, Singapore home cooking, share recipes, cook like Singapore" : "community food feed, Indian home cooking, share recipes, cook like India"}
-        canonicalUrl={isSG ? "https://www.fantasticfood.in/community?region=SG" : "https://www.fantasticfood.in/community"}
-      />
 
       <div className="max-w-6xl mx-auto px-4 lg:flex lg:gap-8 pt-6">
 

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useRegion, formatCurrency } from '../utils/region';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChefHat, ExternalLink, ShoppingCart, Plus, Minus, Sparkles, Users } from 'lucide-react';
-import SEO from '../components/SEO';
 import { searchPrices } from '../data/mockPrices';
 import { PLATFORMS } from '../data/platforms';
 import { WORLD_RECIPES } from '../data/worldRecipes';
@@ -134,12 +133,6 @@ const MealCostCalculator = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-forest-900 to-cream-50 pt-24 pb-16">
-      <SEO
-        title={t(region?.toUpperCase() === 'SG' ? 'meal_cost_seo_title_sg' : 'meal_cost_seo_title').replace('{{count}}', RECIPES.length.toString())}
-        description={t(region?.toUpperCase() === 'SG' ? 'meal_cost_seo_desc_sg' : 'meal_cost_seo_desc').replace('{{count}}', RECIPES.length.toString())}
-        keywords="meal cost calculator India, recipe cost, cooking cost calculator, world recipes cost, how much to cook biryani, pizza cost India"
-        canonicalUrl="https://www.fantasticfood.in/meal-calculator"
-      />
 
       {/* ── MODAL POPUP ─────────────────────────────────────────────────── */}
       <AnimatePresence>

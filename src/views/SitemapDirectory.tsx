@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 
-import SEO from '../components/SEO';
 import { ALL_RECIPES } from '../data/worldRecipes';
 import sitemapLinks from '../data/sitemapLinks.json';
 import { useTranslation } from 'react-i18next';
@@ -31,12 +30,6 @@ const SitemapDirectory = () => {
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO
-        title={t(isSG ? 'sitemap_seo_title_sg' : 'sitemap_seo_title', { defaultValue: isSG ? "Website Sitemap Directory SG | Fantastic Food" : "HTML Sitemap Directory — Fantastic Food" })}
-        description={t(isSG ? 'sitemap_seo_desc_sg' : 'sitemap_seo_desc', { defaultValue: isSG ? "Browse and discover all localized grocery comparison pages, blog directories, and recipe hubs on Fantastic Food Singapore." : "Index of all grocery items, price comparisons, cities, and world recipes available on Fantastic Food." })}
-        canonicalUrl="https://www.fantasticfood.in/directory"
-        structuredData={directorySchema}
-      />
 
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}

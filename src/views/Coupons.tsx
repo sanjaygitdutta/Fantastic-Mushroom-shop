@@ -5,7 +5,6 @@ import { Copy, Check, Tag, Clock, ExternalLink, Star, Zap, TrendingDown } from '
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
-import SEO from '../components/SEO';
 import type { Coupon } from '../data/coupons';
 import { COUPONS, SG_COUPONS } from '../data/coupons';
 
@@ -142,12 +141,6 @@ export default function Coupons() { // refresh
 
   return (
     <>
-      <SEO
-        title={t(region?.toLowerCase() === 'sg' ? 'coupons_seo_title_sg' : 'coupons_seo_title', { defaultValue: `${couponCount}+ Active Grocery Coupons for ${currentMonthYear} (Updated Daily)` }).replace('{{count}}', couponCount.toString()).replace('{{month}}', currentMonthYear)}
-        description={t(region?.toLowerCase() === 'sg' ? 'coupons_seo_desc_sg' : 'coupons_seo_desc', { defaultValue: `Get the latest grocery coupon codes for ${currentMonthYear}. Verified promo offers for Blinkit, Zepto, Swiggy Instamart, BigBasket, Amazon Fresh, JioMart & Flipkart Minutes. Updated daily!` }).replace('{{month}}', currentMonthYear)}
-        canonicalUrl="https://www.fantasticfood.in/coupons"
-        keywords={`blinkit coupon code ${currentMonthYear}, zepto promo code, swiggy instamart offer, bigbasket coupon, jiomart coupon today, flipkart minutes discount`}
-      />
 
       <script
         type="application/ld+json"

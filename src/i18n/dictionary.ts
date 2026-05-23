@@ -138,3 +138,407 @@ export const getLocalizedSEOTitle = (item: string, lang: SupportedLanguage): str
   const template = SEO_TEMPLATES[lang] || SEO_TEMPLATES['en'];
   return template.replace('{item}', item);
 };
+
+// Server-side page translations for metadata
+export interface PageMetadata {
+  title: string;
+  description: string;
+  keywords?: string;
+}
+
+export const PAGE_SEO_DICTIONARY: Record<string, {
+  IN: Record<SupportedLanguage, PageMetadata>;
+  SG: Record<SupportedLanguage, PageMetadata>;
+}> = {
+  home: {
+    IN: {
+      en: {
+        title: "Compare Grocery Prices — Blinkit vs Zepto vs BigBasket vs Swiggy",
+        description: "Instantly compare real-time grocery prices across Blinkit, BigBasket, Zepto, Swiggy Instamart, Amazon Fresh & JioMart. Find the cheapest price on any food item and save money every day.",
+        keywords: "grocery price comparison India, blinkit vs zepto, blinkit vs swiggy, cheapest grocery app india, food price comparison 2026, bigbasket vs blinkit, amazon fresh prices, jiomart vs blinkit"
+      },
+      hi: {
+        title: "किराने की कीमतों की तुलना करें — Blinkit बनाम Zepto बनाम BigBasket बनाम Swiggy",
+        description: "Blinkit, BigBasket, Zepto, Swiggy Instamart, Amazon Fresh और JioMart पर वास्तविक समय की किराने की कीमतों की तुरंत तुलना करें। किसी भी खाद्य पदार्थ पर सबसे सस्ती कीमत खोजें और हर दिन पैसे बचाएं।",
+        keywords: "किराना मूल्य तुलना, ब्लिंकिट बनाम ज़ेप्टो, ब्लिंकिट बनाम स्विगी, भारत में सबसे सस्ता किराना ऐप, खाद्य मूल्य तुलना 2026"
+      },
+      bn: {
+        title: "মুদির দাম তুলনা করুন — ব্লিঙ্কিট বনাম জেপ্টো বনাম বিগবাস্কেট বনাম সুইগি",
+        description: "ব্লিঙ্কিট, বিগবাস্কেট, জেপ্টো, সুইগি ইনস্টামার্ট, অ্যামাজন ফ্রেশ এবং জিওমার্ট জুড়ে রিয়েল-টাইম মুদির দাম তাৎক্ষণিকভাবে তুলনা করুন। যেকোনো খাদ্য আইটেমে সবচেয়ে সস্তা দাম খুঁজুন এবং প্রতিদিন অর্থ সাশ্রয় করুন।",
+        keywords: "মুদির দাম তুলনা, ব্লিঙ্কিট বনাম জেপ্টো, সবচেয়ে সস্তা মুদি অ্যাপ ভারত, বিগবাস্কেট বনাম ব্লিঙ্কিট"
+      },
+      mr: {
+        title: "किराणा मालाच्या किमतीची तुलना करा — ब्लिंकिट विरुद्ध झेप्टो विरुद्ध बिगबास्केट विरुद्ध स्विगी",
+        description: "ब्लिंकिट, बिगबास्केट, झेप्टो, स्विगी इन्स्टामार्ट, अॅमेझॉन फ्रेश आणि जिओमार्टवर रिअल-टाइम किराणा किमतींची त्वरित तुलना करा. कोणत्याही खाद्यपदार्थावर सर्वात स्वस्त किंमत शोधा आणि दररोज पैसे वाचवा.",
+        keywords: "किराणा मालाच्या किमतीची तुलना, ब्लिंकिट विरुद्ध झेप्टो, सर्वात स्वस्त किराणा ॲप भारत, अन्न किंमत तुलना"
+      },
+      te: {
+        title: "కిరాణా ధరలను సరిపోల్చండి — బ్లింకిట్ vs జెప్టో vs బిగ్‌బాస్కెట్ vs స్విగ్గీ",
+        description: "బ్లింకిట్, బిగ్‌బాస్కెట్, జెప్టో, స్విగ్గీ ఇన్‌స్టామార్ట్, అమెజాన్ ఫ్రెష్ & జియోమార్ట్‌లలో రియల్ టైమ్ కిరాణా ధరలను తక్షణమే సరిపోల్చండి. ఏదైనా ఆహార పదార్థంపై అత్యంత చౌకైన ధరను కనుగొనండి మరియు ప్రతిరోజూ డబ్బు ఆదా చేయండి.",
+        keywords: "కిరాణా ధరల పోలిక, బ్లింకిట్ వర్సెస్ జెప్టో, భారతదేశంలో చౌకైన కిరాణా యాప్, ఆహార ధరల పోలిక"
+      },
+      ta: {
+        title: "மளிகை விலைகளை ஒப்பிடவும் — Blinkit vs Zepto vs BigBasket vs Swiggy",
+        description: "Blinkit, BigBasket, Zepto, Swiggy Instamart, Amazon Fresh & JioMart முழுவதும் நிகழ்நேர மளிகை விலைகளை ஒப்பிட்டுப் பாருங்கள். எந்த உணவுப் பொருளுக்கும் மலிவான விலையைக் கண்டறிந்து ஒவ்வொரு நாளும் பணத்தைச் சேமிக்கவும்.",
+        keywords: "மளிகை விலை ஒப்பிடுதல், பிளிங்கிட் வெர்சஸ் செப்டோ, இந்தியாவின் மலிவான மளிகை செயலி, உணவு விலை ஒப்பிடுதல்"
+      },
+      'zh-CN': {
+        title: "比较杂货价格 — FairPrice vs Sheng Siong vs RedMart",
+        description: "即时比较实时杂货价格。找到任何食品的最便宜价格，每天省钱。",
+        keywords: "杂货价格比较, 新加坡最便宜的在线超市, 食品价格比较"
+      },
+      ms: {
+        title: "Bandingkan Harga Barangan Runcit — FairPrice vs Sheng Siong vs RedMart",
+        description: "Bandingkan harga barangan runcit masa nyata. Cari harga termurah untuk sebarang item makanan dan jimat wang setiap hari.",
+        keywords: "perbandingan harga barangan runcit, pasar raya dalam talian termurah, perbandingan harga makanan"
+      }
+    },
+    SG: {
+      en: {
+        title: "Fantastic Food Singapore — Compare FairPrice, RedMart & Cold Storage",
+        description: "Compare grocery prices in real time across FairPrice, RedMart, Cold Storage & Giant in Singapore. Save up to 40% on your weekly grocery bill!",
+        keywords: "grocery price comparison Singapore, FairPrice vs RedMart, RedMart vs Cold Storage, cheapest online supermarket Singapore, food price comparison SG 2026"
+      },
+      hi: {
+        title: "Fantastic Food सिंगापुर — सुपरमार्केट की कीमतों की तुलना करें",
+        description: "सिंगापुर में FairPrice, RedMart, Cold Storage और Giant पर वास्तविक समय में किराने की कीमतों की तुलना करें। अपनी साप्ताहिक किराने की सूची पर बचत करें।"
+      },
+      bn: {
+        title: "Fantastic Food সিঙ্গাপুর — সুপারমার্কেট দাম তুলনা করুন",
+        description: "সিঙ্গাপুরে FairPrice, RedMart, Cold Storage এবং Giant জুড়ে রিয়েল-টাইমে মুদির দাম তুলনা করুন।"
+      },
+      mr: {
+        title: "Fantastic Food सिंगापूर — सुपरमार्केट किमतींची तुलना करा",
+        description: "सिंगापूरमध्ये FairPrice, RedMart, Cold Storage आणि Giant वर रिअल-टाइम किराणा किमतींची तुलना करा."
+      },
+      te: {
+        title: "Fantastic Food సింగపూర్ — సూపర్ మార్కెట్ ధరలను సరిపోల్చండి",
+        description: "సింగపూర్‌లో FairPrice, RedMart, Cold Storage మరియు Giant అంతటా కిరాణా ధరలను నిజ సమయంలో సరిపోల్చండి."
+      },
+      ta: {
+        title: "Fantastic Food சிங்கப்பூர் — சூப்பர் மார்க்கெட் விலைகளை ஒப்பிடுக",
+        description: "சிங்கப்பூரில் FairPrice, RedMart, Cold Storage & Giant ஆகியவற்றில் மளிகை விலைகளை நிகழ்நேரத்தில் ஒப்பிட்டுப் பாருங்கள்."
+      },
+      'zh-CN': {
+        title: "Fantastic Food 新加坡 | 比较 FairPrice、RedMart 和 Cold Storage 超市价格",
+        description: "实时比较新加坡 FairPrice、RedMart、Cold Storage 和 Giant 线上超市价格。每周买菜省钱高达40%！",
+        keywords: "新加坡买菜省钱, 新加坡超市价格对比, 比较 FairPrice 和 RedMart"
+      },
+      ms: {
+        title: "Fantastic Food Singapura — Bandingkan Harga FairPrice, RedMart & Cold Storage",
+        description: "Bandingkan harga runcit masa nyata merentasi FairPrice, RedMart, Cold Storage & Giant di Singapura. Jimat sehingga 40% bil barangan runcit anda!",
+        keywords: "perbandingan harga runcit Singapura, FairPrice vs RedMart, RedMart vs Cold Storage"
+      }
+    }
+  },
+  'mushroom-shop': {
+    IN: {
+      en: {
+        title: "Premium Organic Mushroom Shop — Paddy Straw, Oyster & Spawn | Fantastic Food",
+        description: "Shop premium organic Paddy Straw mushrooms and premium spawn, pesticide-free, grown with deep love. Best farm prices guaranteed.",
+        keywords: "buy organic mushrooms online, paddy straw mushrooms, oyster mushrooms spawn, buy mushroom spawn online India, farm fresh mushrooms"
+      },
+      hi: {
+        title: "प्रीमियम ऑर्गेनिक मशरूम शॉप — धान पुआल, ऑयस्टर और स्पॉन | Fantastic Food",
+        description: "प्रीमियम जैविक धान पुआल मशरूम और स्पॉन खरीदें, कीटनाशक मुक्त, गहरे प्यार से उगाए गए। सर्वोत्तम फार्म दरों की गारंटी।"
+      },
+      bn: {
+        title: "প্রিমিয়াম অর্গানিক মাশরুম শপ — খড় মাশরুম ও স্পন | Fantastic Food",
+        description: "প্রিমিয়াম জৈব খড় মাশরুম এবং প্রিমিয়াম স্পন কিনুন, কীটনাশকমুক্ত, যত্ন সহকারে উৎপাদিত। সেরা খামার মূল্যের নিশ্চয়তা।"
+      },
+      mr: {
+        title: "प्रीमियम सेंद्रिय मशरूम शॉप — भाताचा पेंढा, ऑयस्टर आणि स्पॉन",
+        description: "प्रीमियम सेंद्रिय भाताचा पेंढा मशरूम आणि स्पॉन खरेदी करा, कीटकनाशकमुक्त, मनापासून पिकवलेले. सर्वोत्तम किमतीची हमी."
+      },
+      te: {
+        title: "ప్రీమియం ఆర్గానిక్ పుట్టగొడుగుల షాప్ — వరి గడ్డి, ఆయిస్టర్ & స్పానీ",
+        description: "ప్రీమియం సేంద్రీయ వరి గడ్డి పుట్టగొడుగులు మరియు ప్రీమియం విత్తనాలు కొనండి, రసాయనాలు లేనివి. ఉత్తమ ధర హామీ."
+      },
+      ta: {
+        title: "பிரீமியம் ஆர்கானிக் காளான் கடை — வைக்கோல் காளான் & ஸ்பான்",
+        description: "பிரீமியம் ஆர்கானிக் வைக்கோல் காளான்கள் மற்றும் ஸ்பான்களை வாங்குங்கள், பூச்சிக்கொல்லி இல்லாதவை. சிறந்த விலைக்கு உத்தரவாதம்."
+      },
+      'zh-CN': {
+        title: "高端有机草菇与菌种线上商店 | Fantastic Food",
+        description: "选购优质有机草菇和高等级菌种，无农药残留，用心培育。源头农场好价保障。"
+      },
+      ms: {
+        title: "Kedai Cendawan Organik Premium — Cendawan Jerami Padi & Benih",
+        description: "Beli Cendawan Jerami Padi organik premium dan benih premium, bebas racun perosak, ditanam dengan penuh kasih sayang."
+      }
+    },
+    SG: {
+      en: {
+        title: "Organic Paddy Straw Mushrooms & Spawn Shop SG | Fantastic Food",
+        description: "Shop premium organic Paddy Straw Mushrooms and premium spawn, pesticide-free, grown with deep love. Free delivery on bulk orders in Singapore.",
+        keywords: "organic paddy straw mushrooms Singapore, buy mushroom spawn SG, buy fresh mushrooms Singapore, farm fresh mushrooms SG"
+      },
+      hi: {
+        title: "ऑर्गेनिक धान पुआल मशरूम शॉप सिंगापुर | Fantastic Food",
+        description: "सिंगापुर में कीटनाशक मुक्त प्रीमियम जैविक धान पुआल मशरूम और स्पॉन खरीदें।"
+      },
+      bn: {
+        title: "অর্গানিক খড় মাশরুম শপ সিঙ্গাপুর | Fantastic Food",
+        description: "সিঙ্গাপুরে প্রিমিয়াম জৈব খড় মাশরুম এবং প্রিমিয়াম স্পন কিনুন, কীটনাশকমুক্ত।"
+      },
+      mr: {
+        title: "सेंद्रिय भाताचा पेंढा मशरूम शॉप सिंगापूर | Fantastic Food",
+        description: "सिंगापूरमध्ये कीटकनाशकमुक्त प्रीमियम सेंद्रिय भाताचा पेंढा मशरूम आणि स्पॉन खरेदी करा।"
+      },
+      te: {
+        title: "ఆర్గానిక్ వరి గడ్డి పుట్టగొడుగుల షాప్ సింగపూర్",
+        description: "సింగపూర్‌లో ప్రీమియం సేంద్రీయ వరి గడ్డి పుట్టగొడుగులు మరియు ప్రీమియం విత్తనాలను కొనుగోలు చేయండి."
+      },
+      ta: {
+        title: "ஆர்கானிக் வைக்கோல் காளான் கடை சிங்கப்பூர்",
+        description: "சிங்கப்பூரில் பிரீமியம் ஆர்கானிக் வைக்கோல் காளான்கள் மற்றும் ஸ்பான்களை வாங்குங்கள்."
+      },
+      'zh-CN': {
+        title: "有机草菇与菌种线上商店 新加坡 | Fantastic Food",
+        description: "选购优质有机草菇和高等级菌种，无农药残留，用心培育。新加坡全岛送货。"
+      },
+      ms: {
+        title: "Kedai Cendawan Jerami Padi Organik & Benih SG | Fantastic Food",
+        description: "Beli Cendawan Jerami Padi organik premium dan benih premium, bebas racun perosak, ditanam dengan penuh kasih sayang."
+      }
+    }
+  },
+  basket: {
+    IN: {
+      en: {
+        title: "Smart Basket Calculator — Find Cheapest Platform for Your Grocery List",
+        description: "Add multiple grocery items and instantly see which platform gives you the lowest total price for your entire basket. Compare Blinkit, Zepto, BigBasket.",
+        keywords: "grocery basket price comparison, compare full grocery list, cheap grocery basket India, blinkit vs zepto basket cost"
+      },
+      hi: {
+        title: "स्मार्ट बास्केट कैलकुलेटर - अपनी किराने की सूची के लिए सबसे सस्ता प्लेटफॉर्म खोजें",
+        description: "कई किराने की वस्तुएं जोड़ें और तुरंत देखें कि कौन सा प्लेटफॉर्म आपको अपनी पूरी बास्केट के लिए सबसे कम कुल मूल्य देता है।"
+      },
+      bn: {
+        title: "স্মার্ট বাস্কেট ক্যালকুলেটর - আপনার মুদি তালিকার জন্য সস্তা প্ল্যাটফর্ম খুঁজুন",
+        description: "একাধিক মুদি আইটেম যোগ করুন এবং অবিলম্বে দেখুন কোন প্ল্যাটফর্মটি আপনাকে আপনার পুরো ঝুড়ির জন্য সর্বনিম্ন মোট মূল্য দেয়।"
+      },
+      mr: {
+        title: "स्मार्ट बास्केट कॅल्क्युलेटर - तुमच्या किराणा सूचीसाठी सर्वात स्वस्त प्लॅटफॉर्म शोधा",
+        description: "अनेक किराणा वस्तू जोडा आणि तुमच्या संपूर्ण बास्केटसाठी कोणता प्लॅटफॉर्म तुम्हाला सर्वात कमी एकूण किंमत देतो ते त्वरित पहा."
+      },
+      te: {
+        title: "స్మార్ట్ బాస్కెట్ క్యాలిక్యులేటర్ - మీ కిరాణా జాబితా కోసం చౌకైన ప్లాట్‌ఫారమ్‌ను కనుగొనండి",
+        description: "బహుళ కిరాణా వస్తువులను జోడించండి మరియు మీ మొత్తం బాస్కెట్ కోసం మీకు ఏ ప్లాట్‌ఫారమ్ అత్యల్ప మొత్తం ధరను ఇస్తుందో తక్షణమే చూడండి."
+      },
+      ta: {
+        title: "ஸ்மார்ட் கூடை கால்குலேட்டர் - உங்கள் மளிகை பட்டியலுக்கான மலிவான தளத்தைக் கண்டறியவும்",
+        description: "பல மளிகைப் பொருட்களைச் சேர்த்து, உங்கள் முழு கூடைக்கும் எந்த தளம் உங்களுக்குக் குறைந்த மொத்த விலையை அளிக்கிறது என்பதை உடனடியாகப் பாருங்கள்."
+      },
+      'zh-CN': {
+        title: "智能杂货购物篮计算器 — 一键对比整篮最低价",
+        description: "添加多件商品，即时对比 Blinkit、Zepto、BigBasket 哪家总价最便宜。明明白白省钱。"
+      },
+      ms: {
+        title: "Kalkulator Bakul Runcit Pintar — Bandingkan Jumlah Harga Runcit",
+        description: "Tambah barangan runcit dan lihat platform mana yang paling murah untuk keseluruhan bakul anda."
+      }
+    },
+    SG: {
+      en: {
+        title: "Smart Basket Calculator Singapore — FairPrice vs RedMart vs Cold Storage | Fantastic Food",
+        description: "Add groceries and instantly see which Singapore platform gives you the lowest total price for your entire basket. Real-time cost comparator.",
+        keywords: "grocery basket price comparison Singapore, FairPrice vs RedMart basket, RedMart vs Cold Storage total cost"
+      },
+      hi: {
+        title: "स्मार्ट बास्केट कैलकुलेटर सिंगापुर — FairPrice बनाम RedMart",
+        description: "किराने का सामान जोड़ें और तुरंत देखें कि कौन सा सिंगापुर प्लेटफॉर्म आपको आपकी पूरी बास्केट के लिए सबसे कम कीमत देता है।"
+      },
+      bn: {
+        title: "স্মার্ট বাস্কেট ক্যালকুলেটর সিঙ্গাপুর — FairPrice বনাম RedMart",
+        description: "মুদি আইটেম যোগ করুন এবং সিঙ্গাপুরের কোন প্ল্যাটফর্ম সর্বনিম্ন মোট মূল্য দিচ্ছে তা তাৎক্ষণিকভাবে দেখুন।"
+      },
+      mr: {
+        title: "स्मार्ट बास्केट कॅल्क्युलेटर सिंगापूर — FairPrice विरुद्ध RedMart",
+        description: "किराणा सामान जोडा आणि सिंगापूरमधील सर्वात कमी एकूण किमतीची तुलना करा."
+      },
+      te: {
+        title: "స్మార్ట్ బాస్కెట్ క్యాలిక్యులేటర్ సింగపూర్ — సూపర్ మార్కెట్ బాస్కెట్",
+        description: "సింగపూర్‌లో మీ మొత్తం బాస్కెట్ కోసం ఏ ప్లాట్‌ఫారమ్ అత్యల్ప ధరను ఇస్తుందో తక్షణమే చూడండి."
+      },
+      ta: {
+        title: "ஸ்மார்ட் கூடை கால்குலேட்டர் சிங்கப்பூர் — மளிகை விலை ஒப்பீடு",
+        description: "மளிகைப் பொருட்களைச் சேர்த்து, எந்த சிங்கப்பூர் தளம் உங்களுக்குக் குறைந்த மொத்த விலையை அளிக்கிறது என்பதை உடனடியாகப் பாருங்கள்."
+      },
+      'zh-CN': {
+        title: "智能购物篮计算器 新加坡 — FairPrice vs RedMart vs Cold Storage | Fantastic Food",
+        description: "添加杂货并即时查看哪个新加坡平台总价最低。精明买菜必备。"
+      },
+      ms: {
+        title: "Kalkulator Bakul Pintar Singapura — FairPrice vs RedMart vs Cold Storage | Fantastic Food",
+        description: "Tambah barangan runcit dan lihat platform Singapura mana yang paling murah untuk keseluruhan bakul anda."
+      }
+    }
+  },
+  compare: {
+    IN: {
+      en: {
+        title: "Compare Grocery Prices — Blinkit, Zepto, Swiggy, BigBasket & More",
+        description: "Search any grocery or food item to compare real-time prices across 7 major Indian delivery platforms. Save money on every order.",
+        keywords: "compare grocery prices, live price checker, blinkit price check, zepto grocery compare, bigbasket prices"
+      },
+      hi: {
+        title: "किराने की कीमतों की तुलना करें — Blinkit, Zepto, Swiggy, BigBasket और अन्य",
+        description: "7 प्रमुख भारतीय डिलीवरी प्लेटफॉर्म पर वास्तविक समय की कीमतों की तुलना करने के लिए कोई भी किराना या खाद्य पदार्थ खोजें। हर ऑर्डर पर पैसे बचाएं।"
+      },
+      bn: {
+        title: "মুদির দাম तुलना করুন — ব্লিঙ্কিট, জেপ্টো, সুইগি, বিগবাস্কেট এবং আরও অনেক কিছু",
+        description: "৭টি প্রধান ভারতীয় ডেলিভারি প্ল্যাটফর্ম জুড়ে রিয়েল-টাইম দাম তুলনা করতে যেকোনো মুদি বা খাদ্য আইটেম অনুসন্ধান করুন। প্রতিটি অর্डারে অর্থ সাশ্রয় করুন।"
+      },
+      mr: {
+        title: "किराणा किमतींची तुलना करा — ब्लिंकिट, झेप्टो, स्विगी, बिगबास्केट आणि बरेच काही",
+        description: "7 प्रमुख भारतीय डिलिव्हरी प्लॅटफॉर्मवर रिअल-टाइम किमतींची तुलना करण्यासाठी कोणतेही किराणा सामान किंवा खाद्यपदार्थ शोधा. प्रत्येक ऑर्डरवर पैसे वाचवा।"
+      },
+      te: {
+        title: "కిరాణా ధరలను సరిపోల్చండి — బ్లింకిట్, జెప్టో, స్విగ్గీ, బిగ్‌బాస్కెట్ & మరిన్ని",
+        description: "7 ప్రధాన భారతీయ డెలివరీ ప్లాట్‌ఫారమ్‌లలో రియల్ టైమ్ ధరలను సరిపోल्చడానికి ఏదైనా కిరాణా లేదా ఆహార పదార్థాన్ని శోధించండి. ప్రతి ఆర్డర్‌లో డబ్బు ఆదా చేయండి।"
+      },
+      ta: {
+        title: "மளிகை விலைகளை ஒப்பிடுக — Blinkit, Zepto, Swiggy, BigBasket மற்றும் பல",
+        description: "7 முக்கிய இந்திய டெலிவரி தளங்களில் நிகழ்நேர விலைகளை ஒப்பிட்டுப் பார்க்க எந்த மளிகை அல்லது உணவுப் பொருளையும் தேடவும். ஒவ்வொரு ஆர்டரிலும் பணத்தை சேமிக்கவும்।"
+      },
+      'zh-CN': {
+        title: "实时比价系统 — 比较 7 大中国/印度外卖超市价格",
+        description: "输入任何食品名称，即可比对各大即时配送平台的实时价格，用最低价格下单购买。"
+      },
+      ms: {
+        title: "Bandingkan Harga Runcit — Cari Tawaran Paling Murah Serta-merta",
+        description: "Cari sebarang item makanan untuk membandingkan harga langsung merentasi platform penghantaran utama dan jimat wang."
+      }
+    },
+    SG: {
+      en: {
+        title: "Live Grocery Price Comparison Singapore | Fantastic Food",
+        description: "Compare live prices of 7,000+ grocery items across FairPrice, RedMart, Cold Storage and Giant. Lock in the absolute lowest price instantly.",
+        keywords: "live grocery price comparison Singapore, FairPrice price check, RedMart vs Sheng Siong, Cold Storage grocery prices"
+      },
+      hi: {
+        title: "सिंगापुर लाइव किराने की कीमत तुलना | Fantastic Food",
+        description: "सिंगापुर में 7,000+ वस्तुओं की लाइव कीमतों की तुलना करें।"
+      },
+      bn: {
+        title: "সিঙ্গাপুর লাইভ মুদির দাম তুলনা | Fantastic Food",
+        description: "সিঙ্গাপুরে ৭,০০০+ মুদি আইটেমের লাইভ দামের তুলনা করুন।"
+      },
+      mr: {
+        title: "सिंगापूर थेट किराणा किंमत तुलना | Fantastic Food",
+        description: "सिंगापूरमध्ये ७,०००+ किराणा वस्तूंच्या थेट किमतींची तुलना करा."
+      },
+      te: {
+        title: "సింగపూర్ లైవ్ కిరాణా ధరల పోలిక",
+        description: "సింగపూర్‌లో 7,000+ కిరాణా వస్తువుల ధరలను తక్షణమే పోల్చండి."
+      },
+      ta: {
+        title: "சிங்கப்பூர் நேரடி மளிகை விலை ஒப்பீடு",
+        description: "சிங்கப்பூரில் 7,000+ மளிகைப் பொருட்களின் நேரடி விலைகளை உடனடியாக ஒப்பிடுங்கள்."
+      },
+      'zh-CN': {
+        title: "新加坡实时杂货价格比较 | Fantastic Food",
+        description: "比较新加坡 FairPrice、RedMart、Cold Storage 和 虾皮超市 7,000 多种商品的实时价格。锁定最低价。"
+      },
+      ms: {
+        title: "Perbandingan Harga Runcit Langsung Singapura | Fantastic Food",
+        description: "Bandingkan harga langsung 7,000+ barangan runcit merentasi FairPrice, RedMart, Cold Storage dan Shopee Supermarket."
+      }
+    }
+  },
+  recipes: {
+    IN: {
+      en: {
+        title: "World Recipes Catalog — 100+ Authentic Recipes & Price Comparison | Fantastic Food",
+        description: "Discover 100+ authentic recipes from 8 countries. Compare the exact cost of ingredients in real-time across Blinkit, Zepto, BigBasket & save money.",
+        keywords: "authentic world recipes, cheap cooking recipes, compare recipe ingredient prices, easy dinner recipes India"
+      },
+      hi: {
+        title: "विश्व रेसिपी कैटलॉग — 100+ प्रामाणिक रेसिपी और मूल्य तुलना | Fantastic Food",
+        description: "8 देशों की 100+ प्रामाणिक रेसिपी खोजें। Blinkit, Zepto, BigBasket पर वास्तविक समय में सामग्री की सही लागत की तुलना करें और पैसे बचाएं।"
+      },
+      bn: {
+        title: "বিশ্ব রেসিপি ক্যাটালগ — ১০০+ খাঁটি রেসিপি ও দাম তুলনা | Fantastic Food",
+        description: "৮টি দেশের ১০০+ খাঁটি রেসিপি আবিষ্কার করুন। ব্লিঙ্কিট, জেপ্টো, বিগবাস্কেট জুড়ে রিয়েল-টাইমে উপাদানের সঠিক দাম তুলনা করুন এবং অর্থ সাশ্রয় করুন।"
+      },
+      mr: {
+        title: "वर्ल्ड रेसिपी कॅटलॉग — १००+ अस्सल रेसिपी आणि किमतींची तुलना",
+        description: "८ देशांमधील १००+ अस्सल रेसिपी शोधा. ब्लिंकिट, झेप्टो, बिगबास्केटवर रिअल-टाइममध्ये किराणा साहित्याच्या अचूक खर्चाची तुलना करा आणि पैसे वाचवा."
+      },
+      te: {
+        title: "ప్రపంచ వంటకాల కేటలాగ్ — 100+ ప్రామాణిక వంటకాలు & ధరల పోలిక",
+        description: "8 దేశాల నుండి 100+ ప్రామాణిక వంటకాలను కనుగొనండి. బ్లింకిట్, జెప్టో, బిగ్‌బాస్కెట్‌లో పదార్థాల ధరలను సరిపోల్చండి."
+      },
+      ta: {
+        title: "உலக சமையல் குறிப்புகள் — 100+ உண்மையான சமையல் குறிப்புகள் & விலை ஒப்பீடு",
+        description: "8 நாடுகளின் 100+ உண்மையான சமையல் குறிப்புகளைக் கண்டறியவும். பிளிங்கிட், செப்டோ, பிக் பாஸ்கெட்டில் மளிகை விலைகளை ஒப்பிட்டுப் பாருங்கள்."
+      },
+      'zh-CN': {
+        title: "世界美食食谱大全 — 100+ 正宗地道食谱与食材比价 | Fantastic Food",
+        description: "发现来自 8 个国家的 100 多种正宗食谱。在 Blinkit、Zepto、BigBasket 实时比较食材成本，精明下厨。"
+      },
+      ms: {
+        title: "Katalog Resepi Dunia — 100+ Resepi Tulen & Perbandingan Harga",
+        description: "Temui 100+ resepi tulen dari 8 buah negara. Bandingkan kos sebenar bahan runcit masa nyata dan jimat wang sebelum anda memasak."
+      }
+    },
+    SG: {
+      en: {
+        title: "World Recipes Singapore — 100+ Recipes & Ingredient Price Comparison SG",
+        description: "Discover 100+ authentic global recipes. Automatically compare ingredient prices in Singapore across FairPrice, RedMart, Cold Storage & save up to 45%.",
+        keywords: "world recipes Singapore, compare recipe prices SG, FairPrice RedMart recipe cost, home cooking Singapore"
+      },
+      hi: {
+        title: "विश्व रेसिपी सिंगापुर — सामग्री मूल्य तुलना",
+        description: "सिंगापुर में 100+ वैश्विक व्यंजनों की खोज करें और सामग्री की कीमतों की तुलना करें।"
+      },
+      bn: {
+        title: "বিশ্ব রেসিপি সিঙ্গাপুর — উপাদান দাম তুলনা",
+        description: "সিঙ্গাপুরে ১০০+ বৈশ্বিক রেসিপি আবিষ্কার করুন এবং উপাদানের দাম তুলনা করুন।"
+      },
+      mr: {
+        title: "वर्ल्ड रेसिपी सिंगापूर — साहित्य किमतींची तुलना",
+        description: "सिंगापूरमध्ये १००+ जागतिक रेसिपी शोधा आणि साहित्याच्या किमतींची तुलना करा."
+      },
+      te: {
+        title: "ప్రపంచ వంటకాలు సింగపూర్ — పదార్థాల ధరల పోలిక",
+        description: "సింగపూర్‌లో 100+ ప్రపంచ వంటకాలను కనుగొనండి మరియు పదార్థాల ధరలను పోల్చండి."
+      },
+      ta: {
+        title: "உலக சமையல் குறிப்புகள் சிங்கப்பூர் — மளிகை விலை ஒப்பீடு",
+        description: "சிங்கப்பூரில் 100+ உலகளாவிய சமையல் குறிப்புகளைக் கண்டறிந்து விலைகளை ஒப்பிடுங்கள்."
+      },
+      'zh-CN': {
+        title: "世界美食食谱 新加坡 — 100+ 正宗食谱与新加坡超市食材比价",
+        description: "发现来自 8 个国家的 100 多种正宗食谱。在 FairPrice、RedMart、Cold Storage 实时比较食材总成本。"
+      },
+      ms: {
+        title: "Resepi Dunia Singapura — 100+ Resepi & Perbandingan Harga Bahan Runcit SG",
+        description: "Temui 100+ resepi global tulen. Bandingkan kos bahan runcit di Singapura merentasi FairPrice, RedMart, Cold Storage & jimat sehingga 45%."
+      }
+    }
+  }
+};
+
+export const getLocalizedPageSEO = (
+  page: string,
+  lang: string,
+  region: string = 'IN'
+): PageMetadata => {
+  const currentLang = (lang || 'en') as SupportedLanguage;
+  const currentRegion = (region?.toUpperCase() === 'SG') ? 'SG' : 'IN';
+  
+  const pageEntry = PAGE_SEO_DICTIONARY[page];
+  if (!pageEntry) {
+    return {
+      title: "Fantastic Food — Compare Grocery Prices & Buy Smart",
+      description: "Compare online grocery prices in real time and save money every day."
+    };
+  }
+
+  const regionEntry = pageEntry[currentRegion] || pageEntry['IN'];
+  const localized = regionEntry[currentLang] || regionEntry['en'];
+  return localized;
+};
+

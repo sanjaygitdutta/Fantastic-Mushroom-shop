@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Upload, Plus, X, Mic, MicOff, Volume2, VolumeX, Sparkles, Clock, Flame, Users, Lightbulb, Gift } from 'lucide-react';
-import SEO from '../components/SEO';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabase';
@@ -368,15 +367,6 @@ export default function ChefAikaPage() {
 
   return (
     <>
-      <SEO
-        title={t(isSG ? 'chef_aika_seo_title_sg' : 'chef_aika_seo_title', { defaultValue: isSG ? "Chef Aika — AI Fridge Scanner & Recipe Generator SG | Fantastic Food" : "Chef Aika — AI Kitchen Assistant | Fantastic Food" })}
-        description={t(isSG ? 'chef_aika_seo_desc_sg' : 'chef_aika_seo_desc', { defaultValue: isSG ? "Let Chef Aika plan your meals in Singapore! Scan your fridge ingredients to instantly generate local recipes and buy grocery kits." : "Let Chef Aika plan your meals! Scan your fridge, add ingredients, and get personalized AI-generated recipes in seconds." })}
-        canonicalUrl={isSG ? "https://www.fantasticfood.in/chef-aika?region=SG" : "https://www.fantasticfood.in/chef-aika"}
-        keywords={isSG
-          ? "AI chef Singapore, recipe generator Singapore, fridge scan SG, meal planner Singapore, Chef Aika, Fantastic Food"
-          : "AI chef, recipe generator, fridge scan, meal planner, Chef Aika, Fantastic Food"}
-        structuredData={structuredData}
-      />
 
             
       <AnimatePresence>

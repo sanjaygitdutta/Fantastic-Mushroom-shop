@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: Props) {
     // specific canonical to avoid the "Duplicate without user-selected canonical" error.
     alternates: {
       languages: {
-        'en': `https://www.fantasticfood.in/en`,
+        'en': `https://www.fantasticfood.in`,
         'hi': `https://www.fantasticfood.in/hi`,
         'bn': `https://www.fantasticfood.in/bn`,
         'mr': `https://www.fantasticfood.in/mr`,
@@ -91,7 +91,7 @@ export async function generateMetadata({ params }: Props) {
         'ta': `https://www.fantasticfood.in/ta`,
         'zh-CN': `https://www.fantasticfood.in/zh-CN`,
         'ms': `https://www.fantasticfood.in/ms`,
-        'x-default': `https://www.fantasticfood.in/en`,
+        'x-default': `https://www.fantasticfood.in`,
       },
     },
   };

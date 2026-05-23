@@ -7,7 +7,6 @@ import { products } from '../data/products';
 import { Clock, Users, ChefHat, ArrowLeft, ShoppingBag, TrendingDown, ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-hot-toast';
-import SEO from '../components/SEO';
 import { useTranslation } from 'react-i18next';
 
 const RecipeDetails = () => {
@@ -83,13 +82,6 @@ const RecipeDetails = () => {
 
     return (
         <div className="min-h-screen pt-24 pb-20 bg-white">
-            <SEO
-              title={t('recipe_seo_title', { title: displayTitle })}
-              description={seoDescription}
-              canonicalUrl={`https://www.fantasticfood.in/recipe/${recipe.id}`}
-              keywords={`${displayTitle}, ${recipe.tags.join(', ')}, mushroom recipe, recipe ingredients price`}
-              structuredData={recipeSchema}
-            />
 
             <div className="max-w-4xl mx-auto px-4">
                 <Link href="/recipes" className="inline-flex items-center text-gray-500 hover:text-forest-600 mb-8 transition-colors">

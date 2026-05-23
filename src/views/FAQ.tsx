@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, MessageCircle, Mail, HelpCircle } from 'lucide-react';
-import SEO from '../components/SEO';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
 
@@ -41,11 +40,6 @@ const FAQ = () => {
 
     return (
         <>
-            <SEO 
-                title={t(isSG ? 'faq_seo_title_sg' : 'faq_seo_title', { defaultValue: isSG ? "FAQ & Grocery Support Singapore | Fantastic Food Help Center" : "FAQ & Support | Fantastic Food Help Center" })}
-                description={t(isSG ? 'faq_seo_desc_sg' : 'faq_seo_desc', { defaultValue: isSG ? "Find answer to all questions regarding our Singapore grocery price comparison engine, shipping fees, and partner delivery apps." : "Find answers to common questions about grocery price comparison, our organic mushrooms, and how to save more money daily." })}
-                canonicalUrl="https://www.fantasticfood.in/faq"
-            />
 
             <div className="min-h-screen pt-24 pb-20 bg-cream-50">
                 <div className="max-w-4xl mx-auto px-4">

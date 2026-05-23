@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
-import SEO from '../components/SEO';
 
 const B2B = () => {
     const { t } = useTranslation();
@@ -59,12 +58,6 @@ const B2B = () => {
 
     return (
         <div className="min-h-screen pt-20 bg-mushroom-50">
-            <SEO
-                title={t(isSG ? 'b2b_seo_title_sg' : 'b2b_seo_title', { defaultValue: isSG ? "Premium Wholesale Mushrooms Singapore | B2B Food Supply" : "Premium Mushrooms for Restaurants & Businesses | Fantastic Food B2B" })}
-                description={t(isSG ? 'b2b_seo_desc_sg' : 'b2b_seo_desc', { defaultValue: isSG ? "Partner with Fantastic Mushroom to supply your Singapore restaurant, hotel, or retail store with premium fresh, organic mushrooms. Get custom quotes." : "Partner with Fantastic Mushroom to supply your restaurant, hotel, or retail store with fresh, gourmet mushrooms. Get bulk wholesale rates." })}
-                canonicalUrl={isSG ? "https://www.fantasticfood.in/b2b?region=SG" : "https://www.fantasticfood.in/b2b"}
-                keywords={isSG ? "wholesale mushrooms Singapore, mushroom supply SG, restaurant food distributor Singapore, wholesale shipper" : "wholesale mushrooms, restaurant mushroom distributor, gourmet mushrooms bulk"}
-            />
             {/* Hero Section */}
             <div className="bg-forest-900 text-white py-20 px-4">
                 <div className="max-w-7xl mx-auto text-center">

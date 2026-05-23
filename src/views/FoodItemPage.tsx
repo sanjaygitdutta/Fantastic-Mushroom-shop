@@ -4,7 +4,6 @@ import { useParams } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
 import { Bell } from 'lucide-react';
-import SEO from '../components/SEO';
 import CompareResultsGrid from '../components/CompareResultsGrid';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
@@ -177,13 +176,6 @@ const FoodItemPage = () => {
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO
-        title={seoTitle}
-        description={seoDesc}
-        keywords={seoKeywords}
-        canonicalUrl={isSG ? `https://www.fantasticfood.in/food/${foodItem}?region=SG` : `https://www.fantasticfood.in/food/${foodItem}`}
-        structuredData={[productSchema, faqSchema, breadcrumbSchema]}
-      />
 
       {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-4 mb-6">

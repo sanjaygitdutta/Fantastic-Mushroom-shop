@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 
 import ReactMarkdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
-import SEO from '../components/SEO';
 import { BLOG_POSTS } from '../data/blogPosts';
 
 import { useRegion } from '../utils/region';
@@ -60,12 +59,6 @@ const BlogPost = () => {
 
   return (
     <>
-      <SEO 
-        title={`${displayTitle} | Fantastic Food`}
-        description={displayDescription}
-        canonicalUrl={`https://www.fantasticfood.in/blog/${post.slug}`}
-        structuredData={articleSchema}
-      />
 
       <article className="pt-24 pb-16 bg-cream-50 min-h-screen">
         <div className="max-w-3xl mx-auto px-4">

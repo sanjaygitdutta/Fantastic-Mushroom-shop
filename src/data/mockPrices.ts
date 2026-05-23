@@ -4169,7 +4169,7 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
           discount: 15, 
           unit: templateUnit,
           inStock: true, 
-          url: '#', 
+          url: generateSearchUrl(pId, resultTemplate.query), 
           lastUpdated: new Date().toISOString(), 
           deliveryTime 
         });
@@ -4185,10 +4185,10 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
             category: 'Grocery',
             icon: '🛒',
             prices: [
-                { platformId: 'fairprice', productName: query, price: vary(sgBase, 0.92, 1.08), originalPrice: vary(sgBase, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '1 day' },
-                { platformId: 'redmart', productName: query, price: vary(sgBase, 0.88, 1.02), originalPrice: vary(sgBase, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
-                { platformId: 'coldstorage', productName: query, price: vary(sgBase, 0.95, 1.1),  originalPrice: vary(sgBase, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: 'Same day' },
-                { platformId: 'amazon_sg', productName: query, price: vary(sgBase, 1.0, 1.2), originalPrice: vary(sgBase, 1.15, 1.3), discount: 11, unit: '1 unit', inStock: true, url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs' }
+                { platformId: 'fairprice',   productName: query, price: vary(sgBase, 0.92, 1.08), originalPrice: vary(sgBase, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: generateSearchUrl('fairprice', query),   lastUpdated: new Date().toISOString(), deliveryTime: '1 day' },
+                { platformId: 'redmart',     productName: query, price: vary(sgBase, 0.88, 1.02), originalPrice: vary(sgBase, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: generateSearchUrl('redmart', query),     lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
+                { platformId: 'coldstorage', productName: query, price: vary(sgBase, 0.95, 1.1),  originalPrice: vary(sgBase, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: generateSearchUrl('coldstorage', query), lastUpdated: new Date().toISOString(), deliveryTime: 'Same day' },
+                { platformId: 'amazon_sg',   productName: query, price: vary(sgBase, 1.0, 1.2),   originalPrice: vary(sgBase, 1.15, 1.3),  discount: 11, unit: '1 unit', inStock: true,  url: generateSearchUrl('amazon_sg', query),   lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs' }
             ]
         };
     } else {
@@ -4199,13 +4199,13 @@ const basePrice = estimateBasePrice(key);
         category: 'Grocery',
         icon: '🛒',
         prices: [
-            { platformId: 'blinkit',   productName: query, price: vary(basePrice, 0.92, 1.08), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
-            { platformId: 'bigbasket', productName: query, price: vary(basePrice, 0.88, 1.02), originalPrice: vary(basePrice, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
-            { platformId: 'swiggy',    productName: query, price: vary(basePrice, 0.95, 1.1),  originalPrice: vary(basePrice, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
-            { platformId: 'zepto',     productName: query, price: vary(basePrice, 0.86, 1.04), originalPrice: vary(basePrice, 1.1, 1.2),  discount: 15, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
-            { platformId: 'amazon',    productName: query, price: vary(basePrice, 1.0,  1.2),  originalPrice: vary(basePrice, 1.15, 1.3), discount: 11, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
-            { platformId: 'jiomart',   productName: query, price: vary(basePrice, 0.84, 0.98), originalPrice: vary(basePrice, 1.0, 1.12), discount: 14, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
-            { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: '#', lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
+            { platformId: 'blinkit',   productName: query, price: vary(basePrice, 0.92, 1.08), originalPrice: vary(basePrice, 1.1, 1.2),   discount: 8,  unit: '1 unit', inStock: true, url: generateSearchUrl('blinkit', query),   lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
+            { platformId: 'bigbasket', productName: query, price: vary(basePrice, 0.88, 1.02), originalPrice: vary(basePrice, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true, url: generateSearchUrl('bigbasket', query), lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
+            { platformId: 'swiggy',    productName: query, price: vary(basePrice, 0.95, 1.1),  originalPrice: vary(basePrice, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true, url: generateSearchUrl('swiggy', query),    lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
+            { platformId: 'zepto',     productName: query, price: vary(basePrice, 0.86, 1.04), originalPrice: vary(basePrice, 1.1, 1.2),   discount: 15, unit: '1 unit', inStock: true, url: generateSearchUrl('zepto', query),     lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
+            { platformId: 'amazon',    productName: query, price: vary(basePrice, 1.0,  1.2),  originalPrice: vary(basePrice, 1.15, 1.3),  discount: 11, unit: '1 unit', inStock: true, url: generateSearchUrl('amazon', query),    lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
+            { platformId: 'jiomart',   productName: query, price: vary(basePrice, 0.84, 0.98), originalPrice: vary(basePrice, 1.0, 1.12),  discount: 14, unit: '1 unit', inStock: true, url: generateSearchUrl('jiomart', query),   lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
+            { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true, url: generateSearchUrl('flipkart', query),  lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
         ]
     };
     }

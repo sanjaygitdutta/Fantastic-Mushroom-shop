@@ -4,7 +4,6 @@ import { ArrowRight, Leaf, Award } from 'lucide-react';
 import Link from 'next/link';
 
 import ProductGrid from '../components/ProductGrid';
-import SEO from '../components/SEO';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
 
@@ -15,11 +14,6 @@ const MushroomShop = () => {
 
   return (
     <div className="min-h-screen pt-20">
-      <SEO 
-        title={t(isSG ? 'mushroom_shop_seo_title_sg' : 'mushroom_shop_seo_title', { defaultValue: isSG ? "Organic Paddy Straw Mushrooms & Spawn Shop SG | Fantastic Food" : "Premium Farm Fresh Mushrooms" })}
-        description={t(isSG ? 'mushroom_shop_seo_desc_sg' : 'mushroom_shop_seo_desc', { defaultValue: isSG ? "Shop premium organic Paddy Straw Mushrooms and premium spawn, pesticide-free, grown with deep love." : "Order premium, organic and farm-fresh mushrooms directly from our cultivators. Get same-day delivery on Oyster, Button, and Shiitake varieties." })}
-        canonicalUrl="https://www.fantasticfood.in/mushroom-shop"
-      />
       {/* Hero banner */}
       <section className="relative overflow-hidden bg-linear-to-br from-earth-800 via-earth-700 to-forest-800 py-20 px-4">
         {/* Blobs */}

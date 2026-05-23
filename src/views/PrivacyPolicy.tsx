@@ -1,5 +1,4 @@
 'use client';
-import SEO from '../components/SEO';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
 
@@ -10,11 +9,6 @@ const PrivacyPolicy = () => {
 
     return (
         <>
-            <SEO 
-                title={t(isSG ? 'privacy_seo_title_sg' : 'privacy_seo_title', { defaultValue: isSG ? "Privacy Policy & Data Protection SG | Fantastic Food" : "Privacy Policy | Fantastic Food" })}
-                description={t(isSG ? 'privacy_seo_desc_sg' : 'privacy_seo_desc', { defaultValue: isSG ? "Read how Fantastic Food Singapore protects, secures, and handles your user account data." : "Our commitment to protecting your data and privacy while shopping for mushrooms or comparing grocery prices." })}
-                canonicalUrl="https://www.fantasticfood.in/privacy"
-            />
 
             <div className="min-h-screen pt-24 pb-20 bg-cream-50">
                 <div className="max-w-4xl mx-auto px-4">

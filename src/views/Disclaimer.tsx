@@ -1,5 +1,4 @@
 'use client';
-import SEO from '../components/SEO';
 import { useTranslation } from 'react-i18next';
 import { useRegion } from '../utils/region';
 
@@ -10,11 +9,6 @@ const Disclaimer = () => {
 
     return (
         <>
-            <SEO 
-                title={t('disclaimer_seo_title', { defaultValue: isSG ? "Legal Disclaimer SG | Fantastic Food Singapore" : "Legal Disclaimer | Fantastic Food" })}
-                description={t('disclaimer_seo_desc', { defaultValue: "Read the legal disclaimers for the Fantastic Food price comparison engine, AI recipes, and organic mushroom shop." })}
-                canonicalUrl="https://www.fantasticfood.in/disclaimer"
-            />
 
             <div className="min-h-screen pt-24 pb-20 bg-cream-50">
                 <div className="max-w-4xl mx-auto px-4">

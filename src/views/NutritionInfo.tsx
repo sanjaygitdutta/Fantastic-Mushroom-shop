@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Search, Loader2, AlertTriangle, CheckCircle, ArrowRight, Info, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import SEO from '../components/SEO';
 import { useRegion } from '../utils/region';
 
 interface NutritionData {
@@ -69,11 +68,6 @@ export default function NutritionInfo() {
 
   return (
     <div className="min-h-screen bg-cream-50 pt-24 pb-16">
-      <SEO
-        title={t(isSG ? 'nutrition_seo_title_sg' : 'nutrition_seo_title', { defaultValue: isSG ? "Pantry Nutrition Facts & Grocery Calories Guide SG | Fantastic Food" : "Food Nutrition Info & Health Score — Fantastic Food" })}
-        description={t(isSG ? 'nutrition_seo_desc_sg' : 'nutrition_seo_desc', { defaultValue: isSG ? "Explore complete nutrition details, macro ratios, and compare online delivery prices for thousands of Singapore groceries." : "Check nutrition facts, allergens, health score and find healthier alternatives for any food or grocery item. Powered by AI." })}
-        canonicalUrl={isSG ? "https://www.fantasticfood.in/health?region=SG" : "https://www.fantasticfood.in/health"}
-      />
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4">

@@ -11,7 +11,6 @@ import FoodCategoryBrowser from '../components/FoodCategoryBrowser';
 import TrendingSearches from '../components/TrendingSearches';
 import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
-import SEO from '../components/SEO';
 import { useRecentlyCompared } from '../hooks/useRecentlyCompared';
 import { getDailyDeal } from '../data/compareFeatures';
 import { useStreak } from '../components/SavingsStreak';
@@ -239,13 +238,6 @@ const ComparePage = () => {
 
   return (
     <div className="min-h-screen pt-20 pb-16 bg-gray-50">
-
-      <SEO
-        title={seoTitle}
-        description={seoDescription}
-        canonicalUrl={`https://www.fantasticfood.in/compare${query ? `?q=${query}` : ''}`}
-        structuredData={compareSchema}
-      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(searchActionSchema) }} />
       {productSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
