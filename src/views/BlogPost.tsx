@@ -59,6 +59,10 @@ const BlogPost = () => {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
 
       <article className="pt-24 pb-16 bg-cream-50 min-h-screen">
         <div className="max-w-3xl mx-auto px-4">
