@@ -104,5 +104,25 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
       }
     }));
 
-  return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes];
+  // Programmatic local City × Food Item landing pages
+  // 52 cities × top 25 high-demand food items = 1,300 robust local landing page targets per language sitemap
+  const topFoodItems = [
+    'onion', 'tomato', 'potato', 'milk', 'butter', 'paneer', 'curd', 'cheese', 'eggs', 
+    'rice', 'sugar', 'salt', 'atta', 'bread', 'maggi', 'chips', 'biscuits', 'oil', 
+    'chicken', 'tea', 'coffee', 'mushroom', 'broccoli', 'banana', 'apple'
+  ];
+
+  const cityItemRoutes = sitemapLinks.cities.flatMap((city: string) => {
+    return topFoodItems.map((food: string) => ({
+      url: `${langBase}/city/${city}/${food}`,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.8,
+      alternates: {
+        languages: getAlternates(`city/${city}/${food}`)
+      }
+    }));
+  });
+
+  return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes, ...cityItemRoutes];
 }
