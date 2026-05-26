@@ -1,14 +1,19 @@
 import { Suspense } from 'react';
 import CityPage from '../../../../views/CityPage';
+import { getTranslatedCity, getLocalizedCitySEO, type SupportedLanguage } from '../../../../i18n/dictionary';
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; citySlug: string }> }) {
   const { lang, citySlug } = await params;
-  const cityName = citySlug.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const currentLang = (lang || 'en') as SupportedLanguage;
+
+  const cityName = getTranslatedCity(citySlug, currentLang);
+  const seo = getLocalizedCitySEO(cityName, currentLang);
+
   return {
-    title: `${cityName} Grocery Prices — Compare Blinkit vs Zepto vs BigBasket | Fantastic Food`,
-    description: `Compare live grocery prices in ${cityName} across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh, JioMart & Flipkart Minutes. Find the cheapest deals today.`,
+    title: seo.title,
+    description: seo.description,
     alternates: {
-      canonical: lang === 'en' ? `https://www.fantasticfood.in/city/${citySlug}` : `https://www.fantasticfood.in/${lang}/city/${citySlug}`,
+      canonical: currentLang === 'en' ? `https://www.fantasticfood.in/city/${citySlug}` : `https://www.fantasticfood.in/${currentLang}/city/${citySlug}`,
       languages: {
         'en': `https://www.fantasticfood.in/city/${citySlug}`,
         'hi': `https://www.fantasticfood.in/hi/city/${citySlug}`,

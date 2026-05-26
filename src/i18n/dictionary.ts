@@ -542,3 +542,204 @@ export const getLocalizedPageSEO = (
   return localized;
 };
 
+// Regional translations for major cities (metros)
+export const CITY_DICTIONARY: Record<string, Record<SupportedLanguage, string>> = {
+  mumbai: { en: 'Mumbai', hi: 'मुंबई', bn: 'মুম্বই', mr: 'मुंबई', te: 'ముంబై', ta: 'மும்பை', 'zh-CN': '孟买', ms: 'Mumbai' },
+  delhi: { en: 'Delhi', hi: 'दिल्ली', bn: 'দিল্লি', mr: 'दिल्ली', te: 'ఢిల్లీ', ta: 'டெல்லி', 'zh-CN': '德里', ms: 'Delhi' },
+  bangalore: { en: 'Bangalore', hi: 'बेंगलुरु', bn: 'বেঙ্গালুরু', mr: 'बेंगळुरू', te: 'బెంగళూరు', ta: 'பெங்களூரு', 'zh-CN': '班加罗尔', ms: 'Bangalore' },
+  hyderabad: { en: 'Hyderabad', hi: 'हैदराबाद', bn: 'হায়দ্রাবাদ', mr: 'हैदराबाद', te: 'హైదరాబాద్', ta: 'ஹైதராபாத்', 'zh-CN': '海得拉巴', ms: 'Hyderabad' },
+  chennai: { en: 'Chennai', hi: 'चेन्नई', bn: 'চেন্নাই', mr: 'चेन्नई', te: 'చెన్నై', ta: 'சென்னை', 'zh-CN': '金奈', ms: 'Chennai' },
+  pune: { en: 'Pune', hi: 'पुणे', bn: 'पुने', mr: 'पुणे', te: 'पुణె', ta: 'புனே', 'zh-CN': '浦那', ms: 'Pune' },
+  kolkata: { en: 'Kolkata', hi: 'कोलकाता', bn: 'কলকাতা', mr: 'कोलकाता', te: 'కోల్‌కతా', ta: 'கொல்கத்தா', 'zh-CN': '加尔各答', ms: 'Kolkata' }
+};
+
+export const getTranslatedCity = (cityKey: string, lang: SupportedLanguage): string => {
+  const normalized = cityKey.toLowerCase().trim();
+  if (CITY_DICTIONARY[normalized]) {
+    return CITY_DICTIONARY[normalized][lang] || CITY_DICTIONARY[normalized]['en'];
+  }
+  // Fallback: capitalize slug
+  return cityKey.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+};
+
+export const CITY_SEO_TEMPLATES: Record<SupportedLanguage, { title: string; description: string }> = {
+  en: {
+    title: "{city} Grocery Prices — Compare Blinkit vs Zepto vs BigBasket | Fantastic Food",
+    description: "Compare live grocery prices in {city} across Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh, JioMart & Flipkart Minutes. Find the cheapest deals today."
+  },
+  hi: {
+    title: "{city} में किराने का सामान की कीमत — Blinkit, Zepto और BigBasket की तुलना करें | Fantastic Food",
+    description: "{city} में आज की लाइव किराने की कीमतों की तुलना करें Blinkit, Zepto, BigBasket, Swiggy Instamart, Amazon Fresh और JioMart पर। सबसे सस्ती डील खोजें।"
+  },
+  bn: {
+    title: "{city}-এ মুদির জিনিসের দাম — Blinkit, Zepto এবং BigBasket তুলনা করুন | Fantastic Food",
+    description: "{city}-এ আজ লাইভ মুদির দামের তুলনা করুন Blinkit, Zepto, BigBasket, Swiggy Instamart এবং JioMart জুড়ে। সেরা ডিল খুঁজুন।"
+  },
+  mr: {
+    title: "{city} मध्ये किराणा मालाचे भाव — Blinkit, Zepto आणि BigBasket तुलना करा | Fantastic Food",
+    description: "{city} मध्ये आजच्या थेट किराणा मालाच्या किमतींची तुलना करा Blinkit, Zepto, BigBasket, Swiggy Instamart आणि JioMart वर. सर्वात स्वस्त डील शोधा।"
+  },
+  te: {
+    title: "{city}లో కిరాణా ధరలు — బ్లింకిట్, జెప్టో మరియు బిగ్‌బాస్కెట్ పోల్చండి | Fantastic Food",
+    description: "{city}లో ఈరోజు లైవ్ కిరాణా ధరలను Blinkit, Zepto, BigBasket, Swiggy Instamart మరియు JioMartలలో సరిపోల్చండి. అత్యల్ప ధరలను కనుగొనండి।"
+  },
+  ta: {
+    title: "{city}ல் மளிகை பொருட்கள் விலை — Blinkit, Zepto மற்றும் BigBasket ஒப்பிடுக | Fantastic Food",
+    description: "{city}ல் இன்று நேரடி மளிகை பொருட்கள் விலையை Blinkit, Zepto, BigBasket, Swiggy Instamart மற்றும் JioMart ஆகியவற்றில் ஒப்பிடவும். மலிவான டீல்களைக் கண்டறியவும்।"
+  },
+  "zh-CN": {
+    title: "{city}超市杂货价格对比 — 比较 FairPrice、RedMart | Fantastic Food",
+    description: "实时对比新加坡{city}各大超市的杂货与食品价格。获取今日最划算的优惠。"
+  },
+  ms: {
+    title: "Harga Barang Runcit di {city} — Bandingkan FairPrice, RedMart | Fantastic Food",
+    description: "Bandingkan harga langsung barangan runcit di {city} merentasi FairPrice, RedMart, Cold Storage & Giant. Cari harga termurah."
+  }
+};
+
+export const getLocalizedCitySEO = (
+  cityName: string,
+  lang: SupportedLanguage
+): { title: string; description: string } => {
+  const template = CITY_SEO_TEMPLATES[lang] || CITY_SEO_TEMPLATES['en'];
+  return {
+    title: template.title.replace(/{city}/g, cityName),
+    description: template.description.replace(/{city}/g, cityName)
+  };
+};
+
+export const CITY_ITEM_SEO_TEMPLATES: Record<SupportedLanguage, { title: string; description: string }> = {
+  en: {
+    title: "{item} Price in {city} Today — Compare Blinkit vs Zepto | Fantastic Food",
+    description: "Compare live {item} prices today in {city} ({state}) across Blinkit, Zepto, BigBasket, and Swiggy Instamart. Get the lowest price at {currency}{price} today."
+  },
+  hi: {
+    title: "{city} में आज {item} की कीमत — लाइव मूल्य तुलना | Fantastic Food",
+    description: "जानिए {city} ({state}) में आज {item} की सबसे सस्ती कीमत। Blinkit, Zepto, Swiggy Instamart और BigBasket पर लाइव रेट्स की तुलना करें। आज का सबसे कम दाम {currency}{price} है।"
+  },
+  bn: {
+    title: "{city}-এ আজ {item}-এর দাম — লাইভ দাম তুলনা | Fantastic Food",
+    description: "{city} ({state})-এ আজ {item}-এর সবচেয়ে সস্তা দাম জানুন। Blinkit, Zepto, Swiggy Instamart এবং BigBasket-এ লাইভ দামের তুলনা করুন। আজকের সর্বনিম্ন দাম {currency}{price}।"
+  },
+  mr: {
+    title: "{city} मध्ये आज {item} चा भाव — लाईव्ह दरांची तुलना | Fantastic Food",
+    description: "{city} ({state}) मध्ये आज {item} ची सर्वात स्वस्त किंमत जाणून घ्या. Blinkit, Zepto, Swiggy Instamart आणि BigBasket वर थेट किमतींची तुलना करा. आजचा सर्वात कमी भाव {currency}{price}."
+  },
+  te: {
+    title: "ఈరోజు {city}లో {item} ధర — లైవ్ ధరల పోలిక | Fantastic Food",
+    description: "{city} ({state})లో ఈరోజు {item} అత్యల్ప ధర తెలుసుకోండి. Blinkit, Zepto, Swiggy Instamart మరియు BigBasketలలో లైవ్ ధరలను సరిపోల్చండి. ఈరోజు తక్కువ ధర {currency}{price}."
+  },
+  ta: {
+    title: "இன்று {city}ல் {item} விலை — நேரடி விலை ஒப்பீடு | Fantastic Food",
+    description: "{city} ({state})ல் இன்று {item}ன் மிகக் குறைந்த விலையைக் கண்டறியவும். Blinkit, Zepto, Swiggy Instamart மற்றும் BigBasket ஆகியவற்றில் நேரடி விலைகளை ஒப்பிடவும். இன்றைய குறைந்தபட்ச விலை {currency}{price}."
+  },
+  "zh-CN": {
+    title: "今日{city}{item}价格 — 实时对比 | Fantastic Food",
+    description: "在新加坡{city}对比今日最新的{item}实时价格。查看 FairPrice 和 RedMart 最低价 {currency}{price}。"
+  },
+  ms: {
+    title: "Harga {item} di {city} Hari Ini — Perbandingan Harga | Fantastic Food",
+    description: "Bandingkan harga langsung {item} di {city} hari ini merentasi FairPrice, RedMart dan Giant. Harga terendah {currency}{price} hari ini."
+  }
+};
+
+export const getLocalizedCityItemSEO = (
+  item: string,
+  cityName: string,
+  stateName: string,
+  lowestPrice: number,
+  currency: string,
+  lang: SupportedLanguage
+): { title: string; description: string } => {
+  const template = CITY_ITEM_SEO_TEMPLATES[lang] || CITY_ITEM_SEO_TEMPLATES['en'];
+  const priceString = lowestPrice > 0 ? `${lowestPrice}` : '50';
+  return {
+    title: template.title
+      .replace(/{item}/g, item)
+      .replace(/{city}/g, cityName),
+    description: template.description
+      .replace(/{item}/g, item)
+      .replace(/{city}/g, cityName)
+      .replace(/{state}/g, stateName)
+      .replace(/{currency}/g, currency)
+      .replace(/{price}/g, priceString)
+  };
+};
+
+export const getLocalizedFAQ = (
+  item: string,
+  cityName: string,
+  lowestPrice: number,
+  currency: string,
+  region: 'IN' | 'SG',
+  lang: SupportedLanguage
+): { q1: string; a1: string; q2: string; a2: string } => {
+  const priceStr = lowestPrice > 0 ? `${currency}${lowestPrice}` : `${currency}50`;
+  const isSG = region === 'SG';
+
+  const faqs: Record<SupportedLanguage, { q1: string; a1: string; q2: string; a2: string }> = {
+    en: {
+      q1: `Which app delivers the cheapest ${item} in ${cityName}?`,
+      a1: `Today, the lowest price for ${item} in ${cityName} is ${priceStr} compared across all quick-commerce platforms.`,
+      q2: `Can I get instant delivery for ${item} in ${cityName}?`,
+      a2: isSG 
+        ? `Yes, FairPrice, RedMart, Cold Storage, and Giant offer delivery for ${item} in ${cityName}.`
+        : `Yes, Blinkit, Zepto, Swiggy Instamart, and BigBasket offer instant 10-minute delivery for ${item} in most locations in ${cityName}.`
+    },
+    hi: {
+      q1: `${cityName} में सबसे सस्ता ${item} कौन सा ऐप डिलीवर करता है?`,
+      a1: `आज, सभी क्विक-कॉमर्स प्लेटफॉर्म की तुलना में ${cityName} में ${item} की सबसे कम कीमत ${priceStr} है।`,
+      q2: `क्या मुझे ${cityName} में ${item} की तुरंत डिलीवरी मिल सकती है?`,
+      a2: isSG
+        ? `हाँ, FairPrice, RedMart और Giant सिंगापुर के ${cityName} में ${item} की डिलीवरी प्रदान करते हैं।`
+        : `हाँ, अधिकांश स्थानों पर Blinkit, Zepto, Swiggy Instamart और BigBasket ${cityName} में ${item} की 10-मिनट में तुरंत डिलीवरी प्रदान करते हैं।`
+    },
+    bn: {
+      q1: `${cityName}-এ সবচেয়ে সস্তা ${item} কোন অ্যাপ সরবরাহ করে?`,
+      a1: `আজ, সমস্ত কুইক-কমার্স প্ল্যাটফর্মের তুলনায় ${cityName}-এ ${item}-এর সর্বনিম্ন দাম ${priceStr}।`,
+      q2: `আমি কি ${cityName}-এ ${item}-এর তাত্ক্ষণিক সরবরাহ পেতে পারি?`,
+      a2: isSG
+        ? `হ্যাঁ, FairPrice, RedMart এবং Giant সিঙ্গাপুরের ${cityName}-এ ${item}-এর সরবরাহ প্রদান করে।`
+        : `হ্যাঁ, বেশিরভাগ এলাকায় Blinkit, Zepto, Swiggy Instamart এবং BigBasket ${cityName}-এ ${item}-এর ১০ মিনিটে তাত্ক্ষণিক সরবরাহ প্রদান করে।`
+    },
+    mr: {
+      q1: `${cityName} मध्ये सर्वात स्वस्त ${item} कोणते ॲप डिलिव्हर करते?`,
+      a1: `आज, सर्व क्विक-कॉमर्स प्लॅटफॉर्मवर तुलना करता ${cityName} मध्ये ${item} चा सर्वात कमी भाव ${priceStr} आहे.`,
+      q2: `मला ${cityName} मध्ये ${item} ची त्वरित डिलिव्हरी मिळू शकते का?`,
+      a2: isSG
+        ? `होय, FairPrice, RedMart आणि Giant सिंगापूरमधील ${cityName} मध्ये ${item} ची डिलिव्हरी देतात.`
+        : `होय, बहुतांश ठिकाणी Blinkit, Zepto, Swiggy Instamart आणि BigBasket ${cityName} मध्ये ${item} ची १० मिनिटांत त्वरित डिलिव्हरी देतात.`
+    },
+    te: {
+      q1: `${cityName}లో అత్యంత చౌకైన ${item} ఏ యాప్ ద్వారా లభిస్తుంది?`,
+      a1: `ఈరోజు, అన్ని క్విక్-కామర్స్ ప్లాట్‌ఫారమ్‌లలో పోలిస్తే ${cityName}లో ${item} అత్యల్ప ధర ${priceStr}.`,
+      q2: `నేను ${cityName}లో ${item} తక్షణ డెలివరీని పొందవచ్చా?`,
+      a2: isSG
+        ? `అవును, సింగపూర్‌లోని ${cityName}లో ${item} డెలివరీని FairPrice, RedMart మరియు Giant అందిస్తున్నాయి.`
+        : `అవును, చాలా ప్రాంతాలలో Blinkit, Zepto, Swiggy Instamart మరియు BigBasket ${cityName}లో ${item} 10-నిమిషాల తక్షణ డెలివరీని అందిస్తున్నాయి.`
+    },
+    ta: {
+      q1: `${cityName}ல் மிகக் குறைந்த விலையில் ${item} வழங்கும் செயலி எது?`,
+      a1: `இன்று, அனைத்து குயிக்-காமர்ஸ் தளங்களையும் ஒப்பிடும்போது ${cityName}ல் ${item}ன் மிகக் குறைந்த விலை ${priceStr} ஆகும்.`,
+      q2: `${cityName}ல் ${item} உடனடி டெலிவரி பெற முடியுமா?`,
+      a2: isSG
+        ? `ஆம், சிங்கப்பூரின் ${cityName}ல் ${item} டெலிவரியை FairPrice, RedMart மற்றும் Giant வழங்குகின்றன.`
+        : `ஆம், பெரும்பாலான இடங்களில் Blinkit, Zepto, Swiggy Instamart and BigBasket ஆகியவை ${cityName}ல் ${item}ன் 10 நிமிட உடனடி டெலிவரியை வழங்குகின்றன.`
+    },
+    "zh-CN": {
+      q1: `哪家平台在${cityName}送达最便宜的${item}？`,
+      a1: `今日，对比所有即时配送平台，${cityName}中${item}的最低价格为 ${priceStr}。`,
+      q2: `我能在${cityName}获得${item}的即时配送吗？`,
+      a2: `是的，在新加坡${cityName}的大部分地区，FairPrice、RedMart 等平台提供${item}的快速配送。`
+    },
+    ms: {
+      q1: `Aplikasi manakah yang menghantar ${item} termurah di ${cityName}?`,
+      a1: `Hari ini, harga terendah untuk ${item} di ${cityName} ialah ${priceStr} berbanding merentasi semua platform penghantaran pantas.`,
+      q2: `Bolehkah saya mendapatkan penghantaran segera untuk ${item} di ${cityName}?`,
+      a2: `Ya, FairPrice, RedMart dan Giant menawarkan penghantaran untuk ${item} di kebanyakan lokasi di ${cityName}.`
+    }
+  };
+
+  return faqs[lang] || faqs['en'];
+};
+

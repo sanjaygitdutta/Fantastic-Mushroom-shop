@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import CityItemPage from '../../../../../views/CityItemPage';
 import { searchPrices } from '../../../../../data/mockPrices';
-import { getTranslatedItem, getEnglishQuery, type SupportedLanguage } from '../../../../../i18n/dictionary';
+import { getTranslatedItem, getEnglishQuery, getTranslatedCity, getLocalizedCityItemSEO, getLocalizedFAQ, type SupportedLanguage } from '../../../../../i18n/dictionary';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 
@@ -95,13 +95,18 @@ export async function generateMetadata({ params }: Props) {
 
   const lowestPrice = sortedPrices[0]?.price || 0;
 
-  const seoTitle = currentLang === 'en'
-    ? `${result?.icon || '🛒'} ${displayName} Price in ${city.name} Today — Compare Blinkit vs Zepto | Fantastic Food`
-    : `${result?.icon || '🛒'} ${translatedItem} ${city.name} में आज की कीमत — लाइव मूल्य तुलना | Fantastic Food`;
+  const translatedCityName = getTranslatedCity(citySlug, currentLang);
+  const seo = getLocalizedCityItemSEO(
+    translatedItem,
+    translatedCityName,
+    city.state,
+    lowestPrice,
+    currencySymbol,
+    currentLang
+  );
 
-  const seoDesc = currentLang === 'en'
-    ? `Compare live ${displayName} prices today in ${city.name} (${city.state}) across Blinkit, Zepto, BigBasket, and Swiggy Instamart. Get the lowest price at ${currencySymbol}${lowestPrice || '50'} today.`
-    : `जानिए ${city.name} में आज ${translatedItem} की सबसे सस्ती कीमत। Blinkit, Zepto, Swiggy Instamart और BigBasket पर लाइव रेट्स की तुलना करें।`;
+  const seoTitle = `${result?.icon || '🛒'} ${seo.title}`;
+  const seoDesc = seo.description;
 
   return {
     title: seoTitle,
@@ -154,12 +159,34 @@ export default async function Page({ params }: Props) {
 
   const lowestPrice = sortedPrices[0]?.price || 0;
 
+  const translatedCityName = getTranslatedCity(citySlug, currentLang);
+  const translatedItem = getTranslatedItem(englishQuery, currentLang);
+  const currencySymbol = region === 'SG' ? 'S$' : '₹';
+
+  const seo = getLocalizedCityItemSEO(
+    translatedItem,
+    translatedCityName,
+    city.state,
+    lowestPrice,
+    currencySymbol,
+    currentLang
+  );
+
+  const faqData = getLocalizedFAQ(
+    translatedItem,
+    translatedCityName,
+    lowestPrice,
+    currencySymbol,
+    region,
+    currentLang
+  );
+
   const jsonLd = {
     "@context": "https://schema.org/",
     "@type": "Product",
-    "name": `${displayName} in ${city.name}`,
+    "name": `${translatedItem} in ${translatedCityName}`,
     "image": `https://www.fantasticfood.in/api/og?title=${encodeURIComponent(displayName)}`,
-    "description": `Compare live ${displayName} prices today in ${city.name} across Blinkit, Zepto, BigBasket, and Swiggy Instamart. Get the lowest price at ${region === 'SG' ? 'SGD' : 'INR'} ${lowestPrice || '50'} today.`,
+    "description": seo.description,
     "brand": {
       "@type": "Brand",
       "name": "Local Farms"
@@ -180,18 +207,18 @@ export default async function Page({ params }: Props) {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": `Which app delivers the cheapest ${displayName} in ${city.name}?`,
+        "name": faqData.q1,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `Today, the lowest price for ${displayName} in ${city.name} is ${region === 'SG' ? 'S$' : '₹'}${lowestPrice} compared across all quick-commerce platforms.`
+          "text": faqData.a1
         }
       },
       {
         "@type": "Question",
-        "name": `Can I get instant delivery for ${displayName} in ${city.name}?`,
+        "name": faqData.q2,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `Yes, Blinkit, Zepto, Swiggy Instamart, and BigBasket offer instant 10-minute delivery for ${displayName} in most locations in ${city.name}.`
+          "text": faqData.a2
         }
       }
     ]
