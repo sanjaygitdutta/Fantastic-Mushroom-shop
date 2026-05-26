@@ -36,6 +36,20 @@ export function middleware(request: NextRequest) {
 
   const parts = pathname.split('/').filter(Boolean);
 
+  // 1. Permanent 301 Redirect for the 'en' language prefix to clean unprefixed paths
+  // e.g. /en/compare -> /compare, /en -> /
+  if (parts[0] === 'en') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/' + parts.slice(1).join('/');
+    const response = NextResponse.redirect(url, { status: 301 });
+    if (urlRegion && ['SG', 'IN'].includes(urlRegion)) {
+      response.cookies.set('user-region', urlRegion, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    } else if (!request.cookies.has('user-region')) {
+      response.cookies.set('user-region', region, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    }
+    return response;
+  }
+
   // 2. Redirect ?lang=xx to the proper path prefix
   // e.g. /food/apple?lang=hi -> /hi/food/apple
   if (
