@@ -3,13 +3,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 import { Heart, Leaf, Users, Award, Zap, Globe } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { useRegion } from '../utils/region';
 
 const About = () => {
-    const { t } = useTranslation();
-    const { region } = useRegion();
-    const isSG = region?.toUpperCase() === 'SG';
 
     return (
         <>
