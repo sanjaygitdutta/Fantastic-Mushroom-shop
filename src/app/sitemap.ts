@@ -105,12 +105,8 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
     }));
 
   // Programmatic local City × Food Item landing pages
-  // 52 cities × top 25 high-demand food items = 1,300 robust local landing page targets per language sitemap
-  const topFoodItems = [
-    'onion', 'tomato', 'potato', 'milk', 'butter', 'paneer', 'curd', 'cheese', 'eggs', 
-    'rice', 'sugar', 'salt', 'atta', 'bread', 'maggi', 'chips', 'biscuits', 'oil', 
-    'chicken', 'tea', 'coffee', 'mushroom', 'broccoli', 'banana', 'apple'
-  ];
+  // 52 cities × top 100 high-demand food items = 5,200 robust local landing page targets per language sitemap
+  const topFoodItems = sitemapLinks.foodItems.slice(0, 100);
 
   const cityItemRoutes = sitemapLinks.cities.flatMap((city: string) => {
     return topFoodItems.map((food: string) => ({
