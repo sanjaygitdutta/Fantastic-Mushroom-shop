@@ -1,16 +1,17 @@
 name: Daily Price Scraper
 
 on:
-  schedule:
-    # Run at 2:00 AM and 2:00 PM IST (Indian Standard Time)
-    # IST is UTC+5:30. So 08:30 UTC = 2:00 PM IST, and 20:30 UTC = 2:00 AM IST.
-    - cron: '30 8,20 * * *'
+  # schedule:
+  #   # Run at 2:00 AM and 2:00 PM IST (Indian Standard Time)
+  #   # IST is UTC+5:30. So 08:30 UTC = 2:00 PM IST, and 20:30 UTC = 2:00 AM IST.
+  #   - cron: '30 8,20 * * *'
   # Allow manual trigger from the GitHub Actions UI
   workflow_dispatch:
 
 jobs:
   scrape-prices:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     
     steps:
     - name: Checkout Repository
