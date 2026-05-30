@@ -23,6 +23,9 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   // Base paths - if 'en', omit the /en prefix to match canonicals perfectly
   const langBase = langCode === 'en' ? BASE_URL : `${BASE_URL}/${langCode}`;
   
+  // Format current date as YYYY-MM-DD for standard strict W3C compliance (no milliseconds)
+  const currentDate = new Date().toISOString().split('T')[0];
+  
   // Helper to generate alternates for a path
   const getAlternates = (path: string) => {
     const alternates = LANGUAGES.reduce((acc, l) => {
@@ -50,7 +53,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
     'community'
   ].map(path => ({
     url: `${langBase}${path ? `/${path}` : ''}`,
-    lastModified: new Date(),
+    lastModified: currentDate,
     changeFrequency: 'daily' as const,
     priority: path === '' ? 1.0 : 0.9,
     alternates: {
@@ -61,7 +64,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   // Cities
   const cityRoutes = sitemapLinks.cities.map((city: string) => ({
     url: `${langBase}/city/${city}`,
-    lastModified: new Date(),
+    lastModified: currentDate,
     changeFrequency: 'weekly' as const,
     priority: 0.8,
     alternates: {
@@ -72,7 +75,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   // Food Items
   const foodRoutes = sitemapLinks.foodItems.map((food: string) => ({
     url: `${langBase}/food/${food}`,
-    lastModified: new Date(),
+    lastModified: currentDate,
     changeFrequency: 'weekly' as const,
     priority: 0.7,
     alternates: {
@@ -83,7 +86,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   // AI Recipes
   const recipeRoutes = ALL_RECIPES.map((recipe) => ({
     url: `${langBase}/recipe/${recipe.id}`,
-    lastModified: new Date(),
+    lastModified: currentDate,
     changeFrequency: 'monthly' as const,
     priority: 0.8,
     alternates: {
@@ -96,7 +99,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
     .filter((blog) => new Date(blog.date) <= new Date())
     .map((blog) => ({
       url: `${langBase}/blog/${blog.slug}`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
       alternates: {
@@ -111,7 +114,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   const cityItemRoutes = sitemapLinks.cities.flatMap((city: string) => {
     return topFoodItems.map((food: string) => ({
       url: `${langBase}/city/${city}/${food}`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'daily' as const,
       priority: 0.8,
       alternates: {
