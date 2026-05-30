@@ -17,14 +17,20 @@ export async function generateSitemaps() {
   }));
 }
 
-export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
-  const langCode = LANGUAGES[id] || 'en';
+export default async function sitemap({ id }: { id: any }): Promise<MetadataRoute.Sitemap> {
+  const resolvedId = typeof id === 'object' && id !== null && 'then' in id ? await id : id;
+  const numericId = parseInt(resolvedId, 10);
+  const langCode = LANGUAGES[numericId] || 'en';
   
   // Base paths - if 'en', omit the /en prefix to match canonicals perfectly
   const langBase = langCode === 'en' ? BASE_URL : `${BASE_URL}/${langCode}`;
   
   // Format current date as YYYY-MM-DD for standard strict W3C compliance (no milliseconds)
   const currentDate = new Date().toISOString().split('T')[0];
+  
+  // Chinese (zh-CN) and Malay (ms) focus purely on Singapore.
+  // For these languages, the only relevant city is "singapore" (no Indian cities).
+  const targetCities = (langCode === 'zh-CN' || langCode === 'ms') ? ['singapore'] : sitemapLinks.cities;
   
   // Helper to generate alternates for a path
   const getAlternates = (path: string) => {
@@ -62,7 +68,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   }));
 
   // Cities
-  const cityRoutes = sitemapLinks.cities.map((city: string) => ({
+  const cityRoutes = targetCities.map((city: string) => ({
     url: `${langBase}/city/${city}`,
     lastModified: currentDate,
     changeFrequency: 'weekly' as const,
@@ -108,10 +114,11 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
     }));
 
   // Programmatic local City × Food Item landing pages
-  // 52 cities × top 100 high-demand food items = 5,200 robust local landing page targets per language sitemap
+  // For standard languages: 52 cities × 100 food items = 5,200 local landing pages
+  // For Chinese/Malay: 1 city (singapore) × 100 food items = 100 local landing pages
   const topFoodItems = sitemapLinks.foodItems.slice(0, 100);
 
-  const cityItemRoutes = sitemapLinks.cities.flatMap((city: string) => {
+  const cityItemRoutes = targetCities.flatMap((city: string) => {
     return topFoodItems.map((food: string) => ({
       url: `${langBase}/city/${city}/${food}`,
       lastModified: currentDate,
