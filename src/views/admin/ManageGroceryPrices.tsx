@@ -55,27 +55,50 @@ const ManageGroceryPrices = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 51; // 3 per row * 17 rows
 
-  // 1. Fetch current live prices AND product master from Supabase
+  // 1. Fetch current live prices AND product master from Supabase in batches (bypassing the 1000 row PostgREST limit)
   const fetchData = async () => {
     setLoading(true);
     
-    // Fetch Master Products
-    const { data: products, error: pError } = await supabase
-      .from('products')
-      .select('*')
-      .order('canonical_name', { ascending: true })
-      .range(0, 9999);
+    // Fetch Master Products in batches
+    let allProducts: any[] = [];
+    let page = 0;
+    const pageSize = 1000;
+    let hasMore = true;
+    let fetchProductsSuccess = true;
+
+    while (hasMore) {
+      const { data: products, error: pError } = await supabase
+        .from('products')
+        .select('*')
+        .order('canonical_name', { ascending: true })
+        .range(page * pageSize, (page + 1) * pageSize - 1);
+
+      if (pError) {
+        console.error('Error fetching master products:', pError);
+        fetchProductsSuccess = false;
+        hasMore = false;
+      } else if (!products || products.length === 0) {
+        hasMore = false;
+      } else {
+        allProducts = [...allProducts, ...products];
+        if (products.length < pageSize) {
+          hasMore = false;
+        } else {
+          page++;
+        }
+      }
+    }
     
-    if (!pError && products && products.length > 0) {
-      setMasterProducts(products.map(p => ({
+    if (fetchProductsSuccess && allProducts.length > 0) {
+      setMasterProducts(allProducts.map(p => ({
         label: p.canonical_name,
         query: p.id,
         icon: p.icon,
         category: p.category,
         unit: p.unit || '1 unit'
       })));
-    } else {
-      // Fallback to MOCK_DB if table is empty or missing
+    } else if (!fetchProductsSuccess || allProducts.length === 0) {
+      // Fallback to MOCK_DB if table is empty or fetch failed completely
       const mockList = Object.keys(MOCK_DB).map(key => ({
         label: MOCK_DB[key].canonicalName,
         query: key,
@@ -85,14 +108,36 @@ const ManageGroceryPrices = () => {
       setMasterProducts(mockList);
     }
 
-    // Fetch Live Prices
-    const { data: prices, error: lError } = await supabase
-      .from('live_prices')
-      .select('*')
-      .range(0, 9999);
+    // Fetch Live Prices in batches
+    let allPrices: any[] = [];
+    let pricePage = 0;
+    let hasMorePrices = true;
+    let fetchPricesSuccess = true;
+
+    while (hasMorePrices) {
+      const { data: prices, error: lError } = await supabase
+        .from('live_prices')
+        .select('*')
+        .range(pricePage * pageSize, (pricePage + 1) * pageSize - 1);
+
+      if (lError) {
+        console.error('Error fetching live prices:', lError);
+        fetchPricesSuccess = false;
+        hasMorePrices = false;
+      } else if (!prices || prices.length === 0) {
+        hasMorePrices = false;
+      } else {
+        allPrices = [...allPrices, ...prices];
+        if (prices.length < pageSize) {
+          hasMorePrices = false;
+        } else {
+          pricePage++;
+        }
+      }
+    }
     
-    if (!lError && prices) {
-      setLiveData(prices);
+    if (fetchPricesSuccess) {
+      setLiveData(allPrices);
     }
     
     setLoading(false);
