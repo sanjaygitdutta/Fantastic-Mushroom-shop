@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Mail, Trash2, RefreshCw, Search, Inbox, AlertCircle, MessageSquare } from 'lucide-react';
+import { Mail, Trash2, RefreshCw, Search, Inbox, MessageSquare } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 interface ContactMessage {
