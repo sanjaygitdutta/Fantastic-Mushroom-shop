@@ -100,14 +100,20 @@ const Footer = () => {
                                     const form = e.target as HTMLFormElement;
                                     const msg = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
                                     
-                                    const { error } = await supabase.from('contact_messages').insert([{ message: msg }]);
-                                    
-                                    if (error) {
+                                    try {
+                                        const { error } = await supabase.from('contact_messages').insert([{ message: msg }]);
+                                        
+                                        if (error) {
+                                            console.error("Error inserting message:", error);
+                                            setMsgStatus('error');
+                                        } else {
+                                            setMsgStatus('sent');
+                                            form.reset();
+                                            setTimeout(() => setMsgStatus('idle'), 3000);
+                                        }
+                                    } catch (err) {
+                                        console.error("Failed to submit message:", err);
                                         setMsgStatus('error');
-                                    } else {
-                                        setMsgStatus('sent');
-                                        form.reset();
-                                        setTimeout(() => setMsgStatus('idle'), 3000);
                                     }
                                 }} 
                                 className="mt-2 pt-2"
