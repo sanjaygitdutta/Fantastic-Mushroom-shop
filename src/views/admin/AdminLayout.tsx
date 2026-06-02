@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 
-import { LayoutDashboard, Package, ShoppingCart, LogOut, Edit3, Calendar } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, LogOut, Edit3, Calendar, DollarSign, MessageSquare } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useRouter, usePathname } from 'next/navigation';
 import { toast } from 'react-hot-toast';
@@ -18,8 +18,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
     const navItems = [
         { path: '/admin', icon: LayoutDashboard, label: 'Overview' },
+        { path: '/admin/prices', icon: DollarSign, label: 'Grocery Prices' },
         { path: '/admin/products', icon: Package, label: 'Products' },
         { path: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
+        { path: '/admin/messages', icon: MessageSquare, label: 'Messages' },
         { path: '/admin/manage-products', icon: Edit3, label: 'Manage Products' },
         { path: '/admin/manage-subscriptions', icon: Calendar, label: 'Manage Subscriptions' },
     ];
