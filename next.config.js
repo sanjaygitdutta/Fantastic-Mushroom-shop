@@ -28,6 +28,15 @@ const nextConfig = {
       },
     ];
   },
+
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap-v2/:id.xml',
+        destination: '/sitemap/:id.xml',
+      },
+    ];
+  },
 }
 
 export default nextConfig;
