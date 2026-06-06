@@ -154,15 +154,23 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
   // Dynamically calculate Chef Aika posts using translated values
   const chefAikaPosts = useMemo<CommunityPost[]>(() => {
     const now = Date.now();
-    return recipes.map((recipe, index) => {
+    const istNow = new Date(now + (5.5 * 60 * 60 * 1000));
+    const todayIST = istNow.toISOString().split('T')[0];
+
+    // Filter out future recipes and only process valid published ones
+    const publishedRecipes = recipes.filter(recipe => {
+      const isDate = /^\d{4}-\d{2}-\d{2}$/.test(recipe.id);
+      if (isDate) {
+        return recipe.id <= todayIST;
+      }
+      return true; // Legacy static recipes (id: '1', '2', '3') are always allowed
+    });
+
+    return publishedRecipes.map((recipe, index) => {
       const isDate = /^\d{4}-\d{2}-\d{2}$/.test(recipe.id);
       
       let postTime: number;
       if (isDate) {
-        // Parse the recipe date and compare to today's IST date
-        const istNow = new Date(now + (5.5 * 60 * 60 * 1000));
-        const todayIST = istNow.toISOString().split('T')[0];
-        
         if (recipe.id === todayIST) {
           // Today's AI recipe: use NOW so it always sorts to the top
           postTime = now;
@@ -171,8 +179,11 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
           postTime = new Date(`${recipe.id}T06:30:00.000Z`).getTime(); // 06:30 UTC = 12:00 IST
         }
       } else {
-        // Legacy static recipes (id: '1', '2', '3'): place them oldest
-        postTime = now - 3600000 - index * 86400000;
+        // Legacy static recipes (id: '1', '2', '3'): assign a fixed date in the past
+        // to prevent them from moving to the top of the feed recursively.
+        // We will assign them fixed dates: Apr 15, Apr 16, and Apr 17, 2026.
+        const baseDate = new Date('2026-04-15T06:30:00.000Z').getTime();
+        postTime = baseDate + index * 86400000;
       }
       
       const translation = recipe.translations?.[currentLang as keyof typeof recipe.translations];
