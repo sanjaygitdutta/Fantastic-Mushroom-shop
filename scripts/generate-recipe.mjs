@@ -191,11 +191,13 @@ const fallbackDish = fallbackDishPool[dayOfYear % fallbackDishPool.length];
 // ── Dynamically generate a completely unique, authentic dish name via Gemini ────
 async function generateUniqueDishName(cuisine, country) {
   try {
-    const prompt = `You are a world-renowned chef and culinary expert. 
-Invent a completely unique, highly authentic, mouth-watering regional signature dish title for ${cuisine} cuisine from ${country}.
-It must sound incredibly specific, descriptive, and premium (e.g. instead of a generic "Butter Chicken", invent something like "Slow-Simmered Murg Makhani with Charcoal-Smoked Gravy and Fenugreek").
-Do not return generic titles. Return ONLY a single line containing the exact invented English title of the dish. Do not wrap in quotes or markdown.
-CRITICAL: The title must be a complete, self-contained proper noun. Never end the title with conjunctions like 'and', 'with', 'for', 'or', or commas. Keep the title clean and under 6-8 words.`;
+    const prompt = `You are a world-renowned culinary analyst and SEO expert.
+Identify the single most popular, highly searched regional signature dish for ${cuisine} cuisine from ${country} on the internet.
+You must choose a dish that real people search for massive numbers of times (e.g., 'Butter Chicken', 'Chicken Biryani', 'Pad Thai', 'Tacos al Pastor', 'Chicken Karahi').
+Format the dish title exactly as a search user would type it or expect to see it for high search intent (e.g., 'Authentic Butter Chicken' or 'Easy Chicken Biryani').
+Do NOT invent fancy, long, gourmet chef descriptions or artificial titles (like 'Slow-Simmered Murg Makhani with Charcoal-Smoked Gravy') that have zero search volume.
+Return ONLY a single line containing the exact highly-searched English title of the dish. Do not wrap in quotes or markdown.
+CRITICAL: The title must be a clean, search-optimized proper noun. Never end the title with conjunctions like 'and', 'with', 'for', 'or', or commas. Keep the title under 5-7 words.`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -343,7 +345,7 @@ async function fetchGeminiJSON(promptText, schema = null, retryCount = 0) {
 // ── Call Gemini REST API - Batch Translation Pipeline ──────────────────────
 async function callGemini() {
   // Step 1: Generate Master English recipe
-  const englishPrompt = `You are a passionate home cook, food columnist, and regional culinary advocate. Write an authentic, deeply detailed recipe in English for "${selectedDish}" — a signature dish from ${selectedCuisine.country}.
+  const englishPrompt = `You are a passionate home cook, food columnist, and regional SEO expert. Write an authentic, deeply detailed recipe in English for "${selectedDish}" — a highly searched and popular dish from ${selectedCuisine.country}.
 Provide the full ingredients and instructions in English.
 
 🔴 FORBIDDEN AI CLICHES (DO NOT USE ANY OF THESE):
@@ -356,11 +358,12 @@ Write naturally instead.
 3. Sensory Visual Cues: For every step, describe physical visual/smell/sound markers instead of dry commands.
 4. High Backstory Depth: Write an extensive, 3-paragraph conversational, high-perplexity backstory detailing how you learned to cook this, common failures, and key ingredient rules.
 
-5. SEO DYNAMIC KEYWORDS DIRECTIVES:
-Identify the single best high-search-intent, highly converting long-tail keyword in English for this specific recipe (e.g. "quick lunch ideas for working women", "easy dinner recipe for kids", "healthy dinner ideas", "authentic [name] recipe", etc.).
-- Generate "seoTitle": a highly engaging, click-worthy meta title (maximum 60 characters) that naturally integrates this long-tail keyword.
-- Generate "seoDescription": a compelling, click-through-optimized meta description (maximum 155 characters) that naturally integrates the long-tail keyword.
-- Generate "seoKeywords": a comma-separated string starting with the selected long-tail keyword, followed by 3-4 other highly relevant keywords.
+5. SEO HIGH-SEARCH-VOLUME DIRECTIVES:
+- Ensure the "title" field matches the exact, highly searched query that users type into Google to find this dish (e.g. 'Authentic Chicken Karahi' or 'Easy Pad Thai').
+- Identify the highest search-volume primary keyword for this recipe (e.g. "chicken karahi recipe", "how to make pad thai at home", etc.).
+- Generate "seoTitle": a highly engaging, click-through-optimized meta title (maximum 60 characters) that naturally integrates this high-volume keyword.
+- Generate "seoDescription": a compelling, click-through-optimized meta description (maximum 155 characters) that naturally integrates the high-volume keyword.
+- Generate "seoKeywords": a comma-separated string starting with the main high-volume keyword, followed by 3-4 other highly searched terms.
 
 6. CRITICAL JSON SAFETY: Inside all JSON string values (description, instructions, title, ingredients, seoTitle, seoDescription, seoKeywords), never use raw double-quotes. If you need to write a quote, use single quotes (e.g. 'Sum') instead. Always make sure every JSON string is properly closed and contains no raw unescaped control characters.
 
@@ -375,9 +378,9 @@ Return ONLY a valid JSON object matching EXACTLY this structure:
   "ingredients": [{ "item": "Name", "amount": "Qty" }],
   "instructions": ["Step 1 detailing tips", "Step 2 with visual cues", "Step 3", "Step 4", "Step 5"],
   "tags": ["${selectedCuisine.cuisine}", "Dinner", "Authentic"],
-  "seoTitle": "Engaging Meta Title targeting long-tail keyword",
-  "seoDescription": "Compelling Meta Description targeting long-tail keyword",
-  "seoKeywords": "long-tail keyword, secondary keyword 1, secondary keyword 2"
+  "seoTitle": "Engaging Meta Title targeting high-volume keyword",
+  "seoDescription": "Compelling Meta Description targeting high-volume keyword",
+  "seoKeywords": "high-volume keyword, secondary keyword 1, secondary keyword 2"
 }`;
 
   const englishSchema = {
