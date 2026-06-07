@@ -95,46 +95,65 @@ const WORLD_CUISINES = [
 
 // Verified Unsplash food photos ONLY — every ID here confirmed to show actual food
 // Width reduced to 800px for faster loading. TheMealDB handles dish-specific images.
-const FOOD_IMAGES = [
-  // Indian / Asian curries & rice
-  'https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=75&w=800', // Indian curry
-  'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&q=75&w=800', // fried rice
-  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=75&w=800', // biryani/rice
-  'https://images.unsplash.com/photo-1625339020895-c9e64cb8fcce?auto=format&fit=crop&q=75&w=800', // Indian food
-  'https://images.unsplash.com/photo-1604152135912-04a022e23696?auto=format&fit=crop&q=75&w=800', // pasta/noodles
-  // Grilled / BBQ / Meat
-  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=75&w=800', // grilled chicken
-  'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=75&w=800',   // BBQ skewers
-  'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=75&w=800', // meat/steak
-  'https://images.unsplash.com/photo-1631292784640-2b24be784d5d?auto=format&fit=crop&q=75&w=800', // grilled food
-  'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&q=75&w=800', // burger
-  // Salads / Vegetables / Fresh
-  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=75&w=800',   // salad bowl
-  'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=75&w=800',   // healthy bowl
-  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=75&w=800', // vegetable bowl
-  'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=75&w=800', // breakfast bowl
-  'https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&q=75&w=800', // colourful veggies
-  // Italian / Pizza / Pasta
-  'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&q=75&w=800',   // pizza
-  'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=75&w=800', // pizza slices
-  'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=75&w=800', // pasta Italian
-  'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&q=75&w=800', // pasta dish
-  'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&q=75&w=800', // pasta/noodles
-  // Japanese / Sushi / Asian
-  'https://images.unsplash.com/photo-1516100882582-96c3a05fe590?auto=format&fit=crop&q=75&w=800', // sushi rolls
-  'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&q=75&w=800', // Japanese eggs
-  'https://images.unsplash.com/photo-1593826904040-3b79e96a5d8f?auto=format&fit=crop&q=75&w=800', // Asian food
-  // Breakfast / Baked goods
-  'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&q=75&w=800', // baked dish
-  'https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&q=75&w=800', // breakfast/pancakes
-  'https://images.unsplash.com/photo-1551183053-bf91798d792e?auto=format&fit=crop&q=75&w=800',   // baked goods
-  // Soup / Stew / Hearty
-  'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&q=75&w=800', // soup/stew
-  'https://images.unsplash.com/photo-1600850056064-a8b380df8395?auto=format&fit=crop&q=75&w=800', // hearty food
-  // General gourmet
-  'https://images.unsplash.com/photo-1567364816519-cbc9c4e51d8b?auto=format&fit=crop&q=75&w=800', // gourmet dish
-  'https://images.unsplash.com/photo-1645696301019-35adcc18fc76?auto=format&fit=crop&q=75&w=800', // plated food
-];
+const FOOD_IMAGES_BY_CATEGORY = {
+  curry: [
+    'https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=75&w=800', // Indian curry
+    'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&q=75&w=800', // fried rice
+    'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=75&w=800', // biryani/rice
+    'https://images.unsplash.com/photo-1625339020895-c9e64cb8fcce?auto=format&fit=crop&q=75&w=800', // Indian food
+  ],
+  grill_meat: [
+    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=75&w=800', // grilled chicken
+    'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=75&w=800',   // BBQ skewers
+    'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=75&w=800', // meat/steak
+    'https://images.unsplash.com/photo-1631292784640-2b24be784d5d?auto=format&fit=crop&q=75&w=800', // grilled food
+  ],
+  salad_fresh: [
+    'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=75&w=800',   // salad bowl
+    'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=75&w=800',   // healthy bowl
+    'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=75&w=800', // vegetable bowl
+    'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=75&w=800', // breakfast bowl
+  ],
+  pasta_pizza: [
+    'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&q=75&w=800',   // pizza
+    'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=75&w=800', // pizza slices
+    'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=75&w=800', // pasta Italian
+    'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&q=75&w=800', // pasta dish
+  ],
+  asian: [
+    'https://images.unsplash.com/photo-1516100882582-96c3a05fe590?auto=format&fit=crop&q=75&w=800', // sushi rolls
+    'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&q=75&w=800', // Japanese eggs
+    'https://images.unsplash.com/photo-1593826904040-3b79e96a5d8f?auto=format&fit=crop&q=75&w=800', // Asian food
+  ],
+  soup_stew: [
+    'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&q=75&w=800', // soup/stew
+    'https://images.unsplash.com/photo-1600850056064-a8b380df8395?auto=format&fit=crop&q=75&w=800', // hearty food
+  ],
+  general: [
+    'https://images.unsplash.com/photo-1567364816519-cbc9c4e51d8b?auto=format&fit=crop&q=75&w=800', // gourmet dish
+    'https://images.unsplash.com/photo-1645696301019-35adcc18fc76?auto=format&fit=crop&q=75&w=800', // plated food
+  ]
+};
+
+function getCuisineCategory(cuisine, dishName) {
+  const c = cuisine.toLowerCase();
+  const d = dishName.toLowerCase();
+  
+  if (d.includes('stew') || d.includes('soup') || d.includes('moqueca') || d.includes('tagine') || d.includes('curry') || d.includes('karahi')) {
+    return 'soup_stew';
+  }
+  if (c.includes('indian') || c.includes('pakistani') || c.includes('thai')) return 'curry';
+  if (c.includes('japanese') || c.includes('korean') || c.includes('chinese') || c.includes('vietnamese') || c.includes('indonesian')) return 'asian';
+  if (c.includes('italian')) return 'pasta_pizza';
+  if (c.includes('mexican') || c.includes('american') || c.includes('brazilian') || c.includes('turkish') || c.includes('moroccan') || c.includes('spanish')) return 'grill_meat';
+  return 'general';
+}
+
+function getSmartFallbackImage(cuisine, dishName, dayOfYear) {
+  const category = getCuisineCategory(cuisine, dishName);
+  const images = FOOD_IMAGES_BY_CATEGORY[category];
+  return images[(dayOfYear * 7 + 13) % images.length];
+}
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -219,7 +238,7 @@ if (!selectedDish) {
   console.log(`✨ Gemini Dynamically Planned Dish: "${selectedDish}"`);
 }
 
-const fallbackImageUrl = FOOD_IMAGES[(dayOfYear * 7 + 13) % FOOD_IMAGES.length];
+const fallbackImageUrl = getSmartFallbackImage(selectedCuisine.cuisine, selectedDish, dayOfYear);
 
 // ── Fetch real dish image from TheMealDB (free, no API key) ─────────────────
 async function getRealDishImage(dishName) {
@@ -261,7 +280,7 @@ async function generateAIImage(dishName, cuisine, date, retryCount = 0) {
     const prompt = `An authentic, unedited editorial food photograph for a premium culinary magazine. A close-up shot of beautifully plated ${safeDishName}, authentic regional ${cuisine} dish. Captured on a high-end Hasselblad medium format camera with a 90mm lens, f/2.8, shallow depth of field. Natural, slightly diffused side-window daylight, organic soft shadows. Raw culinary textures: visible glistening moisture, crisp caramelized edges, imperfect fresh herbs scattered naturally. Absolutely zero synthetic textures, no artificial studio lighting, no digital CGI smoothness. Genuine culinary realism, highly tactile, stunning magazine feature style.`;
 
     console.log(`🎨 Requesting authentic DSLR photo from Pollinations (Flux)... (attempt ${retryCount + 1}/${MAX_RETRIES + 1})`);
-    const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=576&nologo=true&model=flux&seed=${Math.floor(Math.random() * 10000)}`;
+    const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=576&model=flux&seed=${Math.floor(Math.random() * 10000)}`;
 
     const res = await fetch(pollinationsUrl);
     if (!res.ok) {
