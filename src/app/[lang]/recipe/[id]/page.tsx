@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { cookies } from 'next/headers';
 import { ALL_RECIPES } from '../../../../data/worldRecipes';
 import RecipePageClient from '../../../../views/RecipePageClient';
+import { supabase } from '../../../../lib/supabase';
 
 const RECIPE_TITLE_TEMPLATES: Record<string, string> = {
   en: "Authentic {name} Recipe: {cost} Total Cost ({time} Prep)",
@@ -37,6 +38,23 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       title: 'Searching Recipes...',
     };
   }
+
+  // Fetch custom image override if any
+  let dbImage = null;
+  try {
+    const { data } = await supabase
+      .from('recipe_image_overrides')
+      .select('image_url')
+      .eq('id', resolvedParams.id)
+      .single();
+    if (data?.image_url) {
+      dbImage = data.image_url;
+    }
+  } catch (err) {
+    console.error('Error fetching image override in generateMetadata:', err);
+  }
+
+  const activeImage = dbImage || recipe.image;
 
   const lang = resolvedParams.lang || 'en';
   type RecipeTranslation = { title?: string; description?: string; seoTitle?: string; seoDescription?: string; seoKeywords?: string };
@@ -81,7 +99,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const keywords = tRecipe.seoKeywords || (lang === 'en' ? recipe.seoKeywords : undefined) || `${displayName}, ${recipe.name}, ${recipe.country} cuisine, recipe`;
 
   const defaultImage = 'https://www.fantasticfood.in/og-image.jpg';
-  const ogImage = recipe.image ? `https://www.fantasticfood.in${recipe.image}`.replace('https://www.fantasticfood.inhttps://', 'https://') : defaultImage;
+  const ogImage = activeImage ? `https://www.fantasticfood.in${activeImage}`.replace('https://www.fantasticfood.inhttps://', 'https://') : defaultImage;
 
   return {
     title,
@@ -135,6 +153,23 @@ export default async function RecipePageServer({ params }: { params: Promise<{ l
     redirect(`/${lang}/recipes`);
   }
 
+  // Fetch custom image override if any
+  let dbImage = null;
+  try {
+    const { data } = await supabase
+      .from('recipe_image_overrides')
+      .select('image_url')
+      .eq('id', resolvedParams.id)
+      .single();
+    if (data?.image_url) {
+      dbImage = data.image_url;
+    }
+  } catch (err) {
+    console.error('Error fetching image override in RecipePageServer:', err);
+  }
+
+  const activeImage = dbImage || recipe.image;
+
   type RecipeTranslation = { 
     title?: string; 
     description?: string; 
@@ -160,7 +195,7 @@ export default async function RecipePageServer({ params }: { params: Promise<{ l
     "@context": "https://schema.org/",
     "@type": "Recipe",
     "name": displayName,
-    "image": recipe.image ? [`https://www.fantasticfood.in${recipe.image}`.replace('https://www.fantasticfood.inhttps://', 'https://')] : [],
+    "image": activeImage ? [`https://www.fantasticfood.in${activeImage}`.replace('https://www.fantasticfood.inhttps://', 'https://')] : [],
     "description": tRecipe.description ?? recipe.name,
     "keywords": keywords,
     "author": {

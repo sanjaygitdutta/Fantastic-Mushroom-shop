@@ -8,16 +8,20 @@ import { Clock, Users, ChefHat, ArrowLeft, ShoppingBag, TrendingDown, ShoppingCa
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { useRecipeOverrides } from '../hooks/useRecipeOverrides';
 
 const RecipeDetails = () => {
     const { id } = useParams();
     const { addToCart } = useCart();
     const { t, i18n } = useTranslation();
+    const overrides = useRecipeOverrides();
     const recipe = recipes.find(r => r.id === id);
 
     if (!recipe) {
         return <div className="min-h-screen pt-24 text-center">{t('recipe_not_found')}</div>;
     }
+
+    const activeImage = overrides[recipe.id] || recipe.image;
 
     // Find related products
     const relatedProducts = recipe.ingredients
@@ -43,7 +47,7 @@ const RecipeDetails = () => {
         '@type': 'Recipe',
         name: displayTitle,
         description: displayDescription,
-        image: recipe.image,
+        image: activeImage,
         author: { '@type': 'Organization', name: 'Fantastic Food' },
         prepTime: `PT${recipe.prepTime.replace(' min', 'M')}`,
         cookTime: `PT${recipe.cookTime.replace(' min', 'M')}`,
@@ -63,7 +67,7 @@ const RecipeDetails = () => {
             position: i + 1,
             text: step,
             url: `https://www.fantasticfood.in/recipe/${recipe.id}#step-${i + 1}`,
-            image: recipe.image
+            image: activeImage
         })),
         url: `https://www.fantasticfood.in/recipe/${recipe.id}`,
         publisher: {
@@ -178,7 +182,7 @@ const RecipeDetails = () => {
                     {/* Instructions */}
                     <div className="md:col-span-2">
                         <div className="rounded-3xl overflow-hidden mb-10 shadow-lg">
-                            <img src={recipe.image} alt={recipe.title} className="w-full h-auto" />
+                            <img src={activeImage} alt={recipe.title} className="w-full h-auto" />
                         </div>
 
                         <h3 className="text-2xl font-bold text-forest-900 mb-6">{t('recipe_instructions_title')}</h3>

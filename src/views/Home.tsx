@@ -12,6 +12,7 @@ import DealOfTheDay from '../components/DealOfTheDay';
 import { recipes } from '../data/recipes';
 import { useTranslation, Trans } from 'react-i18next';
 import { useRegion } from '../utils/region';
+import { useRecipeOverrides } from '../hooks/useRecipeOverrides';
 
 // Animated counter
 const Counter = ({ target, suffix = '' }: { target: number; suffix?: string }) => {
@@ -71,6 +72,7 @@ const HOW_IT_WORKS = [
 
 const Home = () => {
   const { scrollY } = useScroll();
+  const overrides = useRecipeOverrides();
   const y1 = useTransform(scrollY, [0, 1000], [0, 300]);
   const y2 = useTransform(scrollY, [0, 1000], [0, -300]);
   const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
@@ -503,7 +505,7 @@ const Home = () => {
                 >
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl w-full h-72">
                     <Image
-                      src={aiRecipe.image}
+                      src={overrides[aiRecipe.id] || aiRecipe.image}
                       alt={displayTitle}
                       fill
                       sizes="(max-width: 768px) 100vw, 500px"

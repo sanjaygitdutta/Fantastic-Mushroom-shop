@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Users, ChefHat, ArrowLeft, ShoppingCart, Globe, Flame, Tag, Share2, Twitter, Facebook, MessageCircle, Play, X, ChevronRight, ChevronLeft, Minus, Plus, CheckCircle2, Send, Link as LinkIcon } from 'lucide-react';
 import { ALL_RECIPES, type WorldRecipe } from '../data/worldRecipes';
 import { useTranslation, Trans } from 'react-i18next';
+import { useRecipeOverrides } from '../hooks/useRecipeOverrides';
 
 const DIFFICULTY_COLORS = {
   Easy: 'bg-green-100 text-green-700 border-green-200',
@@ -27,6 +28,7 @@ export default function RecipePage() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
+  const overrides = useRecipeOverrides();
 
   // Show community banner if user arrived via a shared Aika community post link
   const searchParams = useSearchParams();
@@ -34,6 +36,7 @@ export default function RecipePage() {
   const [copied, setCopied] = useState(false);
   
   const recipe: WorldRecipe | undefined = ALL_RECIPES.find(r => r.id === recipeId);
+  const activeImage = recipe ? (overrides[recipe.id] || recipe.image) : undefined;
 
   // -- NEW UX STATES --
   const [cookMode, setCookMode] = useState(false);
@@ -363,10 +366,10 @@ export default function RecipePage() {
               </div>
 
               {/* Right Column: Image (Desktop Hero) */}
-              {recipe.image && (
+              {activeImage && (
                 <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }} className="rounded-3xl overflow-hidden shadow-2xl border border-forest-800 relative group">
                   <img 
-                    src={recipe.image} 
+                    src={activeImage} 
                     alt={displayName} 
                     className="w-full h-[350px] lg:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"

@@ -11,6 +11,7 @@ import imageCompression from 'browser-image-compression';
 import { supabase } from '../lib/supabase';
 import { recipes } from '../data/recipes';
 import { useAuth } from '../context/AuthContext';
+import { useRecipeOverrides } from '../hooks/useRecipeOverrides';
 import { useRouter } from 'next/navigation';
 import { useRegion } from '../utils/region';
 
@@ -105,6 +106,7 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
   const currentLang = i18n.language || 'en';
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
+  const overrides = useRecipeOverrides();
   const { region } = useRegion();
   const isSG = region?.toUpperCase() === 'SG';
 
@@ -199,7 +201,7 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
         recipe_ingredients: ingredientsList,
         instructions: instructionsList,
         tags: recipe.tags || [],
-        photo_url: recipe.image,
+        photo_url: overrides[recipe.id] || recipe.image,
         user_name: 'Chef Aika 👩‍🍳',
         city: 'Fantastic Food Kitchen',
         likes: 150 + (index * 12),
@@ -207,7 +209,7 @@ const CommunityFeed = ({ initialPosts = [] }: CommunityFeedProps) => {
         created_at: new Date(postTime).toISOString()
       };
     });
-  }, [currentLang]);
+  }, [currentLang, overrides]);
 
   // Combine and sort Supabase posts + Chef Aika posts
   const allPosts = useMemo(() => {

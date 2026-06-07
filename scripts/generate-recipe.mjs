@@ -263,48 +263,7 @@ async function getRealDishImage(dishName) {
   return null;
 }
 
-// ── Generate AI food photo using Pollinations AI (Flux) with DSLR/iPhone Prompt ────
-async function generateAIImage(dishName, cuisine, date, retryCount = 0) {
-  const MAX_RETRIES = 3;
-  try {
-    const safeDishName = dishName
-      .replace(/breast/ig, 'cutlet')
-      .replace(/thigh/ig, 'portion')
-      .replace(/pork/ig, 'savory meat')
-      .replace(/beef/ig, 'savory meat')
-      .replace(/raw/ig, 'fresh')
-      .replace(/blood/ig, 'red sauce')
-      .replace(/spicy fire/ig, 'warm cooked');
-
-    // Ultimate photographic Jedi mind trick prompt: forces the diffusion model to produce a authentic, non-synthetic raw magazine photograph
-    const prompt = `An authentic, unedited editorial food photograph for a premium culinary magazine. A close-up shot of beautifully plated ${safeDishName}, authentic regional ${cuisine} dish. Captured on a high-end Hasselblad medium format camera with a 90mm lens, f/2.8, shallow depth of field. Natural, slightly diffused side-window daylight, organic soft shadows. Raw culinary textures: visible glistening moisture, crisp caramelized edges, imperfect fresh herbs scattered naturally. Absolutely zero synthetic textures, no artificial studio lighting, no digital CGI smoothness. Genuine culinary realism, highly tactile, stunning magazine feature style.`;
-
-    console.log(`🎨 Requesting authentic DSLR photo from Pollinations (Flux)... (attempt ${retryCount + 1}/${MAX_RETRIES + 1})`);
-    const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=576&model=flux&seed=${Math.floor(Math.random() * 10000)}`;
-
-    const res = await fetch(pollinationsUrl);
-    if (!res.ok) {
-      throw new Error(`Pollinations API returned status ${res.status}`);
-    }
-
-    const buffer = await res.arrayBuffer();
-    const imgDir = path.resolve('./public/recipe-images');
-    fs.mkdirSync(imgDir, { recursive: true });
-    const imgPath = path.join(imgDir, `${date}.jpg`);
-    fs.writeFileSync(imgPath, Buffer.from(buffer));
-    const sizeKB = Math.round(fs.statSync(imgPath).size / 1024);
-    console.log(`📸 Authentic editorial photo saved: public/recipe-images/${date}.jpg (${sizeKB}KB)`);
-    return `/recipe-images/${date}.jpg`;
-  } catch (e) {
-    if (retryCount < MAX_RETRIES) {
-      console.warn(`⏳ Image generation failed (${e.message}). Retrying in 3s...`);
-      await new Promise(r => setTimeout(r, 3000));
-      return generateAIImage(dishName, cuisine, date, retryCount + 1);
-    }
-    console.warn(`❌ Pollinations Flux image generation failed after ${MAX_RETRIES} retries: ${e.message}`);
-    return null;
-  }
-}
+// AI image generation removed to comply with Mediavine watermark/authenticity guidelines.
 
 console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" scheduled for ${today}...`);
 
@@ -602,30 +561,17 @@ if (existingContent.includes(`id: '${today}'`)) {
 }
 
 try {
-  // ── Resolve dish image ────────────────────────────────────────────────────
-  // Priority: Imagen AI (primary) → TheMealDB (fallback) → curated fallback
+  // ── Resolve dish image (Mediavine Compliant, Watermark-free) ──────────────
+  // Priority: TheMealDB (real dish photo using base name) → Smart Category-based Unsplash photo
   let imageUrl = fallbackImageUrl;
 
-  // 1️⃣ Gemini Imagen — High quality AI-generated food photos
-  console.log(`🎨 Attempting AI image generation via Gemini Imagen 3 Fast...`);
-  const aiImage = await generateAIImage(selectedDish, selectedCuisine.cuisine, today);
-
-  if (aiImage) {
-    imageUrl = aiImage;
-    console.log(`✅ Using AI-generated image: ${imageUrl}`);
-  }
-  // 2️⃣ TheMealDB — free real food photos (fallback if AI fails)
-  else {
-    console.log(`📸 Imagen failed or unavailable — trying TheMealDB...`);
-    const mealDbImage = await getRealDishImage(selectedDish);
-    if (mealDbImage) {
-      imageUrl = mealDbImage;
-      console.log(`📸 Using TheMealDB real photo: ${imageUrl}`);
-    }
-    // 3️⃣ Curated Unsplash fallback
-    else {
-      console.log(`🖼️  TheMealDB miss — using curated fallback image.`);
-    }
+  console.log(`📸 Checking TheMealDB for real photo of "${fallbackDish}"...`);
+  const mealDbImage = await getRealDishImage(fallbackDish);
+  if (mealDbImage) {
+    imageUrl = mealDbImage;
+    console.log(`✅ Using TheMealDB real photo: ${imageUrl}`);
+  } else {
+    console.log(`🖼️  No TheMealDB photo for "${fallbackDish}" — using smart Unsplash fallback: ${imageUrl}`);
   }
 
   const recipe = await callGemini();
