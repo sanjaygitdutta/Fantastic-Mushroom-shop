@@ -140,13 +140,70 @@ const SINGAPORE_TOPICS = [
   "The history and evolution of Singaporean street food"
 ];
 
-let selectedTopic;
+// ── Dynamically plan a highly searched, high-volume topic via Gemini ──────────────
+async function generateUniqueBlogTopic(dayOfWeek, recentTitlesList) {
+  try {
+    let prompt = '';
+    if (dayOfWeek === 2 || dayOfWeek === 4 || dayOfWeek === 6) {
+      prompt = `You are a world-class Southeast Asian food writer and SEO expert.
+Identify the single most popular, highly searched topic, guide, or recipe question about Singaporean/Southeast Asian food, cooking, or hawker culture that has massive search volume on the internet (e.g., 'Why Hainanese Chicken Rice is Singapore's ultimate comfort food', 'How to achieve Wok Hei at home for Char Kway Teow', or 'How to make authentic Singapore Laksa broth').
+Return ONLY a single line containing the exact highly-searched blog post title/topic. Do not wrap in quotes or markdown.
+CRITICAL: The topic must have high search intent and be under 10-12 words.
+CRITICAL: To avoid duplicate content, do NOT write about any of these recent topics: ${recentTitlesList}`;
+    } else {
+      prompt = `You are a world-class grocery shopping analyst and Indian SEO expert.
+Identify the single most popular, highly searched topic, price comparison question, or savings guide about online grocery delivery apps in India (like Blinkit, Zepto, Swiggy Instamart, BigBasket, JioMart, or Amazon Fresh), local market savings, credit card cashback on groceries, or seasonal vegetable/fruit price fluctuations (e.g., 'Blinkit vs Zepto: Which is faster and cheaper in 2026?', 'Which grocery app gives the best discounts in India?', or 'HDFC vs SBI: Best credit card for grocery cashback').
+Return ONLY a single line containing the exact highly-searched blog post title/topic. Do not wrap in quotes or markdown.
+CRITICAL: The topic must have high search intent, relate directly to smart grocery shopping, delivery apps, or price tracking, and be under 10-12 words.
+CRITICAL: To avoid duplicate content, do NOT write about any of these recent topics: ${recentTitlesList}`;
+    }
 
-// Prioritize Singaporean blog posts 3 times a week (Tuesday, Thursday, Saturday)
-if (dayOfWeek === 2 || dayOfWeek === 4 || dayOfWeek === 6) {
-  selectedTopic = SINGAPORE_TOPICS[Math.floor(Math.random() * SINGAPORE_TOPICS.length)];
+    const payload = {
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.8,
+        maxOutputTokens: 100,
+        thinkingConfig: {
+          thinkingBudget: 0
+        }
+      }
+    };
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Gemini API returned status ${response.status}`);
+    }
+
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) throw new Error("Empty response");
+    return text.trim().replace(/^["']|["']$/g, '');
+  } catch (e) {
+    console.warn(`⚠️ Blog topic generation failed: ${e.message}. Using fallback selection.`);
+    return null;
+  }
+}
+
+const recentTitlesList = usedTitles.slice(-20).join(', ');
+
+console.log(`🧠 Dynamic Planner: Fetching unique, highly-searched blog topic from Gemini...`);
+let selectedTopic = await generateUniqueBlogTopic(dayOfWeek, recentTitlesList);
+
+if (!selectedTopic) {
+  if (dayOfWeek === 2 || dayOfWeek === 4 || dayOfWeek === 6) {
+    selectedTopic = SINGAPORE_TOPICS[Math.floor(Math.random() * SINGAPORE_TOPICS.length)];
+  } else {
+    selectedTopic = topicPool[Math.floor(Math.random() * topicPool.length)];
+  }
+  console.log(`⚠️ Falling back to deterministic topic: "${selectedTopic}"`);
 } else {
-  selectedTopic = topicPool[Math.floor(Math.random() * topicPool.length)];
+  console.log(`✨ Gemini Dynamically Planned Topic: "${selectedTopic}"`);
 }
 
 
@@ -195,6 +252,9 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
       topP: 0.95,
       maxOutputTokens: 8192,
       responseMimeType: "application/json",
+      thinkingConfig: {
+        thinkingBudget: 0
+      },
       responseSchema: {
         type: "OBJECT",
         properties: {
@@ -280,6 +340,9 @@ CRITICAL: Output ONLY valid RFC 8259 JSON. All property names MUST use double qu
       topP: 0.95, 
       maxOutputTokens: 8192,
       responseMimeType: "application/json",
+      thinkingConfig: {
+        thinkingBudget: 0
+      },
       responseSchema: {
         type: "OBJECT",
         properties: {

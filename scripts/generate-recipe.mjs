@@ -280,6 +280,9 @@ async function fetchGeminiJSON(promptText, schema = null, temperature = 0.3, ret
       temperature: temperature,
       maxOutputTokens: 8192,
       responseMimeType: "application/json",
+      thinkingConfig: {
+        thinkingBudget: 0
+      },
       ...(schema ? { responseSchema: schema } : {})
     }
   };
