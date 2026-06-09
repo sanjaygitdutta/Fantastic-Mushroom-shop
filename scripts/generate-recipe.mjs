@@ -270,14 +270,14 @@ async function getRealDishImage(dishName) {
 console.log(`${selectedCuisine.flag} Generating ${selectedCuisine.cuisine} recipe: "${selectedDish}" scheduled for ${today}...`);
 
 // Generic Gemini JSON fetch helper
-async function fetchGeminiJSON(promptText, schema = null, retryCount = 0) {
+async function fetchGeminiJSON(promptText, schema = null, temperature = 0.3, retryCount = 0) {
   const MAX_RETRIES = 3;
   const RETRY_DELAYS_MS = [5000, 15000, 45000];
 
   const payload = {
     contents: [{ parts: [{ text: promptText }] }],
     generationConfig: {
-      temperature: 0.1,
+      temperature: temperature,
       maxOutputTokens: 8192,
       responseMimeType: "application/json",
       ...(schema ? { responseSchema: schema } : {})
@@ -296,7 +296,7 @@ async function fetchGeminiJSON(promptText, schema = null, retryCount = 0) {
     const waitMs = RETRY_DELAYS_MS[retryCount];
     console.log(`⏳ Gemini overloaded (${response.status}). Retrying in ${waitMs / 1000}s... (attempt ${retryCount + 1}/${MAX_RETRIES})`);
     await new Promise(r => setTimeout(r, waitMs));
-    return fetchGeminiJSON(promptText, schema, retryCount + 1);
+    return fetchGeminiJSON(promptText, schema, temperature, retryCount + 1);
   }
 
   if (!response.ok) {
@@ -370,7 +370,7 @@ Write naturally instead.
 Return ONLY a valid JSON object matching EXACTLY this structure:
 {
   "title": "${selectedDish}",
-  "description": "Write a highly detailed, 3-paragraph conversational backstory here in English. Do not hold back on word count, make it extremely descriptive, personal, and premium.",
+  "description": "Write a highly engaging, 3-paragraph conversational backstory here in English (approx. 200-250 words). Make it descriptive, personal, premium, and concise enough to be punchy.",
   "prepTime": "25 min",
   "cookTime": "45 min",
   "difficulty": "Medium",
@@ -419,7 +419,7 @@ Return ONLY a valid JSON object matching EXACTLY this structure:
   };
 
   console.log(`🤖 Generating master English recipe for "${selectedDish}"...`);
-  const englishRecipe = await fetchGeminiJSON(englishPrompt, englishSchema);
+  const englishRecipe = await fetchGeminiJSON(englishPrompt, englishSchema, 0.4);
 
   // Programmatic Title guardrail on the generated English title
   englishRecipe.title = englishRecipe.title
@@ -568,13 +568,13 @@ try {
   // Priority: TheMealDB (real dish photo using base name) → Smart Category-based Unsplash photo
   let imageUrl = fallbackImageUrl;
 
-  console.log(`📸 Checking TheMealDB for real photo of "${fallbackDish}"...`);
-  const mealDbImage = await getRealDishImage(fallbackDish);
+  console.log(`📸 Checking TheMealDB for real photo of "${selectedDish}"...`);
+  const mealDbImage = await getRealDishImage(selectedDish);
   if (mealDbImage) {
     imageUrl = mealDbImage;
     console.log(`✅ Using TheMealDB real photo: ${imageUrl}`);
   } else {
-    console.log(`🖼️  No TheMealDB photo for "${fallbackDish}" — using smart Unsplash fallback: ${imageUrl}`);
+    console.log(`🖼️  No TheMealDB photo for "${selectedDish}" — using smart Unsplash fallback: ${imageUrl}`);
   }
 
   const recipe = await callGemini();
