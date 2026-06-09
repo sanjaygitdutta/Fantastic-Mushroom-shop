@@ -52,4 +52,5 @@ jobs:
           git add src/data/coupons.ts
           # Only commit if the file actually changed
           git diff --staged --quiet || git commit -m "🎟️ Daily AI Coupons Update: $(date -u '+%Y-%m-%d')"
-          git push
+          git pull --rebase origin main
+          git push origin main
