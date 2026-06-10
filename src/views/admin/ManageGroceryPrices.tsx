@@ -148,19 +148,52 @@ const ManageGroceryPrices = () => {
   }, []);
 
   // 2. Filter products based on search AND category
-  const filteredItems = masterProducts.filter(item => {
-    const matchesSearch = item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.query.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    // Check if it has ANY live prices
-    const hasLivePrices = liveData.some(ld => ld.item_name === item.query && ld.price > 0);
-    
-    const matchesCategory = activeCategory === 'All' ? true : 
-                          activeCategory === 'Pending' ? !hasLivePrices :
-                          item.category === activeCategory;
+  const filteredItems = (() => {
+    const items = masterProducts.filter(item => {
+      const matchesSearch = item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           item.query.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      // Check if it has ANY live prices
+      const hasLivePrices = liveData.some(ld => ld.item_name === item.query && ld.price > 0);
+      
+      const matchesCategory = activeCategory === 'All' ? true : 
+                            activeCategory === 'Pending' ? !hasLivePrices :
+                            item.category === activeCategory;
 
-    return matchesSearch && matchesCategory;
-  });
+      return matchesSearch && matchesCategory;
+    });
+
+    if (!searchQuery) return items;
+
+    const key = searchQuery.toLowerCase().trim();
+    const norm = (s: string) => s.toLowerCase().replace(/[\s\-_]+/g, '_').trim();
+    const nKey = norm(key);
+
+    const scored = items.map(item => {
+      const nId = norm(item.query || '');
+      const nName = norm(item.label || '');
+      let score = 0;
+
+      if (nId === nKey) {
+        score = 1000;
+      } else if (nId.startsWith(nKey + '_') || nId.startsWith(nKey)) {
+        score = 500 - item.query.length;
+      } else if (nName === nKey) {
+        score = 400;
+      } else if (nName.startsWith(nKey + '_') || nName.startsWith(nKey)) {
+        score = 300 - item.label.length;
+      } else if (nId.includes(nKey)) {
+        score = 200 - item.query.length;
+      } else if (nName.includes(nKey)) {
+        score = 100 - item.label.length;
+      }
+
+      return { item, score };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+    return scored.map(s => s.item);
+  })();
 
   // Calculate Paginated View
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);

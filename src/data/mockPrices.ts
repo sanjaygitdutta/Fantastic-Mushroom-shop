@@ -4028,6 +4028,72 @@ export const getBestPrice = (prices: PlatformPrice[]): PlatformPrice | null => {
   return inStock.reduce((best, curr) => (curr.price < best.price ? curr : best), inStock[0]);
 };
 
+const rankDbProducts = (products: any[], query: string): any => {
+  if (!products || products.length === 0) return null;
+  const key = query.toLowerCase().trim();
+  const norm = (s: string) => s.toLowerCase().replace(/[\s\-_]+/g, '_').trim();
+  const nKey = norm(key);
+
+  const scored = products.map(p => {
+    const nId = norm(p.id || '');
+    const nName = norm(p.canonical_name || '');
+    let score = 0;
+
+    if (nId === nKey) {
+      score = 1000;
+    } else if (nId.startsWith(nKey + '_') || nId.startsWith(nKey)) {
+      score = 500 - p.id.length;
+    } else if (nName === nKey) {
+      score = 400;
+    } else if (nName.startsWith(nKey + '_') || nName.startsWith(nKey)) {
+      score = 300 - p.canonical_name.length;
+    } else if (nId.includes(nKey)) {
+      score = 200 - p.id.length;
+    } else if (nName.includes(nKey)) {
+      score = 100 - p.canonical_name.length;
+    }
+
+    return { product: p, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0].score > 0 ? scored[0].product : products[0];
+};
+
+const rankMockDbKeys = (keys: string[], query: string, db: Record<string, CompareResult>): string | undefined => {
+  if (!keys || keys.length === 0) return undefined;
+  const key = query.toLowerCase().trim();
+  const norm = (s: string) => s.toLowerCase().replace(/[\s\-_]+/g, '_').trim();
+  const nKey = norm(key);
+
+  const scored = keys.map(k => {
+    const item = db[k];
+    const nId = norm(k);
+    const nQuery = norm(item?.query || '');
+    const nName = norm(item?.canonicalName || '');
+    let score = 0;
+
+    if (nId === nKey || nQuery === nKey) {
+      score = 1000;
+    } else if (nId.startsWith(nKey + '_') || nId.startsWith(nKey) || nQuery.startsWith(nKey + '_') || nQuery.startsWith(nKey)) {
+      score = 500 - k.length;
+    } else if (nName === nKey) {
+      score = 400;
+    } else if (nName.startsWith(nKey + '_') || nName.startsWith(nKey)) {
+      score = 300 - (item?.canonicalName || '').length;
+    } else if (nId.includes(nKey) || nQuery.includes(nKey)) {
+      score = 200 - k.length;
+    } else if (nName.includes(nKey)) {
+      score = 100 - (item?.canonicalName || '').length;
+    }
+
+    return { key: k, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0].score > 0 ? scored[0].key : undefined;
+};
+
 const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): Promise<CompareResult | null> => {
   await delay(400 + Math.random() * 300);
   const englishQuery = getEnglishQuery(query);
@@ -4045,20 +4111,15 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
     const { data: pData, error: pError } = await supabase
       .from('products')
       .select('*')
-      .or(`id.eq.${key},canonical_name.ilike.%${fuzzyKey}%`)
-      .limit(1)
-      .single();
+      .or(`id.eq.${key},canonical_name.ilike.%${fuzzyKey}%`);
     
-    if (!pError && pData) {
-      dbProduct = pData;
-      productId = pData.id;
+    if (!pError && pData && pData.length > 0) {
+      const bestProduct = rankDbProducts(pData, key);
+      dbProduct = bestProduct;
+      productId = bestProduct.id;
     } else {
-      // If not in DB, cautiously check MOCK_DB properties
-      const match = Object.keys(MOCK_DB).find((k) => 
-        k === key || 
-        MOCK_DB[k as keyof typeof MOCK_DB].query.toLowerCase() === key ||
-        MOCK_DB[k as keyof typeof MOCK_DB].canonicalName.toLowerCase().includes(key)
-      );
+      // If not in DB, cautiously check appropriate mock DB properties using rankMockDbKeys
+      const match = rankMockDbKeys(Object.keys(DB), key, DB);
       if (match) productId = match;
     }
 
@@ -4149,7 +4210,7 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
 
   // 2. Fallback to MOCK_DB / Auto-generation logic
   let resultTemplate: CompareResult;
-  const match = Object.keys(DB).find((k) => k === key || k.includes(key) || key.includes(k));
+  const match = rankMockDbKeys(Object.keys(DB), key, DB);
 
   if (match) {
     resultTemplate = JSON.parse(JSON.stringify(DB[match])) as CompareResult;
