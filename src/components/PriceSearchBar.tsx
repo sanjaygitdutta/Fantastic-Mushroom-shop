@@ -8,6 +8,7 @@ import { POPULAR_SEARCHES, MOCK_DB } from '../data/mockPrices';
 import { MOCK_DB_SG } from '../data/mockPricesSG';
 import { useRegion } from '../utils/region';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '../lib/supabase';
 
 interface PriceSearchBarProps {
   variant?: 'hero' | 'page';
@@ -52,17 +53,113 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
       setSuggestions([]);
       return;
     }
+
     const trimmedQuery = query.toLowerCase().trim();
-    const filtered = Object.keys(DB)
-      .map(key => ({ key, ...DB[key] }))
-      .filter(item => {
-        const canonical = (item.canonicalName || '').toLowerCase();
-        const qKey = (item.query || '').toLowerCase();
-        return canonical.includes(trimmedQuery) || qKey.includes(trimmedQuery);
-      })
-      .slice(0, 5);
-    setSuggestions(filtered);
-  }, [query, DB]);
+    const fuzzyKey = trimmedQuery.replace(/\s+/g, '%');
+    
+    let active = true;
+
+    const fetchSuggestions = async () => {
+      try {
+        const targetPlatforms = region === 'SG' 
+          ? ['fairprice', 'redmart', 'coldstorage', 'shengsiong', 'giant', 'grabmart', 'pandamart', 'amazon_sg']
+          : ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart', 'instamart'];
+
+        // 1. Query live_prices for items matching in the current region
+        const { data: priceData, error: priceError } = await supabase
+          .from('live_prices')
+          .select('item_name, canonical_name')
+          .in('platform_id', targetPlatforms)
+          .gt('price', 0)
+          .ilike('canonical_name', `%${fuzzyKey}%`)
+          .limit(15);
+
+        if (priceError) throw priceError;
+
+        if (priceData && priceData.length > 0 && active) {
+          const itemNames = Array.from(new Set(priceData.map(p => p.item_name)));
+          
+          // 2. Fetch product details (icon, category) for these item names
+          const { data: productData } = await supabase
+            .from('products')
+            .select('id, canonical_name, icon, category')
+            .in('id', itemNames);
+
+          const mapped = priceData.map(p => {
+            const prod = productData?.find(pr => pr.id === p.item_name);
+            return {
+              key: p.item_name,
+              query: p.item_name,
+              canonicalName: p.canonical_name || prod?.canonical_name || p.item_name,
+              icon: prod?.icon || '🛒',
+              category: prod?.category || 'Grocery'
+            };
+          });
+
+          // Deduplicate suggestions by query/key
+          const uniqueSuggestions: any[] = [];
+          const seen = new Set();
+          for (const item of mapped) {
+            if (!seen.has(item.query)) {
+              seen.add(item.query);
+              uniqueSuggestions.push(item);
+            }
+          }
+
+          if (active) {
+            setSuggestions(uniqueSuggestions.slice(0, 5));
+          }
+        } else if (active) {
+          // If no matching live prices, search the products table directly (e.g. for pending items)
+          const { data: productData, error: prodError } = await supabase
+            .from('products')
+            .select('id, canonical_name, icon, category')
+            .or(`id.ilike.%${fuzzyKey}%,canonical_name.ilike.%${fuzzyKey}%`)
+            .limit(10);
+
+          if (!prodError && productData && productData.length > 0 && active) {
+            const mapped = productData.map(p => ({
+              key: p.id,
+              query: p.id,
+              canonicalName: p.canonical_name || p.id,
+              icon: p.icon || '🛒',
+              category: p.category || 'Grocery'
+            }));
+            setSuggestions(mapped.slice(0, 5));
+          } else if (active) {
+            runLocalFallback();
+          }
+        }
+      } catch (err) {
+        console.error("Suggestions fetch error:", err);
+        if (active) {
+          runLocalFallback();
+        }
+      }
+    };
+
+    const runLocalFallback = () => {
+      const filtered = Object.keys(DB)
+        .map(key => ({ key, ...DB[key] }))
+        .filter(item => {
+          const canonical = (item.canonicalName || '').toLowerCase();
+          const qKey = (item.query || '').toLowerCase();
+          return canonical.includes(trimmedQuery) || qKey.includes(trimmedQuery);
+        })
+        .slice(0, 5);
+      setSuggestions(filtered);
+    };
+
+    // Debounce the database fetch (300ms) to avoid spamming queries
+    const delayDebounce = setTimeout(() => {
+      fetchSuggestions();
+    }, 300);
+
+    return () => {
+      active = false;
+      clearTimeout(delayDebounce);
+    };
+  }, [query, DB, region]);
 
   // Handle click outside to close suggestions
   useEffect(() => {
