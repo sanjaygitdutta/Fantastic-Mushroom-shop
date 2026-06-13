@@ -35,9 +35,6 @@ export async function generateMetadata() {
 export default function Page() {
   return (
     <>
-      <Script id="page-analytics" strategy="afterInteractive">
-        {`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date());`}
-      </Script>
       <GoogleAnalytics GA_MEASUREMENT_ID="G-QLDLDN52KB" />
       <Providers>
         <div className="min-h-screen flex flex-col max-w-full overflow-x-hidden">

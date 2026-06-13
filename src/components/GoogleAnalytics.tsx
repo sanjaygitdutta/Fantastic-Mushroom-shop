@@ -9,7 +9,15 @@ function TrackPageView({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (pathname && (window as any).gtag) {
+    if (pathname) {
+      // Ensure window.gtag is defined so early route changes are queued in dataLayer
+      if (!(window as any).gtag) {
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).gtag = function () {
+          (window as any).dataLayer.push(arguments);
+        };
+      }
+
       const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
       (window as any).gtag('config', GA_MEASUREMENT_ID, {
         page_path: url,
