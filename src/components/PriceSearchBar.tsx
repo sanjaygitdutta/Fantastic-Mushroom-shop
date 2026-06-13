@@ -65,70 +65,51 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
           ? ['fairprice', 'redmart', 'coldstorage', 'shengsiong', 'giant', 'grabmart', 'pandamart', 'amazon_sg']
           : ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart', 'instamart'];
 
-        // 1. Query live_prices for items matching in the current region
-        const { data: priceData, error: priceError } = await supabase
-          .from('live_prices')
-          .select('item_name, canonical_name')
-          .in('platform_id', targetPlatforms)
-          .gt('price', 0)
-          .ilike('canonical_name', `%${fuzzyKey}%`)
-          .limit(15);
+        // 1. Query products first to get up to 40 unique product candidates matching the key
+        const { data: productData, error: prodError } = await supabase
+          .from('products')
+          .select('id, canonical_name, icon, category')
+          .or(`id.ilike.%${fuzzyKey}%,canonical_name.ilike.%${fuzzyKey}%`)
+          .order('canonical_name', { ascending: true })
+          .limit(40);
 
-        if (priceError) throw priceError;
+        if (prodError) throw prodError;
 
-        if (priceData && priceData.length > 0 && active) {
-          const itemNames = Array.from(new Set(priceData.map(p => p.item_name)));
-          
-          // 2. Fetch product details (icon, category) for these item names
-          const { data: productData } = await supabase
-            .from('products')
-            .select('id, canonical_name, icon, category')
-            .in('id', itemNames);
+        if (productData && productData.length > 0 && active) {
+          const productIds = productData.map(p => p.id);
 
-          const mapped = priceData.map(p => {
-            const prod = productData?.find(pr => pr.id === p.item_name);
-            return {
-              key: p.item_name,
-              query: p.item_name,
-              canonicalName: p.canonical_name || prod?.canonical_name || p.item_name,
-              icon: prod?.icon || '🛒',
-              category: prod?.category || 'Grocery'
-            };
-          });
+          // 2. Query live_prices to filter only the products that have active prices in the current region
+          const { data: priceData, error: priceError } = await supabase
+            .from('live_prices')
+            .select('item_name, platform_id, price')
+            .in('item_name', productIds)
+            .in('platform_id', targetPlatforms)
+            .gt('price', 0);
 
-          // Deduplicate suggestions by query/key
-          const uniqueSuggestions: any[] = [];
-          const seen = new Set();
-          for (const item of mapped) {
-            if (!seen.has(item.query)) {
-              seen.add(item.query);
-              uniqueSuggestions.push(item);
-            }
-          }
+          if (priceError) throw priceError;
 
-          if (active) {
-            setSuggestions(uniqueSuggestions.slice(0, 5));
-          }
-        } else if (active) {
-          // If no matching live prices, search the products table directly (e.g. for pending items)
-          const { data: productData, error: prodError } = await supabase
-            .from('products')
-            .select('id, canonical_name, icon, category')
-            .or(`id.ilike.%${fuzzyKey}%,canonical_name.ilike.%${fuzzyKey}%`)
-            .limit(10);
+          const activeProductIds = new Set(priceData?.map(p => p.item_name) || []);
 
-          if (!prodError && productData && productData.length > 0 && active) {
-            const mapped = productData.map(p => ({
+          // Keep products that have active prices in this region
+          const filteredProducts = productData.filter(p => activeProductIds.has(p.id));
+
+          if (filteredProducts.length > 0) {
+            const mapped = filteredProducts.map(p => ({
               key: p.id,
-              query: p.id,
+              query: p.canonical_name || p.id,
               canonicalName: p.canonical_name || p.id,
               icon: p.icon || '🛒',
               category: p.category || 'Grocery'
             }));
-            setSuggestions(mapped.slice(0, 5));
+
+            if (active) {
+              setSuggestions(mapped.slice(0, 5));
+            }
           } else if (active) {
             runLocalFallback();
           }
+        } else if (active) {
+          runLocalFallback();
         }
       } catch (err) {
         console.error("Suggestions fetch error:", err);
