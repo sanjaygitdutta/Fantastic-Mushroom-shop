@@ -226,7 +226,7 @@ export default async function RootLayout({
 
         {/* Cuelinks Affiliate Monetization */}
         <Script id="cuelinks-config" strategy="afterInteractive">
-          {`window.cl_pub = '';`}
+          {`window.cl_pub = '242722';`}
         </Script>
         <Script 
           src="https://cdn.cuelinks.com/js/cuelinksmacro_v2.js" 
