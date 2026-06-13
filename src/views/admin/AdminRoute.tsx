@@ -11,7 +11,7 @@ const AdminRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch('/api/admin/check-auth');
+        const res = await fetch('/api/admin/check-auth', { cache: 'no-store' });
         if (res.ok) {
           setIsAuthorized(true);
         } else {

@@ -36,6 +36,21 @@ export function middleware(request: NextRequest) {
 
   const parts = pathname.split('/').filter(Boolean);
 
+  // Admin routing check: protect all /admin/* routes except login
+  const isAdminPath = parts[0] === 'admin' || (ALL_LANGUAGES.includes(parts[0]) && parts[1] === 'admin');
+  const isLoginPath = (parts[0] === 'admin' && parts[1] === 'login') || 
+                      (ALL_LANGUAGES.includes(parts[0]) && parts[1] === 'admin' && parts[2] === 'login');
+
+  if (isAdminPath && !isLoginPath) {
+    const session = request.cookies.get('admin_session')?.value;
+    if (session !== 'authenticated') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/admin/login';
+      url.search = '';
+      return NextResponse.redirect(url);
+    }
+  }
+
   // 1. Permanent 301 Redirect for the 'en' language prefix to clean unprefixed paths
   // e.g. /en/compare -> /compare, /en -> /
   if (parts[0] === 'en') {
