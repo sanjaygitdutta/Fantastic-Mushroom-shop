@@ -339,9 +339,21 @@ async function fetchGeminiJSON(promptText, schema = null, temperature = 0.3, ret
   try {
     return JSON.parse(cleanText);
   } catch (parseErr) {
-    console.error("❌ JSON parsing failed. Sanitized response text was:\n", cleanText);
-    console.error("📋 Candidate Details:\n", JSON.stringify(data.candidates?.[0] || {}, null, 2));
-    throw new Error(`JSON.parse failed: ${parseErr.message}`);
+    console.warn("⚠️ Initial JSON parse failed. Attempting auto-repair on malformed JSON...");
+    try {
+      // 1. Repair commas instead of colons between key and value (e.g. ,"key" , "value" -> ,"key": "value")
+      let repaired = cleanText.replace(/([,{])\s*"(title|description|prepTime|cookTime|difficulty|servings|ingredients|instructions|tags|seoTitle|seoDescription|seoKeywords)"\s*,\s*([{"\d\[tfn])/g, (match, prefix, key, valStart) => {
+        return `${prefix}"${key}": ${valStart}`;
+      });
+      // 2. Remove trailing commas before closing braces/brackets
+      repaired = repaired.replace(/,\s*([\]}])/g, '$1');
+      
+      return JSON.parse(repaired);
+    } catch (repairErr) {
+      console.error("❌ JSON parsing failed even after auto-repair. Sanitized response text was:\n", cleanText);
+      console.error("📋 Candidate Details:\n", JSON.stringify(data.candidates?.[0] || {}, null, 2));
+      throw new Error(`JSON.parse failed: ${parseErr.message} (Auto-repair also failed: ${repairErr.message})`);
+    }
   }
 }
 
@@ -509,7 +521,7 @@ Identify the single best high-intent long-tail keyword in the target language fo
     };
 
     const finalPrompt = `${translatePrompt}\n\nEnglish Recipe to translate:\n${JSON.stringify(payload, null, 2)}`;
-    return await fetchGeminiJSON(finalPrompt, translationSchema);
+    return await fetchGeminiJSON(finalPrompt, translationSchema, 0.1);
   }
 
   // Translate in 8 parallel individual calls to prevent context token truncation
