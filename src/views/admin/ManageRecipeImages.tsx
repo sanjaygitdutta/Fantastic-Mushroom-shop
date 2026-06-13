@@ -65,9 +65,10 @@ const ManageRecipeImages = () => {
     fetchOverrides();
   }, []);
 
-  // 2. Filter recipes based on search, category, and override status
+  // 2. Filter and sort recipes based on search, category, and override status
+  // Latest posts (AI-generated posts with date IDs) are shown first, sorted descending.
   const filteredRecipes = useMemo(() => {
-    return ALL_RECIPES.filter(recipe => {
+    const list = ALL_RECIPES.filter(recipe => {
       const isAI = /^\d{4}-\d{2}-\d{2}$/.test(recipe.id);
       const displayName = recipe.translations?.en?.title || recipe.name;
       
@@ -84,6 +85,19 @@ const ManageRecipeImages = () => {
                                 !hasOverride;
 
       return matchesSearch && matchesCategory && matchesFilterType;
+    });
+
+    return [...list].sort((a, b) => {
+      const aIsAI = /^\d{4}-\d{2}-\d{2}$/.test(a.id);
+      const bIsAI = /^\d{4}-\d{2}-\d{2}$/.test(b.id);
+
+      if (aIsAI && bIsAI) {
+        return b.id.localeCompare(a.id); // Newest date first
+      }
+      if (aIsAI && !bIsAI) return -1;    // AI recipe goes first
+      if (!aIsAI && bIsAI) return 1;     // AI recipe goes first
+
+      return a.id.localeCompare(b.id);   // Alphabetical for static recipes
     });
   }, [searchQuery, activeCategory, activeFilterType, overrides]);
 
