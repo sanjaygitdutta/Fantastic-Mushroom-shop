@@ -244,9 +244,9 @@ const ComparePage = () => {
       )}
 
       {/* ── Premium Hero ── */}
-      <div className="bg-linear-to-br from-forest-900 via-forest-800 to-forest-900 text-white pt-8 pb-10 px-4 mb-0 relative overflow-hidden">
+      <div className="bg-linear-to-br from-forest-900 via-forest-800 to-forest-900 text-white pt-8 pb-10 px-4 mb-0 relative">
         {/* Background glow */}
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-forest-400/10 rounded-full blur-3xl" />
         </div>

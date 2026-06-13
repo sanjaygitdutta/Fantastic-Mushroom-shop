@@ -90,17 +90,20 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-20">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-linear-to-br from-forest-900 via-forest-800 to-forest-700 -z-10" />
-        {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-10 -z-10"
-          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='2' fill='%23FEFAE0' fill-opacity='0.4'/%3E%3C/svg%3E\")" }}
-        />
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20">
+        {/* Background elements wrapper with overflow-hidden */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-linear-to-br from-forest-900 via-forest-800 to-forest-700" />
+          {/* Subtle pattern overlay */}
+          <div className="absolute inset-0 opacity-10"
+            style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='2' fill='%23FEFAE0' fill-opacity='0.4'/%3E%3C/svg%3E\")" }}
+          />
 
-        {/* Floating blobs with Parallax */}
-        <motion.div style={{ y: y1 }} className="absolute top-20 left-10 w-72 h-72 bg-moss-500/20 rounded-full blur-3xl -z-10 animate-float" />
-        <motion.div style={{ y: y2 }} className="absolute bottom-20 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl -z-10 animate-float" />
+          {/* Floating blobs with Parallax */}
+          <motion.div style={{ y: y1 }} className="absolute top-20 left-10 w-72 h-72 bg-moss-500/20 rounded-full blur-3xl animate-float" />
+          <motion.div style={{ y: y2 }} className="absolute bottom-20 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl animate-float" />
+        </div>
 
         <motion.div style={{ opacity: opacityText, y: useTransform(scrollY, [0, 400], [0, 100]) }} className="max-w-5xl mx-auto text-center z-10">
           {/* Badge */}
