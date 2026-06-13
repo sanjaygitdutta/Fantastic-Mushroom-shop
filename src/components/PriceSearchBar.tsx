@@ -4,7 +4,9 @@ import { useRouter } from 'next/navigation';
 
 import { Search, MapPin, X, Loader2, Mic } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { POPULAR_SEARCHES } from '../data/mockPrices';
+import { POPULAR_SEARCHES, MOCK_DB } from '../data/mockPrices';
+import { MOCK_DB_SG } from '../data/mockPricesSG';
+import { useRegion } from '../utils/region';
 import { useTranslation } from 'react-i18next';
 
 interface PriceSearchBarProps {
@@ -29,11 +31,92 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
   const [isListening, setIsListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(true);
   
+  // Autocomplete Suggestions State
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
+  const { region } = useRegion();
   const PLACEHOLDERS = getPlaceholders(t);
+
+  const DB = region === 'SG' ? MOCK_DB_SG : MOCK_DB;
+
+  // Filter suggestions on query change
+  useEffect(() => {
+    if (!query.trim()) {
+      setSuggestions([]);
+      return;
+    }
+    const trimmedQuery = query.toLowerCase().trim();
+    const filtered = Object.keys(DB)
+      .map(key => ({ key, ...DB[key] }))
+      .filter(item => {
+        const canonical = (item.canonicalName || '').toLowerCase();
+        const qKey = (item.query || '').toLowerCase();
+        return canonical.includes(trimmedQuery) || qKey.includes(trimmedQuery);
+      })
+      .slice(0, 5);
+    setSuggestions(filtered);
+  }, [query, DB]);
+
+  // Handle click outside to close suggestions
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Autocomplete helper to highlight matches
+  const highlightMatch = (text: string, search: string) => {
+    if (!search) return text;
+    const parts = text.split(new RegExp(`(${search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi'));
+    return (
+      <span>
+        {parts.map((part, i) => 
+          part.toLowerCase() === search.toLowerCase() 
+            ? <strong key={i} className="text-forest-900 font-bold">{part}</strong> 
+            : <span key={i} className="text-forest-600 font-medium">{part}</span>
+        )}
+      </span>
+    );
+  };
+
+  const handleSuggestionClick = (suggestionQuery: string) => {
+    setQuery(suggestionQuery);
+    setShowSuggestions(false);
+    handleSearch(undefined, suggestionQuery);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!showSuggestions || suggestions.length === 0) return;
+    
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev + 1) % (suggestions.length + 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev - 1 + (suggestions.length + 1)) % (suggestions.length + 1));
+    } else if (e.key === 'Enter') {
+      if (activeIndex >= 0 && activeIndex < suggestions.length) {
+        e.preventDefault();
+        handleSuggestionClick(suggestions[activeIndex].query);
+      } else if (activeIndex === suggestions.length) {
+        e.preventDefault();
+        handleSuggestionClick(query);
+      }
+    } else if (e.key === 'Escape') {
+      setShowSuggestions(false);
+    }
+  };
 
   // Restore stored location if any
   useEffect(() => {
@@ -133,6 +216,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
     e?.preventDefault();
     const q = (overrideQuery || query).trim();
     if (!q) return;
+    setShowSuggestions(false);
     setIsLoading(true);
     await new Promise((r) => setTimeout(r, 200)); // small UX delay
     router.push(`/compare?q=${encodeURIComponent(q)}${pincode ? `&pincode=${pincode}` : ''}`);
@@ -142,7 +226,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
   const isHero = variant === 'hero';
 
   return (
-    <div className={isHero ? 'w-full max-w-3xl' : 'w-full max-w-2xl'}>
+    <div ref={searchContainerRef} className={`${isHero ? 'w-full max-w-3xl' : 'w-full max-w-2xl'} relative`}>
       <form onSubmit={handleSearch}>
         <div className={`search-bar flex items-center ${isHero ? 'p-2' : 'p-1.5'} gap-2`}>
           {/* Search icon */}
@@ -159,7 +243,13 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
             ref={inputRef}
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setShowSuggestions(true);
+              setActiveIndex(-1);
+            }}
+            onFocus={() => setShowSuggestions(true)}
+            onKeyDown={handleKeyDown}
             placeholder={PLACEHOLDERS[placeholderIdx]}
             className={`flex-1 w-full min-w-0 bg-transparent outline-none text-forest-900 placeholder-forest-400 ${isHero ? 'text-lg py-2' : 'text-base py-1.5'} font-medium`}
             autoComplete="off"
@@ -173,7 +263,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                onClick={() => setQuery('')}
+                onClick={() => { setQuery(''); setSuggestions([]); }}
                 className="p-1.5 rounded-full hover:bg-forest-100 transition-colors"
               >
                 <X className="w-4 h-4 text-forest-500" />
@@ -270,6 +360,68 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
           )}
         </AnimatePresence>
       </form>
+
+      {/* Autocomplete Suggestions Dropdown */}
+      <AnimatePresence>
+        {showSuggestions && suggestions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15 }}
+            className="absolute left-0 right-0 z-50 mt-2 bg-white border border-forest-200 rounded-2xl shadow-xl overflow-hidden max-h-72 overflow-y-auto"
+          >
+            <div className="py-2.5 px-4 bg-forest-50/50 border-b border-forest-100 text-xs font-bold text-forest-700 tracking-wider uppercase">
+              {t('showing_suggestions', { defaultValue: 'Showing suggestions' })}
+            </div>
+            <ul>
+              {suggestions.map((item, idx) => {
+                const isActive = idx === activeIndex;
+                return (
+                  <li
+                    key={item.key}
+                    onClick={() => handleSuggestionClick(item.query)}
+                    onMouseEnter={() => setActiveIndex(idx)}
+                    className={`flex items-center justify-between px-4 py-3 cursor-pointer transition-colors ${
+                      isActive ? 'bg-forest-50 text-forest-900' : 'hover:bg-forest-50/50 text-forest-800'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-forest-50 flex items-center justify-center text-lg border border-forest-100/50 shrink-0">
+                        {item.icon}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold">
+                          {highlightMatch(item.canonicalName || item.key, query)}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="text-xs bg-forest-100/80 text-forest-700 font-semibold px-2 py-0.5 rounded-full select-none">
+                      {t(item.category?.toLowerCase(), { defaultValue: item.category })}
+                    </span>
+                  </li>
+                );
+              })}
+              
+              {/* Fallback to hit enter */}
+              <li
+                onClick={() => handleSuggestionClick(query)}
+                className={`flex items-center gap-3 px-4 py-3 cursor-pointer text-sm font-semibold border-t border-forest-100/40 ${
+                  activeIndex === suggestions.length ? 'bg-forest-50 text-forest-900' : 'hover:bg-forest-50/50 text-forest-600'
+                }`}
+                onMouseEnter={() => setActiveIndex(suggestions.length)}
+              >
+                <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-lg shrink-0">
+                  🔍
+                </div>
+                <span>
+                  {t('search_all_results_for', { defaultValue: 'Search all results for' })} "{query}"
+                </span>
+              </li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Popular searches (hero only) */}
       {isHero && (
