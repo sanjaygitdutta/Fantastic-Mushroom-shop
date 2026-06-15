@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { getPlatformById } from '../data/platforms';
-import { getAffiliateUrl } from '../utils/affiliate';
+import { getAffiliateUrl, handleAffiliateClick } from '../utils/affiliate';
 import { usePriceWatch } from '../hooks/usePriceWatch';
 import toast from 'react-hot-toast';
 import { getRelatedItems } from '../data/compareFeatures';
@@ -89,6 +89,7 @@ const TableRow = ({ price, isBest, rank, t }: { price: PlatformPrice; isBest: bo
           href={getAffiliateUrl(price.platformId, price.url)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={handleAffiliateClick}
           className={`inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${isBest ? 'bg-forest-700 text-white hover:bg-forest-800' : 'bg-forest-50 text-forest-700 border border-forest-200 hover:bg-forest-100'
             } ${!price.inStock ? 'opacity-40 pointer-events-none' : ''}`}
         >

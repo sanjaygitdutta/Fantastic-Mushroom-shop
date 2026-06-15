@@ -11,6 +11,7 @@ import { searchPrices } from '../data/mockPrices';
 import type { CompareResult } from '../data/mockPrices';
 import { PLATFORMS } from '../data/platforms';
 import { useTranslation } from 'react-i18next';
+import { getAffiliateUrl, handleAffiliateClick } from '../utils/affiliate';
 
 interface BasketItem {
   id: string;
@@ -746,10 +747,11 @@ const BasketCalculator = () => {
 
                             {/* Buy button */}
                             <a
-                              href={platform.searchUrl(basket.map(b => b.query).join(' '))}
+                              href={getAffiliateUrl(pt.platformId, platform.searchUrl(basket.map(b => b.query).join(' ')))}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`hidden sm:flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-xl transition-all border ${
+                              onClick={handleAffiliateClick}
+                              className={`flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-xl transition-all border ${
                                 isBest
                                   ? 'bg-amber-400 text-forest-900 border-amber-400 hover:bg-amber-500'
                                   : 'border-white/20 text-green-300 hover:border-white/40'

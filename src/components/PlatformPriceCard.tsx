@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ExternalLink, ShoppingCart, TrendingDown, AlertCircle, Clock, Tag, Scale, CheckCircle2 } from 'lucide-react';
 import type { PlatformPrice } from '../data/mockPrices';
 import { getPlatformById } from '../data/platforms';
-import { getAffiliateUrl } from '../utils/affiliate';
+import { getAffiliateUrl, handleAffiliateClick } from '../utils/affiliate';
 import { PLATFORM_COUPONS } from '../data/compareFeatures';
 import { getUnitPrice } from '../utils/unitPrice';
 import { useTranslation } from 'react-i18next';
@@ -137,7 +137,13 @@ const PlatformPriceCard = ({ price, isBest, index }: PlatformPriceCardProps) => 
         href={getAffiliateUrl(price.platformId, price.url)}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={(e) => !price.inStock && e.preventDefault()}
+        onClick={(e) => {
+          if (!price.inStock) {
+            e.preventDefault();
+            return;
+          }
+          handleAffiliateClick(e);
+        }}
         className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
           isBest
             ? 'bg-forest-700 text-cream-100 hover:bg-forest-800 shadow-md hover:shadow-lg'
