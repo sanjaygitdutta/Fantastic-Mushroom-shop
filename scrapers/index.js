@@ -22,7 +22,7 @@ const USER_AGENTS = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0'
 ];
 
-// Helper: Deterministic daily fluctuation (-5% to +5%) based on date, item, and platform
+// Helper: Deterministic daily fluctuation (±0.10% to ±1%) based on date, item, and platform
 function getDailyFluctuation(productId, platformId) {
   const dateStr = new Date().toISOString().split('T')[0]; // e.g., "2026-05-10"
   const seedString = `${dateStr}-${productId}-${platformId}`;
@@ -33,8 +33,11 @@ function getDailyFluctuation(productId, platformId) {
   }
   const randomVal = ((hash ^ (hash >> 15)) >>> 0) / 4294967296; // 0.0 to 1.0
 
-  // Return multiplier between 0.95 and 1.05
-  return 0.95 + (randomVal * 0.10);
+  // Return multiplier between ±0.10% and ±1% (0.99 to 0.999 or 1.001 to 1.01)
+  const sign = randomVal < 0.5 ? -1 : 1;
+  const normalizedVal = randomVal < 0.5 ? randomVal * 2 : (randomVal - 0.5) * 2;
+  const pct = 0.001 + normalizedVal * 0.009;
+  return 1 + sign * pct;
 }
 
 // Concurrency helper

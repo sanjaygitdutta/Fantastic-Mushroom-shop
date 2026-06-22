@@ -29,9 +29,10 @@ export interface CompareResult {
   category: string;
   icon: string;
   prices: PlatformPrice[];
+  isNotTracked?: boolean;
 }
 
-// Helper: Deterministic daily fluctuation (-5% to +5%) based on date, item, and platform
+// Helper: Deterministic daily fluctuation (±0.10% to ±1%) based on date, item, and platform
 export const getDailyFluctuation = (productId: string, platformId: string): number => {
   const dateStr = new Date().toISOString().split('T')[0]; // e.g., "2026-05-10"
   const seedString = `${dateStr}-${productId}-${platformId}`;
@@ -42,8 +43,11 @@ export const getDailyFluctuation = (productId: string, platformId: string): numb
   }
   const randomVal = ((hash ^ (hash >> 15)) >>> 0) / 4294967296; // 0.0 to 1.0
   
-  // Return multiplier between 0.95 and 1.05
-  return 0.95 + (randomVal * 0.10);
+  // Return multiplier between ±0.10% and ±1% (0.99 to 0.999 or 1.001 to 1.01)
+  const sign = randomVal < 0.5 ? -1 : 1;
+  const normalizedVal = randomVal < 0.5 ? randomVal * 2 : (randomVal - 0.5) * 2;
+  const pct = 0.001 + normalizedVal * 0.009;
+  return 1 + sign * pct;
 };
 
 // Helper: add realistic variation to a base price
@@ -4031,31 +4035,52 @@ export const getBestPrice = (prices: PlatformPrice[]): PlatformPrice | null => {
 const rankDbProducts = (products: any[], query: string): any => {
   if (!products || products.length === 0) return null;
   const key = query.toLowerCase().trim();
-  const norm = (s: string) => s.toLowerCase().replace(/[\s\-_]+/g, '_').trim();
-  const nKey = norm(key);
-
+  const queryWords = key.split(/[\s_\-]+/).filter(w => w.length > 0);
+  
   const scored = products.map(p => {
-    const nId = norm(p.id || '');
-    const nName = norm(p.canonical_name || '');
+    const id = (p.id || '').toLowerCase();
+    const name = (p.canonical_name || '').toLowerCase();
     let score = 0;
-
-    if (nId === nKey) {
-      score = 1000;
-    } else if (nId.startsWith(nKey + '_') || nId.startsWith(nKey)) {
-      score = 500 - p.id.length;
-    } else if (nName === nKey) {
-      score = 400;
-    } else if (nName.startsWith(nKey + '_') || nName.startsWith(nKey)) {
-      score = 300 - p.canonical_name.length;
-    } else if (nId.includes(nKey)) {
-      score = 200 - p.id.length;
-    } else if (nName.includes(nKey)) {
-      score = 100 - p.canonical_name.length;
+    
+    // 1. Exact full query match
+    if (id === key || name === key) {
+      score += 10000;
     }
-
+    
+    // 2. Contains full query as a phrase
+    if (id.includes(key) || name.includes(key)) {
+      score += 2000;
+    }
+    
+    // 3. Word-based matching (most matching word ranking)
+    const idParts = id.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+    const nameParts = name.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+    
+    queryWords.forEach(qw => {
+      // Exact word match in name
+      if (nameParts.includes(qw)) {
+        score += 1000;
+      }
+      // Exact word match in id
+      else if (idParts.includes(qw)) {
+        score += 800;
+      }
+      // Substring match
+      else if (name.includes(qw)) {
+        score += 200;
+      }
+      else if (id.includes(qw)) {
+        score += 100;
+      }
+    });
+    
+    // 4. Penalty for length to prefer shorter/more precise matches
+    score -= name.length * 0.1;
+    score -= id.length * 0.1;
+    
     return { product: p, score };
   });
-
+  
   scored.sort((a, b) => b.score - a.score);
   return scored[0].score > 0 ? scored[0].product : products[0];
 };
@@ -4063,33 +4088,45 @@ const rankDbProducts = (products: any[], query: string): any => {
 const rankMockDbKeys = (keys: string[], query: string, db: Record<string, CompareResult>): string | undefined => {
   if (!keys || keys.length === 0) return undefined;
   const key = query.toLowerCase().trim();
-  const norm = (s: string) => s.toLowerCase().replace(/[\s\-_]+/g, '_').trim();
-  const nKey = norm(key);
-
+  const queryWords = key.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+  
   const scored = keys.map(k => {
     const item = db[k];
-    const nId = norm(k);
-    const nQuery = norm(item?.query || '');
-    const nName = norm(item?.canonicalName || '');
+    const id = k.toLowerCase();
+    const qField = (item?.query || '').toLowerCase();
+    const name = (item?.canonicalName || '').toLowerCase();
     let score = 0;
-
-    if (nId === nKey || nQuery === nKey) {
-      score = 1000;
-    } else if (nId.startsWith(nKey + '_') || nId.startsWith(nKey) || nQuery.startsWith(nKey + '_') || nQuery.startsWith(nKey)) {
-      score = 500 - k.length;
-    } else if (nName === nKey) {
-      score = 400;
-    } else if (nName.startsWith(nKey + '_') || nName.startsWith(nKey)) {
-      score = 300 - (item?.canonicalName || '').length;
-    } else if (nId.includes(nKey) || nQuery.includes(nKey)) {
-      score = 200 - k.length;
-    } else if (nName.includes(nKey)) {
-      score = 100 - (item?.canonicalName || '').length;
+    
+    if (id === key || qField === key || name === key) {
+      score += 10000;
     }
-
+    
+    if (id.includes(key) || qField.includes(key) || name.includes(key)) {
+      score += 2000;
+    }
+    
+    const idParts = id.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+    const qFieldParts = qField.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+    const nameParts = name.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+    
+    queryWords.forEach(qw => {
+      if (nameParts.includes(qw)) {
+        score += 1000;
+      } else if (idParts.includes(qw) || qFieldParts.includes(qw)) {
+        score += 800;
+      } else if (name.includes(qw)) {
+        score += 200;
+      } else if (id.includes(qw) || qField.includes(qw)) {
+        score += 100;
+      }
+    });
+    
+    score -= name.length * 0.1;
+    score -= id.length * 0.1;
+    
     return { key: k, score };
   });
-
+  
   scored.sort((a, b) => b.score - a.score);
   return scored[0].score > 0 ? scored[0].key : undefined;
 };
@@ -4105,13 +4142,24 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
   const DB = region === 'SG' ? MOCK_DB_SG : MOCK_DB;
 
   try {
-    // Make search fuzzy by replacing spaces with wildcards (e.g., '7 up' -> '%7%up%')
-    const fuzzyKey = key.replace(/\s+/g, '%');
+    const words = key.split(/\s+/).filter((w: string) => w.length > 0);
+    let pData: any[] | null = null;
+    let pError = null;
     
-    const { data: pData, error: pError } = await supabase
-      .from('products')
-      .select('*')
-      .or(`id.eq.${key},canonical_name.ilike.%${fuzzyKey}%`);
+    if (words.length > 0) {
+      // Build conditions: id contains word OR canonical_name contains word
+      const orConditions = words.flatMap(w => [
+        `id.ilike.%${w}%`,
+        `canonical_name.ilike.%${w}%`
+      ]).join(',');
+      
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .or(orConditions);
+      pData = data;
+      pError = error;
+    }
     
     if (!pError && pData && pData.length > 0) {
       const bestProduct = rankDbProducts(pData, key);
@@ -4236,67 +4284,27 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
         });
       }
     });
+    return resultTemplate;
   } else {
-    const basePrice = estimateBasePrice(key);
-    if (region === 'SG') {
-        const sgBase = (basePrice / 55) + 1.5;
-        resultTemplate = {
-            query,
-            canonicalName: query.charAt(0).toUpperCase() + query.slice(1),
-            category: 'Grocery',
-            icon: '🛒',
-            prices: [
-                { platformId: 'fairprice',   productName: query, price: vary(sgBase, 0.92, 1.08), originalPrice: vary(sgBase, 1.1, 1.2),  discount: 8,  unit: '1 unit', inStock: true,  url: generateSearchUrl('fairprice', query),   lastUpdated: new Date().toISOString(), deliveryTime: '1 day' },
-                { platformId: 'redmart',     productName: query, price: vary(sgBase, 0.88, 1.02), originalPrice: vary(sgBase, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true,  url: generateSearchUrl('redmart', query),     lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
-                { platformId: 'coldstorage', productName: query, price: vary(sgBase, 0.95, 1.1),  originalPrice: vary(sgBase, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true,  url: generateSearchUrl('coldstorage', query), lastUpdated: new Date().toISOString(), deliveryTime: 'Same day' },
-                { platformId: 'amazon_sg',   productName: query, price: vary(sgBase, 1.0, 1.2),   originalPrice: vary(sgBase, 1.15, 1.3),  discount: 11, unit: '1 unit', inStock: true,  url: generateSearchUrl('amazon_sg', query),   lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs' }
-            ]
-        };
-    } else {
-const basePrice = estimateBasePrice(key);
-    resultTemplate = {
-        query,
-        canonicalName: query.charAt(0).toUpperCase() + query.slice(1),
-        category: 'Grocery',
-        icon: '🛒',
-        prices: [
-            { platformId: 'blinkit',   productName: query, price: vary(basePrice, 0.92, 1.08), originalPrice: vary(basePrice, 1.1, 1.2),   discount: 8,  unit: '1 unit', inStock: true, url: generateSearchUrl('blinkit', query),   lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
-            { platformId: 'bigbasket', productName: query, price: vary(basePrice, 0.88, 1.02), originalPrice: vary(basePrice, 1.05, 1.15), discount: 12, unit: '1 unit', inStock: true, url: generateSearchUrl('bigbasket', query), lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
-            { platformId: 'swiggy',    productName: query, price: vary(basePrice, 0.95, 1.1),  originalPrice: vary(basePrice, 1.08, 1.18), discount: 10, unit: '1 unit', inStock: true, url: generateSearchUrl('swiggy', query),    lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
-            { platformId: 'zepto',     productName: query, price: vary(basePrice, 0.86, 1.04), originalPrice: vary(basePrice, 1.1, 1.2),   discount: 15, unit: '1 unit', inStock: true, url: generateSearchUrl('zepto', query),     lastUpdated: new Date().toISOString(), deliveryTime: '10 min' },
-            { platformId: 'amazon',    productName: query, price: vary(basePrice, 1.0,  1.2),  originalPrice: vary(basePrice, 1.15, 1.3),  discount: 11, unit: '1 unit', inStock: true, url: generateSearchUrl('amazon', query),    lastUpdated: new Date().toISOString(), deliveryTime: '2 hrs'  },
-            { platformId: 'jiomart',   productName: query, price: vary(basePrice, 0.84, 0.98), originalPrice: vary(basePrice, 1.0, 1.12),  discount: 14, unit: '1 unit', inStock: true, url: generateSearchUrl('jiomart', query),   lastUpdated: new Date().toISOString(), deliveryTime: '1 day'  },
-            { platformId: 'flipkart',  productName: query, price: vary(basePrice, 0.85, 1.0),  originalPrice: vary(basePrice, 1.08, 1.15), discount: 12, unit: '1 unit', inStock: true, url: generateSearchUrl('flipkart', query),  lastUpdated: new Date().toISOString(), deliveryTime: '15 min' },
-        ]
-    };
-    }
-  }
-
-  // Apply deterministic daily fluctuation to auto-generated/fallback prices
-  resultTemplate.prices = resultTemplate.prices.map(p => {
-    const fluc = getDailyFluctuation(resultTemplate.query, p.platformId);
-    // Small prices (SG, e.g. S$2.19) need 2 decimal places; large prices (IN, e.g. ₹30) round to integer
-    const raw = p.price * fluc;
-    const fPrice = raw < 10 ? parseFloat(raw.toFixed(2)) : Math.round(raw);
-    const rawOrig = Math.max(p.originalPrice, fPrice * 1.15);
-    const fOrig = rawOrig < 10 ? parseFloat(rawOrig.toFixed(2)) : Math.round(rawOrig);
-    return { ...p, price: fPrice, originalPrice: fOrig };
-  });
-
     // 2.5 Log a background Scrape Request for new items (Scrape-on-Demand)
     try {
-        // Only request if it's not a known item in MOCK_DB (to save bot capacity)
-        if (!match) {
-            await supabase.from('scrape_requests').upsert({ 
-                query: key,
-                status: 'pending'
-            }, { onConflict: 'query' });
-        }
+      await supabase.from('scrape_requests').upsert({ 
+        query: key,
+        status: 'pending'
+      }, { onConflict: 'query' });
     } catch (e) {
-        console.warn("Could not log scrape request", e);
+      console.warn("Could not log scrape request", e);
     }
 
-    return resultTemplate;
+    return {
+      query,
+      canonicalName: query.charAt(0).toUpperCase() + query.slice(1),
+      category: 'Grocery',
+      icon: '🔍',
+      prices: [],
+      isNotTracked: true
+    };
+  }
 };
 
 // ─── POPULAR SEARCHES ──────────────────────────────────────────────────────────

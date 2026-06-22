@@ -397,11 +397,13 @@ const ComparePage = () => {
         {result && !loading && (
           <>
             <CompareResultsGrid result={result} />
-            <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 text-center mb-10">
-              <p className="text-amber-800 text-sm">
-                <span className="font-bold">⚠️ </span> {t('prices_vary_disclaimer')}
-              </p>
-            </div>
+            {!result.isNotTracked && (
+              <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 text-center mb-10">
+                <p className="text-amber-800 text-sm">
+                  <span className="font-bold">⚠️ </span> {t('prices_vary_disclaimer')}
+                </p>
+              </div>
+            )}
 
             {/* Suggested Recipes */}
             {(() => {

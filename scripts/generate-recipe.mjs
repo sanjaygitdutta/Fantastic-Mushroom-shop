@@ -91,6 +91,9 @@ const WORLD_CUISINES = [
 
   // 🇮🇩 Indonesia
   { country: 'Indonesia', cuisine: 'Indonesian', flag: '🇮🇩', dishes: ['Nasi Goreng', 'Rendang', 'Satay (Sate)', 'Gado-Gado', 'Soto Ayam', 'Mie Goreng', 'Bakso (Meatball Soup)', 'Opor Ayam', 'Pecel', 'Rawon'] },
+
+  // 🇸🇬 Singapore
+  { country: 'Singapore', cuisine: 'Singaporean', flag: '🇸🇬', dishes: ['Hainanese Chicken Rice', 'Laksa', 'Char Kway Teow', 'Chilli Crab', 'Nasi Lemak', 'Mee Rebus', 'Roti Prata', 'Hokkien Mee', 'Bak Kut Teh', 'Fish Head Curry', 'Prawn Noodles', 'Oyster Omelette', 'Kaya Toast', 'Murtabak'] },
 ];
 
 // Verified Unsplash food photos ONLY — every ID here confirmed to show actual food
@@ -143,7 +146,7 @@ function getCuisineCategory(cuisine, dishName) {
     return 'soup_stew';
   }
   if (c.includes('indian') || c.includes('pakistani') || c.includes('thai')) return 'curry';
-  if (c.includes('japanese') || c.includes('korean') || c.includes('chinese') || c.includes('vietnamese') || c.includes('indonesian')) return 'asian';
+  if (c.includes('japanese') || c.includes('korean') || c.includes('chinese') || c.includes('vietnamese') || c.includes('indonesian') || c.includes('singaporean')) return 'asian';
   if (c.includes('italian')) return 'pasta_pizza';
   if (c.includes('mexican') || c.includes('american') || c.includes('brazilian') || c.includes('turkish') || c.includes('moroccan') || c.includes('spanish')) return 'grill_meat';
   return 'general';
@@ -156,6 +159,26 @@ function getSmartFallbackImage(cuisine, dishName, dayOfYear) {
 }
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+// Extract already generated recipe titles to avoid duplicates
+function getExistingTitles() {
+  try {
+    const recipesPath = path.resolve('./src/data/recipes.ts');
+    if (!fs.existsSync(recipesPath)) return [];
+    const content = fs.readFileSync(recipesPath, 'utf-8');
+    // Match only top-level titles (sub-indented) to avoid translation titles
+    const titleRegex = /id:\s*'[^']+',\s*(?:publishedAt:\s*'[^']+',\s*)?title:\s*'([^']+)'/g;
+    const titles = [];
+    let match;
+    while ((match = titleRegex.exec(content)) !== null) {
+      titles.push(match[1].trim());
+    }
+    return titles;
+  } catch (e) {
+    console.warn(`⚠️ Error reading existing recipe titles: ${e.message}`);
+    return [];
+  }
+}
 
 // ── Pick today's cuisine & generate unique dish name ──────────────────────
 const now = new Date();
@@ -172,32 +195,34 @@ const randomMinute = Math.floor(Math.random() * 60);
 const publishDate = new Date(`${today}T${String(randomHour).padStart(2, '0')}:${String(randomMinute).padStart(2, '0')}:00+05:30`);
 const publishedAtStr = publishDate.toISOString();
 
-let selectedCuisine;
-let fallbackDishPool;
+// Select cuisine deterministically based on day of year
+const selectedCuisine = WORLD_CUISINES[dayOfYear % WORLD_CUISINES.length];
+const fallbackDishPool = selectedCuisine.dishes;
 
-// Prioritize Singaporean recipes 3 times a week (Monday, Wednesday, Friday)
-if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {
-  const singaporeCuisine = { country: 'Singapore', cuisine: 'Singaporean', flag: '🇸🇬', dishes: ['Hainanese Chicken Rice', 'Laksa', 'Char Kway Teow', 'Chilli Crab', 'Nasi Lemak', 'Mee Rebus', 'Roti Prata', 'Hokkien Mee', 'Bak Kut Teh', 'Fish Head Curry', 'Prawn Noodles', 'Oyster Omelette', 'Kaya Toast', 'Murtabak'] };
-  selectedCuisine = singaporeCuisine;
-  fallbackDishPool = singaporeCuisine.dishes;
-} else {
-  selectedCuisine = WORLD_CUISINES[dayOfYear % WORLD_CUISINES.length];
-  fallbackDishPool = selectedCuisine.dishes;
-}
+// Extract existing titles to verify and exclude duplicates
+const existingTitles = getExistingTitles();
+const existingTitlesLower = new Set(existingTitles.map(t => t.toLowerCase()));
 
-// Fallback dish selection deterministically
-const fallbackDish = fallbackDishPool[dayOfYear % fallbackDishPool.length];
+// Filter out already generated dishes from fallbackDishPool
+const availableFallbackDishes = fallbackDishPool.filter(d => !existingTitlesLower.has(d.toLowerCase()));
+const fallbackDish = availableFallbackDishes.length > 0
+  ? availableFallbackDishes[dayOfYear % availableFallbackDishes.length]
+  : fallbackDishPool[dayOfYear % fallbackDishPool.length];
 
 // ── Dynamically generate a completely unique, authentic dish name via Gemini ────
-async function generateUniqueDishName(cuisine, country) {
+async function generateUniqueDishName(cuisine, country, excludedDishes = []) {
   try {
+    const excludedText = excludedDishes.length > 0
+      ? `\nCRITICAL: Do NOT choose any of the following dishes, as they have already been generated:\n${excludedDishes.map(t => `- ${t}`).join('\n')}`
+      : '';
+
     const prompt = `You are a world-renowned culinary analyst and SEO expert.
 Identify the single most popular, highly searched regional signature dish for ${cuisine} cuisine from ${country} on the internet.
 You must choose a dish that real people search for massive numbers of times (e.g., 'Butter Chicken', 'Chicken Biryani', 'Pad Thai', 'Tacos al Pastor', 'Chicken Karahi').
 Format the dish title exactly as a search user would type it or expect to see it for high search intent (e.g., 'Authentic Butter Chicken' or 'Easy Chicken Biryani').
 Do NOT invent fancy, long, gourmet chef descriptions or artificial titles (like 'Slow-Simmered Murg Makhani with Charcoal-Smoked Gravy') that have zero search volume.
 Return ONLY a single line containing the exact highly-searched English title of the dish. Do not wrap in quotes or markdown.
-CRITICAL: The title must be a clean, search-optimized proper noun. Never end the title with conjunctions like 'and', 'with', 'for', 'or', or commas. Keep the title under 5-7 words.`;
+CRITICAL: The title must be a clean, search-optimized proper noun. Never end the title with conjunctions like 'and', 'with', 'for', 'or', or commas. Keep the title under 5-7 words.${excludedText}`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -229,14 +254,28 @@ CRITICAL: The title must be a clean, search-optimized proper noun. Never end the
 }
 
 // Fetch dynamic dish or fall back if Gemini call fails
-console.log(`🧠 Dynamic Planner: Fetching unique ${selectedCuisine.cuisine} dish name from Gemini...`);
-let selectedDish = await generateUniqueDishName(selectedCuisine.cuisine, selectedCuisine.country);
+let selectedDish = null;
+const tempExclusions = [...existingTitles];
+
+for (let attempt = 1; attempt <= 3; attempt++) {
+  console.log(`🧠 Dynamic Planner: Fetching unique ${selectedCuisine.cuisine} dish name from Gemini (attempt ${attempt}/3)...`);
+  const candidate = await generateUniqueDishName(selectedCuisine.cuisine, selectedCuisine.country, tempExclusions);
+  if (candidate) {
+    const cleanCandidate = candidate.replace(/["']/g, '').replace(/\s+(and|with|for|&|or|और|এবং|aur)\s*$/i, '').trim();
+    if (!existingTitlesLower.has(cleanCandidate.toLowerCase())) {
+      selectedDish = cleanCandidate;
+      break;
+    } else {
+      console.warn(`⚠️ Gemini generated a duplicate dish: "${cleanCandidate}". Retrying...`);
+      tempExclusions.push(cleanCandidate);
+    }
+  }
+}
+
 if (!selectedDish) {
   selectedDish = fallbackDish;
-  console.log(`⚠️ Falling back to deterministic dish: "${selectedDish}"`);
+  console.log(`⚠️ Falling back to deterministic/unused dish: "${selectedDish}"`);
 } else {
-  // Sanitization step: clean double quotes and trailing conjunctions
-  selectedDish = selectedDish.replace(/["']/g, '').replace(/\s+(and|with|for|&|or|और|এবং)\s*$/i, '').trim();
   console.log(`✨ Gemini Dynamically Planned Dish: "${selectedDish}"`);
 }
 
@@ -289,11 +328,22 @@ async function fetchGeminiJSON(promptText, schema = null, temperature = 0.3, ret
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    if (retryCount < MAX_RETRIES) {
+      const waitMs = RETRY_DELAYS_MS[retryCount];
+      console.log(`⏳ Network error (${err.message}). Retrying in ${waitMs / 1000}s... (attempt ${retryCount + 1}/${MAX_RETRIES})`);
+      await new Promise(r => setTimeout(r, waitMs));
+      return fetchGeminiJSON(promptText, schema, temperature, retryCount + 1);
+    }
+    throw err;
+  }
 
   if ((response.status === 503 || response.status === 429) && retryCount < MAX_RETRIES) {
     const waitMs = RETRY_DELAYS_MS[retryCount];
@@ -524,18 +574,16 @@ Identify the single best high-intent long-tail keyword in the target language fo
     return await fetchGeminiJSON(finalPrompt, translationSchema, 0.1);
   }
 
-  // Translate in 8 parallel individual calls to prevent context token truncation
-  console.log(`🤖 Starting parallel translation for 8 languages to prevent context token truncation...`);
-  const [hiBatch, bnBatch, mrBatch, knBatch, teBatch, taBatch, cnBatch, msBatch] = await Promise.all([
-    translateBatch({ hi: 'Hindi' }),
-    translateBatch({ bn: 'Bengali' }),
-    translateBatch({ mr: 'Marathi' }),
-    translateBatch({ kn: 'Kannada' }),
-    translateBatch({ te: 'Telugu' }),
-    translateBatch({ ta: 'Tamil' }),
-    translateBatch({ 'zh-CN': 'Simplified Chinese' }),
-    translateBatch({ ms: 'Malay' })
-  ]);
+  // Translate in series to prevent rate limit and socket failures
+  console.log(`🤖 Starting sequential translations for 8 languages to prevent rate limits...`);
+  const hiBatch = await translateBatch({ hi: 'Hindi' });
+  const bnBatch = await translateBatch({ bn: 'Bengali' });
+  const mrBatch = await translateBatch({ mr: 'Marathi' });
+  const knBatch = await translateBatch({ kn: 'Kannada' });
+  const teBatch = await translateBatch({ te: 'Telugu' });
+  const taBatch = await translateBatch({ ta: 'Tamil' });
+  const cnBatch = await translateBatch({ 'zh-CN': 'Simplified Chinese' });
+  const msBatch = await translateBatch({ ms: 'Malay' });
 
   // Combine translations
   const finalResult = {

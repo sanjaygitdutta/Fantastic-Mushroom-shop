@@ -1,5 +1,3 @@
-// ------------------------------------------------------------------
-import { supabase } from '../lib/supabase';
 // Fantastic Food — Price Data System
 // Phase 1: Rich mock DB covering 50+ frequently ordered food items
 // Phase 2 (Production): Replace searchPrices() with live Supabase
@@ -27,9 +25,10 @@ export interface CompareResult {
   category: string;
   icon: string;
   prices: PlatformPrice[];
+  isNotTracked?: boolean;
 }
 
-// Helper: Deterministic daily fluctuation (-5% to +5%) based on date, item, and platform
+// Helper: Deterministic daily fluctuation (±0.10% to ±1%) based on date, item, and platform
 export const getDailyFluctuation = (productId: string, platformId: string): number => {
   const dateStr = new Date().toISOString().split('T')[0]; // e.g., "2026-05-10"
   const seedString = `${dateStr}-${productId}-${platformId}`;
@@ -40,13 +39,12 @@ export const getDailyFluctuation = (productId: string, platformId: string): numb
   }
   const randomVal = ((hash ^ (hash >> 15)) >>> 0) / 4294967296; // 0.0 to 1.0
 
-  // Return multiplier between 0.95 and 1.05
-  return 0.95 + (randomVal * 0.10);
+  // Return multiplier between ±0.10% and ±1% (0.99 to 0.999 or 1.001 to 1.01)
+  const sign = randomVal < 0.5 ? -1 : 1;
+  const normalizedVal = randomVal < 0.5 ? randomVal * 2 : (randomVal - 0.5) * 2;
+  const pct = 0.001 + normalizedVal * 0.009;
+  return 1 + sign * pct;
 };
-
-// Helper: add realistic variation to a base price
-const vary = (base: number, min = 0.88, max = 1.18) =>
-  Math.round(base * (min + Math.random() * (max - min)));
 
 // Helper: build platform-specific search URL
 export const generateSearchUrl = (platformId: string, query: string) => {

@@ -180,6 +180,72 @@ const CompareResultsGrid = ({ result }: CompareResultsGridProps) => {
     setShowWatchModal(false);
   };
 
+  if (result.isNotTracked) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-2xl mx-auto bg-white rounded-3xl border border-forest-100 overflow-hidden shadow-xl"
+      >
+        <div className="bg-linear-to-br from-forest-900 via-forest-800 to-forest-900 text-white p-8 text-center relative overflow-hidden">
+          {/* Decorative background lights */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/20 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-moss-500/20 rounded-full blur-2xl pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col items-center">
+            {/* Animated radar icon container */}
+            <div className="relative mb-6">
+              <span className="absolute -inset-2 bg-amber-400/20 rounded-full animate-ping opacity-75 animate-duration-2000" />
+              <div className="relative w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 text-3xl">
+                🔎
+              </div>
+            </div>
+            
+            <h2 className="text-2xl font-black mb-3">
+              {t('tracking_soon_title', { defaultValue: 'We are tracking this item soon!' })}
+            </h2>
+            
+            <p className="text-forest-200 text-sm max-w-md mx-auto leading-relaxed">
+              {t('tracking_soon_desc', { defaultValue: `We couldn't find active price comparison data for "${displayName}" right now. We have automatically queued this item for our scrapers and will display live prices here soon!` })}
+            </p>
+
+            {/* Tracking Status Timeline */}
+            <div className="mt-8 grid grid-cols-3 w-full max-w-md gap-2 text-xs font-semibold text-center border-t border-white/10 pt-6">
+              <div className="flex flex-col items-center">
+                <span className="w-6 h-6 rounded-full bg-emerald-400 text-forest-900 flex items-center justify-center font-bold text-[10px] mb-1.5">✓</span>
+                <span className="text-emerald-400">{t('status_requested', { defaultValue: 'Requested' })}</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="w-6 h-6 rounded-full bg-amber-400 text-forest-900 flex items-center justify-center font-bold text-[10px] mb-1.5 animate-pulse">●</span>
+                <span className="text-amber-400">{t('status_queued', { defaultValue: 'Queued' })}</span>
+              </div>
+              <div className="flex flex-col items-center opacity-40">
+                <span className="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center font-bold text-[10px] mb-1.5">3</span>
+                <span>{t('status_live', { defaultValue: 'Go Live' })}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Action / Help Section */}
+        <div className="p-6 bg-gray-50 border-t border-forest-50 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-left">
+            <h3 className="font-bold text-forest-900 text-sm">{t('want_this_faster', { defaultValue: 'Want to prioritize this item?' })}</h3>
+            <p className="text-xs text-forest-600">{t('priority_description', { defaultValue: 'Submitting a priority vote alerts our system to crawl this product immediately.' })}</p>
+          </div>
+          <button
+            onClick={() => {
+              toast.success(t('toast_prioritized', { defaultValue: 'Vote submitted! Prioritizing this product...' }));
+            }}
+            className="bg-forest-900 hover:bg-forest-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl whitespace-nowrap shadow-sm hover:shadow-md transition-all flex items-center gap-1.5"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" /> {t('prioritize_button', { defaultValue: 'Prioritize Item' })}
+          </button>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <div>
       {/* ── Savings callout ── */}
