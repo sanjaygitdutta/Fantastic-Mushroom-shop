@@ -110,50 +110,62 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
     }));
 
     // Cities
-    const cityRoutes = targetCities.map((city: string) => ({
-      url: `${langBase}/city/${city}`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-      alternates: {
-        languages: getAlternates(`city/${city}`)
-      }
-    }));
+    const cityRoutes = targetCities.map((city: string) => {
+      const encodedCity = encodeURIComponent(city);
+      return {
+        url: `${langBase}/city/${encodedCity}`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+        alternates: {
+          languages: getAlternates(`city/${encodedCity}`)
+        }
+      };
+    });
 
     // Food Items (only active items in price database)
-    const foodRoutes = foodItems.map((food: string) => ({
-      url: `${langBase}/food/${food}`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-      alternates: {
-        languages: getAlternates(`food/${food}`)
-      }
-    }));
+    const foodRoutes = foodItems.map((food: string) => {
+      const encodedFood = encodeURIComponent(food);
+      return {
+        url: `${langBase}/food/${encodedFood}`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+        alternates: {
+          languages: getAlternates(`food/${encodedFood}`)
+        }
+      };
+    });
 
     // AI Recipes
-    const recipeRoutes = ALL_RECIPES.map((recipe) => ({
-      url: `${langBase}/recipe/${recipe.id}`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-      alternates: {
-        languages: getAlternates(`recipe/${recipe.id}`)
-      }
-    }));
-
-    // AI Blogs
-    const blogRoutes = BLOG_POSTS
-      .filter((blog) => new Date(blog.date) <= new Date())
-      .map((blog) => ({
-        url: `${langBase}/blog/${blog.slug}`,
+    const recipeRoutes = ALL_RECIPES.map((recipe) => {
+      const encodedRecipeId = encodeURIComponent(recipe.id);
+      return {
+        url: `${langBase}/recipe/${encodedRecipeId}`,
         lastModified: currentDate,
         changeFrequency: 'monthly' as const,
         priority: 0.8,
         alternates: {
-          languages: getAlternates(`blog/${blog.slug}`)
+          languages: getAlternates(`recipe/${encodedRecipeId}`)
         }
-      }));
+      };
+    });
+
+    // AI Blogs
+    const blogRoutes = BLOG_POSTS
+      .filter((blog) => new Date(blog.date) <= new Date())
+      .map((blog) => {
+        const encodedSlug = encodeURIComponent(blog.slug);
+        return {
+          url: `${langBase}/blog/${encodedSlug}`,
+          lastModified: currentDate,
+          changeFrequency: 'monthly' as const,
+          priority: 0.8,
+          alternates: {
+            languages: getAlternates(`blog/${encodedSlug}`)
+          }
+        };
+      });
 
     return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes];
   }
@@ -173,15 +185,19 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
       ? allCityItemPairs.slice(0, halfLength)
       : allCityItemPairs.slice(halfLength);
 
-    return chunkPairs.map(({ city, food }) => ({
-      url: `${langBase}/city/${city}/${food}`,
-      lastModified: currentDate,
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
-      alternates: {
-        languages: getAlternates(`city/${city}/${food}`)
-      }
-    }));
+    return chunkPairs.map(({ city, food }) => {
+      const encodedCity = encodeURIComponent(city);
+      const encodedFood = encodeURIComponent(food);
+      return {
+        url: `${langBase}/city/${encodedCity}/${encodedFood}`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.8,
+        alternates: {
+          languages: getAlternates(`city/${encodedCity}/${encodedFood}`)
+        }
+      };
+    });
   }
 
   return [];
