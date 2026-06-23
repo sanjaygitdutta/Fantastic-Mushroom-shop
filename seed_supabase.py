@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv('.env.local')
 
 SUPABASE_URL = os.getenv('NEXT_PUBLIC_SUPABASE_URL')
-SUPABASE_KEY = os.getenv('NEXT_PUBLIC_SUPABASE_ANON_KEY')
+SUPABASE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('NEXT_PUBLIC_SUPABASE_ANON_KEY')
 
 def parse_mock_db():
     filepath = 'src/data/mockPrices.ts'
@@ -103,7 +103,7 @@ def seed():
     print(f"Upserting {len(price_data)} price points...")
     for i in range(0, len(price_data), 200):
         batch = price_data[i:i+200]
-        res = requests.post(f"{SUPABASE_URL}/rest/v1/live_prices", headers=headers, json=batch)
+        res = requests.post(f"{SUPABASE_URL}/rest/v1/live_prices?on_conflict=item_name,platform_id", headers=headers, json=batch)
         if res.status_code >= 400:
             print(f"Error seeding prices {i}-{i+200}: {res.text}")
         else:
