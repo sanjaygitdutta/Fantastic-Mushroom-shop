@@ -8086,7 +8086,7 @@ export const recipes: Recipe[] = [
         }
     },
     {
-        id: '2026-06-22',
+        id: '2026-06-22-kung-pao',
         publishedAt: '2026-06-22T06:10:00.000Z',
         title: 'Authentic Kung Pao Chicken Recipe',
         description: 'Oh, Kung Pao Chicken. This dish, for me, is pure nostalgia. I first learned to make it years ago, back when I was just starting to really get into Sichuan cuisine. My friend, who\'d spent time living in Chengdu, swore by a tiny, unassuming restaurant there, and she badgered the chef until he gave her a rough outline of his method. She passed it on to me, scribbled on a napkin, and I\'ve been refining it ever since. The key, I quickly learned, isn\'t just the chili heat, but that incredible balance of sweet, sour, and savory. Too much sugar, and it\'s cloying; not enough vinegar, and it\'s flat. It\'s a tightrope walk, truly. My first few attempts were, frankly, a disaster. The chicken was either rubbery or dry, the sauce was either too thin or too gloopy, and I once accidentally set off the fire alarm with a smoking wok. Good times. But I kept at it, tweaking, tasting, and learning from every misstep. The biggest failure point I see folks make? Not velveting the chicken properly. Seriously, don\'t skip that step, it makes all the difference in texture. And don\'t be shy with the peanuts; they add that crucial crunch. This isn\'t some watered-down takeout version; this is the real deal, the kind that makes your lips tingle and your taste buds sing. Trust me on this one. You\'ll thank me later.',

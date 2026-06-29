@@ -11,12 +11,68 @@ const BASE_URL = 'https://www.fantasticfood.in';
 
 const LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta', 'zh-CN', 'ms'];
 
+let foodItemsCache: Promise<string[]> | null = null;
+
+// Fetch active products directly from Supabase live database + mock prices DB
+async function getFoodItems(): Promise<string[]> {
+  if (foodItemsCache) return foodItemsCache;
+
+  foodItemsCache = (async () => {
+    let dbProductIds: string[] = [];
+    try {
+      let page = 0;
+      const pageSize = 1000;
+      let hasMore = true;
+      while (hasMore) {
+        const { data: products, error } = await supabase
+          .from('products')
+          .select('id')
+          .range(page * pageSize, (page + 1) * pageSize - 1);
+        
+        if (error) {
+          throw error;
+        }
+        
+        if (products && products.length > 0) {
+          dbProductIds.push(...products.map((p: any) => String(p.id).trim()));
+          if (products.length < pageSize) {
+            hasMore = false;
+          } else {
+            page++;
+          }
+        } else {
+          hasMore = false;
+        }
+      }
+    } catch (err) {
+      console.warn('⚠️ Sitemap DB query failed, falling back to mock DB keys:', err);
+    }
+
+    // Combine live product IDs and local mock DB keys, trim and de-duplicate
+    const allKeys = [...dbProductIds, ...Object.keys(MOCK_DB)].map(k => k.trim());
+    return Array.from(new Set(allKeys));
+  })();
+
+  return foodItemsCache;
+}
+
 export async function generateSitemaps() {
+  const foodItems = await getFoodItems();
   const sitemaps = [];
+  
   for (let i = 0; i < LANGUAGES.length; i++) {
+    const langCode = LANGUAGES[i];
     sitemaps.push({ id: `${i}-core` });
-    sitemaps.push({ id: `${i}-cityfood-0` });
-    sitemaps.push({ id: `${i}-cityfood-1` });
+    
+    // Chinese (zh-CN) and Malay (ms) focus purely on Singapore.
+    const targetCities = (langCode === 'zh-CN' || langCode === 'ms') ? ['singapore'] : sitemapLinks.cities;
+    const totalPairs = targetCities.length * foodItems.length;
+    const MAX_SITEMAP_SIZE = 2600;
+    const numChunks = Math.ceil(totalPairs / MAX_SITEMAP_SIZE);
+    
+    for (let chunkIndex = 0; chunkIndex < numChunks; chunkIndex++) {
+      sitemaps.push({ id: `${i}-cityfood-${chunkIndex}` });
+    }
   }
   return sitemaps;
 }
@@ -35,39 +91,7 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
   // Format current date as YYYY-MM-DD for standard strict W3C compliance (no milliseconds)
   const currentDate = new Date().toISOString().split('T')[0];
   
-  // Fetch active products directly from Supabase live database (paginated to fetch all items)
-  let dbProductIds: string[] = [];
-  try {
-    let page = 0;
-    const pageSize = 1000;
-    let hasMore = true;
-    while (hasMore) {
-      const { data: products, error } = await supabase
-        .from('products')
-        .select('id')
-        .range(page * pageSize, (page + 1) * pageSize - 1);
-      
-      if (error) {
-        throw error;
-      }
-      
-      if (products && products.length > 0) {
-        dbProductIds.push(...products.map((p: any) => p.id));
-        if (products.length < pageSize) {
-          hasMore = false;
-        } else {
-          page++;
-        }
-      } else {
-        hasMore = false;
-      }
-    }
-  } catch (err) {
-    console.warn('⚠️ Sitemap DB query failed, falling back to mock DB keys:', err);
-  }
-
-  // Combine live product IDs and local mock DB keys to ensure all active products are indexed
-  const foodItems = Array.from(new Set([...dbProductIds, ...Object.keys(MOCK_DB)]));
+  const foodItems = await getFoodItems();
   
   // Chinese (zh-CN) and Malay (ms) focus purely on Singapore.
   // For these languages, the only relevant city is "singapore" (no Indian cities).
@@ -170,20 +194,22 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
     return [...coreRoutes, ...cityRoutes, ...foodRoutes, ...recipeRoutes, ...blogRoutes];
   }
 
-  if (chunkType === 'cityfood-0' || chunkType === 'cityfood-1') {
+  if (chunkType.startsWith('cityfood-')) {
     // Programmatic local City × Food Item landing pages
-    // For standard languages: 52 cities × 100 food items = 5,200 local landing pages
-    // For Chinese/Malay: 1 city (singapore) × 100 food items = 100 local landing pages
-    const topFoodItems = foodItems.slice(0, 100);
-
+    // We pair ALL target cities with ALL food items
     const allCityItemPairs = targetCities.flatMap((city: string) => {
-      return topFoodItems.map((food: string) => ({ city, food }));
+      return foodItems.map((food: string) => ({ city, food }));
     });
 
-    const halfLength = Math.ceil(allCityItemPairs.length / 2);
-    const chunkPairs = chunkType === 'cityfood-0'
-      ? allCityItemPairs.slice(0, halfLength)
-      : allCityItemPairs.slice(halfLength);
+    const MAX_SITEMAP_SIZE = 2600;
+    const numChunks = Math.ceil(allCityItemPairs.length / MAX_SITEMAP_SIZE);
+    const chunkSize = Math.ceil(allCityItemPairs.length / numChunks);
+    const chunkIndex = parseInt(chunkType.split('-')[1], 10);
+    
+    const chunkPairs = allCityItemPairs.slice(
+      chunkIndex * chunkSize,
+      (chunkIndex + 1) * chunkSize
+    );
 
     return chunkPairs.map(({ city, food }) => {
       const encodedCity = encodeURIComponent(city);
