@@ -1,14 +1,10 @@
-import type { MetadataRoute } from 'next';
 import sitemapLinks from '../data/sitemapLinks.json';
 import { ALL_RECIPES } from '../data/worldRecipes';
 import { BLOG_POSTS } from '../data/blogPosts';
-import { supabase } from '../lib/supabase';
+import { supabase } from './supabase';
 import { MOCK_DB } from '../data/mockPrices';
 
-export const revalidate = 86400; // Cache for 24 hours
-
 const BASE_URL = 'https://www.fantasticfood.in';
-
 const LANGUAGES = ['en', 'hi', 'bn', 'mr', 'te', 'ta', 'zh-CN', 'ms'];
 
 let foodItemsCache: Promise<string[]> | null = null;
@@ -77,9 +73,18 @@ export async function generateSitemaps() {
   return sitemaps;
 }
 
-export default async function sitemap({ id }: { id: any }): Promise<MetadataRoute.Sitemap> {
-  const resolvedId = typeof id === 'object' && id !== null && 'then' in id ? await id : id;
-  const parts = String(resolvedId).split('-');
+export interface SitemapEntry {
+  url: string;
+  lastModified?: string;
+  changeFrequency?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+  priority?: number;
+  alternates?: {
+    languages?: Record<string, string>;
+  };
+}
+
+export async function getSitemapData(id: string): Promise<SitemapEntry[]> {
+  const parts = String(id).split('-');
   const numericId = parseInt(parts[0], 10);
   const chunkType = parts.slice(1).join('-'); // 'core', 'cityfood-0', 'cityfood-1'
 
@@ -94,7 +99,6 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
   const foodItems = await getFoodItems();
   
   // Chinese (zh-CN) and Malay (ms) focus purely on Singapore.
-  // For these languages, the only relevant city is "singapore" (no Indian cities).
   const targetCities = (langCode === 'zh-CN' || langCode === 'ms') ? ['singapore'] : sitemapLinks.cities;
   
   // Helper to generate alternates for a path
@@ -147,7 +151,7 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
       };
     });
 
-    // Food Items (only active items in price database)
+    // Food Items
     const foodRoutes = foodItems.map((food: string) => {
       const encodedFood = encodeURIComponent(food);
       return {
@@ -196,7 +200,6 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
 
   if (chunkType.startsWith('cityfood-')) {
     // Programmatic local City × Food Item landing pages
-    // We pair ALL target cities with ALL food items
     const allCityItemPairs = targetCities.flatMap((city: string) => {
       return foodItems.map((food: string) => ({ city, food }));
     });
@@ -227,4 +230,43 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
   }
 
   return [];
+}
+
+export function escapeXml(unsafe: string): string {
+  return unsafe.replace(/[<>&'"]/g, (c) => {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+      default: return c;
+    }
+  });
+}
+
+export function entriesToXml(entries: SitemapEntry[]): string {
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
+  for (const entry of entries) {
+    xml += '  <url>\n';
+    xml += `    <loc>${escapeXml(entry.url)}</loc>\n`;
+    if (entry.lastModified) {
+      xml += `    <lastmod>${entry.lastModified}</lastmod>\n`;
+    }
+    if (entry.changeFrequency) {
+      xml += `    <changefreq>${entry.changeFrequency}</changefreq>\n`;
+    }
+    if (entry.priority !== undefined) {
+      xml += `    <priority>${entry.priority.toFixed(1)}</priority>\n`;
+    }
+    if (entry.alternates?.languages) {
+      for (const [lang, href] of Object.entries(entry.alternates.languages)) {
+        xml += `    <xhtml:link rel="alternate" hreflang="${lang}" href="${escapeXml(href)}" />\n`;
+      }
+    }
+    xml += '  </url>\n';
+  }
+  xml += '</urlset>';
+  return xml;
 }
