@@ -55,7 +55,6 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
     }
 
     const trimmedQuery = query.toLowerCase().trim();
-    const fuzzyKey = trimmedQuery.replace(/\s+/g, '%');
     
     let active = true;
 
@@ -65,13 +64,21 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
           ? ['fairprice', 'redmart', 'coldstorage', 'shengsiong', 'giant', 'grabmart', 'pandamart', 'amazon_sg']
           : ['blinkit', 'zepto', 'swiggy', 'bigbasket', 'amazon', 'jiomart', 'flipkart', 'instamart'];
 
-        // 1. Query products first to get up to 40 unique product candidates matching the key
+        const words = trimmedQuery.split(/\s+/).filter(w => w.length > 0);
+        if (words.length === 0) return;
+
+        // Build OR conditions: id contains word OR canonical_name contains word
+        const orConditions = words.flatMap(w => [
+          `id.ilike.%${w}%`,
+          `canonical_name.ilike.%${w}%`
+        ]).join(',');
+
+        // 1. Query products first to get up to 80 unique product candidates matching any query word
         const { data: productData, error: prodError } = await supabase
           .from('products')
           .select('id, canonical_name, icon, category')
-          .or(`id.ilike.%${fuzzyKey}%,canonical_name.ilike.%${fuzzyKey}%`)
-          .order('canonical_name', { ascending: true })
-          .limit(40);
+          .or(orConditions)
+          .limit(80);
 
         if (prodError) throw prodError;
 
@@ -94,7 +101,47 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
           const filteredProducts = productData.filter(p => activeProductIds.has(p.id));
 
           if (filteredProducts.length > 0) {
-            const mapped = filteredProducts.map(p => ({
+            // Rank the filtered products based on relevance to query words
+            const rankedProducts = filteredProducts.map(p => {
+              const id = (p.id || '').toLowerCase();
+              const name = (p.canonical_name || '').toLowerCase();
+              let score = 0;
+
+              // Exact match
+              if (id === trimmedQuery || name === trimmedQuery) {
+                score += 10000;
+              }
+              // Phrase match
+              if (id.includes(trimmedQuery) || name.includes(trimmedQuery)) {
+                score += 2000;
+              }
+
+              // Word-based match
+              const idParts = id.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+              const nameParts = name.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+
+              words.forEach(qw => {
+                if (nameParts.includes(qw)) {
+                  score += 1000;
+                } else if (idParts.includes(qw)) {
+                  score += 800;
+                } else if (name.includes(qw)) {
+                  score += 200;
+                } else if (id.includes(qw)) {
+                  score += 100;
+                }
+              });
+
+              // Length penalty to prefer shorter/more precise matches
+              score -= name.length * 0.1;
+              score -= id.length * 0.1;
+
+              return { product: p, score };
+            })
+            .sort((a, b) => b.score - a.score)
+            .map(x => x.product);
+
+            const mapped = rankedProducts.map(p => ({
               key: p.id,
               query: p.canonical_name || p.id,
               canonicalName: p.canonical_name || p.id,
@@ -120,15 +167,64 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
     };
 
     const runLocalFallback = () => {
-      const filtered = Object.keys(DB)
-        .map(key => ({ key, ...DB[key] }))
-        .filter(item => {
+      const words = trimmedQuery.split(/\s+/).filter(w => w.length > 0);
+      if (words.length === 0) {
+        setSuggestions([]);
+        return;
+      }
+
+      const scored = Object.keys(DB)
+        .map(key => {
+          const item = DB[key];
           const canonical = (item.canonicalName || '').toLowerCase();
           const qKey = (item.query || '').toLowerCase();
-          return canonical.includes(trimmedQuery) || qKey.includes(trimmedQuery);
+          const id = key.toLowerCase();
+
+          let score = 0;
+          
+          // Exact match
+          if (id === trimmedQuery || canonical === trimmedQuery || qKey === trimmedQuery) {
+            score += 10000;
+          }
+          // Phrase match
+          if (id.includes(trimmedQuery) || canonical.includes(trimmedQuery) || qKey.includes(trimmedQuery)) {
+            score += 2000;
+          }
+
+          // Word match
+          const nameParts = canonical.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+          const idParts = id.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
+
+          words.forEach(qw => {
+            if (nameParts.includes(qw)) {
+              score += 1000;
+            } else if (idParts.includes(qw)) {
+              score += 800;
+            } else if (canonical.includes(qw)) {
+              score += 200;
+            } else if (id.includes(qw)) {
+              score += 100;
+            }
+          });
+
+          // Length penalty
+          score -= canonical.length * 0.1;
+          score -= id.length * 0.1;
+
+          return {
+            key,
+            query: item.query || item.canonicalName || key,
+            canonicalName: item.canonicalName || key,
+            icon: item.icon || '🛒',
+            category: item.category || 'Grocery',
+            score
+          };
         })
+        .filter(item => item.score > 0)
+        .sort((a, b) => b.score - a.score)
         .slice(0, 5);
-      setSuggestions(filtered);
+
+      setSuggestions(scored.map(({ score, ...rest }) => rest));
     };
 
     // Debounce the database fetch (300ms) to avoid spamming queries
