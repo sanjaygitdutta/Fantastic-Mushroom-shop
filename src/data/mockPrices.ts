@@ -4032,12 +4032,71 @@ export const getBestPrice = (prices: PlatformPrice[]): PlatformPrice | null => {
   return inStock.reduce((best, curr) => (curr.price < best.price ? curr : best), inStock[0]);
 };
 
+export const isQueryMatchValid = (query: string, matchName: string, matchId: string): boolean => {
+  const BRANDS = new Set([
+    'amul', 'fortune', 'tata', 'britannia', 'nestle', 'cadbury', 'surf', 'colgate',
+    'saffola', 'haldiram', 'kinley', 'bisleri', 'milky mist', 'pepsi', 'coke', 'cocacola',
+    'dettol', 'dabur', 'parle', 'lays', 'kurkure', 'uncle chips', 'bingo', 'lizol',
+    'harpic', 'vim', 'comfort', 'ariel', 'tide', 'red label', 'taj mahal', 'lipton',
+    'bru', 'nescafe', 'bournvita', 'horlicks', 'pepsodent', 'sensodyne', 'dove', 'pears',
+    'nivea', 'pantene', 'head & shoulders', 'clinic plus', 'patanjali', 'ashirvaad', 'aashirvaad',
+    'sunfeast', 'del monte', 'd\'lecta', 'milky_mist', 'hershey', 'hersheys', 'kissan'
+  ]);
+
+  const STOP_WORDS = new Set([
+    'and', 'or', 'with', 'for', 'of', 'in', 'at', 'a', 'an', 'the',
+    'l', 'ml', 'g', 'kg', 'pc', 'pcs', 'pack', 'tubs', 'tub', 'gm', 'gms',
+    'x', 'under', 'only', 'from', 'to'
+  ]);
+
+  // Normalize text helper: lowercase, strip common punctuation/symbols
+  const cleanWord = (w: string) => w.toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+
+  const qWords = query.split(/[\s_\-]+/).map(cleanWord).filter(w => w.length > 0);
+  const mNameWords = matchName.split(/[\s_\-]+/).map(cleanWord).filter(w => w.length > 0);
+  const mIdWords = matchId.split(/[\s_\-]+/).map(cleanWord).filter(w => w.length > 0);
+
+  // Substantive words in the query (ignoring brand names, units/size stop words, and numbers)
+  const substantiveQWords = qWords.filter(w => {
+    return !BRANDS.has(w) && !STOP_WORDS.has(w) && !/^\d+$/.test(w);
+  });
+
+  // If there are no substantive query words (e.g. "Amul" or "Amul 1L"), we fallback to brand/general matching
+  if (substantiveQWords.length === 0) {
+    return qWords.some(qw => mNameWords.includes(qw) || mIdWords.includes(qw));
+  }
+
+  // Count how many substantive query words are matched by the target
+  const matchedSubstantiveCount = substantiveQWords.filter(qw => {
+    return mNameWords.includes(qw) || mIdWords.includes(qw);
+  }).length;
+
+  const matchRatio = matchedSubstantiveCount / substantiveQWords.length;
+
+  // Strict matching thresholds based on length of substantive query words:
+  // 1 word: 100% must match (no false positives for completely different nouns)
+  // 2 words: at least 50% must match (1 out of 2)
+  // 3+ words: at least 60% must match (e.g., 2 out of 3, 3 out of 4, etc.)
+  if (substantiveQWords.length === 1) {
+    return matchRatio >= 1.0;
+  }
+  if (substantiveQWords.length === 2) {
+    return matchRatio >= 0.5;
+  }
+  return matchRatio >= 0.6;
+};
+
 const rankDbProducts = (products: any[], query: string): any => {
   if (!products || products.length === 0) return null;
   const key = query.toLowerCase().trim();
+  
+  // Filter out products that match only brands, stop words or numbers
+  const validProducts = products.filter(p => isQueryMatchValid(query, p.canonical_name || '', p.id || ''));
+  if (validProducts.length === 0) return null;
+
   const queryWords = key.split(/[\s_\-]+/).filter(w => w.length > 0);
   
-  const scored = products.map(p => {
+  const scored = validProducts.map(p => {
     const id = (p.id || '').toLowerCase();
     const name = (p.canonical_name || '').toLowerCase();
     let score = 0;
@@ -4082,15 +4141,22 @@ const rankDbProducts = (products: any[], query: string): any => {
   });
   
   scored.sort((a, b) => b.score - a.score);
-  return scored[0].score > 0 ? scored[0].product : products[0];
+  return scored[0].score > 0 ? scored[0].product : null;
 };
 
 const rankMockDbKeys = (keys: string[], query: string, db: Record<string, CompareResult>): string | undefined => {
   if (!keys || keys.length === 0) return undefined;
   const key = query.toLowerCase().trim();
+  
+  const validKeys = keys.filter(k => {
+    const item = db[k];
+    return isQueryMatchValid(query, item?.canonicalName || '', k);
+  });
+  if (validKeys.length === 0) return undefined;
+
   const queryWords = key.split(/[\s_\-]+/).filter((w: string) => w.length > 0);
   
-  const scored = keys.map(k => {
+  const scored = validKeys.map(k => {
     const item = db[k];
     const id = k.toLowerCase();
     const qField = (item?.query || '').toLowerCase();
@@ -4163,8 +4229,13 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
     
     if (!pError && pData && pData.length > 0) {
       const bestProduct = rankDbProducts(pData, key);
-      dbProduct = bestProduct;
-      productId = bestProduct.id;
+      if (bestProduct) {
+        dbProduct = bestProduct;
+        productId = bestProduct.id;
+      } else {
+        const match = rankMockDbKeys(Object.keys(DB), key, DB);
+        if (match) productId = match;
+      }
     } else {
       // If not in DB, cautiously check appropriate mock DB properties using rankMockDbKeys
       const match = rankMockDbKeys(Object.keys(DB), key, DB);

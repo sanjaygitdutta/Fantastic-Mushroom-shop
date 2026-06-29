@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { Search, MapPin, X, Loader2, Mic } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { POPULAR_SEARCHES, MOCK_DB } from '../data/mockPrices';
+import { POPULAR_SEARCHES, MOCK_DB, isQueryMatchValid } from '../data/mockPrices';
 import { MOCK_DB_SG } from '../data/mockPricesSG';
 import { useRegion } from '../utils/region';
 import { useTranslation } from 'react-i18next';
@@ -97,8 +97,8 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
 
           const activeProductIds = new Set(priceData?.map(p => p.item_name) || []);
 
-          // Keep products that have active prices in this region
-          const filteredProducts = productData.filter(p => activeProductIds.has(p.id));
+          // Keep products that have active prices in this region and pass search validation
+          const filteredProducts = productData.filter(p => activeProductIds.has(p.id) && isQueryMatchValid(trimmedQuery, p.canonical_name || '', p.id || ''));
 
           if (filteredProducts.length > 0) {
             // Rank the filtered products based on relevance to query words
@@ -220,7 +220,7 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
             score
           };
         })
-        .filter(item => item.score > 0)
+        .filter(item => item.score > 0 && isQueryMatchValid(trimmedQuery, item.canonicalName || '', item.key))
         .sort((a, b) => b.score - a.score)
         .slice(0, 5);
 
