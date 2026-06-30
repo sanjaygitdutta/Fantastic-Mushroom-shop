@@ -67,18 +67,40 @@ const PriceSearchBar = ({ variant = 'hero', initialQuery = '' }: PriceSearchBarP
         const words = trimmedQuery.split(/\s+/).filter(w => w.length > 0);
         if (words.length === 0) return;
 
-        // Build OR conditions: id contains word OR canonical_name contains word
-        const orConditions = words.flatMap(w => [
-          `id.ilike.%${w}%`,
-          `canonical_name.ilike.%${w}%`
-        ]).join(',');
+        const BRANDS = new Set([
+          'amul', 'fortune', 'tata', 'britannia', 'nestle', 'cadbury', 'surf', 'colgate',
+          'saffola', 'haldiram', 'kinley', 'bisleri', 'milky mist', 'pepsi', 'coke', 'cocacola',
+          'dettol', 'dabur', 'parle', 'lays', 'kurkure', 'uncle chips', 'bingo', 'lizol',
+          'harpic', 'vim', 'comfort', 'ariel', 'tide', 'red label', 'taj mahal', 'lipton',
+          'bru', 'nescafe', 'bournvita', 'horlicks', 'pepsodent', 'sensodyne', 'dove', 'pears',
+          'nivea', 'pantene', 'head & shoulders', 'clinic plus', 'patanjali', 'ashirvaad', 'aashirvaad',
+          'sunfeast', 'del monte', 'd\'lecta', 'milky_mist', 'hershey', 'hersheys', 'kissan'
+        ]);
 
-        // 1. Query products first to get up to 80 unique product candidates matching any query word
-        const { data: productData, error: prodError } = await supabase
+        const STOP_WORDS = new Set([
+          'and', 'or', 'with', 'for', 'of', 'in', 'at', 'a', 'an', 'the',
+          'l', 'ml', 'g', 'kg', 'pc', 'pcs', 'pack', 'tubs', 'tub', 'gm', 'gms',
+          'x', 'under', 'only', 'from', 'to'
+        ]);
+
+        const cleanWord = (w: string) => w.toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+        const cleanedWords = words.map(cleanWord).filter(w => w.length > 0);
+
+        const substantiveWords = cleanedWords.filter(w => !BRANDS.has(w) && !STOP_WORDS.has(w) && !/^\d+$/.test(w));
+        const brandWords = cleanedWords.filter(w => BRANDS.has(w));
+
+        const querySearchWords = substantiveWords.length > 0 ? substantiveWords : (brandWords.length > 0 ? brandWords : cleanedWords);
+
+        let dbQuery = supabase
           .from('products')
-          .select('id, canonical_name, icon, category')
-          .or(orConditions)
-          .limit(80);
+          .select('id, canonical_name, icon, category');
+        
+        querySearchWords.forEach(w => {
+          dbQuery = dbQuery.or(`id.ilike.%${w}%,canonical_name.ilike.%${w}%`);
+        });
+
+        // 1. Query products first to get up to 80 unique product candidates matching query words
+        const { data: productData, error: prodError } = await dbQuery.limit(80);
 
         if (prodError) throw prodError;
 

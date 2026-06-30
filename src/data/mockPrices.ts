@@ -4213,22 +4213,45 @@ const searchPricesInternal = async (query: string, region: 'IN' | 'SG' = 'IN'): 
     let pError = null;
     
     if (words.length > 0) {
-      // Build conditions: id contains word OR canonical_name contains word
-      const orConditions = words.flatMap(w => [
-        `id.ilike.%${w}%`,
-        `canonical_name.ilike.%${w}%`
-      ]).join(',');
-      
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .or(orConditions);
-      pData = data;
-      pError = error;
+      const BRANDS = new Set([
+        'amul', 'fortune', 'tata', 'britannia', 'nestle', 'cadbury', 'surf', 'colgate',
+        'saffola', 'haldiram', 'kinley', 'bisleri', 'milky mist', 'pepsi', 'coke', 'cocacola',
+        'dettol', 'dabur', 'parle', 'lays', 'kurkure', 'uncle chips', 'bingo', 'lizol',
+        'harpic', 'vim', 'comfort', 'ariel', 'tide', 'red label', 'taj mahal', 'lipton',
+        'bru', 'nescafe', 'bournvita', 'horlicks', 'pepsodent', 'sensodyne', 'dove', 'pears',
+        'nivea', 'pantene', 'head & shoulders', 'clinic plus', 'patanjali', 'ashirvaad', 'aashirvaad',
+        'sunfeast', 'del monte', 'd\'lecta', 'milky_mist', 'hershey', 'hersheys', 'kissan'
+      ]);
+
+      const STOP_WORDS = new Set([
+        'and', 'or', 'with', 'for', 'of', 'in', 'at', 'a', 'an', 'the',
+        'l', 'ml', 'g', 'kg', 'pc', 'pcs', 'pack', 'tubs', 'tub', 'gm', 'gms',
+        'x', 'under', 'only', 'from', 'to'
+      ]);
+
+      const cleanWord = (w: string) => w.toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+      const cleanedWords = words.map(cleanWord).filter(w => w.length > 0);
+
+      const substantiveWords = cleanedWords.filter(w => !BRANDS.has(w) && !STOP_WORDS.has(w) && !/^\d+$/.test(w));
+      const brandWords = cleanedWords.filter(w => BRANDS.has(w));
+
+      const querySearchWords = substantiveWords.length > 0 ? substantiveWords : (brandWords.length > 0 ? brandWords : cleanedWords);
+
+      if (querySearchWords.length > 0) {
+        let dbQuery = supabase.from('products').select('*');
+        querySearchWords.forEach(w => {
+          dbQuery = dbQuery.or(`id.ilike.%${w}%,canonical_name.ilike.%${w}%`);
+        });
+
+        const { data, error } = await dbQuery;
+        pData = data;
+        pError = error;
+      }
     }
     
     if (!pError && pData && pData.length > 0) {
       const bestProduct = rankDbProducts(pData, key);
+      console.log('DEBUG: rankDbProducts returned =', bestProduct ? { id: bestProduct.id, name: bestProduct.canonical_name } : 'null');
       if (bestProduct) {
         dbProduct = bestProduct;
         productId = bestProduct.id;
